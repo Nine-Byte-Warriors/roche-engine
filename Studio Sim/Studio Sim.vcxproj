@@ -264,6 +264,7 @@
     <ClInclude Include="..\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\External\imgui\imstb_textedit.h" />
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="AI.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
@@ -295,6 +296,7 @@
     <ClInclude Include="Utility\StringConverter.h" />
     <ClInclude Include="Utility\structures.h" />
     <ClInclude Include="Utility\Timer.h" />
+    <ClInclude Include="Vector2f.h" />
     <ClInclude Include="Window\RenderWindow.h" />
     <ClInclude Include="Window\WindowContainer.h" />
   </ItemGroup>

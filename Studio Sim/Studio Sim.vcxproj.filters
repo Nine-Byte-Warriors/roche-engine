@@ -73,6 +73,9 @@
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{c78113e1-26e2-43dc-99b0-f3b8092ced66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{a6efc698-c844-4b83-9408-3cb0b256d6f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -271,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AI.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
