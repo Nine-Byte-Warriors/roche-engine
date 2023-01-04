@@ -284,6 +284,9 @@
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
