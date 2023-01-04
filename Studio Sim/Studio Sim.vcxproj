@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)/External;$(ProjectDir);$(ProjectDir)Systems;$(ProjectDir)Objects;$(ProjectDir)Resources;$(ProjectDir)Window;$(ProjectDir)Utility;$(ProjectDir)Input;$(ProjectDir)Graphics;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\External\lib;$(SolutionDir)\External\lib\x86\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)Graphics;$(ProjectDir)Input;$(ProjectDir)Objects;$(ProjectDir)Resources;$(ProjectDir)Systems;$(ProjectDir)Utility;$(ProjectDir)Window;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\External\lib;$(SolutionDir)\External\lib\_x86\_Debug;$(LibraryPath)</LibraryPath>
     <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -175,7 +175,6 @@
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Cube.cpp" />
     <ClCompile Include="Systems\PostProcessing.cpp" />
-    <ClCompile Include="Utility\DDSTextureLoader.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
     <ClCompile Include="Utility\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
