@@ -108,9 +108,6 @@
     <ClCompile Include="Window\WindowContainer.cpp">
       <Filter>Source Files\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\DDSTextureLoader.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\Timer.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
@@ -140,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Systems\PostProcessing.cpp">
       <Filter>Source Files\Systems</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\TextLoader.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="Systems\PostProcessing.h">
       <Filter>Header Files\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\TextLoader.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
