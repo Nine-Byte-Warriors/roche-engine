@@ -241,6 +241,8 @@
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Cube.cpp" />
     <ClCompile Include="Systems\PostProcessing.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TileMapEditor.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
     <ClCompile Include="Utility\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -284,6 +286,8 @@
     <ClInclude Include="Objects\Cube.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\PostProcessing.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TileMapEditor.h" />
     <ClInclude Include="Utility\COMException.h" />
     <ClInclude Include="Utility\DDSTextureLoader.h" />
     <ClInclude Include="Utility\ErrorLogger.h" />

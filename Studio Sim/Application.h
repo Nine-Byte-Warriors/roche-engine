@@ -16,6 +16,7 @@
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
 #include "WindowContainer.h"
+#include "TileMapEditor.h"
 
 class Application : public WindowContainer
 {
@@ -38,6 +39,8 @@ private:
 	// Data
 	Timer m_timer;
 	Input m_input;
+
+	TileMapEditor m_tileMapEditor;
 	
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::unique_ptr<SpriteFont> m_spriteFont;

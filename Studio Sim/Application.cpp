@@ -128,6 +128,7 @@ void Application::Render()
     m_imgui.BeginRender();
     m_imgui.SpawnInstructionWindow();
     m_postProcessing.SpawnControlWindow();
+    m_tileMapEditor.SpawnControlWindow();
     m_cube.SpawnControlWindow();
     m_imgui.EndRender();
 

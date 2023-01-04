@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{926938c6-6f9c-453c-ad1d-e69d86a737f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\TileMap">
+      <UniqueIdentifier>{82b9825f-63d9-4eda-a207-4b188ede4d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TileMap">
+      <UniqueIdentifier>{41d1d7b8-6bc8-4584-8ca2-8acc2e9b198f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -137,6 +143,12 @@
     </ClCompile>
     <ClCompile Include="Systems\PostProcessing.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapEditor.cpp">
+      <Filter>Source Files\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +265,12 @@
     </ClInclude>
     <ClInclude Include="Systems\PostProcessing.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapEditor.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
