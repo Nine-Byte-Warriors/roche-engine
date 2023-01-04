@@ -2,8 +2,10 @@
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 
+#include "EventSystem.h"
+
 class WindowContainer;
-class RenderWindow
+class RenderWindow : public Listener
 {
 public:
 	enum class Color
@@ -30,6 +32,9 @@ public:
 	~RenderWindow() noexcept;
 
 	inline HCURSOR GetCursor( Color color ) noexcept { return cursors[color]; }
+
+	void AddToEvent();
+	void HandleEvent( Event* event );
 
 private:
 	void RegisterWindowClass() noexcept;

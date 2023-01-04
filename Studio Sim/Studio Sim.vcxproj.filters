@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{926938c6-6f9c-453c-ad1d-e69d86a737f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Events">
+      <UniqueIdentifier>{a6ad9698-7a0f-443d-bf69-0c768d64610e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Events">
+      <UniqueIdentifier>{c78113e1-26e2-43dc-99b0-f3b8092ced66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -137,6 +143,9 @@
     </ClCompile>
     <ClCompile Include="Systems\PostProcessing.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Events\EventSystem.cpp">
+      <Filter>Source Files\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +262,15 @@
     </ClInclude>
     <ClInclude Include="Systems\PostProcessing.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\Listener.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventSystem.h">
+      <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\Event.h">
+      <Filter>Header Files\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
