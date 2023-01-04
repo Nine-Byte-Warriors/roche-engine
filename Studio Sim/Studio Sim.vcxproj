@@ -295,6 +295,7 @@
     <ClInclude Include="Utility\StringConverter.h" />
     <ClInclude Include="Utility\structures.h" />
     <ClInclude Include="Utility\Timer.h" />
+    <ClInclude Include="Vector2f.h" />
     <ClInclude Include="Window\RenderWindow.h" />
     <ClInclude Include="Window\WindowContainer.h" />
   </ItemGroup>

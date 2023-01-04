@@ -272,6 +272,9 @@
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
