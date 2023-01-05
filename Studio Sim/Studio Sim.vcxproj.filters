@@ -159,6 +159,9 @@
     <ClCompile Include="Levels\Level1.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Quad.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -296,6 +299,9 @@
     <ClInclude Include="Levels\LevelContainer.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Quad.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -350,6 +356,12 @@
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\shader_VS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shaderPP_PS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shaderPP_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

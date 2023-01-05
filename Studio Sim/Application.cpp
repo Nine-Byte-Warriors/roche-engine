@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Application.h"
 #include <imgui/imgui.h>
-#include <thread>
 
 bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 {
@@ -21,9 +20,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
 
         // Initialize levels        
-        level1 = std::make_shared<Level1>( stateMachine );
-        std::thread first( &Level1::Initialize, level1, &graphics, &m_camera, &m_imgui );
-        first.join();
+        level1 = std::make_shared<Level1>();
+        level1->Initialize( &graphics, &m_camera, &m_imgui );
 
 		level1_ID = stateMachine.Add( level1 );
         stateMachine.SwitchTo( level1_ID );

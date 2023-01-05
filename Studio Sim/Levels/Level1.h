@@ -2,14 +2,14 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include <dxtk/SpriteFont.h>
-#include <dxtk/SpriteBatch.h>
-
 #include "Cube.h"
 #include "structures.h"
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
 #include "LevelStateMachine.h"
+
+#include <dxtk/SpriteFont.h>
+#include <dxtk/SpriteBatch.h>
 
 /// <summary>
 /// The first level of the game.
@@ -18,7 +18,7 @@
 class Level1 : public LevelContainer
 {
 public:
-	Level1( LevelStateMachine& stateMachine );
+	Level1() {}
 
 	void OnCreate() override;
 	void OnSwitch() override;
@@ -30,12 +30,10 @@ public:
 	void Update( const float dt ) override;
 	void CleanUp() override {}
 private:
-	// Systems
-	PostProcessing m_postProcessing;
-	LevelStateMachine& levelStateMachine;
-
 	// Objects
 	Cube m_cube;
+	bool m_bUseCustomPP;
+	PostProcessing m_postProcessing;
 	ConstantBuffer<Matrices> m_cbMatrices;
 
 	// Fonts

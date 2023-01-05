@@ -4,12 +4,17 @@
 
 using namespace DirectX;
 
-// Matrices
 struct Matrices
 {
 	XMMATRIX mWorld;
 	XMMATRIX mView;
 	XMMATRIX mProjection;
+};
+
+struct RenderToTexture
+{
+	XMFLOAT3 OverlayColor;
+	FLOAT Padding;
 };
 
 #endif
