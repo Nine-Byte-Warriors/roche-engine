@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Application.h"
 #include <imgui/imgui.h>
+#include <thread>
 
 bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 {
@@ -19,18 +20,13 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_input.Initialize( renderWindow, m_camera );
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
 
-        // Initialize constant buffers
-        HRESULT hr = m_cbMatrices.Initialize( graphics.GetDevice(), graphics.GetContext() );
-	    COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
-        
-        // Initialize game objects
-	    hr = m_cube.InitializeMesh( graphics.GetDevice(), graphics.GetContext() );
-        COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
+        // Initialize levels        
+        level1 = std::make_shared<Level1>( stateMachine );
+        std::thread first( &Level1::Initialize, level1, &graphics, &m_camera, &m_imgui );
+        first.join();
 
-        // Initialize systems
-        m_spriteFont = std::make_unique<SpriteFont>( graphics.GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
-        m_spriteBatch = std::make_unique<SpriteBatch>( graphics.GetContext() );
-        m_postProcessing.Initialize( graphics.GetDevice() );
+		level1_ID = stateMachine.Add( level1 );
+        stateMachine.SwitchTo( level1_ID );
     }
     catch ( COMException& exception )
 	{
@@ -75,63 +71,13 @@ void Application::Update()
             0.01f, 100.0f );
     }
 
-    // Update the cube transform, material etc. 
-    m_cube.Update( dt );
+    // Update current level
+	stateMachine.Update( dt );
+	EventSystem::Instance()->ProcessEvents();
 }
 
 void Application::Render()
 {
-#pragma RENDER_PASSES
-    // Standard pass
-    graphics.BeginFrame();
-
-    // Render objects
-    graphics.UpdateRenderState();
-    m_cube.UpdateBuffers( m_cbMatrices, m_camera );
-    graphics.GetContext()->VSSetConstantBuffers( 0u, 1u, m_cbMatrices.GetAddressOf() );
-    m_cube.Draw( graphics.GetContext() );
-#pragma endregion
-
-#pragma region POST_PROCESSING
-    // Render text
-    m_spriteBatch->Begin();
-    static XMFLOAT2 textPosition = { graphics.GetWidth() * 0.5f, graphics.GetHeight() * 0.96f };
-    std::function<XMFLOAT2( const wchar_t* )> DrawOutline = [&]( const wchar_t* text ) mutable -> XMFLOAT2
-    {
-        XMFLOAT2 originF = XMFLOAT2( 1.0f, 1.0f );
-        XMVECTOR origin = m_spriteFont->MeasureString( text ) / 2.0f;
-        XMStoreFloat2( &originF, origin );
-
-        // Draw outline
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x + 1.0f, textPosition.y + 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x - 1.0f, textPosition.y + 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x - 1.0f, textPosition.y - 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x + 1.0f, textPosition.y - 1.0f ), Colors::Black, 0.0f, originF );
-
-        return originF;
-    };
-    const wchar_t* text = L"This is example text.";
-    XMFLOAT2 originF = DrawOutline( text );
-    m_spriteFont->DrawString( m_spriteBatch.get(), text, textPosition,
-        Colors::Green, 0.0f, originF, XMFLOAT2( 1.0f, 1.0f ) );
-    m_spriteBatch->End();
-
-    // Render scene to texture
-    graphics.BeginRTT();
-    m_postProcessing.Bind( graphics.GetContext(), graphics.GetRenderTarget() );
-
-    // Render imgui windows
-    m_imgui.BeginRender();
-    m_imgui.SpawnInstructionWindow();
-    m_postProcessing.SpawnControlWindow();
-    m_cube.SpawnControlWindow();
-    m_imgui.EndRender();
-
-    // Present frame
-    graphics.EndFrame();
-#pragma endregion
+    // Render current level
+    stateMachine.Render();
 }
