@@ -3,7 +3,10 @@
 #include <thread>
 #include <mutex>
 
-#define fourccWAVE 'EVAW'
+#include <tchar.h>
+
+#define fourccRIFF 'RIFF'
+#define fourccWAVE 'WAVE'
 
 //#include "EventSystem.h" // remove if not using event system
 
@@ -18,8 +21,16 @@ public:
 
 	void Initialize();
 
-	////
+	// Bare minimum requirements
+	void LoadAudio();
+	void PlayAudio();
+	void PauseAudio();
+	void UnloadAudio();
 
+	////
+	HRESULT ParseAudio();
+	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkData);
+	HRESULT ReadChunkData(HANDLE hFile, void* filetype, DWORD buffersize, DWORD bufferoffset);
 
 	// Event System TBD if we want to even use it
 	//void HandleEvent(Event* event);

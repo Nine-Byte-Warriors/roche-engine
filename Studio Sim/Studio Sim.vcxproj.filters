@@ -34,9 +34,6 @@
     <Filter Include="Header Files\Window">
       <UniqueIdentifier>{761624e3-c183-4f72-b09f-fc654ec49299}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Textures">
       <UniqueIdentifier>{71070f11-d611-4d54-806f-b59d7f759f4e}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{6254473f-b267-47e7-bf27-ed716049ff5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -35,7 +35,7 @@ enum class EVENTID
 	// Audio
 	//LoadAudioEvent,
 	//PlayAudioEvent,
-	//StopAudioEvent,
+	//PauseAudioEvent,
 	//UnloadAudioEvent
 };
 
