@@ -24,6 +24,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         }
     }
     theApp.CleanupDevice();
-
+    
     return 0;
 }

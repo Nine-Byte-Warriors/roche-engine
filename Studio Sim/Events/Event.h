@@ -28,7 +28,15 @@ enum class EVENTID
 	QuitGameEvent,
 	UpdateSettingsEvent,
 	ShowCursorEvent,
-	HideCursorEvent
+	HideCursorEvent,
+
+
+	// TBD UNUSED ATM
+	// Audio
+	//LoadAudioEvent,
+	//PlayAudioEvent,
+	//StopAudioEvent,
+	//UnloadAudioEvent
 };
 
 /// <summary>

@@ -79,6 +79,12 @@
     <Filter Include="Source Files\Levels">
       <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{cd2b66f1-3a18-4e8d-a68c-b0c7ec9f4023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{6254473f-b267-47e7-bf27-ed716049ff5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="Levels\Level1.cpp">
       <Filter>Source Files\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="Levels\LevelContainer.h">
       <Filter>Header Files\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

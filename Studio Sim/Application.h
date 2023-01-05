@@ -21,6 +21,9 @@
 //#include "MainMenu.h"
 //#include "CreditsMenu.h"
 
+// For Audio
+#include "AudioEngine.h"
+
 class Application : public WindowContainer
 {
 public:
@@ -35,7 +38,7 @@ private:
 	uint32_t level1_ID;
 	//uint32_t credits_ID;
 	//uint32_t mainMenu_ID;
-
+	
 	LevelStateMachine stateMachine;
 	std::shared_ptr<Level1> level1;
 	//std::shared_ptr<Credits_Level> Credits;
@@ -48,6 +51,9 @@ private:
 	// Data
 	Timer m_timer;
 	Input m_input;
+
+	// Audio
+	AudioEngine m_audioEngine;
 };
 
 #endif
