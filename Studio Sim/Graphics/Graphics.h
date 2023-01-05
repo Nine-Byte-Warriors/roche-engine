@@ -19,7 +19,9 @@ class Graphics
 public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
 	void ResizeWindow( HWND hWnd, XMFLOAT2 windowSize );
-	void UpdateRenderState();
+	
+	void UpdateRenderState3D();
+	void UpdateRenderState2D();
 	
 	void BeginRTT();
 	void EndRTT();
@@ -51,6 +53,9 @@ private:
 	// Shaders
 	VertexShader m_vertexShader;
 	PixelShader m_pixelShader;
+
+	VertexShader m_vertexShader2D;
+	PixelShader m_pixelShader2D;
 
 	VertexShader m_vertexShaderPP;
 	PixelShader m_pixelShaderPP;

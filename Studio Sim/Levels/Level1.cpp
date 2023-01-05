@@ -10,9 +10,18 @@ void Level1::OnCreate()
 		HRESULT hr = m_cbMatrices.Initialize( graphics->GetDevice(), graphics->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
 
+        hr = m_cbMatrices2D.Initialize( graphics->GetDevice(), graphics->GetContext() );
+		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices2D' constant buffer!" );
+
         // Initialize game objects
 	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
         COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
+
+        m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\wood.png", m_cbMatrices2D );
+        m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
+
+        XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
+        m_camera2D.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
         m_spriteFont = std::make_unique<SpriteFont>( graphics->GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
@@ -42,14 +51,19 @@ void Level1::BeginFrame()
 {
 	// Setup pipeline state
 	graphics->BeginFrame();
-	graphics->UpdateRenderState();
 }
 
 void Level1::RenderFrame()
 {
+    // Objects
+	graphics->UpdateRenderState3D();
 	m_cube.UpdateBuffers( m_cbMatrices, *m_camera );
     graphics->GetContext()->VSSetConstantBuffers( 0u, 1u, m_cbMatrices.GetAddressOf() );
     m_cube.Draw( graphics->GetContext() );
+
+    // Sprites
+	graphics->UpdateRenderState2D();
+    m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
 }
 
 void Level1::EndFrame()

@@ -11,6 +11,11 @@ struct Matrices
 	XMMATRIX mProjection;
 };
 
+struct Matrices2D
+{
+	XMMATRIX wvpMatrix;
+};
+
 struct RenderToTexture
 {
 	XMFLOAT3 OverlayColor;

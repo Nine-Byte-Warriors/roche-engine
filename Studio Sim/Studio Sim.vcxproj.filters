@@ -162,6 +162,21 @@
     <ClCompile Include="Objects\Quad.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Camera2D.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\GameObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Sprite.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Texture.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Colour.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -302,6 +317,21 @@
     <ClInclude Include="Objects\Quad.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Sprite.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\GameObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Camera2D.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Colour.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Texture.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -362,6 +392,15 @@
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\shaderPP_VS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_PS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_PS_Discard.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

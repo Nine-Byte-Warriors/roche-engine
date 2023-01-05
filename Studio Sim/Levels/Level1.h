@@ -3,6 +3,8 @@
 #define LEVEL1_H
 
 #include "Cube.h"
+#include "Sprite.h"
+#include "Camera2D.h"
 #include "structures.h"
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
@@ -32,9 +34,13 @@ public:
 private:
 	// Objects
 	Cube m_cube;
+	Sprite m_player;
+	Camera2D m_camera2D;
 	bool m_bUseCustomPP;
 	PostProcessing m_postProcessing;
+	
 	ConstantBuffer<Matrices> m_cbMatrices;
+	ConstantBuffer<Matrices2D> m_cbMatrices2D;
 
 	// Fonts
 	std::unique_ptr<SpriteFont> m_spriteFont;

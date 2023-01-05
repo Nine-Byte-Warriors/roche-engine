@@ -90,6 +90,12 @@ bool Graphics::InitializeShaders()
 		hr = m_pixelShader.Initialize( m_pDevice, L"Resources\\Shaders\\shader_PS.hlsl" );
 		COM_ERROR_IF_FAILED( hr, "Failed to create texture pixel shader!" );
 
+		// Create the sprite shaders
+		hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
+		COM_ERROR_IF_FAILED( hr, "Failed to create sprite vertex shader!" );
+		hr = m_pixelShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_PS.hlsl" );
+		COM_ERROR_IF_FAILED( hr, "Failed to create sprite pixel shader!" );
+
 		// Define input layout for RTT
 		D3D11_INPUT_ELEMENT_DESC layoutPP[] =
 		{
@@ -111,11 +117,18 @@ bool Graphics::InitializeShaders()
 	return true;
 }
 
-void Graphics::UpdateRenderState()
+void Graphics::UpdateRenderState3D()
 {
 	// Set default render state for objects
     m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
 	Shaders::BindShaders( m_pContext.Get(), m_vertexShader, m_pixelShader );
+}
+
+void Graphics::UpdateRenderState2D()
+{
+	// Set default render state for objects
+    m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
+	Shaders::BindShaders( m_pContext.Get(), m_vertexShader2D, m_pixelShader2D );
 }
 
 bool Graphics::InitializeRTT()
