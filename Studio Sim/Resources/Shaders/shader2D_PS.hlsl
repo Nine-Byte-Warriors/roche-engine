@@ -9,8 +9,8 @@ struct PS_INPUT
     float2 inTexCoord : TEXCOORD;
 };
 
-float4 PS(PS_INPUT input) : SV_TARGET
+float4 PS( PS_INPUT input ) : SV_TARGET
 {
-    float4 finalColor = objTexture.Sample( samplerState, input.inTexCoord );   
+    float4 finalColor = objTexture.Sample( samplerState, input.inTexCoord );
     return float4( saturate( (float3)finalColor ), 1.0f );
 }

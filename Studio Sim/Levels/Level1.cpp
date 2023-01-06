@@ -17,7 +17,7 @@ void Level1::OnCreate()
 	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
         COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
 
-        m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\wood.png", m_cbMatrices2D );
+        m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D );
         m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
 
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
@@ -63,6 +63,7 @@ void Level1::RenderFrame()
 
     // Sprites
 	graphics->UpdateRenderState2D();
+    m_player.UpdateBuffers( graphics->GetContext() );
     m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
 }
 
