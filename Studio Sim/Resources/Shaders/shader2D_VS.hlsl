@@ -4,6 +4,18 @@ cbuffer ObjectBuffer : register( b0 )
     float4x4 wvpMatrix;
 }
 
+cbuffer Animation : register( b1 )
+{
+    float Width;
+    float Height;
+    float Rows;
+    float Columns;
+    
+    int FrameX;
+    int FrameY;
+    float2 Padding;
+}
+
 // Vertex Shader
 struct VS_INPUT
 {
@@ -20,6 +32,12 @@ struct VS_OUPUT
 VS_OUPUT VS( VS_INPUT input )
 {
     VS_OUPUT output;
+    input.inTexCoord.x = input.inTexCoord.x + FrameX;
+    input.inTexCoord.x = input.inTexCoord.x / Columns;
+    
+    input.inTexCoord.y = input.inTexCoord.y + FrameY;
+    input.inTexCoord.y = input.inTexCoord.y / Rows;
+    
     output.outPosition = mul( float4( input.inPosition, 1.0f ), wvpMatrix );
     output.outTexCoord = input.inTexCoord;
     return output;

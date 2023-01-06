@@ -30,6 +30,8 @@ public:
 		ConstantBuffer<Matrices2D>& cb_vs_vertexshader_2d );
 
 	void Draw( XMMATRIX orthoMatrix );
+	void UpdateBuffers( ID3D11DeviceContext* context );
+
 	float GetWidth() const noexcept { return scale.x; }
 	float GetHeight() const noexcept { return scale.y; }
 
@@ -41,6 +43,7 @@ private:
 	XMMATRIX worldMatrix = XMMatrixIdentity();
 
 	ConstantBuffer<Matrices2D>* cb_vs_matrix_2d = nullptr;
+	ConstantBuffer<Animation> m_cbAnimation;
 	ID3D11DeviceContext* context = nullptr;
 	VertexBuffer<Vertex2D> vertices;
 	IndexBuffer indices;

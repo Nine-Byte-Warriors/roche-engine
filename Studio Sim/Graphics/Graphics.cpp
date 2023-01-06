@@ -93,7 +93,7 @@ bool Graphics::InitializeShaders()
 		// Create the sprite shaders
 		hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite vertex shader!" );
-		hr = m_pixelShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_PS.hlsl" );
+		hr = m_pixelShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_PS_Discard.hlsl" );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite pixel shader!" );
 
 		// Define input layout for RTT

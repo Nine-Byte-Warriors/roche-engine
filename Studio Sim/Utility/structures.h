@@ -22,4 +22,16 @@ struct RenderToTexture
 	FLOAT Padding;
 };
 
+struct Animation
+{
+	FLOAT Width;
+	FLOAT Height;
+	FLOAT Rows;
+	FLOAT Columns;
+
+	int FrameX;
+	int FrameY;
+	XMFLOAT2 Padding;
+};
+
 #endif
