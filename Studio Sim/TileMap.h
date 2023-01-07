@@ -12,9 +12,20 @@ enum TileType
 
 class TileMap
 {
-private:
+public:
+	TileMap();
 
-	const int m_iEmptyLevel[ROWS * COLUMNS] =
+	void UpdateTile(int row, int column, TileType tileType);
+	void UpdateTile(int pos, TileType tileType);
+
+	void ResetTileMap();
+
+	TileType* GetLevel();
+	TileType GetTile(int pos);
+	
+
+private:
+	const TileType m_iEmptyLevel[ROWS * COLUMNS] =
 	{
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
@@ -22,26 +33,14 @@ private:
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
 	};
-	
-	int m_iLevel[ROWS * COLUMNS] =
+
+	TileType m_iLevel[ROWS * COLUMNS] =
 	{
-		WALL,WALL,WALL,WALL,WALL,
-		WALL,DIRT,DIRT,DIRT,WALL,
-		WALL,DIRT,DIRT,DIRT,WALL,
-		WALL,DIRT,DIRT,DIRT,WALL,
-		WALL,WALL,WALL,WALL,WALL
+		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
+		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
+		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
+		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
+		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
 	};
-public:
-
-	TileMap(std::string inputFile);
-
-	TileMap();
-
-	void UpdateTile(int row, int column, TileType tileType);
-
-	void ResetTileMap();
-
-	int* GetLevel();
-
 };
 

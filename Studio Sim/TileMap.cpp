@@ -1,13 +1,9 @@
 #include "stdafx.h"
 #include "TileMap.h"
 
-TileMap::TileMap(std::string inputFile)
-{
-
-}
-
 TileMap::TileMap()
 {
+
 }
 
 void TileMap::UpdateTile(int row, int column, TileType tileType)
@@ -15,6 +11,11 @@ void TileMap::UpdateTile(int row, int column, TileType tileType)
 	int levelPos = row * ROWS + column;
 
 	m_iLevel[levelPos] = tileType;
+}
+
+void TileMap::UpdateTile(int pos, TileType tileType)
+{
+	m_iLevel[pos] = tileType;
 }
 
 void TileMap::ResetTileMap()
@@ -25,7 +26,12 @@ void TileMap::ResetTileMap()
 	}	
 }
 
-int* TileMap::GetLevel()
+TileType* TileMap::GetLevel()
 {
 	return m_iLevel;
+}
+
+TileType TileMap::GetTile(int pos)
+{
+	return m_iLevel[pos];
 }
