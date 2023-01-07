@@ -20,6 +20,9 @@ void Level1::OnCreate()
         m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D );
         m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
 
+        m_enemy.Initialize(graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D);
+        m_enemy.SetInitialPosition(graphics->GetWidth() / 2 - m_enemy.GetWidth() / 2, graphics->GetHeight() / 2 - m_enemy.GetHeight() / 2, 0);
+
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
         m_camera2D.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
@@ -65,6 +68,9 @@ void Level1::RenderFrame()
 	graphics->UpdateRenderState2D();
     m_player.UpdateBuffers( graphics->GetContext() );
     m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
+    
+    m_enemy.UpdateBuffers(graphics->GetContext());
+    m_enemy.Draw(m_camera2D.GetWorldOrthoMatrix());
 }
 
 void Level1::EndFrame()

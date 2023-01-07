@@ -243,6 +243,7 @@
     <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Levels\Level1.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
+    <ClCompile Include="Objects\Agent.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Camera2D.cpp" />
     <ClCompile Include="Objects\Cube.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="..\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\External\imgui\imstb_textedit.h" />
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="Objects\Agent.h" />
     <ClInclude Include="AILogic\AISeek.h" />
     <ClInclude Include="AILogic\AIState.h" />
     <ClInclude Include="AILogic\AIStateMachine.h" />
@@ -317,7 +319,7 @@
     <ClInclude Include="Utility\structures.h" />
     <ClInclude Include="Utility\Texture.h" />
     <ClInclude Include="Utility\Timer.h" />
-    <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="Utility\Vector2f.h" />
     <ClInclude Include="Window\RenderWindow.h" />
     <ClInclude Include="Window\WindowContainer.h" />
   </ItemGroup>
