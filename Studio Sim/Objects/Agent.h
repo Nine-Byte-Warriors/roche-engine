@@ -10,9 +10,13 @@
 #include "Texture.h"
 #include "Sprite.h"
 #include "AIState.h"
-#include <AIState.h>
 
 #include <vector>
+
+namespace AILogic
+{
+	class AIState;
+}
 
 /// <summary>
 /// Create a 2D agent object.
@@ -36,6 +40,9 @@ public:
 
 	void UpdateTex(ID3D11Device* device, std::string tex) { texture->UpdateTexture(device, tex); }
 	void UpdateTex(ID3D11Device* device, Colour tex) { texture->UpdateTexture(device, tex); }
+
+	Vector2f GetPosition() const noexcept { XMFLOAT3 pos = GetPositionFloat3();  return Vector2f(pos.x, pos.y); }
+	
 private:
 	void UpdateMatrix() override;
 	std::unique_ptr<Texture> texture;
