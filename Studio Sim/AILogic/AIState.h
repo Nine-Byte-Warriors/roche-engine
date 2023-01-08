@@ -4,17 +4,10 @@
 
 #include "Vector2f.h"	// TODO: to be removed
 
+class Agent;
+
 namespace AILogic
 {
-	struct Agent
-	{
-		// TODO: replace with an enemy, boss or game object
-		Vector2f m_pPosition;
-		Vector2f m_vVelocity;
-		
-		void SetVelocity(Vector2f vVelocity) { m_vVelocity = vVelocity; }
-	};
-	
 	class AIState
 	{
 	public:
@@ -26,17 +19,24 @@ namespace AILogic
 		virtual void Exit() {}
 		
 		virtual float CalculateActivation() { return m_fActivationLevel; }
-
+		virtual void SetActivation(float fActivation) { m_fActivationLevel = fActivation; }
 		virtual void SetBounds(float fUpper, float fLower) { m_fUpper = fUpper; m_fLower = fLower; }
 		virtual void CheckBounds() { CheckLowerBound(); CheckUpperBound(); }
 		virtual void CheckLowerBound() { if (m_fActivationLevel < m_fLower) m_fActivationLevel = m_fLower; }
 		virtual void CheckUpperBound() { if (m_fActivationLevel > m_fUpper) m_fActivationLevel = m_fUpper; }
 		
-		Agent* m_pAgent;
+		void SetAgent(Agent* pAgent) { m_pAgent = pAgent; }
+		void SetPosition(Vector2f pPosition) { m_vPosition = pPosition; }
+		
 		
 		float m_fActivationLevel;
 		
+	protected:
+		Agent* m_pAgent;
+		Vector2f m_vPosition;
+		
 	private:
+		
 		float m_fUpper;
 		float m_fLower;
 	};

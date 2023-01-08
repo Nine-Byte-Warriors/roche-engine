@@ -8,6 +8,12 @@
 
 namespace AILogic
 {
+	enum class AIStateTypes
+	{
+		Idle = 0,
+		Seek = 1
+	};
+	
 	class AIStateMachine : public AIState
 	{
 	public:
@@ -23,6 +29,9 @@ namespace AILogic
 		virtual void AddState(AIState* pState);
 		virtual bool IsActive(AIState* pState);
 		virtual void Reset() { for (int i = 0; i < m_vecStates.size(); i++)	m_vecStates[i]->Exit();	}
+
+		void Clear() { if(m_vecStates.size() > 0) m_vecStates.clear(); } // temporary. should be done differently
+		AIState* NewState(AIStateTypes fType); // tmeporary. should be done differently and elsewhere
 		
 	protected:
 		std::vector<AIState*> m_vecStates;

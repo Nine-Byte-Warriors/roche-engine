@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "AIStateMachine.h"
+#include "AISeek.h"
 
 using namespace AILogic;
 
@@ -15,8 +16,6 @@ void AIStateMachine::UpdateMachine(float fDelta)
 
 	for (AIState* pState : m_vecStates)
 	{
-        pState->m_pAgent = m_pAgent;
-		
         if (pState->CalculateActivation() == 0)
             pState->Exit();
         else
@@ -47,4 +46,21 @@ bool AIStateMachine::IsActive(AIState* pStateToAdd)
 		if (pState == pStateToAdd) return true;
 
 	return false;
+}
+
+AIState* AIStateMachine::NewState(AIStateTypes fType)
+{
+	switch (fType)
+	{
+	case AIStateTypes::Idle:
+		//return new AIIdle(m_pAgent);
+		return new AIState(m_pAgent);
+		break;
+	case AIStateTypes::Seek:
+		return new AISeek(m_pAgent);
+		break;
+	default:
+		return nullptr;
+		break;
+	}
 }

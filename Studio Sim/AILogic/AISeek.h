@@ -3,6 +3,7 @@
 #define AISEEK_H
 
 #include "AIState.h"
+#include "Agent.h"
 
 namespace AILogic
 {
@@ -13,10 +14,10 @@ namespace AILogic
 		virtual ~AISeek() = default;
 
 		virtual void Update(const float dt) override;
-		virtual void Enter() override;
-		virtual void Exit() override;
+		//virtual void Enter() override {};
+		//virtual void Exit() override {};
 
-		virtual float CalculateActivation() override;
+		//virtual float CalculateActivation() override {};
 
 		virtual void SetTarget(Agent* pTarget) { m_pTarget = pTarget; }
 		virtual void SetSpeed(float fSpeed) { m_fSpeed = fSpeed; }

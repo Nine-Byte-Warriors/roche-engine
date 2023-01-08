@@ -130,4 +130,7 @@ void Level1::Update( const float dt )
 {
 	// Update the cube transform, material etc. 
     m_cube.Update( dt );
+    
+    // Update enemies
+	m_enemy.Update(dt);
 }

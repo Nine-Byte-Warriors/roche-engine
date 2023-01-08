@@ -9,7 +9,8 @@
 #include "structures.h"
 #include "Texture.h"
 #include "Sprite.h"
-#include "AIState.h"
+
+#include "AIStateMachine.h"
 
 #include <vector>
 
@@ -41,7 +42,10 @@ public:
 	void UpdateTex(ID3D11Device* device, std::string tex) { texture->UpdateTexture(device, tex); }
 	void UpdateTex(ID3D11Device* device, Colour tex) { texture->UpdateTexture(device, tex); }
 
-	Vector2f GetPosition() const noexcept { XMFLOAT3 pos = GetPositionFloat3();  return Vector2f(pos.x, pos.y); }
+	void InitialiseAILogic();
+	Vector2f GetPositionVector2f() const noexcept { XMFLOAT3 pos = GetPositionFloat3();  return Vector2f(pos.x, pos.y); }
+	void SetVelocity(const Vector2f vel) { m_vVelocity = vel; }
+	void Update(float dt);
 	
 private:
 	void UpdateMatrix() override;
@@ -55,7 +59,9 @@ private:
 	IndexBuffer indices;
 	Colour colour;
 
-	std::vector<AILogic::AIState> m_states;
+	AILogic::AIStateMachine* m_pStateMachine;
+	std::vector<AILogic::AIState*> m_vecStates;
+	Vector2f m_vVelocity;
 };
 
 #endif

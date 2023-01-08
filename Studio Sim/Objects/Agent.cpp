@@ -47,6 +47,8 @@ bool Agent::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
 	SetRotation(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	SetScale(width, height);
 
+	InitialiseAILogic();
+
 	return true;
 }
 
@@ -82,6 +84,9 @@ bool Agent::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, float
 	SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	SetRotation(XMFLOAT3(0.0f, 0.0f, 0.0f));
 	SetScale(width, height);
+
+	InitialiseAILogic();
+
 	return true;
 }
 
@@ -116,4 +121,36 @@ void Agent::UpdateMatrix()
 	worldMatrix = XMMatrixScaling(scale.x, scale.y, 1.0f) *
 		XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
 		XMMatrixTranslation(position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z);
+}
+
+void Agent::InitialiseAILogic()
+{
+	m_pStateMachine = new AILogic::AIStateMachine(this);
+	AILogic::AIState* pSeekState = m_pStateMachine->NewState(AILogic::AIStateTypes::Seek);
+	pSeekState->SetBounds(1.0f, 0.0f);
+	pSeekState->SetActivation(1.0f);
+	
+	m_vecStates.push_back(pSeekState);
+}
+
+void Agent::Update(float dt)
+{
+	m_pStateMachine->Clear();
+	
+	for (AILogic::AIState* pState : m_vecStates)
+	{
+		pState->SetPosition(GetPositionVector2f());
+		
+		m_pStateMachine->AddState(pState);
+	}
+	
+	m_pStateMachine->UpdateMachine(dt);
+	
+	// Update the agent's position
+	//AdjustPosition(m_vVelocity.x, m_vVelocity.y, 0.0f);		//doesn't work as expected
+	
+	XMFLOAT3 pos = GetPositionFloat3();
+	pos.x += m_vVelocity.x;
+	pos.y += m_vVelocity.y;
+	SetPosition(pos);
 }
