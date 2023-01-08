@@ -14,14 +14,6 @@
 
 #include <vector>
 
-//TODO: to be removed as defined in Sprite.h
-//struct Vertex2D
-//{
-//	XMFLOAT3 Position;
-//	XMFLOAT2 TexCoord;
-//};
-//TODO: convert Vertex2D to Vector2f
-
 /// <summary>
 /// Create a 2D agent object.
 /// Inherits from GameObject2D.h to allow for modification of position/rotation/scale data in 2D space.
@@ -56,7 +48,7 @@ private:
 	IndexBuffer indices;
 	Colour colour;
 
-	std::vector<AIState> m_states;
+	std::vector<AILogic::AIState> m_states;
 };
 
 #endif

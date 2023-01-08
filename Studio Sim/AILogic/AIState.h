@@ -18,8 +18,7 @@ namespace AILogic
 	class AIState
 	{
 	public:
-		//AIState(Agent* pAgent) : m_pAgent(pAgent) {};
-		AIState() { ; }
+		AIState(Agent* pAgent) : m_pAgent(pAgent) {};
 		~AIState() = default;
 
 		virtual void Update(const float dt) {}
