@@ -4,10 +4,9 @@
 
 Camera2D::Camera2D()
 {
-	position = XMFLOAT3( 0.0f, 0.0f, 0.0f );
-	posVector = XMLoadFloat3( &position );
-	rotation = XMFLOAT3( 0.0f, 0.0f, 0.0f );
-	rotVector = XMLoadFloat3( &rotation );
+	m_transform = std::make_shared<Transform>();
+	m_transform->SetPosition( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
+	m_transform->SetRotation( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
 	UpdateMatrix();
 }
 
@@ -23,19 +22,24 @@ const XMMATRIX& Camera2D::GetOrthoMatrix() const noexcept
 
 const XMMATRIX& Camera2D::GetWorldOrthoMatrix() const noexcept
 {
-	return worldMatrix * orthoMatrix;
+	return m_transform->GetWorldMatrix() * orthoMatrix;
 }
 
 void Camera2D::SendWorldOrthoMatrix()
 {
 	// WorldOrthoMatrix Output
-	XMStoreFloat4x4( &WorldOrthoMatrix, worldMatrix * orthoMatrix );
+	XMStoreFloat4x4( &WorldOrthoMatrix, m_transform->GetWorldMatrix() * orthoMatrix );
 	EventSystem::Instance()->AddEvent( EVENTID::WorldOrthMatrixEvent, &WorldOrthoMatrix );
 }
 
 void Camera2D::UpdateMatrix()
 {
-	XMMATRIX translationOffsetMatrix = XMMatrixTranslation( -position.x, -position.y, 0.0f );
-	XMMATRIX cameraRotationMatrix = XMMatrixRotationRollPitchYaw( rotation.x, rotation.y, rotation.z );
-	worldMatrix = cameraRotationMatrix * translationOffsetMatrix;
+	XMMATRIX translationOffsetMatrix = XMMatrixTranslation(
+		-m_transform->GetPositionFloat3().x,
+		-m_transform->GetPositionFloat3().y, 0.0f );
+	XMMATRIX cameraRotationMatrix = XMMatrixRotationRollPitchYaw(
+		m_transform->GetRotationFloat3().x,
+		m_transform->GetRotationFloat3().y,
+		m_transform->GetRotationFloat3().z );
+	m_transform->SetWorldMatrix( cameraRotationMatrix * translationOffsetMatrix );
 }

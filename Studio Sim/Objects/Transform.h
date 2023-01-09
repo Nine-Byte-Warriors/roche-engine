@@ -1,12 +1,12 @@
 #pragma once
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
 /// <summary>
 /// Container for all game objects.
 /// Provides functions to get/set/update position/rotation/scale data.
 /// </summary>
-class GameObject
+class Transform
 {
 public:
 	const XMVECTOR& GetPositionVector() const noexcept;
@@ -46,8 +46,8 @@ public:
 	void ResetScale() noexcept;
 
 	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
+	inline void SetWorldMatrix( XMMATRIX mat ) noexcept { worldMatrix = mat; }
 protected:
-	virtual void UpdateMatrix();
 	XMMATRIX worldMatrix = XMMatrixIdentity();
 	XMFLOAT3 initialPos, initialRot, initialScale;
 	XMFLOAT3 position, rotation, scale;

@@ -245,7 +245,7 @@
     <ClCompile Include="Objects\Camera2D.cpp" />
     <ClCompile Include="Objects\Cube.cpp" />
     <ClCompile Include="Objects\Enemy.cpp" />
-    <ClCompile Include="Objects\GameObject.cpp" />
+    <ClCompile Include="Objects\Transform.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Sprite.cpp" />
@@ -303,7 +303,7 @@
     <ClInclude Include="Objects\Camera2D.h" />
     <ClInclude Include="Objects\Cube.h" />
     <ClInclude Include="Objects\Enemy.h" />
-    <ClInclude Include="Objects\GameObject.h" />
+    <ClInclude Include="Objects\Transform.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Sprite.h" />
