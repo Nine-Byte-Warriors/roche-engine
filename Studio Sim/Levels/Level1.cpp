@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Level1.h"
-
-Level1::Level1( LevelStateMachine& stateMachine ) : levelStateMachine( stateMachine ) { }
+#include <imgui/imgui.h>
 
 void Level1::OnCreate()
 {
@@ -11,14 +10,25 @@ void Level1::OnCreate()
 		HRESULT hr = m_cbMatrices.Initialize( graphics->GetDevice(), graphics->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
 
+        hr = m_cbMatrices2D.Initialize( graphics->GetDevice(), graphics->GetContext() );
+		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices2D' constant buffer!" );
+
         // Initialize game objects
 	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
         COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
+
+        m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D );
+        m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
+
+        XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
+        m_camera2D.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
         m_spriteFont = std::make_unique<SpriteFont>( graphics->GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
         m_spriteBatch = std::make_unique<SpriteBatch>( graphics->GetContext() );
         m_postProcessing.Initialize( graphics->GetDevice() );
+        m_bUseCustomPP = true;
+
 	}
 	catch ( COMException& exception )
 	{
@@ -41,14 +51,20 @@ void Level1::BeginFrame()
 {
 	// Setup pipeline state
 	graphics->BeginFrame();
-	graphics->UpdateRenderState();
 }
 
 void Level1::RenderFrame()
 {
+    // Objects
+	graphics->UpdateRenderState3D();
 	m_cube.UpdateBuffers( m_cbMatrices, *m_camera );
     graphics->GetContext()->VSSetConstantBuffers( 0u, 1u, m_cbMatrices.GetAddressOf() );
     m_cube.Draw( graphics->GetContext() );
+
+    // Sprites
+	graphics->UpdateRenderState2D();
+    m_player.UpdateBuffers( graphics->GetContext() );
+    m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
 }
 
 void Level1::EndFrame()
@@ -82,17 +98,28 @@ void Level1::EndFrame()
 
     // Render scene to texture
     graphics->BeginRTT();
-    m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
+    m_bUseCustomPP ?
+        graphics->EndRTT() :
+        m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
 
     // Render imgui windows
     m_imgui->BeginRender();
     m_imgui->SpawnInstructionWindow();
-    m_postProcessing.SpawnControlWindow();
+    if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
+    {
+        ImGui::Checkbox( "Use Custom Post-Processing?", &m_bUseCustomPP );
+        m_bUseCustomPP ?
+            graphics->SpawnControlWindowRTT() :
+            m_postProcessing.SpawnControlWindow();
+    }
+    ImGui::End();
     m_cube.SpawnControlWindow();
+    m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
 
-    // Present frame
-    graphics->EndFrame();
+
+    // Present Frame
+	graphics->EndFrame();
 }
 
 void Level1::Update( const float dt )

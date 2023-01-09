@@ -16,10 +16,7 @@
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
 #include "WindowContainer.h"
-
 #include "Level1.h"
-//#include "MainMenu.h"
-//#include "CreditsMenu.h"
 
 // For Audio
 #include "AudioEngine.h"
@@ -36,13 +33,9 @@ public:
 private:
 	// Levels
 	uint32_t level1_ID;
-	//uint32_t credits_ID;
-	//uint32_t mainMenu_ID;
-	
-	LevelStateMachine stateMachine;
+
 	std::shared_ptr<Level1> level1;
-	//std::shared_ptr<Credits_Level> Credits;
-	//std::shared_ptr<MainMenu_Level> MainMenu;
+	LevelStateMachine stateMachine;
 
 	// Objects
 	Camera m_camera;
