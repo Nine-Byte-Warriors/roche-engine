@@ -2,7 +2,7 @@
 #ifndef AISTATE_H
 #define AISTATE_H
 
-#include "Vector2f.h"	// TODO: to be removed
+#include "Vector2f.h"	
 
 class Agent;
 
@@ -25,21 +25,14 @@ namespace AILogic
 		virtual void CheckLowerBound() { if (m_fActivationLevel < m_fLower) m_fActivationLevel = m_fLower; }
 		virtual void CheckUpperBound() { if (m_fActivationLevel > m_fUpper) m_fActivationLevel = m_fUpper; }
 		
-		void SetAgent(Agent* pAgent) { m_pAgent = pAgent; }
-		//void SetPosition(Vector2f pPosition) { m_vPosition = pPosition; }
-		//virtual void SetSpeed(const float fSpeed) { m_fSpeed = fSpeed; }
-		
 		float m_fActivationLevel;
 		
 	protected:
 		Agent* m_pAgent;
-		//Vector2f m_vPosition;
 		
 	private:
 		float m_fUpper;
 		float m_fLower;
-
-		//float m_fSpeed;
 	};
 }
 

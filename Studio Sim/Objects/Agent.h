@@ -14,6 +14,7 @@
 #include "EventSystem.h"
 
 #include <vector>
+#include <map>
 
 namespace AILogic
 {
@@ -50,6 +51,7 @@ public:
 	float GetSpeed() const noexcept { return m_fSpeed; }
 	
 	XMFLOAT3 GetTargetPos() const noexcept { return XMFLOAT3(m_vTargetPos.x, m_vTargetPos.y, 0.0f); }
+	Vector2f GetTargetVector2f() const noexcept { return m_vTargetPos; }
 	
 	void AddToEvent() { EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this); }
 	void HandleEvent(Event* event) override;
@@ -70,9 +72,10 @@ private:
 
 	AILogic::AIStateMachine* m_pStateMachine;
 	std::vector<AILogic::AIState*> m_vecStates;
+	
 	Vector2f m_vVelocity;
-	float m_fSpeed;
 	Vector2f m_vTargetPos;
+	float m_fSpeed;
 };
 
 #endif

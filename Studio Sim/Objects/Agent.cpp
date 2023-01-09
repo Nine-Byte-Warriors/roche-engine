@@ -128,7 +128,7 @@ void Agent::UpdateMatrix()
 
 void Agent::InitialiseAILogic()
 {
-	m_fSpeed = 1.0f;
+	m_fSpeed = 10.0f;
 	
 	m_pStateMachine = new AILogic::AIStateMachine(this);
 	AILogic::AIState* pSeekState = m_pStateMachine->NewState(AILogic::AIStateTypes::Seek);

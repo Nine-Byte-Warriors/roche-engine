@@ -235,6 +235,7 @@
     <ClCompile Include="AILogic\AIIdle.cpp" />
     <ClCompile Include="AILogic\AISeek.cpp" />
     <ClCompile Include="AILogic\AIStateMachine.cpp" />
+    <ClCompile Include="AILogic\AIPatrol.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
     <ClInclude Include="AILogic\AIFlee.h" />
     <ClInclude Include="AILogic\AIIdle.h" />
+    <ClInclude Include="AILogic\AIPatrol.h" />
     <ClInclude Include="Objects\Agent.h" />
     <ClInclude Include="AILogic\AISeek.h" />
     <ClInclude Include="AILogic\AIState.h" />
