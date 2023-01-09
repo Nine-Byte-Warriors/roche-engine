@@ -9,6 +9,7 @@
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
 #include "LevelStateMachine.h"
+#include "TileMapEditor.h"
 
 #include <dxtk/SpriteFont.h>
 #include <dxtk/SpriteBatch.h>
@@ -38,6 +39,7 @@ private:
 	Camera2D m_camera2D;
 	bool m_bUseCustomPP;
 	PostProcessing m_postProcessing;
+	TileMapEditor m_tileMapEditor;
 	
 	ConstantBuffer<Matrices> m_cbMatrices;
 	ConstantBuffer<Matrices2D> m_cbMatrices2D;
