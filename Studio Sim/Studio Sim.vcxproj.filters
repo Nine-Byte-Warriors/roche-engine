@@ -171,7 +171,7 @@
     <ClCompile Include="Objects\Camera2D.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\GameObject.cpp">
+    <ClCompile Include="Objects\Transform.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Sprite.cpp">
@@ -335,7 +335,7 @@
     <ClInclude Include="Objects\Sprite.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\GameObject.h">
+    <ClInclude Include="Objects\Transform.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Camera2D.h">
