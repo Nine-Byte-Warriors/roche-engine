@@ -23,6 +23,9 @@ enum class EVENTID
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
 
+	// In-Game Events
+	PlayerPosition,
+
 	// Utility
 	WindowSizeChangeEvent,
 	QuitGameEvent,
