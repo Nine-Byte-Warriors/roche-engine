@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AIStateMachine.h"
 #include "AISeek.h"
+#include "AIIdle.h"
 
 using namespace AILogic;
 
@@ -52,15 +53,8 @@ AIState* AIStateMachine::NewState(AIStateTypes fType)
 {
 	switch (fType)
 	{
-	case AIStateTypes::Idle:
-		//return new AIIdle(m_pAgent);
-		return new AIState(m_pAgent);
-		break;
-	case AIStateTypes::Seek:
-		return new AISeek(m_pAgent);
-		break;
-	default:
-		return nullptr;
-		break;
+	case AIStateTypes::Idle: return new AIIdle(m_pAgent);
+	case AIStateTypes::Seek: return new AISeek(m_pAgent);
+	default: return nullptr;
 	}
 }

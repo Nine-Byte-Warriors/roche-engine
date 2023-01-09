@@ -79,11 +79,11 @@
     <Filter Include="Source Files\Levels">
       <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AILogic">
-      <UniqueIdentifier>{414344e9-d661-4a35-b1b5-e23f43eb1dd6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\AILogic">
       <UniqueIdentifier>{92c617e6-71ba-4870-a651-4696d920db0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AILogic">
+      <UniqueIdentifier>{414344e9-d661-4a35-b1b5-e23f43eb1dd6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -189,8 +189,11 @@
     <ClCompile Include="AILogic\AIStateMachine.cpp">
       <Filter>Source Files\AILogic</Filter>
     </ClCompile>
+    <ClCompile Include="AILogic\AIIdle.cpp">
+      <Filter>Source Files\AILogic</Filter>
+    </ClCompile>
     <ClCompile Include="Objects\Agent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,16 +351,19 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="AILogic\AISeek.h">
-      <Filter>AILogic</Filter>
+      <Filter>Header Files\AILogic</Filter>
     </ClInclude>
     <ClInclude Include="AILogic\AIState.h">
-      <Filter>AILogic</Filter>
+      <Filter>Header Files\AILogic</Filter>
     </ClInclude>
     <ClInclude Include="AILogic\AIStateMachine.h">
-      <Filter>AILogic</Filter>
+      <Filter>Header Files\AILogic</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Agent.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AILogic\AIIdle.h">
+      <Filter>Header Files\AILogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

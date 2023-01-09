@@ -129,30 +129,26 @@ void Agent::UpdateMatrix()
 void Agent::InitialiseAILogic()
 {
 	m_fSpeed = 100.0f;
-	//m_vPosition = GetPositionVector2f();
 	
 	m_pStateMachine = new AILogic::AIStateMachine(this);
 	AILogic::AIState* pSeekState = m_pStateMachine->NewState(AILogic::AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
 	pSeekState->SetActivation(1.0f);
-	
 	m_vecStates.push_back(pSeekState);
+	
+	AILogic::AIState* pIdleState = m_pStateMachine->NewState(AILogic::AIStateTypes::Idle);
+	pIdleState->SetActivation(0.0f);
+	m_vecStates.push_back(pIdleState);
 }
 
 void Agent::Update(float dt)
 {
-	//m_pStateMachine->Clear();
-	//
-	//for (AILogic::AIState* pState : m_vecStates)
-	//	m_pStateMachine->AddState(pState);
-	//
-	//m_pStateMachine->UpdateMachine(dt);
-
-	//XMFLOAT3 pos = GetPositionFloat3();
-	//pos.x++;
-	////SetPosition(pos);
-
-	AdjustPosition(m_fSpeed * dt, 0.0f, 0.0f);
-
+	m_pStateMachine->Clear();
+	
+	for (AILogic::AIState* pState : m_vecStates)
+		m_pStateMachine->AddState(pState);
+	
+	m_pStateMachine->UpdateMachine(dt);
+	
 	UpdateMatrix();
 }
