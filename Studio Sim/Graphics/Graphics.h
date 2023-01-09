@@ -2,7 +2,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "Quad.h"
 #include "Shaders.h"
 #include "Sampler.h"
 #include "Viewport.h"
@@ -11,8 +10,8 @@
 #include "BackBuffer.h"
 #include "DepthStencil.h"
 #include "RenderTarget.h"
-#include "ConstantBuffer.h"
-#include "structures.h"
+
+static UINT BUFFER_COUNT = 3u;
 
 class Graphics
 {
@@ -20,14 +19,9 @@ public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
 	void ResizeWindow( HWND hWnd, XMFLOAT2 windowSize );
 	
-	void UpdateRenderState3D();
-	void UpdateRenderState2D();
-	
-	void BeginRTT();
-	void EndRTT();
-	void SpawnControlWindowRTT();
-
 	void BeginFrame();
+	void BeginRTT();
+	void UpdateRenderState();
 	void EndFrame();
 
 	inline UINT GetWidth() const noexcept { return m_viewWidth; }
@@ -39,26 +33,15 @@ public:
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );
 	bool InitializeShaders();
-	bool InitializeRTT();
 
 	// Window data
-	Quad m_quad;
 	UINT m_viewWidth;
 	UINT m_viewHeight;
 	float m_clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	
-	ConstantBuffer<RenderToTexture> m_cbPostProcessing;
-	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	// Shaders
 	VertexShader m_vertexShader;
 	PixelShader m_pixelShader;
-
-	VertexShader m_vertexShader2D;
-	PixelShader m_pixelShader2D;
-
-	VertexShader m_vertexShaderPP;
-	PixelShader m_pixelShaderPP;
 
 	// Pipeline components
 	std::shared_ptr<Bind::SwapChain> m_pSwapChain;

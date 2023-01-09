@@ -1031,22 +1031,6 @@ bool ImGui::ImageButton(ImTextureID user_texture_id, const ImVec2& size, const I
     return ImageButtonEx(id, user_texture_id, size, uv0, uv1, padding, bg_col, tint_col);
 }
 
-bool ImGui::ImageButtonNoTexture(const char* label, const ImVec2& size, const ImVec2& uv0, const ImVec2& uv1, int frame_padding, const ImVec4& bg_col, const ImVec4& tint_col)
-{
-    ImGuiContext& g = *GImGui;
-    ImGuiWindow* window = g.CurrentWindow;
-    if (window->SkipItems)
-        return false;
-
-    // Default to using texture ID as ID. User can still push string/integer prefixes.
-    PushID((void*)(intptr_t)nullptr);
-    const ImGuiID id = window->GetID(label);
-    PopID();
-
-    const ImVec2 padding = (frame_padding >= 0) ? ImVec2((float)frame_padding, (float)frame_padding) : g.Style.FramePadding;
-    return ImageButtonEx(id, nullptr, size, uv0, uv1, padding, bg_col, tint_col);
-}
-
 bool ImGui::Checkbox(const char* label, bool* v)
 {
     ImGuiWindow* window = GetCurrentWindow();

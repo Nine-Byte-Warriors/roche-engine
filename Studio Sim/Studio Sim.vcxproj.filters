@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -84,11 +84,6 @@
     </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
-    <Filter Include="Header Files\TileMap">
-      <UniqueIdentifier>{f95c08d3-f6d0-4ba9-be94-9c497745db36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TileMap">
-      <UniqueIdentifier>{68dfc649-c127-48df-8563-80ca36f4481c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,29 +167,6 @@
     </ClCompile>
     <ClCompile Include="AudioEngine.cpp">
       <Filter>Source Files\Audio</Filter>
-    <ClCompile Include="Objects\Quad.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Camera2D.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\GameObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Sprite.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Texture.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Colour.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Source Files\TileMap</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMapEditor.cpp">
-      <Filter>Source Files\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,29 +307,6 @@
     </ClInclude>
     <ClInclude Include="AudioEngine.h">
       <Filter>Header Files\Audio</Filter>
-    <ClInclude Include="Objects\Quad.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Sprite.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\GameObject.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Camera2D.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Colour.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Texture.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Header Files\TileMap</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMapEditor.h">
-      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -413,21 +362,6 @@
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\shader_VS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shaderPP_PS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shaderPP_VS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shader2D_PS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shader2D_PS_Discard.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shader2D_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
