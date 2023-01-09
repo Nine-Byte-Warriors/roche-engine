@@ -17,6 +17,7 @@
 #include "PostProcessing.h"
 #include "WindowContainer.h"
 #include "TileMapEditor.h"
+#include "Level1.h"
 
 class Application : public WindowContainer
 {
@@ -28,13 +29,14 @@ public:
 	void Update();
 	void Render();
 private:
+	// Levels
+	uint32_t level1_ID;
+	std::shared_ptr<Level1> level1;
+	LevelStateMachine stateMachine;
+
 	// Objects
-	Cube m_cube;
 	Camera m_camera;
 	ImGuiManager m_imgui;
-	
-	// Systems
-	PostProcessing m_postProcessing;
 
 	// Data
 	Timer m_timer;

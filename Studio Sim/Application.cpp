@@ -19,18 +19,12 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_input.Initialize( renderWindow, m_camera );
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
 
-        // Initialize constant buffers
-        HRESULT hr = m_cbMatrices.Initialize( graphics.GetDevice(), graphics.GetContext() );
-	    COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
-        
-        // Initialize game objects
-	    hr = m_cube.InitializeMesh( graphics.GetDevice(), graphics.GetContext() );
-        COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
+        // Initialize levels        
+        level1 = std::make_shared<Level1>();
+        level1->Initialize( &graphics, &m_camera, &m_imgui );
 
-        // Initialize systems
-        m_spriteFont = std::make_unique<SpriteFont>( graphics.GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
-        m_spriteBatch = std::make_unique<SpriteBatch>( graphics.GetContext() );
-        m_postProcessing.Initialize( graphics.GetDevice() );
+		level1_ID = stateMachine.Add( level1 );
+        stateMachine.SwitchTo( level1_ID );
     }
     catch ( COMException& exception )
 	{
@@ -75,8 +69,9 @@ void Application::Update()
             0.01f, 100.0f );
     }
 
-    // Update the cube transform, material etc. 
-    m_cube.Update( dt );
+    // Update current level
+	stateMachine.Update( dt );
+	EventSystem::Instance()->ProcessEvents();
 }
 
 void Application::Render()
@@ -135,4 +130,6 @@ void Application::Render()
     // Present frame
     graphics.EndFrame();
 #pragma endregion
+    // Render current level
+    stateMachine.Render();
 }

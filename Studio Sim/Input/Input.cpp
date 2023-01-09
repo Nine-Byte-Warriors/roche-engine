@@ -52,6 +52,10 @@ void Input::UpdateKeyboard( float dt )
 			EnableCursor();
 		else if ( keycode == VK_END )
 			DisableCursor();
+
+        // Close game
+        if ( keycode == VK_ESCAPE )
+            EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 	}
 
     // Normalize diagonal movement speed
