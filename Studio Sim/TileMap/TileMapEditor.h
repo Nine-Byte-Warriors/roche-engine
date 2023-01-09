@@ -2,33 +2,22 @@
 #ifndef TILEMAPEDITOR_H
 #define TILEMAPEDITOR_H
 
-#include "TileMap.h"
 #include "structures.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
 #include "DDSTextureLoader.h"
-
+#include "TileMap.h"
 #include <shobjidl.h> 
 #include <imgui/imgui.h>
-
-struct TileMapData
-{
-	TileType type;
-	ImColor color;
-	bool button;
-	std::string name;
-};
 
 class TileMapEditor
 {
 public:
 	TileMapEditor();
 
-	void InitializeTileMapDataScruct();
-
 	void SpawnControlWindow();
-
+private:
 	bool OpenFileExplorer();
 	void Load();
 	bool LoadReadFile();
@@ -41,7 +30,9 @@ public:
 	void TileMapSelectedText();
 	void TileMapGridPreview();
 	void UpdateTileMapGridPreview();
-private:
+
+	bool StringEqualsIgnoreCase(const std::string& str1, const std::string& str2);
+
 	TileMap tileMap;
 
 	int m_iCurrentSelectedTileType;
@@ -64,7 +55,8 @@ private:
 	const ImVec2 m_vImageButtonFrame1 = ImVec2(10, 10);
 	const int m_iImageButtonPadding = 2;
 
-	TileMapData m_sTileMapData[SIZEOFTILETYPE];
+	std::vector<TileTypeData> m_sTileTypeData;
+	int m_iSizeOfTileTypeData;
 };
 
 #endif

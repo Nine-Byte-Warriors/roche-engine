@@ -4,22 +4,17 @@
 
 #include <string>
 #include <imgui/imgui.h>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #define ROWS 6
 #define COLUMNS 6
 
-enum TileType
-{
-	EMPTY,
-	DIRT,
-	WALL,
-	SIZEOFTILETYPE //Should ALWAYS be the last value
-};
-
 struct TileTypeData
 {
-	TileType type;
+	int type;
 	ImColor color;
+	bool button;
 	std::string name;
 };
 
@@ -28,36 +23,24 @@ class TileMap
 public:
 	TileMap();
 
-	void UpdateTile(int row, int column, TileType tileType);
-	void UpdateTile(int pos, TileType tileType);
+	void UpdateTile(int row, int column, int tileType);
+	void UpdateTile(int pos, int tileType);
 
 	void ResetTileMap();
 
-	TileType* GetLevel();
-	TileType GetTile(int pos);
+	int* GetLevel();
+	int GetTile(int pos);
 
-	TileTypeData* GetTileTypeData();
+	std::vector<TileTypeData> GetTileTypeData();
 
 private:
-	const TileType m_EmptyLevel[ROWS * COLUMNS] =
-	{
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
-	};
 
-	TileType m_Level[ROWS * COLUMNS] =
-	{
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
-		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
-	};
+	int m_Level[ROWS * COLUMNS];
 
-	TileTypeData m_sTileTypeData[SIZEOFTILETYPE];
+	std::vector<TileTypeData> m_sTileTypeData;
+
+	std::string JsonFile = "TileMap.json";
+	json TileMapJsonData;
 };
 
 #endif
