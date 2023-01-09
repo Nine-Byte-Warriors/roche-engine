@@ -248,6 +248,8 @@
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Sprite.cpp" />
     <ClCompile Include="Systems\PostProcessing.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TileMapEditor.cpp" />
     <ClCompile Include="Utility\Colour.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
     <ClCompile Include="Utility\stdafx.cpp">
@@ -303,6 +305,8 @@
     <ClInclude Include="Objects\Sprite.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\PostProcessing.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TileMapEditor.h" />
     <ClInclude Include="Utility\Colour.h" />
     <ClInclude Include="Utility\COMException.h" />
     <ClInclude Include="Utility\DDSTextureLoader.h" />

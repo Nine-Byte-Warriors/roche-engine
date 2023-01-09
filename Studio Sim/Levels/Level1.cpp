@@ -114,7 +114,9 @@ void Level1::EndFrame()
     }
     ImGui::End();
     m_cube.SpawnControlWindow();
+    m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
+
 
     // Present Frame
 	graphics->EndFrame();
