@@ -10,8 +10,8 @@ cbuffer Animation : register( b1 )
 {
     float Width;
     float Height;
-    float Rows;
-    float Columns;
+    int Rows;
+    int Columns;
     
     int FrameX;
     int FrameY;

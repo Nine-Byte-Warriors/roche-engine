@@ -1,6 +1,10 @@
 #pragma once
+#ifndef TILEMAP_H
+#define TILEMAP_H
+
 #include <string>
 #include <imgui/imgui.h>
+
 #define ROWS 6
 #define COLUMNS 6
 
@@ -55,3 +59,5 @@ private:
 
 	TileTypeData m_sTileTypeData[SIZEOFTILETYPE];
 };
+
+#endif

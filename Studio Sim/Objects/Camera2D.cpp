@@ -21,11 +21,6 @@ const XMMATRIX& Camera2D::GetOrthoMatrix() const noexcept
 	return orthoMatrix;
 }
 
-const XMMATRIX& Camera2D::GetWorldMatrix() const noexcept
-{
-	return worldMatrix;
-}
-
 const XMMATRIX& Camera2D::GetWorldOrthoMatrix() const noexcept
 {
 	return worldMatrix * orthoMatrix;
