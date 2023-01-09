@@ -33,7 +33,7 @@ void AudioEngine::Initialize()
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create mastering voice.");
 	}
 
-	ParseAudio();
+	ParseAudio(); // Remove later
 
 }
 
