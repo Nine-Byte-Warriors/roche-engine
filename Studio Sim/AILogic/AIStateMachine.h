@@ -11,7 +11,8 @@ namespace AILogic
 	enum class AIStateTypes
 	{
 		Idle = 0,
-		Seek = 1
+		Seek = 1,
+		Flee = 2
 	};
 	
 	class AIStateMachine : public AIState
@@ -39,7 +40,7 @@ namespace AILogic
 		std::vector<AIState*> m_vecLastActiveStates;
 
 	private:
-
+		
 	};
 }
 	

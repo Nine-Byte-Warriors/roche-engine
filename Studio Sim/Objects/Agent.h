@@ -11,6 +11,7 @@
 #include "Sprite.h"
 
 #include "AIStateMachine.h"
+#include "EventSystem.h"
 
 #include <vector>
 
@@ -23,7 +24,7 @@ namespace AILogic
 /// Create a 2D agent object.
 /// Inherits from GameObject2D.h to allow for modification of position/rotation/scale data in 2D space.
 /// </summary>
-class Agent : public GameObject
+class Agent : public GameObject, Listener
 {
 public:
 	bool Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
@@ -48,6 +49,13 @@ public:
 	void Update(float dt);
 	float GetSpeed() const noexcept { return m_fSpeed; }
 	
+	XMFLOAT3 GetTargetPos() const noexcept { return XMFLOAT3(m_vTargetPos.x, m_vTargetPos.y, 0.0f); }
+	
+	void AddToEvent() { EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this); }
+	void HandleEvent(Event* event) override;
+	
+protected:
+	
 private:
 	void UpdateMatrix() override;
 	std::unique_ptr<Texture> texture;
@@ -64,6 +72,7 @@ private:
 	std::vector<AILogic::AIState*> m_vecStates;
 	Vector2f m_vVelocity;
 	float m_fSpeed;
+	Vector2f m_vTargetPos;
 };
 
 #endif

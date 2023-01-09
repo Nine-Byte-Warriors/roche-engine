@@ -20,7 +20,6 @@ namespace AILogic
 		//virtual float CalculateActivation() override {};
 
 		virtual void SetTarget(Agent* pTarget) { m_pTarget = pTarget; }
-		//virtual void SetSpeed(float fSpeed) { m_fSpeed = fSpeed; }
 
 	private:
 		Agent* m_pTarget;

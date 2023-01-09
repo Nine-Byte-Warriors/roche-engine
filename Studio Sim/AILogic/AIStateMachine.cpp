@@ -2,6 +2,7 @@
 #include "AIStateMachine.h"
 #include "AISeek.h"
 #include "AIIdle.h"
+#include "AIFlee.h"
 
 using namespace AILogic;
 
@@ -55,6 +56,7 @@ AIState* AIStateMachine::NewState(AIStateTypes fType)
 	{
 	case AIStateTypes::Idle: return new AIIdle(m_pAgent);
 	case AIStateTypes::Seek: return new AISeek(m_pAgent);
+	case AIStateTypes::Flee: return new AIFlee(m_pAgent);
 	default: return nullptr;
 	}
 }

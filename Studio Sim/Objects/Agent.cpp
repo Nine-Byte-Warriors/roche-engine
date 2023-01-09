@@ -128,17 +128,24 @@ void Agent::UpdateMatrix()
 
 void Agent::InitialiseAILogic()
 {
-	m_fSpeed = 100.0f;
+	m_fSpeed = 1.0f;
 	
 	m_pStateMachine = new AILogic::AIStateMachine(this);
 	AILogic::AIState* pSeekState = m_pStateMachine->NewState(AILogic::AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
-	pSeekState->SetActivation(1.0f);
+	pSeekState->SetActivation(0.0f);
 	m_vecStates.push_back(pSeekState);
 	
 	AILogic::AIState* pIdleState = m_pStateMachine->NewState(AILogic::AIStateTypes::Idle);
 	pIdleState->SetActivation(0.0f);
 	m_vecStates.push_back(pIdleState);
+
+	AILogic::AIState* pFleeState = m_pStateMachine->NewState(AILogic::AIStateTypes::Flee);
+	pFleeState->SetBounds(1.0f, 0.0f);
+	pFleeState->SetActivation(1.0f);
+	m_vecStates.push_back(pFleeState);
+	
+	AddToEvent();
 }
 
 void Agent::Update(float dt)
@@ -151,4 +158,16 @@ void Agent::Update(float dt)
 	m_pStateMachine->UpdateMachine(dt);
 	
 	UpdateMatrix();
+}
+
+void Agent::HandleEvent(Event* event)
+{
+	switch (event->GetEventID())
+	{
+	case EVENTID::PlayerPosition:
+		m_vTargetPos = *(Vector2f*)event->GetData();
+		break;
+	default:
+		break;
+	}
 }

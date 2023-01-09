@@ -91,7 +91,7 @@ void ImGuiManager::SpawnDebugWindow(float fGOX, float fGOY, float fX, float fY) 
         ImGui::Text(std::string("X: ").append(std::to_string(fGOX)).c_str());
         ImGui::Text(std::string("Y: ").append(std::to_string(fGOY)).c_str());
         ImGui::Separator();
-        ImGui::Text("Agent");
+        ImGui::Text("Target (Mouse)");
 		ImGui::NewLine();
 		ImGui::Text(std::string("X: ").append(std::to_string(fX)).c_str());
         ImGui::Text(std::string("Y: ").append(std::to_string(fY)).c_str());

@@ -122,8 +122,9 @@ void Level1::EndFrame()
     ImGui::End();
     m_cube.SpawnControlWindow();
 	XMFLOAT3 GOpos = m_enemy.GetPositionFloat3();
+    XMFLOAT3 Tpos = m_enemy.GetTargetPos();
     //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
-    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, 0.0f, 0.0f);
+    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
     m_imgui->EndRender();
 
     // Present Frame
