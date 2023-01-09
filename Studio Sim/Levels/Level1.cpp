@@ -129,6 +129,10 @@ void Level1::EndFrame()
     }
     ImGui::End();
     m_cube.SpawnControlWindow();
+	XMFLOAT3 GOpos = m_enemy.GetPositionFloat3();
+    XMFLOAT3 Tpos = m_enemy.GetTargetPos();
+    //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
+    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
     m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
 
@@ -138,7 +142,6 @@ void Level1::EndFrame()
 
 void Level1::Update( const float dt )
 {
-	// Update the cube transform, material etc. 
     m_cube.Update( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );
