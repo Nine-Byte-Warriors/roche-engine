@@ -3,14 +3,32 @@
 #include <dxtk/WICTextureLoader.h>
 
 bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
-	float width, float height, std::string spritePath,
-	ConstantBuffer<Matrices2D>& cb_vs_matrix_2d )
+	std::string spritePath, ConstantBuffer<Matrices2D>& cb_vs_matrix_2d, float width, float height )
 {
-	this->context = context;
-	if ( context == nullptr ) return false;
-
 	this->cb_vs_matrix_2d = &cb_vs_matrix_2d;
 	texture = std::make_unique<Texture>( device, spritePath, aiTextureType_DIFFUSE );
+
+	return InitializeInternal( device, context, cb_vs_matrix_2d, width, height );
+}
+
+// Initialize Colour Texture
+bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
+	Colour spriteColour, ConstantBuffer<Matrices2D>& cb_vs_matrix_2d, float width, float height )
+{
+	this->cb_vs_matrix_2d = &cb_vs_matrix_2d;
+	texture = std::make_unique<Texture>( device, spriteColour, aiTextureType_DIFFUSE );
+
+	return InitializeInternal( device, context, cb_vs_matrix_2d, width, height );
+}
+
+bool Sprite::InitializeInternal( ID3D11Device* device, ID3D11DeviceContext* context,
+	ConstantBuffer<Matrices2D>& cb_vs_vertexshader_2d, float width, float height )
+{
+	m_fWidth = width;
+	m_fHeight = height;
+
+	this->context = context;
+	if ( context == nullptr ) return false;
 
 	std::vector<Vertex2D> vertexData =
 	{
@@ -42,50 +60,9 @@ bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
 		ErrorLogger::Log( exception );
         return false;
 	}
-
-	SetPosition( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	SetRotation( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	SetScale( width, height );
-
-	return true;
 }
 
-// Initialize Colour Texture
-bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, float width, float height, Colour spriteColour, ConstantBuffer<Matrices2D>& cb_vs_matrix_2d )
-{
-	this->context = context;
-	if ( context == nullptr ) return false;
-
-	this->cb_vs_matrix_2d = &cb_vs_matrix_2d;
-	texture = std::make_unique<Texture>( device, spriteColour, aiTextureType_DIFFUSE );
-
-	std::vector<Vertex2D> vertexData =
-	{
-		{ { -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f } },
-		{ {  0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f } },
-		{ { -0.5f,  0.5f, 0.0f }, { 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f } },
-	};
-
-	std::vector<WORD> indexData =
-	{
-		0, 1, 2,
-		2, 1, 3
-	};
-
-	HRESULT hr = vertices.Initialize( device, vertexData.data(), static_cast<UINT>( vertexData.size() ) );
-	COM_ERROR_IF_FAILED( hr, "Failed to initialize vertices for sprite!" );
-
-	hr = indices.Initialize( device, indexData.data(), static_cast<UINT>( indexData.size() ) );
-	COM_ERROR_IF_FAILED( hr, "Failed to initialize indices for sprite!" );
-
-	SetPosition( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	SetRotation( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	SetScale( width, height );
-	return true;
-}
-
-void Sprite::Draw( XMMATRIX orthoMatrix )
+void Sprite::Draw( XMMATRIX worldMatrix, XMMATRIX orthoMatrix )
 {
 	XMMATRIX wvpMatrix = worldMatrix * orthoMatrix;
 	context->VSSetConstantBuffers( 0, 1, cb_vs_matrix_2d->GetAddressOf() );
@@ -101,19 +78,12 @@ void Sprite::Draw( XMMATRIX orthoMatrix )
 
 void Sprite::UpdateBuffers( ID3D11DeviceContext* context )
 {
-	m_cbAnimation.data.Width = scale.x;
-	m_cbAnimation.data.Height = scale.y;
+	m_cbAnimation.data.Width = m_fWidth;
+	m_cbAnimation.data.Height = m_fHeight;
 	m_cbAnimation.data.Rows = 2.0f;
 	m_cbAnimation.data.Columns = 2.0f;
 	m_cbAnimation.data.FrameX = 0;
 	m_cbAnimation.data.FrameY = 0;
 	if ( !m_cbAnimation.ApplyChanges() ) return;
 	context->VSSetConstantBuffers( 1u, 1u, m_cbAnimation.GetAddressOf() );
-}
-
-void Sprite::UpdateMatrix()
-{
-	worldMatrix = XMMatrixScaling( scale.x, scale.y, 1.0f ) *
-		XMMatrixRotationRollPitchYaw( rotation.x, rotation.y, rotation.z ) *
-		XMMatrixTranslation( position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z );
 }
