@@ -44,8 +44,11 @@ public:
 	void AdjustScale( const XMFLOAT3& newScale ) noexcept;
 	void AdjustScale( float xScale, float yScale, float zScale = 1.0f ) noexcept;
 	void ResetScale() noexcept;
+
+	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
 protected:
 	virtual void UpdateMatrix();
+	XMMATRIX worldMatrix = XMMatrixIdentity();
 	XMFLOAT3 initialPos, initialRot, initialScale;
 	XMFLOAT3 position, rotation, scale;
 	XMVECTOR posVector, rotVector;

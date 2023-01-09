@@ -1,11 +1,15 @@
 #pragma once
+#ifndef TILEMAPEDITOR_H
+#define TILEMAPEDITOR_H
+
+#include "TileMap.h"
 #include "structures.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
 #include "DDSTextureLoader.h"
+
 #include <shobjidl.h> 
-#include <TileMap.h>
 #include <imgui/imgui.h>
 
 struct TileMapData
@@ -62,3 +66,5 @@ private:
 
 	TileMapData m_sTileMapData[SIZEOFTILETYPE];
 };
+
+#endif

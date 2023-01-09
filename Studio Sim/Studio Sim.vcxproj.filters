@@ -80,10 +80,10 @@
       <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\TileMap">
-      <UniqueIdentifier>{f95c08d3-f6d0-4ba9-be94-9c497745db36}</UniqueIdentifier>
+      <UniqueIdentifier>{74095f31-b961-41b3-be89-bcb5438140b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\TileMap">
-      <UniqueIdentifier>{68dfc649-c127-48df-8563-80ca36f4481c}</UniqueIdentifier>
+      <UniqueIdentifier>{45dd80ba-b825-4c10-bd07-29316f1b6978}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,11 +183,17 @@
     <ClCompile Include="Utility\Colour.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="TileMap.cpp">
+    <ClCompile Include="Objects\Player.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap\TileMapEditor.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="TileMapEditor.cpp">
+    <ClCompile Include="TileMap\TileMap.cpp">
       <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Enemy.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +320,6 @@
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2f.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
@@ -344,11 +347,20 @@
     <ClInclude Include="Utility\Texture.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
+    <ClInclude Include="Objects\Player.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Vector2f.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMap.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="TileMapEditor.h">
+    <ClInclude Include="TileMap\TileMapEditor.h">
       <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Enemy.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

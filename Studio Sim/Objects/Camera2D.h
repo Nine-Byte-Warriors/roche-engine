@@ -14,18 +14,13 @@ public:
 	Camera2D();
 	void SetProjectionValues( float width, float height, float nearZ, float farZ );
 	const XMMATRIX& GetOrthoMatrix() const noexcept;
-	const XMMATRIX& GetWorldMatrix() const noexcept;
 	const XMMATRIX& GetWorldOrthoMatrix() const noexcept;
-
 	void SendWorldOrthoMatrix();
 
 private:
 	void UpdateMatrix() override;
 	XMMATRIX orthoMatrix;
-	XMMATRIX worldMatrix;
-
 	XMFLOAT4X4 WorldOrthoMatrix;
-	
 };
 
 #endif
