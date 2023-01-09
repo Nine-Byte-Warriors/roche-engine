@@ -5,10 +5,15 @@
 
 #include <tchar.h>
 
-#define fourccRIFF 'RIFF'
-#define fourccWAVE 'WAVE'
+//#include "mmeapi.h"
 
-//#include "EventSystem.h" // remove if not using event system
+// Windows uses Little-Endian
+#define fourccRIFF 'FFIR'
+#define fourccDATA 'atad'
+#define fourccFMT ' tmf'
+#define fourccWAVE 'EVAW'
+#define fourccXWMA 'AMWX'
+#define fourccDPDS 'sdpd'
 
 class AudioEngine {
 public:
@@ -29,8 +34,8 @@ public:
 
 	////
 	HRESULT ParseAudio();
-	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkData);
-	HRESULT ReadChunkData(HANDLE hFile, void* filetype, DWORD buffersize, DWORD bufferoffset);
+	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
+	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
 	// Event System TBD if we want to even use it
 	//void HandleEvent(Event* event);
