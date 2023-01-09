@@ -26,8 +26,8 @@ struct Animation
 {
 	FLOAT Width;
 	FLOAT Height;
-	FLOAT Rows;
-	FLOAT Columns;
+	int Rows;
+	int Columns;
 
 	int FrameX;
 	int FrameY;

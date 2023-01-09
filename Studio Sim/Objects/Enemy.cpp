@@ -20,12 +20,30 @@ std::string Enemy::GetTypePath( EnemyType type ) noexcept
 {
 	switch ( type )
 	{
-	case ONION: return "Resources\\Textures\\onion_ss.png";
-	case BEAN: return "Resources\\Textures\\bean_ss.png";
-	case CAULIFLOWER: return "Resources\\Textures\\cauliflower_ss.png";
-	case CARROT: return "Resources\\Textures\\carrot_ss.png";
-	case TOMATO: return "Resources\\Textures\\tomato_ss.png";
-	case POTATO: return "Resources\\Textures\\potato_ss.png";
+	case ONION:
+		m_sprite->SetSSRows( 2 );
+		m_sprite->SetSSColumns( 2 );
+		return "Resources\\Textures\\onion_ss.png";
+	case BEAN:
+		m_sprite->SetSSRows( 2 );
+		m_sprite->SetSSColumns( 1 );
+		return "Resources\\Textures\\bean_ss.png";
+	case CAULIFLOWER:
+		m_sprite->SetSSRows( 1 );
+		m_sprite->SetSSColumns( 1 );
+		return "Resources\\Textures\\cauliflower_ss.png";
+	case CARROT:
+		m_sprite->SetSSRows( 2 );
+		m_sprite->SetSSColumns( 2 );
+		return "Resources\\Textures\\carrot_ss.png";
+	case TOMATO:
+		m_sprite->SetSSRows( 2 );
+		m_sprite->SetSSColumns( 2 );
+		return "Resources\\Textures\\tomato_ss.png";
+	//case POTATO:
+	//	m_sprite->SetSSRows( 2 );
+	//	m_sprite->SetSSColumns( 2 );
+	//	return "Resources\\Textures\\potato_ss.png";
 	}
 	return "";
 }

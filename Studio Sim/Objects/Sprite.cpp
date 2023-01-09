@@ -80,8 +80,8 @@ void Sprite::UpdateBuffers( ID3D11DeviceContext* context )
 {
 	m_cbAnimation.data.Width = m_fWidth;
 	m_cbAnimation.data.Height = m_fHeight;
-	m_cbAnimation.data.Rows = 2.0f;
-	m_cbAnimation.data.Columns = 2.0f;
+	m_cbAnimation.data.Rows = m_iRows;
+	m_cbAnimation.data.Columns = m_iColumns;
 	m_cbAnimation.data.FrameX = 0;
 	m_cbAnimation.data.FrameY = 0;
 	if ( !m_cbAnimation.ApplyChanges() ) return;
