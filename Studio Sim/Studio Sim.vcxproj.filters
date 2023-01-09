@@ -79,11 +79,11 @@
     <Filter Include="Source Files\Levels">
       <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AILogic">
-      <UniqueIdentifier>{92c617e6-71ba-4870-a651-4696d920db0d}</UniqueIdentifier>
+    <Filter Include="Header Files\TileMap">
+      <UniqueIdentifier>{f95c08d3-f6d0-4ba9-be94-9c497745db36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\AILogic">
-      <UniqueIdentifier>{414344e9-d661-4a35-b1b5-e23f43eb1dd6}</UniqueIdentifier>
+    <Filter Include="Source Files\TileMap">
+      <UniqueIdentifier>{68dfc649-c127-48df-8563-80ca36f4481c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,20 +183,11 @@
     <ClCompile Include="Utility\Colour.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="AILogic\AISeek.cpp">
-      <Filter>Source Files\AILogic</Filter>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Source Files\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="AILogic\AIStateMachine.cpp">
-      <Filter>Source Files\AILogic</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIIdle.cpp">
-      <Filter>Source Files\AILogic</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Agent.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIFlee.cpp">
-      <Filter>Source Files\AILogic</Filter>
+    <ClCompile Include="TileMapEditor.cpp">
+      <Filter>Source Files\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,7 +314,7 @@
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\Vector2f.h">
+    <ClInclude Include="Vector2f.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Levels\LevelStateMachine.h">
@@ -353,23 +344,11 @@
     <ClInclude Include="Utility\Texture.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="AILogic\AISeek.h">
-      <Filter>Header Files\AILogic</Filter>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="AILogic\AIState.h">
-      <Filter>Header Files\AILogic</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIStateMachine.h">
-      <Filter>Header Files\AILogic</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Agent.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIIdle.h">
-      <Filter>Header Files\AILogic</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIFlee.h">
-      <Filter>Header Files\AILogic</Filter>
+    <ClInclude Include="TileMapEditor.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

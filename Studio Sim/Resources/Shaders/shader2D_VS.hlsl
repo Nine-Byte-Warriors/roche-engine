@@ -1,4 +1,4 @@
-#pragma pack_matrix (row_major)
+#pragma pack_matrix( row_major )
 
 // Constant Buffers
 cbuffer ObjectBuffer : register( b0 )

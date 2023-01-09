@@ -125,7 +125,9 @@ void Level1::EndFrame()
     XMFLOAT3 Tpos = m_enemy.GetTargetPos();
     //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
     m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
+    m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
+
 
     // Present Frame
 	graphics->EndFrame();
