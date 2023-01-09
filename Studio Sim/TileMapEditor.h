@@ -8,21 +8,30 @@
 #include <TileMap.h>
 #include <imgui/imgui.h>
 
+struct TileMapData
+{
+	TileType type;
+	ImColor color;
+	bool button;
+	std::string name;
+};
+
 class TileMapEditor
 {
 public:
 	TileMapEditor();
 
+	void InitializeTileMapDataScruct();
+
 	void SpawnControlWindow();
 
-	void Load();
 	bool OpenFileExplorer();
-	bool ReadFile();
-	void ProcessFile();
-
+	void Load();
+	bool LoadReadFile();
+	void LoadProcessFile();
 	void SaveToExistingFile();
 	void SaveToNewFile();
-	bool WriteFile();
+	bool SaveWriteFile();
 
 	void TileMapSelectionButtons();
 	void TileMapSelectedText();
@@ -42,19 +51,15 @@ private:
 	bool m_bSaveButton;
 	bool m_bSaveNewButton;
 
-	bool m_bEmptyImageButton;
-	bool m_bDirtImageButton;
-	bool m_bWallImageButton;
 	bool m_bTileMapPreviewImageButton[ROWS * COLUMNS];
 
-	ImColor m_EmptyImageButtonColor;
-	ImColor m_DirtImageButtonColor;
-	ImColor m_WallImageButtonColor;
 	ImColor m_TileMapPreviewImageButtonColor[ROWS * COLUMNS];
 
 	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
 	const ImVec2 m_vImageButtonFrame1 = ImVec2(10, 10);
 	const int m_iImageButtonPadding = 2;
+
+	TileMapData m_sTileMapData[SIZEOFTILETYPE];
 };
 

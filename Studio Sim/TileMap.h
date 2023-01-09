@@ -1,13 +1,22 @@
 #pragma once
 #include <string>
-#define ROWS 5
-#define COLUMNS 5
+#include <imgui/imgui.h>
+#define ROWS 6
+#define COLUMNS 6
 
 enum TileType
 {
 	EMPTY,
 	DIRT,
-	WALL
+	WALL,
+	SIZEOFTILETYPE //Should ALWAYS be the last value
+};
+
+struct TileTypeData
+{
+	TileType type;
+	ImColor color;
+	std::string name;
 };
 
 class TileMap
@@ -22,10 +31,11 @@ public:
 
 	TileType* GetLevel();
 	TileType GetTile(int pos);
-	
+
+	TileTypeData* GetTileTypeData();	
 
 private:
-	const TileType m_iEmptyLevel[ROWS * COLUMNS] =
+	const TileType m_EmptyLevel[ROWS * COLUMNS] =
 	{
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
@@ -34,7 +44,7 @@ private:
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
 	};
 
-	TileType m_iLevel[ROWS * COLUMNS] =
+	TileType m_Level[ROWS * COLUMNS] =
 	{
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
@@ -42,5 +52,7 @@ private:
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,
 		EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
 	};
+
+	TileTypeData m_sTileTypeData[SIZEOFTILETYPE];
 };
 

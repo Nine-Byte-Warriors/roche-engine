@@ -3,17 +3,24 @@
 
 TileMapEditor::TileMapEditor()
 {
-	m_EmptyImageButtonColor = ImColor(0, 0, 0, 255);
-	m_DirtImageButtonColor = ImColor(155, 118, 83, 255);
-	m_WallImageButtonColor = ImColor(220, 40, 40, 255);
-
 	m_iCurrentSelectedTileType = EMPTY;
 	m_sCurrentSelectedTileType = "Current Tile Type: EMPTY";
 
 	for (int i = 0; i < ROWS * COLUMNS; i++)
 	{
 		m_TileMapPreviewImageButtonColor[i] = ImColor(0, 0, 0, 255);
-		m_bTileMapPreviewImageButton[i] = true;
+	}
+
+	InitializeTileMapDataScruct();
+}
+
+void TileMapEditor::InitializeTileMapDataScruct()
+{
+	for (int i = 0; i < SIZEOFTILETYPE; i++)
+	{
+		m_sTileMapData[i].type = tileMap.GetTileTypeData()[i].type;
+		m_sTileMapData[i].color = tileMap.GetTileTypeData()[i].color;
+		m_sTileMapData[i].name = tileMap.GetTileTypeData()[i].name;
 	}
 }
 
@@ -42,9 +49,9 @@ void TileMapEditor::Load()
 	{
 		if (OpenFileExplorer())
 		{
-			if (ReadFile())
+			if (LoadReadFile())
 			{
-				ProcessFile();
+				LoadProcessFile();
 			}
 			else
 			{
@@ -115,7 +122,7 @@ bool TileMapEditor::OpenFileExplorer()
 	CoUninitialize();
 }
 
-bool TileMapEditor::ReadFile()
+bool TileMapEditor::LoadReadFile()
 {
 	std::string line;
 	std::ifstream myFile;
@@ -136,7 +143,7 @@ bool TileMapEditor::ReadFile()
 	}
 }
 
-void TileMapEditor::ProcessFile()
+void TileMapEditor::LoadProcessFile()
 {
 	std::string word[ROWS * COLUMNS];
 	int pos = 0;
@@ -155,18 +162,14 @@ void TileMapEditor::ProcessFile()
 
 	for (int i = 0; i < ROWS * COLUMNS; i++)
 	{
-		if (word[i] == "EMPTY" || word[i] == "empty" || word[i] == "0")
+		for (int j = 0; j < SIZEOFTILETYPE; j++)
 		{
-			m_TileMapPreviewImageButtonColor[i] = m_EmptyImageButtonColor;
+			if (word[i] == std::to_string(j))
+			{
+				m_TileMapPreviewImageButtonColor[i] = m_sTileMapData[j].color;
+			}
 		}
-		else if (word[i] == "DIRT" || word[i] == "dirt" || word[i] == "1")
-		{
-			m_TileMapPreviewImageButtonColor[i] = m_DirtImageButtonColor;
-		}
-		else if (word[i] == "WALL" || word[i] == "wall" || word[i] == "2")
-		{
-			m_TileMapPreviewImageButtonColor[i] = m_WallImageButtonColor;
-		}
+
 	}
 }
 
@@ -179,7 +182,7 @@ void TileMapEditor::SaveToExistingFile()
 	{
 		if (OpenFileExplorer())
 		{
-			if (WriteFile())
+			if (SaveWriteFile())
 			{
 				m_sSelectedFile += " Save Successful";
 			}
@@ -208,7 +211,7 @@ void TileMapEditor::SaveToNewFile()
 		{
 			const size_t slash = m_sFilePath.find_last_of("/\\");
 			m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".txt";
-			if (WriteFile())
+			if (SaveWriteFile())
 			{
 				m_sSelectedFile = saveFileName;
 				m_sSelectedFile +=  ".txt";
@@ -226,7 +229,7 @@ void TileMapEditor::SaveToNewFile()
 	}
 }
 
-bool TileMapEditor::WriteFile()
+bool TileMapEditor::SaveWriteFile()
 {
 	std::ofstream myFile(m_sFilePath);
 	std::string line;
@@ -264,27 +267,21 @@ void TileMapEditor::TileMapSelectionButtons()
 {
 	ImGui::Text("");
 
-	m_bEmptyImageButton = ImGui::ImageButtonNoTexture("EMPTY", m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_EmptyImageButtonColor);
-	ImGui::SameLine();
-	ImGui::Text("EMPTY");
-	m_bDirtImageButton = ImGui::ImageButtonNoTexture("DIRT", m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_DirtImageButtonColor);
-	ImGui::SameLine();
-	ImGui::Text("DIRT");
-	m_bWallImageButton = ImGui::ImageButtonNoTexture("WALL", m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_WallImageButtonColor);
-	ImGui::SameLine();
-	ImGui::Text("WALL");
+	for (int i = 0; i < SIZEOFTILETYPE; i++)
+	{
+		m_sTileMapData[i].button = 
+			ImGui::ImageButtonNoTexture(m_sTileMapData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_sTileMapData[i].color);
 
-	if (m_bEmptyImageButton)
-	{
-		m_iCurrentSelectedTileType = EMPTY;
+		ImGui::SameLine();
+		ImGui::Text(m_sTileMapData[i].name.c_str());
 	}
-	if (m_bDirtImageButton)
+
+	for (int i = 0; i < SIZEOFTILETYPE; i++)
 	{
-		m_iCurrentSelectedTileType = DIRT;
-	}
-	if (m_bWallImageButton)
-	{
-		m_iCurrentSelectedTileType = WALL;
+		if (m_sTileMapData[i].button)
+		{
+			m_iCurrentSelectedTileType = m_sTileMapData[i].type;
+		}
 	}
 }
 
@@ -331,20 +328,13 @@ void TileMapEditor::UpdateTileMapGridPreview()
 	{
 		if (m_bTileMapPreviewImageButton[i])
 		{
-			if (m_iCurrentSelectedTileType == EMPTY)
+			for (int j = 0; j < SIZEOFTILETYPE; j++)
 			{
-				m_TileMapPreviewImageButtonColor[i] = m_EmptyImageButtonColor;
-				tileMap.UpdateTile(i, EMPTY);
-			}
-			else if (m_iCurrentSelectedTileType == DIRT)
-			{
-				m_TileMapPreviewImageButtonColor[i] = m_DirtImageButtonColor;
-				tileMap.UpdateTile(i, DIRT);
-			}
-			else if (m_iCurrentSelectedTileType == WALL)
-			{
-				m_TileMapPreviewImageButtonColor[i] = m_WallImageButtonColor;
-				tileMap.UpdateTile(i, WALL);
+				if (m_iCurrentSelectedTileType == tileMap.GetTileTypeData()[j].type)
+				{
+					m_TileMapPreviewImageButtonColor[i] = m_sTileMapData[j].color;
+					tileMap.UpdateTile(i, tileMap.GetTileTypeData()[j].type);
+				}
 			}
 		}
 	}
