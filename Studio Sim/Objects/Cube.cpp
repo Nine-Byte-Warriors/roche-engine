@@ -63,7 +63,7 @@ bool Cube::InitializeMesh( ID3D11Device* pDevice, ID3D11DeviceContext* pContext 
 	{
 		// Set position to world origin
 		XMStoreFloat4x4( &m_World, XMMatrixIdentity() );
-		m_position = { 0.0f, 0.0f, 0.0f };
+		m_position = { 0.0f, 0.0f, 10.0f };
 		m_rotation = { 0.0f, 0.0f, 0.0f };
 		m_scale = { 1.0f, 1.0f, 1.0f };
 

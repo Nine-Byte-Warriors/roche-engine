@@ -6,18 +6,30 @@ using namespace AILogic;
 
 void AISeek::Update(const float dt)
 {
-	//if (m_pTarget == nullptr) return;
+	// Get agent position from agent's GameObject
+	Vector2f vAgentPos = m_pAgent->GetPositionVector2f();
+
+	// Get target position
+	// this is to be replaced by the actual direction to the target
+	Vector2f vTargetDir = Vector2f::Left();	
+	Vector2f vTargetPosition = vAgentPos.Add(vTargetDir);
 
 	// Get the direction to the target
-	Vector2f vTargetDir = Vector2f::Left();	// this is to be replaced by the actual direction to the target
-	Vector2f vDirection = m_vPosition.Direction(vTargetDir);
+	Vector2f vDirection = vAgentPos.Direction(vTargetPosition);
 
 	// Normalize the direction
-	vDirection.Normalised();
+	Vector2f vNormDir = vDirection.Normalised();
 
 	// Multiply the direction by the speed
-	vDirection.Multiply(m_fSpeed);
+	Vector2f vVelocity = vDirection.Multiply(m_pAgent->GetSpeed());
 
-	// Set the agent's velocity to the direction
-	m_pAgent->SetVelocity(vDirection);
+	// Multiply the velocity by time
+	Vector2f vStep = vVelocity.Multiply(dt);
+	
+	// Calculate the new agent's position
+	//Vector2f vResultPosition = vAgentPos.Add(vStep);
+
+	// Apply the new position to the agent's GameObject
+	//m_pAgent->SetPosition(vResultPosition.x, vResultPosition.y, 0.0f);
+	m_pAgent->AdjustPosition(vStep.x, vStep.y, 0.0f);
 }

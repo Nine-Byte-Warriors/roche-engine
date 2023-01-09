@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Agent.h"
+#include "Camera.h"
 #include <dxtk/WICTextureLoader.h>
 
 bool Agent::Initialize(ID3D11Device* device, ID3D11DeviceContext* context,
@@ -93,9 +94,9 @@ bool Agent::Initialize(ID3D11Device* device, ID3D11DeviceContext* context, float
 void Agent::Draw(XMMATRIX orthoMatrix)
 {
 	XMMATRIX wvpMatrix = worldMatrix * orthoMatrix;
-	context->VSSetConstantBuffers(0, 1, cb_vs_matrix_2d->GetAddressOf());
 	cb_vs_matrix_2d->data.wvpMatrix = wvpMatrix;
 	cb_vs_matrix_2d->ApplyChanges();
+	context->VSSetConstantBuffers(0, 1, cb_vs_matrix_2d->GetAddressOf());
 	context->PSSetShaderResources(0, 1, texture->GetTextureResourceViewAddress());
 
 	const UINT offsets = 0;
@@ -118,13 +119,18 @@ void Agent::UpdateBuffers(ID3D11DeviceContext* context)
 
 void Agent::UpdateMatrix()
 {
+	XMFLOAT3 pos = GetPositionFloat3();
+	
 	worldMatrix = XMMatrixScaling(scale.x, scale.y, 1.0f) *
 		XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-		XMMatrixTranslation(position.x + scale.x / 2.0f, position.y + scale.y / 2.0f, position.z);
+		XMMatrixTranslation(pos.x, pos.y, pos.z);
 }
 
 void Agent::InitialiseAILogic()
 {
+	m_fSpeed = 100.0f;
+	//m_vPosition = GetPositionVector2f();
+	
 	m_pStateMachine = new AILogic::AIStateMachine(this);
 	AILogic::AIState* pSeekState = m_pStateMachine->NewState(AILogic::AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
@@ -135,22 +141,18 @@ void Agent::InitialiseAILogic()
 
 void Agent::Update(float dt)
 {
-	m_pStateMachine->Clear();
-	
-	for (AILogic::AIState* pState : m_vecStates)
-	{
-		pState->SetPosition(GetPositionVector2f());
-		
-		m_pStateMachine->AddState(pState);
-	}
-	
-	m_pStateMachine->UpdateMachine(dt);
-	
-	// Update the agent's position
-	//AdjustPosition(m_vVelocity.x, m_vVelocity.y, 0.0f);		//doesn't work as expected
-	
-	XMFLOAT3 pos = GetPositionFloat3();
-	pos.x += m_vVelocity.x;
-	pos.y += m_vVelocity.y;
-	SetPosition(pos);
+	//m_pStateMachine->Clear();
+	//
+	//for (AILogic::AIState* pState : m_vecStates)
+	//	m_pStateMachine->AddState(pState);
+	//
+	//m_pStateMachine->UpdateMachine(dt);
+
+	//XMFLOAT3 pos = GetPositionFloat3();
+	//pos.x++;
+	////SetPosition(pos);
+
+	AdjustPosition(m_fSpeed * dt, 0.0f, 0.0f);
+
+	UpdateMatrix();
 }

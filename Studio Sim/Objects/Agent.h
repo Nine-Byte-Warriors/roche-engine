@@ -46,6 +46,7 @@ public:
 	Vector2f GetPositionVector2f() const noexcept { XMFLOAT3 pos = GetPositionFloat3();  return Vector2f(pos.x, pos.y); }
 	void SetVelocity(const Vector2f vel) { m_vVelocity = vel; }
 	void Update(float dt);
+	float GetSpeed() const noexcept { return m_fSpeed; }
 	
 private:
 	void UpdateMatrix() override;
@@ -62,6 +63,7 @@ private:
 	AILogic::AIStateMachine* m_pStateMachine;
 	std::vector<AILogic::AIState*> m_vecStates;
 	Vector2f m_vVelocity;
+	float m_fSpeed;
 };
 
 #endif

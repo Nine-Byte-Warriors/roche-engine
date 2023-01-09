@@ -17,10 +17,11 @@ void Level1::OnCreate()
 	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
         COM_ERROR_IF_FAILED(hr, "Failed to create 'cube' object!");
 
-        m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D );
-        m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
+        //m_player.Initialize( graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D );
+        //m_player.SetInitialPosition( graphics->GetWidth() / 2 - m_player.GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetHeight() / 2, 0 );
 
         m_enemy.Initialize(graphics->GetDevice(), graphics->GetContext(), 64.0f, 64.0f, "Resources\\Textures\\Carrot 64 normal SS.png", m_cbMatrices2D);
+        //m_enemy.SetInitialPosition( -400.0f, graphics->GetHeight() / 2 - m_enemy.GetHeight() / 2, 0);
         m_enemy.SetInitialPosition(graphics->GetWidth() / 2 - m_enemy.GetWidth() / 2, graphics->GetHeight() / 2 - m_enemy.GetHeight() / 2, 0);
 
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
@@ -66,8 +67,8 @@ void Level1::RenderFrame()
 
     // Sprites
 	graphics->UpdateRenderState2D();
-    m_player.UpdateBuffers( graphics->GetContext() );
-    m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
+    //m_player.UpdateBuffers( graphics->GetContext() );
+    //m_player.Draw( m_camera2D.GetWorldOrthoMatrix() );
     
     m_enemy.UpdateBuffers(graphics->GetContext());
     m_enemy.Draw(m_camera2D.GetWorldOrthoMatrix());
@@ -120,6 +121,9 @@ void Level1::EndFrame()
     }
     ImGui::End();
     m_cube.SpawnControlWindow();
+	XMFLOAT3 GOpos = m_enemy.GetPositionFloat3();
+    //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
+    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, 0.0f, 0.0f);
     m_imgui->EndRender();
 
     // Present Frame

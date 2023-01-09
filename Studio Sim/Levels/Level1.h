@@ -35,7 +35,7 @@ public:
 private:
 	// Objects
 	Cube m_cube;
-	Sprite m_player;
+	//Sprite m_player;
 	Agent m_enemy;
 	Camera2D m_camera2D;
 	bool m_bUseCustomPP;
