@@ -76,7 +76,7 @@
     <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Systems;$(ProjectDir)Utility;$(ProjectDir)Window;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AILogic;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Systems;$(ProjectDir)Utility;$(ProjectDir)Window;$(IncludePath)</IncludePath>
     <MultiProcFXC>true</MultiProcFXC>
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
@@ -231,6 +231,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="AILogic\AIFlee.cpp" />
+    <ClCompile Include="AILogic\AIIdle.cpp" />
+    <ClCompile Include="AILogic\AISeek.cpp" />
+    <ClCompile Include="AILogic\AIStateMachine.cpp" />
+    <ClCompile Include="AILogic\AIPatrol.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -241,6 +246,7 @@
     <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Levels\Level1.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
+    <ClCompile Include="Objects\Agent.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Camera2D.cpp" />
     <ClCompile Include="Objects\Cube.cpp" />
@@ -276,6 +282,13 @@
     <ClInclude Include="..\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\External\imgui\imstb_textedit.h" />
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="AILogic\AIFlee.h" />
+    <ClInclude Include="AILogic\AIIdle.h" />
+    <ClInclude Include="AILogic\AIPatrol.h" />
+    <ClInclude Include="Objects\Agent.h" />
+    <ClInclude Include="AILogic\AISeek.h" />
+    <ClInclude Include="AILogic\AIState.h" />
+    <ClInclude Include="AILogic\AIStateMachine.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />

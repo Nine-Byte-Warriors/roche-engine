@@ -21,7 +21,7 @@ void Level1::OnCreate()
         m_player.SetInitialPosition( graphics->GetWidth() * 0.55f - m_player.GetSprite()->GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetSprite()->GetHeight() / 2, 0 );
         m_player.SetInitialScale( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
-        m_enemy.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D );
+        m_enemy.Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D );
         m_enemy.SetInitialPosition( graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2, graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
         m_enemy.SetInitialScale( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
 
@@ -71,8 +71,8 @@ void Level1::RenderFrame()
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_player.GetSprite()->Draw( m_player.GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
 
-    m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+    m_enemy.UpdateBuffers( graphics->GetContext() );
+    m_enemy.Draw( m_enemy.GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
 }
 
 void Level1::EndFrame()
@@ -122,6 +122,10 @@ void Level1::EndFrame()
     }
     ImGui::End();
     m_cube.SpawnControlWindow();
+	XMFLOAT3 GOpos = m_enemy.GetPositionFloat3();
+    XMFLOAT3 Tpos = m_enemy.GetTargetPos();
+    //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
+    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
     m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
 
@@ -131,7 +135,6 @@ void Level1::EndFrame()
 
 void Level1::Update( const float dt )
 {
-	// Update the cube transform, material etc. 
     m_cube.Update( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );
