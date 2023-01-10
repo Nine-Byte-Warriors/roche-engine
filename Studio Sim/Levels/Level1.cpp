@@ -64,7 +64,7 @@ void Level1::OnCreateTileMap()
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         m_tileMapDraw.push_back(*tileMapDrawPop);
 
-        m_tileMapDraw[i].GetSprite()->Initialize(graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\empty.png", m_cbMatrices2D);
+        m_tileMapDraw[i].GetSprite()->Initialize(graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\empty.png", m_cbMatrices2D, 1, 1);
 
         if (i != 0)
         {
@@ -81,8 +81,6 @@ void Level1::OnCreateTileMap()
 
         m_tileMapDraw[i].GetTransform()->SetInitialPosition(positionWidth, positionHeight, 0);
         m_tileMapDraw[i].GetTransform()->SetInitialScale(m_tileMapDraw[i].GetSprite()->GetWidth(), m_tileMapDraw[i].GetSprite()->GetHeight());
-        m_tileMapDraw[i].GetSprite()->SetSSColumns(1);
-        m_tileMapDraw[i].GetSprite()->SetSSRows(1);
 
         delete tileMapDrawPop;
     }
