@@ -9,9 +9,9 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 	this->width = width;
 	this->height = height;
 	windowTitle = windowName;
-	windowTitle_Wide = StringConverter::StringToWide( windowName );
+	windowTitle_Wide = StringHelper::StringToWide( windowName );
 	this->windowClass = windowClass;
-	windowClass_Wide = StringConverter::StringToWide( windowClass );
+	windowClass_Wide = StringHelper::StringToWide( windowClass );
 
 	cursors.emplace( Color::BLUE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR1 ) );
 	cursors.emplace( Color::RED, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR2 ) );

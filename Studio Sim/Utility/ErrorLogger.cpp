@@ -11,7 +11,7 @@ void ErrorLogger::Log( const std::string& message ) noexcept
 void ErrorLogger::Log( HRESULT hr, const std::string& message ) noexcept
 {
 	_com_error error( hr );
-	std::wstring errorMessage = L"Error: " + StringConverter::StringToWide( message ) + L"\n" + error.ErrorMessage();
+	std::wstring errorMessage = L"Error: " + StringHelper::StringToWide( message ) + L"\n" + error.ErrorMessage();
 	MessageBoxW( NULL, errorMessage.c_str(), L"ERROR", MB_ICONERROR );
 }
 

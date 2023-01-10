@@ -166,15 +166,6 @@ void TileMapEditor::LoadProcessFile()
 	}
 }
 
-bool TileMapEditor::StringEqualsIgnoreCase(const std::string& str1, const std::string& str2)
-{
-	return std::equal(str1.begin(), str1.end(),
-		str2.begin(), str2.end(),
-		[](char str1, char str2) {
-			return tolower(str1) == tolower(str2);
-		});
-}
-
 void TileMapEditor::SaveToExistingFile()
 {
 	ImGui::Text("");

@@ -18,10 +18,10 @@ Texture::Texture( ID3D11Device* device, const std::string& filePath, aiTextureTy
 {
 	FileName = filePath;
 	this->type = type;
-	if ( StringConverter::GetFileExtension( filePath ) == ".dds" )
+	if ( StringHelper::GetFileExtension( filePath ) == ".dds" )
 	{
 		HRESULT hr = DirectX::CreateDDSTextureFromFile( device,
-			StringConverter::StringToWide( filePath ).c_str(),
+			StringHelper::StringToWide( filePath ).c_str(),
 			texture.GetAddressOf(),
 			textureView.GetAddressOf() );
 		
@@ -33,7 +33,7 @@ Texture::Texture( ID3D11Device* device, const std::string& filePath, aiTextureTy
 	else
 	{
 		HRESULT hr = DirectX::CreateWICTextureFromFile( device,
-			StringConverter::StringToWide( filePath ).c_str(),
+			StringHelper::StringToWide( filePath ).c_str(),
 			texture.GetAddressOf(),
 			textureView.GetAddressOf() );
 
@@ -74,10 +74,10 @@ void Texture::UpdateTexture( ID3D11Device* device, std::string file )
 		FileName = file;
 		if ( texture )texture->Release();
 		if ( textureView )textureView->Release();
-		if ( StringConverter::GetFileExtension( file ) == "dds" )
+		if ( StringHelper::GetFileExtension( file ) == "dds" )
 		{
 			HRESULT hr = DirectX::CreateDDSTextureFromFile( device,
-				StringConverter::StringToWide( file ).c_str(),
+				StringHelper::StringToWide( file ).c_str(),
 				texture.GetAddressOf(),
 				textureView.GetAddressOf() );
 			
@@ -89,7 +89,7 @@ void Texture::UpdateTexture( ID3D11Device* device, std::string file )
 		else
 		{
 			HRESULT hr = DirectX::CreateWICTextureFromFile( device,
-				StringConverter::StringToWide( file ).c_str(),
+				StringHelper::StringToWide( file ).c_str(),
 				texture.GetAddressOf(),
 				textureView.GetAddressOf() );
 
