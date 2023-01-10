@@ -58,9 +58,9 @@ private:
 	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
 
-	bool m_bTileMapPreviewImageButton[ROWS * COLUMNS];
+	bool m_bTileMapPreviewImageButton[COLUMNS * ROWS];
 
-	ImColor m_TileMapPreviewImageButtonColor[ROWS * COLUMNS];
+	ImColor m_TileMapPreviewImageButtonColor[COLUMNS * ROWS];
 
 	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);

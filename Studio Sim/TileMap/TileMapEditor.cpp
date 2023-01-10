@@ -7,7 +7,7 @@ TileMapEditor::TileMapEditor()
 	m_sTileTypeData = tileMap.GetTileTypeData();
 	m_iSizeOfTileTypeData = m_sTileTypeData.size();
 
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
 	}
@@ -174,7 +174,7 @@ bool TileMapEditor::LoadReadFile()
 
 void TileMapEditor::LoadProcessFile()
 {
-	std::string word[ROWS * COLUMNS];
+	std::string word[COLUMNS * ROWS];
 	int pos = 0;
 
 	for (char& c : m_sFileContent)
@@ -189,7 +189,7 @@ void TileMapEditor::LoadProcessFile()
 		}
 	}
 
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 		{
@@ -274,11 +274,11 @@ bool TileMapEditor::SaveWriteFile()
 
 	if (myFile.is_open())
 	{
-		for (int i = 0; i < ROWS * COLUMNS; i++)
+		for (int i = 0; i < COLUMNS * ROWS; i++)
 		{
 			std::string word = m_sTileTypeData[tileMap.GetTileType(i)].name;
 
-			if (i + 1 != ROWS * COLUMNS)
+			if (i + 1 != COLUMNS * ROWS)
 			{
 				line += word + ",";
 			}
@@ -287,7 +287,7 @@ bool TileMapEditor::SaveWriteFile()
 				line += word;
 			}
 
-			if ((i + 1) % ROWS == 0)
+			if ((i + 1) % COLUMNS == 0)
 			{
 				myFile << line << "\n";
 				line = "";
@@ -314,7 +314,7 @@ void TileMapEditor::TileMapSelectionButtons()
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
-		if ((i + 1) % (ROWS / 2) != 0)
+		if ((i + 1) % (COLUMNS / 2) != 0)
 		{
 			ImGui::SameLine();
 		}
@@ -349,11 +349,11 @@ void TileMapEditor::TileMapGridPreview()
 {
 	ImGui::Text("");
 
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		std::string gridLable = "Grid" + std::to_string(i);
 		m_bTileMapPreviewImageButton[i] = ImGui::ImageButtonNoTexture(gridLable.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_TileMapPreviewImageButtonColor[i]);
-		if ((i % ROWS) - (ROWS - 1) != 0)
+		if ((i % COLUMNS) - (COLUMNS - 1) != 0)
 		{
 			ImGui::SameLine();
 		}
@@ -364,7 +364,7 @@ void TileMapEditor::TileMapGridPreview()
 
 void TileMapEditor::UpdateTileMapGridPreview()
 {
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		if (m_bTileMapPreviewImageButton[i])
 		{

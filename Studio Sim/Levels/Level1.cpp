@@ -54,10 +54,10 @@ void Level1::OnCreate()
 
 void Level1::OnCreateTileMap()
 {
-    int rowPositionTotalTileLength = 0;
     int colPositionTotalTileLength = 0;
+    int rowPositionTotalTileLength = 0;
 
-    for (int i = 0; i < ROWS * COLUMNS; i++)
+    for (int i = 0; i < COLUMNS * ROWS; i++)
     {
         const int gapBetweenTiles = 0;
 
@@ -68,16 +68,16 @@ void Level1::OnCreateTileMap()
 
         if (i != 0)
         {
-            rowPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetWidth() + gapBetweenTiles;
+            colPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetWidth() + gapBetweenTiles;
         }
-        if (i % ROWS == 0 && i != 0)
+        if (i % COLUMNS == 0 && i != 0)
         {
-            colPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetHeight() + gapBetweenTiles;
-            rowPositionTotalTileLength = 0;
+            rowPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetHeight() + gapBetweenTiles;
+            colPositionTotalTileLength = 0;
         }
 
-        float positionWidth = rowPositionTotalTileLength + (graphics->GetWidth() / 2) - (m_tileMapDraw[i].GetSprite()->GetWidth() * (ROWS / 2));
-        float positionHeight = colPositionTotalTileLength + (graphics->GetHeight() / 2) - (m_tileMapDraw[i].GetSprite()->GetHeight() * (COLUMNS / 2));
+        float positionWidth = colPositionTotalTileLength + (graphics->GetWidth() / 2) - (m_tileMapDraw[i].GetSprite()->GetWidth() * (COLUMNS / 2));
+        float positionHeight = rowPositionTotalTileLength + (graphics->GetHeight() / 2) - (m_tileMapDraw[i].GetSprite()->GetHeight() * (ROWS / 2));
 
         m_tileMapDraw[i].GetTransform()->SetInitialPosition(positionWidth, positionHeight, 0);
         m_tileMapDraw[i].GetTransform()->SetInitialScale(m_tileMapDraw[i].GetSprite()->GetWidth(), m_tileMapDraw[i].GetSprite()->GetHeight());
@@ -125,7 +125,7 @@ void Level1::RenderFrame()
 
 void Level1::RenderFrameTileMap()
 {
-    for (int i = 0; i < ROWS * COLUMNS; i++)
+    for (int i = 0; i < COLUMNS * ROWS; i++)
     {
         m_tileMapDraw[i].GetSprite()->UpdateBuffers(graphics->GetContext());
         m_tileMapDraw[i].GetSprite()->Draw(m_tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix());
@@ -203,7 +203,7 @@ void Level1::UpdateTileMap(const float dt)
     static bool firstTimeTileMapDraw = true;
     if (m_tileMapEditor.UpdateDrawOnceAvalible() || firstTimeTileMapDraw || m_tileMapEditor.UpdateDrawContinuousAvalible())
     {
-        for (int i = 0; i < ROWS * COLUMNS; i++)
+        for (int i = 0; i < COLUMNS * ROWS; i++)
         {
             m_tileMapDraw[i].Update(dt);
 
