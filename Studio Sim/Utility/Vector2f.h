@@ -10,7 +10,7 @@ class Vector2f
 public:
 	static const Vector2f Add(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v1.x + v2.x, v1.y + v2.y); }
 	static const Vector2f Subtract(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v1.x - v2.x, v1.y - v2.y); }
-	static const Vector2f Multiply(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v1.x * v2.x, v1.y * v2.y); }
+	static const Vector2f Multiply(const Vector2f& v1, const float s) { return Vector2f(v1.x * s, v1.y * s); }
 	static const Vector2f Divide(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v1.x / v2.x, v1.y / v2.y); }
 	
 	static const Vector2f Distance(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v2.x - v1.x, v2.y - v1.y); }
