@@ -42,12 +42,48 @@ void Level1::OnCreate()
         m_postProcessing.Initialize( graphics->GetDevice() );
         m_bUseCustomPP = true;
 
+        // Initialize TileMap
+        OnCreateTileMap();
 	}
 	catch ( COMException& exception )
 	{
 		ErrorLogger::Log( exception );
         return;
 	}
+}
+
+void Level1::OnCreateTileMap()
+{
+    int colPositionTotalTileLength = 0;
+    int rowPositionTotalTileLength = 0;
+
+    for (int i = 0; i < COLUMNS * ROWS; i++)
+    {
+        const int gapBetweenTiles = 0;
+
+        TileMapDraw *tileMapDrawPop = new TileMapDraw;
+        m_tileMapDraw.push_back(*tileMapDrawPop);
+
+        m_tileMapDraw[i].GetSprite()->Initialize(graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\empty.png", m_cbMatrices2D, 1, 1);
+
+        if (i != 0)
+        {
+            colPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetWidth() + gapBetweenTiles;
+        }
+        if (i % COLUMNS == 0 && i != 0)
+        {
+            rowPositionTotalTileLength += m_tileMapDraw[i].GetSprite()->GetHeight() + gapBetweenTiles;
+            colPositionTotalTileLength = 0;
+        }
+
+        float positionWidth = colPositionTotalTileLength + (graphics->GetWidth() / 2) - (m_tileMapDraw[i].GetSprite()->GetWidth() * (COLUMNS / 2));
+        float positionHeight = rowPositionTotalTileLength + (graphics->GetHeight() / 2) - (m_tileMapDraw[i].GetSprite()->GetHeight() * (ROWS / 2));
+
+        m_tileMapDraw[i].GetTransform()->SetInitialPosition(positionWidth, positionHeight, 0);
+        m_tileMapDraw[i].GetTransform()->SetInitialScale(m_tileMapDraw[i].GetSprite()->GetWidth(), m_tileMapDraw[i].GetSprite()->GetHeight());
+
+        delete tileMapDrawPop;
+    }
 }
 
 void Level1::OnSwitch()
@@ -76,11 +112,22 @@ void Level1::RenderFrame()
 
     // Sprites
 	graphics->UpdateRenderState2D();
+    RenderFrameTileMap();
+
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
 
     m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+}
+
+void Level1::RenderFrameTileMap()
+{
+    for (int i = 0; i < COLUMNS * ROWS; i++)
+    {
+        m_tileMapDraw[i].GetSprite()->UpdateBuffers(graphics->GetContext());
+        m_tileMapDraw[i].GetSprite()->Draw(m_tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix());
+    }
 }
 
 void Level1::EndFrame()
@@ -146,4 +193,26 @@ void Level1::Update( const float dt )
     m_cube.Update( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );
+    UpdateTileMap(dt);
+}
+
+void Level1::UpdateTileMap(const float dt)
+{
+    static bool firstTimeTileMapDraw = true;
+    if (m_tileMapEditor.UpdateDrawOnceAvalible() || firstTimeTileMapDraw || m_tileMapEditor.UpdateDrawContinuousAvalible())
+    {
+        for (int i = 0; i < COLUMNS * ROWS; i++)
+        {
+            m_tileMapDraw[i].Update(dt);
+
+            std::string texture = "Resources\\Textures\\";
+            texture += m_tileMapEditor.GetTileTypeName(i);
+            texture += ".png";
+
+            m_tileMapDraw[i].GetSprite()->UpdateTex(graphics->GetDevice(), texture);
+            m_tileMapEditor.UpdateDrawOnceDone();
+        }
+
+        firstTimeTileMapDraw = false;
+    }
 }

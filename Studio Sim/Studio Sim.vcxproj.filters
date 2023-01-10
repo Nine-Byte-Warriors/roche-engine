@@ -201,6 +201,9 @@
     <ClCompile Include="Objects\Enemy.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="TileMap\TileMapDraw.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
     <ClCompile Include="AILogic\AIStateMachine.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Enemy.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMapDraw.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="AILogic\AIStateMachine.h">
       <Filter>Header Files\AI</Filter>

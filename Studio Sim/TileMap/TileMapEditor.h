@@ -17,6 +17,12 @@ public:
 	TileMapEditor();
 
 	void SpawnControlWindow();
+
+	bool UpdateDrawOnceAvalible();
+	bool UpdateDrawContinuousAvalible();
+	void UpdateDrawOnceDone();
+
+	std::string GetTileTypeName(int pos);
 private:
 	bool OpenFileExplorer();
 	void Load();
@@ -30,7 +36,8 @@ private:
 	void TileMapSelectedText();
 	void TileMapGridPreview();
 	void UpdateTileMapGridPreview();
-
+  
+	void DrawButton();
 	TileMap tileMap;
 
 	int m_iCurrentSelectedTileType;
@@ -44,9 +51,13 @@ private:
 	bool m_bSaveButton;
 	bool m_bSaveNewButton;
 
-	bool m_bTileMapPreviewImageButton[ROWS * COLUMNS];
+	bool m_bDrawButton;
+	bool m_bDrawOnce;
+	bool m_bDrawContinuous;
 
-	ImColor m_TileMapPreviewImageButtonColor[ROWS * COLUMNS];
+	bool m_bTileMapPreviewImageButton[COLUMNS * ROWS];
+
+	ImColor m_TileMapPreviewImageButtonColor[COLUMNS * ROWS];
 
 	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
