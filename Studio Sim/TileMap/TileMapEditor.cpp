@@ -3,25 +3,18 @@
 
 TileMapEditor::TileMapEditor()
 {
-	m_iCurrentSelectedTileType = EMPTY;
-	m_sCurrentSelectedTileType = "Current Tile Type: EMPTY";
+
+	m_sTileTypeData = tileMap.GetTileTypeData();
+	m_iSizeOfTileTypeData = m_sTileTypeData.size();
 
 	for (int i = 0; i < ROWS * COLUMNS; i++)
 	{
-		m_TileMapPreviewImageButtonColor[i] = ImColor(0, 0, 0, 255);
+		m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
 	}
 
-	InitializeTileMapDataScruct();
-}
-
-void TileMapEditor::InitializeTileMapDataScruct()
-{
-	for (int i = 0; i < SIZEOFTILETYPE; i++)
-	{
-		m_sTileMapData[i].type = tileMap.GetTileTypeData()[i].type;
-		m_sTileMapData[i].color = tileMap.GetTileTypeData()[i].color;
-		m_sTileMapData[i].name = tileMap.GetTileTypeData()[i].name;
-	}
+	m_iCurrentSelectedTileType = 0;
+	m_sCurrentSelectedTileType = "Current Tile Type: ";
+	m_sCurrentSelectedTileType += m_sTileTypeData[0].name;
 }
 
 void TileMapEditor::SpawnControlWindow()
@@ -162,15 +155,24 @@ void TileMapEditor::LoadProcessFile()
 
 	for (int i = 0; i < ROWS * COLUMNS; i++)
 	{
-		for (int j = 0; j < SIZEOFTILETYPE; j++)
+		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 		{
-			if (word[i] == std::to_string(j))
+			if (word[i] == std::to_string(j) || StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
 			{
-				m_TileMapPreviewImageButtonColor[i] = m_sTileMapData[j].color;
+				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+				tileMap.UpdateTile(i, j);
 			}
 		}
-
 	}
+}
+
+bool TileMapEditor::StringEqualsIgnoreCase(const std::string& str1, const std::string& str2)
+{
+	return std::equal(str1.begin(), str1.end(),
+		str2.begin(), str2.end(),
+		[](char str1, char str2) {
+			return tolower(str1) == tolower(str2);
+		});
 }
 
 void TileMapEditor::SaveToExistingFile()
@@ -238,13 +240,15 @@ bool TileMapEditor::SaveWriteFile()
 	{
 		for (int i = 0; i < ROWS * COLUMNS; i++)
 		{
+			std::string word = m_sTileTypeData[tileMap.GetTile(i)].name;
+
 			if (i + 1 != ROWS * COLUMNS)
 			{
-				line += std::to_string(tileMap.GetTile(i)) + ",";
+				line += word + ",";
 			}
 			else
 			{
-				line += std::to_string(tileMap.GetTile(i));
+				line += word;
 			}
 
 			if ((i + 1) % ROWS == 0)
@@ -267,20 +271,20 @@ void TileMapEditor::TileMapSelectionButtons()
 {
 	ImGui::Text("");
 
-	for (int i = 0; i < SIZEOFTILETYPE; i++)
+	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
-		m_sTileMapData[i].button =
-			ImGui::ImageButtonNoTexture(m_sTileMapData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_sTileMapData[i].color);
+		m_sTileTypeData[i].button =
+			ImGui::ImageButtonNoTexture(m_sTileTypeData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_sTileTypeData[i].color);
 
 		ImGui::SameLine();
-		ImGui::Text(m_sTileMapData[i].name.c_str());
+		ImGui::Text(m_sTileTypeData[i].name.c_str());
 	}
 
-	for (int i = 0; i < SIZEOFTILETYPE; i++)
+	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
-		if (m_sTileMapData[i].button)
+		if (m_sTileTypeData[i].button)
 		{
-			m_iCurrentSelectedTileType = m_sTileMapData[i].type;
+			m_iCurrentSelectedTileType = m_sTileTypeData[i].type;
 		}
 	}
 }
@@ -289,17 +293,13 @@ void TileMapEditor::TileMapSelectedText()
 {
 	ImGui::Text("");
 
-	if (m_iCurrentSelectedTileType == EMPTY)
+	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
-		m_sCurrentSelectedTileType = "Current Tile Type: EMPTY";
-	}
-	else if (m_iCurrentSelectedTileType == DIRT)
-	{
-		m_sCurrentSelectedTileType = "Current Tile Type: DIRT";
-	}
-	else if (m_iCurrentSelectedTileType == WALL)
-	{
-		m_sCurrentSelectedTileType = "Current Tile Type: WALL";
+		if (m_iCurrentSelectedTileType == i)
+		{
+			m_sCurrentSelectedTileType = "Current Tile Type: ";
+			m_sCurrentSelectedTileType += m_sTileTypeData[i].name;
+		}
 	}
 
 	ImGui::Text(m_sCurrentSelectedTileType.c_str());
@@ -328,11 +328,11 @@ void TileMapEditor::UpdateTileMapGridPreview()
 	{
 		if (m_bTileMapPreviewImageButton[i])
 		{
-			for (int j = 0; j < SIZEOFTILETYPE; j++)
+			for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 			{
 				if (m_iCurrentSelectedTileType == tileMap.GetTileTypeData()[j].type)
 				{
-					m_TileMapPreviewImageButtonColor[i] = m_sTileMapData[j].color;
+					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
 					tileMap.UpdateTile(i, tileMap.GetTileTypeData()[j].type);
 				}
 			}
