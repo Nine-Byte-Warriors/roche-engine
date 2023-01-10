@@ -97,6 +97,12 @@
     <Filter Include="Header Files\Objects\Components">
       <UniqueIdentifier>{fdff729e-9b19-4b61-90df-c08efd6be308}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Collisions">
+      <UniqueIdentifier>{fae7d2fd-17b0-4755-bfc9-6848964884a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collisions">
+      <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -224,6 +230,9 @@
     </ClCompile>
     <ClCompile Include="Objects\Agent.cpp">
       <Filter>Source Files\Objects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\Collision.cpp">
+      <Filter>Source Files\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -412,6 +421,15 @@
     </ClInclude>
     <ClInclude Include="Objects\Agent.h">
       <Filter>Header Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Collider.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Collision.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
