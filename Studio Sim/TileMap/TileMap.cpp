@@ -47,7 +47,7 @@ int* TileMap::GetLevel()
 	return m_Level;
 }
 
-int TileMap::GetTile(int pos)
+int TileMap::GetTileType(int pos)
 {
 	return m_Level[pos];
 }

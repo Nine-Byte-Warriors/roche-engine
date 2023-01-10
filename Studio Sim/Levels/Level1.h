@@ -9,6 +9,7 @@
 #include "PostProcessing.h"
 #include "LevelStateMachine.h"
 #include "TileMapEditor.h"
+#include <TileMap/TileMapDraw.h>
 
 #include <dxtk/SpriteFont.h>
 #include <dxtk/SpriteBatch.h>
@@ -32,6 +33,11 @@ public:
 	void Update( const float dt ) override;
 	void CleanUp() override {}
 private:
+	// Tile Map
+	void OnCreateTileMap();
+	void UpdateTileMap(const float dt);
+	void RenderFrameTileMap();
+
 	// Objects
 	Cube m_cube;
 	Enemy m_enemy;
@@ -40,6 +46,7 @@ private:
 	
 	bool m_bUseCustomPP;
 	TileMapEditor m_tileMapEditor;
+	std::vector<TileMapDraw> m_tileMapDraw;
 	PostProcessing m_postProcessing;
 	
 	ConstantBuffer<Matrices> m_cbMatrices;

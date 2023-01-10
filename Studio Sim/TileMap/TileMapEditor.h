@@ -17,6 +17,12 @@ public:
 	TileMapEditor();
 
 	void SpawnControlWindow();
+
+	bool UpdateDrawOnceAvalible();
+	bool UpdateDrawContinuousAvalible();
+	void UpdateDrawOnceDone();
+
+	std::string GetTileTypeName(int pos);
 private:
 	bool OpenFileExplorer();
 	void Load();
@@ -30,6 +36,8 @@ private:
 	void TileMapSelectedText();
 	void TileMapGridPreview();
 	void UpdateTileMapGridPreview();
+
+	void DrawButton();
 
 	bool StringEqualsIgnoreCase(const std::string& str1, const std::string& str2);
 
@@ -45,6 +53,10 @@ private:
 
 	bool m_bSaveButton;
 	bool m_bSaveNewButton;
+
+	bool m_bDrawButton;
+	bool m_bDrawOnce;
+	bool m_bDrawContinuous;
 
 	bool m_bTileMapPreviewImageButton[ROWS * COLUMNS];
 

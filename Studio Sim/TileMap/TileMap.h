@@ -7,7 +7,7 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#define ROWS 6
+#define ROWS 8
 #define COLUMNS 6
 
 struct TileTypeData
@@ -29,7 +29,7 @@ public:
 	void ResetTileMap();
 
 	int* GetLevel();
-	int GetTile(int pos);
+	int GetTileType(int pos);
 
 	std::vector<TileTypeData> GetTileTypeData();
 

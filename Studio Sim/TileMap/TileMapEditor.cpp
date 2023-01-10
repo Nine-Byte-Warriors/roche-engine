@@ -15,6 +15,9 @@ TileMapEditor::TileMapEditor()
 	m_iCurrentSelectedTileType = 0;
 	m_sCurrentSelectedTileType = "Current Tile Type: ";
 	m_sCurrentSelectedTileType += m_sTileTypeData[0].name;
+
+	m_bDrawOnce = false;
+	m_bDrawContinuous = false;
 }
 
 void TileMapEditor::SpawnControlWindow()
@@ -25,12 +28,45 @@ void TileMapEditor::SpawnControlWindow()
 		SaveToExistingFile();
 		SaveToNewFile();
 
+		DrawButton();
+
 		TileMapSelectionButtons();
 		TileMapSelectedText();
 		TileMapGridPreview();
 	}
 
 	ImGui::End();
+}
+
+bool TileMapEditor::UpdateDrawOnceAvalible()
+{
+	return m_bDrawOnce;
+}
+
+void TileMapEditor::UpdateDrawOnceDone()
+{
+	m_bDrawOnce = false;
+}
+
+bool TileMapEditor::UpdateDrawContinuousAvalible()
+{
+	return m_bDrawContinuous;
+}
+
+std::string TileMapEditor::GetTileTypeName(int pos)
+{
+	return m_sTileTypeData[tileMap.GetTileType(pos)].name;
+}
+
+void TileMapEditor::DrawButton()
+{
+	ImGui::Text("");
+	m_bDrawButton = ImGui::Button("Draw Once");
+	if (m_bDrawButton)
+	{
+		m_bDrawOnce = true;
+	}
+	ImGui::Checkbox("Draw Continuously", &m_bDrawContinuous);
 }
 
 void TileMapEditor::Load()
@@ -240,7 +276,7 @@ bool TileMapEditor::SaveWriteFile()
 	{
 		for (int i = 0; i < ROWS * COLUMNS; i++)
 		{
-			std::string word = m_sTileTypeData[tileMap.GetTile(i)].name;
+			std::string word = m_sTileTypeData[tileMap.GetTileType(i)].name;
 
 			if (i + 1 != ROWS * COLUMNS)
 			{
@@ -278,6 +314,10 @@ void TileMapEditor::TileMapSelectionButtons()
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
+		if ((i + 1) % (ROWS / 2) != 0)
+		{
+			ImGui::SameLine();
+		}
 	}
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
