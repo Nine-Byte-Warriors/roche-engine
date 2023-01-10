@@ -36,11 +36,8 @@ private:
 	void TileMapSelectedText();
 	void TileMapGridPreview();
 	void UpdateTileMapGridPreview();
-
+  
 	void DrawButton();
-
-	bool StringEqualsIgnoreCase(const std::string& str1, const std::string& str2);
-
 	TileMap tileMap;
 
 	int m_iCurrentSelectedTileType;

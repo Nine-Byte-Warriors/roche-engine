@@ -267,7 +267,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Utility\StringConverter.cpp" />
+    <ClCompile Include="Utility\StringHelper.cpp" />
     <ClCompile Include="Utility\Texture.cpp" />
     <ClCompile Include="Utility\Timer.cpp" />
     <ClCompile Include="Window\RenderWindow.cpp" />
@@ -331,7 +331,7 @@
     <ClInclude Include="Utility\DDSTextureLoader.h" />
     <ClInclude Include="Utility\ErrorLogger.h" />
     <ClInclude Include="Utility\stdafx.h" />
-    <ClInclude Include="Utility\StringConverter.h" />
+    <ClInclude Include="Utility\StringHelper.h" />
     <ClInclude Include="Utility\structures.h" />
     <ClInclude Include="Utility\Texture.h" />
     <ClInclude Include="Utility\Timer.h" />

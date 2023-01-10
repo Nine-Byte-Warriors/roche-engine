@@ -16,34 +16,25 @@ Enemy::Enemy()
 
 void Enemy::Update( const float dt )
 {
+	m_sprite->Update( dt );
 	m_agent->Update( dt );
 	UpdateMatrix();
 }
 
 std::string Enemy::GetTypePath( EnemyType type ) noexcept
 {
-	// I literally hate this but it stays... for now
+	// Made it better for now, but still bad
 	switch ( type )
 	{
 	case ONION:
-		m_sprite->SetSSRows( 2 );
-		m_sprite->SetSSColumns( 2 );
 		return "Resources\\Textures\\onion_ss.png";
 	case BEAN:
-		m_sprite->SetSSRows( 2 );
-		m_sprite->SetSSColumns( 1 );
 		return "Resources\\Textures\\bean_ss.png";
 	case CAULIFLOWER:
-		m_sprite->SetSSRows( 1 );
-		m_sprite->SetSSColumns( 1 );
 		return "Resources\\Textures\\cauliflower_ss.png";
 	case CARROT:
-		m_sprite->SetSSRows( 2 );
-		m_sprite->SetSSColumns( 2 );
 		return "Resources\\Textures\\carrot_ss.png";
 	case TOMATO:
-		m_sprite->SetSSRows( 2 );
-		m_sprite->SetSSColumns( 2 );
 		return "Resources\\Textures\\tomato_ss.png";
 	}
 	return "";

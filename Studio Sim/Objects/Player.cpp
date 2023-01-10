@@ -13,6 +13,7 @@ Player::Player()
 
 void Player::Update( const float dt )
 {
+	m_sprite->Update( dt );
 	UpdateMatrix();
 }
 

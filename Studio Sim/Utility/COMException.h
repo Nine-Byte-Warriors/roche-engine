@@ -3,7 +3,7 @@
 #define COMEXCEPTION_H
 
 #include <comdef.h>
-#include "StringConverter.h"
+#include "StringHelper.h"
 
 #define COM_ERROR_IF_FAILED( hr, msg ) if( FAILED( hr ) ) throw COMException( hr, msg, __FILE__, __FUNCTION__, __LINE__ )
 
@@ -22,11 +22,11 @@ public:
 		int line )
 	{
 		_com_error error( hr );
-		whatMsg = L"Message: " + StringConverter::StringToWide( msg ) + L"\n";
+		whatMsg = L"Message: " + StringHelper::StringToWide( msg ) + L"\n";
 		whatMsg += error.ErrorMessage();
-		whatMsg += L"\nFile: " + StringConverter::StringToWide( file );
-		whatMsg += L"\nFunction: " + StringConverter::StringToWide( function );
-		whatMsg += L"\nLine: " + StringConverter::StringToWide( std::to_string( line ) );
+		whatMsg += L"\nFile: " + StringHelper::StringToWide( file );
+		whatMsg += L"\nFunction: " + StringHelper::StringToWide( function );
+		whatMsg += L"\nLine: " + StringHelper::StringToWide( std::to_string( line ) );
 	}
 	inline const wchar_t* what() const
 	{

@@ -193,22 +193,13 @@ void TileMapEditor::LoadProcessFile()
 	{
 		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 		{
-			if (word[i] == std::to_string(j) || StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
+			if (word[i] == std::to_string(j) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
 			{
 				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
 				tileMap.UpdateTile(i, j);
 			}
 		}
 	}
-}
-
-bool TileMapEditor::StringEqualsIgnoreCase(const std::string& str1, const std::string& str2)
-{
-	return std::equal(str1.begin(), str1.end(),
-		str2.begin(), str2.end(),
-		[](char str1, char str2) {
-			return tolower(str1) == tolower(str2);
-		});
 }
 
 void TileMapEditor::SaveToExistingFile()
