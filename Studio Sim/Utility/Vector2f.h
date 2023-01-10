@@ -58,6 +58,8 @@ public:
 			x * cos(angle) - y * sin(angle),
 			x * sin(angle) + y * cos(angle));
 	}
+
+	Vector2f operator -(Vector2f vec) { return Vector2f(x - vec.x, y - vec.y ); };
 	
 	float x;
 	float y;
