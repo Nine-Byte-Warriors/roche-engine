@@ -10,6 +10,8 @@ void Input::Initialize( RenderWindow& window, Camera& pCamera )
     // Update keyboard processing
     keyboard.DisableAutoRepeatKeys();
     keyboard.DisableAutoRepeatChars();
+
+	pMousePos = new Vector2f();
 }
 
 void Input::Update( float dt )
@@ -25,6 +27,11 @@ void Input::UpdateMouse( float dt )
     while ( !mouse.EventBufferIsEmpty() )
     {
         Mouse::MouseEvent me = mouse.ReadEvent();
+        
+        pMousePos->x = me.GetPosX();
+        pMousePos->y = me.GetPosY();
+        EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, pMousePos);
+        
         if ( mouse.IsRightDown() || !cursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )

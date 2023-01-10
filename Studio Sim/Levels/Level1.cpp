@@ -17,14 +17,22 @@ void Level1::OnCreate()
 	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
         COM_ERROR_IF_FAILED( hr, "Failed to create 'cube' object!" );
 
+        // Initialize player
         m_player.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\carrot_ss.png", m_cbMatrices2D );
-        m_player.SetInitialPosition( graphics->GetWidth() * 0.55f - m_player.GetSprite()->GetWidth() / 2, graphics->GetHeight() / 2 - m_player.GetSprite()->GetHeight() / 2, 0 );
-        m_player.SetInitialScale( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
+        m_player.GetTransform()->SetInitialPosition(
+            graphics->GetWidth() * 0.55f - m_player.GetSprite()->GetWidth() / 2,
+            graphics->GetHeight() / 2 - m_player.GetSprite()->GetHeight() / 2, 0 );
+        m_player.GetTransform()->SetInitialScale( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
+        // Initialize enemies
         m_enemy.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D );
-        m_enemy.SetInitialPosition( graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2, graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
-        m_enemy.SetInitialScale( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
+        m_enemy.GetTransform()->SetInitialPosition(
+            graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2,
+            graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
+        m_enemy.GetTransform()->SetInitialScale( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
+        m_enemy.GetAI()->Initialize( m_enemy.GetTransform() );
 
+        // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
         m_camera2D.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
@@ -69,10 +77,10 @@ void Level1::RenderFrame()
     // Sprites
 	graphics->UpdateRenderState2D();
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );
-    m_player.GetSprite()->Draw( m_player.GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
 
     m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
 }
 
 void Level1::EndFrame()
@@ -122,6 +130,10 @@ void Level1::EndFrame()
     }
     ImGui::End();
     m_cube.SpawnControlWindow();
+	XMFLOAT3 GOpos = m_enemy.GetTransform()->GetPositionFloat3();
+    XMFLOAT3 Tpos = m_enemy.GetAI()->GetTargetPos();
+    //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
+    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
     m_tileMapEditor.SpawnControlWindow();
     m_imgui->EndRender();
 
@@ -131,7 +143,6 @@ void Level1::EndFrame()
 
 void Level1::Update( const float dt )
 {
-	// Update the cube transform, material etc. 
     m_cube.Update( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );

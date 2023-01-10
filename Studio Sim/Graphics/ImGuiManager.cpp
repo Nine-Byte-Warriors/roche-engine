@@ -80,6 +80,25 @@ void ImGuiManager::SpawnInstructionWindow() const noexcept
     ImGui::End();
 }
 
+void ImGuiManager::SpawnDebugWindow(float fGOX, float fGOY, float fX, float fY) const noexcept
+{
+	if (ImGui::Begin("Debug", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+	{
+		ImGui::Text("Debug Target: Agent");
+        ImGui::Separator();
+        ImGui::Text("GameObject");
+        ImGui::NewLine();
+        ImGui::Text(std::string("X: ").append(std::to_string(fGOX)).c_str());
+        ImGui::Text(std::string("Y: ").append(std::to_string(fGOY)).c_str());
+        ImGui::Separator();
+        ImGui::Text("Target (Mouse)");
+		ImGui::NewLine();
+		ImGui::Text(std::string("X: ").append(std::to_string(fX)).c_str());
+        ImGui::Text(std::string("Y: ").append(std::to_string(fY)).c_str());
+	}
+	ImGui::End();
+}
+
 void ImGuiManager::SetBlackGoldStyle()
 {
     ImGuiStyle* style = &ImGui::GetStyle();
