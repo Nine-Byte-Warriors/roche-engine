@@ -157,7 +157,7 @@ void TileMapEditor::LoadProcessFile()
 	{
 		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 		{
-			if (word[i] == std::to_string(j) || StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
+			if (word[i] == std::to_string(j) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
 			{
 				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
 				tileMap.UpdateTile(i, j);

@@ -18,14 +18,14 @@ void Level1::OnCreate()
         COM_ERROR_IF_FAILED( hr, "Failed to create 'cube' object!" );
 
         // Initialize player
-        m_player.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\carrot_ss.png", m_cbMatrices2D );
+        m_player.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\carrot_ss.png", m_cbMatrices2D, 2, 2 );
         m_player.GetTransform()->SetInitialPosition(
             graphics->GetWidth() * 0.55f - m_player.GetSprite()->GetWidth() / 2,
             graphics->GetHeight() / 2 - m_player.GetSprite()->GetHeight() / 2, 0 );
         m_player.GetTransform()->SetInitialScale( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
         // Initialize enemies
-        m_enemy.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D );
+        m_enemy.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D, 2, 2 );
         m_enemy.GetTransform()->SetInitialPosition(
             graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2,
             graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
