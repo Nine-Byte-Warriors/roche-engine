@@ -18,9 +18,9 @@
   "tile2": {
     "type": 2,
     "name": "WALL",    
-    "colorR": 220,
-    "colorG": 40,
-    "colorB": 40,
+    "colorR": 40,
+    "colorG": 204,
+    "colorB": 223,
     "colorA": 255
   },
   "tile3": {
@@ -29,6 +29,14 @@
     "colorR": 20,
     "colorG": 255,
     "colorB": 20,
+    "colorA": 255
+  },
+  "tile4": {
+    "type": 4,
+    "name": "LILLY",    
+    "colorR": 120,
+    "colorG": 155,
+    "colorB": 120,
     "colorA": 255
   }
 }

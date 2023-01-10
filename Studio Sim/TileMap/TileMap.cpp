@@ -24,7 +24,7 @@ TileMap::TileMap()
 
 void TileMap::UpdateTile(int row, int column, int tileType)
 {
-	int levelPos = row * ROWS + column;
+	int levelPos = row * COLUMNS + column;
 
 	m_Level[levelPos] = tileType;
 }
@@ -36,7 +36,7 @@ void TileMap::UpdateTile(int pos, int tileType)
 
 void TileMap::ResetTileMap()
 {
-	for (int i = 0; i < ROWS * COLUMNS; i++)
+	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		m_Level[i] = m_sTileTypeData[0].type;
 	}
@@ -47,7 +47,7 @@ int* TileMap::GetLevel()
 	return m_Level;
 }
 
-int TileMap::GetTile(int pos)
+int TileMap::GetTileType(int pos)
 {
 	return m_Level[pos];
 }

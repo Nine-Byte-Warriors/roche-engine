@@ -258,6 +258,7 @@
     <ClCompile Include="Objects\Sprite.cpp" />
     <ClCompile Include="Systems\PostProcessing.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
+    <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
     <ClCompile Include="Utility\Colour.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\PostProcessing.h" />
     <ClInclude Include="TileMap\TileMap.h" />
+    <ClInclude Include="TileMap\TileMapDraw.h" />
     <ClInclude Include="TileMap\TileMapEditor.h" />
     <ClInclude Include="Utility\Colour.h" />
     <ClInclude Include="Utility\COMException.h" />

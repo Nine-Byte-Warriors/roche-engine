@@ -1,0 +1,31 @@
+#include "stdafx.h"
+#include "TileMapDraw.h"
+
+TileMapDraw::TileMapDraw()
+{
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>();
+
+	m_transform->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	m_transform->SetRotation(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	m_transform->SetScale(XMFLOAT3(1.0f, 1.0f, 1.0f));
+	UpdateMatrix();
+}
+
+void TileMapDraw::Update(const float dt)
+{
+	UpdateMatrix();
+}
+
+void TileMapDraw::UpdateMatrix()
+{
+	m_transform->SetWorldMatrix(
+		XMMatrixScaling(m_transform->GetScaleFloat3().x, m_transform->GetScaleFloat3().y, 1.0f) *
+		XMMatrixRotationRollPitchYaw(m_transform->GetRotationFloat3().x, m_transform->GetRotationFloat3().y, m_transform->GetRotationFloat3().z) *
+		XMMatrixTranslation(
+			m_transform->GetPositionFloat3().x + m_transform->GetScaleFloat3().x / 2.0f,
+			m_transform->GetPositionFloat3().y + m_transform->GetScaleFloat3().y / 2.0f,
+			m_transform->GetPositionFloat3().z
+		)
+	);
+}
