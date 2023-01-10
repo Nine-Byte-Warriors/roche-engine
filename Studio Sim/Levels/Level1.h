@@ -3,7 +3,7 @@
 #define LEVEL1_H
 
 #include "Cube.h"
-#include "Agent.h"
+#include "Enemy.h"
 #include "Player.h"
 #include "Camera2D.h"
 #include "PostProcessing.h"
@@ -34,7 +34,7 @@ public:
 private:
 	// Objects
 	Cube m_cube;
-	Agent m_enemy;
+	Enemy m_enemy;
 	Player m_player;
 	Camera2D m_camera2D;
 	

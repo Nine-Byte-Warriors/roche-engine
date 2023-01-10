@@ -5,8 +5,8 @@
 #include "AIState.h"
 #include "Agent.h"
 
-namespace AILogic
-{
+//namespace AILogic
+//{
 	class AIIdle : public AIState
 	{
 	public:
@@ -15,5 +15,5 @@ namespace AILogic
 		
 		virtual void Update(const float dt) override;
 	};
-}
+//}
 #endif // !AIIDLE_H

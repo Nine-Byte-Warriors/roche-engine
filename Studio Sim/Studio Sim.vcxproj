@@ -233,9 +233,9 @@
     </ClCompile>
     <ClCompile Include="AILogic\AIFlee.cpp" />
     <ClCompile Include="AILogic\AIIdle.cpp" />
+    <ClCompile Include="AILogic\AIPatrol.cpp" />
     <ClCompile Include="AILogic\AISeek.cpp" />
     <ClCompile Include="AILogic\AIStateMachine.cpp" />
-    <ClCompile Include="AILogic\AIPatrol.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -285,7 +285,6 @@
     <ClInclude Include="AILogic\AIFlee.h" />
     <ClInclude Include="AILogic\AIIdle.h" />
     <ClInclude Include="AILogic\AIPatrol.h" />
-    <ClInclude Include="Objects\Agent.h" />
     <ClInclude Include="AILogic\AISeek.h" />
     <ClInclude Include="AILogic\AIState.h" />
     <ClInclude Include="AILogic\AIStateMachine.h" />
@@ -312,6 +311,7 @@
     <ClInclude Include="Levels\Level1.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />
+    <ClInclude Include="Objects\Agent.h" />
     <ClInclude Include="Objects\Camera.h" />
     <ClInclude Include="Objects\Camera2D.h" />
     <ClInclude Include="Objects\Cube.h" />

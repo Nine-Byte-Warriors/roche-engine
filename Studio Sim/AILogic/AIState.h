@@ -2,12 +2,11 @@
 #ifndef AISTATE_H
 #define AISTATE_H
 
-#include "Vector2f.h"	
-
 class Agent;
+#include "Vector2f.h"
 
-namespace AILogic
-{
+//namespace AILogic
+//{
 	class AIState
 	{
 	public:
@@ -34,6 +33,6 @@ namespace AILogic
 		float m_fUpper;
 		float m_fLower;
 	};
-}
+//}
 
 #endif // AISTATE_H

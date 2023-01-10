@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "AISeek.h"
-#include "Vector2f.h"
 
-using namespace AILogic;
+//using namespace AILogic;
 
 void AISeek::Update(const float dt)
 {
@@ -25,5 +24,5 @@ void AISeek::Update(const float dt)
 	Vector2f vStep = vVelocity.Multiply(dt);
 	
 	// Apply the new position to the agent's GameObject
-	m_pAgent->AdjustPosition(vStep.x, vStep.y, 0.0f);
+	m_pAgent->GetTransform()->AdjustPosition(vStep.x, vStep.y, 0.0f);
 }

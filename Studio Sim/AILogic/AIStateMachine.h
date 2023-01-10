@@ -2,12 +2,13 @@
 #ifndef AISTATEMACHINE_H
 #define AISTATEMACHINE_H
 
-#include <vector>
-
 #include "AIState.h"
 
-namespace AILogic
-{
+//class Agent;
+//#include "Agent.h"
+
+//namespace AILogic
+//{
 	enum class AIStateTypes
 	{
 		Idle = 0,
@@ -42,6 +43,6 @@ namespace AILogic
 	private:
 		
 	};
-}
+//}
 	
 #endif // AISTATEMACHINE_H

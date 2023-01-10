@@ -3,10 +3,11 @@
 #define AISEEK_H
 
 #include "AIState.h"
+#include "Player.h"
 #include "Agent.h"
 
-namespace AILogic
-{
+//namespace AILogic
+//{
 	class AISeek : public AIState
 	{
 	public:
@@ -19,12 +20,12 @@ namespace AILogic
 
 		//virtual float CalculateActivation() override {};
 
-		virtual void SetTarget(Agent* pTarget) { m_pTarget = pTarget; }
+		virtual void SetTarget(Player* pTarget) { m_pTarget = pTarget; }
 
 	private:
-		Agent* m_pTarget;
+		Player* m_pTarget;
 		//float m_fSpeed;
 	};
-}
+//}
 
 #endif // AISEEK_H

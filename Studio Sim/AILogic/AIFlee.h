@@ -3,11 +3,11 @@
 #define AIFLEE_H
 
 #include "AIState.h"
+#include "Player.h"
 #include "Agent.h"
 
-namespace AILogic
-{
-    
+//namespace AILogic
+//{
     class AIFlee : public AIState
     {
     public:
@@ -15,12 +15,11 @@ namespace AILogic
 		virtual ~AIFlee() = default;
 
 		virtual void Update(const float dt) override;
-        virtual void SetTarget(Agent* pTarget) { m_pTarget = pTarget; }
+        virtual void SetTarget(Player* pTarget) { m_pTarget = pTarget; }
         
     private:
-		Agent* m_pTarget;
+		Player* m_pTarget;
     };
-
-}
+//}
 
 #endif // !AIFLEE_H

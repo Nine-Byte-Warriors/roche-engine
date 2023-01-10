@@ -1,13 +1,12 @@
 #pragma once
-
 #ifndef AIPATROL_H
 #define AIPATROL_H
 
 #include "AIState.h"
 #include "Agent.h"
 
-namespace AILogic
-{
+//namespace AILogic
+//{
 	class AIPatrol : public AIState
 	{
 	public:
@@ -21,6 +20,6 @@ namespace AILogic
 		virtual float CalculateActivation() override;
 
 	};
-}
+//}
 
 #endif // !AIPATROL_H
