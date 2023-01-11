@@ -11,6 +11,11 @@ const XMFLOAT3& Transform::GetPositionFloat3() const noexcept
 	return position;
 }
 
+const Vector2f& Transform::GetPositionVector2f() const noexcept
+{
+	return Vector2f( position.x, position.y );
+}
+
 const XMVECTOR& Transform::GetRotationVector() const noexcept
 {
 	return rotVector;
@@ -48,6 +53,11 @@ void Transform::SetPosition( const XMFLOAT3& pos ) noexcept
 {
 	position = pos;
 	posVector = XMLoadFloat3( &position );
+}
+
+void Transform::SetPosition( const Vector2f& pos ) noexcept
+{
+	SetPosition( pos.x, pos.y, 0.0f );
 }
 
 void Transform::SetPosition( float xPos, float yPos, float zPos ) noexcept

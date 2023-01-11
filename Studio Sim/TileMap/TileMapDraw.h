@@ -2,7 +2,7 @@
 #ifndef TILEMAPDRAW_H
 #define TILEMAPDRAW_H
 
-#include <Objects/Sprite.h>
+#include "Sprite.h"
 #include "Transform.h"
 
 class TileMapDraw

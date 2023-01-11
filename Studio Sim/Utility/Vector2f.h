@@ -28,8 +28,9 @@ public:
 	static const Vector2f Left() { return Vector2f(-1.0f, 0.0f); }
 	static const Vector2f Right() { return Vector2f(1.0f, 0.0f); }
 	
-	Vector2f() : x(0), y(0) {}
-	Vector2f(const float x, const float y) : x(x), y(y) {}
+	Vector2f() : x( 0.0f ), y( 0.0f ) {}
+	Vector2f( const Vector2f& vec ) : x( vec.x ), y( vec.y ) {}
+	Vector2f( const float x, const float y ) : x( x ), y( y ) {}
 	~Vector2f() { ; }
 
 	Vector2f Add(const Vector2f v) { return Vector2f(x + v.x, y + v.y); }
@@ -58,6 +59,24 @@ public:
 			x * cos(angle) - y * sin(angle),
 			x * sin(angle) + y * cos(angle));
 	}
+
+	Vector2f operator + ( const Vector2f& rhs ) { return Vector2f( x + rhs.x, y + rhs.y ); }
+	Vector2f operator + ( const Vector2f& rhs ) const { return Vector2f( x + rhs.x, y + rhs.y ); }
+	Vector2f operator - ( const Vector2f& rhs ) { return Vector2f( x - rhs.x, y - rhs.y ); }
+	Vector2f operator - ( const Vector2f& rhs ) const { return Vector2f( x - rhs.x, y - rhs.y ); }
+	Vector2f operator * ( const float& rhs ) { return Vector2f( x * rhs, y * rhs ); }
+	Vector2f operator * ( const float rhs ) const { return Vector2f( x * rhs, y * rhs ); }
+	Vector2f operator / ( const float& rhs ) { return Vector2f( x / rhs, y / rhs ); }
+	Vector2f operator / ( const float rhs ) const { return Vector2f( x / rhs, y / rhs ); }
+	
+	void operator += ( const Vector2f& vec ) { x += vec.x; y += vec.y; }
+	void operator -= ( const Vector2f& vec ) { x -= vec.x; y -= vec.y; }
+	void operator *= ( const Vector2f& vec ) { x *= vec.x; y *= vec.y; }
+	void operator /= ( const Vector2f& vec ) { x /= vec.x; y /= vec.y; }
+
+	float operator[]( unsigned i ) const { if ( i == 0 ) return x; if ( i == 1 ) return y; }
+	float& operator[]( unsigned i ) { if ( i == 0 ) return x; if ( i == 1 ) return y; }
+	float& operator [] ( const std::size_t& i ) { return *( ( float* )this + i ); }
 	
 	float x;
 	float y;

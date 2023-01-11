@@ -2,6 +2,8 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include "Vector2f.h"
+
 /// <summary>
 /// Container for all game objects.
 /// Provides functions to get/set/update position/rotation/scale data.
@@ -11,6 +13,7 @@ class Transform
 public:
 	const XMVECTOR& GetPositionVector() const noexcept;
 	const XMFLOAT3& GetPositionFloat3() const noexcept;
+	const Vector2f& GetPositionVector2f() const noexcept;
 	const XMVECTOR& GetRotationVector() const noexcept;
 	const XMFLOAT3& GetRotationFloat3() const noexcept;
 	const XMFLOAT3& GetScaleFloat3() const noexcept;
@@ -20,6 +23,7 @@ public:
 	const XMFLOAT3& GetInitialPosition() const noexcept { return initialPos; }
 	void SetPosition( const XMVECTOR& pos ) noexcept;
 	void SetPosition( const XMFLOAT3& pos ) noexcept;
+	void SetPosition( const Vector2f& pos ) noexcept;
 	void SetPosition( float xPos, float yPos, float zPos ) noexcept;
 	void AdjustPosition( const XMVECTOR& pos ) noexcept;
 	void AdjustPosition( const XMFLOAT3& pos ) noexcept;
