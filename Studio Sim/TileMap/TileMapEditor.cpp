@@ -22,7 +22,7 @@ TileMapEditor::TileMapEditor()
 
 void TileMapEditor::SpawnControlWindow()
 {
-	if (ImGui::Begin("Tile Map Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+	if (ImGui::Begin("Tile Map Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		Load();
 		SaveToExistingFile();

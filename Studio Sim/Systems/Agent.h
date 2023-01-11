@@ -16,7 +16,7 @@
 class Agent : public Listener
 {
 public:
-	void Initialize( const std::shared_ptr<Transform>& transform );
+	Agent( const std::shared_ptr<Transform>& transform );
 	void Update(float dt);
 	
 	inline void SetVelocity(const Vector2f vel) { m_vVelocity = vel; }

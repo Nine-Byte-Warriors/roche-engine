@@ -15,8 +15,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 		    return false;
 
         // Initialize input
+        m_input.Initialize( renderWindow );
         m_camera.Initialize( XMFLOAT3( 0.0f, 0.0f, -3.0f ), width, height );
-        m_input.Initialize( renderWindow, m_camera );
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
 
         // Initialize levels        
@@ -70,8 +70,8 @@ void Application::Update()
     }
 
     // Update current level
-	stateMachine.Update( dt );
 	EventSystem::Instance()->ProcessEvents();
+	stateMachine.Update( dt );
 }
 
 void Application::Render()

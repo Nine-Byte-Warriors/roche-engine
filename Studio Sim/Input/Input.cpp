@@ -2,23 +2,20 @@
 #include "Input.h"
 #include "Camera.h"
 
-void Input::Initialize( RenderWindow& window, Camera& pCamera )
-{    
-    m_pCamera = &pCamera;
+void Input::Initialize( RenderWindow& window )
+{
     renderWindow = window;
+	pMousePos = new Vector2f();
 
     // Update keyboard processing
     keyboard.DisableAutoRepeatKeys();
     keyboard.DisableAutoRepeatChars();
-
-	pMousePos = new Vector2f();
 }
 
 void Input::Update( float dt )
 {
     UpdateMouse( dt );
     UpdateKeyboard( dt );
-    UpdateCameraCollisions();
 }
 
 void Input::UpdateMouse( float dt )
@@ -27,7 +24,6 @@ void Input::UpdateMouse( float dt )
     while ( !mouse.EventBufferIsEmpty() )
     {
         Mouse::MouseEvent me = mouse.ReadEvent();
-        
         pMousePos->x = me.GetPosX();
         pMousePos->y = me.GetPosY();
         EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, pMousePos);
@@ -36,11 +32,7 @@ void Input::UpdateMouse( float dt )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )
             {
-                m_pCamera->AdjustRotation(
-                    static_cast<float>( me.GetPosY() ) * 0.005f,
-                    static_cast<float>( me.GetPosX() ) * 0.005f,
-                    0.0f
-                );
+                // Raw mouse movement
             }
         }
     }
@@ -65,44 +57,16 @@ void Input::UpdateKeyboard( float dt )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 	}
 
-    // Normalize diagonal movement speed
-	if ( keyboard.KeyIsPressed( 'W' ) && ( keyboard.KeyIsPressed( 'A' ) || keyboard.KeyIsPressed( 'S' ) ) )
-		m_pCamera->SetCameraSpeed( 2.0f );
-	if ( keyboard.KeyIsPressed( 'S' ) && ( keyboard.KeyIsPressed( 'A' ) || keyboard.KeyIsPressed( 'S' ) ) )
-        m_pCamera->SetCameraSpeed( 2.0f );
+    // Handle continuous key presses
+    if ( keyboard.KeyIsPressed( 'W' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::PlayerUp );
 
-	if ( keyboard.KeyIsPressed( 'W' ) && ( keyboard.KeyIsPressed( 'D' ) || keyboard.KeyIsPressed( 'S' ) ) )
-        m_pCamera->SetCameraSpeed( 2.0f );
-	if ( keyboard.KeyIsPressed( 'S' ) && ( keyboard.KeyIsPressed( 'D' ) || keyboard.KeyIsPressed( 'S' ) ) )
-        m_pCamera->SetCameraSpeed( 2.0f );
+    if ( keyboard.KeyIsPressed( 'A' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::PlayerLeft );
 
-    // Camera movement
-    if ( keyboard.KeyIsPressed( 'W' ) ) m_pCamera->MoveForward( dt );
-    if ( keyboard.KeyIsPressed( 'A' ) ) m_pCamera->MoveLeft( dt );
-    if ( keyboard.KeyIsPressed( 'S' ) ) m_pCamera->MoveBackward( dt );
-    if ( keyboard.KeyIsPressed( 'D' ) ) m_pCamera->MoveRight( dt );
+    if ( keyboard.KeyIsPressed( 'S' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::PlayerDown );
 
-    // Camera speed
-    m_pCamera->SetCameraSpeed( 2.5f );
-}
-
-void Input::UpdateCameraCollisions()
-{
-    // x world collisions
-    if ( m_pCamera->GetPositionFloat3().x <= -5.0f )
-        m_pCamera->SetPosition( -5.0f, m_pCamera->GetPositionFloat3().y, m_pCamera->GetPositionFloat3().z );
-    if ( m_pCamera->GetPositionFloat3().x >= 5.0f )
-        m_pCamera->SetPosition( 5.0f, m_pCamera->GetPositionFloat3().y, m_pCamera->GetPositionFloat3().z );
-
-    // y world collisions
-    if ( m_pCamera->GetPositionFloat3().y <= -5.0f )
-        m_pCamera->SetPosition( m_pCamera->GetPositionFloat3().x, -5.0f, m_pCamera->GetPositionFloat3().z );
-    if ( m_pCamera->GetPositionFloat3().y >= 5.0f )
-        m_pCamera->SetPosition( m_pCamera->GetPositionFloat3().x, 5.0f, m_pCamera->GetPositionFloat3().z );
-
-    // z world collisions
-    if ( m_pCamera->GetPositionFloat3().z <= -5.0f )
-        m_pCamera->SetPosition( m_pCamera->GetPositionFloat3().x, m_pCamera->GetPositionFloat3().y, -5.0f );
-    if ( m_pCamera->GetPositionFloat3().z >= 5.0f )
-        m_pCamera->SetPosition( m_pCamera->GetPositionFloat3().x, m_pCamera->GetPositionFloat3().y, 5.0f );
+    if ( keyboard.KeyIsPressed( 'D' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
 }

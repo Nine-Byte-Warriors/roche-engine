@@ -82,7 +82,7 @@ void ImGuiManager::SpawnInstructionWindow() const noexcept
 
 void ImGuiManager::SpawnDebugWindow(float fGOX, float fGOY, float fX, float fY) const noexcept
 {
-	if (ImGui::Begin("Debug", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove))
+	if (ImGui::Begin("Debug", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Debug Target: Agent");
         ImGui::Separator();

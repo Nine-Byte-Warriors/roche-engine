@@ -191,3 +191,15 @@ void Transform::ResetScale() noexcept
 {
 	scale = initialScale;
 }
+
+void Transform::Update()
+{
+	worldMatrix = 
+		XMMatrixScaling( scale.x, scale.y, 1.0f ) *
+		XMMatrixRotationRollPitchYaw( rotation.x, rotation.y, rotation.z ) *
+		XMMatrixTranslation(
+			position.x + scale.x / 2.0f,
+			position.y + scale.y / 2.0f,
+			position.z
+		);
+}

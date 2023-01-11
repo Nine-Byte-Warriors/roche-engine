@@ -51,6 +51,8 @@ public:
 
 	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
 	inline void SetWorldMatrix( XMMATRIX mat ) noexcept { worldMatrix = mat; }
+
+	void Update();
 protected:
 	XMMATRIX worldMatrix = XMMatrixIdentity();
 	XMFLOAT3 initialPos, initialRot, initialScale;

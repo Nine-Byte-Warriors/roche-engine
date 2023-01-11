@@ -9,15 +9,15 @@
 class Input : public WindowContainer
 {
 public:
-	void Initialize( RenderWindow& window, Camera& pCamera );
+	void Initialize( RenderWindow& window );
 	void Update( float dt );
+
+	inline Mouse& GetMouse() noexcept { return mouse; }
+	inline Keyboard& GetKeyboard() noexcept { return keyboard; }
 
 private:
 	void UpdateMouse( float dt );
 	void UpdateKeyboard( float dt );
-	void UpdateCameraCollisions();
-
-	Camera* m_pCamera;
 
 	//DEBUG: for testing only
 	Vector2f* pMousePos;

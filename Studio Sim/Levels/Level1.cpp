@@ -30,7 +30,6 @@ void Level1::OnCreate()
             graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2,
             graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
         m_enemy.GetTransform()->SetInitialScale( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
-        m_enemy.GetAI()->Initialize( m_enemy.GetTransform() );
 
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
@@ -179,17 +178,18 @@ void Level1::EndFrame()
     m_cube.SpawnControlWindow();
 	XMFLOAT3 GOpos = m_enemy.GetTransform()->GetPositionFloat3();
     XMFLOAT3 Tpos = m_enemy.GetAI()->GetTargetPos();
-    //m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, m_enemy.GetXFloat(), m_enemy.GetYFloat());
     m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
     m_tileMapEditor.SpawnControlWindow();
+    m_player.SpawnControlWindow();
     m_imgui->EndRender();
-
+    
     // Present Frame
 	graphics->EndFrame();
 }
 
 void Level1::Update( const float dt )
 {
+    // Update entities
     m_cube.Update( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );

@@ -9,7 +9,7 @@
 #include "PostProcessing.h"
 #include "LevelStateMachine.h"
 #include "TileMapEditor.h"
-#include <TileMap/TileMapDraw.h>
+#include "TileMapDraw.h"
 
 #include <dxtk/SpriteFont.h>
 #include <dxtk/SpriteBatch.h>

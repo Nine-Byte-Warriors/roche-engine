@@ -8,13 +8,10 @@
 class Physics
 {
 public:
-	Physics() {}
 	Physics( const std::shared_ptr<Transform>& transform );
+	
+	inline void Move( float x, float y ) noexcept { m_vNetForce = { x, y }; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
-
-	// particle state
-	inline bool IsLaminar() const noexcept { return m_bUseLaminar; }
-	inline void SetLaminar( bool useLaminar ) noexcept { m_bUseLaminar = useLaminar; }
 
 	// get/set forces
 	inline Vector2f GetNetForce() const { return m_vNetForce; }
@@ -58,26 +55,16 @@ protected:
 	std::shared_ptr<Transform> m_transform;
 private:
 	// update forces
-	void Weight();
 	void ApplyThrust( const float dt );
 
 	void Acceleration();
 	void Friction( const float dt );
 	void Velocity( const float dt );
 
-	void DragForce( const float dt );
-	void DragLaminar();
-	void DragTurbulent();
-
 	void ComputePosition( const float dt );
 
-	// Constants
-	float m_fGravity = 9.81f;
-	float m_fLimiter = 0.002f;
+	// local variables
 	float m_fFrictionMultiplier = 0.0002f;
-
-	// Local Variables
-	float m_fWeight;
 	std::vector<std::pair<Vector2f, float>> m_thrustForces;
 };
 

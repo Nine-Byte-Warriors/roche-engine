@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Agent.h"
 
-void Agent::Initialize( const std::shared_ptr<Transform>& transform )
+Agent::Agent( const std::shared_ptr<Transform>& transform )
 {
 	m_fSpeed = 10.0f;
 	m_transform = transform;
