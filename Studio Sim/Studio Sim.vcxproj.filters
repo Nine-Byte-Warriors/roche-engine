@@ -308,6 +308,9 @@
     <ClInclude Include="AudioEngine.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="VoiceCallback.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">

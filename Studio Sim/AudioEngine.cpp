@@ -6,7 +6,10 @@
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
-AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr) {
+AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vMusicSoundBank(nullptr), m_vSFXSoundBank(nullptr) {
+	// Create sound banks
+	m_vMusicSoundBank = new std::vector<SoundBankFile*>();
+	m_vSFXSoundBank = new std::vector<SoundBankFile*>();
 
 }
 
@@ -19,7 +22,7 @@ AudioEngine* AudioEngine::GetInstance()
 	return m_pAudioEngineInstance;
 }
 
-void AudioEngine::Initialize(int numberOfSFXSourceVoices, int numberOfMusicSourceVoices)
+void AudioEngine::Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices)
 {
 	HRESULT hr;
 
@@ -32,20 +35,29 @@ void AudioEngine::Initialize(int numberOfSFXSourceVoices, int numberOfMusicSourc
 	if (FAILED(hr = m_pXAudio2->CreateMasteringVoice(&m_pMasterVoice))) {
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create mastering voice.");
 	}
-	
-	// Create source voice list 
-	for (int i = 0; m_vSFXSourceVoices.size() < i; i++) {
-		if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&m_vSFXSourceVoices[i]->sourceVoice))) {
-			ErrorLogger::Log(hr, "Failed to CreateSourceVoice");
-			return hr;
-		}
-	}
+
+
+	// Load Sound Bank for SFX
+	// Handle it with JSON later
+	// Current one is the temporary implementation
+	LoadAudio(L"TestAudioFiles\\pcm-32bit-44khz-mono.wav", 1.0f, m_vSFXSoundBank);
+	LoadAudio(L"TestAudioFiles\\piano2.wav", 1.0f, m_vSFXSoundBank);
+	LoadAudio(L"TestAudioFiles\\quietlaugh.wav", 1.0f, m_vSFXSoundBank);
+
+	PlayAudio(L"quietlaugh");
+
+	// Load Sound Bank for Music
+	// Handle it with JSON later
+	// Current one is the temporary implementation
+
+
+
 
 	// Remove Later
 	//ParseAudio(L"TestAudioFiles\\pcm-32bit-44khz-mono.wav", pSourceVoice2);
 
-	ParseAudio(L"TestAudioFiles\\piano2.wav", pSourceVoice);
-	ParseAudio(L"TestAudioFiles\\quietlaugh.wav", pSourceVoice2);
+	//ParseAudio(L"TestAudioFiles\\piano2.wav", pSourceVoice);
+	//ParseAudio(L"TestAudioFiles\\quietlaugh.wav", pSourceVoice2);
 
 
 
@@ -56,13 +68,13 @@ void AudioEngine::Update(float deltaTime)
 	
 }
 
-HRESULT AudioEngine::LoadAudio(std::wstring filePath)
+HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, std::vector<SoundBankFile*>* soundBank)
 {
 	HRESULT hr = S_OK;
 
 	//// Create structures
 	WAVEFORMATEXTENSIBLE wfx = { 0 };
-	XAUDIO2_BUFFER buffer = { 0 };
+	XAUDIO2_BUFFER* buffer = new XAUDIO2_BUFFER();
 
 
 
@@ -114,43 +126,60 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath)
 	BYTE* pDataBuffer = new BYTE[dwChunkSize];
 	ReadChunkData(hFile, pDataBuffer, dwChunkSize, dwChunkPosition);
 
-	buffer.AudioBytes = dwChunkSize;  //size of the audio buffer in bytes
-	buffer.pAudioData = pDataBuffer;  //buffer containing audio data
-	buffer.Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
+	buffer->AudioBytes = dwChunkSize;  //size of the audio buffer in bytes
+	buffer->pAudioData = pDataBuffer;  //buffer containing audio data
+	buffer->Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
+
+	//if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pSourceVoice, (WAVEFORMATEX*)&wfx))) {
+	//	ErrorLogger::Log(hr, "Failed to CreateSourceVoice");
+	//	return hr;
+	//}
+
+	//if (FAILED(hr = pSourceVoice->SubmitSourceBuffer(buffer))) {
+	//	ErrorLogger::Log(hr, "Failed to SubmitSourceBuffer");
+	//	return hr;
+	//}
+
+	//if (FAILED(hr = pSourceVoice->Start(0))) {
+	//	ErrorLogger::Log(hr, "Failed to start Source Voice");
+	//	return hr;
+	//}
+
+	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)&wfx, volume), soundBank);
+
+	return hr;
 }
 
 HRESULT AudioEngine::PlayAudio(std::wstring fileName)
 {
 	HRESULT hr = S_OK;
+	IXAudio2SourceVoice* pVoice = nullptr;
 
 	// Check with the file name exists, if so, grab a buffer from it
-	for (int i = 0; m_vSFXSoundBank.size() < i; i++) {
-		if (fileName == m_vSFXSoundBank[i]->fileName) {
-			// Check whether the sound can be allocated into any source voice
-			// Basically if there is source voice without a buffer or finds the lower priority sound
-			// Replaces THE LOWEST priority sound
-			for (int j = 0; m_vSFXSourceVoices.size() < j; j++) {
-				
+	for (int i = 0; m_vSFXSoundBank->size() > i; i++) {
+		if (fileName == m_vSFXSoundBank->at(i)->fileName) {
+
+
+			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, m_vSFXSoundBank->at(i)->sourceFormat))) {
+				ErrorLogger::Log(hr, "Failed to CreateSourceVoice");
+				return hr;
 			}
 
+			if (FAILED(hr = pVoice->SubmitSourceBuffer(m_vSFXSoundBank->at(i)->buffer))) {
+				ErrorLogger::Log(hr, "Failed to SubmitSourceBuffer");
+				return hr;
+			}
 
-
-
-
-
+			if (FAILED(hr = pVoice->Start(0))) {
+				ErrorLogger::Log(hr, "Failed to start Source Voice");
+				return hr;
+			}
 		}
+
 	}
 
 
-	//if (FAILED(hr = sourceVoice->SubmitSourceBuffer(&buffer))) {
-	//	ErrorLogger::Log(hr, "Failed to SubmitSourceBuffer");
-	//	return hr;
-	//}
 
-	//if (FAILED(hr = sourceVoice->Start(0))) {
-	//	ErrorLogger::Log(hr, "Failed to start Source Voice");
-	//	return hr;
-	//}
 
 	return hr;
 }
@@ -324,5 +353,30 @@ HRESULT AudioEngine::ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize,
 		ErrorLogger::Log(hr, "AudioEngine::ReadChunkData: ReadFile Error");
 	}
 	return hr;
+}
+
+SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume)
+{
+	SoundBankFile* soundBankFile = new SoundBankFile();
+	soundBankFile->fileName = GetFileName(filePath);
+	soundBankFile->buffer = buffer;
+	soundBankFile->sourceFormat = waveformatex;
+	soundBankFile->volume = volume;
+
+	return soundBankFile;
+}
+
+void AudioEngine::AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank)
+{
+	// Optionally TODO:
+	// Check whether the same file name in SoundBankFile is being used in other SoundBankFile, if so resolve it
+	soundBank->push_back(soundBankFile);
+}
+
+std::wstring AudioEngine::GetFileName(std::wstring filePath)
+{
+	std::filesystem::path fileName(filePath);
+
+	return fileName.stem();
 }
 

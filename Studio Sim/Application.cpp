@@ -16,7 +16,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 		    return false;
 
         // Initialize audio
-        m_audioEngine.Initialize();
+        m_audioEngine.Initialize(3, 0);
 
         // Initialize input
         m_camera.Initialize( XMFLOAT3( 0.0f, 0.0f, -3.0f ), width, height );
