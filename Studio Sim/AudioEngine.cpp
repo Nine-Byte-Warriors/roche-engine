@@ -44,6 +44,7 @@ void AudioEngine::Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices)
 	LoadAudio(L"TestAudioFiles\\piano2.wav", 1.0f, m_vSFXSoundBank);
 	LoadAudio(L"TestAudioFiles\\quietlaugh.wav", 1.0f, m_vSFXSoundBank);
 
+	PlayAudio(L"piano2");
 	PlayAudio(L"quietlaugh");
 
 	// Load Sound Bank for Music
@@ -73,7 +74,7 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, std::vector<
 	HRESULT hr = S_OK;
 
 	//// Create structures
-	WAVEFORMATEXTENSIBLE wfx = { 0 };
+	WAVEFORMATEXTENSIBLE* wfx = new WAVEFORMATEXTENSIBLE();
 	XAUDIO2_BUFFER* buffer = new XAUDIO2_BUFFER();
 
 
@@ -119,7 +120,7 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, std::vector<
 	}
 
 	FindChunk(hFile, fourccFMT, dwChunkSize, dwChunkPosition);
-	ReadChunkData(hFile, &wfx, dwChunkSize, dwChunkPosition);
+	ReadChunkData(hFile, wfx, dwChunkSize, dwChunkPosition);
 
 	//fill out the audio data buffer with the contents of the fourccDATA chunk
 	FindChunk(hFile, fourccDATA, dwChunkSize, dwChunkPosition);
@@ -145,7 +146,7 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, std::vector<
 	//	return hr;
 	//}
 
-	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)&wfx, volume), soundBank);
+	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)wfx, volume), soundBank);
 
 	return hr;
 }
