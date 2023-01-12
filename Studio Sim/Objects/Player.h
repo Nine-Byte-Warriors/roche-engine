@@ -2,12 +2,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Sprite.h"
-#include "Physics.h"
-#include "Transform.h"
-#include "EventSystem.h"
-
 class Graphics;
+#include "Physics.h"
+#include "EventSystem.h"
 
 class Player : public Listener
 {

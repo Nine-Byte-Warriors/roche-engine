@@ -160,7 +160,7 @@ void Level1::EndFrame()
     ImGui::End();
 	
     Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
-    Vector2f Tpos = m_enemy.GetAI()->GetTargetPos();
+    Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
     m_tileMapEditor.SpawnControlWindow();
@@ -174,7 +174,7 @@ void Level1::EndFrame()
 void Level1::Update( const float dt )
 {
     // Update entities
-    UpdateTileMap(dt);
+    UpdateTileMap( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );
 }

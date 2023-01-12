@@ -6,7 +6,8 @@ Enemy::Enemy()
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
-	m_agent = std::make_shared<Agent>( m_transform );
+	m_physics = std::make_shared<Physics>( m_transform );
+	m_agent = std::make_shared<Agent>( m_physics );
 }
 
 void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type )

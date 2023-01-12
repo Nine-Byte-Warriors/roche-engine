@@ -2,10 +2,9 @@
 #include "Agent.h"
 #include <imgui/imgui.h>
 
-Agent::Agent( const std::shared_ptr<Transform>& transform )
+Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 {
 	m_fSpeed = 10.0f;
-	m_transform = transform;
 	
 	m_pStateMachine = new /*AILogic::*/AIStateMachine(this);
 	/*AILogic::*/AIState* pSeekState = m_pStateMachine->NewState(/*AILogic::*/AIStateTypes::Seek);
@@ -25,7 +24,7 @@ Agent::Agent( const std::shared_ptr<Transform>& transform )
 	AddToEvent();
 }
 
-void Agent::Update(float dt)
+void Agent::Update(const float dt)
 {
 	m_pStateMachine->Clear();
 	

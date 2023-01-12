@@ -3,7 +3,7 @@
 
 Physics::Physics(const std::shared_ptr<Transform>& transform) : m_transform(transform)
 {
-	m_fMass = 20.0f;
+	m_fMass = 40.0f;
 	m_vFriction = { 0.0f, 0.0f };
 	m_vNetForce = { 0.0f, 0.0f };
 	m_vVelocity = { 0.0f, 0.0f };

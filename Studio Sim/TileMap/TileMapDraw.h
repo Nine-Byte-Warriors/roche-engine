@@ -2,10 +2,8 @@
 #ifndef TILEMAPDRAW_H
 #define TILEMAPDRAW_H
 
-#include "Sprite.h"
-#include "Transform.h"
-
 class Graphics;
+#include "Transform.h"
 
 class TileMapDraw
 {
