@@ -20,6 +20,9 @@ void ImGuiManager::Initialize( HWND hWnd, ID3D11Device* device, ID3D11DeviceCont
 {
     ImGui_ImplWin32_Init( hWnd );
     ImGui_ImplDX11_Init( device, context );
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void ImGuiManager::BeginRender() const noexcept
@@ -61,7 +64,7 @@ void ImGuiManager::SpawnInstructionWindow() const noexcept
         ImGui::NewLine();
 
         // Get current fps
-        ImGuiIO io = ImGui::GetIO();
+        ImGuiIO& io = ImGui::GetIO();
         float fps = 1.0f / io.DeltaTime;
 
         // Only update every few frames

@@ -232,7 +232,7 @@ void TileMapEditor::SaveToNewFile()
 	m_bSaveNewButton = ImGui::Button("Save To New File");
 
 	static char saveFileName[128] = "";
-	ImGui::InputTextWithHint("", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::InputTextWithHint("TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
 
 	if (m_bSaveNewButton)
 	{

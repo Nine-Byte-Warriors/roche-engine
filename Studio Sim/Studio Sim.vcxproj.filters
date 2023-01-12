@@ -168,9 +168,6 @@
     <ClCompile Include="..\External\imgui\imgui_widgets.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Cube.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Camera.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -187,9 +184,6 @@
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Quad.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Camera2D.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Player.cpp">
@@ -251,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Collisions\Collision.cpp">
       <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\imgui\imgui_tables.cpp">
+      <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,9 +344,6 @@
     <ClInclude Include="Objects\Camera.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Cube.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\PostProcessing.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -372,9 +366,6 @@
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Quad.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Camera2D.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Player.h">
@@ -460,9 +451,6 @@
     <Image Include="Resources\directx.ico">
       <Filter>Resource Files\General</Filter>
     </Image>
-    <Image Include="Resources\Textures\bricks_TEX.dds">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tutorial01.aps">
@@ -505,12 +493,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\shader_PS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\shader_VS.hlsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\shaderPP_PS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
