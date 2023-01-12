@@ -145,14 +145,16 @@ void Level1::EndFrame()
 
     // Render imgui windows
     m_imgui->BeginRender();
-
-    if ( ImGui::Begin( "Scene Window", FALSE ) )
+    
+    if ( ImGui::Begin( "Scene Window", FALSE, ImGuiWindowFlags_NoResize ) )
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
+        const ImVec2 windowPadding = ImVec2( 20.0f, 35.0f );
+        ImVec2 windowSize = ImVec2( graphics->GetWidth() / 2, graphics->GetHeight() / 2 );
+        ImGui::SetWindowSize( ImVec2( windowPadding.x + windowSize.x, windowPadding.y + windowSize.y ) );
         ImGui::GetWindowDrawList()->AddImage(
             (void*)graphics->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, ImVec2( pos.x + graphics->GetWidth() / 2, pos.y + graphics->GetHeight() / 2 ),
-            ImVec2( 0, 0 ), ImVec2( 1, 1 )
+            pos, ImVec2( pos.x + windowSize.x, pos.y + windowSize.y )
         );
     }
     ImGui::End();
