@@ -32,19 +32,22 @@ public:
 	~RenderWindow() noexcept;
 
 	inline HCURSOR GetCursor( Color color ) noexcept { return cursors[color]; }
+	inline bool GetIsStopNextFrame() const noexcept{ return m_bIsStopNextFrame; }
+	inline void SetIsStopNextFrame( bool isStop ) { m_bIsStopNextFrame = isStop; }
 
 	void AddToEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 private:
 	void RegisterWindowClass() noexcept;
-	HWND hWnd = NULL;
-	HINSTANCE hInstance = NULL;
-	std::string windowTitle = "";
-	std::wstring windowTitle_Wide = L"";
-	std::string windowClass = "";
-	std::wstring windowClass_Wide = L"";
-	int width, height;
+	HWND m_hWnd = NULL;
+	HINSTANCE m_hInstance = NULL;
+	std::string m_sWindowTitle = "";
+	std::wstring m_wsWindowTitle = L"";
+	std::string m_sWindowClass = "";
+	std::wstring m_wsWindowClass = L"";
+	int m_iWidth, m_iHeight;
+	bool m_bIsStopNextFrame = true;
 	std::unordered_map<Color, HCURSOR> cursors;
 };
 

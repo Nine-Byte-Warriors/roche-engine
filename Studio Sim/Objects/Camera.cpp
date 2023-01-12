@@ -6,6 +6,7 @@ Camera::Camera()
 {
 	m_transform = std::make_shared<Transform>();
 	UpdateMatrix();
+	AddToEvent();
 }
 
 void Camera::SetProjectionValues( float width, float height, float nearZ, float farZ )
@@ -31,4 +32,29 @@ void Camera::UpdateMatrix()
 	XMMATRIX cameraRotationMatrix = XMMatrixRotationRollPitchYaw(
 		0.0f, 0.0f,
 		m_transform->GetRotation() );
+}
+
+void Camera::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+}
+
+void Camera::HandleEvent( Event* event )
+{
+	switch ( event->GetEventID() )
+	{
+	case EVENTID::WindowSizeChangeEvent:
+	{
+		XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
+
+		if ( sizeOfScreen.x < 500 )
+			sizeOfScreen.x = 1260;
+
+		if ( sizeOfScreen.y < 400 )
+			sizeOfScreen.y = 500;
+
+		SetProjectionValues( sizeOfScreen.x, sizeOfScreen.y, 0.0f, 1.0f );
+	}
+	break;
+	}
 }

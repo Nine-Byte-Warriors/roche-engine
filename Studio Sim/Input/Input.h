@@ -11,8 +11,8 @@ public:
 	void Initialize( RenderWindow& window );
 	void Update( float dt );
 
-	inline Mouse& GetMouse() noexcept { return mouse; }
-	inline Keyboard& GetKeyboard() noexcept { return keyboard; }
+	inline Mouse& GetMouse() noexcept { return m_mouse; }
+	inline Keyboard& GetKeyboard() noexcept { return m_keyboard; }
 
 private:
 	void UpdateMouse( float dt );

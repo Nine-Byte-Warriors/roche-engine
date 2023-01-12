@@ -5,13 +5,13 @@
 bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hInstance, const std::string& windowName, const std::string& windowClass, int width, int height )
 {
 	// register window class
-	this->hInstance = hInstance;
-	this->width = width;
-	this->height = height;
-	windowTitle = windowName;
-	windowTitle_Wide = StringHelper::StringToWide( windowName );
-	this->windowClass = windowClass;
-	windowClass_Wide = StringHelper::StringToWide( windowClass );
+	m_hInstance = hInstance;
+	m_iWidth = width;
+	m_iHeight = height;
+	m_sWindowTitle = windowName;
+	m_wsWindowTitle = StringHelper::StringToWide( windowName );
+	m_sWindowClass = windowClass;
+	m_wsWindowClass = StringHelper::StringToWide( windowClass );
 
 	cursors.emplace( Color::BLUE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR1 ) );
 	cursors.emplace( Color::RED, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR2 ) );
@@ -32,13 +32,13 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 	windowRect.top = centerScreenY;
 	windowRect.right = windowRect.left + width;
 	windowRect.bottom = windowRect.top + height;
-	AdjustWindowRect( &windowRect, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, FALSE );
+	AdjustWindowRect( &windowRect, WS_OVERLAPPEDWINDOW, FALSE);
 
 	// create window
-	hWnd = CreateWindow(
-		windowClass_Wide.c_str(),
-		windowTitle_Wide.c_str(),
-		WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+	m_hWnd = CreateWindow(
+		m_wsWindowClass.c_str(),
+		m_wsWindowTitle.c_str(),
+		WS_OVERLAPPEDWINDOW,
 		windowRect.left,
 		windowRect.top,
 		windowRect.right - windowRect.left,
@@ -49,16 +49,16 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 		pWindowContainer
 	);
 
-	if ( hWnd == NULL )
+	if ( m_hWnd == NULL )
 	{
-		ErrorLogger::Log( GetLastError(), "ERROR::CreateWindow Failed for window: " + windowTitle );
+		ErrorLogger::Log( GetLastError(), "ERROR::CreateWindow Failed for window: " + m_sWindowTitle );
 		return false;
 	}
 
 	// show window
-	ShowWindow( hWnd, SW_SHOW );
-	SetForegroundWindow( hWnd );
-	SetFocus( hWnd );
+	ShowWindow( m_hWnd, SW_SHOW );
+	SetForegroundWindow( m_hWnd );
+	SetFocus( m_hWnd );
 
 	return true;
 }
@@ -109,7 +109,7 @@ bool RenderWindow::ProcessMessages() noexcept
 {
 	MSG msg;
 	ZeroMemory( &msg, sizeof( MSG ) );
-	while ( PeekMessage( &msg, hWnd, 0u, 0u, PM_REMOVE ) )
+	while ( PeekMessage( &msg, m_hWnd, 0u, 0u, PM_REMOVE ) )
 	{
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
@@ -118,10 +118,10 @@ bool RenderWindow::ProcessMessages() noexcept
 	// check if the window was closed
 	if ( msg.message == WM_NULL )
 	{
-		if ( !IsWindow( hWnd ) )
+		if ( !IsWindow( m_hWnd ) )
 		{
-			hWnd = NULL;
-			UnregisterClass( windowClass_Wide.c_str(), hInstance );
+			m_hWnd = NULL;
+			UnregisterClass( m_wsWindowClass.c_str(), m_hInstance );
 			return false;
 		}
 	}
@@ -131,11 +131,12 @@ bool RenderWindow::ProcessMessages() noexcept
 
 HWND RenderWindow::GetHWND() const noexcept
 {
-	return hWnd;
+	return m_hWnd;
 }
 
 void RenderWindow::AddToEvent() noexcept
 {
+	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::QuitGameEvent, this );
 }
 
@@ -145,8 +146,16 @@ void RenderWindow::HandleEvent( Event* event )
 	{
 		case EVENTID::QuitGameEvent:
 		{
-			DestroyWindow( hWnd );
+			DestroyWindow( m_hWnd );
 			PostQuitMessage( 0 );
+		}
+		break;
+		case EVENTID::WindowSizeChangeEvent:
+		{
+			m_bIsStopNextFrame = false;
+			XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
+			m_iWidth = sizeOfScreen.x;
+			m_iHeight = sizeOfScreen.y;
 		}
 		break;
 	}
@@ -160,21 +169,21 @@ void RenderWindow::RegisterWindowClass() noexcept
 	wc.lpfnWndProc = HandleMsgSetup;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = static_cast<HICON>( LoadImage( hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 32, 32, 0 ) );
+	wc.hInstance = m_hInstance;
+	wc.hIcon = static_cast<HICON>( LoadImage( m_hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 32, 32, 0 ) );
     wc.hCursor = cursors[Color::BLUE];
     wc.hbrBackground = (HBRUSH)( COLOR_WINDOW + 1 );
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = windowClass_Wide.c_str();
-	wc.hIconSm = static_cast< HICON >( LoadImage( hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 16, 16, 0 ) );
+	wc.lpszClassName = m_wsWindowClass.c_str();
+	wc.hIconSm = static_cast< HICON >( LoadImage( m_hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 16, 16, 0 ) );
 	RegisterClassEx( &wc );
 }
 
 RenderWindow::~RenderWindow() noexcept
 {
-	if ( hWnd != NULL )
+	if ( m_hWnd != NULL )
 	{
-		UnregisterClass( windowClass_Wide.c_str(), hInstance );
-		DestroyWindow( hWnd );
+		UnregisterClass( m_wsWindowClass.c_str(), m_hInstance );
+		DestroyWindow( m_hWnd );
 	}
 }

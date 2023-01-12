@@ -7,6 +7,7 @@ bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 	m_viewWidth = width;
 	m_viewHeight = height;
 
+	AddToEvent();
 	InitializeDirectX( hWnd, false );
 
 	if ( !InitializeShaders() )
@@ -16,38 +17,6 @@ bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 		return false;
 	
 	return true;
-}
-
-void Graphics::ResizeWindow( HWND hWnd, XMFLOAT2 windowSize )
-{
-	m_viewWidth = windowSize.x;
-	m_viewHeight = windowSize.y;
-
-	{
-		// Window size: changing buffers size 
-		m_pContext->OMSetRenderTargets( 0u, nullptr, nullptr );
-
-		// Clear all buffers
-		m_pBackBuffer.reset();
-		m_pRenderTarget.reset();
-		m_pRasterizerStates.clear();
-		m_pSamplerStates.clear();
-		m_pDepthStencil.reset();
-		m_pViewport.reset();
-
-		try
-		{
-			// Preserve the existing buffer count and format.
-			// Automatically choose the width and height to match the client rect for HWNDs.
-			HRESULT hr = m_pSwapChain->GetSwapChain()->ResizeBuffers( 0u, 0u, 0u, DXGI_FORMAT_UNKNOWN, 0u );
-			InitializeDirectX( hWnd, true );
-		}
-		catch ( COMException& exception )
-		{
-			ErrorLogger::Log( exception );
-			return;
-		}
-	}
 }
 
 void Graphics::InitializeDirectX( HWND hWnd, bool resizingWindow )
@@ -185,5 +154,50 @@ void Graphics::EndFrame()
 			ErrorLogger::Log( m_pDevice->GetDeviceRemovedReason(), "Swap Chain. Graphics device removed!" ) :
 			ErrorLogger::Log( hr, "Swap Chain failed to render frame!" );
 		exit( -1 );
+	}
+}
+
+void Graphics::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::UpdateSettingsEvent, this );
+}
+
+void Graphics::HandleEvent( Event* event )
+{
+	switch ( event->GetEventID() )
+	{
+	case EVENTID::WindowSizeChangeEvent:
+	{
+		XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
+		m_viewWidth = sizeOfScreen.x;
+		m_viewHeight = sizeOfScreen.y;
+
+		// Window size: changing buffers size 
+		m_pContext->OMSetRenderTargets( 0u, nullptr, nullptr );
+
+		// Clear all buffers
+		m_pBackBuffer.reset();
+		m_pRenderTarget.reset();
+		m_pRasterizerStates.clear();
+		m_pSamplerStates.clear();
+		m_pDepthStencil.reset();
+		m_pViewport.reset();
+
+		try
+		{
+			// Preserve the existing buffer count and format.
+			// Automatically choose the width and height to match the client rect for HWNDs.
+			HRESULT hr = m_pSwapChain->GetSwapChain()->ResizeBuffers( 0u, 0u, 0u, DXGI_FORMAT_UNKNOWN, 0u );
+			COM_ERROR_IF_FAILED( hr, "Failed to resize buffers on window resize!" );
+			InitializeDirectX( nullptr, true );
+		}
+		catch ( COMException& exception )
+		{
+			ErrorLogger::Log( exception );
+			return;
+		}
+	}
+	break;
 	}
 }

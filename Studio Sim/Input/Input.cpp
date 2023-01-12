@@ -3,12 +3,12 @@
 
 void Input::Initialize( RenderWindow& window )
 {
-    renderWindow = window;
+    m_renderWindow = window;
 	pMousePos = new Vector2f();
 
     // Update keyboard processing
-    keyboard.DisableAutoRepeatKeys();
-    keyboard.DisableAutoRepeatChars();
+    m_keyboard.DisableAutoRepeatKeys();
+    m_keyboard.DisableAutoRepeatChars();
 }
 
 void Input::Update( float dt )
@@ -20,14 +20,14 @@ void Input::Update( float dt )
 void Input::UpdateMouse( float dt )
 {
     // update camera orientation
-    while ( !mouse.EventBufferIsEmpty() )
+    while ( !m_mouse.EventBufferIsEmpty() )
     {
-        Mouse::MouseEvent me = mouse.ReadEvent();
+        Mouse::MouseEvent me = m_mouse.ReadEvent();
         pMousePos->x = me.GetPosX();
         pMousePos->y = me.GetPosY();
         EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
         
-        if ( mouse.IsRightDown() || !cursorEnabled )
+        if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )
             {
@@ -40,9 +40,9 @@ void Input::UpdateMouse( float dt )
 void Input::UpdateKeyboard( float dt )
 {
     // Handle input for single key presses
-	while ( !keyboard.KeyBufferIsEmpty() )
+	while ( !m_keyboard.KeyBufferIsEmpty() )
 	{
-		Keyboard::KeyboardEvent kbe = keyboard.ReadKey();
+		Keyboard::KeyboardEvent kbe = m_keyboard.ReadKey();
 		unsigned char keycode = kbe.GetKeyCode();
 
 		// Set cursor enabled/disabled
@@ -57,15 +57,15 @@ void Input::UpdateKeyboard( float dt )
 	}
 
     // Handle continuous key presses
-    if ( keyboard.KeyIsPressed( 'W' ) )
+    if ( m_keyboard.KeyIsPressed( 'W' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerUp );
 
-    if ( keyboard.KeyIsPressed( 'A' ) )
+    if ( m_keyboard.KeyIsPressed( 'A' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerLeft );
 
-    if ( keyboard.KeyIsPressed( 'S' ) )
+    if ( m_keyboard.KeyIsPressed( 'S' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerDown );
 
-    if ( keyboard.KeyIsPressed( 'D' ) )
+    if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
 }

@@ -150,7 +150,7 @@ void Level1::EndFrame()
     m_imgui->BeginRender();
     m_imgui->SpawnInstructionWindow();
     
-    if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
+    if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
     {
         ImGui::Checkbox( "Use Custom Post-Processing?", &m_bUseCustomPP );
         m_bUseCustomPP ?

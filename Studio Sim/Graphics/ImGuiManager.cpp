@@ -37,7 +37,7 @@ void ImGuiManager::EndRender() const noexcept
 
 void ImGuiManager::SpawnInstructionWindow() const noexcept
 {   
-	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
+	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( "Camera Controls" );
         ImGui::NewLine();
@@ -56,7 +56,7 @@ void ImGuiManager::SpawnInstructionWindow() const noexcept
 		ImGui::Text( "END       Disable Mouse" );
 		ImGui::Text( "ESCAPE    Close Game" );
 
-    ImGui::NewLine();
+        ImGui::NewLine();
         ImGui::Separator();
         ImGui::NewLine();
 

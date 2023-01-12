@@ -12,13 +12,13 @@
 #include "DepthStencil.h"
 #include "RenderTarget.h"
 #include "ConstantBuffer.h"
+#include "EventSystem.h"
 #include "structures.h"
 
-class Graphics
+class Graphics : public Listener
 {
 public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
-	void ResizeWindow( HWND hWnd, XMFLOAT2 windowSize );
 	void UpdateRenderState();
 	
 	void BeginRTT();
@@ -33,6 +33,9 @@ public:
 	inline ID3D11Device* GetDevice() const noexcept { return m_pDevice.Get(); }
 	inline ID3D11DeviceContext* GetContext() const noexcept { return m_pContext.Get(); }
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
+
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );

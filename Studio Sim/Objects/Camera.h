@@ -3,12 +3,13 @@
 #define CAMERA_H
 
 #include "Transform.h"
+#include "EventSystem.h"
 
 /// <summary>
 /// Creates a 2D camera which creates an orthographic view on the scene.
 /// Used primarily for rendering sprites such as UI components.
 /// </summary>
-class Camera
+class Camera : public Listener
 {
 public:
 	Camera();
@@ -16,6 +17,9 @@ public:
 	const XMMATRIX& GetOrthoMatrix() const noexcept;
 	const XMMATRIX& GetWorldOrthoMatrix() const noexcept;
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 private:
 	void UpdateMatrix();
 	XMMATRIX orthoMatrix;
