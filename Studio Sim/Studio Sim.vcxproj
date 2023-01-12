@@ -237,6 +237,7 @@
     <ClCompile Include="AILogic\AISeek.cpp" />
     <ClCompile Include="AILogic\AIStateMachine.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Collisions\Collision.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp" />
@@ -289,6 +290,9 @@
     <ClInclude Include="AILogic\AIState.h" />
     <ClInclude Include="AILogic\AIStateMachine.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Collisions\Collider.h" />
+    <ClInclude Include="Collisions\Collision.h" />
+    <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
