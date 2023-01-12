@@ -142,12 +142,25 @@ void Level1::EndFrame()
 
     // Render scene to texture
     graphics->BeginRTT();
-    m_bUseCustomPP ?
-        graphics->EndRTT() :
-        m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
+    graphics->RenderRTT();
+    //m_bUseCustomPP ?
+        graphics->EndRTT();// :
+        //m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
 
     // Render imgui windows
     m_imgui->BeginRender();
+
+    if ( ImGui::Begin( "Scene Window", FALSE ) )
+    {
+        ImVec2 pos = ImGui::GetCursorScreenPos();
+        ImGui::GetWindowDrawList()->AddImage(
+            (void*)graphics->GetRenderTargetPP()->GetShaderResourceView(),
+            pos, ImVec2( pos.x + graphics->GetWidth() / 2, pos.y + graphics->GetHeight() / 2 ),
+            ImVec2( 0, 0 ), ImVec2( 1, 1 )
+        );
+    }
+    ImGui::End();
+
     m_imgui->SpawnInstructionWindow();
     
     if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )

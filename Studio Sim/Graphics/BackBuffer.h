@@ -25,7 +25,7 @@ namespace Bind
 				COM_ERROR_IF_FAILED( hr, "Failed to create swap chain!" );
 
 				CD3D11_RENDER_TARGET_VIEW_DESC rtvDesc( D3D11_RTV_DIMENSION_TEXTURE2D, DXGI_FORMAT_R8G8B8A8_UNORM );
-				hr = device->CreateRenderTargetView( pBackBuffer.Get(), &rtvDesc, backBuffer.GetAddressOf() );
+				hr = device->CreateRenderTargetView( pBackBuffer.Get(), &rtvDesc, backBufferView.GetAddressOf() );
 				COM_ERROR_IF_FAILED( hr, "Failed to create render target view!" );
 			}
 			catch ( COMException& exception )
@@ -36,8 +36,8 @@ namespace Bind
 		}
 		inline void Bind( ID3D11DeviceContext* context, DepthStencil* depthStencil, float clearColor[4] ) noexcept
 		{
-			context->OMSetRenderTargets( 1u, backBuffer.GetAddressOf(), depthStencil->GetDepthStencilView() );
-			context->ClearRenderTargetView( backBuffer.Get(), clearColor );
+			context->OMSetRenderTargets( 1u, backBufferView.GetAddressOf(), depthStencil->GetDepthStencilView() );
+			context->ClearRenderTargetView( backBufferView.Get(), clearColor );
 		}
 		inline void BindNull( ID3D11DeviceContext* context ) noexcept
 		{
@@ -46,14 +46,14 @@ namespace Bind
 		}
 		inline ID3D11RenderTargetView* GetBackBuffer() noexcept
 		{
-			return backBuffer.Get();
+			return backBufferView.Get();
 		}
 		inline ID3D11RenderTargetView** GetBackBufferPtr() noexcept
 		{
-			return backBuffer.GetAddressOf();
+			return backBufferView.GetAddressOf();
 		}
 	private:
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> backBuffer;
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> backBufferView;
 	};
 }
 

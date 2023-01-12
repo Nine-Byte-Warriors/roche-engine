@@ -22,6 +22,7 @@ public:
 	void UpdateRenderState();
 	
 	void BeginRTT();
+	void RenderRTT();
 	void EndRTT();
 	void SpawnControlWindowRTT();
 
@@ -30,9 +31,13 @@ public:
 
 	inline UINT GetWidth() const noexcept { return m_viewWidth; }
 	inline UINT GetHeight() const noexcept { return m_viewHeight; }
+	
 	inline ID3D11Device* GetDevice() const noexcept { return m_pDevice.Get(); }
 	inline ID3D11DeviceContext* GetContext() const noexcept { return m_pContext.Get(); }
+	
+	inline Bind::BackBuffer* GetBackBuffer() const noexcept { return &*m_pBackBuffer; }
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
+	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }
 
 	void AddToEvent() noexcept;
 	void HandleEvent( Event* event ) override;
@@ -63,8 +68,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;
 
-	std::shared_ptr<Bind::RenderTarget> m_pRenderTarget;
 	std::shared_ptr<Bind::DepthStencil> m_pDepthStencil;
+	std::shared_ptr<Bind::RenderTarget> m_pRenderTarget;
+	std::shared_ptr<Bind::RenderTarget> m_pRenderTargetPP;
 
 	std::shared_ptr<Bind::Viewport> m_pViewport;
 	std::shared_ptr<Bind::BackBuffer> m_pBackBuffer;
