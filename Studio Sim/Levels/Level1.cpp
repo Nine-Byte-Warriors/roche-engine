@@ -141,11 +141,7 @@ void Level1::EndFrame()
     m_spriteBatch->End();
 
     // Render scene to texture
-    graphics->BeginRTT();
-    graphics->RenderRTT();
-    //m_bUseCustomPP ?
-        graphics->EndRTT();// :
-        //m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
+    graphics->RenderSceneToTexture();
 
     // Render imgui windows
     m_imgui->BeginRender();

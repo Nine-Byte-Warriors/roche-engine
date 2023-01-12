@@ -21,9 +21,7 @@ public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
 	void UpdateRenderState();
 	
-	void BeginRTT();
-	void RenderRTT();
-	void EndRTT();
+	void RenderSceneToTexture();
 	void SpawnControlWindowRTT();
 
 	void BeginFrame();
