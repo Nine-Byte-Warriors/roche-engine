@@ -30,6 +30,7 @@ void ImGuiManager::BeginRender() const noexcept
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport( ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode );
 }
 
 void ImGuiManager::EndRender() const noexcept
