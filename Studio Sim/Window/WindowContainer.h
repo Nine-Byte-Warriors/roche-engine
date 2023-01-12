@@ -4,7 +4,6 @@
 
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "Graphics.h"
 #include "RenderWindow.h"
 
 class WindowContainer
@@ -15,7 +14,7 @@ public:
 
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
-	inline bool IsCursorEnabled() const noexcept { return cursorEnabled; }
+	inline bool IsCursorEnabled() const noexcept { return m_bCursorEnabled; }
 
 protected:
 	void ConfineCursor() noexcept;
@@ -25,14 +24,12 @@ protected:
 	void EnableImGuiMouse() noexcept;
 	void DisableImGuiMouse() noexcept;
 
-	bool windowResized = false;
-	bool cursorEnabled = true;
-	XMFLOAT2 windowSize;
+	bool m_bCursorEnabled = true;
+	XMFLOAT2 m_windowSize;
 
-	RenderWindow renderWindow;
-	Graphics graphics;
-	Keyboard keyboard;
-	Mouse mouse;
+	RenderWindow m_renderWindow;
+	Keyboard m_keyboard;
+	Mouse m_mouse;
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include "AIIdle.h"
 #include "AIFlee.h"
 
-//using namespace AILogic;
+using namespace AILogic;
 
 void AIStateMachine::UpdateMachine(float fDelta)
 {

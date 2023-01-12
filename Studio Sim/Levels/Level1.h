@@ -2,14 +2,13 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "Cube.h"
 #include "Enemy.h"
+#include "Camera.h"
 #include "Player.h"
-#include "Camera2D.h"
 #include "PostProcessing.h"
 #include "LevelStateMachine.h"
 #include "TileMapEditor.h"
-#include <TileMap/TileMapDraw.h>
+#include "TileMapDraw.h"
 
 #include <dxtk/SpriteFont.h>
 #include <dxtk/SpriteBatch.h>
@@ -39,18 +38,15 @@ private:
 	void RenderFrameTileMap();
 
 	// Objects
-	Cube m_cube;
 	Enemy m_enemy;
+	Camera m_camera;
 	Player m_player;
-	Camera2D m_camera2D;
 	
 	bool m_bUseCustomPP;
 	TileMapEditor m_tileMapEditor;
-	std::vector<TileMapDraw> m_tileMapDraw;
 	PostProcessing m_postProcessing;
-	
 	ConstantBuffer<Matrices> m_cbMatrices;
-	ConstantBuffer<Matrices2D> m_cbMatrices2D;
+	std::vector<TileMapDraw> m_tileMapDraw;
 
 	// Fonts
 	std::unique_ptr<SpriteFont> m_spriteFont;

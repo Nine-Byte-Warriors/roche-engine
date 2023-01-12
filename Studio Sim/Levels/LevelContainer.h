@@ -2,7 +2,6 @@
 #ifndef LEVELCONTAINER_H
 #define LEVELCONTAINER_H
 
-#include "Camera.h"
 #include "Graphics.h"
 #include "ImGuiManager.h"
 #include "PostProcessing.h"
@@ -17,10 +16,9 @@ class LevelContainer
 	friend class Application;
 public:
 	virtual ~LevelContainer( void ) = default;
-	void Initialize( Graphics* gfx, Camera* camera, ImGuiManager* imgui )
+	void Initialize( Graphics* gfx, ImGuiManager* imgui )
 	{
 		graphics = gfx;
-		m_camera = camera;
 		m_imgui = imgui;
 	}
 	
@@ -40,7 +38,6 @@ public:
 
 protected:
 	// Objects
-	Camera* m_camera;
 	Graphics* graphics;
 	ImGuiManager* m_imgui;
 

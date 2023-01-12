@@ -7,6 +7,7 @@ bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 	m_viewWidth = width;
 	m_viewHeight = height;
 
+	AddToEvent();
 	InitializeDirectX( hWnd, false );
 
 	if ( !InitializeShaders() )
@@ -16,38 +17,6 @@ bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 		return false;
 	
 	return true;
-}
-
-void Graphics::ResizeWindow( HWND hWnd, XMFLOAT2 windowSize )
-{
-	m_viewWidth = windowSize.x;
-	m_viewHeight = windowSize.y;
-
-	{
-		// Window size: changing buffers size 
-		m_pContext->OMSetRenderTargets( 0u, nullptr, nullptr );
-
-		// Clear all buffers
-		m_pBackBuffer.reset();
-		m_pRenderTarget.reset();
-		m_pRasterizerStates.clear();
-		m_pSamplerStates.clear();
-		m_pDepthStencil.reset();
-		m_pViewport.reset();
-
-		try
-		{
-			// Preserve the existing buffer count and format.
-			// Automatically choose the width and height to match the client rect for HWNDs.
-			HRESULT hr = m_pSwapChain->GetSwapChain()->ResizeBuffers( 0u, 0u, 0u, DXGI_FORMAT_UNKNOWN, 0u );
-			InitializeDirectX( hWnd, true );
-		}
-		catch ( COMException& exception )
-		{
-			ErrorLogger::Log( exception );
-			return;
-		}
-	}
 }
 
 void Graphics::InitializeDirectX( HWND hWnd, bool resizingWindow )
@@ -84,14 +53,8 @@ bool Graphics::InitializeShaders()
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		};
 
-		// Create the texture shaders
-		HRESULT hr = m_vertexShader.Initialize( m_pDevice, L"Resources\\Shaders\\shader_VS.hlsl", layout, ARRAYSIZE( layout ) );
-		COM_ERROR_IF_FAILED( hr, "Failed to create texture vertex shader!" );
-		hr = m_pixelShader.Initialize( m_pDevice, L"Resources\\Shaders\\shader_PS.hlsl" );
-		COM_ERROR_IF_FAILED( hr, "Failed to create texture pixel shader!" );
-
 		// Create the sprite shaders
-		hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
+		HRESULT hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite vertex shader!" );
 		hr = m_pixelShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_PS_Discard.hlsl" );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite pixel shader!" );
@@ -117,14 +80,7 @@ bool Graphics::InitializeShaders()
 	return true;
 }
 
-void Graphics::UpdateRenderState3D()
-{
-	// Set default render state for objects
-    m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
-	Shaders::BindShaders( m_pContext.Get(), m_vertexShader, m_pixelShader );
-}
-
-void Graphics::UpdateRenderState2D()
+void Graphics::UpdateRenderState()
 {
 	// Set default render state for objects
     m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
@@ -198,5 +154,50 @@ void Graphics::EndFrame()
 			ErrorLogger::Log( m_pDevice->GetDeviceRemovedReason(), "Swap Chain. Graphics device removed!" ) :
 			ErrorLogger::Log( hr, "Swap Chain failed to render frame!" );
 		exit( -1 );
+	}
+}
+
+void Graphics::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::UpdateSettingsEvent, this );
+}
+
+void Graphics::HandleEvent( Event* event )
+{
+	switch ( event->GetEventID() )
+	{
+	case EVENTID::WindowSizeChangeEvent:
+	{
+		XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
+		m_viewWidth = sizeOfScreen.x;
+		m_viewHeight = sizeOfScreen.y;
+
+		// Window size: changing buffers size 
+		m_pContext->OMSetRenderTargets( 0u, nullptr, nullptr );
+
+		// Clear all buffers
+		m_pBackBuffer.reset();
+		m_pRenderTarget.reset();
+		m_pRasterizerStates.clear();
+		m_pSamplerStates.clear();
+		m_pDepthStencil.reset();
+		m_pViewport.reset();
+
+		try
+		{
+			// Preserve the existing buffer count and format.
+			// Automatically choose the width and height to match the client rect for HWNDs.
+			HRESULT hr = m_pSwapChain->GetSwapChain()->ResizeBuffers( 0u, 0u, 0u, DXGI_FORMAT_UNKNOWN, 0u );
+			COM_ERROR_IF_FAILED( hr, "Failed to resize buffers on window resize!" );
+			InitializeDirectX( nullptr, true );
+		}
+		catch ( COMException& exception )
+		{
+			ErrorLogger::Log( exception );
+			return;
+		}
+	}
+	break;
 	}
 }

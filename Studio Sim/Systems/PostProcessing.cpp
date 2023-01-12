@@ -61,7 +61,7 @@ void PostProcessing::Bind( ID3D11DeviceContext* pContext, Bind::RenderTarget* pR
 
 void PostProcessing::SpawnControlWindow()
 {
-	if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
+	if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		// Switch between basic/tone map post-process options
 		ImGui::Text( "Post-Process Type:" );
@@ -77,7 +77,6 @@ void PostProcessing::SpawnControlWindow()
 		{
 			// Overlay effects
 			static int activeEffect = 0;
-			static bool selectedEffect[6];
 			static std::string previewValueEffect = "None";
 			static const char* effectList[]{ "None", "Sepia", "Monochrome", "Gaussian Blur", "Down-Scale", "Bloom" };
 			if ( ImGui::BeginCombo( "Overlay Effect", previewValueEffect.c_str() ) )

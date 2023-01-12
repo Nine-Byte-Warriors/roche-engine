@@ -6,13 +6,6 @@ using namespace DirectX;
 
 struct Matrices
 {
-	XMMATRIX mWorld;
-	XMMATRIX mView;
-	XMMATRIX mProjection;
-};
-
-struct Matrices2D
-{
 	XMMATRIX wvpMatrix;
 };
 

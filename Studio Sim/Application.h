@@ -7,7 +7,6 @@
 #include "DDSTextureLoader.h"
 #include "Resource.h"
 
-#include "Cube.h"
 #include "Input.h"
 #include "Timer.h"
 #include "Shaders.h"
@@ -16,6 +15,7 @@
 #include "ConstantBuffer.h"
 #include "PostProcessing.h"
 #include "WindowContainer.h"
+#include "Graphics.h"
 #include "Level1.h"
 
 class Application : public WindowContainer
@@ -29,15 +29,13 @@ public:
 	void Render();
 private:
 	// Levels
-	uint32_t level1_ID;
-	std::shared_ptr<Level1> level1;
-	LevelStateMachine stateMachine;
+	uint32_t m_uLevel1_ID;
+	LevelStateMachine m_stateMachine;
+	std::shared_ptr<Level1> m_pLevel1;
 
 	// Objects
-	Camera m_camera;
 	ImGuiManager m_imgui;
-
-	// Data
+	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;
 };

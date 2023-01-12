@@ -2,20 +2,19 @@
 #ifndef TILEMAPDRAW_H
 #define TILEMAPDRAW_H
 
-#include <Objects/Sprite.h>
+class Graphics;
 #include "Transform.h"
 
 class TileMapDraw
 {
 public:
 	TileMapDraw();
+	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& path);
 	void Update(const float dt);
 
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 private:
-	void UpdateMatrix();
-
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Transform> m_transform;
 };

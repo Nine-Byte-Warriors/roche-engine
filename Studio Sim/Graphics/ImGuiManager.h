@@ -15,7 +15,6 @@ public:
 	void BeginRender() const noexcept;
 	void EndRender() const noexcept;
 	void SpawnInstructionWindow() const noexcept;
-	void SpawnDebugWindow(float fGOX, float fGOY, float fX, float fY) const noexcept;
 private:
 	void SetBlackGoldStyle();
 };

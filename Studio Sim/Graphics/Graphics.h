@@ -12,16 +12,14 @@
 #include "DepthStencil.h"
 #include "RenderTarget.h"
 #include "ConstantBuffer.h"
+#include "EventSystem.h"
 #include "structures.h"
 
-class Graphics
+class Graphics : public Listener
 {
 public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
-	void ResizeWindow( HWND hWnd, XMFLOAT2 windowSize );
-	
-	void UpdateRenderState3D();
-	void UpdateRenderState2D();
+	void UpdateRenderState();
 	
 	void BeginRTT();
 	void EndRTT();
@@ -35,6 +33,9 @@ public:
 	inline ID3D11Device* GetDevice() const noexcept { return m_pDevice.Get(); }
 	inline ID3D11DeviceContext* GetContext() const noexcept { return m_pContext.Get(); }
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
+
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );
@@ -51,9 +52,6 @@ private:
 	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	// Shaders
-	VertexShader m_vertexShader;
-	PixelShader m_pixelShader;
-
 	VertexShader m_vertexShader2D;
 	PixelShader m_pixelShader2D;
 

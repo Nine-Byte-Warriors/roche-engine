@@ -26,7 +26,6 @@ WindowContainer::WindowContainer()
 extern LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    windowResized = false;
     if ( ImGui_ImplWin32_WndProcHandler( hWnd, uMsg, wParam, lParam ) )
         return true;
     const auto& imio = ImGui::GetIO();
@@ -34,7 +33,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     switch( uMsg )
     {
     case WM_ACTIVATE:
-		if ( !cursorEnabled )
+		if ( !m_bCursorEnabled )
 		{
 			if ( wParam & WA_ACTIVE )
 				DisableCursor();
@@ -54,18 +53,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         if ( imio.WantCaptureKeyboard )
 			return 0;
         unsigned char keycode = static_cast<unsigned char>( wParam );
-        if ( keyboard.IsKeysAutoRepeat() )
-            keyboard.OnKeyPressed( keycode );
+        if ( m_keyboard.IsKeysAutoRepeat() )
+            m_keyboard.OnKeyPressed( keycode );
         else
         {
             const bool wasPressed = lParam & 0x40000000;
             if ( !wasPressed )
-                keyboard.OnKeyPressed( keycode );
+                m_keyboard.OnKeyPressed( keycode );
         }
         switch ( wParam )
         {
         case VK_ESCAPE:
-            DestroyWindow( renderWindow.GetHWND() );
+            DestroyWindow( m_renderWindow.GetHWND() );
             PostQuitMessage( 0 );
             return 0;
         }
@@ -77,7 +76,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         if ( imio.WantCaptureKeyboard )
 			return 0;
         unsigned char keycode = static_cast<unsigned char>( wParam );
-        keyboard.OnKeyReleased( keycode );
+        m_keyboard.OnKeyReleased( keycode );
         return 0;
     }
     case WM_CHAR:
@@ -85,13 +84,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         if ( imio.WantCaptureKeyboard )
 			return 0;
         unsigned char ch = static_cast<unsigned char>( wParam );
-        if ( keyboard.IsCharsAutoRepeat() )
-            keyboard.OnChar( ch );
+        if ( m_keyboard.IsCharsAutoRepeat() )
+            m_keyboard.OnChar( ch );
         else
         {
             const bool wasPressed = lParam & 0x40000000;
             if ( !wasPressed )
-                keyboard.OnChar( ch );
+                m_keyboard.OnChar( ch );
         }
         return 0;
     }
@@ -102,53 +101,53 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
 		const POINTS pt = MAKEPOINTS( lParam );
-		if ( !cursorEnabled )
+		if ( !m_bCursorEnabled )
 		{
-			if ( !mouse.IsInWindow() )
+			if ( !m_mouse.IsInWindow() )
 			{
-				SetCapture( renderWindow.GetHWND() );
-				mouse.OnMouseEnter( x, y );
+				SetCapture( m_renderWindow.GetHWND() );
+                m_mouse.OnMouseEnter( x, y );
 				HideCursor();
 			}
 			return 0;
 		}
 		if ( imio.WantCaptureMouse )
 			return 0;
-		if ( pt.x >= 0 && pt.x < windowSize.x && pt.y >= 0 && pt.y < windowSize.y )
+		if ( pt.x >= 0 && pt.x < m_windowSize.x && pt.y >= 0 && pt.y < m_windowSize.y )
 		{
-			mouse.OnMouseMove( x, y );
-			if ( !mouse.IsInWindow() )
+            m_mouse.OnMouseMove( x, y );
+			if ( !m_mouse.IsInWindow() )
 			{
-				SetCapture( renderWindow.GetHWND() );
-				mouse.OnMouseEnter( x, y );
+				SetCapture( m_renderWindow.GetHWND() );
+                m_mouse.OnMouseEnter( x, y );
 			}
 		}
 		else
 		{
 			if ( wParam & ( MK_LBUTTON | MK_RBUTTON ) )
 			{
-				mouse.OnMouseMove( x, y );
+                m_mouse.OnMouseMove( x, y );
 			}
 			else
 			{
 				ReleaseCapture();
-				mouse.OnMouseLeave( x, y );
+                m_mouse.OnMouseLeave( x, y );
 			}
 		}
 		return 0;
     }
     case WM_LBUTTONDOWN:
     {
-        SetForegroundWindow( renderWindow.GetHWND() );
-		SetCursor( renderWindow.GetCursor( RenderWindow::Color::ORANGE ) );
+        SetForegroundWindow( m_renderWindow.GetHWND() );
+		SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::ORANGE ) );
 		if ( imio.WantCaptureMouse )
 			return 0;
 
 		int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-		mouse.OnLeftPressed( x, y );
+        m_mouse.OnLeftPressed( x, y );
 
-		if ( !cursorEnabled )
+		if ( !m_bCursorEnabled )
 		{
 			ConfineCursor();
 			HideCursor();
@@ -157,19 +156,19 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     }
     case WM_LBUTTONUP:
     {
-        SetCursor( renderWindow.GetCursor( RenderWindow::Color::BLUE ) );
+        SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::BLUE ) );
 		if ( imio.WantCaptureMouse )
 			return 0;
 
 		int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-		mouse.OnLeftReleased( x, y );
+        m_mouse.OnLeftReleased( x, y );
 
 		const POINTS pt = MAKEPOINTS( lParam );
-		if ( pt.x < 0 || pt.x >= windowSize.x || pt.y < 0 || pt.y >= windowSize.y )
+		if ( pt.x < 0 || pt.x >= m_windowSize.x || pt.y < 0 || pt.y >= m_windowSize.y )
 		{
 			ReleaseCapture();
-			mouse.OnMouseLeave( x, y );
+            m_mouse.OnMouseLeave( x, y );
 		}
 		return 0;
     }
@@ -180,7 +179,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
         int y = HIWORD( lParam );
-        mouse.OnRightPressed( x, y );
+        m_mouse.OnRightPressed( x, y );
         return 0;
     }
     case WM_RBUTTONUP:
@@ -190,13 +189,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
 		int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-		mouse.OnRightReleased( x, y );
+        m_mouse.OnRightReleased( x, y );
 
 		const POINTS pt = MAKEPOINTS( lParam );
-		if ( pt.x < 0 || pt.x >= windowSize.x || pt.y < 0 || pt.y >= windowSize.y )
+		if ( pt.x < 0 || pt.x >= m_windowSize.x || pt.y < 0 || pt.y >= m_windowSize.y )
 		{
 			ReleaseCapture();
-			mouse.OnMouseLeave( x, y );
+            m_mouse.OnMouseLeave( x, y );
 		}
 		return 0;
     }
@@ -206,7 +205,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 			return 0;
         int x = LOWORD( lParam );
         int y = HIWORD( lParam );
-        mouse.OnMiddlePressed( x, y );
+        m_mouse.OnMiddlePressed( x, y );
         return 0;
     }
     case WM_MBUTTONUP:
@@ -215,7 +214,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 			return 0;
         int x = LOWORD( lParam );
         int y = HIWORD( lParam );
-        mouse.OnMiddleReleased( x, y );
+        m_mouse.OnMiddleReleased( x, y );
         return 0;
     }
     case WM_MOUSEWHEEL:
@@ -226,11 +225,11 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         int y = HIWORD( lParam );
         if ( GET_WHEEL_DELTA_WPARAM( wParam ) > 0 )
         {
-            mouse.OnWheelUp( x, y );
+            m_mouse.OnWheelUp( x, y );
         }
         else if ( GET_WHEEL_DELTA_WPARAM( wParam ) < 0 )
         {
-            mouse.OnWheelDown( x, y );
+            m_mouse.OnWheelDown( x, y );
         }
         return 0;
     }
@@ -246,7 +245,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
                 RAWINPUT* raw = reinterpret_cast<RAWINPUT*>( rawData.get() );
                 if ( raw->header.dwType == RIM_TYPEMOUSE )
                 {
-                    mouse.OnMouseMoveRaw( raw->data.mouse.lLastX, raw->data.mouse.lLastY );
+                    m_mouse.OnMouseMoveRaw( raw->data.mouse.lLastX, raw->data.mouse.lLastY );
                 }
             }
         }
@@ -256,28 +255,22 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_SIZE:
 	{
 		RECT windowRect = { 0, 0 };
-		if ( GetClientRect( renderWindow.GetHWND(), &windowRect ) )
+		if ( GetClientRect( m_renderWindow.GetHWND(), &windowRect ) )
 		{
-			windowSize =
+			m_windowSize =
             {
                 static_cast<float>( windowRect.right - windowRect.left ),
                 static_cast<float>( windowRect.bottom - windowRect.top )
             };
 
-            if ( windowSize.x < 500 )
-            {
-				windowSize.x = 500;
-                windowResized = true;
-            }
+            if ( m_windowSize.x < 500 )
+				m_windowSize.x = 1260;
 
-			if ( windowSize.y < 400 )
+			if ( m_windowSize.y < 400 )
             {
-				windowSize.y = 400;
-                windowResized = true;
+				m_windowSize.y = 500;
+                EventSystem::Instance()->AddEvent( EVENTID::WindowSizeChangeEvent, &m_windowSize );
             }
-
-            if ( windowResized )
-                graphics.ResizeWindow( hWnd, windowSize );
 
 			return DefWindowProc( hWnd, uMsg, wParam, lParam );;
 		}
@@ -292,7 +285,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
 void WindowContainer::EnableCursor() noexcept
 {
-	cursorEnabled = true;
+	m_bCursorEnabled = true;
 	ShowCursor();
 	EnableImGuiMouse();
 	FreeCursor();
@@ -300,7 +293,7 @@ void WindowContainer::EnableCursor() noexcept
 
 void WindowContainer::DisableCursor() noexcept
 {
-	cursorEnabled = false;
+	m_bCursorEnabled = false;
 	HideCursor();
 	DisableImGuiMouse();
 	ConfineCursor();
@@ -309,8 +302,8 @@ void WindowContainer::DisableCursor() noexcept
 void WindowContainer::ConfineCursor() noexcept
 {
 	RECT rect;
-	GetClientRect( renderWindow.GetHWND(), &rect );
-	MapWindowPoints( renderWindow.GetHWND(), nullptr, reinterpret_cast<POINT*>( &rect ), 2 );
+	GetClientRect( m_renderWindow.GetHWND(), &rect );
+	MapWindowPoints( m_renderWindow.GetHWND(), nullptr, reinterpret_cast<POINT*>( &rect ), 2 );
 	ClipCursor( &rect );
 }
 
