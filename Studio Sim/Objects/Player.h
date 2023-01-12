@@ -7,10 +7,13 @@
 #include "Transform.h"
 #include "EventSystem.h"
 
+class Graphics;
+
 class Player : public Listener
 {
 public:
 	Player();
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
 	void SpawnControlWindow();
 

@@ -19,9 +19,7 @@ class Graphics
 public:
 	bool Initialize( HWND hWnd, UINT width, UINT height );
 	void ResizeWindow( HWND hWnd, XMFLOAT2 windowSize );
-	
-	void UpdateRenderState3D();
-	void UpdateRenderState2D();
+	void UpdateRenderState();
 	
 	void BeginRTT();
 	void EndRTT();
@@ -51,9 +49,6 @@ private:
 	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	// Shaders
-	VertexShader m_vertexShader;
-	PixelShader m_pixelShader;
-
 	VertexShader m_vertexShader2D;
 	PixelShader m_pixelShader2D;
 

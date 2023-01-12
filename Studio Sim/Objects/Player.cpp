@@ -1,20 +1,19 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Graphics.h"
 #include <imgui/imgui.h>
 
 Player::Player()
 {
 	m_sprite = std::make_shared<Sprite>();
-	
-	m_transform = std::make_shared<Transform>();
-	m_transform->SetPosition( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	m_transform->SetRotation( XMFLOAT3( 0.0f, 0.0f, 0.0f ) );
-	m_transform->SetScale( XMFLOAT3( 1.0f, 1.0f, 1.0f ) );
-	m_transform->Update(); // Initial updated required
-
+	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
-
 	AddToEvent();
+}
+
+void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
+{
+	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Player, mat );
 }
 
 void Player::Update( const float dt )
@@ -28,9 +27,8 @@ void Player::SpawnControlWindow()
 {
 	if ( ImGui::Begin( "Player", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
-		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPositionFloat3().x ) ).c_str() );
-		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPositionFloat3().y ) ).c_str() );
-		ImGui::Text( std::string( "Z: " ).append( std::to_string( m_transform->GetPositionFloat3().z ) ).c_str() );
+		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPosition().x ) ).c_str() );
+		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPosition().y ) ).c_str() );
 	}
 	ImGui::End();
 }
@@ -45,12 +43,13 @@ void Player::AddToEvent()
 
 void Player::HandleEvent( Event* event )
 {
+	float movementFactor = 10.0f;
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::PlayerUp:    m_physics->AddThrust( {  0.0f,	10.0f }, 0.05f ); break;
-	case EVENTID::PlayerLeft:  m_physics->AddThrust( { -10.0f,  0.0f },	 0.05f ); break;
-	case EVENTID::PlayerDown:  m_physics->AddThrust( {	 0.0f, -10.0f }, 0.05f ); break;
-	case EVENTID::PlayerRight: m_physics->AddThrust( {  10.0f,  0.0f },  0.05f ); break;
+	case EVENTID::PlayerUp: m_physics->AddForce( { 0.0f, movementFactor } ); break;
+	case EVENTID::PlayerLeft: m_physics->AddForce( { -movementFactor, 0.0f } ); break;
+	case EVENTID::PlayerDown: m_physics->AddForce( { 0.0f, -movementFactor } ); break;
+	case EVENTID::PlayerRight: m_physics->AddForce( { movementFactor, 0.0f } ); break;
 	default: break;
 	}
 }

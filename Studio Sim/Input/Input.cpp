@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Input.h"
-#include "Camera.h"
 
 void Input::Initialize( RenderWindow& window )
 {

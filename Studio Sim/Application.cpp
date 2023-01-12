@@ -16,12 +16,11 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 
         // Initialize input
         m_input.Initialize( renderWindow );
-        m_camera.Initialize( XMFLOAT3( 0.0f, 0.0f, -3.0f ), width, height );
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
 
         // Initialize levels        
         level1 = std::make_shared<Level1>();
-        level1->Initialize( &graphics, &m_camera, &m_imgui );
+        level1->Initialize( &graphics, &m_imgui );
 
 		level1_ID = stateMachine.Add( level1 );
         stateMachine.SwitchTo( level1_ID );
@@ -61,13 +60,7 @@ void Application::Update()
     // Update input
     m_input.Update( dt );
     if ( windowResized )
-    {
         m_imgui.Initialize( renderWindow.GetHWND(), graphics.GetDevice(), graphics.GetContext() );
-        m_camera.SetProjectionValues( 75.0f,
-            static_cast<float>( graphics.GetWidth() ) /
-            static_cast<float>( graphics.GetHeight() ),
-            0.01f, 100.0f );
-    }
 
     // Update current level
 	EventSystem::Instance()->ProcessEvents();

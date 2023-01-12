@@ -3,8 +3,7 @@
 
 Physics::Physics(const std::shared_ptr<Transform>& transform) : m_transform(transform)
 {
-	m_fMass = 0.4f;
-	m_fInverseMass = -m_fMass;
+	m_fMass = 20.0f;
 	m_vFriction = { 0.0f, 0.0f };
 	m_vNetForce = { 0.0f, 0.0f };
 	m_vVelocity = { 0.0f, 0.0f };
@@ -13,36 +12,32 @@ Physics::Physics(const std::shared_ptr<Transform>& transform) : m_transform(tran
 
 void Physics::Update(const float dt)
 {
-	ApplyThrust(dt);
-	Acceleration();
 	Friction(dt);
-	Velocity(dt);
-	ComputePosition(dt);
+	Velocity();
+	Acceleration();
+	Drag();
+	ComputePosition();
 	m_vNetForce = { 0.0f, 0.0f };
 }
 
-void Physics::ApplyThrust(const float dt)
+void Physics::Friction( const float dt )
 {
-	std::vector<int> deadForces;
-
-	// update thrust forces
-	for (int i = 0; i < m_thrustForces.size(); ++i)
-	{
-		m_vNetForce += m_thrustForces[i].first;
-		m_thrustForces[i].second -= dt;
-		if (m_thrustForces[i].second <= 0.0f )
-			deadForces.push_back(i);
-	}
-
-	// remove expired forces
-	for (int i = deadForces.size() - 1; i >= 0; --i)
-		m_thrustForces.erase(m_thrustForces.begin() + deadForces[i]);
+	// f = u * N
+	Vector2f invVelocity = { -m_vVelocity.x, -m_vVelocity.y };
+	if (m_vVelocity.Magnitude() < m_fFrictionFactor)
+		m_vFriction = invVelocity / dt;
+	else
+		m_vFriction = invVelocity.Normalised() * m_fFrictionFactor;
 }
 
-void Physics::AddThrust(Vector2f force, float duration)
+void Physics::Velocity()
 {
-	if ( m_thrustForces.size() < 3 )
-	m_thrustForces.push_back(std::make_pair(force, duration));
+	// v = u + at
+	m_vVelocity += m_vAcceleration;
+
+	// apply friction
+	m_vVelocity.x += m_fFrictionFactor * -( m_vVelocity.x );
+	m_vVelocity.y += m_fFrictionFactor * -( m_vVelocity.y );
 }
 
 void Physics::Acceleration()
@@ -51,39 +46,18 @@ void Physics::Acceleration()
 	m_vAcceleration = m_vNetForce / m_fMass;
 }
 
-void Physics::Friction(const float dt)
+void Physics::Drag()
 {
-	// f = u * N
-	Vector2f invVelocity = { -m_vVelocity.x, -m_vVelocity.y };
-	if (m_vVelocity.Magnitude() < m_fFrictionMultiplier * dt)
-		m_vFriction = (invVelocity / dt);
-	else
-		m_vFriction = invVelocity.Normalised() * m_fFrictionMultiplier;
+	m_vNetForce.x -= m_fDragFactor * m_vVelocity.x;
+	m_vNetForce.y -= m_fDragFactor * m_vVelocity.y;
 }
 
-void Physics::Velocity(const float dt)
+void Physics::ComputePosition()
 {
-	// v = u + at
-	m_vVelocity += m_vAcceleration * dt;
-
-	// adjust for negative values
-	if (m_vVelocity.x > 0.0f) // x values
-		m_vVelocity.x -= m_fFrictionMultiplier;
-	else if (m_vVelocity.x < 0.0f)
-		m_vVelocity.x += m_fFrictionMultiplier;
-
-	if (m_vVelocity.y > 0.0f) // y values
-		m_vVelocity.y -= m_fFrictionMultiplier;
-	else if (m_vVelocity.y < 0.0f)
-		m_vVelocity.y += m_fFrictionMultiplier;
-}
-
-void Physics::ComputePosition(const float dt)
-{
-	Vector2f position = m_transform->GetPositionVector2f();
-	position.x += m_vVelocity.x * dt + 0.5f * m_vAcceleration.x * dt * dt;
-	position.y += m_vVelocity.y * dt + 0.5f * m_vAcceleration.y * dt * dt;
-	m_vVelocity += m_vAcceleration * dt;
+	Vector2f position = m_transform->GetPosition();
+	position.x += m_vVelocity.x + 0.5f * m_vAcceleration.x;
+	position.y += m_vVelocity.y + 0.5f * m_vAcceleration.y;
+	m_vVelocity += m_vAcceleration;
 	m_transform->SetPosition(position);
 }
 

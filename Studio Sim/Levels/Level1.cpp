@@ -10,30 +10,17 @@ void Level1::OnCreate()
 		HRESULT hr = m_cbMatrices.Initialize( graphics->GetDevice(), graphics->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
 
-        hr = m_cbMatrices2D.Initialize( graphics->GetDevice(), graphics->GetContext() );
-		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices2D' constant buffer!" );
-
-        // Initialize game objects
-	    hr = m_cube.InitializeMesh( graphics->GetDevice(), graphics->GetContext() );
-        COM_ERROR_IF_FAILED( hr, "Failed to create 'cube' object!" );
-
         // Initialize player
-        m_player.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\carrot_ss.png", m_cbMatrices2D, 2, 2 );
-        m_player.GetTransform()->SetInitialPosition(
-            graphics->GetWidth() * 0.55f - m_player.GetSprite()->GetWidth() / 2,
-            graphics->GetHeight() / 2 - m_player.GetSprite()->GetHeight() / 2, 0 );
-        m_player.GetTransform()->SetInitialScale( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
+        m_player.Initialize( *graphics, m_cbMatrices );
+        m_player.GetTransform()->SetPositionInit( graphics->GetWidth() * 0.55f, graphics->GetHeight() / 2 );
 
         // Initialize enemies
-        m_enemy.GetSprite()->Initialize( graphics->GetDevice(), graphics->GetContext(), m_enemy.GetTypePath( EnemyType::TOMATO ), m_cbMatrices2D, 2, 2 );
-        m_enemy.GetTransform()->SetInitialPosition(
-            graphics->GetWidth() * 0.45f - m_enemy.GetSprite()->GetWidth() / 2,
-            graphics->GetHeight() / 2 - m_enemy.GetSprite()->GetHeight() / 2, 0 );
-        m_enemy.GetTransform()->SetInitialScale( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
+        m_enemy.Initialize( *graphics, m_cbMatrices, Sprite::Type::Tomato );
+        m_enemy.GetTransform()->SetPositionInit( graphics->GetWidth() * 0.45f, graphics->GetHeight() / 2 );
 
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
-        m_camera2D.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
+        m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
         m_spriteFont = std::make_unique<SpriteFont>( graphics->GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
@@ -62,8 +49,7 @@ void Level1::OnCreateTileMap()
 
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         m_tileMapDraw.push_back(*tileMapDrawPop);
-
-        m_tileMapDraw[i].GetSprite()->Initialize(graphics->GetDevice(), graphics->GetContext(), "Resources\\Textures\\empty.png", m_cbMatrices2D, 1, 1);
+        m_tileMapDraw[i].Initialize(*graphics, m_cbMatrices, "Resources\\Textures\\empty.png");
 
         if (i != 0)
         {
@@ -78,8 +64,8 @@ void Level1::OnCreateTileMap()
         float positionWidth = colPositionTotalTileLength + (graphics->GetWidth() / 2) - (m_tileMapDraw[i].GetSprite()->GetWidth() * (COLUMNS / 2));
         float positionHeight = rowPositionTotalTileLength + (graphics->GetHeight() / 2) - (m_tileMapDraw[i].GetSprite()->GetHeight() * (ROWS / 2));
 
-        m_tileMapDraw[i].GetTransform()->SetInitialPosition(positionWidth, positionHeight, 0);
-        m_tileMapDraw[i].GetTransform()->SetInitialScale(m_tileMapDraw[i].GetSprite()->GetWidth(), m_tileMapDraw[i].GetSprite()->GetHeight());
+        m_tileMapDraw[i].GetTransform()->SetPositionInit(positionWidth, positionHeight);
+        m_tileMapDraw[i].GetTransform()->SetScaleInit(m_tileMapDraw[i].GetSprite()->GetWidth(), m_tileMapDraw[i].GetSprite()->GetHeight());
 
         delete tileMapDrawPop;
     }
@@ -103,21 +89,15 @@ void Level1::BeginFrame()
 
 void Level1::RenderFrame()
 {
-    // Objects
-	graphics->UpdateRenderState3D();
-	m_cube.UpdateBuffers( m_cbMatrices, *m_camera );
-    graphics->GetContext()->VSSetConstantBuffers( 0u, 1u, m_cbMatrices.GetAddressOf() );
-    m_cube.Draw( graphics->GetContext() );
-
     // Sprites
-	graphics->UpdateRenderState2D();
+	graphics->UpdateRenderState();
     RenderFrameTileMap();
 
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );
-    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
 
     m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix() );
+    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
 }
 
 void Level1::RenderFrameTileMap()
@@ -125,7 +105,7 @@ void Level1::RenderFrameTileMap()
     for (int i = 0; i < COLUMNS * ROWS; i++)
     {
         m_tileMapDraw[i].GetSprite()->UpdateBuffers(graphics->GetContext());
-        m_tileMapDraw[i].GetSprite()->Draw(m_tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera2D.GetWorldOrthoMatrix());
+        m_tileMapDraw[i].GetSprite()->Draw(m_tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
     }
 }
 
@@ -167,6 +147,7 @@ void Level1::EndFrame()
     // Render imgui windows
     m_imgui->BeginRender();
     m_imgui->SpawnInstructionWindow();
+    
     if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
     {
         ImGui::Checkbox( "Use Custom Post-Processing?", &m_bUseCustomPP );
@@ -175,10 +156,11 @@ void Level1::EndFrame()
             m_postProcessing.SpawnControlWindow();
     }
     ImGui::End();
-    m_cube.SpawnControlWindow();
-	XMFLOAT3 GOpos = m_enemy.GetTransform()->GetPositionFloat3();
-    XMFLOAT3 Tpos = m_enemy.GetAI()->GetTargetPos();
-    m_imgui->SpawnDebugWindow(GOpos.x, GOpos.y, Tpos.x, Tpos.y);
+	
+    Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
+    Vector2f Tpos = m_enemy.GetAI()->GetTargetPos();
+    m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
+
     m_tileMapEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
@@ -190,10 +172,9 @@ void Level1::EndFrame()
 void Level1::Update( const float dt )
 {
     // Update entities
-    m_cube.Update( dt );
+    UpdateTileMap(dt);
     m_player.Update( dt );
     m_enemy.Update( dt );
-    UpdateTileMap(dt);
 }
 
 void Level1::UpdateTileMap(const float dt)

@@ -6,7 +6,7 @@
 void AIFlee::Update(const float dt)
 {
 	// Get agent position from agent's GameObject
-	Vector2f vAgentPos = m_pAgent->GetPositionVector2f();
+	Vector2f vAgentPos = m_pAgent->GetTransform()->GetPosition();
 	
 	// Get target position
 	Vector2f vTargetPosition = m_pAgent->GetTargetVector2f();
@@ -24,5 +24,5 @@ void AIFlee::Update(const float dt)
 	Vector2f vStep = vVelocity.Multiply(dt);
 
 	// Apply the new position to the agent's GameObject
-	m_pAgent->GetTransform()->AdjustPosition(vStep.x, vStep.y, 0.0f);
+	m_pAgent->GetTransform()->AdjustPosition(vStep.x, vStep.y);
 }

@@ -2,7 +2,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "Camera.h"
 #include "WindowContainer.h"
 #include <Vector2f.h>
 

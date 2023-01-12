@@ -2,6 +2,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include "Sprite.h"
 #include "Vector2f.h"
 
 /// <summary>
@@ -11,53 +12,57 @@
 class Transform
 {
 public:
-	const XMVECTOR& GetPositionVector() const noexcept;
-	const XMFLOAT3& GetPositionFloat3() const noexcept;
-	const Vector2f& GetPositionVector2f() const noexcept;
-	const XMVECTOR& GetRotationVector() const noexcept;
-	const XMFLOAT3& GetRotationFloat3() const noexcept;
-	const XMFLOAT3& GetScaleFloat3() const noexcept;
+	Transform();
+	Transform( const std::shared_ptr<Sprite>& sprite );
+	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 
-	void SetInitialPosition( const XMFLOAT3& pos ) noexcept;
-	void SetInitialPosition( float xPos, float yPos, float zPos ) noexcept;
-	const XMFLOAT3& GetInitialPosition() const noexcept { return initialPos; }
-	void SetPosition( const XMVECTOR& pos ) noexcept;
-	void SetPosition( const XMFLOAT3& pos ) noexcept;
-	void SetPosition( const Vector2f& pos ) noexcept;
-	void SetPosition( float xPos, float yPos, float zPos ) noexcept;
-	void AdjustPosition( const XMVECTOR& pos ) noexcept;
-	void AdjustPosition( const XMFLOAT3& pos ) noexcept;
-	void AdjustPosition( float xPos, float yPos, float zPos ) noexcept;
-	void ResetPosition() noexcept;
+	// position
+	void SetPositionInit( const Vector2f& pos ) noexcept { m_vPositionInit = m_vPosition = pos; }
+	void SetPositionInit( float xPos, float yPos ) noexcept { m_vPositionInit = m_vPosition = { xPos, yPos }; }
+	const Vector2f& GetPositionInit() const noexcept { return m_vPositionInit; }
 
-	void SetInitialRotation( const XMFLOAT3& rot ) noexcept;
-	void SetInitialRotation( float xRot, float yRot, float zRot ) noexcept;
-	void SetRotation( const XMVECTOR& rot ) noexcept;
-	void SetRotation( const XMFLOAT3& rot ) noexcept;
-	void SetRotation( float xRot, float yRot, float zRot ) noexcept;
-	void AdjustRotation( const XMVECTOR& rot ) noexcept;
-	void AdjustRotation( const XMFLOAT3& rot ) noexcept;
-	void AdjustRotation( float xRot, float yRot, float zRot ) noexcept;
-	void ResetRotation() noexcept;
+	inline void SetPosition( const Vector2f& pos ) noexcept { m_vPosition = pos; }
+	inline void SetPosition( float xPos, float yPos ) noexcept { m_vPosition = { xPos, yPos }; }
+	inline const Vector2f& GetPosition() const noexcept { return m_vPosition; }
 
-	void SetInitialScale( const XMFLOAT3& newScale ) noexcept;
-	void SetInitialScale( float xScale, float yScale, float zScale = 1.0f ) noexcept;
-	void SetScale( const XMFLOAT3& newScale ) noexcept;
-	void SetScale( float xScale, float yScale, float zScale = 1.0f ) noexcept;
-	void SetScale( float scaleMultiplier ) noexcept;
-	void AdjustScale( const XMFLOAT3& newScale ) noexcept;
-	void AdjustScale( float xScale, float yScale, float zScale = 1.0f ) noexcept;
-	void ResetScale() noexcept;
+	void AdjustPosition( const Vector2f& pos ) noexcept { m_vPosition += pos; }
+	void AdjustPosition( float xPos, float yPos ) noexcept{ m_vPosition += { xPos, yPos }; }
+	void ResetPosition() noexcept { m_vPosition = m_vPositionInit; }
 
+	// rotation
+	void SetRotationInit( float rot ) noexcept { m_fRotationInit = m_fRotation = rot; }
+	const float& GetRotationInit() const noexcept { return m_fRotationInit; }
+
+	inline void SetRotation( float rot ) noexcept { m_fRotation = rot; }
+	inline const float& GetRotation() const noexcept { return m_fRotation; }
+
+	void AdjustRotation( float rot ) noexcept { m_fRotation += rot; }
+	void ResetRotation() noexcept { m_fRotation = m_fRotationInit; }
+
+	// scale
+	void SetScaleInit( const Vector2f& scale ) noexcept { m_vScaleInit = m_vScale = scale; }
+	void SetScaleInit( float xScale, float yScale ) noexcept { m_vScaleInit = m_vScale = { xScale, yScale }; }
+	const Vector2f& GetScaleInit() const noexcept { return m_vScaleInit; }
+
+	inline void SetScale( const Vector2f& scale ) noexcept { m_vScale = scale; }
+	inline void SetScale( float xScale, float yScale ) noexcept { m_vScale = { xScale, yScale }; }
+	inline const Vector2f& GetScale() const noexcept { return m_vScale; }
+
+	void AdjustScale( const Vector2f& scale ) noexcept { m_vScale += scale; }
+	void AdjustScale( float xScale, float yScale ) noexcept{ m_vScale += { xScale, yScale }; }
+	void ResetScale() noexcept { m_vScale = m_vScaleInit; }
+
+	// matrix
 	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
 	inline void SetWorldMatrix( XMMATRIX mat ) noexcept { worldMatrix = mat; }
 
 	void Update();
-protected:
+private:
+	std::shared_ptr<Sprite> m_sprite;
 	XMMATRIX worldMatrix = XMMatrixIdentity();
-	XMFLOAT3 initialPos, initialRot, initialScale;
-	XMFLOAT3 position, rotation, scale;
-	XMVECTOR posVector, rotVector;
+	Vector2f m_vPosition, m_vPositionInit;
+	float m_fRotation, m_fRotationInit;
+	Vector2f m_vScale, m_vScaleInit;
 };
 
 #endif

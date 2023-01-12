@@ -7,7 +7,6 @@
 #include "DDSTextureLoader.h"
 #include "Resource.h"
 
-#include "Cube.h"
 #include "Input.h"
 #include "Timer.h"
 #include "Shaders.h"
@@ -34,10 +33,7 @@ private:
 	LevelStateMachine stateMachine;
 
 	// Objects
-	Camera m_camera;
 	ImGuiManager m_imgui;
-
-	// Data
 	Timer m_timer;
 	Input m_input;
 };

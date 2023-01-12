@@ -84,14 +84,8 @@ bool Graphics::InitializeShaders()
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		};
 
-		// Create the texture shaders
-		HRESULT hr = m_vertexShader.Initialize( m_pDevice, L"Resources\\Shaders\\shader_VS.hlsl", layout, ARRAYSIZE( layout ) );
-		COM_ERROR_IF_FAILED( hr, "Failed to create texture vertex shader!" );
-		hr = m_pixelShader.Initialize( m_pDevice, L"Resources\\Shaders\\shader_PS.hlsl" );
-		COM_ERROR_IF_FAILED( hr, "Failed to create texture pixel shader!" );
-
 		// Create the sprite shaders
-		hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
+		HRESULT hr = m_vertexShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_VS.hlsl", layout, ARRAYSIZE( layout ) );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite vertex shader!" );
 		hr = m_pixelShader2D.Initialize( m_pDevice, L"Resources\\Shaders\\shader2D_PS_Discard.hlsl" );
 		COM_ERROR_IF_FAILED( hr, "Failed to create sprite pixel shader!" );
@@ -117,14 +111,7 @@ bool Graphics::InitializeShaders()
 	return true;
 }
 
-void Graphics::UpdateRenderState3D()
-{
-	// Set default render state for objects
-    m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
-	Shaders::BindShaders( m_pContext.Get(), m_vertexShader, m_pixelShader );
-}
-
-void Graphics::UpdateRenderState2D()
+void Graphics::UpdateRenderState()
 {
 	// Set default render state for objects
     m_pRasterizerStates[Bind::Rasterizer::Type::SOLID]->Bind( m_pContext.Get() );
