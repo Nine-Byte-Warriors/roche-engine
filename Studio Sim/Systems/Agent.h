@@ -18,6 +18,7 @@ class Agent : public Listener
 public:
 	Agent( const std::shared_ptr<Transform>& transform );
 	void Update(float dt);
+	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) const noexcept;
 	
 	inline void SetVelocity(const Vector2f vel) { m_vVelocity = vel; }
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
@@ -26,9 +27,8 @@ public:
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline Vector2f GetTargetVector2f() const noexcept { return m_vTargetPos; }
 	
-	inline void AddToEvent() { EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this); }
+	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
-	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) const noexcept;
 private:
 	/*AILogic::*/AIStateMachine* m_pStateMachine;
 	std::vector</*AILogic::*/AIState*> m_vecStates;

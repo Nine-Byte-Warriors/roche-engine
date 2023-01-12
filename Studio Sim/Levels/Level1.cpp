@@ -13,10 +13,12 @@ void Level1::OnCreate()
         // Initialize player
         m_player.Initialize( *graphics, m_cbMatrices );
         m_player.GetTransform()->SetPositionInit( graphics->GetWidth() * 0.55f, graphics->GetHeight() / 2 );
+        m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
         // Initialize enemies
         m_enemy.Initialize( *graphics, m_cbMatrices, Sprite::Type::Tomato );
         m_enemy.GetTransform()->SetPositionInit( graphics->GetWidth() * 0.45f, graphics->GetHeight() / 2 );
+        m_enemy.GetTransform()->SetScaleInit( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
 
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
@@ -85,12 +87,12 @@ void Level1::BeginFrame()
 {
 	// Setup pipeline state
 	graphics->BeginFrame();
+	graphics->UpdateRenderState();
 }
 
 void Level1::RenderFrame()
 {
     // Sprites
-	graphics->UpdateRenderState();
     RenderFrameTileMap();
 
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );

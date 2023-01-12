@@ -33,8 +33,8 @@ public:
 
 	inline HCURSOR GetCursor( Color color ) noexcept { return cursors[color]; }
 
-	void AddToEvent();
-	void HandleEvent( Event* event );
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 private:
 	void RegisterWindowClass() noexcept;

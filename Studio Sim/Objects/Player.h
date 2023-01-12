@@ -17,7 +17,7 @@ public:
 	void Update( const float dt );
 	void SpawnControlWindow();
 
-	void AddToEvent();
+	void AddToEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }

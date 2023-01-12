@@ -35,18 +35,6 @@ void Agent::Update(float dt)
 	m_pStateMachine->UpdateMachine(dt);
 }
 
-void Agent::HandleEvent(Event* event)
-{
-	switch (event->GetEventID())
-	{
-	case EVENTID::PlayerPosition:
-		m_vTargetPos = *(Vector2f*)event->GetData();
-		break;
-	default:
-		break;
-	}
-}
-
 void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) const noexcept
 {
 	if (ImGui::Begin("Agent AI", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
@@ -64,4 +52,21 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) const noexcept
         ImGui::Text(std::string("Y: ").append(std::to_string(fTarg.y)).c_str());
 	}
 	ImGui::End();
+}
+
+void Agent::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
+}
+
+void Agent::HandleEvent(Event* event)
+{
+	switch (event->GetEventID())
+	{
+	case EVENTID::PlayerPosition:
+		m_vTargetPos = *(Vector2f*)event->GetData();
+		break;
+	default:
+		break;
+	}
 }

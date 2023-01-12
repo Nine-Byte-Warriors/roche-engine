@@ -134,7 +134,7 @@ HWND RenderWindow::GetHWND() const noexcept
 	return hWnd;
 }
 
-void RenderWindow::AddToEvent()
+void RenderWindow::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::QuitGameEvent, this );
 }

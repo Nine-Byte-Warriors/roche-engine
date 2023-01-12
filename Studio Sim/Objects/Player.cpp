@@ -33,7 +33,7 @@ void Player::SpawnControlWindow()
 	ImGui::End();
 }
 
-void Player::AddToEvent()
+void Player::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::PlayerUp, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerLeft, this );
@@ -46,9 +46,9 @@ void Player::HandleEvent( Event* event )
 	float movementFactor = 10.0f;
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::PlayerUp: m_physics->AddForce( { 0.0f, movementFactor } ); break;
+	case EVENTID::PlayerUp: m_physics->AddForce( { 0.0f, -movementFactor } ); break;
 	case EVENTID::PlayerLeft: m_physics->AddForce( { -movementFactor, 0.0f } ); break;
-	case EVENTID::PlayerDown: m_physics->AddForce( { 0.0f, -movementFactor } ); break;
+	case EVENTID::PlayerDown: m_physics->AddForce( { 0.0f, movementFactor } ); break;
 	case EVENTID::PlayerRight: m_physics->AddForce( { movementFactor, 0.0f } ); break;
 	default: break;
 	}
