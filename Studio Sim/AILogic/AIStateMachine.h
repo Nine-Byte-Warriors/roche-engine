@@ -4,11 +4,8 @@
 
 #include "AIState.h"
 
-//class Agent;
-//#include "Agent.h"
-
-//namespace AILogic
-//{
+namespace AILogic
+{
 	enum class AIStateTypes
 	{
 		Idle = 0,
@@ -43,6 +40,6 @@
 	private:
 		
 	};
-//}
+}
 	
 #endif // AISTATEMACHINE_H

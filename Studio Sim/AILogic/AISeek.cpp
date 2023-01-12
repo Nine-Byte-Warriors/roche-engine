@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AISeek.h"
 
-//using namespace AILogic;
+using namespace AILogic;
 
 void AISeek::Update(const float dt)
 {

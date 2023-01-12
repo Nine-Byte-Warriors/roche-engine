@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "AIFlee.h"
 
-//using namespace AILogic;
+using namespace AILogic;
 
 void AIFlee::Update(const float dt)
 {

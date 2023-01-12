@@ -5,8 +5,8 @@
 class Agent;
 #include "Vector2f.h"
 
-//namespace AILogic
-//{
+namespace AILogic
+{
 	class AIState
 	{
 	public:
@@ -33,6 +33,6 @@ class Agent;
 		float m_fUpper;
 		float m_fLower;
 	};
-//}
+}
 
 #endif // AISTATE_H

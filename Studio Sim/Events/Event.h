@@ -6,6 +6,7 @@
 enum class EVENTID
 {
 	// UI Input
+	MousePosition,
 	UIMouseInput,
 	UIKeyInput,
 

@@ -77,7 +77,6 @@ void PostProcessing::SpawnControlWindow()
 		{
 			// Overlay effects
 			static int activeEffect = 0;
-			static bool selectedEffect[6];
 			static std::string previewValueEffect = "None";
 			static const char* effectList[]{ "None", "Sepia", "Monochrome", "Gaussian Blur", "Down-Scale", "Bloom" };
 			if ( ImGui::BeginCombo( "Overlay Effect", previewValueEffect.c_str() ) )

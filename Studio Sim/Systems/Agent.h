@@ -6,7 +6,7 @@
 #include "EventSystem.h"
 #include "AIStateMachine.h"
 
-//namespace AILogic { class AIState; }
+namespace AILogic { class AIState; }
 
 /// <summary>
 /// Create a 2D agent object.
@@ -17,7 +17,7 @@ class Agent : public Listener
 public:
 	Agent( const std::shared_ptr<Physics>& physics );
 	void Update(const float dt);
-	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) const noexcept;
+	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept;
 	
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
 	inline Vector2f GetTargetPosition() const noexcept { return m_vTargetPos; }
@@ -26,9 +26,10 @@ public:
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
 private:
-	/*AILogic::*/AIStateMachine* m_pStateMachine;
-	std::vector</*AILogic::*/AIState*> m_vecStates;
+	std::map<AILogic::AIStateTypes, AILogic::AIState*> m_mapStates;
+	AILogic::AIStateMachine* m_pStateMachine;
 	std::shared_ptr<Physics> m_physics;
+	bool m_bTargetMouse = true;
 	Vector2f m_vTargetPos;
 	float m_fSpeed;
 };

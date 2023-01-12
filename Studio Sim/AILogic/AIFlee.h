@@ -6,8 +6,8 @@
 #include "Player.h"
 #include "Agent.h"
 
-//namespace AILogic
-//{
+namespace AILogic
+{
     class AIFlee : public AIState
     {
     public:
@@ -15,11 +15,15 @@
 		virtual ~AIFlee() = default;
 
 		virtual void Update(const float dt) override;
-        virtual void SetTarget(Player* pTarget) { m_pTarget = pTarget; }
+        virtual void Enter() override {};
+        virtual void Exit() override {};
+
+        //virtual float CalculateActivation() override {};
+        inline virtual void SetTarget(Player* pTarget) { m_pTarget = pTarget; }
         
     private:
 		Player* m_pTarget;
     };
-//}
+}
 
 #endif // !AIFLEE_H

@@ -25,7 +25,7 @@ void Input::UpdateMouse( float dt )
         Mouse::MouseEvent me = mouse.ReadEvent();
         pMousePos->x = me.GetPosX();
         pMousePos->y = me.GetPosY();
-        EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, pMousePos);
+        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
         
         if ( mouse.IsRightDown() || !cursorEnabled )
         {

@@ -5,6 +5,7 @@
 
 Player::Player()
 {
+	m_vPlayerPos = new Vector2f();
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
@@ -21,11 +22,15 @@ void Player::Update( const float dt )
 	m_sprite->Update( dt );
 	m_physics->Update( dt );
 	m_transform->Update();
+
+	m_vPlayerPos->x = m_transform->GetPosition().x;
+	m_vPlayerPos->y = m_transform->GetPosition().y;
+	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos );
 }
 
 void Player::SpawnControlWindow()
 {
-	if ( ImGui::Begin( "Player", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
+	if ( ImGui::Begin( "Player##Window", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPosition().x ) ).c_str() );
 		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPosition().y ) ).c_str() );
