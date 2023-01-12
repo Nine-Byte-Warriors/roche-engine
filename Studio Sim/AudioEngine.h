@@ -3,9 +3,9 @@
 #include <thread>
 #include <mutex>
 #include <stdafx.h>
+#include <filesystem>
 
 #include "VoiceCallback.h"
-#include <filesystem>
 //#include <tchar.h>
 //#include <winnt.h>
 
@@ -23,7 +23,13 @@ struct SoundBankFile {
 	std::wstring fileName;
 	XAUDIO2_BUFFER* buffer;
 	WAVEFORMATEX* sourceFormat;
+	VoiceCallback* voiceCallback;
 	float volume;
+};
+
+enum AudioType {
+	SFX = 0,
+	MUSIC = 1
 };
 
 class AudioEngine {
@@ -39,13 +45,14 @@ public:
 	void Update(float deltaTime);
 
 	// Bare minimum requirements
-	HRESULT LoadAudio(std::wstring filePath, float volume, std::vector<SoundBankFile*>* soundBank);
-	HRESULT PlayAudio(std::wstring fileName);
-	void PauseAudio();
-	void UnloadAudio();
+	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType);
+	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
+	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType);
+
+	HRESULT StopMusic();
+
 
 	//// Loading Audio stuff
-	HRESULT ParseAudio(std::wstring filePath, IXAudio2SourceVoice* sourceVoice);
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
@@ -56,6 +63,8 @@ public:
 	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
 	std::wstring GetFileName(std::wstring filePath);
 
+	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
+	
 	// Event System TBD if we want to even use it
 	//void HandleEvent(Event* event);
 
@@ -77,4 +86,9 @@ private:
 	int m_iMusicSourceVoiceLimit;
 	int m_iSFXSourceVoiceLimit;
 
+	int m_iMaxSFXSourceVoicesLimit;
+	int m_iMaxMusicSourceVoicesLimit;
+
+	int m_iSFXSourceVoicesPlaying;
+	int m_iMusicSourceVoicesPlaying;
 };
