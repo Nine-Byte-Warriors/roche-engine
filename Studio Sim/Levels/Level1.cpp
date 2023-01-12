@@ -141,13 +141,24 @@ void Level1::EndFrame()
     m_spriteBatch->End();
 
     // Render scene to texture
-    graphics->BeginRTT();
-    m_bUseCustomPP ?
-        graphics->EndRTT() :
-        m_postProcessing.Bind( graphics->GetContext(), graphics->GetRenderTarget() );
+    graphics->RenderSceneToTexture();
 
     // Render imgui windows
     m_imgui->BeginRender();
+    
+    if ( ImGui::Begin( "Scene Window", FALSE, ImGuiWindowFlags_NoResize ) )
+    {
+        ImVec2 pos = ImGui::GetCursorScreenPos();
+        const ImVec2 windowPadding = ImVec2( 20.0f, 35.0f );
+        ImVec2 windowSize = ImVec2( graphics->GetWidth() / 2, graphics->GetHeight() / 2 );
+        ImGui::SetWindowSize( ImVec2( windowPadding.x + windowSize.x, windowPadding.y + windowSize.y ) );
+        ImGui::GetWindowDrawList()->AddImage(
+            (void*)graphics->GetRenderTargetPP()->GetShaderResourceView(),
+            pos, ImVec2( pos.x + windowSize.x, pos.y + windowSize.y )
+        );
+    }
+    ImGui::End();
+
     m_imgui->SpawnInstructionWindow();
     
     if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )

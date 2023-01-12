@@ -26,6 +26,7 @@ void Graphics::InitializeDirectX( HWND hWnd, bool resizingWindow )
 
     m_pBackBuffer = std::make_shared<Bind::BackBuffer>( m_pDevice.Get(), m_pSwapChain->GetSwapChain() );
 	m_pRenderTarget = std::make_shared<Bind::RenderTarget>( m_pDevice.Get(), m_viewWidth, m_viewHeight );
+	m_pRenderTargetPP = std::make_shared<Bind::RenderTarget>( m_pDevice.Get(), m_viewWidth, m_viewHeight );
     m_pDepthStencil = std::make_shared<Bind::DepthStencil>( m_pDevice.Get(), m_viewWidth, m_viewHeight );
 	m_pViewport = std::make_shared<Bind::Viewport>( m_pContext.Get(), m_viewWidth, m_viewHeight );
     
@@ -38,7 +39,6 @@ void Graphics::InitializeDirectX( HWND hWnd, bool resizingWindow )
 	m_pSamplerStates.emplace( Bind::Sampler::Type::POINT, std::make_shared<Bind::Sampler>( m_pDevice.Get(), Bind::Sampler::Type::POINT ) );
 
 	m_pSamplerStates[Bind::Sampler::Type::ANISOTROPIC_WRAP]->Bind( m_pContext.Get() );
-	m_pSamplerStates[Bind::Sampler::Type::ANISOTROPIC_CLAMP]->Bind( m_pContext.Get() );
     m_pContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 }
 
@@ -111,26 +111,26 @@ void Graphics::SpawnControlWindowRTT()
 	ImGui::SliderFloat3( "##ColorOverlay", m_overlayColor, 0.0f, 1.0f, "%.1f" );
 }
 
-void Graphics::BeginRTT()
+void Graphics::RenderSceneToTexture()
 {
-	// Bind new render target
-	m_pBackBuffer->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
-	
-	// Update post-processing constant buffer
+	// 1. Bind new render target
+	m_pRenderTargetPP->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
+
 	XMFLOAT3 overlayColor = { m_overlayColor[0], m_overlayColor[1], m_overlayColor[2] };
 	m_cbPostProcessing.data.OverlayColor = overlayColor;
 	if (!m_cbPostProcessing.ApplyChanges()) return;
-}
 
-void Graphics::EndRTT()
-{
-	// Render fullscreen texture to new render target
+	// 2. Render fullscreen texture to new render target
 	Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
 	m_quad.SetupBuffers( m_pContext.Get() );
+	
 	m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
 	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
+
 	Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
-	m_pSamplerStates[Bind::Sampler::Type::ANISOTROPIC_WRAP]->Bind( m_pContext.Get() );
+
+	// 3. Render everything to the back buffer
+	m_pBackBuffer->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
 }
 
 void Graphics::BeginFrame()
@@ -142,7 +142,8 @@ void Graphics::BeginFrame()
 
 void Graphics::EndFrame()
 {
-	// Unbind render target
+	// Unbind render targets
+	m_pRenderTargetPP->BindNull( m_pContext.Get() );
 	m_pRenderTarget->BindNull( m_pContext.Get() );
 	m_pBackBuffer->BindNull( m_pContext.Get() );
 
@@ -179,6 +180,7 @@ void Graphics::HandleEvent( Event* event )
 		// Clear all buffers
 		m_pBackBuffer.reset();
 		m_pRenderTarget.reset();
+		m_pRenderTargetPP.reset();
 		m_pRasterizerStates.clear();
 		m_pSamplerStates.clear();
 		m_pDepthStencil.reset();
