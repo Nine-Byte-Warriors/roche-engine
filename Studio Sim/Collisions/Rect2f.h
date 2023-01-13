@@ -1,4 +1,6 @@
 #pragma once
+#ifndef RECT2F_H
+#define RECT2F_H
 
 class Rect2f
 {
@@ -10,3 +12,4 @@ public:
 	float m_h = 0;
 };
 
+#endif

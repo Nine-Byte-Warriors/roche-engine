@@ -37,9 +37,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{71070f11-d611-4d54-806f-b59d7f759f4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Cursors">
       <UniqueIdentifier>{e4d7c737-7831-42c9-babc-7a9e81af24a0}</UniqueIdentifier>
     </Filter>
@@ -114,6 +111,18 @@
     </Filter>
     <Filter Include="Source Files\Collisions">
       <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{2f3156f6-f609-4572-a586-9d23c4528307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{3932b84e-0046-460a-8d68-42ddfa35c2cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Widgets">
+      <UniqueIdentifier>{2e43f21a-1384-4795-a2f3-a12c086041b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Widgets">
+      <UniqueIdentifier>{32afb417-06ed-4d1b-b7ed-df9e469022a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -198,21 +207,6 @@
     <ClCompile Include="TileMap\TileMapDraw.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="AILogic\AIStateMachine.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIFlee.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIIdle.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIPatrol.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AISeek.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Agent.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -245,6 +239,57 @@
     </ClCompile>
     <ClCompile Include="..\External\imgui\imgui_tables.cpp">
       <Filter>Resource Files\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIStateMachine.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AISeek.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIPatrol.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIIdle.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIFlee.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIManager.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\ColourBlock_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\DataSlider_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\DropDown_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\EnergyBar_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\Image_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\Input_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\PageSlider_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\MainMenu_UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Widgets\Button_Widget.cpp">
+      <Filter>Source Files\UI\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\TextRenderer.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,24 +422,6 @@
     <ClInclude Include="TileMap\TileMapDraw.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="AILogic\AIStateMachine.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIFlee.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIIdle.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIPatrol.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AISeek.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIState.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Transform.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -439,6 +466,66 @@
     </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFlee.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIIdle.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIPatrol.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AISeek.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIState.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIStateMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIManager.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\WidgetIncludes.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Button_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\PageSlider_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Input_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\Image_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\EnergyBar_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\DropDown_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\DataSlider_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\ColourBlock_Widget.h">
+      <Filter>Header Files\UI\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\MainMenu_UI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TextRenderer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,4 +27,10 @@ struct Animation
 	XMFLOAT2 Padding;
 };
 
+struct UserInterface
+{
+	FLOAT Alpha;
+	XMFLOAT3 Padding;
+};
+
 #endif

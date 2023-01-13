@@ -133,8 +133,19 @@ void Graphics::RenderSceneToTexture()
 
 	Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
 
-	// 3. Render everything to the back buffer
+	// 3. Bind back buffer only for rendering imgui windows
 	m_pBackBuffer->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
+
+#if !_DEBUG
+	// 4. Render only the scene to the back buffer
+	Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
+	m_quad.SetupBuffers( m_pContext.Get() );
+	
+	m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
+	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
+
+	Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
+#endif
 }
 
 void Graphics::BeginFrame()
