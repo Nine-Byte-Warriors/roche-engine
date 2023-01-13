@@ -23,8 +23,6 @@ private:
 	void SpawnProjectile();
 
 	float m_fLifeTime;
-	Vector2f m_vDirection;
-	bool m_bRenderProjectiles;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::shared_ptr<Projectile> m_projectile; //DEBUG: should be a collection from a bullet pool
