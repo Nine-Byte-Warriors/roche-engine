@@ -4,6 +4,7 @@
 
 WindowContainer::WindowContainer()
 {
+    AddToEvent();
 	static bool rawInputInitialized = false;
 	if ( !rawInputInitialized )
 	{
@@ -140,12 +141,21 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     {
         SetForegroundWindow( m_renderWindow.GetHWND() );
 		SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::ORANGE ) );
-		if ( imio.WantCaptureMouse )
-			return 0;
 
-		int x = LOWORD( lParam );
+        int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
+		if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+			return 0;
+        }
+
         m_mouse.OnLeftPressed( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
 
 		if ( !m_bCursorEnabled )
 		{
@@ -321,4 +331,19 @@ void WindowContainer::EnableImGuiMouse() noexcept
 void WindowContainer::DisableImGuiMouse() noexcept
 {
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+}
+
+void WindowContainer::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
+}
+
+void WindowContainer::HandleEvent( Event* event )
+{
+    switch ( event->GetEventID() )
+    {
+    case EVENTID::ImGuiMousePosition:
+        m_vImguiPos = *(Vector2f*)event->GetData();
+        break;
+    }
 }

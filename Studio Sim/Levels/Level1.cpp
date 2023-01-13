@@ -128,6 +128,11 @@ void Level1::EndFrame()
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        
+        // Update imgui mouse position for scene render window
+        Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
+        EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
+
         vMax.x += ImGui::GetWindowPos().x;
         vMax.y += ImGui::GetWindowPos().y;
 

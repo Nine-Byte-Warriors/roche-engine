@@ -5,15 +5,15 @@
 // Holds the list of possible events that can occur.
 enum class EVENTID
 {
-	// UI Input
+	// Mouse Position
 	MousePosition,
+	ImGuiMousePosition,
+
+	// UI System
 	UIMouseInput,
 	UIKeyInput,
 
-	// UI Camera
-	WorldOrthMatrixEvent,
-
-	// UI End Level
+	// Level System
 	SetNextLevelEvent,
 	SetCurrentLevelEvent,
 
@@ -33,10 +33,10 @@ enum class EVENTID
 
 	// Utility
 	WindowSizeChangeEvent,
-	QuitGameEvent,
 	UpdateSettingsEvent,
 	ShowCursorEvent,
-	HideCursorEvent
+	HideCursorEvent,
+	QuitGameEvent
 };
 
 /// <summary>
