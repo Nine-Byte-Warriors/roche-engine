@@ -105,10 +105,14 @@ bool Graphics::InitializeRTT()
 	return true;
 }
 
-void Graphics::SpawnControlWindowRTT()
+void Graphics::SpawnControlWindow()
 {
-	ImGui::Text( "ColorOverlay" );
-	ImGui::SliderFloat3( "##ColorOverlay", m_overlayColor, 0.0f, 1.0f, "%.1f" );
+	if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
+	{
+		ImGui::Text( "Color Overlay" );
+		ImGui::SliderFloat3( "##ColorOverlay", m_overlayColor, 0.0f, 1.0f, "%.1f" );
+	}
+	ImGui::End();
 }
 
 void Graphics::RenderSceneToTexture()

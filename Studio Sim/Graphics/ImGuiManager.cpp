@@ -9,6 +9,7 @@ ImGuiManager::ImGuiManager()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
     SetBlackGoldStyle();
+    AddToEvent();
 }
 
 ImGuiManager::~ImGuiManager()
@@ -30,7 +31,10 @@ void ImGuiManager::BeginRender() const noexcept
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    ImGui::DockSpaceOverViewport( ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode );
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize.x = m_vWindowSize.x;
+    io.DisplaySize.y = m_vWindowSize.y;
+    ImGui::DockSpaceOverViewport( ImGui::GetMainViewport(),ImGuiDockNodeFlags_PassthruCentralNode );
 }
 
 void ImGuiManager::EndRender() const noexcept
@@ -150,4 +154,21 @@ void ImGuiManager::SetBlackGoldStyle()
     style->WindowTitleAlign = ImVec2( 1.0f, 0.5f );
     style->WindowMenuButtonPosition = ImGuiDir_Right;
     style->DisplaySafeAreaPadding = ImVec2( 4.0f, 4.0f );
+}
+
+void ImGuiManager::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+}
+
+void ImGuiManager::HandleEvent( Event* event )
+{
+    switch ( event->GetEventID() )
+    {
+    case EVENTID::WindowSizeChangeEvent :
+    {
+        m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() );
+    }
+    break;
+    }
 }

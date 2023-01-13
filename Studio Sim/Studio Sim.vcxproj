@@ -273,7 +273,6 @@
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Systems\Agent.cpp" />
     <ClCompile Include="Systems\Physics.cpp" />
-    <ClCompile Include="Systems\PostProcessing.cpp" />
     <ClCompile Include="Systems\Sprite.cpp" />
     <ClCompile Include="Systems\Transform.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
@@ -342,7 +341,6 @@
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\Agent.h" />
     <ClInclude Include="Systems\Physics.h" />
-    <ClInclude Include="Systems\PostProcessing.h" />
     <ClInclude Include="Systems\Sprite.h" />
     <ClInclude Include="Systems\Transform.h" />
     <ClInclude Include="TileMap\TileMap.h" />

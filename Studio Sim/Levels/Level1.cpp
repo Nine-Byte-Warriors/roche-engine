@@ -27,8 +27,6 @@ void Level1::OnCreate()
         // Initialize systems
         m_spriteFont = std::make_unique<SpriteFont>( graphics->GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
         m_spriteBatch = std::make_unique<SpriteBatch>( graphics->GetContext() );
-        m_postProcessing.Initialize( graphics->GetDevice() );
-        m_bUseCustomPP = true;
 
         // Initialize TileMap
         OnCreateTileMap();
@@ -145,30 +143,25 @@ void Level1::EndFrame()
 
     // Render imgui windows
     m_imgui->BeginRender();
-    
-    if ( ImGui::Begin( "Scene Window", FALSE, ImGuiWindowFlags_NoResize ) )
+
+    ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
+    if ( ImGui::Begin( "Scene Window", FALSE ) )
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
-        const ImVec2 windowPadding = ImVec2( 20.0f, 35.0f );
-        ImVec2 windowSize = ImVec2( graphics->GetWidth() / 2, graphics->GetHeight() / 2 );
-        ImGui::SetWindowSize( ImVec2( windowPadding.x + windowSize.x, windowPadding.y + windowSize.y ) );
+        ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        vMax.x += ImGui::GetWindowPos().x;
+        vMax.y += ImGui::GetWindowPos().y;
+
         ImGui::GetWindowDrawList()->AddImage(
             (void*)graphics->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, ImVec2( pos.x + windowSize.x, pos.y + windowSize.y )
+            pos, ImVec2( vMax.x, vMax.y )
         );
     }
     ImGui::End();
+    ImGui::PopStyleVar();
 
     m_imgui->SpawnInstructionWindow();
-    
-    if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
-    {
-        ImGui::Checkbox( "Use Custom Post-Processing?", &m_bUseCustomPP );
-        m_bUseCustomPP ?
-            graphics->SpawnControlWindowRTT() :
-            m_postProcessing.SpawnControlWindow();
-    }
-    ImGui::End();
+    graphics->SpawnControlWindow();
 	
     Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
