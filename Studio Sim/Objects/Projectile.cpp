@@ -23,14 +23,12 @@ void Projectile::Update(const float dt)
 	if (!IsAlive())
 		return;
 	
-	{
-		m_fLifeTime -= dt;
+	m_fLifeTime -= dt;
 
-		m_sprite->Update(dt);
-		m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
-		m_physics->Update(dt);
-		m_transform->Update();
-	}
+	m_sprite->Update(dt);
+	m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
+	m_physics->Update(dt);
+	m_transform->Update();
 }
 
 void Projectile::Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)

@@ -21,12 +21,13 @@ public:
 	
 private:
 	void SpawnProjectile();
+	std::shared_ptr<Projectile> GetFreeProjectile();
 
 	float m_fLifeTime;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::shared_ptr<Projectile> m_projectile; //DEBUG: should be a collection from a bullet pool
-	//std::vector<std::shared_ptr<Projectile>> m_projectiles;
+	std::vector<std::shared_ptr<Projectile>> m_projectiles;
 };
 
 #endif // !PROJECTILEMANAGER_H
