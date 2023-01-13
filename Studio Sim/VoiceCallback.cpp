@@ -14,7 +14,4 @@ void VoiceCallback::OnStreamEnd() {
 
 void VoiceCallback::OnBufferEnd(void* pBufferContext) {
 
-	// Set event
-	// remove from counter
-
 }

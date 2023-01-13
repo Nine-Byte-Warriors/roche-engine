@@ -6,10 +6,14 @@
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
-AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vMusicSoundBank(nullptr), m_vSFXSoundBank(nullptr) {
+AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vMusicSoundBank(nullptr), m_vSFXSoundBank(nullptr), m_vMusicSourceVoiceList(nullptr), m_vSFXSourceVoiceList(nullptr) {
 	// Create sound banks
 	m_vMusicSoundBank = new std::vector<SoundBankFile*>();
 	m_vSFXSoundBank = new std::vector<SoundBankFile*>();
+
+	// Create sound lists
+	m_vMusicSourceVoiceList = new std::vector<IXAudio2SourceVoice*>;
+	m_vSFXSourceVoiceList = new std::vector<IXAudio2SourceVoice*>;
 }
 
 AudioEngine* AudioEngine::GetInstance()
@@ -22,7 +26,7 @@ AudioEngine* AudioEngine::GetInstance()
 	return m_pAudioEngineInstance;
 }
 
-void AudioEngine::Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices)
+void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVolume, int maxMusicSourceVoices, int maxSFXSourceVoices)
 {
 	HRESULT hr;
 
@@ -35,6 +39,10 @@ void AudioEngine::Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices)
 	if (FAILED(hr = m_pXAudio2->CreateMasteringVoice(&m_pMasterVoice))) {
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create mastering voice.");
 	}
+
+	m_fMasterVolume = masterVolume;
+	m_fMusicVolume = musicVolume;
+	m_fSFXVolume = sfxVolume;
 
 	m_iMaxSFXSourceVoicesLimit = maxSFXSourceVoices;
 	m_iMaxMusicSourceVoicesLimit = maxMusicSourceVoices;
@@ -56,13 +64,19 @@ void AudioEngine::Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices)
 	LoadAudio(L"TestAudioFiles\\partymusic.wav", 1.0f, MUSIC);
 
 
-
-
 }
 
-void AudioEngine::Update(float deltaTime)
+void AudioEngine::Update()
 {
-	
+	XAUDIO2_VOICE_STATE state;
+
+	for (int i = 0; m_vSFXSourceVoiceList->size() > i; i++) {
+		if (m_vSFXSourceVoiceList->at(i)->GetState(&state), state.BuffersQueued <= 0)
+		{
+			m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i	);
+		}
+	}
+
 }
 
 HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)
@@ -134,13 +148,24 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType au
 HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
+
+
+	if (audioType == SFX && m_vSFXSourceVoiceList->size() >= m_iMaxSFXSourceVoicesLimit) {
+		return S_FALSE;
+	}
+	else if (audioType == MUSIC && m_vMusicSourceVoiceList->size() >= m_iMaxMusicSourceVoicesLimit) {
+		return S_FALSE;
+	}
+
 	IXAudio2SourceVoice* pVoice = nullptr;
 
 	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
 
+
 		// Check with the file name exists, if so, grab a buffer from it
 	for (int i = 0; soundBank->size() > i; i++) {
 		if (fileName == soundBank->at(i)->fileName) {
+
 			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank->at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
 				soundBank->at(i)->voiceCallback, NULL, NULL))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
@@ -157,7 +182,23 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 				return hr;
 			}
 
-
+			switch (audioType)
+			{
+			case SFX:
+				pVoice->SetVolume(m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume);
+				m_vSFXSourceVoiceList->push_back(pVoice);
+				break;
+			case MUSIC:
+				pVoice->SetVolume(m_fMasterVolume * m_fMusicVolume * soundBank->at(i)->volume);
+				m_vMusicSourceVoiceList->push_back(pVoice);
+				break;
+			default:
+				ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
+				break;
+			}
+			
+			//pVoice->SetFrequencyRatio(12000);
+			//
 			//WaitForSingleObjectEx(m_vSFXSoundBank->at(i)->voiceCallback->hBufferEndEvent, INFINITE, TRUE);
 
 

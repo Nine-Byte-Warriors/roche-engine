@@ -16,9 +16,11 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 		    return false;
 
         // Initialize audio
-        AudioEngine::GetInstance()->Initialize(1, 3);
-        AudioEngine::GetInstance()->PlayAudio(L"partymusic", MUSIC);
+        AudioEngine::GetInstance()->Initialize(1.0f, 1.0f, 1.0f, 1, 2);
+        //AudioEngine::GetInstance()->PlayAudio(L"partymusic", MUSIC);
+
         AudioEngine::GetInstance()->PlayAudio(L"quietlaugh", SFX);
+        //AudioEngine::GetInstance()->PlayAudio(L"piano2", SFX);
 
 
         // Initialize input
@@ -76,6 +78,8 @@ void Application::Update()
             static_cast<float>( graphics.GetHeight() ),
             0.01f, 100.0f );
     }
+
+    AudioEngine::GetInstance()->Update();
 
     // Update current level
 	stateMachine.Update( dt );

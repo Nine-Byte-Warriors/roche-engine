@@ -1,10 +1,15 @@
 #pragma once
-#include <xaudio2.h>
-//#include "AudioEngine.h"
+#ifndef AUDIOENGINE_H
+#define AUDIOENGINE_H
+#include "AudioEngine.h"
+#endif
 
-#include <thread>
-#include <mutex>
+#include <xaudio2.h>
 #include "stdafx.h"
+
+//#include <thread>
+//#include <mutex>
+
 
 class VoiceCallback : public IXAudio2VoiceCallback
 {

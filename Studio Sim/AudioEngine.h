@@ -5,7 +5,11 @@
 #include <stdafx.h>
 #include <filesystem>
 
+#ifndef VOICECALLBACK_H
+#define VOICECALLBACK_H
 #include "VoiceCallback.h"
+#endif
+
 //#include <tchar.h>
 //#include <winnt.h>
 
@@ -18,6 +22,8 @@
 #define fourccWAVE 'EVAW'
 #define fourccXWMA 'AMWX'
 #define fourccDPDS 'sdpd'
+
+class VoiceCallback;
 
 struct SoundBankFile {
 	std::wstring fileName;
@@ -41,8 +47,8 @@ public:
 
 	static AudioEngine* GetInstance();
 
-	void Initialize(int maxMusicSourceVoices, int maxSFXSourceVoices);
-	void Update(float deltaTime);
+	void Initialize(float masterVolume, float musicVolume, float sfxVolume, int maxMusicSourceVoices, int maxSFXSourceVoices);
+	void Update(); // keep it on separate thread
 
 	// Bare minimum requirements
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType);
@@ -50,7 +56,6 @@ public:
 	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType);
 
 	HRESULT StopMusic();
-
 
 	//// Loading Audio stuff
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
@@ -68,6 +73,19 @@ public:
 	// Event System TBD if we want to even use it
 	//void HandleEvent(Event* event);
 
+	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
+	// Master volume has its own set of functions to control (use master voice for this)
+	inline float GetMasterVolume() { return m_fMasterVolume; }
+	inline void SetMasterVolume(float masterVolume) { 
+		m_fMasterVolume = masterVolume; 
+		m_pMasterVoice->SetVolume(m_fMasterVolume);
+	};
+	inline float GetMusicVolume() { return m_fMusicVolume; }
+	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
+	inline float GetSFXVolume() { return m_fSFXVolume; }
+	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
+	
+
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;
@@ -83,12 +101,19 @@ private:
 	std::vector<SoundBankFile*>* m_vMusicSoundBank; // Music Sound Bank
 	std::vector<SoundBankFile*>* m_vSFXSoundBank; // SFX Sound Bank
 
-	int m_iMusicSourceVoiceLimit;
-	int m_iSFXSourceVoiceLimit;
+	std::vector<IXAudio2SourceVoice*>* m_vMusicSourceVoiceList;
+	std::vector<IXAudio2SourceVoice*>* m_vSFXSourceVoiceList;
+
 
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;
 
 	int m_iSFXSourceVoicesPlaying;
 	int m_iMusicSourceVoicesPlaying;
+
+	float m_fMasterVolume;
+	float m_fMusicVolume;
+	float m_fSFXVolume;
+
 };
+
