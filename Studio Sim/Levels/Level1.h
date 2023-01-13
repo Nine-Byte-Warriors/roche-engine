@@ -5,7 +5,6 @@
 #include "Camera.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Projectile.h"
 #include "TileMapDraw.h"
 #include "TileMapEditor.h"
 #include "LevelStateMachine.h"
@@ -39,10 +38,10 @@ private:
 	void RenderFrameTileMap();
 
 	// Objects
+	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
-	Enemy m_enemy;
-	Projectile m_projectile;
+
 	TileMapEditor m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::vector<TileMapDraw> m_tileMapDraw;

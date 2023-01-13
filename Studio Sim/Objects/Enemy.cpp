@@ -4,6 +4,7 @@
 
 Enemy::Enemy()
 {
+	m_vEnemyPos = new Vector2f();
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
@@ -20,9 +21,8 @@ void Enemy::Update( const float dt )
 	m_sprite->Update( dt );
 	m_agent->Update( dt );
 	m_transform->Update();
-	
-	// DEBUG : REMOVE
-	Vector2f vPos = m_transform->GetPosition();
-	m_vEnemyPos = new Vector2f(vPos.x, vPos.y);
-	EventSystem::Instance()->AddEvent(EVENTID::TargetPosition, m_vEnemyPos);
+
+	m_vEnemyPos->x = m_transform->GetPosition().x;
+	m_vEnemyPos->y = m_transform->GetPosition().y;
+	EventSystem::Instance()->AddEvent( EVENTID::TargetPosition, m_vEnemyPos ); // DEBUG: remove
 }

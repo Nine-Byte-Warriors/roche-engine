@@ -41,12 +41,12 @@ void Input::UpdateMouse( float dt )
 			if (me.GetType() == Mouse::MouseEvent::EventType::LPress)
 			{
 				// Left mouse button pressed
-                EventSystem::Instance()->AddEvent(EVENTID::LeftMouseClick, pMousePos);
+                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseClick, pMousePos);
 			}
 			else if (me.GetType() == Mouse::MouseEvent::EventType::LRelease)
 			{
 				// Left mouse button released
-                EventSystem::Instance()->AddEvent(EVENTID::LeftMouseRelease, pMousePos);
+                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseRelease, pMousePos);
 			}
 		}
     }
