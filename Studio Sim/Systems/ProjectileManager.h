@@ -13,7 +13,7 @@ public:
 	void Update(const float dt);
 	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
 
-	inline std::shared_ptr<Projectile> GetProjectile() const noexcept { return m_projectile; } // single projectile
+	//inline std::shared_ptr<Projectile> GetProjectile() const noexcept { return m_projectile; } // single projectile
 	//inline std::shared_ptr<Projectile> GetProjectiles() const noexcept { return m_projectiles; } // multiple projectiles
 	
 	void AddToEvent() noexcept;
@@ -26,8 +26,8 @@ private:
 	float m_fLifeTime;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
-	std::shared_ptr<Projectile> m_projectile; //DEBUG: should be a collection from a bullet pool
-	std::vector<std::shared_ptr<Projectile>> m_projectiles;
+	
+	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
 };
 
 #endif // !PROJECTILEMANAGER_H

@@ -49,4 +49,6 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPositi
 		.Normalised();
 	
 	m_transform->SetPosition(vSpawnPosition);
+
+	m_physics->ResetForces();
 }

@@ -95,7 +95,7 @@ void Level1::RenderFrame()
 
     m_player.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
-    m_player.GetProjectiles()->Draw( graphics->GetContext(), m_camera.GetWorldOrthoMatrix() );
+    m_player.GetProjectileManager()->Draw( graphics->GetContext(), m_camera.GetWorldOrthoMatrix() );
 
     m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
