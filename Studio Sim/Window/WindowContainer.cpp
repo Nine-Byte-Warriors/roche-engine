@@ -262,16 +262,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
                 static_cast<float>( windowRect.right - windowRect.left ),
                 static_cast<float>( windowRect.bottom - windowRect.top )
             };
-
-            if ( m_windowSize.x < 500 )
-				m_windowSize.x = 1260;
-
-			if ( m_windowSize.y < 400 )
-            {
-				m_windowSize.y = 500;
-                EventSystem::Instance()->AddEvent( EVENTID::WindowSizeChangeEvent, &m_windowSize );
-            }
-
+            EventSystem::Instance()->AddEvent( EVENTID::WindowSizeChangeEvent, &m_windowSize );
 			return DefWindowProc( hWnd, uMsg, wParam, lParam );;
 		}
 	}

@@ -171,9 +171,6 @@
     <ClCompile Include="Objects\Camera.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Systems\PostProcessing.cpp">
-      <Filter>Source Files\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Events\EventSystem.cpp">
       <Filter>Source Files\Events</Filter>
     </ClCompile>
@@ -343,9 +340,6 @@
     </ClInclude>
     <ClInclude Include="Objects\Camera.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\PostProcessing.h">
-      <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Events\Listener.h">
       <Filter>Header Files\Events</Filter>

@@ -5,10 +5,9 @@
 #include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
-#include "PostProcessing.h"
-#include "LevelStateMachine.h"
-#include "TileMapEditor.h"
 #include "TileMapDraw.h"
+#include "TileMapEditor.h"
+#include "LevelStateMachine.h"
 
 #include <dxtk/SpriteFont.h>
 #include <dxtk/SpriteBatch.h>
@@ -41,10 +40,7 @@ private:
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
-	
-	bool m_bUseCustomPP;
 	TileMapEditor m_tileMapEditor;
-	PostProcessing m_postProcessing;
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::vector<TileMapDraw> m_tileMapDraw;
 
