@@ -17,8 +17,8 @@ public:
 	void Remove( uint32_t id );
 	void SwitchTo( uint32_t id );
 
-	void AddToEvent();
-	void HandleEvent( Event* event );
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 private:
 	uint32_t insertedLevelID;

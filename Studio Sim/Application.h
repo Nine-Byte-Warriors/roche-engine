@@ -2,27 +2,15 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <dxtk/SpriteFont.h>
-#include <dxtk/SpriteBatch.h>
-#include "DDSTextureLoader.h"
-#include "Resource.h"
-
-#include "Cube.h"
 #include "Input.h"
 #include "Timer.h"
-#include "Shaders.h"
-#include "structures.h"
-#include "ImGuiManager.h"
-#include "ConstantBuffer.h"
-#include "PostProcessing.h"
+#include "Level1.h"
+#include "Graphics.h"
 #include "WindowContainer.h"
 
-#include "Level1.h"
-//#include "MainMenu.h"
-//#include "CreditsMenu.h"
-
-// For Audio
-#include "AudioEngine.h"
+#if _DEBUG
+#include "ImGuiManager.h"
+#endif
 
 class Application : public WindowContainer
 {
@@ -35,25 +23,17 @@ public:
 	void Render();
 private:
 	// Levels
-	uint32_t level1_ID;
-	//uint32_t credits_ID;
-	//uint32_t mainMenu_ID;
-	
-	LevelStateMachine stateMachine;
-	std::shared_ptr<Level1> level1;
-	//std::shared_ptr<Credits_Level> Credits;
-	//std::shared_ptr<MainMenu_Level> MainMenu;
+	uint32_t m_uLevel1_ID;
+	LevelStateMachine m_stateMachine;
+	std::shared_ptr<Level1> m_pLevel1;
 
 	// Objects
-	Camera m_camera;
+#if _DEBUG
 	ImGuiManager m_imgui;
-
-	// Data
+#endif
+	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;
-
-	// Audio
-	AudioEngine m_audioEngine;
 };
 
 #endif

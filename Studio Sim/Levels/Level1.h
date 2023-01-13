@@ -2,14 +2,13 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include <dxtk/SpriteFont.h>
-#include <dxtk/SpriteBatch.h>
-
-#include "Cube.h"
-#include "structures.h"
-#include "ConstantBuffer.h"
-#include "PostProcessing.h"
+#include "Enemy.h"
+#include "Camera.h"
+#include "Player.h"
+#include "TileMapDraw.h"
+#include "TextRenderer.h"
 #include "LevelStateMachine.h"
+#include "TileMapEditor.h"
 
 /// <summary>
 /// The first level of the game.
@@ -18,7 +17,7 @@
 class Level1 : public LevelContainer
 {
 public:
-	Level1( LevelStateMachine& stateMachine );
+	Level1() {}
 
 	void OnCreate() override;
 	void OnSwitch() override;
@@ -30,17 +29,19 @@ public:
 	void Update( const float dt ) override;
 	void CleanUp() override {}
 private:
-	// Systems
-	PostProcessing m_postProcessing;
-	LevelStateMachine& levelStateMachine;
+	// Tile Map
+	void OnCreateTileMap();
+	void UpdateTileMap(const float dt);
+	void RenderFrameTileMap();
 
 	// Objects
-	Cube m_cube;
+	Enemy m_enemy;
+	Camera m_camera;
+	Player m_player;
+	TextRenderer m_textRenderer;
+	TileMapEditor m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
-
-	// Fonts
-	std::unique_ptr<SpriteFont> m_spriteFont;
-	std::unique_ptr<SpriteBatch> m_spriteBatch;
+	std::vector<TileMapDraw> m_tileMapDraw;
 };
 
 #endif

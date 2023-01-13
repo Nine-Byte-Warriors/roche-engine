@@ -48,7 +48,7 @@ void LevelStateMachine::SwitchTo( uint32_t id )
 	}
 }
 
-void LevelStateMachine::AddToEvent()
+void LevelStateMachine::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::GameLevelChangeEvent, this );
 }

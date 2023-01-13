@@ -2,9 +2,11 @@
 #ifndef LEVELCONTAINER_H
 #define LEVELCONTAINER_H
 
-#include "Camera.h"
 #include "Graphics.h"
+
+#if _DEBUG
 #include "ImGuiManager.h"
+#endif
 
 /// <summary>
 /// Loads and renders/updates all the components and models for the current scene/level.
@@ -16,12 +18,18 @@ class LevelContainer
 	friend class Application;
 public:
 	virtual ~LevelContainer( void ) = default;
-	void Initialize( Graphics* gfx, Camera* camera, ImGuiManager* imgui )
+#if _DEBUG
+	inline void Initialize( Graphics* gfx, ImGuiManager* imgui )
 	{
 		graphics = gfx;
-		m_camera = camera;
 		m_imgui = imgui;
 	}
+#else
+	inline void Initialize( Graphics* gfx )
+	{
+		graphics = gfx;
+	}
+#endif
 	
 	inline std::string GetLevelName() { return levelName; }
 	inline Graphics* GetGraphics() const noexcept { return graphics; }
@@ -39,9 +47,10 @@ public:
 
 protected:
 	// Objects
-	Camera* m_camera;
 	Graphics* graphics;
+#if _DEBUG
 	ImGuiManager* m_imgui;
+#endif
 
 	// Next Level
 	std::string levelName;

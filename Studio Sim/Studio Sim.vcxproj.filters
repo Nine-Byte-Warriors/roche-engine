@@ -34,8 +34,8 @@
     <Filter Include="Header Files\Window">
       <UniqueIdentifier>{761624e3-c183-4f72-b09f-fc654ec49299}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{71070f11-d611-4d54-806f-b59d7f759f4e}</UniqueIdentifier>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Cursors">
       <UniqueIdentifier>{e4d7c737-7831-42c9-babc-7a9e81af24a0}</UniqueIdentifier>
@@ -76,14 +76,41 @@
     <Filter Include="Source Files\Levels">
       <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Audio">
-      <UniqueIdentifier>{cd2b66f1-3a18-4e8d-a68c-b0c7ec9f4023}</UniqueIdentifier>
+    <Filter Include="Header Files\TileMap">
+      <UniqueIdentifier>{74095f31-b961-41b3-be89-bcb5438140b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Audio">
-      <UniqueIdentifier>{6254473f-b267-47e7-bf27-ed716049ff5b}</UniqueIdentifier>
+    <Filter Include="Source Files\TileMap">
+      <UniqueIdentifier>{45dd80ba-b825-4c10-bd07-29316f1b6978}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utility">
-      <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
+    <Filter Include="Source Files\AI">
+      <UniqueIdentifier>{ad96bc81-c018-4772-a87e-17a3d59a1fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI">
+      <UniqueIdentifier>{3b325e23-ae82-4c6d-93bb-0d6b5cc1cc24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility\Errors">
+      <UniqueIdentifier>{d08afb93-f981-46e0-a49e-4607abdfae6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility\Model">
+      <UniqueIdentifier>{ab592d8e-baf5-4a66-84df-36f3fb42ff41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility\Errors">
+      <UniqueIdentifier>{ed5dffe5-ec1f-4594-9191-709b0adc1dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility\Model">
+      <UniqueIdentifier>{991be574-a421-49ca-adb1-442377b2be38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility\Helper">
+      <UniqueIdentifier>{2db431fb-3c7b-492e-a863-fc9376bddc3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility\Helper">
+      <UniqueIdentifier>{2416d614-899e-4994-9e2f-131a212395a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collisions">
+      <UniqueIdentifier>{fae7d2fd-17b0-4755-bfc9-6848964884a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collisions">
+      <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,13 +138,7 @@
     <ClCompile Include="Input\Mouse.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\ErrorLogger.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\stdafx.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\StringConverter.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Window\RenderWindow.cpp">
@@ -125,9 +146,6 @@
     </ClCompile>
     <ClCompile Include="Window\WindowContainer.cpp">
       <Filter>Source Files\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Timer.cpp">
-      <Filter>Source Files\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\External\imgui\imgui.cpp">
       <Filter>Resource Files\ImGui</Filter>
@@ -147,14 +165,8 @@
     <ClCompile Include="..\External\imgui\imgui_widgets.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Cube.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Camera.cpp">
       <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\PostProcessing.cpp">
-      <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Events\EventSystem.cpp">
       <Filter>Source Files\Events</Filter>
@@ -165,11 +177,74 @@
     <ClCompile Include="Levels\Level1.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="AudioEngine.cpp">
-      <Filter>Source Files\Audio</Filter>
+    <ClCompile Include="Objects\Quad.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="VoiceCallback.cpp">
-      <Filter>Source Files\Audio</Filter>
+    <ClCompile Include="Objects\Player.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap\TileMapEditor.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap\TileMap.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Enemy.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap\TileMapDraw.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Agent.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Sprite.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Transform.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Physics.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Colour.cpp">
+      <Filter>Source Files\Utility\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Texture.cpp">
+      <Filter>Source Files\Utility\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ErrorLogger.cpp">
+      <Filter>Source Files\Utility\Errors</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Timer.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\StringHelper.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\Collision.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\imgui\imgui_tables.cpp">
+      <Filter>Resource Files\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIStateMachine.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIFlee.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIIdle.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIPatrol.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AISeek.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\TextRenderer.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,16 +299,7 @@
     <ClInclude Include="Input\Input.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\StringConverter.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\stdafx.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\ErrorLogger.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\COMException.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Window\WindowContainer.h">
@@ -245,13 +311,7 @@
     <ClInclude Include="Resources\Resource.h">
       <Filter>Resource Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\DDSTextureLoader.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\structures.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Timer.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\External\imgui\imconfig.h">
@@ -281,12 +341,6 @@
     <ClInclude Include="Objects\Camera.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Cube.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\PostProcessing.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Events\Listener.h">
       <Filter>Header Files\Events</Filter>
     </ClInclude>
@@ -295,9 +349,6 @@
     </ClInclude>
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2f.h">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
@@ -308,19 +359,94 @@
     <ClInclude Include="Levels\LevelContainer.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="AudioEngine.h">
-      <Filter>Header Files\Audio</Filter>
+    <ClInclude Include="Objects\Quad.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="VoiceCallback.h">
-      <Filter>Header Files\Audio</Filter>
+    <ClInclude Include="Objects\Player.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMap.h">
+      <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMapEditor.h">
+      <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Enemy.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMapDraw.h">
+      <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Transform.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Sprite.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Agent.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Physics.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\COMException.h">
+      <Filter>Header Files\Utility\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ErrorLogger.h">
+      <Filter>Header Files\Utility\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\DDSTextureLoader.h">
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Colour.h">
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Texture.h">
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Vector2f.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Timer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\StringHelper.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Collider.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Collision.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIStateMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFlee.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIIdle.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIPatrol.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AISeek.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIState.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TextRenderer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
       <Filter>Resource Files\General</Filter>
-    </Image>
-    <Image Include="Resources\Textures\bricks_TEX.dds">
-      <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -364,10 +490,19 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\shader_PS.hlsl">
+    <FxCompile Include="Resources\Shaders\shaderPP_PS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\shader_VS.hlsl">
+    <FxCompile Include="Resources\Shaders\shaderPP_VS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_PS.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_PS_Discard.hlsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\shader2D_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

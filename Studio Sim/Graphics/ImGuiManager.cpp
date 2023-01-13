@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ImGuiManager.h"
+#if _DEBUG
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
@@ -9,6 +10,7 @@ ImGuiManager::ImGuiManager()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
     SetBlackGoldStyle();
+    AddToEvent();
 }
 
 ImGuiManager::~ImGuiManager()
@@ -20,6 +22,9 @@ void ImGuiManager::Initialize( HWND hWnd, ID3D11Device* device, ID3D11DeviceCont
 {
     ImGui_ImplWin32_Init( hWnd );
     ImGui_ImplDX11_Init( device, context );
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void ImGuiManager::BeginRender() const noexcept
@@ -27,6 +32,10 @@ void ImGuiManager::BeginRender() const noexcept
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGuiIO& io = ImGui::GetIO();
+    io.DisplaySize.x = m_vWindowSize.x;
+    io.DisplaySize.y = m_vWindowSize.y;
+    ImGui::DockSpaceOverViewport( ImGui::GetMainViewport(),ImGuiDockNodeFlags_PassthruCentralNode );
 }
 
 void ImGuiManager::EndRender() const noexcept
@@ -37,15 +46,14 @@ void ImGuiManager::EndRender() const noexcept
 
 void ImGuiManager::SpawnInstructionWindow() const noexcept
 {   
-	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove ) )
+	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( "Camera Controls" );
         ImGui::NewLine();
-		ImGui::Text( "W             Forward" );
-		ImGui::Text( "A             Left" );
-		ImGui::Text( "S             Backward" );
-		ImGui::Text( "D             Right" );
-        ImGui::Text( "Hold RMB      Rotate Camera" );
+		ImGui::Text( "W         Up" );
+		ImGui::Text( "A         Left" );
+		ImGui::Text( "S         Down" );
+		ImGui::Text( "D         Right" );
 
         ImGui::NewLine();
         ImGui::Separator();
@@ -53,16 +61,16 @@ void ImGuiManager::SpawnInstructionWindow() const noexcept
 
 		ImGui::Text( "Miscellaneous Controls" );
         ImGui::NewLine();
-		ImGui::Text( "HOME          Enable Mouse" );
-		ImGui::Text( "END           Disable Mouse" );
-		ImGui::Text( "ESCAPE        Close Game" );
+		ImGui::Text( "HOME      Enable Mouse" );
+		ImGui::Text( "END       Disable Mouse" );
+		ImGui::Text( "ESCAPE    Close Game" );
 
         ImGui::NewLine();
         ImGui::Separator();
         ImGui::NewLine();
 
         // Get current fps
-        ImGuiIO io = ImGui::GetIO();
+        ImGuiIO& io = ImGui::GetIO();
         float fps = 1.0f / io.DeltaTime;
 
         // Only update every few frames
@@ -148,3 +156,21 @@ void ImGuiManager::SetBlackGoldStyle()
     style->WindowMenuButtonPosition = ImGuiDir_Right;
     style->DisplaySafeAreaPadding = ImVec2( 4.0f, 4.0f );
 }
+
+void ImGuiManager::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+}
+
+void ImGuiManager::HandleEvent( Event* event )
+{
+    switch ( event->GetEventID() )
+    {
+    case EVENTID::WindowSizeChangeEvent :
+    {
+        m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() );
+    }
+    break;
+    }
+}
+#endif

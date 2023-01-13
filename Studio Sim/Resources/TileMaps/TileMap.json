@@ -1,0 +1,42 @@
+{
+  "tile0": {
+    "type": 0,
+    "name": "EMPTY",    
+    "colorR": 0,
+    "colorG": 0,
+    "colorB": 0,
+    "colorA": 255
+  },
+  "tile1": {
+    "type": 1,
+    "name": "DIRT",    
+    "colorR": 155,
+    "colorG": 118,
+    "colorB": 83,
+    "colorA": 255
+  },
+  "tile2": {
+    "type": 2,
+    "name": "WALL",    
+    "colorR": 40,
+    "colorG": 204,
+    "colorB": 223,
+    "colorA": 255
+  },
+  "tile3": {
+    "type": 3,
+    "name": "GRASS",    
+    "colorR": 20,
+    "colorG": 255,
+    "colorB": 20,
+    "colorA": 255
+  },
+  "tile4": {
+    "type": 4,
+    "name": "LILLY",    
+    "colorR": 120,
+    "colorG": 155,
+    "colorB": 120,
+    "colorA": 255
+  }
+}

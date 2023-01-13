@@ -4,10 +4,11 @@
 
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "Graphics.h"
+#include "Vector2f.h"
+#include "EventSystem.h"
 #include "RenderWindow.h"
 
-class WindowContainer
+class WindowContainer : public Listener
 {
 public:
 	WindowContainer();
@@ -15,24 +16,28 @@ public:
 
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
-	inline bool IsCursorEnabled() const noexcept { return cursorEnabled; }
+	inline bool IsCursorEnabled() const noexcept { return m_bCursorEnabled; }
+
+	void AddToEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 protected:
 	void ConfineCursor() noexcept;
 	void FreeCursor() noexcept;
 	void ShowCursor() noexcept;
 	void HideCursor() noexcept;
+#if _DEBUG
 	void EnableImGuiMouse() noexcept;
 	void DisableImGuiMouse() noexcept;
+#endif
 
-	bool windowResized = false;
-	bool cursorEnabled = true;
-	XMFLOAT2 windowSize;
+	Vector2f m_vImguiPos = { 0.0f, 0.0f };
+	bool m_bCursorEnabled = true;
+	XMFLOAT2 m_windowSize;
 
-	RenderWindow renderWindow;
-	Graphics graphics;
-	Keyboard keyboard;
-	Mouse mouse;
+	RenderWindow m_renderWindow;
+	Keyboard m_keyboard;
+	Mouse m_mouse;
 };
 
 #endif
