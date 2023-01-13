@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <imgui/imgui.h>
 #include "WindowContainer.h"
+#include <Vector2f.h>
 
 WindowContainer::WindowContainer()
 {
@@ -140,8 +141,12 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     {
         SetForegroundWindow( m_renderWindow.GetHWND() );
 		SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::ORANGE ) );
-		if ( imio.WantCaptureMouse )
+        if (imio.WantCaptureMouse)
+        {
+            Vector2f* vMousePos = new Vector2f(imio.MousePos.x, imio.MousePos.y);
+            EventSystem::Instance()->AddEvent(EVENTID::LeftMouseClick, vMousePos);
 			return 0;
+        }
 
 		int x = LOWORD( lParam );
 		int y = HIWORD( lParam );

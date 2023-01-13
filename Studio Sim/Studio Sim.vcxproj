@@ -271,6 +271,8 @@
     <ClCompile Include="Objects\Enemy.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
+    <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="Systems\ProjectileManager.cpp" />
     <ClCompile Include="Systems\Agent.cpp" />
     <ClCompile Include="Systems\Physics.cpp" />
     <ClCompile Include="Systems\Sprite.cpp" />
@@ -338,6 +340,8 @@
     <ClInclude Include="Objects\Enemy.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
+    <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="Systems\ProjectileManager.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\Agent.h" />
     <ClInclude Include="Systems\Physics.h" />

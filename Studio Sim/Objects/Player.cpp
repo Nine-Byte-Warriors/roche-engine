@@ -9,12 +9,15 @@ Player::Player()
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
+	m_pProjectileManager = std::make_shared<ProjectileManager>();
 	AddToEvent();
 }
 
 void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Player, mat );
+
+	GetProjectileManager()->Initialize(gfx, mat);
 }
 
 void Player::Update( const float dt )
@@ -30,11 +33,18 @@ void Player::Update( const float dt )
 
 void Player::SpawnControlWindow()
 {
+	bool bFire = false;
 	if ( ImGui::Begin( "Player##Window", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPosition().x ) ).c_str() );
 		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPosition().y ) ).c_str() );
+		ImGui::Separator();
+		bFire = ImGui::Button("FIRE!");
 	}
+
+	if (bFire)
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerFire, nullptr);
+	
 	ImGui::End();
 }
 

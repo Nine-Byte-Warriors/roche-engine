@@ -20,4 +20,9 @@ void Enemy::Update( const float dt )
 	m_sprite->Update( dt );
 	m_agent->Update( dt );
 	m_transform->Update();
+	
+	// DEBUG : REMOVE
+	Vector2f vPos = m_transform->GetPosition();
+	m_vEnemyPos = new Vector2f(vPos.x, vPos.y);
+	EventSystem::Instance()->AddEvent(EVENTID::TargetPosition, m_vEnemyPos);
 }

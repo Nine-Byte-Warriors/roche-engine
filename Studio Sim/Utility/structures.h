@@ -2,6 +2,7 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+#include "Vector2f.h"
 using namespace DirectX;
 
 struct Matrices
@@ -27,4 +28,9 @@ struct Animation
 	XMFLOAT2 Padding;
 };
 
+struct ProjectileData
+{
+	Vector2f DirectionTo;
+	Vector2f Position;
+};
 #endif

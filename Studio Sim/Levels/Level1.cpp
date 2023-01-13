@@ -20,6 +20,11 @@ void Level1::OnCreate()
         m_enemy.GetTransform()->SetPositionInit( graphics->GetWidth() * 0.45f, graphics->GetHeight() / 2 );
         m_enemy.GetTransform()->SetScaleInit( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
 
+		// Initialize projectiles
+		//m_projectile.Initialize(*graphics, m_cbMatrices, Sprite::Type::Projectile);
+		//m_projectile.GetTransform()->SetPositionInit(m_projectile.GetTransform()->GetPosition().x, m_projectile.GetTransform()->GetPosition().y);
+  //      m_projectile.GetTransform()->SetScaleInit(m_projectile.GetSprite()->GetWidth(), m_projectile.GetSprite()->GetHeight());
+
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( graphics->GetWidth() ), static_cast<float>( graphics->GetHeight() ) };
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
@@ -98,6 +103,9 @@ void Level1::RenderFrame()
 
     m_enemy.GetSprite()->UpdateBuffers( graphics->GetContext() );
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
+    
+	//m_projectile.GetSprite()->UpdateBuffers(graphics->GetContext());
+ //   m_projectile.GetSprite()->Draw(m_projectile.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
 }
 
 void Level1::RenderFrameTileMap()
@@ -181,6 +189,7 @@ void Level1::Update( const float dt )
     UpdateTileMap( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );
+	m_projectile.Update(dt);
 }
 
 void Level1::UpdateTileMap(const float dt)

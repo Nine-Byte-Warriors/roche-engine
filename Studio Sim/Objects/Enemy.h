@@ -22,6 +22,8 @@ private:
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
+
+	Vector2f* m_vEnemyPos;
 };
 
 #endif

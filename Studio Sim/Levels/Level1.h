@@ -2,9 +2,10 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Projectile.h"
 #include "TileMapDraw.h"
 #include "TileMapEditor.h"
 #include "LevelStateMachine.h"
@@ -30,6 +31,7 @@ public:
 
 	void Update( const float dt ) override;
 	void CleanUp() override {}
+	
 private:
 	// Tile Map
 	void OnCreateTileMap();
@@ -37,9 +39,10 @@ private:
 	void RenderFrameTileMap();
 
 	// Objects
-	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
+	Enemy m_enemy;
+	Projectile m_projectile;
 	TileMapEditor m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::vector<TileMapDraw> m_tileMapDraw;
