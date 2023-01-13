@@ -25,8 +25,7 @@ void Level1::OnCreate()
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
-        m_spriteFont = std::make_unique<SpriteFont>( graphics->GetDevice(), L"Resources\\Fonts\\open_sans_ms_16_bold.spritefont" );
-        m_spriteBatch = std::make_unique<SpriteBatch>( graphics->GetContext() );
+        m_textRenderer.Initialize( "open_sans_ms_16_bold.spritefont", graphics->GetDevice(), graphics->GetContext() );
 
         // Initialize TileMap
         OnCreateTileMap();
@@ -112,31 +111,11 @@ void Level1::RenderFrameTileMap()
 void Level1::EndFrame()
 {
 	// Render text
-    m_spriteBatch->Begin();
-    static XMFLOAT2 textPosition = { graphics->GetWidth() * 0.5f, graphics->GetHeight() * 0.96f };
-    std::function<XMFLOAT2( const wchar_t* )> DrawOutline = [&]( const wchar_t* text ) mutable -> XMFLOAT2
-    {
-        XMFLOAT2 originF = XMFLOAT2( 1.0f, 1.0f );
-        XMVECTOR origin = m_spriteFont->MeasureString( text ) / 2.0f;
-        XMStoreFloat2( &originF, origin );
-
-        // Draw outline
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x + 1.0f, textPosition.y + 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x - 1.0f, textPosition.y + 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x - 1.0f, textPosition.y - 1.0f ), Colors::Black, 0.0f, originF );
-        m_spriteFont->DrawString( m_spriteBatch.get(), text,
-            XMFLOAT2( textPosition.x + 1.0f, textPosition.y - 1.0f ), Colors::Black, 0.0f, originF );
-
-        return originF;
-    };
-    const wchar_t* text = L"This is example text.";
-    XMFLOAT2 originF = DrawOutline( text );
-    m_spriteFont->DrawString( m_spriteBatch.get(), text, textPosition,
-        Colors::Green, 0.0f, originF, XMFLOAT2( 1.0f, 1.0f ) );
-    m_spriteBatch->End();
+    m_textRenderer.RenderString(
+        "This is example text.",
+        XMFLOAT2( graphics->GetWidth() * 0.5f, graphics->GetHeight() * 0.96f ),
+        Colors::Green, true
+    );
 
     // Render scene to texture
     graphics->RenderSceneToTexture();

@@ -6,11 +6,9 @@
 #include "Camera.h"
 #include "Player.h"
 #include "TileMapDraw.h"
+#include "TextRenderer.h"
 #include "TileMapEditor.h"
 #include "LevelStateMachine.h"
-
-#include <dxtk/SpriteFont.h>
-#include <dxtk/SpriteBatch.h>
 
 /// <summary>
 /// The first level of the game.
@@ -40,6 +38,7 @@ private:
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
+	TextRenderer m_textRenderer;
 	TileMapEditor m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::vector<TileMapDraw> m_tileMapDraw;
