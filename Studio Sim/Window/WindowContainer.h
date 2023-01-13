@@ -26,8 +26,10 @@ protected:
 	void FreeCursor() noexcept;
 	void ShowCursor() noexcept;
 	void HideCursor() noexcept;
+#if _DEBUG
 	void EnableImGuiMouse() noexcept;
 	void DisableImGuiMouse() noexcept;
+#endif
 
 	Vector2f m_vImguiPos = { 0.0f, 0.0f };
 	bool m_bCursorEnabled = true;

@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Level1.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 void Level1::OnCreate()
 {
@@ -120,6 +123,7 @@ void Level1::EndFrame()
     // Render scene to texture
     graphics->RenderSceneToTexture();
 
+#if _DEBUG
     // Render imgui windows
     m_imgui->BeginRender();
 
@@ -154,6 +158,7 @@ void Level1::EndFrame()
     m_tileMapEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
+#endif
     
     // Present Frame
 	graphics->EndFrame();
@@ -170,7 +175,11 @@ void Level1::Update( const float dt )
 void Level1::UpdateTileMap(const float dt)
 {
     static bool firstTimeTileMapDraw = true;
+#if _DEBUG
     if (m_tileMapEditor.UpdateDrawOnceAvalible() || firstTimeTileMapDraw || m_tileMapEditor.UpdateDrawContinuousAvalible())
+#else
+    if (firstTimeTileMapDraw)
+#endif
     {
         for (int i = 0; i < COLUMNS * ROWS; i++)
         {
@@ -181,7 +190,9 @@ void Level1::UpdateTileMap(const float dt)
             texture += ".png";
 
             m_tileMapDraw[i].GetSprite()->UpdateTex(graphics->GetDevice(), texture);
+#if _DEBUG
             m_tileMapEditor.UpdateDrawOnceDone();
+#endif
         }
 
         firstTimeTileMapDraw = false;

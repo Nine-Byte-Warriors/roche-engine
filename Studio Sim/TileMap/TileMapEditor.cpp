@@ -7,10 +7,12 @@ TileMapEditor::TileMapEditor()
 	m_sTileTypeData = tileMap.GetTileTypeData();
 	m_iSizeOfTileTypeData = m_sTileTypeData.size();
 
+#if _DEBUG
 	for (int i = 0; i < COLUMNS * ROWS; i++)
 	{
 		m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
 	}
+#endif
 
 	m_iCurrentSelectedTileType = 0;
 	m_sCurrentSelectedTileType = "Current Tile Type: ";
@@ -20,6 +22,7 @@ TileMapEditor::TileMapEditor()
 	m_bDrawContinuous = false;
 }
 
+#if _DEBUG
 void TileMapEditor::SpawnControlWindow()
 {
 	if (ImGui::Begin("Tile Map Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
@@ -37,6 +40,7 @@ void TileMapEditor::SpawnControlWindow()
 
 	ImGui::End();
 }
+#endif
 
 bool TileMapEditor::UpdateDrawOnceAvalible()
 {
@@ -60,6 +64,7 @@ std::string TileMapEditor::GetTileTypeName(int pos)
 
 void TileMapEditor::DrawButton()
 {
+#if _DEBUG
 	ImGui::Text("");
 	m_bDrawButton = ImGui::Button("Draw Once");
 	if (m_bDrawButton)
@@ -67,12 +72,15 @@ void TileMapEditor::DrawButton()
 		m_bDrawOnce = true;
 	}
 	ImGui::Checkbox("Draw Continuously", &m_bDrawContinuous);
+#endif
 }
 
 void TileMapEditor::Load()
 {
+#if _DEBUG
 	m_bLoadButton = ImGui::Button("Load");
 	ImGui::Text(m_sSelectedFile.c_str());
+#endif
 
 	if (m_bLoadButton)
 	{
@@ -195,7 +203,9 @@ void TileMapEditor::LoadProcessFile()
 		{
 			if (word[i] == std::to_string(j) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
 			{
+#if _DEBUG
 				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+#endif
 				tileMap.UpdateTile(i, j);
 			}
 		}
@@ -204,8 +214,10 @@ void TileMapEditor::LoadProcessFile()
 
 void TileMapEditor::SaveToExistingFile()
 {
+#if _DEBUG
 	ImGui::Text("");
 	m_bSaveButton = ImGui::Button("Save To Existing File");
+#endif
 
 	if (m_bSaveButton)
 	{
@@ -229,10 +241,11 @@ void TileMapEditor::SaveToExistingFile()
 
 void TileMapEditor::SaveToNewFile()
 {
-	m_bSaveNewButton = ImGui::Button("Save To New File");
-
 	static char saveFileName[128] = "";
+#if _DEBUG
+	m_bSaveNewButton = ImGui::Button("Save To New File");
 	ImGui::InputTextWithHint("TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+#endif
 
 	if (m_bSaveNewButton)
 	{
@@ -296,6 +309,7 @@ bool TileMapEditor::SaveWriteFile()
 
 void TileMapEditor::TileMapSelectionButtons()
 {
+#if _DEBUG
 	ImGui::Text("");
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
@@ -318,11 +332,14 @@ void TileMapEditor::TileMapSelectionButtons()
 			m_iCurrentSelectedTileType = m_sTileTypeData[i].type;
 		}
 	}
+#endif
 }
 
 void TileMapEditor::TileMapSelectedText()
 {
+#if _DEBUG
 	ImGui::Text("");
+#endif
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
@@ -333,11 +350,14 @@ void TileMapEditor::TileMapSelectedText()
 		}
 	}
 
+#if _DEBUG
 	ImGui::Text(m_sCurrentSelectedTileType.c_str());
+#endif
 }
 
 void TileMapEditor::TileMapGridPreview()
 {
+#if _DEBUG
 	ImGui::Text("");
 
 	for (int i = 0; i < COLUMNS * ROWS; i++)
@@ -349,6 +369,7 @@ void TileMapEditor::TileMapGridPreview()
 			ImGui::SameLine();
 		}
 	}
+#endif
 
 	UpdateTileMapGridPreview();
 }
@@ -363,7 +384,9 @@ void TileMapEditor::UpdateTileMapGridPreview()
 			{
 				if (m_iCurrentSelectedTileType == tileMap.GetTileTypeData()[j].type)
 				{
+#if _DEBUG
 					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+#endif
 					tileMap.UpdateTile(i, tileMap.GetTileTypeData()[j].type);
 				}
 			}
