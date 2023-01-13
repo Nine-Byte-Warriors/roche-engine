@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "AudioEngine.h"
 
-
-
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
@@ -53,15 +51,15 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	// Load Sound Bank for SFX
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"TestAudioFiles\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
-	LoadAudio(L"TestAudioFiles\\piano2.wav", 1.0f, SFX);
-	LoadAudio(L"TestAudioFiles\\quietlaugh.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\AudioFiles\\piano2.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\AudioFiles\\quietlaugh.wav", 1.0f, SFX);
 
 	// Load Sound Bank for Music
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"TestAudioFiles\\creepymusic.wav", 1.0f, MUSIC);
-	LoadAudio(L"TestAudioFiles\\partymusic.wav", 1.0f, MUSIC);
+	LoadAudio(L"Resources\\AudioFiles\\creepymusic.wav", 1.0f, MUSIC);
+	LoadAudio(L"Resources\\AudioFiles\\partymusic.wav", 1.0f, MUSIC);
 
 
 }
@@ -167,7 +165,7 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 		if (fileName == soundBank->at(i)->fileName) {
 
 			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank->at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
-				soundBank->at(i)->voiceCallback, NULL, NULL))) {
+				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
 				return hr;
 			}
@@ -313,8 +311,8 @@ SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_B
 	soundBankFile->fileName = GetFileName(filePath);
 	soundBankFile->buffer = buffer;
 	soundBankFile->sourceFormat = waveformatex;
-	soundBankFile->voiceCallback = new VoiceCallback();
-	soundBankFile->voiceCallback->OnBufferEnd(buffer);
+	//soundBankFile->voiceCallback = new VoiceCallback();
+	//soundBankFile->voiceCallback->OnBufferEnd(buffer);
 	soundBankFile->volume = volume;
 
 	return soundBankFile;

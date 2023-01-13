@@ -112,6 +112,15 @@
     <Filter Include="Source Files\Collisions">
       <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{aa443b13-a403-4bc5-9217-9f61a8ec94c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{3bb1736c-ec92-41c7-b099-bb13b11c2c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\AudioFiles">
+      <UniqueIdentifier>{c9af70fa-0e08-4e47-9ed1-668b19323558}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -245,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="Utility\TextRenderer.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="VoiceCallback.cpp">
+      <Filter>Source Files\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +458,12 @@
     <ClInclude Include="Utility\TextRenderer.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="VoiceCallback.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -505,5 +526,25 @@
     <FxCompile Include="Resources\Shaders\shader2D_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\AudioFiles\creepymusic.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\partymusic.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-mono.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-stereo.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\piano2.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\quietlaugh.wav">
+      <Filter>Resource Files\AudioFiles</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 #pragma once
-#ifndef AUDIOENGINE_H
-#define AUDIOENGINE_H
-#include "AudioEngine.h"
-#endif
+//#ifndef AUDIOENGINE_H
+//#define AUDIOENGINE_H
+//#include "AudioEngine.h"
+//#endif
 
 #include <xaudio2.h>
 #include "stdafx.h"
@@ -14,8 +14,6 @@
 class VoiceCallback : public IXAudio2VoiceCallback
 {
 public:
-    //AudioEngine* audioEnginePtr = AudioEngine::GetInstance();
-
     HANDLE hBufferEndEvent;
 
     VoiceCallback();

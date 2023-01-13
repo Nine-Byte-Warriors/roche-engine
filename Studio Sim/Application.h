@@ -7,6 +7,7 @@
 #include "Level1.h"
 #include "Graphics.h"
 #include "WindowContainer.h"
+#include "AudioEngine.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"

@@ -5,10 +5,10 @@
 #include <stdafx.h>
 #include <filesystem>
 
-#ifndef VOICECALLBACK_H
-#define VOICECALLBACK_H
-#include "VoiceCallback.h"
-#endif
+//#ifndef VOICECALLBACK_H
+//#define VOICECALLBACK_H
+//#include "VoiceCallback.h"
+//#endif
 
 //#include <tchar.h>
 //#include <winnt.h>
@@ -29,7 +29,7 @@ struct SoundBankFile {
 	std::wstring fileName;
 	XAUDIO2_BUFFER* buffer;
 	WAVEFORMATEX* sourceFormat;
-	VoiceCallback* voiceCallback;
+	//VoiceCallback* voiceCallback;
 	float volume;
 };
 
