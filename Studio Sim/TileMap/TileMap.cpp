@@ -11,9 +11,11 @@ TileMap::TileMap()
 		TileTypeData tile;
 		tile.type = tiles.value().at("type");
 		tile.name = tiles.value().at("name");
+#if _DEBUG
 		tile.button = false;
 		int colorA = tiles.value().at("colorA");
 		tile.color = ImColor(tiles.value().at("colorR"), tiles.value().at("colorG"), tiles.value().at("colorB"), colorA);
+#endif
 
 		pos++;
 		m_sTileTypeData.push_back(tile);

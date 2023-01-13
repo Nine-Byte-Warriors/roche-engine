@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Graphics.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 Player::Player()
 {
@@ -31,6 +34,7 @@ void Player::Update( const float dt )
 	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos );
 }
 
+#if _DEBUG
 void Player::SpawnControlWindow()
 {
 	if ( ImGui::Begin( "Player##Window", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
@@ -47,6 +51,7 @@ void Player::SpawnControlWindow()
 	}	
 	ImGui::End();
 }
+#endif
 
 void Player::AddToEvent() noexcept
 {

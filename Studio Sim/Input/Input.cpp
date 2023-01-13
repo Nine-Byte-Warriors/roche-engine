@@ -4,7 +4,6 @@
 void Input::Initialize( RenderWindow& window )
 {
     m_renderWindow = window;
-	pMousePos = new Vector2f();
 
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();

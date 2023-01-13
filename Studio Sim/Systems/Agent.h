@@ -17,7 +17,9 @@ class Agent : public Listener
 public:
 	Agent( const std::shared_ptr<Physics>& physics );
 	void Update(const float dt);
+#if _DEBUG
 	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept;
+#endif
 	
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
 	inline Vector2f GetTargetPosition() const noexcept { return m_vTargetPos; }

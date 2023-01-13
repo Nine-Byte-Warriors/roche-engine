@@ -2,20 +2,15 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <dxtk/SpriteFont.h>
-#include <dxtk/SpriteBatch.h>
-#include "DDSTextureLoader.h"
-#include "Resource.h"
-
 #include "Input.h"
 #include "Timer.h"
-#include "Shaders.h"
-#include "structures.h"
-#include "ImGuiManager.h"
-#include "ConstantBuffer.h"
-#include "WindowContainer.h"
-#include "Graphics.h"
 #include "Level1.h"
+#include "Graphics.h"
+#include "WindowContainer.h"
+
+#if _DEBUG
+#include "ImGuiManager.h"
+#endif
 
 class Application : public WindowContainer
 {
@@ -33,7 +28,9 @@ private:
 	std::shared_ptr<Level1> m_pLevel1;
 
 	// Objects
+#if _DEBUG
 	ImGuiManager m_imgui;
+#endif
 	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;

@@ -3,7 +3,6 @@
 #define INPUT_H
 
 #include "WindowContainer.h"
-#include <Vector2f.h>
 
 class Input : public WindowContainer
 {
@@ -17,9 +16,6 @@ public:
 private:
 	void UpdateMouse( float dt );
 	void UpdateKeyboard( float dt );
-
-	//DEBUG: for testing only
-	Vector2f* pMousePos;
 };
 
 #endif

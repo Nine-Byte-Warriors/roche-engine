@@ -22,7 +22,9 @@ public:
 	void UpdateRenderState();
 	
 	void RenderSceneToTexture();
+#if _DEBUG
 	void SpawnControlWindow();
+#endif
 
 	void BeginFrame();
 	void EndFrame();

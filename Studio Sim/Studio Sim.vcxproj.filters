@@ -37,9 +37,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{f70744d1-2661-4561-bc86-b88282724ce6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Textures">
-      <UniqueIdentifier>{71070f11-d611-4d54-806f-b59d7f759f4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Cursors">
       <UniqueIdentifier>{e4d7c737-7831-42c9-babc-7a9e81af24a0}</UniqueIdentifier>
     </Filter>
@@ -198,21 +195,6 @@
     <ClCompile Include="TileMap\TileMapDraw.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="AILogic\AIStateMachine.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIFlee.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIIdle.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AIPatrol.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AILogic\AISeek.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Systems\Agent.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
@@ -251,6 +233,24 @@
     </ClCompile>
     <ClCompile Include="Systems\ProjectileManager.cpp">
       <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIStateMachine.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIFlee.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIIdle.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIPatrol.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AISeek.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\TextRenderer.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,24 +383,6 @@
     <ClInclude Include="TileMap\TileMapDraw.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="AILogic\AIStateMachine.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIFlee.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIIdle.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIPatrol.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AISeek.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="AILogic\AIState.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Systems\Transform.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
@@ -443,8 +425,29 @@
     <ClInclude Include="Collisions\Collision.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="AI\AIStateMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFlee.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIIdle.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIPatrol.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AISeek.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIState.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TextRenderer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Projectile.h">
       <Filter>Header Files\Objects</Filter>

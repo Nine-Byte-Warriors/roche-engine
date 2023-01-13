@@ -2,10 +2,12 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
-#include <string>
-#include <imgui/imgui.h>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
+
+#if _DEBUG
+#include <imgui/imgui.h>
+#endif
 
 #define COLUMNS 6
 #define ROWS 8
@@ -13,8 +15,10 @@ using json = nlohmann::json;
 struct TileTypeData
 {
 	int type;
+#if _DEBUG
 	ImColor color;
 	bool button;
+#endif
 	std::string name;
 };
 

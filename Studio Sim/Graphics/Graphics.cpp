@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Graphics.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 {
@@ -105,6 +108,7 @@ bool Graphics::InitializeRTT()
 	return true;
 }
 
+#if _DEBUG
 void Graphics::SpawnControlWindow()
 {
 	if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
@@ -114,6 +118,7 @@ void Graphics::SpawnControlWindow()
 	}
 	ImGui::End();
 }
+#endif
 
 void Graphics::RenderSceneToTexture()
 {
@@ -135,6 +140,17 @@ void Graphics::RenderSceneToTexture()
 
 	// 3. Render everything to the back buffer
 	m_pBackBuffer->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
+
+#if !_DEBUG
+	// 4. Render only the scene to the back buffer
+	Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
+	m_quad.SetupBuffers( m_pContext.Get() );
+	
+	m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
+	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
+
+	Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
+#endif
 }
 
 void Graphics::BeginFrame()

@@ -13,7 +13,9 @@ public:
 	Player();
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
+#if _DEBUG
 	void SpawnControlWindow();
+#endif
 
 	void AddToEvent() noexcept;
 	void HandleEvent( Event* event ) override;
