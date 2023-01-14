@@ -1,16 +1,21 @@
 #include "stdafx.h"
 #include "TileMapEditor.h"
 
-TileMapEditor::TileMapEditor()
+TileMapEditor::TileMapEditor(int rows, int columns)
 {
+	m_iRows = rows;
+	m_iColumns = columns;
 
-	m_sTileTypeData = tileMap.GetTileTypeData();
+	m_tileMapBackground = new TileMap(m_iRows, m_iColumns);
+	m_tileMapForeground = new TileMap(m_iRows, m_iColumns);
+
+	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();
 	m_iSizeOfTileTypeData = m_sTileTypeData.size();
 
 #if _DEBUG
-	for (int i = 0; i < COLUMNS * ROWS; i++)
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
+		m_TileMapPreviewImageButtonColor.push_back(m_sTileTypeData[0].color);
 	}
 #endif
 
@@ -20,22 +25,32 @@ TileMapEditor::TileMapEditor()
 
 	m_bDrawOnce = false;
 	m_bDrawContinuous = false;
+
+	m_tileMapLayer = TileMapLayer::Background;
+}
+
+TileMapEditor::~TileMapEditor()
+{
+	delete m_tileMapBackground;
+	delete m_tileMapForeground;
 }
 
 #if _DEBUG
 void TileMapEditor::SpawnControlWindow()
 {
-	if (ImGui::Begin("Tile Map Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
+	if (ImGui::Begin("Tile Map Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
 		Load();
 		SaveToExistingFile();
 		SaveToNewFile();
 
+		SelectTileMapLayer();
 		DrawButton();
 
 		TileMapSelectionButtons();
 		TileMapSelectedText();
 		TileMapGridPreview();
+
 	}
 
 	ImGui::End();
@@ -57,15 +72,22 @@ bool TileMapEditor::UpdateDrawContinuousAvalible()
 	return m_bDrawContinuous;
 }
 
-std::string TileMapEditor::GetTileTypeName(int pos)
+std::string TileMapEditor::GetTileTypeName(int pos, TileMapLayer tileMapLayer)
 {
-	return m_sTileTypeData[tileMap.GetTileType(pos)].name;
+	if (tileMapLayer == TileMapLayer::Background)
+	{
+		return m_sTileTypeData[m_tileMapBackground->GetTileType(pos)].name;
+	}
+	else if (tileMapLayer == TileMapLayer::Foreground)
+	{
+		return m_sTileTypeData[m_tileMapForeground->GetTileType(pos)].name;
+	}
 }
 
 void TileMapEditor::DrawButton()
 {
 #if _DEBUG
-	ImGui::Text("");
+	ImGui::NewLine();
 	m_bDrawButton = ImGui::Button("Draw Once");
 	if (m_bDrawButton)
 	{
@@ -88,7 +110,10 @@ void TileMapEditor::Load()
 		{
 			if (LoadReadFile())
 			{
-				LoadProcessFile();
+				if (!LoadProcessFile())
+				{
+					m_sSelectedFile = "Can't load to both";
+				}
 			}
 			else
 			{
@@ -180,9 +205,19 @@ bool TileMapEditor::LoadReadFile()
 	}
 }
 
-void TileMapEditor::LoadProcessFile()
+bool TileMapEditor::LoadProcessFile()
 {
-	std::string word[COLUMNS * ROWS];
+	if (m_tileMapLayer == TileMapLayer::Both)
+	{
+		return false;
+	}
+	std::vector<std::string> word;
+	
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
+	{
+		word.push_back("");
+	}	
+
 	int pos = 0;
 
 	for (char& c : m_sFileContent)
@@ -197,25 +232,47 @@ void TileMapEditor::LoadProcessFile()
 		}
 	}
 
-	for (int i = 0; i < COLUMNS * ROWS; i++)
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
+		for (int tileType = 0; tileType < m_iSizeOfTileTypeData; tileType++)
 		{
-			if (word[i] == std::to_string(j) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[j].name))
+			if (word[i] == std::to_string(tileType) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[tileType].name))
 			{
 #if _DEBUG
-				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[tileType].color;
 #endif
-				tileMap.UpdateTile(i, j);
+				if (m_tileMapLayer == TileMapLayer::Background)
+				{
+					m_tileMapBackground->UpdateTile(i, tileType);
+				}
+				else if (m_tileMapLayer == TileMapLayer::Foreground)
+				{
+					m_tileMapForeground->UpdateTile(i, tileType);
+				}
+			}
+			else if (word[i] == "")
+			{
+#if _DEBUG
+				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
+#endif
+				if (m_tileMapLayer == TileMapLayer::Background)
+				{
+					m_tileMapBackground->UpdateTile(i, 0);
+				}
+				else if (m_tileMapLayer == TileMapLayer::Foreground)
+				{
+					m_tileMapForeground->UpdateTile(i, 0);
+				}
 			}
 		}
 	}
+	return true;
 }
 
 void TileMapEditor::SaveToExistingFile()
 {
 #if _DEBUG
-	ImGui::Text("");
+	ImGui::NewLine();
 	m_bSaveButton = ImGui::Button("Save To Existing File");
 #endif
 
@@ -244,7 +301,7 @@ void TileMapEditor::SaveToNewFile()
 	static char saveFileName[128] = "";
 #if _DEBUG
 	m_bSaveNewButton = ImGui::Button("Save To New File");
-	ImGui::InputTextWithHint("TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
 #endif
 
 	if (m_bSaveNewButton)
@@ -261,7 +318,7 @@ void TileMapEditor::SaveToNewFile()
 			}
 			else
 			{
-				m_sSelectedFile = "Write File Failed";
+				m_sSelectedFile = "Can't save both";
 			}
 		}
 		else
@@ -273,16 +330,30 @@ void TileMapEditor::SaveToNewFile()
 
 bool TileMapEditor::SaveWriteFile()
 {
+	if (m_tileMapLayer == TileMapLayer::Both)
+	{
+		return false;
+	}
+
 	std::ofstream myFile(m_sFilePath);
 	std::string line;
+	std::string word;
 
 	if (myFile.is_open())
 	{
-		for (int i = 0; i < COLUMNS * ROWS; i++)
+		for (int i = 0; i < m_iRows * m_iColumns; i++)
 		{
-			std::string word = m_sTileTypeData[tileMap.GetTileType(i)].name;
 
-			if (i + 1 != COLUMNS * ROWS)
+			if (m_tileMapLayer == TileMapLayer::Background)
+			{
+				word = m_sTileTypeData[m_tileMapBackground->GetTileType(i)].name;
+			}
+			else if (m_tileMapLayer == TileMapLayer::Foreground)
+			{
+				word = m_sTileTypeData[m_tileMapForeground->GetTileType(i)].name;
+			}			
+
+			if (i + 1 != m_iRows * m_iColumns)
 			{
 				line += word + ",";
 			}
@@ -291,7 +362,7 @@ bool TileMapEditor::SaveWriteFile()
 				line += word;
 			}
 
-			if ((i + 1) % COLUMNS == 0)
+			if ((i + 1) % m_iColumns == 0)
 			{
 				myFile << line << "\n";
 				line = "";
@@ -310,7 +381,7 @@ bool TileMapEditor::SaveWriteFile()
 void TileMapEditor::TileMapSelectionButtons()
 {
 #if _DEBUG
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
@@ -319,7 +390,7 @@ void TileMapEditor::TileMapSelectionButtons()
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
-		if ((i + 1) % (COLUMNS / 2) != 0)
+		if ((i + 1) % (m_iColumns / 2) != 0)
 		{
 			ImGui::SameLine();
 		}
@@ -338,7 +409,7 @@ void TileMapEditor::TileMapSelectionButtons()
 void TileMapEditor::TileMapSelectedText()
 {
 #if _DEBUG
-	ImGui::Text("");
+	ImGui::NewLine();
 #endif
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
@@ -352,44 +423,143 @@ void TileMapEditor::TileMapSelectedText()
 
 #if _DEBUG
 	ImGui::Text(m_sCurrentSelectedTileType.c_str());
+	ImGui::Text("Left click to single edit; hold right click to multi edit");
+#endif
+}
+
+void TileMapEditor::TileMapGridInit()
+{
+#if _DEBUG
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
+	{
+		std::string gridLable = "Grid" + std::to_string(i);
+		m_bTileMapPreviewImageButton.push_back(ImGui::ImageButtonNoTexture(gridLable.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_TileMapPreviewImageButtonColor[i]));
+	}
 #endif
 }
 
 void TileMapEditor::TileMapGridPreview()
 {
 #if _DEBUG
-	ImGui::Text("");
+	ImGui::NewLine();
 
-	for (int i = 0; i < COLUMNS * ROWS; i++)
+	static bool firstTime = true;
+	if (firstTime)
+	{
+		TileMapGridInit();
+		firstTime = false;
+	}
+
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
 		std::string gridLable = "Grid" + std::to_string(i);
 		m_bTileMapPreviewImageButton[i] = ImGui::ImageButtonNoTexture(gridLable.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_TileMapPreviewImageButtonColor[i]);
-		if ((i % COLUMNS) - (COLUMNS - 1) != 0)
+		if ((i % m_iColumns) - (m_iColumns - 1) != 0)
 		{
 			ImGui::SameLine();
 		}
 	}
 #endif
 
-	UpdateTileMapGridPreview();
+	UpdateSingleTileMapGridPreview();
 }
 
-void TileMapEditor::UpdateTileMapGridPreview()
+void TileMapEditor::UpdateSingleTileMapGridPreview()
 {
-	for (int i = 0; i < COLUMNS * ROWS; i++)
+	if (m_tileMapLayer != TileMapLayer::Both)
 	{
-		if (m_bTileMapPreviewImageButton[i])
+		for (int i = 0; i < m_iRows * m_iColumns; i++)
 		{
-			for (int j = 0; j < m_iSizeOfTileTypeData; j++)
+			if (m_bTileMapPreviewImageButton[i])
 			{
-				if (m_iCurrentSelectedTileType == tileMap.GetTileTypeData()[j].type)
+				for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 				{
+					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
+					{
 #if _DEBUG
-					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+						m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
 #endif
-					tileMap.UpdateTile(i, tileMap.GetTileTypeData()[j].type);
+						if (m_tileMapLayer == TileMapLayer::Background)
+						{
+							m_tileMapBackground->UpdateTile(i, m_tileMapBackground->GetTileTypeData()[j].type);
+						}
+						else if (m_tileMapLayer == TileMapLayer::Foreground)
+						{
+							m_tileMapForeground->UpdateTile(i, m_tileMapBackground->GetTileTypeData()[j].type);
+						}
+					}
 				}
 			}
 		}
 	}
+}
+
+void TileMapEditor::UpdateWholeTileMapGridPreview()
+{
+#if _DEBUG
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
+	{
+		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
+		{
+			if (m_tileMapLayer == TileMapLayer::Background)
+			{
+				if (m_tileMapBackground->GetTileType(i) == m_tileMapBackground->GetTileTypeData()[j].type)
+				{
+					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+				}
+			}
+			else if (m_tileMapLayer == TileMapLayer::Foreground)
+			{
+				if (m_tileMapForeground->GetTileType(i) == m_tileMapForeground->GetTileTypeData()[j].type)
+				{
+					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+				}
+			}
+		}
+	}
+#endif
+}
+
+void TileMapEditor::SelectTileMapLayer()
+{
+#if _DEBUG
+	ImGui::NewLine();
+	ImGui::Text("Select Tile Map Layer");
+	static int tileMapLayer = 0;
+	static std::string previewMapLayer = "Background";
+	static const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked"};
+	if (ImGui::BeginCombo("##SelectTileMapLayer", previewMapLayer.c_str()))
+	{
+		for (int i = 0; i < IM_ARRAYSIZE(tileMapLayers); i++)
+		{
+			const bool isSelected = i == tileMapLayer;
+			if (ImGui::Selectable(tileMapLayers[i], isSelected))
+			{
+				tileMapLayer = i;
+				previewMapLayer = tileMapLayers[i];
+			}
+		}
+		ImGui::EndCombo();
+
+		if (tileMapLayer == 0)
+		{
+			m_tileMapLayer = TileMapLayer::Background;
+			UpdateWholeTileMapGridPreview();
+		}
+		else if (tileMapLayer == 1)
+		{
+			m_tileMapLayer = TileMapLayer::Foreground;
+			UpdateWholeTileMapGridPreview();
+		}
+		else
+		{
+			m_tileMapLayer = TileMapLayer::Both;
+		}
+	}
+#endif
+}
+
+TileMapLayer TileMapEditor::GetTileMapLayer()
+{
+	return m_tileMapLayer;
 }

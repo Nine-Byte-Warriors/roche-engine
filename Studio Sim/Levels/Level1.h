@@ -5,9 +5,9 @@
 #include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
-#include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "LevelStateMachine.h"
+#include "TileMapDraw.h"
 #include "TileMapEditor.h"
 
 /// <summary>
@@ -27,21 +27,25 @@ public:
 	void EndFrame() override;
 
 	void Update( const float dt ) override;
-	void CleanUp() override {}
+	void CleanUp() override;
 private:
 	// Tile Map
-	void OnCreateTileMap();
-	void UpdateTileMap(const float dt);
-	void RenderFrameTileMap();
+	void OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
+	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
+	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
 	// Objects
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
 	TextRenderer m_textRenderer;
-	TileMapEditor m_tileMapEditor;
+	TileMapEditor* m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
-	std::vector<TileMapDraw> m_tileMapDraw;
+	std::vector<TileMapDraw> m_tileMapDrawBackground;
+	std::vector<TileMapDraw> m_tileMapDrawForeground;
+
+	int m_iTileMapRows;
+	int m_iTileMapColumns;
 };
 
 #endif
