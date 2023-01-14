@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Level1.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 void Level1::OnCreate()
 {
@@ -129,6 +132,11 @@ void Level1::EndFrame()
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        
+        // Update imgui mouse position for scene render window
+        Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
+        EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
+
         vMax.x += ImGui::GetWindowPos().x;
         vMax.y += ImGui::GetWindowPos().y;
 
@@ -167,7 +175,11 @@ void Level1::Update( const float dt )
 void Level1::UpdateTileMap(const float dt)
 {
     static bool firstTimeTileMapDraw = true;
+#if _DEBUG
     if (m_tileMapEditor.UpdateDrawOnceAvalible() || firstTimeTileMapDraw || m_tileMapEditor.UpdateDrawContinuousAvalible())
+#else
+    if (firstTimeTileMapDraw)
+#endif
     {
         for (int i = 0; i < COLUMNS * ROWS; i++)
         {
@@ -178,7 +190,9 @@ void Level1::UpdateTileMap(const float dt)
             texture += ".png";
 
             m_tileMapDraw[i].GetSprite()->UpdateTex(graphics->GetDevice(), texture);
+#if _DEBUG
             m_tileMapEditor.UpdateDrawOnceDone();
+#endif
         }
 
         firstTimeTileMapDraw = false;

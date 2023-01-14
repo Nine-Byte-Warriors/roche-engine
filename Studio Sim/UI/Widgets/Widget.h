@@ -3,6 +3,7 @@
 #define WIDGET_H
 
 #include "Sprite.h"
+#include "TextRenderer.h"
 
 struct MouseData
 {
@@ -19,7 +20,12 @@ public:
 	~Widget() {}
 
 	virtual void Resolve() {}
-	virtual void Draw( ID3D11Device* device, const ConstantBuffer<Matrices>& mat, XMMATRIX worldOrthoMat, TextRenderer* textRenderer ) {}	
+	virtual void Draw(
+		ID3D11Device* device,
+		ConstantBuffer<Matrices>& mat,
+		XMMATRIX worldOrtho,
+		TextRenderer* textRenderer )
+	{}	
 };
 
 #endif

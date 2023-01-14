@@ -9,14 +9,19 @@
 #include "DDSTextureLoader.h"
 #include "TileMap.h"
 #include <shobjidl.h> 
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 class TileMapEditor
 {
 public:
 	TileMapEditor();
 
+#if _DEBUG
 	void SpawnControlWindow();
+#endif
 
 	bool UpdateDrawOnceAvalible();
 	bool UpdateDrawContinuousAvalible();
@@ -57,11 +62,13 @@ private:
 
 	bool m_bTileMapPreviewImageButton[COLUMNS * ROWS];
 
+#if _DEBUG
 	ImColor m_TileMapPreviewImageButtonColor[COLUMNS * ROWS];
 
 	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
 	const ImVec2 m_vImageButtonFrame1 = ImVec2(10, 10);
+#endif
 	const int m_iImageButtonPadding = 2;
 
 	std::vector<TileTypeData> m_sTileTypeData;

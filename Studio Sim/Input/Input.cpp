@@ -4,7 +4,6 @@
 void Input::Initialize( RenderWindow& window )
 {
     m_renderWindow = window;
-	pMousePos = new Vector2f();
 
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();
@@ -22,11 +21,7 @@ void Input::UpdateMouse( float dt )
     // update camera orientation
     while ( !m_mouse.EventBufferIsEmpty() )
     {
-        Mouse::MouseEvent me = m_mouse.ReadEvent();
-        pMousePos->x = me.GetPosX();
-        pMousePos->y = me.GetPosY();
-        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
-        
+        Mouse::MouseEvent me = m_mouse.ReadEvent();        
         if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )

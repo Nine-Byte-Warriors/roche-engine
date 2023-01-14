@@ -1,50 +1,57 @@
 #pragma once
+#ifndef MAINMENU_UI
+#define MAINMENU_UI
+
 #include "UI.h"
-class Main_Menu_UI :
-    public UI
+
+class MainMenu_UI : public UI
 {
 public:
-	Main_Menu_UI();
-	~Main_Menu_UI();
-	void Initialize(ID3D11Device* device, ID3D11DeviceContext* contex, ConstantBuffer<CB_VS_matrix_2D>* cb_vs_matrix_2d, std::shared_ptr<Fonts> fonts);
-	void Update(float dt);
-	void BeginDraw(VertexShader& vert, PixelShader& pix, XMMATRIX WorldOrthMatrix, ConstantBuffer<CB_PS_scene>* _cb_ps_scene);
-	void TextLoad();
-	void HandleEvent(Event* event);
-private:
+	MainMenu_UI() {}
+	~MainMenu_UI() { RemoveFromEvent(); }
 
-	void AddtoEvent();
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
+	void Update( const float dt );
+	void Draw( XMMATRIX worldOrtho );
+	
+	void TextLoad();
+	void HandleEvent( Event* event ) override;
+private:
+	void AddToEvent();
 	void RemoveFromEvent();
 
 	void MenuButtons();
 	void LinkButtons();
-private:
-	//MainMenu
-	ColourBlock MainMenuBackground;
-	Button_Widget<std::string> MainMenuButtons[5];
-	Image_Widget Titlecard;
 
-	unordered_map<string, string> LoadedTextMap;
-	//github link
-	bool openlink = false;
-	bool open = true;
+	// MainMenu
+	Image_Widget m_titlecard;
+	ColourBlock_Widget m_mainMenuBackground;
+	Button_Widget<std::string> m_mainMenuButtons[5];
+	std::unordered_map<std::string, std::string> m_mLoadedTextMap;
+	
+	// GitHub link
+	bool m_bOpen = true;
+	bool m_bOpenLink = false;
 
+	bool m_bMouseLoad = true;
+	UINT32 m_uLevelTo = 0;
+	bool m_bIsSettings;
 
-	UINT32 LevelTo=0;
-	bool IsSettings;
-	//button state textures
-	vector<string> ButtonTex = { "Resources\\Textures\\UI_Buttons\\Button_1_Down.dds",
+	// Button state textures
+	std::vector<std::string> m_buttonTexturesMain =
+	{
+		"Resources\\Textures\\UI_Buttons\\Button_1_Down.dds",
 		"Resources\\Textures\\UI_Buttons\\Button_1_Hover.dds",
-		"Resources\\Textures\\UI_Buttons\\Button_1_Up.dds" };
+		"Resources\\Textures\\UI_Buttons\\Button_1_Up.dds"
+	};
 
-
-
-	//Logo from https://github.com/logos
-	vector<string> ButtonTex2 = { "Resources\\Textures\\UI_Buttons\\GitHubLogo.png",
+	// Logo from https://github.com/logos
+	std::vector<std::string> m_buttonTexturesGithub =
+	{
 		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png",
-		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png" };
-
-
-	bool mouseLoad = true;
+		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png",
+		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png"
+	};
 };
 
+#endif

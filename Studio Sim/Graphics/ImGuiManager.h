@@ -2,6 +2,7 @@
 #ifndef IMGUIMANAGER_H
 #define IMGUIMANAGER_H
 
+#if _DEBUG
 #include "EventSystem.h"
 
 /// <summary>
@@ -24,5 +25,6 @@ private:
 	void SetBlackGoldStyle();
 	XMFLOAT2 m_vWindowSize;
 };
+#endif
 
 #endif

@@ -6,14 +6,34 @@
 template<typename ButtonTexture>
 Button_Widget<ButtonTexture>::Button_Widget()
 {
+    m_vSize = { 1.0f, 1.0f };
+    m_vPosition = { 0.0f, 0.0f };
+    m_buttonTexture = "";
+    
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 }
 
 template<typename ButtonTexture>
-void Button_Widget<ButtonTexture>::Initialize( const Graphics& gfx, const ConstantBuffer<Matrices>& mat )
+Button_Widget<ButtonTexture>::Button_Widget( ButtonTexture texture, XMFLOAT2 pos, XMFLOAT2 size )
 {
-	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Player, mat );
+    m_vSize = size;
+    m_vPosition = pos;
+    m_buttonTexture = texture;
+
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>( m_sprite );
+}
+
+template<typename ButtonTexture>
+Button_Widget<ButtonTexture>::~Button_Widget() { }
+
+template<typename ButtonTexture>
+void Button_Widget<ButtonTexture>::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
+{
+	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), "", mat );
+    m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
+	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
 }
 
 template<typename ButtonTexture>
@@ -24,11 +44,12 @@ void Button_Widget<ButtonTexture>::Update( const float dt )
 }
 
 template<typename ButtonTexture>
-void Button_Widget<ButtonTexture>::Draw( ID3D11Device* device, const ConstantBuffer<Matrices>& mat, XMMATRIX worldOrthoMat, TextRenderer* textRenderer )
+void Button_Widget<ButtonTexture>::Draw( ID3D11Device* device, ConstantBuffer<Matrices>& mat, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
     // Button sprite
     m_sprite->UpdateTex( device, m_buttonTexture );
-    m_sprite->Draw( worldOrthoMat );
+    m_sprite->UpdateBuffers( device );
+    m_sprite->Draw( worldOrtho );
 
     // Button text
     XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
@@ -49,34 +70,34 @@ bool Button_Widget<ButtonTexture>::Resolve( const std::string& text, XMVECTORF32
 
     // Button collison
     if (
-        mData.Pos.x >= pos.x &&
-        mData.Pos.x <= (pos.x + size.x) &&
-        mData.Pos.y >= pos.y &&
-        mData.Pos.y <= (pos.y + size.y)
+        mData.Pos.x >= m_transform->GetPosition().x &&
+        mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
+        mData.Pos.y >= m_transform->GetPosition().y &&
+        mData.Pos.y <= ( m_transform->GetPosition().y + m_transform->GetScale().y )
        )
     {
     	if ( mData.LPress )
-    		CurrentState = Pressed;
+    		m_buttonState = ButtonState::Pressed;
     	else 
-    		CurrentState = Hover;
+            m_buttonState = ButtonState::Hover;
     }
 
     // Button state
     switch ( m_buttonState )
     {
     case ButtonState::Default:
-        ButtonColour = ButtonText[0];
+        m_buttonTexture = textures[0];
         break;
     case ButtonState::Pressed:
-    	ButtonColour = ButtonText[1];
-    	IsPressed = true;
+        m_buttonTexture = textures[1];
+        m_bIsPressed = true;
     	return true;
     case ButtonState::Hover:
-        ButtonColour = ButtonText[2];
+        m_buttonTexture = textures[2];
         break;
     default:
     	break;
     }
-    IsPressed = false;
+    m_bIsPressed = false;
     return false;
 }

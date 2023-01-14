@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Agent.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 using namespace AILogic;
 
@@ -34,6 +37,7 @@ void Agent::Update(const float dt)
 	m_pStateMachine->UpdateMachine(dt);
 }
 
+#if _DEBUG
 void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 {
 	if (ImGui::Begin("Agent AI", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
@@ -106,6 +110,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 	}
 	ImGui::End();
 }
+#endif
 
 void Agent::AddToEvent() noexcept
 {

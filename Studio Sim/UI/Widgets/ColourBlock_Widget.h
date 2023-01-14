@@ -1,25 +1,32 @@
 #pragma once
-#ifndef COLOURBLOCK_H
-#define COLOURBLOCK_H
+#ifndef COLOURBLOCK_WIDGET_H
+#define COLOURBLOCK_WIDGET_H
 
-#include "widget.h"
+#include "Widget.h"
+#include "Transform.h"
 
-class ColourBlock : public widget
+class Graphics;
+
+class ColourBlock_Widget : public Widget
 {
-
 public:
-    ColourBlock();
-    ColourBlock( Colour colour, DirectX::XMFLOAT2 size, DirectX::XMFLOAT2 pos, float AFactor = 1.0f );
-    ~ColourBlock();
+    ColourBlock_Widget();
+    ColourBlock_Widget( Colour colour, XMFLOAT2 pos, XMFLOAT2 size );
+    ~ColourBlock_Widget();
 
-    bool INITSprite( ID3D11DeviceContext* Context, ID3D11Device* Device, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d );
-    void Draw( ID3D11DeviceContext* Context, ID3D11Device* Device, ConstantBuffer<CB_PS_scene>& cb_ps_scene, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d, XMMATRIX WorldOrthoMatrix );
+    void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
+    void Update( const float dt );
+    void Draw( const Graphics& gfx, XMMATRIX worldOrtho );
+    void Resolve( Colour colour, XMFLOAT2 pos, XMFLOAT2 size );
 
-    bool Function( Colour colour, DirectX::XMFLOAT2 size, DirectX::XMFLOAT2 pos, float AFactor );
+    inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
+    inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 
 private:
-    Colour _Colour;
-    Sprite _ColourSprite;
+    Colour m_colour;
+    XMFLOAT2 m_vPosition, m_vSize;
+    std::shared_ptr<Sprite> m_sprite;
+    std::shared_ptr<Transform> m_transform;
 };
 
 #endif

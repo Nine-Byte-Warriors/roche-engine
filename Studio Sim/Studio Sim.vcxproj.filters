@@ -464,8 +464,29 @@
     <ClInclude Include="Collisions\Collision.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="AI\AIStateMachine.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFlee.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIIdle.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIPatrol.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AISeek.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIState.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\Utility\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TextRenderer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="AI\AIFlee.h">
       <Filter>Header Files\AI</Filter>

@@ -1,44 +1,52 @@
 #include "stdafx.h"
-#include "ColourBlock.h"
+#include "ColourBlock_Widget.h"
+#include "Graphics.h"
 
-ColourBlock::ColourBlock() { }
-
-ColourBlock::ColourBlock( Colour colour, DirectX::XMFLOAT2 size, DirectX::XMFLOAT2 pos, float AFactor )
+ColourBlock_Widget::ColourBlock_Widget()
 {
-	Function( colour, size, pos, AFactor );
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>( m_sprite );
+	Resolve( { 210, 210, 150 }, { 1.0f, 1.0f }, { 0.0f, 0.0f } );
 }
 
-ColourBlock::~ColourBlock() { }
-
-bool ColourBlock::INITSprite( ID3D11DeviceContext* Context, ID3D11Device* Device, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d )
+ColourBlock_Widget::ColourBlock_Widget( Colour colour, XMFLOAT2 pos, XMFLOAT2 size )
 {
-	_ColourSprite.Initialize( Device, Context, _Size.x, _Size.y, "", cb_vs_matrix_2d );
-	return true;
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>( m_sprite );
+	Resolve( colour, size, pos );
 }
 
-void ColourBlock::Draw( ID3D11DeviceContext* Context,
-	ID3D11Device* Device, ConstantBuffer<CB_PS_scene>& cb_ps_scene,
-	ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d,
-	XMMATRIX WorldOrthoMatrix )
+ColourBlock_Widget::~ColourBlock_Widget() { }
+
+void ColourBlock_Widget::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
-	_ColourSprite.UpdateTex( Device, _Colour );
-	_ColourSprite.SetInitialPosition( _Pos.x, _Pos.y, 0 );
-	_ColourSprite.SetScale( _Size.x, _Size.y );
-
-	cb_ps_scene.data.alphaFactor = _AlphaFactor;
-	cb_ps_scene.data.useTexture = false;
-
-	if ( !cb_ps_scene.ApplyChanges() ) return;
-	Context->PSSetConstantBuffers( 1u, 1u, cb_ps_scene.GetAddressOf() );
-	_ColourSprite.Draw( WorldOrthoMatrix );
+	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), m_colour, mat, m_vSize.x, m_vSize.y );
+	m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
+	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
 }
 
-bool ColourBlock::Function( Colour colour, DirectX::XMFLOAT2 size, DirectX::XMFLOAT2 pos, float AFactor )
+void ColourBlock_Widget::Update( const float dt )
 {
-	_Colour = colour;
-	_Size = size;
-	_Pos = pos;
-	_AlphaFactor = AFactor;
+	m_sprite->Update( dt );
+	m_transform->Update();
+}
 
-	return true;
+void ColourBlock_Widget::Draw( const Graphics& gfx, XMMATRIX worldOrtho )
+{
+	m_sprite->UpdateTex( gfx.GetDevice(), m_colour );
+	m_sprite->UpdateBuffers( gfx.GetContext() );
+	m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
+}
+
+void ColourBlock_Widget::Resolve( Colour colour, XMFLOAT2 pos, XMFLOAT2 size )
+{
+	m_vSize = size;
+	m_colour = colour;
+	m_vPosition = pos;
+
+	m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
+	m_transform->SetScale( m_vSize.x, m_vSize.y );
+	
+	m_sprite->SetWidth( m_vSize.x );
+	m_sprite->SetHeight( m_vSize.y );
 }

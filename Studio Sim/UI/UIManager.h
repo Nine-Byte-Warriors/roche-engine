@@ -3,7 +3,7 @@
 #define UI_MANAGER_H
 
 #include "UI.h"
-#include "Listener.h"
+#include "EventSystem.h"
 
 /// <summary>
 /// Manager class for each of the UI components.
@@ -11,39 +11,33 @@
 class UIManager : public Listener
 {
 public:
-	UIManager();
-	~UIManager();
+	UIManager() { AddToEvent(); }
+	~UIManager() { RemoveAllUI(); RemoveFromEvent(); }
 
-	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<CB_VS_matrix_2D>* _cb_vs_matrix_2d );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
 	void Update( const float dt );
-	void Draw( VertexShader& vert, PixelShader& pix, ConstantBuffer<CB_PS_scene>* _cb_ps_scene );
+	void Draw( XMMATRIX worldOrtho );
 
-	std::shared_ptr <UI> GetCustomUi( std::string UIName );
-
-	void AddUi( std::shared_ptr < UI> NewUI, std::string Name );
-	void RemoveUI( std::string Name );
+	std::shared_ptr<UI> GetCustomUI( const std::string& name );
+	void AddUI( std::shared_ptr <UI> newUI, const std::string& name );
+	void RemoveUI( const std::string& name );
 	void RemoveAllUI();
-
 
 	// Hiding/Showing UI
 	void HideAllUI();
-	void ShowAllUi();
-	void ShowUi( std::string Name );
-	void HideUi( std::string Name );
+	void ShowAllUI();
+	void ShowUI( const std::string& name );
+	void HideUI( const std::string& name );
 
-	void HandleEvent( Event* event );
+	void HandleEvent( Event* event ) override;
 private:
-	void AddtoEvent();
+	void AddToEvent();
 	void RemoveFromEvent();
-private:
+
 	XMFLOAT4X4 WorldOrthMatrix;
-
-	std::unordered_map<std::string, std::shared_ptr<UI>> UiList;
-	std::vector<std::string> UiToDraw;
-	XMFLOAT2 WinSize;
-
-	// Fonts
-	std::shared_ptr<Fonts> FontsList;
+	std::unordered_map<std::string, std::shared_ptr<UI>> m_mUiList;
+	std::vector<std::string> m_vUiToDraw;
+	XMFLOAT2 m_vWindowSize;
 };
 
 #endif

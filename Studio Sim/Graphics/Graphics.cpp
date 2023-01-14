@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Graphics.h"
+
+#if _DEBUG
 #include <imgui/imgui.h>
+#endif
 
 bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 {
@@ -105,6 +108,7 @@ bool Graphics::InitializeRTT()
 	return true;
 }
 
+#if _DEBUG
 void Graphics::SpawnControlWindow()
 {
 	if ( ImGui::Begin( "Post-Processing", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
@@ -114,6 +118,7 @@ void Graphics::SpawnControlWindow()
 	}
 	ImGui::End();
 }
+#endif
 
 void Graphics::RenderSceneToTexture()
 {

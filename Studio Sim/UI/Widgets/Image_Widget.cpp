@@ -1,56 +1,62 @@
 #include "stdafx.h"
 #include "Image_Widget.h"
+#include "Graphics.h"
 
 Image_Widget::Image_Widget()
 {
+	m_sTextFile = "";
+	m_vSize = { 1.0f, 1.0f };
+	m_vPosition = { 0.0f, 0.0f };
+
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>( m_sprite );
+}
+
+Image_Widget::Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
+{
+	m_sTextFile = texture;
+	m_vSize = { 1.0f, 1.0f };
+	m_vPosition = { 0.0f, 0.0f };
+
+	m_sprite = std::make_shared<Sprite>();
+	m_transform = std::make_shared<Transform>( m_sprite );
+}
+
+Image_Widget::~Image_Widget() { }
+
+void Image_Widget::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
+{
+	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), m_sTextFile, mat, m_vSize.x, m_vSize.y );
+	m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
+	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
+}
+
+void Image_Widget::Update( const float dt )
+{
+	m_sprite->Update( dt );
+	m_transform->Update();
+}
+
+void Image_Widget::Draw( const Graphics& gfx, XMMATRIX worldOrtho )
+{
+	m_sprite->UpdateTex( gfx.GetDevice(), m_sTextFile );
+	m_sprite->UpdateBuffers( gfx.GetContext() );
+	m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
+}
+
+void Image_Widget::Resolve( const std::string& texture, XMFLOAT2 size, XMFLOAT2 pos )
+{
+	std::string textFile = "Resources\\Textures\\";
+	textFile.append( texture );
+	m_vPosition = pos;
+	m_vSize = size;
+
+	m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
+	m_transform->SetScale( m_vSize.x, m_vSize.y );
 	
-}
+	m_sprite->SetWidth( m_vSize.x );
+	m_sprite->SetHeight( m_vSize.y );
 
-Image_Widget::~Image_Widget()
-{
-}
-
-bool Image_Widget::Function(std::string texture, DirectX::XMFLOAT2 size, DirectX::XMFLOAT2 pos)
-{
-
-	string TexFile = "Resources\\Textures\\";
-	TexFile.append(texture);
-
-
-	if (_TexFile != TexFile) {
-		_TexFile = TexFile;
-		updateText = true;
-	}
-	_Size = size;
-	_Pos = pos;
-	_AlphaFactor = 1.0f;
-	
-	return false;
-}
-
-bool Image_Widget::INITSprite(ID3D11DeviceContext* Contex, ID3D11Device* Device, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d)
-{
-	updateText = true;
-	_Image.Initialize(Device, Contex, _Size.x, _Size.y, "", cb_vs_matrix_2d);
-	return true;
-}
-
-void Image_Widget::Draw(ID3D11DeviceContext* Contex, ID3D11Device* Device, ConstantBuffer<CB_PS_scene>& cb_ps_scene, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d, XMMATRIX WorldOrthoMatrix)
-{
-	_Image.SetInitialPosition(_Pos.x, _Pos.y, 0);
-	_Image.SetScale(_Size.x, _Size.y);
-
-	if (updateText) {
-		_Image.UpdateTex(Device, _TexFile);
-		updateText = false;
-	}
-
-	cb_ps_scene.data.useTexture = true;
-	cb_ps_scene.data.alphaFactor = _AlphaFactor;
-
-
-	if (!cb_ps_scene.ApplyChanges()) return;
-	Contex->PSSetConstantBuffers(1u, 1u, cb_ps_scene.GetAddressOf());
-
-	_Image.Draw(WorldOrthoMatrix);
+	if ( m_sTextFile != texture )
+		m_sTextFile = texture;
 }

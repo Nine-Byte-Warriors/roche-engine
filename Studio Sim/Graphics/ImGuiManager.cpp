@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ImGuiManager.h"
+#if _DEBUG
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
@@ -172,3 +173,4 @@ void ImGuiManager::HandleEvent( Event* event )
     break;
     }
 }
+#endif

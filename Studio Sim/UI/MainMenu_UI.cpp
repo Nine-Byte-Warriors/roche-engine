@@ -1,42 +1,24 @@
 #include "stdafx.h"
-#include "Main_Menu_UI.h"
+#include "MainMenu_UI.h"
+#include "Graphics.h"
 #include <shellapi.h>
-Main_Menu_UI::Main_Menu_UI()
+
+void MainMenu_UI::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
-	
+	AddToEvent();
+	m_bIsSettings = false;
+
+	UI::Initialize( gfx, mat );
+	m_titlecard.Initialize( gfx, *mat );
+	m_mainMenuBackground.Initialize( gfx, *mat );
+	for (unsigned int i = 0; i < 5; i++)
+		m_mainMenuButtons[i].Initialize( gfx, *mat );
 }
 
-Main_Menu_UI::~Main_Menu_UI()
+void MainMenu_UI::Update(float dt)
 {
-	RemoveFromEvent();
-}
-
-void Main_Menu_UI::Initialize(ID3D11Device* device, ID3D11DeviceContext* contex, ConstantBuffer<CB_VS_matrix_2D>* cb_vs_matrix_2d, std::shared_ptr<Fonts> fonts)
-{
-	AddtoEvent();
-	IsSettings = false;
-
-	UI::Initialize(device, contex, cb_vs_matrix_2d, fonts);
-
-
-	FontsList->AddFont("OpenSans_12", "OpenSans_12.spritefont");
-	Titlecard.INITSprite(_Contex.Get(), _Device.Get(), *_cb_vs_matrix_2d);
-
-	TextLoad();
-	
-
-	MainMenuBackground.INITSprite(_Contex.Get(), _Device.Get(), *_cb_vs_matrix_2d);
-	for (unsigned int i = 0; i < 5; i++) {
-		MainMenuButtons[i].INITSprite(_Contex.Get(), _Device.Get(), *_cb_vs_matrix_2d);
-	}
-
-}
-
-void Main_Menu_UI::Update(float dt)
-{
-	if (!IsSettings)
+	if ( !m_bIsSettings )
 	{
-
 		if (mouseLoad) {
 			_MouseData.LPress = false;
 			mouseLoad = false;
@@ -53,7 +35,7 @@ void Main_Menu_UI::Update(float dt)
 	}
 }
 
-void Main_Menu_UI::BeginDraw(VertexShader& vert, PixelShader& pix, XMMATRIX WorldOrthMatrix, ConstantBuffer<CB_PS_scene>* _cb_ps_scene)
+void MainMenu_UI::BeginDraw(VertexShader& vert, PixelShader& pix, XMMATRIX WorldOrthMatrix, ConstantBuffer<CB_PS_scene>* _cb_ps_scene)
 {
 	if (!IsSettings)
 	{
@@ -67,13 +49,13 @@ void Main_Menu_UI::BeginDraw(VertexShader& vert, PixelShader& pix, XMMATRIX Worl
 	}
 }
 
-void Main_Menu_UI::TextLoad()
+void MainMenu_UI::TextLoad()
 {
 	vector<JSON::TextData>Main_Menu_Text = TextLoader::Instance()->LoadText("Main_Menu_Text");
 	LoadedTextMap=TextLoader::Instance()->ConvertToMap(Main_Menu_Text);
 }
 
-void Main_Menu_UI::HandleEvent(Event* event)
+void MainMenu_UI::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
@@ -104,7 +86,7 @@ void Main_Menu_UI::HandleEvent(Event* event)
 	}
 }
 
-void Main_Menu_UI::AddtoEvent()
+void MainMenu_UI::AddtoEvent()
 {
 	EventSystem::Instance()->AddClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::UIKeyInput, this);
@@ -112,7 +94,7 @@ void Main_Menu_UI::AddtoEvent()
 	EventSystem::Instance()->AddClient(EVENTID::UpdateSettingsEvent, this);
 }
 
-void Main_Menu_UI::RemoveFromEvent()
+void MainMenu_UI::RemoveFromEvent()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::UIKeyInput, this);
@@ -120,7 +102,7 @@ void Main_Menu_UI::RemoveFromEvent()
 	EventSystem::Instance()->RemoveClient(EVENTID::UpdateSettingsEvent, this);
 }
 
-void Main_Menu_UI::MenuButtons()
+void MainMenu_UI::MenuButtons()
 {
 	XMFLOAT2 size{ static_cast<float>(_SizeOfScreen.x * 0.15), static_cast<float>(_SizeOfScreen.y * 0.13) };
 	float ButtonXPos = static_cast<float>((_SizeOfScreen.x * 0.5) - size.x / 2);
@@ -155,7 +137,7 @@ void Main_Menu_UI::MenuButtons()
 	}
 }
 
-void Main_Menu_UI::LinkButtons()
+void MainMenu_UI::LinkButtons()
 {
 	//link to git hub
 	if (MainMenuButtons[4].Function("", ButtonTex2, { static_cast<float>(_SizeOfScreen.x * 0.055), static_cast<float>(_SizeOfScreen.y * 0.075) }, XMFLOAT2{ 2,  2 }, DirectX::Colors::Black, _MouseData)) {
