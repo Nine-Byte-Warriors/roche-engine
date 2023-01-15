@@ -106,8 +106,8 @@ void Level1::BeginFrame()
 void Level1::RenderFrame()
 {
     // Sprites
-    //RenderFrameTileMap(m_tileMapDrawBackground);
-    //RenderFrameTileMap(m_tileMapDrawForeground);
+    RenderFrameTileMap(m_tileMapDrawBackground);
+    RenderFrameTileMap(m_tileMapDrawForeground);
 
     m_player.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
     m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
@@ -129,14 +129,17 @@ void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
 void Level1::EndFrame()
 {
     // Render ui
-    m_ui->Draw( m_camera.GetWorldOrthoMatrix(), &m_textRenderer );
+    m_ui->Draw(
+        m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
+        m_camera.GetWorldOrthoMatrix(), &m_textRenderer
+    );
 
 	// Render text
-    //m_textRenderer.RenderString(
-    //    "This is example text.",
-    //    XMFLOAT2( m_gfx->GetWidth() * 0.5f, m_gfx->GetHeight() * 0.96f ),
-    //    Colors::Green, true
-    //);
+    m_textRenderer.RenderString(
+        "This is example text.",
+        XMFLOAT2( m_gfx->GetWidth() * 0.5f, m_gfx->GetHeight() * 0.96f ),
+        Colors::Green, true
+    );
 
     // Render scene to texture
     m_gfx->RenderSceneToTexture();

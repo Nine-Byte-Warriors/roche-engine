@@ -3,7 +3,7 @@
 #define MAINMENU_UI
 
 class Graphics;
-
+#include "Shaders.h"
 #include "UIElement.h"
 
 class UIScreen : public UIElement
@@ -14,7 +14,7 @@ public:
 
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat ) override;
 	void Update( const float dt ) override;
-	void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
+	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
 	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
@@ -36,8 +36,8 @@ private:
 	std::vector<std::string> m_buttonTexturesMain =
 	{
 		"Resources\\Textures\\dirt.png",
-		"Resources\\Textures\\grass.png",
-		"Resources\\Textures\\wall.png"
+		"Resources\\Textures\\wall.png",
+		"Resources\\Textures\\grass.png"
 	};
 
 	// Logo from https://www.flaticon.com/free-icon/github_5968896

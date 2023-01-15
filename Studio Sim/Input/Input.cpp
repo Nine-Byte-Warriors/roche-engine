@@ -31,7 +31,7 @@ void Input::UpdateMouse( const float dt )
             }
         }
 
-		if (m_mouse.IsLeftDown() || !m_bCursorEnabled )
+		if ( m_mouse.IsLeftDown() || !m_bCursorEnabled )
 		{
 			if (me.GetType() == Mouse::MouseEvent::EventType::LPress)
 			{
@@ -42,27 +42,6 @@ void Input::UpdateMouse( const float dt )
 				// Left mouse button released
 			}
 		}
-
-		// UI mouse input
-        if ( me.GetType() == Mouse::MouseEvent::EventType::Move )
-			m_uiMouseData.Pos = { static_cast<float>( me.GetPosX() ),static_cast<float>( me.GetPosY() ) };
-
-		if ( me.GetType() == Mouse::MouseEvent::EventType::RPress && m_bCursorEnabled )
-			m_uiMouseData.RPress = true;
-		else if ( me.GetType() == Mouse::MouseEvent::EventType::RRelease && m_bCursorEnabled )
-			m_uiMouseData.RPress = false;
-
-		if ( me.GetType() == Mouse::MouseEvent::EventType::LPress && m_bCursorEnabled )
-			m_uiMouseData.LPress = true;
-		else if ( me.GetType() == Mouse::MouseEvent::EventType::LRelease && m_bCursorEnabled )
-			m_uiMouseData.LPress = false;
-
-		if ( me.GetType() == Mouse::MouseEvent::EventType::MPress && m_bCursorEnabled )
-			m_uiMouseData.MPress = true;
-		else if ( me.GetType() == Mouse::MouseEvent::EventType::MRelease && m_bCursorEnabled )
-			m_uiMouseData.MPress = false;
-
-		EventSystem::Instance()->AddEvent( EVENTID::UIMouseInput, &m_uiMouseData );
     }
 }
 
@@ -101,7 +80,6 @@ void Input::UpdateKeyboard( const float dt )
 
 void Input::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ShowCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 }
@@ -118,13 +96,6 @@ void Input::HandleEvent( Event* event )
 	case EVENTID::HideCursorEvent:
 	{
 		DisableCursor();
-	}
-	break;
-	case EVENTID::WindowSizeChangeEvent:
-	{
-		m_uiMouseData.LPress = false;
-		m_uiMouseData.MPress = false;
-		m_uiMouseData.RPress = false;
 	}
 	break;
 	}

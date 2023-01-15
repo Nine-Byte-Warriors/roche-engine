@@ -2,7 +2,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "UIElement.h"
 #include "WindowContainer.h"
 
 class Input : public WindowContainer
@@ -19,7 +18,6 @@ private:
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
 	void AddToEvent() noexcept;
-	MouseData m_uiMouseData;
 };
 
 #endif

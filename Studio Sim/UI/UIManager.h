@@ -16,7 +16,7 @@ public:
 
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
 	void Update( const float dt );
-	void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer );
+	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
 	std::shared_ptr<UIElement> GetCustomUI( const std::string& name );
 	void AddUI( std::shared_ptr <UIElement> newUI, const std::string& name );

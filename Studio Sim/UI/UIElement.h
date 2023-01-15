@@ -5,6 +5,7 @@
 #include "WidgetIncludes.h"
 #include "TextRenderer.h"
 #include "Listener.h"
+#include "Shaders.h"
 
 class Graphics;
 
@@ -23,7 +24,7 @@ public:
 
 	virtual void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
 	virtual void Update( const float dt ) = 0;
-	virtual void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer ) = 0;
+	virtual void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer ) = 0;
 
 	virtual void HandleEvent( Event* event ) = 0;
 	//virtual void TextLoad() = 0;

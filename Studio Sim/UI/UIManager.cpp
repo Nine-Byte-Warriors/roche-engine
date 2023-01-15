@@ -27,7 +27,7 @@ void UIManager::Update( float dt )
 	}
 }
 
-void UIManager::Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer )
+void UIManager::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
 	for ( auto const& UIItem : m_mUiList )
 	{
@@ -37,7 +37,7 @@ void UIManager::Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer )
 				bToDraw = true;
 
 		if ( bToDraw )
-			UIItem.second->Draw( worldOrtho, textRenderer );
+			UIItem.second->Draw( vtx, pix, worldOrtho, textRenderer );
 	}
 }
 
@@ -92,17 +92,8 @@ void UIManager::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-
-	case EVENTID::WindowSizeChangeEvent:
-	{
-		m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() );
-	}
-	break;
-	case EVENTID::RemoveUIItemEvent:
-	{
-		RemoveUI( *static_cast<std::string*>( event->GetData() ) );
-	}
-	break;
+	case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() ); } break;
+	case EVENTID::RemoveUIItemEvent: { RemoveUI( *static_cast<std::string*>( event->GetData() ) ); } break;
 	}
 }
 
