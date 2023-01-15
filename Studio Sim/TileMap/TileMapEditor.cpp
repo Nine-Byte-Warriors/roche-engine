@@ -107,108 +107,67 @@ void TileMapEditor::Load()
 
 	if (m_bLoadButton)
 	{
-		if (FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ))
+		if (m_tileMapLayer != TileMapLayer::Both)
 		{
-			if (LoadReadFile())
+			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 			{
 				if (!LoadProcessFile())
 				{
-					m_sSelectedFile = "Can't load to both";
+					m_sSelectedFile = "Load Process Failed";
 				}
 			}
 			else
 			{
-				m_sSelectedFile = "Read File Failed";
+				m_sSelectedFile = "Open File Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Open File Failed";
+			m_sSelectedFile = "Can't Load Both";
 		}
-	}
-}
-
-bool TileMapEditor::LoadReadFile()
-{
-	std::string line;
-	std::ifstream myFile;
-	myFile.open(m_sFilePath);
-	if (myFile.is_open())
-	{
-		m_sFileContent = "";
-		while (getline(myFile, line))
-		{
-			m_sFileContent += line;
-		}
-		myFile.close();
-		return true;
-	}
-	else
-	{
-		return false;
 	}
 }
 
 bool TileMapEditor::LoadProcessFile()
 {
-	if (m_tileMapLayer == TileMapLayer::Both)
-	{
-		return false;
-	}
-	std::vector<std::string> word;
-	
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
-		word.push_back("");
-	}	
+	std::ifstream file(m_sFilePath);
+	json jsonFile;
+	json jsonRow;
+	file >> jsonFile;
+	int rowNum = 0;
+	int colNum = 0;
+	std::string rowNumStr;
 
-	int pos = 0;
-
-	for (char& c : m_sFileContent)
+	for (int i = 0; i < m_iRows; i++)
 	{
-		if (c == ',')
-		{
-			pos++;
-		}
-		else
-		{
-			word[pos] += c;
-		}
-	}
+		rowNumStr = "row";
+		rowNumStr += std::to_string(rowNum);
+		jsonRow = jsonFile[rowNumStr];
 
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
-		for (int tileType = 0; tileType < m_iSizeOfTileTypeData; tileType++)
+		for (auto jsonTileType = jsonRow.begin(); jsonTileType != jsonRow.end(); ++jsonTileType)
 		{
-			if (word[i] == std::to_string(tileType) || StringHelper::StringEqualsIgnoreCase(word[i], m_sTileTypeData[tileType].name))
+			for (int tileType = 0; tileType < m_iSizeOfTileTypeData; tileType++)
 			{
+				if (jsonTileType.value() == std::to_string(tileType) || StringHelper::StringEqualsIgnoreCase(jsonTileType.value(), m_sTileTypeData[tileType].name))
+				{
+					int pos = rowNum * m_iColumns + colNum;
 #if _DEBUG
-				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[tileType].color;
+					m_TileMapPreviewImageButtonColor[pos] = m_sTileTypeData[tileType].color;
 #endif
-				if (m_tileMapLayer == TileMapLayer::Background)
-				{
-					m_tileMapBackground->UpdateTile(i, tileType);
-				}
-				else if (m_tileMapLayer == TileMapLayer::Foreground)
-				{
-					m_tileMapForeground->UpdateTile(i, tileType);
+					if (m_tileMapLayer == TileMapLayer::Background)
+					{
+						m_tileMapBackground->UpdateTile(pos, tileType);
+					}
+					else if (m_tileMapLayer == TileMapLayer::Foreground)
+					{
+						m_tileMapForeground->UpdateTile(pos, tileType);
+					}
 				}
 			}
-			else if (word[i] == "")
-			{
-#if _DEBUG
-				m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[0].color;
-#endif
-				if (m_tileMapLayer == TileMapLayer::Background)
-				{
-					m_tileMapBackground->UpdateTile(i, 0);
-				}
-				else if (m_tileMapLayer == TileMapLayer::Foreground)
-				{
-					m_tileMapForeground->UpdateTile(i, 0);
-				}
-			}
+			colNum++;
 		}
+		colNum = 0;
+		rowNum++;
 	}
 	return true;
 }
@@ -222,21 +181,29 @@ void TileMapEditor::SaveToExistingFile()
 
 	if (m_bSaveButton)
 	{
-		if (FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ))
+		if (m_tileMapLayer != TileMapLayer::Both)
 		{
-			if (SaveWriteFile())
+			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 			{
-				m_sSelectedFile += " Save Successful";
+				if (SaveWriteFile())
+				{
+					m_sSelectedFile += " Save Successful";
+				}
+				else
+				{
+					m_sSelectedFile = "Save Write Failed";
+				}
 			}
 			else
 			{
-				m_sSelectedFile = "Write File Failed";
+				m_sSelectedFile = "Open File Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Open File Failed";
+			m_sSelectedFile = "Can't Save Both";
 		}
+
 	}
 }
 
@@ -250,76 +217,69 @@ void TileMapEditor::SaveToNewFile()
 
 	if (m_bSaveNewButton)
 	{
-		if (FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ))
+		if (m_tileMapLayer != TileMapLayer::Both)
 		{
-			const size_t slash = m_sFilePath.find_last_of("/\\");
-			m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".txt";
-			if (SaveWriteFile())
+			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 			{
-				m_sSelectedFile = saveFileName;
-				m_sSelectedFile += ".txt";
-				m_sSelectedFile += " Save Successful";
+				const size_t slash = m_sFilePath.find_last_of("/\\");
+				m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".json";
+				if (SaveWriteFile())
+				{
+					m_sSelectedFile = saveFileName;
+					m_sSelectedFile += ".json";
+					m_sSelectedFile += " Save Successful";
+				}
+				else
+				{
+					m_sSelectedFile = "Save Write Failed";
+				}
 			}
 			else
 			{
-				m_sSelectedFile = "Can't save both";
+				m_sSelectedFile = "Open File Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Open File Failed";
+			m_sSelectedFile = "Can't Save Both";
 		}
+
 	}
 }
 
 bool TileMapEditor::SaveWriteFile()
 {
-	if (m_tileMapLayer == TileMapLayer::Both)
-	{
-		return false;
-	}
+	json jsonFile;
+	int rowNum;
+	std::string rowNumStr;
+	std::vector<std::string> rowValues;
 
-	std::ofstream myFile(m_sFilePath);
-	std::string line;
-	std::string word;
-
-	if (myFile.is_open())
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		for (int i = 0; i < m_iRows * m_iColumns; i++)
+		if (m_tileMapLayer == TileMapLayer::Background)
 		{
-
-			if (m_tileMapLayer == TileMapLayer::Background)
-			{
-				word = m_sTileTypeData[m_tileMapBackground->GetTileType(i)].name;
-			}
-			else if (m_tileMapLayer == TileMapLayer::Foreground)
-			{
-				word = m_sTileTypeData[m_tileMapForeground->GetTileType(i)].name;
-			}			
-
-			if (i + 1 != m_iRows * m_iColumns)
-			{
-				line += word + ",";
-			}
-			else
-			{
-				line += word;
-			}
-
-			if ((i + 1) % m_iColumns == 0)
-			{
-				myFile << line << "\n";
-				line = "";
-			}
+			rowValues.push_back(m_sTileTypeData[m_tileMapBackground->GetTileType(i)].name);
 		}
-		myFile.close();
+		else if (m_tileMapLayer == TileMapLayer::Foreground)
+		{
+			rowValues.push_back(m_sTileTypeData[m_tileMapForeground->GetTileType(i)].name);
+		}
 
-		return true;
+		bool endOfRow = (i + 1) % m_iColumns == 0 && i != 0;
+		if (endOfRow)
+		{
+			rowNum = i / m_iColumns;
+			rowNumStr = "row";
+			rowNumStr += std::to_string(rowNum);
+			jsonFile[rowNumStr] = rowValues;
+			rowValues.clear();
+		}
 	}
-	else
-	{
-		return false;
-	}
+
+	std::ofstream o(m_sFilePath);
+	o << std::setw(4) << jsonFile << std::endl;
+
+	return true;
 }
 
 void TileMapEditor::TileMapSelectionButtons()
