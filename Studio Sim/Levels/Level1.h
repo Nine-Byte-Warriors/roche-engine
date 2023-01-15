@@ -27,7 +27,7 @@ public:
 	void EndFrame() override;
 
 	void Update( const float dt ) override;
-	void CleanUp() override {}
+	void CleanUp() override;
   
 private:
 	// Tile Map
