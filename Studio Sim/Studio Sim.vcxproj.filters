@@ -317,7 +317,7 @@
     <ClInclude Include="Resources\Resource.h">
       <Filter>Resource Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\structures.h">
+    <ClInclude Include="Utility\Shader_Data.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\External\imgui\imconfig.h">

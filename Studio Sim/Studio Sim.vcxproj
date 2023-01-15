@@ -374,7 +374,7 @@
     <ClInclude Include="Utility\ErrorLogger.h" />
     <ClInclude Include="Utility\stdafx.h" />
     <ClInclude Include="Utility\StringHelper.h" />
-    <ClInclude Include="Utility\structures.h" />
+    <ClInclude Include="Utility\Shader_Data.h" />
     <ClInclude Include="Utility\TextRenderer.h" />
     <ClInclude Include="Utility\Texture.h" />
     <ClInclude Include="Utility\Timer.h" />

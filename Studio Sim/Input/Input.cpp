@@ -10,23 +10,18 @@ void Input::Initialize( RenderWindow& window )
     m_keyboard.DisableAutoRepeatChars();
 }
 
-void Input::Update( float dt )
+void Input::Update( const float dt )
 {
     UpdateMouse( dt );
     UpdateKeyboard( dt );
 }
 
-void Input::UpdateMouse( float dt )
+void Input::UpdateMouse( const float dt )
 {
     // update camera orientation
     while ( !m_mouse.EventBufferIsEmpty() )
     {
-        Mouse::MouseEvent me = m_mouse.ReadEvent();
-
-        pMousePos->x = me.GetPosX();
-        pMousePos->y = me.GetPosY();
-        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
-        
+        Mouse::MouseEvent me = m_mouse.ReadEvent();        
         if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )
@@ -40,18 +35,16 @@ void Input::UpdateMouse( float dt )
 			if (me.GetType() == Mouse::MouseEvent::EventType::LPress)
 			{
 				// Left mouse button pressed
-                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseClick, pMousePos);
 			}
 			else if (me.GetType() == Mouse::MouseEvent::EventType::LRelease)
 			{
 				// Left mouse button released
-                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseRelease, pMousePos);
 			}
 		}
     }
 }
 
-void Input::UpdateKeyboard( float dt )
+void Input::UpdateKeyboard( const float dt )
 {
     // Handle input for single key presses
 	while ( !m_keyboard.KeyBufferIsEmpty() )

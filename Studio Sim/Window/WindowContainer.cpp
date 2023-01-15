@@ -175,6 +175,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         m_mouse.OnLeftPressed( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+        EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
 
 		if ( !m_bCursorEnabled )
 		{

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
+#ifndef SHADER_DATA_H
+#define SHADER_DATA_H
 
 #include "Vector2f.h"
 using namespace DirectX;
@@ -26,11 +26,5 @@ struct Animation
 	int FrameX;
 	int FrameY;
 	XMFLOAT2 Padding;
-};
-
-struct ProjectileData
-{
-	Vector2f DirectionTo;
-	Vector2f Position;
 };
 #endif

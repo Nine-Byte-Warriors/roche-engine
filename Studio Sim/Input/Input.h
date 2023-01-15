@@ -8,14 +8,14 @@ class Input : public WindowContainer
 {
 public:
 	void Initialize( RenderWindow& window );
-	void Update( float dt );
+	void Update( const float dt );
 
 	inline Mouse& GetMouse() noexcept { return m_mouse; }
 	inline Keyboard& GetKeyboard() noexcept { return m_keyboard; }
 
 private:
-	void UpdateMouse( float dt );
-	void UpdateKeyboard( float dt );
+	void UpdateMouse( const float dt );
+	void UpdateKeyboard( const float dt );
 };
 
 #endif
