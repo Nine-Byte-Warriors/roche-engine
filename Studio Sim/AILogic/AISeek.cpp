@@ -12,7 +12,7 @@ void AISeek::Update(const float dt)
 	Vector2f vTargetPosition = m_pAgent->GetTargetPosition();
 
 	// Get the direction to the target
-	Vector2f vDirection = vAgentPos.Direction(vTargetPosition);
+	Vector2f vDirection = vAgentPos.DirectionTo(vTargetPosition);
 
 	// Normalize the direction
 	Vector2f vNormDir = vDirection.Normalised();

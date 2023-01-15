@@ -2,9 +2,9 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "LevelStateMachine.h"
@@ -28,6 +28,7 @@ public:
 
 	void Update( const float dt ) override;
 	void CleanUp() override {}
+	
 private:
 	// Tile Map
 	void OnCreateTileMap();

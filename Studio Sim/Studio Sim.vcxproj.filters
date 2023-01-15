@@ -228,6 +228,12 @@
     <ClCompile Include="..\External\imgui\imgui_tables.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Projectile.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ProjectileManager.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
     <ClCompile Include="AI\AIStateMachine.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
@@ -442,6 +448,12 @@
     </ClInclude>
     <ClInclude Include="Utility\TextRenderer.h">
       <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Projectile.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ProjectileManager.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

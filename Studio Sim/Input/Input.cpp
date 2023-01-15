@@ -21,7 +21,12 @@ void Input::UpdateMouse( float dt )
     // update camera orientation
     while ( !m_mouse.EventBufferIsEmpty() )
     {
-        Mouse::MouseEvent me = m_mouse.ReadEvent();        
+        Mouse::MouseEvent me = m_mouse.ReadEvent();
+
+        pMousePos->x = me.GetPosX();
+        pMousePos->y = me.GetPosY();
+        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
+        
         if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )
@@ -29,6 +34,20 @@ void Input::UpdateMouse( float dt )
                 // Raw mouse movement
             }
         }
+
+		if (m_mouse.IsLeftDown() || !m_bCursorEnabled )
+		{
+			if (me.GetType() == Mouse::MouseEvent::EventType::LPress)
+			{
+				// Left mouse button pressed
+                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseClick, pMousePos);
+			}
+			else if (me.GetType() == Mouse::MouseEvent::EventType::LRelease)
+			{
+				// Left mouse button released
+                //EventSystem::Instance()->AddEvent(EVENTID::LeftMouseRelease, pMousePos);
+			}
+		}
     }
 }
 

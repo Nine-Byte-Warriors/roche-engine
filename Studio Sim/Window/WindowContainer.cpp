@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WindowContainer.h"
+#include <Vector2f.h>
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -167,6 +168,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
             mousePos->x = imio.MousePos.x - m_vImguiPos.x;
             mousePos->y = imio.MousePos.y - m_vImguiPos.y;
             EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
 			return 0;
         }
 #endif

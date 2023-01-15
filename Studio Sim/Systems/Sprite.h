@@ -29,7 +29,8 @@ public:
 		Cauliflower,
 		Bean,
 		Potato,
-		Onion
+		Onion,
+		Projectile,
 	};
 
 	bool Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
