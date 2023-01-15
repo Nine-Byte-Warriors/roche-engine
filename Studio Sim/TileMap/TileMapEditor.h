@@ -2,7 +2,7 @@
 #ifndef TILEMAPEDITOR_H
 #define TILEMAPEDITOR_H
 
-#include "structures.h"
+#include "Shader_Data.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"

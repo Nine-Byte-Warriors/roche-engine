@@ -2,12 +2,12 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
-#include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "LevelStateMachine.h"
-#include "TileMapDraw.h"
 #include "TileMapEditor.h"
 
 /// <summary>
@@ -27,7 +27,8 @@ public:
 	void EndFrame() override;
 
 	void Update( const float dt ) override;
-	void CleanUp() override;
+	void CleanUp() override {}
+  
 private:
 	// Tile Map
 	void OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
