@@ -288,6 +288,8 @@
     <ClCompile Include="Objects\Enemy.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
+    <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="Systems\ProjectileManager.cpp" />
     <ClCompile Include="Systems\Agent.cpp" />
     <ClCompile Include="Systems\Physics.cpp" />
     <ClCompile Include="Systems\Sprite.cpp" />
@@ -326,6 +328,7 @@
     </ClCompile>
     <ClCompile Include="Utility\Colour.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
+    <ClCompile Include="Utility\FileLoading.cpp" />
     <ClCompile Include="Utility\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -335,6 +338,7 @@
     <ClCompile Include="Utility\StringHelper.cpp" />
     <ClCompile Include="Utility\TextRenderer.cpp" />
     <ClCompile Include="Utility\Texture.cpp" />
+    <ClCompile Include="Utility\ThreadManager.cpp" />
     <ClCompile Include="Utility\Timer.cpp" />
     <ClCompile Include="Window\RenderWindow.cpp" />
     <ClCompile Include="Window\WindowContainer.cpp" />
@@ -385,6 +389,8 @@
     <ClInclude Include="Objects\Enemy.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
+    <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="Systems\ProjectileManager.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\Agent.h" />
     <ClInclude Include="Systems\Physics.h" />
@@ -422,11 +428,13 @@
     <ClInclude Include="Utility\COMException.h" />
     <ClInclude Include="Utility\DDSTextureLoader.h" />
     <ClInclude Include="Utility\ErrorLogger.h" />
+    <ClInclude Include="Utility\FileLoading.h" />
     <ClInclude Include="Utility\stdafx.h" />
     <ClInclude Include="Utility\StringHelper.h" />
-    <ClInclude Include="Utility\structures.h" />
+    <ClInclude Include="Utility\Shader_Data.h" />
     <ClInclude Include="Utility\TextRenderer.h" />
     <ClInclude Include="Utility\Texture.h" />
+    <ClInclude Include="Utility\ThreadManager.h" />
     <ClInclude Include="Utility\Timer.h" />
     <ClInclude Include="Utility\Vector2f.h" />
     <ClInclude Include="Window\RenderWindow.h" />

@@ -1,7 +1,8 @@
 #pragma once
-#ifndef STRUCTURES_H
-#define STRUCTURES_H
+#ifndef SHADER_DATA_H
+#define SHADER_DATA_H
 
+#include "Vector2f.h"
 using namespace DirectX;
 
 struct Matrices
@@ -26,11 +27,4 @@ struct Animation
 	int FrameY;
 	XMFLOAT2 Padding;
 };
-
-struct UserInterface
-{
-	FLOAT Alpha;
-	XMFLOAT3 Padding;
-};
-
 #endif

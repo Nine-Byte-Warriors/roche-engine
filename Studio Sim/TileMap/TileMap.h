@@ -9,8 +9,15 @@ using json = nlohmann::json;
 #include <imgui/imgui.h>
 #endif
 
-#define COLUMNS 6
-#define ROWS 8
+//#define COLUMNS 40
+//#define ROWS 22
+
+enum class TileMapLayer
+{
+	Background,
+	Foreground,
+	Both
+};
 
 struct TileTypeData
 {
@@ -25,26 +32,29 @@ struct TileTypeData
 class TileMap
 {
 public:
-	TileMap();
+	TileMap(int rows, int columns);
 
-	void UpdateTile(int row, int column, int tileType);
 	void UpdateTile(int pos, int tileType);
-
 	void ResetTileMap();
 
-	int* GetLevel();
 	int GetTileType(int pos);
+
+	void SetRows(int rows);
+	void SetColumns(int columns);
 
 	std::vector<TileTypeData> GetTileTypeData();
 
 private:
 
-	int m_Level[COLUMNS * ROWS];
+	std::vector<int> m_iLevel;
 
 	std::vector<TileTypeData> m_sTileTypeData;
 
 	std::string JsonFile = "Resources\\TileMaps\\TileMap.json";
 	json TileMapJsonData;
+
+	int m_iRows;
+	int m_iColumns;
 };
 
 #endif

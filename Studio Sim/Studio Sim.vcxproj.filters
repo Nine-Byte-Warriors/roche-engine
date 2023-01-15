@@ -91,14 +91,8 @@
     <Filter Include="Header Files\Utility\Errors">
       <UniqueIdentifier>{d08afb93-f981-46e0-a49e-4607abdfae6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utility\Model">
-      <UniqueIdentifier>{ab592d8e-baf5-4a66-84df-36f3fb42ff41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Utility\Errors">
       <UniqueIdentifier>{ed5dffe5-ec1f-4594-9191-709b0adc1dce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility\Model">
-      <UniqueIdentifier>{991be574-a421-49ca-adb1-442377b2be38}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Utility\Helper">
       <UniqueIdentifier>{2db431fb-3c7b-492e-a863-fc9376bddc3c}</UniqueIdentifier>
@@ -112,17 +106,11 @@
     <Filter Include="Source Files\Collisions">
       <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\UI">
-      <UniqueIdentifier>{2f3156f6-f609-4572-a586-9d23c4528307}</UniqueIdentifier>
+    <Filter Include="Header Files\Utility\Rendering">
+      <UniqueIdentifier>{ab592d8e-baf5-4a66-84df-36f3fb42ff41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\UI">
-      <UniqueIdentifier>{3932b84e-0046-460a-8d68-42ddfa35c2cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Widgets">
-      <UniqueIdentifier>{2e43f21a-1384-4795-a2f3-a12c086041b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Widgets">
-      <UniqueIdentifier>{32afb417-06ed-4d1b-b7ed-df9e469022a8}</UniqueIdentifier>
+    <Filter Include="Source Files\Utility\Rendering">
+      <UniqueIdentifier>{991be574-a421-49ca-adb1-442377b2be38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -220,10 +208,10 @@
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Colour.cpp">
-      <Filter>Source Files\Utility\Model</Filter>
+      <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Texture.cpp">
-      <Filter>Source Files\Utility\Model</Filter>
+      <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Utility\ErrorLogger.cpp">
       <Filter>Source Files\Utility\Errors</Filter>
@@ -239,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="..\External\imgui\imgui_tables.cpp">
       <Filter>Resource Files\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Projectile.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\ProjectileManager.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
     <ClCompile Include="AI\AIStateMachine.cpp">
       <Filter>Source Files\AI</Filter>
@@ -289,6 +283,12 @@
       <Filter>Source Files\UI\Widgets</Filter>
     </ClCompile>
     <ClCompile Include="Utility\TextRenderer.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\FileLoading.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\ThreadManager.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
   </ItemGroup>
@@ -355,9 +355,6 @@
     </ClInclude>
     <ClInclude Include="Resources\Resource.h">
       <Filter>Resource Files\General</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\structures.h">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\External\imgui\imconfig.h">
       <Filter>Resource Files\ImGui</Filter>
@@ -441,13 +438,13 @@
       <Filter>Header Files\Utility\Errors</Filter>
     </ClInclude>
     <ClInclude Include="Utility\DDSTextureLoader.h">
-      <Filter>Header Files\Utility\Model</Filter>
+      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Colour.h">
-      <Filter>Header Files\Utility\Model</Filter>
+      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Texture.h">
-      <Filter>Header Files\Utility\Model</Filter>
+      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Vector2f.h">
       <Filter>Header Files\Utility\Helper</Filter>
@@ -483,7 +480,7 @@
       <Filter>Header Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Utility\Model</Filter>
+      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\TextRenderer.h">
       <Filter>Header Files\Utility\Helper</Filter>
@@ -546,6 +543,21 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="Utility\TextRenderer.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Projectile.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\ProjectileManager.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Shader_Data.h">
+      <Filter>Header Files\Utility\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\FileLoading.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\ThreadManager.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>
