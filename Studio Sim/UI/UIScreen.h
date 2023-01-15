@@ -31,22 +31,21 @@ private:
 
 	bool m_bMouseLoad = true;
 	UINT32 m_uLevelTo = 0;
-	bool m_bIsSettings;
 
 	// Button state textures
 	std::vector<std::string> m_buttonTexturesMain =
 	{
-		"Resources\\Textures\\UI_Buttons\\Button_1_Down.dds",
-		"Resources\\Textures\\UI_Buttons\\Button_1_Hover.dds",
-		"Resources\\Textures\\UI_Buttons\\Button_1_Up.dds"
+		"Resources\\Textures\\dirt.png",
+		"Resources\\Textures\\grass.png",
+		"Resources\\Textures\\wall.png"
 	};
 
-	// Logo from https://github.com/logos
+	// Logo from https://www.flaticon.com/free-icon/github_5968896
 	std::vector<std::string> m_buttonTexturesGithub =
 	{
-		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png",
-		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png",
-		"Resources\\Textures\\UI_Buttons\\GitHubLogo.png"
+		"Resources\\Textures\\github_logo.png",
+		"Resources\\Textures\\github_logo.png",
+		"Resources\\Textures\\github_logo.png"
 	};
 };
 

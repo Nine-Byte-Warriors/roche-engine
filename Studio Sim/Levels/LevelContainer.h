@@ -3,6 +3,7 @@
 #define LEVELCONTAINER_H
 
 #include "Graphics.h"
+#include "UIManager.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"
@@ -19,20 +20,26 @@ class LevelContainer
 public:
 	virtual ~LevelContainer( void ) = default;
 #if _DEBUG
-	inline void Initialize( Graphics* gfx, ImGuiManager* imgui )
+	inline void Initialize( Graphics* gfx, UIManager* ui, ImGuiManager* imgui )
 	{
-		graphics = gfx;
+		m_ui = ui;
+		m_gfx = gfx;
 		m_imgui = imgui;
 	}
 #else
-	inline void Initialize( Graphics* gfx )
+	inline void Initialize( Graphics* gfx, UIManager* ui )
 	{
-		graphics = gfx;
+		m_ui = ui;
+		m_gfx = gfx;
 	}
 #endif
 	
 	inline std::string GetLevelName() { return levelName; }
-	inline Graphics* GetGraphics() const noexcept { return graphics; }
+	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
+	inline UIManager* GetUIManager() const noexcept { return m_ui; }
+#if _DEBUG
+	inline ImGuiManager* GetImguiManager() const noexcept { return m_imgui; }
+#endif
 
 	// Render/Update Scene Functions
 	virtual void OnCreate() {}
@@ -47,7 +54,8 @@ public:
 
 protected:
 	// Objects
-	Graphics* graphics;
+	Graphics* m_gfx;
+	UIManager* m_ui;
 #if _DEBUG
 	ImGuiManager* m_imgui;
 #endif

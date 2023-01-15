@@ -17,12 +17,12 @@ void UIManager::Update( float dt )
 {
 	for ( auto const& UIItem : m_mUiList )
 	{
-		bool ToDraw = false;
+		bool bToDraw = false;
 		for ( int i = 0; i < m_vUiToDraw.size(); i++ )
 			if ( UIItem.first == m_vUiToDraw[i] )
-				ToDraw = true;
+				bToDraw = true;
 
-		if ( ToDraw )
+		if ( bToDraw )
 			UIItem.second->Update( dt );
 	}
 }
@@ -37,7 +37,7 @@ void UIManager::Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer )
 				bToDraw = true;
 
 		if ( bToDraw )
-			UIItem.second->Draw( XMLoadFloat4x4( &m_worldOrthoMatrix ), textRenderer );
+			UIItem.second->Draw( worldOrtho, textRenderer );
 	}
 }
 
@@ -53,16 +53,16 @@ std::shared_ptr<UIElement> UIManager::GetCustomUI( const std::string& name )
 void UIManager::AddUI( std::shared_ptr<UIElement> newUI, const std::string& name )
 {
 	// Check if it is in list
-	bool ToAdd = true;
+	bool bToAdd = true;
 	for ( auto const& UIItem : m_mUiList )
 	{
 		if ( UIItem.first == name )
 		{
-			ToAdd = false;
+			bToAdd = false;
 			break;
 		}
 	}
-	if ( ToAdd )
+	if ( bToAdd )
 	{
 		m_mUiList[name] = newUI;
 		m_vUiToDraw.push_back( name );
@@ -92,18 +92,12 @@ void UIManager::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::WorldOrthMatrixEvent:
-	{
-		m_worldOrthoMatrix = *(XMFLOAT4X4*)event->GetData();
-	}
-	break;
 
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() );
 	}
 	break;
-
 	case EVENTID::RemoveUIItemEvent:
 	{
 		RemoveUI( *static_cast<std::string*>( event->GetData() ) );
@@ -114,14 +108,12 @@ void UIManager::HandleEvent( Event* event )
 
 void UIManager::AddToEvent()
 {
-	EventSystem::Instance()->AddClient( EVENTID::WorldOrthMatrixEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::RemoveUIItemEvent, this );
 }
 
 void UIManager::RemoveFromEvent()
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::WorldOrthMatrixEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RemoveUIItemEvent, this );
 }

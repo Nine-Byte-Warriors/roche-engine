@@ -36,7 +36,6 @@ private:
 
 	std::unordered_map<std::string, std::shared_ptr<UIElement>> m_mUiList;
 	std::vector<std::string> m_vUiToDraw;
-	XMFLOAT4X4 m_worldOrthoMatrix;
 	XMFLOAT2 m_vWindowSize;
 };
 

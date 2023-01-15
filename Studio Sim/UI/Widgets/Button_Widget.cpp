@@ -3,23 +3,22 @@
 #include "TextRenderer.h"
 
 Button_Widget::Button_Widget()
-{
-    m_vSize = { 1.0f, 1.0f };
-    m_vPosition = { 0.0f, 0.0f };
-    m_buttonTexture = "";
-    
+{    
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
+
+    std::string texture = "Resources\\Textures\\empty.png";
+    std::vector<std::string> buttonTextures = { texture, texture, texture };
+    Resolve( "Default", Colors::Black, buttonTextures, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
 Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
 {
-    m_vSize = size;
-    m_vPosition = pos;
-    m_buttonTexture = texture;
-
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
+
+    std::vector<std::string> buttonTextures = { texture, texture, texture };
+    Resolve( "Default", Colors::Black, buttonTextures, {}, pos, size );
 }
 
 Button_Widget::~Button_Widget() { }
@@ -42,7 +41,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     // Button sprite
     m_sprite->UpdateTex( device, m_buttonTexture );
     m_sprite->UpdateBuffers( context );
-    m_sprite->Draw( worldOrtho, worldOrtho );
+    m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 
     // Button text
     XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
@@ -54,13 +53,23 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
     m_sText = text;
     m_vTextColor = textColour;
-    m_buttonState = ButtonState::Default;
+
+    // Update position/scale
+    m_vSize = size;
+    m_vPosition = pos;
+
+    m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
+    m_transform->SetScale( m_vSize.x, m_vSize.y );
+
+    m_sprite->SetWidth( m_vSize.x );
+    m_sprite->SetHeight( m_vSize.y );
 
     // Button collison
+    m_buttonState = ButtonState::Default;
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
@@ -80,13 +89,13 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     case ButtonState::Default:
         m_buttonTexture = textures[0];
         break;
-    case ButtonState::Pressed:
+    case ButtonState::Hover:
         m_buttonTexture = textures[1];
+        break;
+    case ButtonState::Pressed:
+        m_buttonTexture = textures[2];
         m_bIsPressed = true;
     	return true;
-    case ButtonState::Hover:
-        m_buttonTexture = textures[2];
-        break;
     default:
     	break;
     }

@@ -5,7 +5,7 @@ ColourBlock_Widget::ColourBlock_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
-	Resolve( { 210, 210, 150 }, { 0.0f, 0.0f }, { 1.0f, 1.0f } );
+	Resolve( { 210, 210, 150 }, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
 ColourBlock_Widget::ColourBlock_Widget( Colour colour, XMFLOAT2 pos, XMFLOAT2 size )

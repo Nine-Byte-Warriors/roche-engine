@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "Level1.h"
 #include "Graphics.h"
+#include "UIManager.h"
 #include "WindowContainer.h"
 
 #if _DEBUG
@@ -31,6 +32,7 @@ private:
 #if _DEBUG
 	ImGuiManager m_imgui;
 #endif
+	UIManager m_uiManager;
 	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;
