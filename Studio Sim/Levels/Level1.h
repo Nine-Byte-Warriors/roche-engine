@@ -9,6 +9,7 @@
 #include "TextRenderer.h"
 #include "LevelStateMachine.h"
 #include "TileMapEditor.h"
+#include "AudioEditor.h"
 
 /// <summary>
 /// The first level of the game.
@@ -42,6 +43,7 @@ private:
 	TileMapEditor m_tileMapEditor;
 	ConstantBuffer<Matrices> m_cbMatrices;
 	std::vector<TileMapDraw> m_tileMapDraw;
+	AudioEditor m_audioEditor;
 };
 
 #endif

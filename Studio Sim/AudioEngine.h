@@ -2,13 +2,13 @@
 #include <xaudio2.h>
 #include <thread>
 #include <mutex>
-#include <stdafx.h>
+//#include <stdafx.h>
 #include <filesystem>
 
 //#ifndef VOICECALLBACK_H
 //#define VOICECALLBACK_H
 //#include "VoiceCallback.h"
-//#endif
+
 
 //#include <tchar.h>
 //#include <winnt.h>
@@ -42,28 +42,25 @@ class AudioEngine {
 public:
 	AudioEngine();
 
-	//AudioEngine(AudioEngine& otherEngine) = delete;
-	//void operator=(const AudioEngine&) = delete;
+	AudioEngine(AudioEngine& otherEngine) = delete;
+	void operator=(const AudioEngine&) = delete;
 
 	static AudioEngine* GetInstance();
 
 	void Initialize(float masterVolume, float musicVolume, float sfxVolume, int maxMusicSourceVoices, int maxSFXSourceVoices);
 	void Update(); // keep it on separate thread
 
-	// Bare minimum requirements
-	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType);
+	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
-	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType);
-
-	HRESULT StopMusic();
+	HRESULT UnpauseMusic(); // Unpauses ALL music
+	HRESULT PauseMusic(); // Pauses ALL music
+	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
+	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType); // Unloading audio from sound bank list
 
 	//// Loading Audio stuff
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
-	// TODO
-	// Create soundbank
-	// Helper function to get a fileName
 	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume);
 	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
 	std::wstring GetFileName(std::wstring filePath);
@@ -108,12 +105,15 @@ private:
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;
 
-	int m_iSFXSourceVoicesPlaying;
-	int m_iMusicSourceVoicesPlaying;
+	//int m_iSFXSourceVoicesPlaying;
+	//int m_iMusicSourceVoicesPlaying;
 
 	float m_fMasterVolume;
 	float m_fMusicVolume;
 	float m_fSFXVolume;
 
+	bool m_bIsMusicPaused;
+
 };
 
+//#endif // VOICECALLBACK_H

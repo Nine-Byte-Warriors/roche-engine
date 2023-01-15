@@ -18,8 +18,9 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 		    return false;
 
         // Initialize audio
-        AudioEngine::GetInstance()->Initialize(1.0f, 1.0f, 1.0f, 1, 3);
+        AudioEngine::GetInstance()->Initialize(1.0f, 1.0f, 1.0f, 1, 2);
         AudioEngine::GetInstance()->PlayAudio(L"quietlaugh", SFX); // remove later, just test
+        //AudioEngine::GetInstance()->PlayAudio(L"piano2", SFX); // remove later, just test
 
         // Initialize input
         m_input.Initialize( m_renderWindow );
@@ -77,7 +78,6 @@ void Application::Update()
 
         // Update audio engine
         AudioEngine::GetInstance()->Update();
-
 
         // Update current level
 	    EventSystem::Instance()->ProcessEvents();

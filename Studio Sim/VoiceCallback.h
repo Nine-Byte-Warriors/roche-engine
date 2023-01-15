@@ -2,7 +2,7 @@
 //#ifndef AUDIOENGINE_H
 //#define AUDIOENGINE_H
 //#include "AudioEngine.h"
-//#endif
+
 
 #include <xaudio2.h>
 #include "stdafx.h"
@@ -30,3 +30,5 @@ public:
     void OnLoopEnd(void* pBufferContext) {    }
     void OnVoiceError(void* pBufferContext, HRESULT Error) { }
 };
+
+//#endif //AUDIOENGINE_H

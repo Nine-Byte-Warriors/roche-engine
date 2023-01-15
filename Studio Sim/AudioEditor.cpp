@@ -1,0 +1,57 @@
+#include <stdafx.h>
+#include "AudioEditor.h"
+
+AudioEditor::AudioEditor() {
+
+}
+
+#if _DEBUG
+
+void AudioEditor::SpawnControlWindow()
+{
+	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+
+		//Load();
+		//SaveToExistingFile();
+		//SaveToNewFile();
+
+		//DrawButton();
+
+		//TileMapSelectionButtons();
+		//TileMapSelectedText();
+		//TileMapGridPreview();
+
+		//ImGui::Button("Draw Once");
+		Play();
+	}
+
+	ImGui::End();
+}
+
+#endif
+
+void AudioEditor::Play()
+{
+	m_bPlayButton = ImGui::Button("Play");
+	if (m_bPlayButton)
+	{
+		m_bPlayOnce = true;
+	}
+}
+
+void AudioEditor::Pause()
+{
+}
+
+void AudioEditor::Stop()
+{
+}
+
+void AudioEditor::Load()
+{
+}
+
+void AudioEditor::Unload()
+{
+}

@@ -271,6 +271,7 @@
     <ClCompile Include="AI\AISeek.cpp" />
     <ClCompile Include="AI\AIStateMachine.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="AudioEditor.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
     <ClCompile Include="Collisions\Collision.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
@@ -329,6 +330,7 @@
     <ClInclude Include="AI\AIState.h" />
     <ClInclude Include="AI\AIStateMachine.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AudioEditor.h" />
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Collisions\Collider.h" />
     <ClInclude Include="Collisions\Collision.h" />

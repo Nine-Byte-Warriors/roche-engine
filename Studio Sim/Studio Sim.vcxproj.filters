@@ -261,6 +261,9 @@
     <ClCompile Include="VoiceCallback.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="AudioEditor.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -462,6 +465,9 @@
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
     <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEditor.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>

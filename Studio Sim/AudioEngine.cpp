@@ -4,7 +4,7 @@
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
-AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vMusicSoundBank(nullptr), m_vSFXSoundBank(nullptr), m_vMusicSourceVoiceList(nullptr), m_vSFXSourceVoiceList(nullptr) {
+AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vSFXSoundBank(nullptr), m_vMusicSourceVoiceList(nullptr), m_vSFXSourceVoiceList(nullptr) {
 	// Create sound banks
 	m_vMusicSoundBank = new std::vector<SoundBankFile*>();
 	m_vSFXSoundBank = new std::vector<SoundBankFile*>();
@@ -45,13 +45,14 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	m_iMaxSFXSourceVoicesLimit = maxSFXSourceVoices;
 	m_iMaxMusicSourceVoicesLimit = maxMusicSourceVoices;
 
-	m_iSFXSourceVoicesPlaying = 0;
-	m_iMusicSourceVoicesPlaying = 0;
+	//m_iSFXSourceVoicesPlaying = 0;
+	//m_iMusicSourceVoicesPlaying = 0;
 
 	// Load Sound Bank for SFX
 	// Handle it with JSON later
 	// Current one is the temporary implementation
 	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
 	LoadAudio(L"Resources\\AudioFiles\\piano2.wav", 1.0f, SFX);
 	LoadAudio(L"Resources\\AudioFiles\\quietlaugh.wav", 1.0f, SFX);
 
@@ -60,7 +61,6 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	// Current one is the temporary implementation
 	LoadAudio(L"Resources\\AudioFiles\\creepymusic.wav", 1.0f, MUSIC);
 	LoadAudio(L"Resources\\AudioFiles\\partymusic.wav", 1.0f, MUSIC);
-
 
 }
 
@@ -147,7 +147,6 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
 
-
 	if (audioType == SFX && m_vSFXSourceVoiceList->size() >= m_iMaxSFXSourceVoicesLimit) {
 		return S_FALSE;
 	}
@@ -201,6 +200,55 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 
 
 		}
+	} 
+
+	return hr;
+}
+
+HRESULT AudioEngine::UnpauseMusic()
+{
+	HRESULT hr = S_OK;
+	
+	if (m_bIsMusicPaused) {
+		for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
+			m_vMusicSourceVoiceList->at(i)->Start(0);
+		}
+
+		m_bIsMusicPaused == false;
+	}
+
+	return hr;
+}
+
+HRESULT AudioEngine::PauseMusic()
+{
+	HRESULT hr = S_OK;
+
+	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
+		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop())) {
+			ErrorLogger::Log(hr, "AudioEngine::PauseMusic: Failed to Stop music");
+			return hr;
+		}
+	}
+
+	m_bIsMusicPaused == true;
+
+	return hr;
+}
+
+HRESULT AudioEngine::StopMusic()
+{
+	HRESULT hr = S_OK;
+
+	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
+		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop())) {
+			ErrorLogger::Log(hr, "AudioEngine::StopMusic: Failed to Stop music");
+			return hr;
+		}
+		else {
+			m_vMusicSourceVoiceList->at(i)->DestroyVoice();
+			m_vMusicSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i);
+		}
 	}
 
 	return hr;
@@ -210,17 +258,29 @@ HRESULT AudioEngine::UnloadAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
 
+	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
+
+	for (int i = 0; soundBank->size() > i; i++) {
+		if (fileName == soundBank->at(i)->fileName) {
+			// change this later on change from raw pointers to smart pointers
+			delete soundBank->at(i)->buffer->pAudioData;
+			delete soundBank->at(i)->buffer->pContext;
+			delete soundBank->at(i)->buffer;
+			soundBank->at(i)->buffer = nullptr;
+			delete soundBank->at(i)->sourceFormat;
+			soundBank->at(i)->sourceFormat = nullptr;
+			delete soundBank->at(i);
+			soundBank->at(i) = nullptr;
+			soundBank->erase(soundBank->begin() + i);
+
+			return hr;
+		}
+	}
 
 	return hr;
 }
 
-HRESULT AudioEngine::StopMusic()
-{
-	HRESULT hr = S_OK;
 
-
-	return hr;
-}
 
 
 
