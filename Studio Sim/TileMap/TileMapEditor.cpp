@@ -130,11 +130,6 @@ void TileMapEditor::Load()
 
 bool TileMapEditor::LoadProcessFile()
 {
-	if (m_tileMapLayer == TileMapLayer::Both)
-	{
-		return false;
-	}
-
 	std::ifstream file(m_sFilePath);
 	json jsonFile;
 	json jsonRow;
