@@ -299,6 +299,7 @@
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
     <ClCompile Include="Utility\Colour.cpp" />
     <ClCompile Include="Utility\ErrorLogger.cpp" />
+    <ClCompile Include="Utility\FileLoading.cpp" />
     <ClCompile Include="Utility\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -308,6 +309,7 @@
     <ClCompile Include="Utility\StringHelper.cpp" />
     <ClCompile Include="Utility\TextRenderer.cpp" />
     <ClCompile Include="Utility\Texture.cpp" />
+    <ClCompile Include="Utility\ThreadManager.cpp" />
     <ClCompile Include="Utility\Timer.cpp" />
     <ClCompile Include="Window\RenderWindow.cpp" />
     <ClCompile Include="Window\WindowContainer.cpp" />
@@ -372,11 +374,13 @@
     <ClInclude Include="Utility\COMException.h" />
     <ClInclude Include="Utility\DDSTextureLoader.h" />
     <ClInclude Include="Utility\ErrorLogger.h" />
+    <ClInclude Include="Utility\FileLoading.h" />
     <ClInclude Include="Utility\stdafx.h" />
     <ClInclude Include="Utility\StringHelper.h" />
     <ClInclude Include="Utility\Shader_Data.h" />
     <ClInclude Include="Utility\TextRenderer.h" />
     <ClInclude Include="Utility\Texture.h" />
+    <ClInclude Include="Utility\ThreadManager.h" />
     <ClInclude Include="Utility\Timer.h" />
     <ClInclude Include="Utility\Vector2f.h" />
     <ClInclude Include="Window\RenderWindow.h" />

@@ -8,7 +8,6 @@
 #include "ConstantBuffer.h"
 #include "DDSTextureLoader.h"
 #include "TileMap.h"
-#include <shobjidl.h> 
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -31,7 +30,6 @@ public:
 	std::string GetTileTypeName(int pos, TileMapLayer tileMapLayer);
 	TileMapLayer GetTileMapLayer();
 private:
-	bool OpenFileExplorer();
 	void Load();
 	bool LoadReadFile();
 	bool LoadProcessFile();
@@ -76,11 +74,11 @@ private:
 #if _DEBUG
 	std::vector<ImColor> m_TileMapPreviewImageButtonColor;
 
-	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
-	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
-	const ImVec2 m_vImageButtonFrame1 = ImVec2(10, 10);
+	const ImVec2 m_vImageButtonSize = ImVec2(5, 10);
+	const ImVec2 m_vImageButtonFrame0 = ImVec2(5, 5);
+	const ImVec2 m_vImageButtonFrame1 = ImVec2(5, 5);
 #endif
-	const int m_iImageButtonPadding = 2;
+	const int m_iImageButtonPadding = 1;
 
 	std::vector<TileTypeData> m_sTileTypeData;
 	int m_iSizeOfTileTypeData;

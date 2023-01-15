@@ -40,12 +40,9 @@ void Player::SpawnControlWindow()
 	if ( ImGui::Begin( "Player##Window", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPosition().x ) ).c_str() );
+		ImGui::SameLine();
 		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPosition().y ) ).c_str() );
 		
-		ImGui::NewLine();
-		ImGui::Separator();
-		ImGui::NewLine();
-
 		if ( ImGui::Button("FIRE!") )
 			EventSystem::Instance()->AddEvent(EVENTID::PlayerFire, nullptr);
 	}	

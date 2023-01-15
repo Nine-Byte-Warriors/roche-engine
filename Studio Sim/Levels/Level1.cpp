@@ -47,7 +47,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     int rowPositionTotalTileLength = 0;
     const int tileSize = 32;
     const int gapBetweenTiles = 0;
-    m_iTileMapRows = graphics->GetHeight() / tileSize;
+    m_iTileMapRows = ( graphics->GetHeight() / tileSize ) + 1;
     m_iTileMapColumns = graphics->GetWidth() / tileSize;
 
     m_tileMapEditor = new TileMapEditor(m_iTileMapRows, m_iTileMapColumns);
@@ -112,7 +112,7 @@ void Level1::RenderFrame()
 
 void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
-    for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
+    for ( unsigned i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++ )
     {
         tileMapDraw[i].GetSprite()->UpdateBuffers(graphics->GetContext());
         tileMapDraw[i].GetSprite()->Draw(tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
