@@ -11,18 +11,6 @@ void AudioEditor::SpawnControlWindow()
 {
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
-
-		//Load();
-		//SaveToExistingFile();
-		//SaveToNewFile();
-
-		//DrawButton();
-
-		//TileMapSelectionButtons();
-		//TileMapSelectedText();
-		//TileMapGridPreview();
-
-		//ImGui::Button("Draw Once");
 		Play();
 	}
 
