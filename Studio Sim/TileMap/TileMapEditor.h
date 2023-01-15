@@ -17,7 +17,8 @@
 class TileMapEditor
 {
 public:
-	TileMapEditor();
+	TileMapEditor(int rows, int columns);
+	~TileMapEditor();
 
 #if _DEBUG
 	void SpawnControlWindow();
@@ -27,12 +28,13 @@ public:
 	bool UpdateDrawContinuousAvalible();
 	void UpdateDrawOnceDone();
 
-	std::string GetTileTypeName(int pos);
+	std::string GetTileTypeName(int pos, TileMapLayer tileMapLayer);
+	TileMapLayer GetTileMapLayer();
 private:
 	bool OpenFileExplorer();
 	void Load();
 	bool LoadReadFile();
-	void LoadProcessFile();
+	bool LoadProcessFile();
 	void SaveToExistingFile();
 	void SaveToNewFile();
 	bool SaveWriteFile();
@@ -40,10 +42,16 @@ private:
 	void TileMapSelectionButtons();
 	void TileMapSelectedText();
 	void TileMapGridPreview();
-	void UpdateTileMapGridPreview();
+	void TileMapGridInit();
+	void UpdateSingleTileMapGridPreview();
+	void UpdateWholeTileMapGridPreview();
   
 	void DrawButton();
-	TileMap tileMap;
+
+	void SelectTileMapLayer();
+
+	TileMap* m_tileMapBackground;
+	TileMap* m_tileMapForeground;
 
 	int m_iCurrentSelectedTileType;
 	std::string m_sCurrentSelectedTileType;
@@ -60,10 +68,13 @@ private:
 	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
 
-	bool m_bTileMapPreviewImageButton[COLUMNS * ROWS];
+	std::vector<bool> m_bTileMapPreviewImageButton;
+
+	int m_iRows;
+	int m_iColumns;
 
 #if _DEBUG
-	ImColor m_TileMapPreviewImageButtonColor[COLUMNS * ROWS];
+	std::vector<ImColor> m_TileMapPreviewImageButtonColor;
 
 	const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
@@ -73,6 +84,8 @@ private:
 
 	std::vector<TileTypeData> m_sTileTypeData;
 	int m_iSizeOfTileTypeData;
+
+	TileMapLayer m_tileMapLayer;
 };
 
 #endif
