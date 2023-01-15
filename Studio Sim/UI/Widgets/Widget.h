@@ -20,12 +20,7 @@ public:
 	~Widget() {}
 
 	virtual void Resolve() {}
-	virtual void Draw(
-		ID3D11Device* device,
-		ConstantBuffer<Matrices>& mat,
-		XMMATRIX worldOrtho,
-		TextRenderer* textRenderer )
-	{}	
+	virtual void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho ) {}
 };
 
 #endif

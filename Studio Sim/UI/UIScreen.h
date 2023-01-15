@@ -2,32 +2,28 @@
 #ifndef MAINMENU_UI
 #define MAINMENU_UI
 
-#include "UI.h"
+class Graphics;
 
-class MainMenu_UI : public UI
+#include "UIElement.h"
+
+class UIScreen : public UIElement
 {
 public:
-	MainMenu_UI() {}
-	~MainMenu_UI() { RemoveFromEvent(); }
+	UIScreen() {}
+	~UIScreen() { RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
-	void Update( const float dt );
-	void Draw( XMMATRIX worldOrtho );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat ) override;
+	void Update( const float dt ) override;
+	void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
 	
-	void TextLoad();
+	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 private:
-	void AddToEvent();
-	void RemoveFromEvent();
-
-	void MenuButtons();
-	void LinkButtons();
-
-	// MainMenu
+	// Main Menu
 	Image_Widget m_titlecard;
+	Button_Widget m_mainMenuButtons[2];
 	ColourBlock_Widget m_mainMenuBackground;
-	Button_Widget<std::string> m_mainMenuButtons[5];
-	std::unordered_map<std::string, std::string> m_mLoadedTextMap;
 	
 	// GitHub link
 	bool m_bOpen = true;

@@ -2,7 +2,7 @@
 #ifndef UI_MANAGER_H
 #define UI_MANAGER_H
 
-#include "UI.h"
+#include "UIElement.h"
 #include "EventSystem.h"
 
 /// <summary>
@@ -16,10 +16,10 @@ public:
 
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
 	void Update( const float dt );
-	void Draw( XMMATRIX worldOrtho );
+	void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
-	std::shared_ptr<UI> GetCustomUI( const std::string& name );
-	void AddUI( std::shared_ptr <UI> newUI, const std::string& name );
+	std::shared_ptr<UIElement> GetCustomUI( const std::string& name );
+	void AddUI( std::shared_ptr <UIElement> newUI, const std::string& name );
 	void RemoveUI( const std::string& name );
 	void RemoveAllUI();
 
@@ -34,9 +34,9 @@ private:
 	void AddToEvent();
 	void RemoveFromEvent();
 
-	XMFLOAT4X4 WorldOrthMatrix;
-	std::unordered_map<std::string, std::shared_ptr<UI>> m_mUiList;
+	std::unordered_map<std::string, std::shared_ptr<UIElement>> m_mUiList;
 	std::vector<std::string> m_vUiToDraw;
+	XMFLOAT4X4 m_worldOrthoMatrix;
 	XMFLOAT2 m_vWindowSize;
 };
 

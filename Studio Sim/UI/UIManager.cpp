@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "UIManager.h"
-#include "MainMenu_UI.h"
+#include "UIScreen.h"
 #include "Graphics.h"
 
 void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
+	m_vWindowSize = { (float)gfx.GetWidth(), (float)gfx.GetHeight() };
 	for ( auto const& UIItem : m_mUiList )
 	{
-		UIItem.second->SetSizeOfScreen( m_vWindowSize );
 		UIItem.second->Initialize( gfx, mat );
+		UIItem.second->SetScreenSize( m_vWindowSize );
 	}
 }
 
@@ -26,21 +27,21 @@ void UIManager::Update( float dt )
 	}
 }
 
-void UIManager::Draw( XMMATRIX worldOrtho )
+void UIManager::Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
 	for ( auto const& UIItem : m_mUiList )
 	{
-		bool ToDraw = false;
+		bool bToDraw = false;
 		for ( int i = 0; i < m_vUiToDraw.size(); i++ )
 			if ( UIItem.first == m_vUiToDraw[i] )
-				ToDraw = true;
+				bToDraw = true;
 
-		if ( ToDraw )
-			UIItem.second->Draw( XMLoadFloat4x4( &WorldOrthMatrix ) );
+		if ( bToDraw )
+			UIItem.second->Draw( XMLoadFloat4x4( &m_worldOrthoMatrix ), textRenderer );
 	}
 }
 
-std::shared_ptr<UI> UIManager::GetCustomUI( const std::string& name )
+std::shared_ptr<UIElement> UIManager::GetCustomUI( const std::string& name )
 {
 	for ( auto const& UIItem : m_mUiList )
 		if ( UIItem.first == name )
@@ -49,7 +50,7 @@ std::shared_ptr<UI> UIManager::GetCustomUI( const std::string& name )
 	return nullptr;
 }
 
-void UIManager::AddUI( std::shared_ptr<UI> newUI, const std::string& name )
+void UIManager::AddUI( std::shared_ptr<UIElement> newUI, const std::string& name )
 {
 	// Check if it is in list
 	bool ToAdd = true;
@@ -93,7 +94,7 @@ void UIManager::HandleEvent( Event* event )
 	{
 	case EVENTID::WorldOrthMatrixEvent:
 	{
-		WorldOrthMatrix = *(XMFLOAT4X4*)event->GetData();
+		m_worldOrthoMatrix = *(XMFLOAT4X4*)event->GetData();
 	}
 	break;
 

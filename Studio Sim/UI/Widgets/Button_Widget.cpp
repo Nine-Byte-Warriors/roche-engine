@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 #include "TextRenderer.h"
-#include "Graphics.h"
 
-template<typename ButtonTexture>
-Button_Widget<ButtonTexture>::Button_Widget()
+Button_Widget::Button_Widget()
 {
     m_vSize = { 1.0f, 1.0f };
     m_vPosition = { 0.0f, 0.0f };
@@ -14,8 +12,7 @@ Button_Widget<ButtonTexture>::Button_Widget()
     m_transform = std::make_shared<Transform>( m_sprite );
 }
 
-template<typename ButtonTexture>
-Button_Widget<ButtonTexture>::Button_Widget( ButtonTexture texture, XMFLOAT2 pos, XMFLOAT2 size )
+Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
 {
     m_vSize = size;
     m_vPosition = pos;
@@ -25,31 +22,27 @@ Button_Widget<ButtonTexture>::Button_Widget( ButtonTexture texture, XMFLOAT2 pos
 	m_transform = std::make_shared<Transform>( m_sprite );
 }
 
-template<typename ButtonTexture>
-Button_Widget<ButtonTexture>::~Button_Widget() { }
+Button_Widget::~Button_Widget() { }
 
-template<typename ButtonTexture>
-void Button_Widget<ButtonTexture>::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
+void Button_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
 {
-	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), "", mat );
+	m_sprite->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
     m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
 }
 
-template<typename ButtonTexture>
-void Button_Widget<ButtonTexture>::Update( const float dt )
+void Button_Widget::Update( const float dt )
 {
     m_sprite->Update( dt );
 	m_transform->Update();
 }
 
-template<typename ButtonTexture>
-void Button_Widget<ButtonTexture>::Draw( ID3D11Device* device, ConstantBuffer<Matrices>& mat, XMMATRIX worldOrtho, TextRenderer* textRenderer )
+void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
     // Button sprite
     m_sprite->UpdateTex( device, m_buttonTexture );
-    m_sprite->UpdateBuffers( device );
-    m_sprite->Draw( worldOrtho );
+    m_sprite->UpdateBuffers( context );
+    m_sprite->Draw( worldOrtho, worldOrtho );
 
     // Button text
     XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
@@ -61,8 +54,7 @@ void Button_Widget<ButtonTexture>::Draw( ID3D11Device* device, ConstantBuffer<Ma
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-template<typename ButtonTexture>
-bool Button_Widget<ButtonTexture>::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<ButtonTexture>& textures, MouseData mData )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData )
 {
     m_sText = text;
     m_vTextColor = textColour;

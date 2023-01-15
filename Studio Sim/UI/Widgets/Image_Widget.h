@@ -14,9 +14,9 @@ public:
     Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
     ~Image_Widget();
 
-    void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
+    void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
     void Update( const float dt );
-    void Draw( const Graphics& gfx, XMMATRIX worldOrtho );
+    void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho );
     void Resolve( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
 
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }

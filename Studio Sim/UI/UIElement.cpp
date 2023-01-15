@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "UI.h"
+#include "UIElement.h"
 #include "Graphics.h"
 
-void UI::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
+void UIElement::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
 	m_cbMatrices = mat;
 	m_pDevice = gfx.GetDevice();
@@ -10,7 +10,7 @@ void UI::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 }
 
 // Convert from unsigned char to understandble string fromat 
-std::string UI::ConvertFromUnsignedCharToString( unsigned char input )
+std::string UIElement::ConvertFromUnsignedCharToString( unsigned char input )
 {
 	std::string text;
 	switch ( input )

@@ -24,9 +24,9 @@ Image_Widget::Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 s
 
 Image_Widget::~Image_Widget() { }
 
-void Image_Widget::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
+void Image_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
 {
-	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), m_sTextFile, mat, m_vSize.x, m_vSize.y );
+	m_sprite->Initialize( device, context, m_sTextFile, mat, m_vSize.x, m_vSize.y );
 	m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
 }
@@ -37,10 +37,10 @@ void Image_Widget::Update( const float dt )
 	m_transform->Update();
 }
 
-void Image_Widget::Draw( const Graphics& gfx, XMMATRIX worldOrtho )
+void Image_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho )
 {
-	m_sprite->UpdateTex( gfx.GetDevice(), m_sTextFile );
-	m_sprite->UpdateBuffers( gfx.GetContext() );
+	m_sprite->UpdateTex( device, m_sTextFile );
+	m_sprite->UpdateBuffers( context );
 	m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 }
 

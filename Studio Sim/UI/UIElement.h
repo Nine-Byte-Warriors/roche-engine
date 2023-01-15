@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UI_H
-#define UI_H
+#ifndef UIELEMENT_H
+#define UIELEMENT_H
 
 #include "WidgetIncludes.h"
 #include "TextRenderer.h"
@@ -15,21 +15,21 @@ struct TextToDraw
 	XMVECTORF32 color;
 };
 
-class UI : public Listener
+class UIElement : public Listener
 {
 public:
-	UI() {}
-	~UI() {}
+	UIElement() {}
+	~UIElement() {}
 
 	virtual void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
 	virtual void Update( const float dt ) = 0;
-	virtual void Draw( XMMATRIX worldOrtho ) = 0;
+	virtual void Draw( XMMATRIX worldOrtho, TextRenderer* textRenderer ) = 0;
 
 	virtual void HandleEvent( Event* event ) = 0;
-	virtual void TextLoad() = 0;
+	//virtual void TextLoad() = 0;
 	
 	inline void SetCB( ConstantBuffer<Matrices>* mat ) noexcept { m_cbMatrices = mat; }
-	inline void SetSizeOfScreen( XMFLOAT2 size ) noexcept { m_vScreenSize = size; }
+	inline void SetScreenSize( XMFLOAT2 size ) noexcept { m_vScreenSize = size; }
 
 protected:
 	std::string ConvertFromUnsignedCharToString( unsigned char input );

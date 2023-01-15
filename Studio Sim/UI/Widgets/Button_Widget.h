@@ -2,13 +2,9 @@
 #ifndef BUTTON_WIDGET_H
 #define BUTTON_WIDGET_H
 
-class Graphics;
-class TextRenderer;
-
 #include "Widget.h"
 #include "Transform.h"
 
-template<typename ButtonTexture>
 class Button_Widget : public Widget
 {
 public:
@@ -20,13 +16,13 @@ public:
     };
 
     Button_Widget();
-    Button_Widget( ButtonTexture texture, XMFLOAT2 pos, XMFLOAT2 size );
+    Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
     ~Button_Widget();
 
-    void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
+    void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
     void Update( const float dt );
-    void Draw( ID3D11Device* device, ConstantBuffer<Matrices>& mat, XMMATRIX worldOrtho, TextRenderer* textRenderer );
-    bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<ButtonTexture>& textures, MouseData MData );
+    void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
+    bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData MData );
     
     inline bool GetIsPressed() const noexcept { return m_bIsPressed; }
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
@@ -38,7 +34,7 @@ private:
     XMFLOAT2 m_vPosition, m_vSize;
 
     ButtonState m_buttonState;
-    ButtonTexture m_buttonTexture;
+    std::string  m_buttonTexture;
 
     std::shared_ptr<Sprite> m_sprite;
     std::shared_ptr<Transform> m_transform;
