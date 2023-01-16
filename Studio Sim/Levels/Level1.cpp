@@ -168,6 +168,7 @@ void Level1::EndFrame()
 void Level1::Update( const float dt )
 {
     // Update entities
+    m_audioEditor.Update();
     UpdateTileMap( dt );
     m_player.Update( dt );
     m_enemy.Update( dt );

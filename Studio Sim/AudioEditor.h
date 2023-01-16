@@ -2,6 +2,7 @@
 #ifndef AUDIOEDITOR_H
 
 #include "structures.h"
+#include "AudioEngine.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -15,37 +16,53 @@ public:
 	void SpawnControlWindow();
 #endif
 
-
+	void Update();
 
 
 
 
 private:
-	// Window functions
+	// Window functions:
 	void Play();
 	void Pause();
 	void Stop();
 
+	// to be added file path and stuff
+	void Save();
+	void SaveNew();
 	void Load();
-	void Unload();
 
-	// Sound Bank Lists:
+	void AddToSoundBank();
+	void DeleteFromSoundBank();
+
+	// Sound list handle
+	void SoundBankType();
+	void SoundBankList();
+
+	// Parameter sliders
+	void VolumeSlider();
 
 
-	// Saving/Loading ----- to be done
-	//bool m_bSaveButton;
-	//bool m_bSaveNewButton;
-
-	//bool m_bLoadButton;
-	//std::string m_sSelectedFile = "LoadFile.txt";
-	//std::string m_sFilePath = "";
-	//std::string m_sFileContent = "";
 
 	// Audio controls
 	bool m_bPlayButton;
-	bool m_bPlayOnce;
 	bool m_bPauseButton;
 	bool m_bStopButton;
+	
+	// Sound Bank controls
+	bool m_bAddButton;
+	bool m_bDeleteButton;
+
+	// Saving/Loading fields ----- to be done
+	//std::wstring m_sSelectedFile = L"LoadFile.txt";
+	//std::wstring m_sFilePath = L"";
+	//std::wstring m_sFileContent = L"";
+
+	// Save/Load controls
+	bool m_bSaveButton;
+	bool m_bSaveNewButton;
+	bool m_bLoadButton;
+
 
 	// List of audio
 
@@ -54,8 +71,6 @@ private:
 #if _DEBUG
 
 	//const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
-	//const ImVec2 m_vImageButtonFrame0 = ImVec2(10, 10);
-	//const ImVec2 m_vImageButtonFrame1 = ImVec2(10, 10);
 #endif
 
 

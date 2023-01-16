@@ -55,6 +55,7 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
 	LoadAudio(L"Resources\\AudioFiles\\piano2.wav", 1.0f, SFX);
 	LoadAudio(L"Resources\\AudioFiles\\quietlaugh.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\AudioFiles\\bullettest.wav", 1.0f, SFX);
 
 	// Load Sound Bank for Music
 	// Handle it with JSON later
