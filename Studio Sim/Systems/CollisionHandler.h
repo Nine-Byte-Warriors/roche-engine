@@ -12,7 +12,7 @@ public:
 private:
     std::vector<Collider*> m_colliders;
 public:
-    void AddCollider(Collider& collider);
+    void AddCollider(std::shared_ptr<Collider> collider);
     void AddCollider(std::vector<Collider>& colliders);
 
 private:
@@ -24,7 +24,7 @@ private:
 private:
     void CheckAll();
 
-    void Resolution(Collider& collider1, Collider& collider2);
+    void Resolution(Collider* collider1, Collider* collider2);
 
 public:
     void Update();

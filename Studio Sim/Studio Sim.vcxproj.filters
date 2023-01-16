@@ -100,12 +100,6 @@
     <Filter Include="Source Files\Utility\Helper">
       <UniqueIdentifier>{2416d614-899e-4994-9e2f-131a212395a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Collisions">
-      <UniqueIdentifier>{fae7d2fd-17b0-4755-bfc9-6848964884a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Collisions">
-      <UniqueIdentifier>{1551c1d1-48f1-4059-a3aa-be9a18e8ae88}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility\Rendering">
       <UniqueIdentifier>{ab592d8e-baf5-4a66-84df-36f3fb42ff41}</UniqueIdentifier>
     </Filter>
@@ -315,8 +309,11 @@
     <ClCompile Include="VoiceCallback.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions\CollisionHandler.cpp">
-      <Filter>Source Files\Collisions</Filter>
+    <ClCompile Include="Systems\Collider.cpp">
+      <Filter>Source Files\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\CollisionHandler.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +479,6 @@
     <ClInclude Include="Utility\StringHelper.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\Collider.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="AI\AIStateMachine.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
@@ -590,14 +584,14 @@
     <ClInclude Include="VoiceCallback.h">
       <Filter>Header Files\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\CollisionHandler.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\JsonLoading.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Collider.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\CollisionHandler.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

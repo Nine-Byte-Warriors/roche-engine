@@ -13,6 +13,8 @@ Player::Player()
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
 	m_projectileManager = std::make_shared<ProjectileManager>();
+	m_collider = std::make_shared<BoxCollider>(m_transform, 1, 1, 32, 32);
+
 	AddToEvent();
 }
 

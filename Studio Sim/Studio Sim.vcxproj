@@ -273,7 +273,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="AudioEditor.cpp" />
     <ClCompile Include="AudioEngine.cpp" />
-    <ClCompile Include="Collisions\CollisionHandler.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp">
@@ -291,6 +290,8 @@
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="Systems\Collider.cpp" />
+    <ClCompile Include="Systems\CollisionHandler.cpp" />
     <ClCompile Include="Systems\ProjectileManager.cpp" />
     <ClCompile Include="Systems\Agent.cpp" />
     <ClCompile Include="Systems\Physics.cpp" />
@@ -389,9 +390,6 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="AudioEditor.h" />
     <ClInclude Include="AudioEngine.h" />
-    <ClInclude Include="Collisions\Collider.h" />
-    <ClInclude Include="Collisions\CollisionHandler.h" />
-    <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
@@ -411,6 +409,8 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Systems\Collider.h" />
+    <ClInclude Include="Systems\CollisionHandler.h" />
     <ClInclude Include="Utility\JsonLoading.h" />
     <ClInclude Include="Levels\Level1.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
