@@ -5,6 +5,7 @@ void Input::Initialize( RenderWindow& window )
 {
 	AddToEvent();
     m_renderWindow = window;
+	m_fPlayerHealth = new float( 100.0f );
 
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();
@@ -59,6 +60,13 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_END )
 			DisableCursor();
 
+		// Update player health
+		if ( m_keyboard.KeyIsPressed( 'E' ) )
+			*m_fPlayerHealth -= 10.0f;
+
+		if ( m_keyboard.KeyIsPressed( 'Q' ) )
+			*m_fPlayerHealth = 100.0f;
+
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
@@ -76,6 +84,8 @@ void Input::UpdateKeyboard( const float dt )
 
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
+
+	EventSystem::Instance()->AddEvent( EVENTID::PlayerHealth, m_fPlayerHealth );
 }
 
 void Input::AddToEvent() noexcept

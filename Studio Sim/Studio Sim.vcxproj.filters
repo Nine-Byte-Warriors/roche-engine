@@ -577,6 +577,9 @@
     <Image Include="Resources\directx.ico">
       <Filter>Resource Files\General</Filter>
     </Image>
+    <Image Include="Resources\farm.ico">
+      <Filter>Resource Files\General</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tutorial01.aps">
