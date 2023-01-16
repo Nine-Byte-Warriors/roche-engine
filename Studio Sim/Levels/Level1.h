@@ -2,13 +2,14 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
+#include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "UIScreen.h"
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
-#include "LevelStateMachine.h"
 #include "TileMapEditor.h"
+#include "LevelStateMachine.h"
 
 /// <summary>
 /// The first level of the game.
@@ -39,14 +40,16 @@ private:
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
-	TextRenderer m_textRenderer;
-	TileMapEditor* m_tileMapEditor;
-	ConstantBuffer<Matrices> m_cbMatrices;
-	std::vector<TileMapDraw> m_tileMapDrawBackground;
-	std::vector<TileMapDraw> m_tileMapDrawForeground;
 
+	std::shared_ptr<UIScreen> m_uiScreen;
+	ConstantBuffer<Matrices> m_cbMatrices;
+	
 	int m_iTileMapRows;
 	int m_iTileMapColumns;
+	TextRenderer m_textRenderer;
+	TileMapEditor* m_tileMapEditor;
+	std::vector<TileMapDraw> m_tileMapDrawBackground;
+	std::vector<TileMapDraw> m_tileMapDrawForeground;
 };
 
 #endif

@@ -35,6 +35,9 @@ public:
 	inline ID3D11Device* GetDevice() const noexcept { return m_pDevice.Get(); }
 	inline ID3D11DeviceContext* GetContext() const noexcept { return m_pContext.Get(); }
 	
+	inline PixelShader GetShaderPix() const noexcept { return m_pixelShader2D; }
+	inline VertexShader GetShaderVtx() const noexcept { return m_vertexShader2D; }
+
 	inline Bind::BackBuffer* GetBackBuffer() const noexcept { return &*m_pBackBuffer; }
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
 	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }

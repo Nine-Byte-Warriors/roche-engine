@@ -3,6 +3,7 @@
 
 void Input::Initialize( RenderWindow& window )
 {
+	AddToEvent();
     m_renderWindow = window;
 
     // Update keyboard processing
@@ -30,7 +31,7 @@ void Input::UpdateMouse( const float dt )
             }
         }
 
-		if (m_mouse.IsLeftDown() || !m_bCursorEnabled )
+		if ( m_mouse.IsLeftDown() || !m_bCursorEnabled )
 		{
 			if (me.GetType() == Mouse::MouseEvent::EventType::LPress)
 			{
@@ -75,4 +76,27 @@ void Input::UpdateKeyboard( const float dt )
 
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
+}
+
+void Input::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient( EVENTID::ShowCursorEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
+}
+
+void Input::HandleEvent( Event* event )
+{
+	switch ( event->GetEventID() )
+	{
+	case EVENTID::ShowCursorEvent:
+	{
+		EnableCursor();
+	}
+	break;
+	case EVENTID::HideCursorEvent:
+	{
+		DisableCursor();
+	}
+	break;
+	}
 }

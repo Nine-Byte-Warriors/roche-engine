@@ -4,6 +4,8 @@
 
 bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hInstance, const std::string& windowName, const std::string& windowClass, int width, int height )
 {
+	AddToEvent();
+
 	// register window class
 	m_hInstance = hInstance;
 	m_iWidth = width;

@@ -26,9 +26,9 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         // Initialize levels
         m_pLevel1 = std::make_shared<Level1>();
 #if _DEBUG
-        m_pLevel1->Initialize( &m_graphics, &m_imgui );
+        m_pLevel1->Initialize( &m_graphics, &m_uiManager, &m_imgui );
 #else
-        m_pLevel1->Initialize( &m_graphics );
+        m_pLevel1->Initialize( &m_graphics, &m_uiManager );
 #endif
 
         m_uLevel1_ID = m_stateMachine.Add( m_pLevel1 );
