@@ -1,9 +1,9 @@
 #pragma once
+#ifndef COLLIDER_H
+#define COLLIDER_H
 
-#include <vector>
 #include "Vector2f.h"
 #include "Transform.h"
-#include <memory>
 
 const enum class ColliderType
 {
@@ -70,5 +70,6 @@ private:
 public:
     inline float GetRadius() { return m_radius; };
     inline void SetRadius(float radius) { m_radius = radius; };
-
 };
+
+#endif

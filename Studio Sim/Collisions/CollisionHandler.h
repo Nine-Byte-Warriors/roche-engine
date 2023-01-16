@@ -1,7 +1,8 @@
 #pragma once
+#ifndef COLLISIONHANDLER_H
+#define COLLISIONHANDLER_H
+
 #include "Collider.h"
-#include <vector>
-#include <memory>
 
 class CollisionHandler
 {
@@ -29,3 +30,4 @@ public:
     void Update();
 };
 
+#endif

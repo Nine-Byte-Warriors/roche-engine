@@ -234,9 +234,6 @@
     <ClCompile Include="Utility\StringHelper.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions\Collision.cpp">
-      <Filter>Source Files\Collisions</Filter>
-    </ClCompile>
     <ClCompile Include="..\External\imgui\imgui_tables.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
@@ -302,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="UI\UIManager.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CollisionHandler.cpp">
+      <Filter>Source Files\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
     <ClInclude Include="Collisions\Collider.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\Collision.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="AI\AIStateMachine.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
@@ -490,9 +487,6 @@
     </ClInclude>
     <ClInclude Include="AI\AIState.h">
       <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\TextRenderer.h">
       <Filter>Header Files\Utility\Helper</Filter>
@@ -571,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="UI\WidgetIncludes.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CollisionHandler.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
