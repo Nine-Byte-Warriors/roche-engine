@@ -53,29 +53,28 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 	m_spriteBack->Draw( m_transformBack->GetWorldMatrix(), worldOrtho );
 
 	// Drop-down button
-	ButtonDrop.Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, WorldOrthoMatrix, textrender);
-	Shaders::BindShaders(Contex, vert, pix);
-	if (DropState== DropState::Down)
+	ButtonDrop.Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, worldOrtho, textRenderer);
+	Shaders::BindShaders( context, vert, pix );
+	if (m_eDropState == DropState::Down )
 	{
 		
-		for (int i = 0; i < _ListData.size(); i++)
+		for ( unsigned int i = 0; i < _ListData.size(); i++ )
 		{
-
-
-			ListButtons[i].Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, WorldOrthoMatrix, textrender);
+			ListButtons[i].Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, worldOrtho, textRenderer );
 			Shaders::BindShaders(Contex, vert, pix);
 		}
 		
 	}
 	
-	XMVECTOR textsize = textrender->GetSpriteFont()->MeasureString(_ListData[Selected].c_str());
-	XMFLOAT2 textpos = { _Pos.x + (_Size.x / 2) - (DirectX::XMVectorGetX(textsize) * textrender->GetScale().x) / 2 ,_Pos.y + (_Size.y / 2) - (DirectX::XMVectorGetY(textsize) * textrender->GetScale().y) / 2 };
-	//text	
-	textrender->RenderString(_ListData[Selected], textpos, TextColour);
+	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( _ListData[m_iSelected].c_str() );
+	XMFLOAT2 textpos = { m_vPosition.x + (m_vSize.x / 2) - (XMVectorGetX(textsize) * textRenderer->GetScale().x ) / 2, m_vPosition.y + (m_vSize.y / 2) - (XMVectorGetY(textsize) * textRenderer->GetScale().y) / 2 };
+	textRenderer->RenderString( _ListData[m_iSelected], textpos, m_vTextColour, true );
 }
 
 void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
 {
+	m_vListData = ddList;
+	m_vTextColour = textColour;
 	m_textureBack = backCol[2];
 
 	// Update position/scale
@@ -87,15 +86,13 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	_ListData = DropDownList;
-	TextColour = textColour;
-	ButtonDrop.Function("", ButtonImage, { size.y, size.y }, XMFLOAT2{ pos.x + size.x ,  pos.y }, textColour, MData);
+	ButtonDrop.Function("", ButtonImage, { size.y, size.y }, XMFLOAT2{ pos.x + size.x ,  pos.y }, textColour, mData );
 
 	for ( unsigned int i = 0; i < _ListData.size(); i++ )
 		if ( currData == _ListData[i] )
 			m_iSelected = i;
 
-	//list buttons
+	// List buttons
 	switch ( m_eDropState )
 	{
 	case DropState::Down:
