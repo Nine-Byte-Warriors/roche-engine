@@ -1,7 +1,6 @@
 #pragma once
 #ifndef AUDIOEDITOR_H
 
-#include "structures.h"
 #include "AudioEngine.h"
 
 #if _DEBUG

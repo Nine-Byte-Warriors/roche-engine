@@ -176,7 +176,7 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
-    m_tileMapEditor.SpawnControlWindow();
+    m_tileMapEditor->SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
