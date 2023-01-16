@@ -596,6 +596,9 @@
     <ClInclude Include="Collisions\Rect2f.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\JsonLoading.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -639,6 +642,7 @@
     <None Include="Resources\Cursors\cur223.cur">
       <Filter>Resource Files\Cursors</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc">
