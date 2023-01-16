@@ -22,7 +22,7 @@ public:
 private:
 	// Main Menu
 	Image_Widget m_titlecard;
-	Button_Widget m_mainMenuButtons[2];
+	Button_Widget m_mainMenuButtons[3];
 	ColourBlock_Widget m_mainMenuBackground;
 	
 	// GitHub link

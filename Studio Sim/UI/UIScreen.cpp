@@ -9,7 +9,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 	UIElement::Initialize( gfx, mat );
 	m_titlecard.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_mainMenuBackground.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-	for ( unsigned int i = 0; i < 2; i++ )
+	for ( unsigned int i = 0; i < ARRAYSIZE( m_mainMenuButtons ); i++ )
 		m_mainMenuButtons[i].Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 }
 
@@ -21,22 +21,23 @@ void UIScreen::Update( const float dt )
 		m_mouseData.LPress = false;
 	}
 
-	XMFLOAT2 size = { m_vScreenSize.x * 0.15f, m_vScreenSize.y * 0.13f };
+	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
+	XMFLOAT2 pos = { m_vScreenSize.x * 0.15f, m_vScreenSize.y * 0.1f };
 
 	// --- Background image ---
-	m_mainMenuBackground.Resolve( { 210, 210, 150 }, { 0.0f, 0.0f }, { m_vScreenSize.x, m_vScreenSize.y } );
+	m_mainMenuBackground.Resolve( { 210, 210, 150 }, pos, size );
 	m_mainMenuBackground.Update( dt );
+	pos.x += m_vScreenSize.x * 0.15f;
 
 	// --- Game title card ---
-	m_titlecard.Resolve( "Resources\\Textures\\cauliflower_ss.png", { m_vScreenSize.x * 0.4f, m_vScreenSize.y * 0.12f }, size );
+	m_titlecard.Resolve( "Resources\\Textures\\cauliflower_ss.png", pos, size );
 	m_titlecard.Update( dt );
+	pos.x += m_vScreenSize.x * 0.15f;
 
 	// --- Menu buttons ---
-	float xPos = ( m_vScreenSize.x * 0.5f ) - size.x / 2.0f;
-	float yPos = 0.25f;
 
 	// Github link
-	if ( m_mainMenuButtons[0].Resolve( "Game Page", Colors::Black, m_buttonTexturesGithub, m_mouseData, { xPos, m_vScreenSize.y * yPos }, size ) )
+	if ( m_mainMenuButtons[0].Resolve( "", Colors::Black, m_buttonTexturesGithub, m_mouseData, pos, size ) )
 		if ( !m_bOpenLink && m_bOpen )
 			m_bOpenLink = true;
 	m_mainMenuButtons[0].Update( dt );
@@ -50,13 +51,17 @@ void UIScreen::Update( const float dt )
 		m_bOpenLink = false;
 		m_bOpen = false;
 	}
-
-	yPos += 0.2f;
+	pos.x += m_vScreenSize.x * 0.15f;
+	
+	// Example button
+	m_mainMenuButtons[1].Resolve( "Example", Colors::Black, m_buttonTexturesMain, m_mouseData, pos, size );
+	m_mainMenuButtons[1].Update( dt );
+	pos.x += m_vScreenSize.x * 0.15f;
 
 	// Quit game
-	if ( m_mainMenuButtons[1].Resolve( "Exit", Colors::Black, m_buttonTexturesMain, m_mouseData, { xPos, m_vScreenSize.y * yPos }, size ) )
+	if ( m_mainMenuButtons[2].Resolve( "Exit", Colors::Black, m_buttonTexturesMain, m_mouseData, pos, size ) )
 		EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-	m_mainMenuButtons[1].Update( dt );
+	m_mainMenuButtons[2].Update( dt );
 }
 
 void UIScreen::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -64,7 +69,7 @@ void UIScreen::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, Tex
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	m_mainMenuBackground.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
 	m_titlecard.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	for ( unsigned int i = 0; i < 2; i++ )
+	for ( unsigned int i = 0; i < ARRAYSIZE( m_mainMenuButtons ); i++ )
 	{
 		m_mainMenuButtons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
 		Shaders::BindShaders( m_pContext.Get(), vtx, pix );

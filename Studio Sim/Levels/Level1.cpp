@@ -20,7 +20,7 @@ void Level1::OnCreate()
 
         // Initialize enemies
         m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
-        m_enemy.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.45f, m_gfx->GetHeight() / 2 );
+        m_enemy.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.4f, m_gfx->GetHeight() / 2 );
         m_enemy.GetTransform()->SetScaleInit( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
 
         // Initialize 2d camera
