@@ -7,15 +7,14 @@ enum class EVENTID
 {
 	// Mouse Actions
 	MousePosition,
-  ImGuiMousePosition,
+	ImGuiMousePosition,
+
 	LeftMouseClick,
 	LeftMouseRelease,
 	RightMouseClick,
 	RightMouseRelease,
-
-	// UI System
-	UIMouseInput,
-	UIKeyInput,
+	MiddleMouseClick,
+	MiddleMouseRelease,
 
 	// Level System
 	SetNextLevelEvent,
@@ -28,7 +27,8 @@ enum class EVENTID
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
 
-	// Player Movement
+	// Player Actions
+	PlayerHealth,
 	PlayerPosition,
 	PlayerUp,
 	PlayerLeft,
@@ -40,6 +40,7 @@ enum class EVENTID
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
+	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
 	QuitGameEvent

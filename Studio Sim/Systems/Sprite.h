@@ -5,7 +5,7 @@
 #include "ConstantBuffer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "structures.h"
+#include "Shader_Data.h"
 #include "Texture.h"
 
 struct Vertex

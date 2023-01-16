@@ -1091,6 +1091,16 @@ bool ImGui::ImageButtonEx(ImGuiID id, ImTextureID texture_id, const ImVec2& size
 
     bool hovered, held;
     bool pressed = ButtonBehavior(bb, id, &hovered, &held);
+    static bool mouseClicked = false;
+
+    if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+    {
+        mouseClicked = true;
+    }
+    else if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+    {
+        mouseClicked = false;
+    }
 
     // Render
     const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_ButtonActive : hovered ? ImGuiCol_ButtonHovered : ImGuiCol_Button);
@@ -1100,6 +1110,10 @@ bool ImGui::ImageButtonEx(ImGuiID id, ImTextureID texture_id, const ImVec2& size
         window->DrawList->AddRectFilled(bb.Min + padding, bb.Max - padding, GetColorU32(bg_col));
     window->DrawList->AddImage(texture_id, bb.Min + padding, bb.Max - padding, uv0, uv1, GetColorU32(tint_col));
 
+    if (mouseClicked)
+    {
+        return hovered;
+    }
     return pressed;
 }
 
