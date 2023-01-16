@@ -23,9 +23,8 @@ void Input::UpdateMouse( float dt )
     {
         Mouse::MouseEvent me = m_mouse.ReadEvent();
 
-        pMousePos->x = me.GetPosX();
-        pMousePos->y = me.GetPosY();
-        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos);
+		std::shared_ptr<Vector2f> pMousePos = std::make_shared<Vector2f>(me.GetPosX(), me.GetPosY());
+        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, pMousePos.get());
         
         if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
