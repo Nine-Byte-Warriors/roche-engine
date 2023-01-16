@@ -69,10 +69,10 @@ private:
 
 
 
-
+#endif // DEBUG
 
 };
 
-#endif // DEBUG
+
 
 #endif // AUDIOEDITOR_H
