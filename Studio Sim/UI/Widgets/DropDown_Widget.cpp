@@ -42,21 +42,17 @@ void DropDown_Widget::Update( const float dt )
 	m_wButtonDrop.Update( dt );
 }
 
-void DropDown_Widget::Draw(ID3D11DeviceContext* Contex, ID3D11Device* Device, ConstantBuffer<CB_PS_scene>& cb_ps_scene, ConstantBuffer<CB_VS_matrix_2D>& cb_vs_matrix_2d, XMMATRIX WorldOrthoMatrix, TextRenderer* textrender, VertexShader& vert, PixelShader& pix)
+void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer, VertexShader& vert, PixelShader& pix )
 {
-	_Background.UpdateTex(Device, "Resources\\Textures\\Settings\\Input_Yellow.dds");
-	_Background.SetScale(_Size.x, _Size.y);
-	_Background.SetInitialPosition(_Pos.x, _Pos.y, 0);
+	//m_transformBack->SetScale(_Size.x, _Size.y);
+	//m_transformBack->SetInitialPosition(_Pos.x, _Pos.y, 0);
 
-	cb_ps_scene.data.alphaFactor = _AlphaFactor;
-	cb_ps_scene.data.useTexture = true;
+	// Background
+	m_spriteBack->UpdateTex( device, m_textureBack );
+	m_spriteBack->UpdateBuffers( context );
+	m_spriteBack->Draw( m_transformBack->GetWorldMatrix(), worldOrtho );
 
-	if (!cb_ps_scene.ApplyChanges()) return;
-	Contex->PSSetConstantBuffers(1u, 1u, cb_ps_scene.GetAddressOf());
-	_Background.Draw(WorldOrthoMatrix);
-	
-	
-
+	// Drop-down button
 	ButtonDrop.Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, WorldOrthoMatrix, textrender);
 	Shaders::BindShaders(Contex, vert, pix);
 	if (DropState== DropState::Down)
@@ -76,69 +72,74 @@ void DropDown_Widget::Draw(ID3D11DeviceContext* Contex, ID3D11Device* Device, Co
 	XMFLOAT2 textpos = { _Pos.x + (_Size.x / 2) - (DirectX::XMVectorGetX(textsize) * textrender->GetScale().x) / 2 ,_Pos.y + (_Size.y / 2) - (DirectX::XMVectorGetY(textsize) * textrender->GetScale().y) / 2 };
 	//text	
 	textrender->RenderString(_ListData[Selected], textpos, TextColour);
-	
-
 }
 
 void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
 {
-	
-	BackgroundColour = Backcolour[2];
-	_Size = size;
-	_Pos = pos;
+	m_textureBack = backCol[2];
+
+	// Update position/scale
+    m_vSize = size;
+    m_vPosition = pos;
+
+    m_transformBack->SetPosition( m_vPosition.x, m_vPosition.y );
+    m_transformBack->SetScale( m_vSize.x, m_vSize.y );
+    m_spriteBack->SetWidth( m_vSize.x );
+    m_spriteBack->SetHeight( m_vSize.y );
+
 	_ListData = DropDownList;
 	TextColour = textColour;
 	ButtonDrop.Function("", ButtonImage, { size.y, size.y }, XMFLOAT2{ pos.x + size.x ,  pos.y }, textColour, MData);
 
-	for (UINT i = 0; i < _ListData.size(); i++)
-	{
-		if (Current == _ListData[i]) {
-			Selected = i;
-		}
-	}
+	for ( unsigned int i = 0; i < _ListData.size(); i++ )
+		if ( currData == _ListData[i] )
+			m_iSelected = i;
 
 	//list buttons
-	switch (DropState)
+	switch ( m_eDropState )
 	{
-	case DropState::Down: {
+	case DropState::Down:
+	{
 		float PosY = pos.y + size.y;
-		for (int i = 0; i < DropDownList.size(); i++)
+		for ( unsigned int i = 0; i < DropDownList.size(); i++ )
 		{
-		
-			
-			if (ListButtons[i].Function(_ListData[i], Backcolour, { size.x,size.y }, XMFLOAT2{ pos.x  ,  PosY }, textColour, MData)) {
-				Selected = i;
-				DropState = Up;
-				Flag = 0;
+			if ( ListButtons[i].Function(_ListData[i], Backcolour, { size.x,size.y }, { pos.x, PosY }, textColour, mData ) )
+			{
+				m_iSelected = i;
+				m_eDropState = DropState::Up;
+				m_iFlag = 0;
 			}
 			PosY += size.y+1;
 		}
 
-		if (ButtonDrop.GetIsPressed() && Flag == FlagMax) {
-
-			DropState = Up;
-			Flag = 0;
-		}
-		else if(Flag<FlagMax)
+		if ( ButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
 		{
-			Flag++;
+
+			m_eDropState = DropState::Up;
+			m_iFlag = 0;
+		}
+		else if( m_iFlag < m_iFlagMax )
+		{
+			m_iFlag++;
 		}
 	}
-			 break;
+	break;
 	case DropState::Up:
-		if (ButtonDrop.GetIsPressed() && Flag == FlagMax) {
-
-			DropState = Down;
-			Flag = 0;
-		}
-		else if (Flag < FlagMax)
+	{
+		if ( ButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
 		{
-			Flag++;
-		}
 
+			m_eDropState = DropState::Down;
+			m_iFlag = 0;
+		}
+		else if ( m_iFlag < m_iFlagMax )
+		{
+			m_iFlag++;
+		}
+	}
 	default:
 		break;
 	}
 
-	DataSelected = DropDownList[Selected];
+	m_sDataSelected = m_vListData[m_iSelected];
 }
