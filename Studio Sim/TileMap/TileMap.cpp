@@ -1,15 +1,19 @@
 #include "stdafx.h"
 #include "TileMap.h"
 
-TileMap::TileMap()
+TileMap::TileMap(int rows, int columns)
 {
+	m_iRows = rows;
+	m_iColumns = columns;
+
 	std::ifstream TileMapJsonFile(JsonFile);
 	json TileMapJsonData = json::parse(TileMapJsonFile);
 	int pos = 0;
+	int type = 0;
 	for (auto& tiles : TileMapJsonData.items())
 	{
 		TileTypeData tile;
-		tile.type = tiles.value().at("type");
+		tile.type = type;
 		tile.name = tiles.value().at("name");
 #if _DEBUG
 		tile.button = false;
@@ -18,40 +22,29 @@ TileMap::TileMap()
 #endif
 
 		pos++;
+		type++;
 		m_sTileTypeData.push_back(tile);
 	}
 
 	ResetTileMap();
 }
 
-void TileMap::UpdateTile(int row, int column, int tileType)
-{
-	int levelPos = row * COLUMNS + column;
-
-	m_Level[levelPos] = tileType;
-}
-
 void TileMap::UpdateTile(int pos, int tileType)
 {
-	m_Level[pos] = tileType;
+	m_iLevel[pos] = tileType;
 }
 
 void TileMap::ResetTileMap()
 {
-	for (int i = 0; i < COLUMNS * ROWS; i++)
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		m_Level[i] = m_sTileTypeData[0].type;
+		m_iLevel.push_back(m_sTileTypeData[0].type);
 	}
-}
-
-int* TileMap::GetLevel()
-{
-	return m_Level;
 }
 
 int TileMap::GetTileType(int pos)
 {
-	return m_Level[pos];
+	return m_iLevel[pos];
 }
 
 std::vector<TileTypeData> TileMap::GetTileTypeData()

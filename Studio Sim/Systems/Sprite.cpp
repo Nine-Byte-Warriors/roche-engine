@@ -22,13 +22,14 @@ bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
 	std::string spritePath;
 	switch ( type )
 	{
-	case Type::Player:		spritePath = "Resources\\Textures\\carrot_ss.png";		m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Carrot:		spritePath = "Resources\\Textures\\carrot_ss.png";		m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Tomato:		spritePath = "Resources\\Textures\\tomato_ss.png";		m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Cauliflower: spritePath = "Resources\\Textures\\cauliflower_ss.png"; m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
-	case Type::Bean:		spritePath = "Resources\\Textures\\bean_ss.png";		m_iMaxFrameX = 1; m_iMaxFrameY = 2; break;
-	//case Type::Potato:	spritePath = "Resources\\Textures\\potato_ss.png";		m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Onion:		spritePath = "Resources\\Textures\\onion_ss.png";		m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Player:		spritePath = "Resources\\Textures\\carrot_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Carrot:		spritePath = "Resources\\Textures\\carrot_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Tomato:		spritePath = "Resources\\Textures\\tomato_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Cauliflower: spritePath = "Resources\\Textures\\cauliflower_ss.png";  m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
+	case Type::Bean:		spritePath = "Resources\\Textures\\bean_ss.png";		 m_iMaxFrameX = 1; m_iMaxFrameY = 2; break;
+	//case Type::Potato:	spritePath = "Resources\\Textures\\potato_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Onion:		spritePath = "Resources\\Textures\\onion_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
+	case Type::Projectile:	spritePath = "Resources\\Textures\\Base_Projectile.png"; m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
 	default: break;
 	}
 

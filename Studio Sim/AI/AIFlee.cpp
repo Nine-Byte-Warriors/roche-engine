@@ -12,7 +12,7 @@ void AIFlee::Update(const float dt)
 	Vector2f vTargetPosition = m_pAgent->GetTargetPosition();
 
 	// Get the direction from the target
-	Vector2f vDirection = vTargetPosition.Direction(vAgentPos);
+	Vector2f vDirection = vTargetPosition.DirectionTo(vAgentPos);
 
 	// Normalize the direction
 	Vector2f vNormDir = vDirection.Normalised();

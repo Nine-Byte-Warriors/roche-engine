@@ -19,7 +19,7 @@ Texture::Texture( ID3D11Device* device, const std::string& filePath, aiTextureTy
 	this->type = type;
 	if ( StringHelper::GetFileExtension( filePath ) == ".dds" )
 	{
-		HRESULT hr = DirectX::CreateDDSTextureFromFile( device,
+		HRESULT hr = CreateDDSTextureFromFile( device,
 			StringHelper::StringToWide( filePath ).c_str(),
 			texture.GetAddressOf(),
 			textureView.GetAddressOf() );
@@ -31,7 +31,7 @@ Texture::Texture( ID3D11Device* device, const std::string& filePath, aiTextureTy
 	}
 	else
 	{
-		HRESULT hr = DirectX::CreateWICTextureFromFile( device,
+		HRESULT hr = CreateWICTextureFromFile( device,
 			StringHelper::StringToWide( filePath ).c_str(),
 			texture.GetAddressOf(),
 			textureView.GetAddressOf() );
@@ -46,7 +46,7 @@ Texture::Texture( ID3D11Device* device, const std::string& filePath, aiTextureTy
 Texture::Texture( ID3D11Device* device, const uint8_t* pData, size_t size, aiTextureType type )
 {
 	this->type = type;
-	HRESULT hr = DirectX::CreateWICTextureFromMemory( device, pData, size,
+	HRESULT hr = CreateWICTextureFromMemory( device, pData, size,
 		texture.GetAddressOf(), textureView.GetAddressOf() );
 	COM_ERROR_IF_FAILED( hr, "Failed to create texture from memory!" );
 }
@@ -75,7 +75,7 @@ void Texture::UpdateTexture( ID3D11Device* device, std::string file )
 		if ( textureView )textureView->Release();
 		if ( StringHelper::GetFileExtension( file ) == "dds" )
 		{
-			HRESULT hr = DirectX::CreateDDSTextureFromFile( device,
+			HRESULT hr = CreateDDSTextureFromFile( device,
 				StringHelper::StringToWide( file ).c_str(),
 				texture.GetAddressOf(),
 				textureView.GetAddressOf() );
@@ -87,7 +87,7 @@ void Texture::UpdateTexture( ID3D11Device* device, std::string file )
 		}
 		else
 		{
-			HRESULT hr = DirectX::CreateWICTextureFromFile( device,
+			HRESULT hr = CreateWICTextureFromFile( device,
 				StringHelper::StringToWide( file ).c_str(),
 				texture.GetAddressOf(),
 				textureView.GetAddressOf() );

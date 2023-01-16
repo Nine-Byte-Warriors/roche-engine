@@ -10,7 +10,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
     try
     {
         // Initialize window
-        if ( !m_renderWindow.Initialize( &m_input, hInstance, "DirectX 11 Studio Sim Project", "TutorialWindowClass", width, height ) )
+        if ( !m_renderWindow.Initialize( &m_input, hInstance, "Five Nights of Farming", "TutorialWindowClass", width, height ) )
 		    return false;
 
         // Initialize m_graphics
@@ -31,9 +31,9 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         // Initialize levels
         m_pLevel1 = std::make_shared<Level1>();
 #if _DEBUG
-        m_pLevel1->Initialize( &m_graphics, &m_imgui );
+        m_pLevel1->Initialize( &m_graphics, &m_uiManager, &m_imgui );
 #else
-        m_pLevel1->Initialize( &m_graphics );
+        m_pLevel1->Initialize( &m_graphics, &m_uiManager );
 #endif
 
         m_uLevel1_ID = m_stateMachine.Add( m_pLevel1 );

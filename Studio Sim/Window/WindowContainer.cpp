@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WindowContainer.h"
+#include <Vector2f.h>
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -114,7 +115,8 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     {
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-		const POINTS pt = MAKEPOINTS( lParam );
+		Vector2f* mousePos = new Vector2f( x, y );
+
 		if ( !m_bCursorEnabled )
 		{
 			if ( !m_mouse.IsInWindow() )
@@ -125,11 +127,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 			}
 			return 0;
 		}
+
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
 			return 0;
+        }
 #endif
-		if ( pt.x >= 0 && pt.x < m_windowSize.x && pt.y >= 0 && pt.y < m_windowSize.y )
+
+		if ( mousePos->x >= 0 && mousePos->x < m_windowSize.x && mousePos->y >= 0 && mousePos->y < m_windowSize.y )
 		{
             m_mouse.OnMouseMove( x, y );
 			if ( !m_mouse.IsInWindow() )
@@ -150,6 +159,8 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
                 m_mouse.OnMouseLeave( x, y );
 			}
 		}
+        EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+
 		return 0;
     }
     case WM_LBUTTONDOWN:
@@ -166,13 +177,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         {
             mousePos->x = imio.MousePos.x - m_vImguiPos.x;
             mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnLeftPressed( x, y );
-        EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
+        EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
 
 		if ( !m_bCursorEnabled )
 		{
@@ -183,75 +194,130 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     }
     case WM_LBUTTONUP:
     {
+        SetForegroundWindow( m_renderWindow.GetHWND() );
         SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::BLUE ) );
+
+        int x = LOWORD( lParam );
+		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, mousePos );
 			return 0;
+        }
 #endif
 
-		int x = LOWORD( lParam );
-		int y = HIWORD( lParam );
         m_mouse.OnLeftReleased( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, mousePos );
 
-		const POINTS pt = MAKEPOINTS( lParam );
-		if ( pt.x < 0 || pt.x >= m_windowSize.x || pt.y < 0 || pt.y >= m_windowSize.y )
+		if ( mousePos->x < 0 || mousePos->x >= m_windowSize.x || mousePos->y < 0 || mousePos->y >= m_windowSize.y )
 		{
 			ReleaseCapture();
             m_mouse.OnMouseLeave( x, y );
 		}
+
 		return 0;
     }
     case WM_RBUTTONDOWN:
     {
-#if _DEBUG
-        if ( imio.WantCaptureMouse )
-			return 0;
-#endif
+        SetForegroundWindow( m_renderWindow.GetHWND() );
 
         int x = LOWORD( lParam );
-        int y = HIWORD( lParam );
+		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
+#if _DEBUG
+        if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, mousePos );
+			return 0;
+        }
+#endif
+
         m_mouse.OnRightPressed( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, mousePos );
+
         return 0;
     }
     case WM_RBUTTONUP:
     {
+        SetForegroundWindow( m_renderWindow.GetHWND() );
+
+        int x = LOWORD( lParam );
+		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
 #if _DEBUG
         if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, mousePos );
 			return 0;
+        }
 #endif
 
-		int x = LOWORD( lParam );
-		int y = HIWORD( lParam );
         m_mouse.OnRightReleased( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, mousePos );
 
-		const POINTS pt = MAKEPOINTS( lParam );
-		if ( pt.x < 0 || pt.x >= m_windowSize.x || pt.y < 0 || pt.y >= m_windowSize.y )
+		if ( mousePos->x < 0 || mousePos->x >= m_windowSize.x || mousePos->y < 0 || mousePos->y >= m_windowSize.y )
 		{
 			ReleaseCapture();
             m_mouse.OnMouseLeave( x, y );
 		}
+
 		return 0;
     }
     case WM_MBUTTONDOWN:
     {
+        SetForegroundWindow( m_renderWindow.GetHWND() );
+
+        int x = LOWORD( lParam );
+		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
 #if _DEBUG
         if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, mousePos );
 			return 0;
+        }
 #endif
-        int x = LOWORD( lParam );
-        int y = HIWORD( lParam );
+
         m_mouse.OnMiddlePressed( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, mousePos );
+
         return 0;
     }
     case WM_MBUTTONUP:
     {
+        SetForegroundWindow( m_renderWindow.GetHWND() );
+
+        int x = LOWORD( lParam );
+		int y = HIWORD( lParam );
+        Vector2f* mousePos = new Vector2f( x, y );
+
 #if _DEBUG
         if ( imio.WantCaptureMouse )
+        {
+            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
+            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
+            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, mousePos );
 			return 0;
+        }
 #endif
-        int x = LOWORD( lParam );
-        int y = HIWORD( lParam );
+
         m_mouse.OnMiddleReleased( x, y );
+        EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, mousePos );
+
         return 0;
     }
     case WM_MOUSEWHEEL:
@@ -379,6 +445,6 @@ void WindowContainer::HandleEvent( Event* event )
     {
     case EVENTID::ImGuiMousePosition:
         m_vImguiPos = *(Vector2f*)event->GetData();
-        break;
+       break;
     }
 }

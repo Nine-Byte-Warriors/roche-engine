@@ -14,7 +14,7 @@ public:
 	static const Vector2f Divide(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v1.x / v2.x, v1.y / v2.y); }
 	
 	static const Vector2f Distance(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v2.x - v1.x, v2.y - v1.y); }
-	static const Vector2f Direction(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v2.x - v1.x, v2.y - v1.y).Normalised(); }
+	static const Vector2f DirectionTo(const Vector2f& v1, const Vector2f& v2) { return Vector2f(v2.x - v1.x, v2.y - v1.y).Normalised(); }
 
 	static const float Magnitude(const Vector2f& v) { return sqrtf((v.x * v.x) + (v.y * v.y)); }
 	static const Vector2f Normalize(Vector2f& v) { return Vector2f(v.x / v.Magnitude(), v.y / v.Magnitude()); }
@@ -39,7 +39,7 @@ public:
 	Vector2f Divide(const float s) { return Vector2f(x / s, y / s); }
 	
 	float Distance(const Vector2f v) { return sqrt(pow(v.x - x, 2) + pow(v.y - y, 2) * 1.0f); }
-	Vector2f Direction(const Vector2f v) { return Vector2f(v.x - x, v.y - y).Normalised(); }
+	Vector2f DirectionTo(const Vector2f v) { return Vector2f(v.x - x, v.y - y).Normalised(); }
 
 	float Magnitude() { return sqrt((x * x) + (y * y)); }
 	float Length() { return sqrt(x * x + y * y); }

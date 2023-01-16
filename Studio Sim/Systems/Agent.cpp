@@ -14,11 +14,11 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	m_pStateMachine = new AIStateMachine(this);
 	AIState* pSeekState = m_pStateMachine->NewState(AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
-	pSeekState->SetActivation(1.0f);
+	pSeekState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Seek, pSeekState);
 	
 	AIState* pIdleState = m_pStateMachine->NewState(AIStateTypes::Idle);
-	pIdleState->SetActivation(0.0f);
+	pIdleState->SetActivation(1.0f);
 	m_mapStates.emplace(AIStateTypes::Idle, pIdleState);
 
 	AIState* pFleeState = m_pStateMachine->NewState(AIStateTypes::Flee);
@@ -43,8 +43,8 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 	if (ImGui::Begin("Agent AI", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		ImGui::Text("Behaviour");
-		static int activeBehaviour = 1;
-		static std::string previewValueBehaviour = "Seek";
+		static int activeBehaviour = 0;
+		static std::string previewValueBehaviour = "Idle";
 		static const char* behaviourList[]{ "Idle", "Seek", "Flee" };
 		if (ImGui::BeginCombo("##Active Behaviour", previewValueBehaviour.c_str()))
 		{
