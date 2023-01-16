@@ -124,6 +124,12 @@
     <Filter Include="Header Files\UI\Widgets">
       <UniqueIdentifier>{1a9925b2-fc13-4430-a6a1-ceaa1e1494e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{66c374fe-dad1-4ef9-892b-31072a9ecb1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{713d6a57-b1e5-4a2c-8a28-b9139d44267c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -234,9 +240,6 @@
     <ClCompile Include="Utility\StringHelper.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions\Collision.cpp">
-      <Filter>Source Files\Collisions</Filter>
-    </ClCompile>
     <ClCompile Include="..\External\imgui\imgui_tables.cpp">
       <Filter>Resource Files\ImGui</Filter>
     </ClCompile>
@@ -302,6 +305,18 @@
     </ClCompile>
     <ClCompile Include="UI\UIManager.cpp">
       <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEditor.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEngine.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="VoiceCallback.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CollisionHandler.cpp">
+      <Filter>Source Files\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +485,6 @@
     <ClInclude Include="Collisions\Collider.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\Collision.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
     <ClInclude Include="AI\AIStateMachine.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
@@ -490,9 +502,6 @@
     </ClInclude>
     <ClInclude Include="AI\AIState.h">
       <Filter>Header Files\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Utility\TextRenderer.h">
       <Filter>Header Files\Utility\Helper</Filter>
@@ -572,6 +581,21 @@
     <ClInclude Include="UI\WidgetIncludes.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="AudioEditor.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEngine.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="VoiceCallback.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CollisionHandler.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -637,5 +661,25 @@
     <FxCompile Include="Resources\Shaders\shader2D_VS.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\AudioFiles\creepymusic.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\partymusic.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-mono.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-stereo.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\piano2.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\AudioFiles\quietlaugh.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

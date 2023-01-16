@@ -177,6 +177,7 @@ void Level1::EndFrame()
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
     m_tileMapEditor->SpawnControlWindow();
+    m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
@@ -188,6 +189,9 @@ void Level1::EndFrame()
 void Level1::Update( const float dt )
 {
     // Update entities
+#if _DEBUG
+    m_audioEditor.Update();
+#endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
     m_player.Update( dt );

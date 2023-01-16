@@ -271,7 +271,9 @@
     <ClCompile Include="AI\AISeek.cpp" />
     <ClCompile Include="AI\AIStateMachine.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Collisions\Collision.cpp" />
+    <ClCompile Include="AudioEditor.cpp" />
+    <ClCompile Include="AudioEngine.cpp" />
+    <ClCompile Include="Collisions\CollisionHandler.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp">
@@ -368,6 +370,7 @@
     <ClCompile Include="Utility\Texture.cpp" />
     <ClCompile Include="Utility\ThreadManager.cpp" />
     <ClCompile Include="Utility\Timer.cpp" />
+    <ClCompile Include="VoiceCallback.cpp" />
     <ClCompile Include="Window\RenderWindow.cpp" />
     <ClCompile Include="Window\WindowContainer.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -388,8 +391,10 @@
     <ClInclude Include="AI\AIState.h" />
     <ClInclude Include="AI\AIStateMachine.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="AudioEditor.h" />
+    <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="Collisions\Collider.h" />
-    <ClInclude Include="Collisions\Collision.h" />
+    <ClInclude Include="Collisions\CollisionHandler.h" />
     <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
@@ -493,6 +498,7 @@
     <ClInclude Include="Utility\ThreadManager.h" />
     <ClInclude Include="Utility\Timer.h" />
     <ClInclude Include="Utility\Vector2f.h" />
+    <ClInclude Include="VoiceCallback.h" />
     <ClInclude Include="Window\RenderWindow.h" />
     <ClInclude Include="Window\WindowContainer.h" />
   </ItemGroup>
@@ -567,6 +573,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\AudioFiles\creepymusic.wav" />
+    <Media Include="Resources\AudioFiles\partymusic.wav" />
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-mono.wav" />
+    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-stereo.wav" />
+    <Media Include="Resources\AudioFiles\piano2.wav" />
+    <Media Include="Resources\AudioFiles\quietlaugh.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
