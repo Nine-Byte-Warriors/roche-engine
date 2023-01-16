@@ -53,7 +53,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, std::vector<std::string> textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
     m_sText = text;
     m_vTextColor = textColour;

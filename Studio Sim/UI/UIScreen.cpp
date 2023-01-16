@@ -7,10 +7,11 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
 	AddToEvent();	
 	UIElement::Initialize( gfx, mat );
-	m_titlecard.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-	m_mainMenuBackground.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-	for ( unsigned int i = 0; i < ARRAYSIZE( m_mainMenuButtons ); i++ )
-		m_mainMenuButtons[i].Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_image.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_dataSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_colourBlock.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	for ( unsigned int i = 0; i < ARRAYSIZE( m_buttons ); i++ )
+		m_buttons[i].Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 }
 
 void UIScreen::Update( const float dt )
@@ -22,29 +23,33 @@ void UIScreen::Update( const float dt )
 	}
 
 	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
-	XMFLOAT2 pos = { m_vScreenSize.x * 0.15f, m_vScreenSize.y * 0.1f };
+	XMFLOAT2 pos = { m_vScreenSize.x * 0.075f, m_vScreenSize.y * 0.1f };
 
-	// --- Background image ---
-	m_mainMenuBackground.Resolve( { 210, 210, 150 }, pos, size );
-	m_mainMenuBackground.Update( dt );
+	// --- Colour Block Widgets ---
+	m_colourBlock.Resolve( { 210, 210, 150 }, pos, size );
+	m_colourBlock.Update( dt );
 	pos.x += m_vScreenSize.x * 0.15f;
 
-	// --- Game title card ---
-	m_titlecard.Resolve( "Resources\\Textures\\cauliflower_ss.png", pos, size );
-	m_titlecard.Update( dt );
+	// --- Image  Widgets ---
+	m_image.Resolve( "Resources\\Textures\\cauliflower_ss.png", pos, size );
+	m_image.Update( dt );
 	pos.x += m_vScreenSize.x * 0.15f;
 
-	// --- Menu buttons ---
+	// --- Data Slider Widgets ---
+	m_dataSlider.Resolve( m_iSliderStart, "Resources\\Textures\\dirt.png", "Resources\\Textures\\wall.png", m_mouseData, pos, size );
+	m_dataSlider.Update( dt );
+	pos.x += m_vScreenSize.x * 0.15f;
 
-	// Github link
-	if ( m_mainMenuButtons[0].Resolve( "", Colors::Black, m_buttonTexturesGithub, m_mouseData, pos, size ) )
+	// --- Button Widgets ---
+	if ( m_buttons[0].Resolve( "", Colors::Black, m_buttonTexturesGithub, m_mouseData, pos, size ) )
 		if ( !m_bOpenLink && m_bOpen )
 			m_bOpenLink = true;
-	m_mainMenuButtons[0].Update( dt );
+	m_buttons[0].Update( dt );
 
-	if ( !m_mainMenuButtons[0].GetIsPressed() )
+	if ( !m_buttons[0].GetIsPressed() )
 		m_bOpen = true;
 
+	// Github link
 	if ( m_bOpenLink )
 	{
 		ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors", 0, 0, SW_SHOW );
@@ -54,24 +59,25 @@ void UIScreen::Update( const float dt )
 	pos.x += m_vScreenSize.x * 0.15f;
 	
 	// Example button
-	m_mainMenuButtons[1].Resolve( "Example", Colors::Black, m_buttonTexturesMain, m_mouseData, pos, size );
-	m_mainMenuButtons[1].Update( dt );
+	m_buttons[1].Resolve( "Example", Colors::Black, m_buttonTextures, m_mouseData, pos, size );
+	m_buttons[1].Update( dt );
 	pos.x += m_vScreenSize.x * 0.15f;
 
 	// Quit game
-	if ( m_mainMenuButtons[2].Resolve( "Exit", Colors::Black, m_buttonTexturesMain, m_mouseData, pos, size ) )
+	if ( m_buttons[2].Resolve( "Exit", Colors::Black, m_buttonTextures, m_mouseData, pos, size ) )
 		EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-	m_mainMenuButtons[2].Update( dt );
+	m_buttons[2].Update( dt );
 }
 
 void UIScreen::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-	m_mainMenuBackground.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	m_titlecard.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	for ( unsigned int i = 0; i < ARRAYSIZE( m_mainMenuButtons ); i++ )
+	m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+	m_dataSlider.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+	m_colourBlock.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+	for ( unsigned int i = 0; i < ARRAYSIZE( m_buttons ); i++ )
 	{
-		m_mainMenuButtons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
+		m_buttons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
 		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	}
 }

@@ -21,19 +21,21 @@ public:
 	void HandleEvent( Event* event ) override;
 private:
 	// Main Menu
-	Image_Widget m_titlecard;
-	Button_Widget m_mainMenuButtons[3];
-	ColourBlock_Widget m_mainMenuBackground;
+	Image_Widget m_image;
+	Button_Widget m_buttons[3];
+	DataSlider_Widget m_dataSlider;
+	ColourBlock_Widget m_colourBlock;
 	
 	// GitHub link
 	bool m_bOpen = true;
 	bool m_bOpenLink = false;
 
 	bool m_bMouseLoad = true;
+	int m_iSliderStart = 50;
 	UINT32 m_uLevelTo = 0;
 
 	// Button state textures
-	std::vector<std::string> m_buttonTexturesMain =
+	std::vector<std::string> m_buttonTextures =
 	{
 		"Resources\\Textures\\dirt.png",
 		"Resources\\Textures\\wall.png",
