@@ -18,6 +18,7 @@ private:
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
 	void AddToEvent() noexcept;
+	float* m_fPlayerHealth;
 };
 
 #endif

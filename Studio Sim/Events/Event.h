@@ -27,7 +27,8 @@ enum class EVENTID
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
 
-	// Player Movement
+	// Player Actions
+	PlayerHealth,
 	PlayerPosition,
 	PlayerUp,
 	PlayerLeft,

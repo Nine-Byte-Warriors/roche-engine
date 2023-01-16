@@ -21,19 +21,23 @@ public:
 	void HandleEvent( Event* event ) override;
 private:
 	// Main Menu
-	Image_Widget m_titlecard;
-	Button_Widget m_mainMenuButtons[3];
-	ColourBlock_Widget m_mainMenuBackground;
+	Image_Widget m_image;
+	Button_Widget m_buttons[3];
+	EnergyBar_Widget m_energyBar;
+	DataSlider_Widget m_dataSlider;
+	ColourBlock_Widget m_colourBlock;
 	
 	// GitHub link
 	bool m_bOpen = true;
 	bool m_bOpenLink = false;
 
 	bool m_bMouseLoad = true;
+	int m_iSliderStart = 50;
+	float m_fPlayerHealth;
 	UINT32 m_uLevelTo = 0;
 
 	// Button state textures
-	std::vector<std::string> m_buttonTexturesMain =
+	std::vector<std::string> m_textures =
 	{
 		"Resources\\Textures\\dirt.png",
 		"Resources\\Textures\\wall.png",
@@ -41,7 +45,7 @@ private:
 	};
 
 	// Logo from https://www.flaticon.com/free-icon/github_5968896
-	std::vector<std::string> m_buttonTexturesGithub =
+	std::vector<std::string> m_texturesGithub =
 	{
 		"Resources\\Textures\\github_logo.png",
 		"Resources\\Textures\\github_logo.png",
