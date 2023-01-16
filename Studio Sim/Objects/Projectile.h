@@ -9,7 +9,10 @@ class Projectile
 {
 public:
 	Projectile(float fSpeed);
+	~Projectile() {}
+	
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);
+	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, std::string sSpritePath);
 	void Update(const float dt);
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 

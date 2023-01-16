@@ -18,6 +18,13 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
+void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, std::string sSpritePath)
+{
+	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), sSpritePath, mat);
+	m_transform->SetPositionInit(0.0f, 0.0f);
+	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
+}
+
 void Projectile::Update(const float dt)
 {
 	if (!IsAlive())

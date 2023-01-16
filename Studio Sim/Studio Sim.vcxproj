@@ -76,7 +76,7 @@
     <MultiProcFXC>true</MultiProcFXC>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Systems;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Window;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Systems;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Window;$(ProjectDir)Projectile Editor;$(IncludePath)</IncludePath>
     <MultiProcFXC>true</MultiProcFXC>
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
@@ -289,6 +289,7 @@
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="Projectile Editor\ProjectileEditor.cpp" />
     <ClCompile Include="Systems\ProjectileManager.cpp" />
     <ClCompile Include="Systems\Agent.cpp" />
     <ClCompile Include="Systems\Physics.cpp" />
@@ -414,6 +415,7 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="Projectile Editor\ProjectileEditor.h" />
     <ClInclude Include="Systems\ProjectileManager.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="Systems\Agent.h" />
@@ -477,6 +479,7 @@
     <ClInclude Include="Utility\DDSTextureLoader.h" />
     <ClInclude Include="Utility\ErrorLogger.h" />
     <ClInclude Include="Utility\FileLoading.h" />
+    <ClInclude Include="Utility\JsonLoading.h" />
     <ClInclude Include="Utility\stdafx.h" />
     <ClInclude Include="Utility\StringHelper.h" />
     <ClInclude Include="Utility\Shader_Data.h" />

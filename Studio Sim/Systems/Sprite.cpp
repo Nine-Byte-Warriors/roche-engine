@@ -36,6 +36,14 @@ bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
 	return Initialize( device, context, spritePath, mat );
 }
 
+bool Sprite::InitializeFromFile(ID3D11Device* device, ID3D11DeviceContext* context,
+	std::string sSpritePath, ConstantBuffer<Matrices>& mat, int iCols, int iRows)
+{
+	m_iMaxFrameX = iCols;
+	m_iMaxFrameY = iRows;
+	return Initialize(device, context, sSpritePath, mat);
+}
+
 bool Sprite::InitializeInternal( ID3D11Device* device, ID3D11DeviceContext* context,
 	ConstantBuffer<Matrices>& mat, float width, float height )
 {

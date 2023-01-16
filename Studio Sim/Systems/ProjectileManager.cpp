@@ -22,6 +22,16 @@ void ProjectileManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>
 		pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
 }
 
+void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename)
+{
+	// TODO: Load file into JSON
+	
+	// TODO: Find all projectile objects from JSON
+	// TODO: Create projectile objects from JSON loaded data and Store in array
+	for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+		pProjectile->Initialize(gfx, mat, filename);
+}
+
 void ProjectileManager::Update( const float dt )
 {
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)

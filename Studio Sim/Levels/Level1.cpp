@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Level1.h"
+#include "ProjectileEditor.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -34,6 +35,9 @@ void Level1::OnCreate()
         // Initialize TileMap
         OnCreateTileMap(m_tileMapDrawBackground);
         OnCreateTileMap(m_tileMapDrawForeground);
+
+		// Initialise Projectile Editor
+        m_projectileEditor = ProjectileEditor::CreateEditor();
 	}
 	catch ( COMException& exception )
 	{
@@ -176,6 +180,8 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
+    m_projectileEditor->SpawnEditorWindow();
+    
     m_tileMapEditor->SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
