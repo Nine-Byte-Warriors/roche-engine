@@ -31,7 +31,6 @@ public:
 	TileMapLayer GetTileMapLayer();
 private:
 	void Load();
-	bool LoadReadFile();
 	bool LoadProcessFile();
 	void SaveToExistingFile();
 	void SaveToNewFile();
