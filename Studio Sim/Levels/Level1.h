@@ -9,7 +9,9 @@
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
+#if _DEBUG
 #include "AudioEditor.h"
+#endif
 #include "LevelStateMachine.h"
 
 /// <summary>
@@ -44,7 +46,9 @@ private:
 
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
+#if _DEBUG
 	AudioEditor m_audioEditor;
+#endif
 	int m_iTileMapRows;
 	int m_iTileMapColumns;
 	TextRenderer m_textRenderer;

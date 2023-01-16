@@ -13,7 +13,7 @@ public:
 
 #if _DEBUG
 	void SpawnControlWindow();
-#endif
+
 
 	void Update();
 
@@ -65,18 +65,14 @@ private:
 
 	// List of audio
 
-
-
-#if _DEBUG
-
 	//const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
-#endif
+
 
 
 
 
 };
 
-
+#endif // DEBUG
 
 #endif // AUDIOEDITOR_H

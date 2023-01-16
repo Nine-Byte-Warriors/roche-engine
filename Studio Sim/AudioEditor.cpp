@@ -38,8 +38,6 @@ void AudioEditor::Update()
 
 }
 
-#endif
-
 void AudioEditor::Play()
 {
 	m_bPlayButton = ImGui::Button("Play");
@@ -128,3 +126,5 @@ void AudioEditor::VolumeSlider()
 {
 
 }
+
+#endif // DEBUG
