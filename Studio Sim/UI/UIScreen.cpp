@@ -5,7 +5,6 @@
 
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
-	AddToEvent();	
 	UIElement::Initialize( gfx, mat );
 	m_image.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_energyBar.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
@@ -79,7 +78,7 @@ void UIScreen::Update( const float dt )
 	m_buttons[2].Update( dt );
 }
 
-void UIScreen::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
+void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );

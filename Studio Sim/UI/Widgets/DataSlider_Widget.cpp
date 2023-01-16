@@ -92,6 +92,7 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 	m_spriteSlider->SetWidth( 25.0f );
 	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
 
+#if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
 	if (
 		mData.Pos.x >= pos.x &&
@@ -105,6 +106,7 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 			start = ( m_fPx / size.x ) * 100.0f;
 		}
 	}
+#endif
 
 	m_uDataOut = ( m_fPx / size.x ) * 100.0f;
 }

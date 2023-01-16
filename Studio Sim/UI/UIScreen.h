@@ -9,12 +9,12 @@ class Graphics;
 class UIScreen : public UIElement
 {
 public:
-	UIScreen() {}
+	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
 
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat ) override;
 	void Update( const float dt ) override;
-	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
+	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
 	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
