@@ -16,7 +16,8 @@ TileMapEditor::TileMapEditor(int rows, int columns)
 #if _DEBUG
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		m_TileMapPreviewImageButtonColor.push_back(m_sTileTypeData[0].color);
+		ImColor color = m_tileMapBackground->GetColor(0);
+		m_TileMapPreviewImageButtonColor.push_back(color);
 	}
 #endif
 
@@ -152,7 +153,8 @@ bool TileMapEditor::LoadProcessFile()
 				{
 					int pos = rowNum * m_iColumns + colNum;
 #if _DEBUG
-					m_TileMapPreviewImageButtonColor[pos] = m_sTileTypeData[tileType].color;
+					ImColor color = m_tileMapBackground->GetColor(tileType);
+					m_TileMapPreviewImageButtonColor[pos] = color;
 #endif
 					if (m_tileMapLayer == TileMapLayer::Background)
 					{
@@ -254,6 +256,8 @@ bool TileMapEditor::SaveWriteFile()
 	std::string rowNumStr;
 	std::vector<std::string> rowValues;
 
+	//JsonLoading::SaveJson(m_tileMapBackground, m_sFilePath);
+
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
 		if (m_tileMapLayer == TileMapLayer::Background)
@@ -289,8 +293,9 @@ void TileMapEditor::TileMapSelectionButtons()
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
+		ImColor color = m_tileMapBackground->GetColor(i);
 		m_sTileTypeData[i].button =
-			ImGui::ImageButtonNoTexture(m_sTileTypeData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_sTileTypeData[i].color);
+			ImGui::ImageButtonNoTexture(m_sTileTypeData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, color);
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
@@ -381,7 +386,8 @@ void TileMapEditor::UpdateSingleTileMapGridPreview()
 					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
 					{
 #if _DEBUG
-						m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+						ImColor color = m_tileMapBackground->GetColor(j);
+						m_TileMapPreviewImageButtonColor[i] = color;
 #endif
 						if (m_tileMapLayer == TileMapLayer::Background)
 						{
@@ -409,14 +415,16 @@ void TileMapEditor::UpdateWholeTileMapGridPreview()
 			{
 				if (m_tileMapBackground->GetTileType(i) == m_tileMapBackground->GetTileTypeData()[j].type)
 				{
-					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+					ImColor color = m_tileMapBackground->GetColor(j);
+					m_TileMapPreviewImageButtonColor[i] = color;
 				}
 			}
 			else if (m_tileMapLayer == TileMapLayer::Foreground)
 			{
 				if (m_tileMapForeground->GetTileType(i) == m_tileMapForeground->GetTileTypeData()[j].type)
 				{
-					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+					ImColor color = m_tileMapForeground->GetColor(j);
+					m_TileMapPreviewImageButtonColor[i] = color;
 				}
 			}
 		}

@@ -6,25 +6,27 @@ TileMap::TileMap(int rows, int columns)
 	m_iRows = rows;
 	m_iColumns = columns;
 
-	std::ifstream TileMapJsonFile(JsonFile);
-	json TileMapJsonData = json::parse(TileMapJsonFile);
-	int pos = 0;
-	int type = 0;
-	for (auto& tiles : TileMapJsonData.items())
-	{
-		TileTypeData tile;
-		tile.type = type;
-		tile.name = tiles.value().at("name");
-#if _DEBUG
-		tile.button = false;
-		int colorA = tiles.value().at("colorA");
-		tile.color = ImColor(tiles.value().at("colorR"), tiles.value().at("colorG"), tiles.value().at("colorB"), colorA);
-#endif
+//	std::ifstream TileMapJsonFile(JsonFile);
+//	json TileMapJsonData = json::parse(TileMapJsonFile);
+//	int pos = 0;
+//	int type = 0;
+//	for (auto& tiles : TileMapJsonData.items())
+//	{
+//		TileTypeData tile;
+//		tile.type = type;
+//		tile.name = tiles.value().at("name");
+//#if _DEBUG
+//		tile.button = false;
+//		int colorA = tiles.value().at("colorA");
+//		tile.color = ImColor(tiles.value().at("colorR"), tiles.value().at("colorG"), tiles.value().at("colorB"), colorA);
+//#endif
+//
+//		pos++;
+//		type++;
+//		m_sTileTypeData.push_back(tile);
+//	}
 
-		pos++;
-		type++;
-		m_sTileTypeData.push_back(tile);
-	}
+	JsonLoading::LoadJson(m_sTileTypeData, JsonFile);
 
 	ResetTileMap();
 }

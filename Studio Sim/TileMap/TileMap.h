@@ -4,6 +4,7 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
+#include "JsonLoading.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -19,15 +20,24 @@ enum class TileMapLayer
 	Both
 };
 
+
 struct TileTypeData
 {
+	std::string name;
 	int type;
 #if _DEBUG
-	ImColor color;
-	bool button;
+	int colorR;
+	int colorG;
+	int colorB;
+	int colorA;
 #endif
-	std::string name;
+	bool button;
 };
+#if _DEBUG
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileTypeData, name, type, colorR, colorG, colorB, colorA, button)
+#else
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileTypeData, name, type, button)
+#endif
 
 class TileMap
 {
@@ -39,10 +49,9 @@ public:
 
 	int GetTileType(int pos);
 
-	void SetRows(int rows);
-	void SetColumns(int columns);
-
 	std::vector<TileTypeData> GetTileTypeData();
+
+	ImColor GetColor(int pos) { return ImColor(m_sTileTypeData[pos].colorR, m_sTileTypeData[pos].colorG, m_sTileTypeData[pos].colorB, m_sTileTypeData[pos].colorA); };
 
 private:
 
