@@ -1,4 +1,4 @@
-#include <stdafx.h>
+#include "stdafx.h"
 #include "AudioEditor.h"
 
 AudioEditor::AudioEditor() {
@@ -8,7 +8,6 @@ AudioEditor::AudioEditor() {
 }
 
 #if _DEBUG
-
 void AudioEditor::SpawnControlWindow()
 {
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))

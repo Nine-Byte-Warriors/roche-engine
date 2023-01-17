@@ -13,6 +13,7 @@
 #include "AudioEditor.h"
 #endif
 #include "LevelStateMachine.h"
+#include "CollisionHandler.h"
 
 /// <summary>
 /// The first level of the game.
@@ -44,6 +45,7 @@ private:
 	Camera m_camera;
 	Player m_player;
 
+	CollisionHandler m_collisionHandler;
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG

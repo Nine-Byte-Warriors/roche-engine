@@ -51,18 +51,17 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	// Load Sound Bank for SFX
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\AudioFiles\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\AudioFiles\\piano2.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\AudioFiles\\quietlaugh.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\AudioFiles\\bullettest.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\Audio\\piano2.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\Audio\\quietlaugh.wav", 1.0f, SFX);
+	LoadAudio(L"Resources\\Audio\\bullettest.wav", 1.0f, SFX);
 
 	// Load Sound Bank for Music
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"Resources\\AudioFiles\\creepymusic.wav", 1.0f, MUSIC);
-	LoadAudio(L"Resources\\AudioFiles\\partymusic.wav", 1.0f, MUSIC);
-
+	LoadAudio(L"Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC);
+	LoadAudio(L"Resources\\Audio\\partymusic.wav", 1.0f, MUSIC);
 }
 
 void AudioEngine::Update()
@@ -75,7 +74,6 @@ void AudioEngine::Update()
 			m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i	);
 		}
 	}
-
 }
 
 HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)
@@ -85,7 +83,6 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType au
 	//// Create structures
 	WAVEFORMATEXTENSIBLE* wfx = new WAVEFORMATEXTENSIBLE();
 	XAUDIO2_BUFFER* buffer = new XAUDIO2_BUFFER();
-
 
 	//// Open audio with CreateFile
 	//WCHAR* strFileName = (WCHAR*)TEXT("TestAudioFiles\\pcm-32bit-44khz-mono.wav");
@@ -156,11 +153,9 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 	}
 
 	IXAudio2SourceVoice* pVoice = nullptr;
-
 	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
 
-
-		// Check with the file name exists, if so, grab a buffer from it
+	// Check with the file name exists, if so, grab a buffer from it
 	for (int i = 0; soundBank->size() > i; i++) {
 		if (fileName == soundBank->at(i)->fileName) {
 
@@ -198,8 +193,6 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 			//pVoice->SetFrequencyRatio(12000);
 			//
 			//WaitForSingleObjectEx(m_vSFXSoundBank->at(i)->voiceCallback->hBufferEndEvent, INFINITE, TRUE);
-
-
 		}
 	} 
 
@@ -281,10 +274,6 @@ HRESULT AudioEngine::UnloadAudio(std::wstring fileName, AudioType audioType)
 	return hr;
 }
 
-
-
-
-
 HRESULT AudioEngine::FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition)
 {
 	HRESULT hr = S_OK;
@@ -347,7 +336,6 @@ HRESULT AudioEngine::FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, D
 	}
 
 	return S_OK;
-
 }
 
 HRESULT AudioEngine::ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset)
@@ -407,4 +395,3 @@ std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {
 		break;
 	}
 }
-
