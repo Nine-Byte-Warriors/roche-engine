@@ -1,37 +1,47 @@
-{
-  "tile0": {
-    "name": "EMPTY",    
-    "colorR": 0,
-    "colorG": 0,
-    "colorB": 0,
-    "colorA": 255
-  },
-  "tile1": {
-    "name": "DIRT",    
-    "colorR": 155,
-    "colorG": 118,
-    "colorB": 83,
-    "colorA": 255
-  },
-  "tile2": {
-    "name": "WALL",    
-    "colorR": 40,
-    "colorG": 204,
-    "colorB": 223,
-    "colorA": 255
-  },
-  "tile3": {
-    "name": "GRASS",    
-    "colorR": 20,
-    "colorG": 255,
-    "colorB": 20,
-    "colorA": 255
-  },
-  "tile4": {
-    "name": "LILLY",    
-    "colorR": 120,
-    "colorG": 155,
-    "colorB": 120,
-    "colorA": 255
-  }
-}
+[
+    {
+      "name": "EMPTY",
+      "colorR": 0,
+      "colorG": 0,
+      "colorB": 0,
+      "colorA": 2555,
+      "type": 0,
+      "button": false
+    },
+    {
+      "name": "DIRT",
+      "colorR": 155,
+      "colorG": 118,
+      "colorB": 83,
+      "colorA": 255,
+      "type": 1,
+      "button": false
+    },
+    {
+      "name": "WALL",
+      "colorR": 40,
+      "colorG": 204,
+      "colorB": 223,
+      "colorA": 255,
+      "type": 2,
+      "button": false
+    },
+    {
+      "name": "GRASS",
+      "colorR": 20,
+      "colorG": 255,
+      "colorB": 20,
+      "colorA": 255,
+      "type": 3,
+      "button": false
+    },
+    {
+      "name": "LILLY",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 4,
+      "button": false
+    }
+]

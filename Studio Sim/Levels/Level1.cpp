@@ -9,6 +9,7 @@ void Level1::OnCreate()
 {
 	try
 	{
+
 		// Initialize constant buffers
 		HRESULT hr = m_cbMatrices.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
@@ -34,6 +35,10 @@ void Level1::OnCreate()
         // Initialize TileMap
         OnCreateTileMap(m_tileMapDrawBackground);
         OnCreateTileMap(m_tileMapDrawForeground);
+
+        //Initialize CollisionHandler
+        m_collisionHandler.AddCollider(m_player.GetCollider());
+        m_collisionHandler.AddCollider(m_enemy.GetCollider());
 	}
 	catch ( COMException& exception )
 	{
@@ -194,9 +199,12 @@ void Level1::Update( const float dt )
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
+
     m_player.Update( dt );
     m_enemy.Update( dt );
     m_ui->Update( dt );
+
+    m_collisionHandler.Update();
 }
 
 void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
