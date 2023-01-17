@@ -1,4 +1,7 @@
 #pragma once
+#ifndef AUDIOENGINE_H
+#define AUDIOENGINE_H
+
 #include <xaudio2.h>
 #include <thread>
 #include <mutex>
@@ -25,7 +28,8 @@
 
 class VoiceCallback;
 
-struct SoundBankFile {
+struct SoundBankFile
+{
 	std::wstring fileName;
 	XAUDIO2_BUFFER* buffer;
 	WAVEFORMATEX* sourceFormat;
@@ -33,12 +37,14 @@ struct SoundBankFile {
 	float volume;
 };
 
-enum AudioType {
+enum AudioType
+{
 	SFX = 0,
 	MUSIC = 1
 };
 
-class AudioEngine {
+class AudioEngine
+{
 public:
 	AudioEngine();
 
@@ -81,7 +87,6 @@ public:
 	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
-	
 
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
@@ -101,7 +106,6 @@ private:
 	std::vector<IXAudio2SourceVoice*>* m_vMusicSourceVoiceList;
 	std::vector<IXAudio2SourceVoice*>* m_vSFXSourceVoiceList;
 
-
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;
 
@@ -113,7 +117,6 @@ private:
 	float m_fSFXVolume;
 
 	bool m_bIsMusicPaused;
-
 };
 
-//#endif // VOICECALLBACK_H
+#endif // VOICECALLBACK_H

@@ -1,12 +1,12 @@
-#include <stdafx.h>
+#include "stdafx.h"
 #include "AudioEditor.h"
 
-AudioEditor::AudioEditor() {
+AudioEditor::AudioEditor()
+{
 
 }
 
 #if _DEBUG
-
 void AudioEditor::SpawnControlWindow()
 {
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
@@ -29,13 +29,11 @@ void AudioEditor::SpawnControlWindow()
 
 void AudioEditor::Update()
 {
-	if (m_bPlayButton) {
+	if (m_bPlayButton)
+	{
 		AudioEngine::GetInstance()->PlayAudio(L"bullettest", SFX);
 		m_bPlayButton == false;
 	}
-
-
-
 }
 
 void AudioEditor::Play()
@@ -120,11 +118,11 @@ void AudioEditor::SoundBankType()
 
 void AudioEditor::SoundBankList()
 {
+
 }
 
 void AudioEditor::VolumeSlider()
 {
 
 }
-
 #endif // DEBUG

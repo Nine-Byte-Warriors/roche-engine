@@ -1,5 +1,6 @@
 #pragma once
 #ifndef AUDIOEDITOR_H
+#define AUDIOEDITOR_H
 
 #include "AudioEngine.h"
 
@@ -7,18 +8,14 @@
 #include <imgui/imgui.h>
 #endif
 
-class AudioEditor {
+class AudioEditor
+{
 public:
 	AudioEditor();
 
 #if _DEBUG
 	void SpawnControlWindow();
-
-
 	void Update();
-
-
-
 
 private:
 	// Window functions:
@@ -41,8 +38,6 @@ private:
 	// Parameter sliders
 	void VolumeSlider();
 
-
-
 	// Audio controls
 	bool m_bPlayButton;
 	bool m_bPauseButton;
@@ -62,17 +57,10 @@ private:
 	bool m_bSaveNewButton;
 	bool m_bLoadButton;
 
-
 	// List of audio
-
 	//const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
 
-
-
 #endif // DEBUG
-
 };
-
-
 
 #endif // AUDIOEDITOR_H
