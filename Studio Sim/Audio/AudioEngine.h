@@ -68,7 +68,7 @@ public:
 
 
 	void JSONLoadAudio(std::string loadFilePath); //JSON Pre-loading Function
-	void JSONSaveAudio(); // JSON Save Function WIP temporary for now
+	void JSONSaveAudio(std::vector<JSONSoundFile> soundList, std::string filePath); // JSON Save Function WIP temporary for now
 
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);

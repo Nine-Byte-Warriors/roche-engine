@@ -86,12 +86,12 @@ void AudioEngine::JSONLoadAudio(std::string loadFilePath)
 	std::vector<JSONSoundFile> soundFileListToLoad;
 	JsonLoading::LoadJson(soundFileListToLoad, loadFilePath);
 	// Load audio into Sound Banks
-	// Keep in mind to convert string to wstring
-	
-
+	for (int i = 0; soundFileListToLoad.size() > i; i++) {
+		LoadAudio(ConvertStringToWstring(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType);
+	}
 }
 
-void AudioEngine::JSONSaveAudio()
+void AudioEngine::JSONSaveAudio(std::vector<JSONSoundFile> soundList, std::string filePath)
 {
 	// Save given JSONSoundFile struct into given file path, for now its temporary solution
 	std::vector<JSONSoundFile> soundFileList;
@@ -105,8 +105,8 @@ void AudioEngine::JSONSaveAudio()
 	soundFileList.push_back({ "Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC });
 	soundFileList.push_back({ "Resources\\Audio\\partymusic.wav", 1.0f, MUSIC });
 
-	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\soundFileList.json");
 
+	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\soundFileList.json");
 }
 
 HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)
