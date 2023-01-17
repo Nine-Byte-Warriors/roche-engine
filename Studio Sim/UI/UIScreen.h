@@ -32,6 +32,7 @@ private:
 	DropDown_Widget m_dropDown;
 	EnergyBar_Widget m_energyBar;
 	DataSlider_Widget m_dataSlider;
+	PageSlider_Widget m_pageSlider;
 	ColourBlock_Widget m_colourBlock;
 
 	// Inputs

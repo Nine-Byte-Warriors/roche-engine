@@ -67,28 +67,11 @@ void EnergyBar_Widget::Update( const float dt )
 void EnergyBar_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho )
 {
 	// Background
-	m_transformBack->SetPosition( m_vPosition.x, m_vPosition.y );
-	m_transformBack->SetScale( m_vSize.x, m_vSize.y );
-
-	m_spriteBack->SetWidth( m_vSize.x );
-	m_spriteBack->SetHeight( m_vSize.y );
-
 	m_spriteBack->UpdateTex( device, m_textureBack );
 	m_spriteBack->UpdateBuffers( context );
 	m_spriteBack->Draw( m_transformBack->GetWorldMatrix(), worldOrtho );
 
 	// Moving bar
-	const float xPadding = 0.8f;
-	const float yPadding = 0.5f;
-	m_transformBar->SetPosition(
-		m_transformBack->GetPosition().x + ( m_spriteBack->GetWidth() * 0.085f ),
-		m_transformBack->GetPosition().y + ( m_spriteBack->GetHeight() * 0.25f )
-	);
-	m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction * xPadding, m_vSize.y * yPadding );
-
-	m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction * xPadding );
-	m_spriteBar->SetHeight( m_vSize.y * yPadding );
-
 	//m_spriteBar->UpdateTex( device, m_textureBar ); // use texture
 	m_spriteBar->UpdateTex( device, Colour( 255.0f, 100.0f, 100.0f ) ); // use colour
 	m_spriteBar->UpdateBuffers( context );
@@ -97,12 +80,6 @@ void EnergyBar_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context,
 	// Front
 	if ( m_textureFront != "" )
 	{
-		m_transformFront->SetPosition( m_vPosition.x, m_vPosition.y );
-		m_transformFront->SetScale( m_vSize.x + 13.5f, m_vSize.y );
-
-		m_spriteFront->SetWidth( m_vSize.x + 13.5f );
-		m_spriteFront->SetHeight( m_vSize.y );
-
 		m_spriteFront->UpdateTex( device, m_textureFront );
 		m_spriteFront->UpdateBuffers( context );
 		m_spriteFront->Draw( m_transformFront->GetWorldMatrix(), worldOrtho );

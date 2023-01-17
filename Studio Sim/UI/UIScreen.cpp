@@ -17,6 +17,8 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 	m_colourBlock.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	for ( unsigned int i = 0; i < ARRAYSIZE( m_buttons ); i++ )
 		m_buttons[i].Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_pageSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_pageSlider.SetPageSize( m_vScreenSize.y );
 }
 
 void UIScreen::Update( const float dt )
@@ -97,6 +99,13 @@ void UIScreen::Update( const float dt )
 	// --- Input Box Widgets ---
 	m_inputBox.Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, pos, size );
 	m_inputBox.Update( dt );
+
+	// --- Page Slider Widget ---
+	m_pageSlider.Resolve(
+		Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData,
+		{ m_vScreenSize.x - 30.0f , m_vScreenSize.y * 0.2f },
+		{ 30.0f, m_vScreenSize.y * 0.6f } );
+	m_pageSlider.Update( dt );
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -118,6 +127,8 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		m_buttons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
 		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	}
+
+	m_pageSlider.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
 }
 
 void UIScreen::AddToEvent() noexcept
@@ -152,15 +163,20 @@ void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::KeyInput: { m_sKeys = *(std::string*)event->GetData(); } break;
-	case EVENTID::MousePosition: { m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
-	case EVENTID::LeftMouseClick: { m_mouseData.LPress = true; } break;
-	case EVENTID::LeftMouseRelease: { m_mouseData.LPress = false; } break;
-	case EVENTID::RightMouseClick: { m_mouseData.RPress = true; } break;
-	case EVENTID::RightMouseRelease: { m_mouseData.RPress = false; } break;
+	case EVENTID::KeyInput:	{ m_sKeys = *(std::string*)event->GetData(); } break;
+	case EVENTID::MousePosition:{ m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
+	case EVENTID::LeftMouseClick:{ m_mouseData.LPress = true; } break;
+	case EVENTID::LeftMouseRelease:{ m_mouseData.LPress = false; } break;
+	case EVENTID::RightMouseClick:{ m_mouseData.RPress = true; } break;
+	case EVENTID::RightMouseRelease:{ m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
 	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
-	case EVENTID::WindowSizeChangeEvent: { m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() ); } break;
+	case EVENTID::WindowSizeChangeEvent:
+	{
+		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
+		m_pageSlider.SetPageSize( m_vScreenSize.y );
+	}
+	break;
 	}
 }

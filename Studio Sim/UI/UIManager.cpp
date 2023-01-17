@@ -8,8 +8,8 @@ void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 	m_vWindowSize = { (float)gfx.GetWidth(), (float)gfx.GetHeight() };
 	for ( auto const& UIItem : m_mUiList )
 	{
-		UIItem.second->Initialize( gfx, mat );
 		UIItem.second->SetScreenSize( m_vWindowSize );
+		UIItem.second->Initialize( gfx, mat );
 	}
 }
 
