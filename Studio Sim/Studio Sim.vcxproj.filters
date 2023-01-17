@@ -593,9 +593,6 @@
     <ClInclude Include="Utility\Helper\JsonLoading.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Collisions\CollisionHandler.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
@@ -604,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="Components\Collider.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
