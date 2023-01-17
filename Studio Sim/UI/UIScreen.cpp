@@ -80,23 +80,14 @@ void UIScreen::Update( const float dt )
 	pos.x += m_vScreenSize.x * offset;
 
 	// --- Drop Down Widgets ---
-	MouseData mData;
-	mData = m_mouseData;
-	if ( m_dropDown.GetIsDown() )
-		mData.LPress = false;
-	else
-		mData = m_mouseData;
-
 	std::vector<std::string> vValues = { "True", "False" };
-	m_dropDown.Resolve( vValues, pos, size, m_texturesDD, m_texturesDDButton, Colors::White, vValues[0], mData );
-	
-	static bool bValue = false;
+	static std::string sValue = vValues[0];
+	m_dropDown.Resolve( vValues, pos, size, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
 	if ( m_dropDown.GetSelected() == "False" )
-		bValue = false;
+		sValue = "False";
 	else
-		bValue = true;
+		sValue = "True";
 	m_dropDown.Update( dt );
-	mData.LPress = false;
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
