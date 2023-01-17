@@ -1,5 +1,6 @@
 [
     {
+        "m_fAngle": 180.0,
         "m_fLifeTime": 5.0,
         "m_fSpeed": 100.0,
         "m_iOrder": 1,

@@ -2,9 +2,10 @@
 #include "Projectile.h"
 #include "Graphics.h"
 
-Projectile::Projectile(float fSpeed)
+Projectile::Projectile(float fSpeed, float fLifeTime)
 {
 	m_fSpeed = fSpeed;
+	m_fLifeTime = fLifeTime;
 	
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
@@ -55,6 +56,15 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPositi
 		.DirectionTo(vTargetPosition)
 		.Normalised();
 	
+	m_transform->SetPosition(vSpawnPosition);
+
+	m_physics->ResetForces();
+}
+
+void Projectile::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
+{
+	m_fLifeTime = fLifeTime;
+
 	m_transform->SetPosition(vSpawnPosition);
 
 	m_physics->ResetForces();

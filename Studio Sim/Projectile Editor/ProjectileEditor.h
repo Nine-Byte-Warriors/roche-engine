@@ -6,29 +6,6 @@
 #include "JsonLoading.h"
 #include "ProjectileManager.h"
 
-namespace ProjectileData {
-	
-struct ProjectileJSON
-{
-	std::string m_sID;
-	std::string m_sName;
-	std::string m_sTexture;
-	int m_iOrder;
-	float m_fSpeed;
-	float m_fLifeTime;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_sID, m_sName, m_sTexture, m_iOrder, m_fSpeed, m_fLifeTime)
-
-struct ProjectileData
-{
-	std::string m_sName;
-	std::string m_sTexture;
-	float m_fSpeed;
-	float m_fLifeTime;
-};
-
-}
-
 class ProjectileEditor : Listener
 {
 public:
@@ -40,7 +17,7 @@ public:
 	void Update(const float dt);
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 	
-	void SpawnEditorWindow();
+	void SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
@@ -50,6 +27,10 @@ private:
 	void SavePattern();
 
 	void ShowPattern();
+	
+	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	
+	void SpawnPattern();
 
 	bool m_bSaveButton;
 	std::string m_sSelectedFile;

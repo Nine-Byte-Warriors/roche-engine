@@ -186,7 +186,7 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
-    m_projectileEditor->SpawnEditorWindow();
+    m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     
     m_tileMapEditor->SpawnControlWindow();
     m_player.SpawnControlWindow();

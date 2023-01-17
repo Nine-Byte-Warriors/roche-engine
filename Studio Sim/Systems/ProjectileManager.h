@@ -4,10 +4,12 @@
 
 #include "Projectile.h"
 #include "EventSystem.h"
+#include "ProjectileData.h"
 
 class ProjectileManager : public Listener
 {
 public:
+	// NOTE: A manager per projectile type.
 	ProjectileManager();
 	~ProjectileManager() {}
 	
@@ -16,6 +18,10 @@ public:
 	void Update(const float dt);
 	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
 
+	void ResetPool(ProjectileData::ProjectileJSON projectileData, const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+
+	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
+	
 	//inline std::shared_ptr<Projectile> GetProjectile() const noexcept { return m_projectile; } // single projectile
 	//inline std::shared_ptr<Projectile> GetProjectiles() const noexcept { return m_projectiles; } // multiple projectiles
 	

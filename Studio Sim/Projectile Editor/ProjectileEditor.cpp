@@ -41,7 +41,7 @@ void ProjectileEditor::Draw(ID3D11DeviceContext* context, XMMATRIX matrix)
 }
 
 #if _DEBUG
-void ProjectileEditor::SpawnEditorWindow()
+void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	if (ImGui::Begin("Projectile Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
@@ -49,6 +49,9 @@ void ProjectileEditor::SpawnEditorWindow()
 		SavePattern();
 
 		ShowPattern();
+
+		TestButtons(gfx, mat);
+		SpawnPattern();
 
 	//SaveToExistingFile();
 	//SaveToNewFile();
@@ -92,21 +95,6 @@ void ProjectileEditor::LoadPattern()
 	{
 		m_vecProjectiles.clear();
 		JsonLoading::LoadJson(m_vecProjectiles, m_sFilePath);
-		
-		//json jData = JSONHealper::LoadJSON(m_sFilePath);
-		ImGui::Text(m_sFilePath.append(" was loaded").c_str());
-		//const size_t slash = m_sFilePath.find_last_of("/\\");
-		//m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".json";
-		/*if (SaveWriteFile())
-		{
-			m_sSelectedFile = saveFileName;
-			m_sSelectedFile += ".json";
-			m_sSelectedFile += " Save Successful";
-		}
-		else
-		{
-			m_sSelectedFile = "Save Write Failed";
-		}*/
 	}
 	else
 	{
@@ -141,7 +129,8 @@ void ProjectileEditor::SavePattern()
 			"Resources\\Textures\\Projectile.png",
 			1,
 			100.0f,
-			5.0f
+			5.0f,
+			180.0f,
 		};
 		
 		std::vector<ProjectileData::ProjectileJSON> vecProjectileJSON;
@@ -173,7 +162,27 @@ void ProjectileEditor::ShowPattern()
 		ImGui::Text(msg.c_str());
 
 		ImGui::SliderFloat("Speed: ", &projectile.m_fSpeed, 0.0f, 100.0f, "%0.2f");
+
+		ImGui::Separator();
+		ImGui::SliderAngle("Target Angle", &projectile.m_fAngle);
 	}
+}
+
+void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
+{
+	bool bFire = ImGui::Button("Test Fire");
+
+	if (!bFire)
+		return;
+
+	// TODO: manage multiple managers
+	m_pProjectileManager->ResetPool(m_vecProjectiles[0], gfx, mat);
+}
+
+void ProjectileEditor::SpawnPattern()
+{
+	if(m_vecProjectiles.size() > 0)
+		m_pProjectileManager->SpawnProjectile(Vector2f(), m_vecProjectiles[0].m_fAngle);
 }
 
 void ProjectileEditor::AddToEvent() noexcept

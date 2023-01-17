@@ -44,12 +44,33 @@ void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix
 		pProjectile->Draw(context, orthoMatrix);
 }
 
+void ProjectileManager::ResetPool(ProjectileData::ProjectileJSON projectileData, const Graphics& gfx, ConstantBuffer<Matrices>& mat)
+{
+	m_vecProjectilePool.clear();
+	InitialiseFromFile(gfx, mat, projectileData.m_sTexture);
+
+	for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+	{
+		pProjectile->SetSpeed(projectileData.m_fSpeed);
+		pProjectile->SetLifeTime(projectileData.m_fLifeTime);
+		pProjectile->SetDirection(Vector2f(projectileData.m_fAngle));
+	}
+}
+
 void ProjectileManager::SpawnProjectile()
+{
+	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
+
+	if (pProjectile != nullptr)
+		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
+}
+
+void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
 	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
 	
 	if(pProjectile != nullptr)
-		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
+		pProjectile->SpawnProjectile(vSpawnPosition, m_fLifeTime);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()

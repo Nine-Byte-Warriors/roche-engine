@@ -480,6 +480,7 @@
     <ClInclude Include="Utility\ErrorLogger.h" />
     <ClInclude Include="Utility\FileLoading.h" />
     <ClInclude Include="Utility\JsonLoading.h" />
+    <ClInclude Include="Utility\ProjectileData.h" />
     <ClInclude Include="Utility\stdafx.h" />
     <ClInclude Include="Utility\StringHelper.h" />
     <ClInclude Include="Utility\Shader_Data.h" />

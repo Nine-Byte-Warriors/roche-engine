@@ -8,7 +8,7 @@ class Graphics;
 class Projectile
 {
 public:
-	Projectile(float fSpeed);
+	Projectile(float fSpeed, float fLifeTime = 999.9f);
 	~Projectile() {}
 	
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);
@@ -20,9 +20,13 @@ public:
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	
+	inline void SetSpeed(const float fSpeed) noexcept { m_fSpeed = fSpeed; }
+	inline void SetLifeTime(const float fLifeTime) noexcept { m_fLifeTime = fLifeTime; }
+	inline void SetDirection(const Vector2f vDirection) noexcept { m_vDirection = vDirection; }
 	inline bool IsAlive() const noexcept { return m_fLifeTime > 0.0f; }
 	
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
+	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	
 private:
 	std::shared_ptr<Sprite> m_sprite;
