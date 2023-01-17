@@ -281,6 +281,7 @@
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
+    <ClCompile Include="Components\Entity.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp">
@@ -400,6 +401,7 @@
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
+    <ClInclude Include="Components\Entity.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
