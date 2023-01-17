@@ -5,7 +5,6 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-
 class JsonLoading
 {
 public:

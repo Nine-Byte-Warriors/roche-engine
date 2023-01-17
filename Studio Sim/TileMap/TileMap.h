@@ -20,7 +20,6 @@ enum class TileMapLayer
 	Both
 };
 
-
 struct TileTypeData
 {
 	std::string name;
@@ -44,17 +43,23 @@ class TileMap
 public:
 	TileMap(int rows, int columns);
 
-	void UpdateTile(int pos, int tileType);
+	void UpdateTileFromType(int pos, int tileType);
+	void UpdateTileFromName(int pos, std::string name);
 	void ResetTileMap();
 
 	int GetTileType(int pos);
+	std::string GetTileTypeNameFromType(int type);
+	std::string GetTileTypeNameFromPosition(int pos);
+	std::vector<int> GetLevel();
 
 	std::vector<TileTypeData> GetTileTypeData();
 
-	ImColor GetColor(int pos) { return ImColor(m_sTileTypeData[pos].colorR, m_sTileTypeData[pos].colorG, m_sTileTypeData[pos].colorB, m_sTileTypeData[pos].colorA); };
+#if _DEBUG
+	ImColor GetColorFromType(int pos);
+	ImColor GetColorFromPosition(int pos);
+#endif
 
 private:
-
 	std::vector<int> m_iLevel;
 
 	std::vector<TileTypeData> m_sTileTypeData;
