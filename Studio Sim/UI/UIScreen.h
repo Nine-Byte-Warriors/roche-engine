@@ -22,6 +22,7 @@ public:
 private:
 	// Main Menu
 	Image_Widget m_image;
+	Input_Widget m_inputBox;
 	Button_Widget m_buttons[3];
 	DropDown_Widget m_dropDown;
 	EnergyBar_Widget m_energyBar;

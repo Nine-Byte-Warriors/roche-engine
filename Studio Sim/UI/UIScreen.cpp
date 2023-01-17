@@ -7,6 +7,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
 	UIElement::Initialize( gfx, mat );
 	m_image.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_inputBox.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_dropDown.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_energyBar.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_dataSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
@@ -88,6 +89,11 @@ void UIScreen::Update( const float dt )
 	else
 		sValue = "True";
 	m_dropDown.Update( dt );
+	pos = { m_vScreenSize.x * 0.025f, m_vScreenSize.y * 0.2f };
+
+	// --- Input Box Widgets ---
+	m_inputBox.Resolve( m_cKey, Colors::White, m_textures[0], m_mouseData, pos, size );
+	m_inputBox.Update( dt );
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -96,6 +102,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 	m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
 	
 	m_dropDown.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix );
+	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+
+	m_inputBox.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 
 	m_energyBar.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
@@ -110,7 +119,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 void UIScreen::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
 	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
@@ -119,11 +128,12 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerHealth, this );
+	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
 void UIScreen::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
@@ -132,13 +142,14 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHealth, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
 void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::WindowSizeChangeEvent: { m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() ); } break;
+	case EVENTID::KeyInput: { m_cKey = *(unsigned char*)event->GetData(); } break;
 	case EVENTID::MousePosition: { m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick: { m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease: { m_mouseData.LPress = false; } break;
@@ -147,5 +158,6 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
 	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
+	case EVENTID::WindowSizeChangeEvent: { m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() ); } break;
 	}
 }
