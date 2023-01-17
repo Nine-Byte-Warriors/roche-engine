@@ -661,22 +661,22 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Resources\AudioFiles\creepymusic.wav">
+    <Media Include="Resources\Audio\creepymusic.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Resources\AudioFiles\partymusic.wav">
+    <Media Include="Resources\Audio\partymusic.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-mono.wav">
+    <Media Include="Resources\Audio\pcm-32bit-44khz-mono.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Resources\AudioFiles\pcm-32bit-44khz-stereo.wav">
+    <Media Include="Resources\Audio\pcm-32bit-44khz-stereo.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Resources\AudioFiles\piano2.wav">
+    <Media Include="Resources\Audio\piano2.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Resources\AudioFiles\quietlaugh.wav">
+    <Media Include="Resources\Audio\quietlaugh.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

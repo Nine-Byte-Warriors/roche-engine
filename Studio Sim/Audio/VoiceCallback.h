@@ -1,15 +1,12 @@
 #pragma once
-//#ifndef AUDIOENGINE_H
-//#define AUDIOENGINE_H
+#ifndef VOICECALLBACK_H
+#define VOICECALLBACK_H
+
 //#include "AudioEngine.h"
-
-
 #include <xaudio2.h>
-#include "stdafx.h"
 
 //#include <thread>
 //#include <mutex>
-
 
 class VoiceCallback : public IXAudio2VoiceCallback
 {
@@ -31,4 +28,4 @@ public:
     void OnVoiceError(void* pBufferContext, HRESULT Error) { }
 };
 
-//#endif //AUDIOENGINE_H
+#endif //AUDIOENGINE_H
