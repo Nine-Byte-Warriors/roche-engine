@@ -8,6 +8,9 @@
 //#include <stdafx.h>
 #include <filesystem>
 
+#include <nlohmann/json.hpp>
+#include <JsonLoading.h>
+
 //#ifndef VOICECALLBACK_H
 //#define VOICECALLBACK_H
 //#include "VoiceCallback.h"
@@ -37,6 +40,13 @@ struct SoundBankFile
 	float volume;
 };
 
+struct JSONSoundFile {
+	std::string filePath;
+	float volume;
+	int audioType;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, filePath, volume, audioType);
+
 enum AudioType
 {
 	SFX = 0,
@@ -56,6 +66,10 @@ public:
 	void Initialize(float masterVolume, float musicVolume, float sfxVolume, int maxMusicSourceVoices, int maxSFXSourceVoices);
 	void Update(); // keep it on separate thread
 
+
+	void JSONLoadAudio(std::string loadFilePath); //JSON Pre-loading Function
+	void JSONSaveAudio(); // JSON Save Function WIP temporary for now
+
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
@@ -73,8 +87,6 @@ public:
 
 	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
 	
-	// Event System TBD if we want to even use it
-	//void HandleEvent(Event* event);
 
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
@@ -88,6 +100,9 @@ public:
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
 
+	inline std::wstring ConvertStringToWstring(std::string stringToConvert) { return std::wstring(stringToConvert.begin(), stringToConvert.end()); };
+	std::string ConvertWstringToString(std::wstring wstringToConvert) { return std::string(wstringToConvert.begin(), wstringToConvert.end()); };
+
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;
@@ -99,6 +114,8 @@ private:
 	//TEST
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
+
+	
 
 	std::vector<SoundBankFile*>* m_vMusicSoundBank; // Music Sound Bank
 	std::vector<SoundBankFile*>* m_vSFXSoundBank; // SFX Sound Bank

@@ -51,17 +51,21 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	// Load Sound Bank for SFX
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\Audio\\piano2.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\Audio\\quietlaugh.wav", 1.0f, SFX);
-	LoadAudio(L"Resources\\Audio\\bullettest.wav", 1.0f, SFX);
+	//LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
+	//LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
+	//LoadAudio(L"Resources\\Audio\\piano2.wav", 1.0f, SFX);
+	//LoadAudio(L"Resources\\Audio\\quietlaugh.wav", 1.0f, SFX);
+	//LoadAudio(L"Resources\\Audio\\bullettest.wav", 1.0f, SFX);
 
 	// Load Sound Bank for Music
 	// Handle it with JSON later
 	// Current one is the temporary implementation
-	LoadAudio(L"Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC);
-	LoadAudio(L"Resources\\Audio\\partymusic.wav", 1.0f, MUSIC);
+	//LoadAudio(L"Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC);
+	//LoadAudio(L"Resources\\Audio\\partymusic.wav", 1.0f, MUSIC);
+
+	JSONSaveAudio();
+	JSONLoadAudio("Resources\\Audio\\soundFileList.json");
+
 }
 
 void AudioEngine::Update()
@@ -74,6 +78,35 @@ void AudioEngine::Update()
 			m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i	);
 		}
 	}
+}
+
+void AudioEngine::JSONLoadAudio(std::string loadFilePath)
+{
+	// Load Json File from given file path
+	std::vector<JSONSoundFile> soundFileListToLoad;
+	JsonLoading::LoadJson(soundFileListToLoad, loadFilePath);
+	// Load audio into Sound Banks
+	// Keep in mind to convert string to wstring
+	
+
+}
+
+void AudioEngine::JSONSaveAudio()
+{
+	// Save given JSONSoundFile struct into given file path, for now its temporary solution
+	std::vector<JSONSoundFile> soundFileList;
+	// SFX
+	soundFileList.push_back({ "Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX });
+	soundFileList.push_back({ "Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX });
+	soundFileList.push_back({ "Resources\\Audio\\piano2.wav", 1.0f, SFX });
+	soundFileList.push_back({ "Resources\\Audio\\quietlaugh.wav", 1.0f, SFX });
+	soundFileList.push_back({ "Resources\\Audio\\bullettest.wav", 1.0f, SFX });
+	// Music
+	soundFileList.push_back({ "Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC });
+	soundFileList.push_back({ "Resources\\Audio\\partymusic.wav", 1.0f, MUSIC });
+
+	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\soundFileList.json");
+
 }
 
 HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)
