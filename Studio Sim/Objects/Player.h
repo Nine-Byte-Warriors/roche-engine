@@ -6,7 +6,7 @@ class Graphics;
 #include "Physics.h"
 #include "EventSystem.h"
 #include "ProjectileManager.h"
-#include <Studio Sim/Systems/Collider.h>
+#include "Collider.h"
 
 class Player : public Listener
 {
@@ -25,8 +25,7 @@ public:
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager; }
-	inline std::shared_ptr<BoxCollider> GetCollider() { return m_collider; };
-
+	inline std::shared_ptr<BoxCollider> GetCollider() const noexcept { return m_collider; };
 
 private:
 	Vector2f* m_vPlayerPos;
@@ -35,7 +34,6 @@ private:
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<ProjectileManager> m_projectileManager;
 	std::shared_ptr<BoxCollider> m_collider;
-
 };
 
 #endif

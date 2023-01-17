@@ -13,7 +13,7 @@
 #include "AudioEditor.h"
 #endif
 #include "LevelStateMachine.h"
-#include <Studio Sim/Systems/CollisionHandler.h>
+#include "CollisionHandler.h"
 
 /// <summary>
 /// The first level of the game.
@@ -40,14 +40,12 @@ private:
 	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
 	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
-	CollisionHandler m_collisionHandler;
-
-
 	// Objects
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
 
+	CollisionHandler m_collisionHandler;
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG

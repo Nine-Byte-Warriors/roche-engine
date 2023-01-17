@@ -9,7 +9,7 @@ Enemy::Enemy()
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
 	m_agent = std::make_shared<Agent>( m_physics );
-	m_collider = std::make_shared<CircleCollider>(m_transform, 1, 1, 32);
+	m_collider = std::make_shared<CircleCollider>( m_transform, 1, 1, 32 );
 }
 
 void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type )

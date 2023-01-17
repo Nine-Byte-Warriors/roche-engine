@@ -5,9 +5,7 @@
 class Graphics;
 #include "Agent.h"
 #include "Physics.h"
-#include <Studio Sim/Systems/Collider.h>
-
-
+#include "Collider.h"
 
 class Enemy
 {
@@ -20,7 +18,7 @@ public:
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
-	inline std::shared_ptr<CircleCollider> GetCollider() { return m_collider; };
+	inline std::shared_ptr<CircleCollider> GetCollider() const noexcept { return m_collider; };
 private:
 	Vector2f* m_vEnemyPos;
 	std::shared_ptr<Agent> m_agent;
