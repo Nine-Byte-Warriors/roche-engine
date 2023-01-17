@@ -4,6 +4,7 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
+#include "JsonLoading.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -21,31 +22,44 @@ enum class TileMapLayer
 
 struct TileTypeData
 {
+	std::string name;
 	int type;
 #if _DEBUG
-	ImColor color;
-	bool button;
+	int colorR;
+	int colorG;
+	int colorB;
+	int colorA;
 #endif
-	std::string name;
+	bool button;
 };
+#if _DEBUG
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileTypeData, name, type, colorR, colorG, colorB, colorA, button)
+#else
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileTypeData, name, type, button)
+#endif
 
 class TileMap
 {
 public:
 	TileMap(int rows, int columns);
 
-	void UpdateTile(int pos, int tileType);
+	void UpdateTileFromType(int pos, int tileType);
+	void UpdateTileFromName(int pos, std::string name);
 	void ResetTileMap();
 
 	int GetTileType(int pos);
-
-	void SetRows(int rows);
-	void SetColumns(int columns);
+	std::string GetTileTypeNameFromType(int type);
+	std::string GetTileTypeNameFromPosition(int pos);
+	std::vector<int> GetLevel();
 
 	std::vector<TileTypeData> GetTileTypeData();
 
-private:
+#if _DEBUG
+	ImColor GetColorFromType(int pos);
+	ImColor GetColorFromPosition(int pos);
+#endif
 
+private:
 	std::vector<int> m_iLevel;
 
 	std::vector<TileTypeData> m_sTileTypeData;
