@@ -1,36 +1,34 @@
 #include "stdafx.h"
 #include "CollisionHandler.h"
 
-void CollisionHandler::AddCollider(Collider& collider)
+void CollisionHandler::AddCollider(std::shared_ptr<Collider> collider)
 {
-    m_colliders.push_back(&collider);
+    m_colliders.push_back(collider.get());
 }
 
 void CollisionHandler::AddCollider(std::vector<Collider>& colliders)
 {
-    for (auto collider:colliders)
+    for (int i = 0; i < colliders.size(); i++)
     {
-        m_colliders.push_back(&collider);
+        m_colliders.push_back(&colliders[i]);
     }
 }
 
-int Clamp(int min, int max, int value)
-{
-    if (value > max)
-    {
-        return max;
-    }
-    else if (value < min)
-    {
-        return min;
-    }
-    else
-    {
-        return value;
-    }
-}
-
-
+//int Clamp(int min, int max, int value)
+//{
+//    if (value > max)
+//    {
+//        return max;
+//    }
+//    else if (value < min)
+//    {
+//        return min;
+//    }
+//    else
+//    {
+//        return value;
+//    }
+//}
 bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
 {
     if (box1->GetTransform()->GetPosition().x < box2->GetTransform()->GetPosition().x + box2->GetWidth() &&
@@ -47,10 +45,11 @@ bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
 }
 bool CollisionHandler::CircleToBox(CircleCollider *circle, BoxCollider *box)
 {
-    Vector2f closestPoint;
-    closestPoint.x = Clamp(box->GetTransform()->GetPosition().x, box->GetTransform()->GetPosition().x + box->GetWidth(), circle->GetTransform()->GetPosition().x);
-    closestPoint.y = Clamp(box->GetTransform()->GetPosition().y, box->GetTransform()->GetPosition().y + box->GetHeight(), circle->GetTransform()->GetPosition().y);
+    //closestPoint.x = Clamp(box->GetTransform()->GetPosition().x, box->GetTransform()->GetPosition().x + box->GetWidth(), circle->GetTransform()->GetPosition().x);
+    //closestPoint.y = Clamp(box->GetTransform()->GetPosition().y, box->GetTransform()->GetPosition().y + box->GetHeight(), circle->GetTransform()->GetPosition().y);
+    
     Vector2f circlePos(circle->GetTransform()->GetPosition().x, circle->GetTransform()->GetPosition().y);
+    Vector2f closestPoint = box->ClosestPoint(circlePos);
 
     int distance = (circlePos - closestPoint).Magnitude();
 
@@ -120,7 +119,7 @@ void CollisionHandler::CheckAll()
             if (isIntersection)
             {
                 isCollision = true;
-                Resolution(*m_colliders[i], *m_colliders[n]);
+                Resolution(m_colliders[i], m_colliders[n]);
             }
         }
         if (!isCollision)
@@ -131,10 +130,41 @@ void CollisionHandler::CheckAll()
     } 
 }
 
-void CollisionHandler::Resolution(Collider& collider1, Collider& collider2)
-{
-    collider1.GetTransform()->SetPosition(collider1.GetLastValidPosition());
-    collider2.GetTransform()->SetPosition(collider2.GetLastValidPosition());
+void CollisionHandler::Resolution(Collider* collider1, Collider* collider2)
+{   
+    Vector2f closestPoint1;
+    Vector2f closestPoint2;
+    if (collider1->GetColliderType() == ColliderType::Box && collider2->GetColliderType() == ColliderType::Box)
+    {
+        BoxCollider* box1 = (BoxCollider*)collider1;
+        BoxCollider* box2 = (BoxCollider*)collider2;
+        closestPoint1 = box1->ClosestPoint(box2->GetTransform()->GetPosition());
+        closestPoint2 = box2->ClosestPoint(box1->GetTransform()->GetPosition());
+    }
+    else if (collider1->GetColliderType() == ColliderType::Circle && collider2->GetColliderType() == ColliderType::Circle)
+    {
+        CircleCollider* circle1 = (CircleCollider*)collider1;
+        CircleCollider* circle2 = (CircleCollider*)collider2;
+        closestPoint1 = circle1->ClosestPoint(circle2->GetTransform()->GetPosition());
+        closestPoint2 = circle2->ClosestPoint(circle1->GetTransform()->GetPosition());
+    }
+    else if (collider1->GetColliderType() == ColliderType::Box && collider2->GetColliderType() == ColliderType::Circle)
+    {
+        BoxCollider* box = (BoxCollider*)collider1;
+        CircleCollider* circle = (CircleCollider*)collider2;
+        closestPoint1 = box->ClosestPoint(circle->GetTransform()->GetPosition());
+        closestPoint2 = circle->ClosestPoint(box->GetTransform()->GetPosition());
+    }
+    else if (collider1->GetColliderType() == ColliderType::Circle && collider2->GetColliderType() == ColliderType::Box)
+    {
+        CircleCollider* circle = (CircleCollider*)collider1;
+        BoxCollider* box = (BoxCollider*)collider2;
+        closestPoint1 = circle->ClosestPoint(box->GetTransform()->GetPosition());
+        closestPoint2 = box->ClosestPoint(circle->GetTransform()->GetPosition());
+    }
+    
+    Vector2f intersectDistance = closestPoint2 - closestPoint1;
+    collider1->GetTransform()->SetPosition((collider1->GetTransform()->GetPosition() + intersectDistance));
 }
 
 void CollisionHandler::Update()
