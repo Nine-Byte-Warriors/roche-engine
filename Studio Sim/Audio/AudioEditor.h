@@ -20,6 +20,7 @@ public:
 private:
 	// Window functions:
 	void Play();
+	void Unpause();
 	void Pause();
 	void Stop();
 
@@ -37,11 +38,13 @@ private:
 
 	// Parameter sliders
 	void VolumeSlider();
+	void UpdateVolumeSlider();
 
 	float m_iDefaultVolume;
 	int m_iActiveSoundBank; // 0 - SFX; 1 - MUSIC
 	bool m_bChangedSoundBankType;
-	std::vector<SoundBankFile*>* selectedSoundBank;
+	std::vector<SoundBankFile*>* m_vSelectedSoundBank;
+	SoundBankFile* m_selectedSoundBankFile;
 
 
 	// Audio controls

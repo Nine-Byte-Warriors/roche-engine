@@ -99,6 +99,7 @@ public:
 	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
+	inline void SetDefaultVolume(SoundBankFile* soundBank, float defaultVolume) { soundBank->volume = defaultVolume; };
 
 	inline std::wstring ConvertStringToWstring(std::string stringToConvert) { return std::wstring(stringToConvert.begin(), stringToConvert.end()); };
 	std::string ConvertWstringToString(std::wstring wstringToConvert) { return std::string(wstringToConvert.begin(), wstringToConvert.end()); };

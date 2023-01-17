@@ -3,8 +3,10 @@
 
 AudioEditor::AudioEditor() {
 	m_iDefaultVolume = 1.0f;
-	m_iActiveSoundBank = SFX;
+	m_iActiveSoundBank = MUSIC;
 	m_bChangedSoundBankType = false;
+	m_selectedSoundBankFile = AudioEngine::GetInstance()->GetSoundBank(MUSIC)->at(1);
+	m_iDefaultVolume = AudioEngine::GetInstance()->GetSoundBank(MUSIC)->at(1)->volume;
 }
 
 #if _DEBUG
@@ -13,6 +15,7 @@ void AudioEditor::SpawnControlWindow()
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		Play();
+		Unpause();
 		Pause();
 		Stop();
 		Save();
@@ -30,14 +33,22 @@ void AudioEditor::SpawnControlWindow()
 
 void AudioEditor::Update()
 {
-	// Unused for now
+	UpdateVolumeSlider();
 }
 
 void AudioEditor::Play()
 {
 	if (ImGui::Button("Play")) {
 		// Play chosen audio from the soundbank list
-		AudioEngine::GetInstance()->PlayAudio(L"bullettest", SFX);
+		AudioEngine::GetInstance()->PlayAudio(L"partymusic", MUSIC);
+	}
+}
+
+void AudioEditor::Unpause()
+{
+	if (ImGui::Button("Unpause")) {
+		// Play chosen audio from the soundbank list
+		AudioEngine::GetInstance()->UnpauseMusic();
 	}
 }
 
@@ -153,7 +164,11 @@ void AudioEditor::VolumeSlider()
 	// On choice of sound bank, update default volume to set up value in a sound bank
 	ImGui::Text("Default Volume");
 	ImGui::SliderFloat("##Default Volume", &m_iDefaultVolume, 0.0f, 1.0f);
+}
 
+void AudioEditor::UpdateVolumeSlider()
+{
+	m_selectedSoundBankFile->volume = m_iDefaultVolume;
 }
 
 

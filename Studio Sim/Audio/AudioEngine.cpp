@@ -65,7 +65,7 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 
 
 	LoadAudioFromJSON("Resources\\Audio\\soundFileList.json");
-	SaveAudioToJSON(m_vSFXSoundBank, m_vMusicSoundBank, "Resources\\Audio\\soundFileList.json");
+	//SaveAudioToJSON(m_vSFXSoundBank, m_vMusicSoundBank, "Resources\\Audio\\soundFileList.json");
 
 }
 
@@ -252,7 +252,7 @@ HRESULT AudioEngine::UnpauseMusic()
 			m_vMusicSourceVoiceList->at(i)->Start(0);
 		}
 
-		m_bIsMusicPaused == false;
+		m_bIsMusicPaused = false;
 	}
 
 	return hr;
@@ -263,13 +263,13 @@ HRESULT AudioEngine::PauseMusic()
 	HRESULT hr = S_OK;
 
 	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
-		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop())) {
+		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop(0))) {
 			ErrorLogger::Log(hr, "AudioEngine::PauseMusic: Failed to Stop music");
 			return hr;
 		}
 	}
 
-	m_bIsMusicPaused == true;
+	m_bIsMusicPaused = true;
 
 	return hr;
 }
@@ -279,13 +279,13 @@ HRESULT AudioEngine::StopMusic()
 	HRESULT hr = S_OK;
 
 	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
-		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop())) {
+		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop(0))) {
 			ErrorLogger::Log(hr, "AudioEngine::StopMusic: Failed to Stop music");
 			return hr;
 		}
 		else {
 			m_vMusicSourceVoiceList->at(i)->DestroyVoice();
-			m_vMusicSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i);
+			m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->begin() + i);
 		}
 	}
 
