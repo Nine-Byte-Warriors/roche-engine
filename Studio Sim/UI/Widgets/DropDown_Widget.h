@@ -10,6 +10,7 @@ class DropDown_Widget : public Widget
 {
 public:
 	enum class DropState { Down, Up };
+	DropDown_Widget();
     DropDown_Widget( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData );
 	~DropDown_Widget();
    
@@ -21,7 +22,7 @@ public:
 	inline int GetIntSelcted() const noexcept { return m_iSelected; }
     inline std::string GetSelected() const noexcept { return m_sDataSelected; }
 	inline void SetCurrent( int selected ) noexcept { m_iSelected = selected; }
-	inline bool GetIsDown() { if ( m_eDropState == DropState::Down ) { return true; } return false; }
+	inline bool GetIsDown() noexcept { if ( m_eDropState == DropState::Down ) { return true; } return false; }
 
 private:
 	int m_iFlag;
@@ -32,18 +33,13 @@ private:
     std::string m_sDataSelected;
     std::vector<std::string> m_vListData;
 
-	std::string m_textureBack;
+	XMVECTORF32 m_vTextColour;
     std::shared_ptr<Sprite> m_spriteBack;
     std::shared_ptr<Transform> m_transformBack;
 
-	XMVECTORF32 m_vTextColour;
-    std::shared_ptr<Sprite> m_spriteOptions;
-    std::shared_ptr<Transform> m_transformOptions;
-
     Button_Widget m_wButtonDrop;
-	Button_Widget m_wListButtons[3];
+	Button_Widget m_wListButtons[2];
 	DropState m_eDropState = DropState::Up;
-
 };
 
 #endif

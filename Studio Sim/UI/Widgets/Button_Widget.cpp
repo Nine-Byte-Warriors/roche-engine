@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
-#include "TextRenderer.h"
 
 Button_Widget::Button_Widget()
 {    
@@ -53,7 +52,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size, bool isInDropDown )
 {
     m_sText = text;
     m_vTextColor = textColour;
@@ -75,7 +74,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
         mData.Pos.y >= m_transform->GetPosition().y &&
-        mData.Pos.y <= ( m_transform->GetPosition().y + m_transform->GetScale().y )
+        mData.Pos.y <= ( m_transform->GetPosition().y + ( m_transform->GetScale().y ) )
        )
     {
     	if ( mData.LPress )

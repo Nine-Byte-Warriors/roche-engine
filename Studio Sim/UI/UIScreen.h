@@ -23,6 +23,7 @@ private:
 	// Main Menu
 	Image_Widget m_image;
 	Button_Widget m_buttons[3];
+	DropDown_Widget m_dropDown;
 	EnergyBar_Widget m_energyBar;
 	DataSlider_Widget m_dataSlider;
 	ColourBlock_Widget m_colourBlock;
@@ -42,6 +43,20 @@ private:
 		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
 		"Resources\\Textures\\UI\\Button\\ButtonActive.png",
 		"Resources\\Textures\\UI\\Button\\ButtonActive.png"
+	};
+
+	std::vector<std::string> m_texturesDD =
+	{
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownMain.png",
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownOther.png",
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownOther.png"
+	};
+
+	std::vector<std::string> m_texturesDDButton =
+	{
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownButtonIdle.png",
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownButtonHover.png",
+		"Resources\\Textures\\UI\\Drop-Down\\DropDownButtonHover.png"
 	};
 
 	// Logo from https://www.flaticon.com/free-icon/github_5968896

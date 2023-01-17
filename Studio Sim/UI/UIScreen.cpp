@@ -7,6 +7,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
 	UIElement::Initialize( gfx, mat );
 	m_image.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
+	m_dropDown.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_energyBar.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_dataSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_colourBlock.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
@@ -23,8 +24,8 @@ void UIScreen::Update( const float dt )
 	}
 
 	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
-	XMFLOAT2 pos = { m_vScreenSize.x * 0.075f, m_vScreenSize.y * 0.1f };
-	float offset = 0.125f;
+	XMFLOAT2 pos = { m_vScreenSize.x * 0.025f, m_vScreenSize.y * 0.1f };
+	float offset = 0.115f;
 
 	// --- Colour Block Widgets ---
 	m_colourBlock.Resolve( { 210, 210, 150 }, pos, size );
@@ -50,7 +51,7 @@ void UIScreen::Update( const float dt )
 	pos.x += m_vScreenSize.x * offset;
 
 	// --- Button Widgets ---
-	if ( m_buttons[0].Resolve( "", Colors::Black, m_texturesGithub, m_mouseData, pos, size ) )
+	if ( m_buttons[0].Resolve( "", Colors::White, m_texturesGithub, m_mouseData, pos, size ) )
 		if ( !m_bOpenLink && m_bOpen )
 			m_bOpenLink = true;
 	m_buttons[0].Update( dt );
@@ -68,20 +69,44 @@ void UIScreen::Update( const float dt )
 	pos.x += m_vScreenSize.x * offset;
 	
 	// Example button
-	m_buttons[1].Resolve( "Example", Colors::Black, m_textures, m_mouseData, pos, size );
+	m_buttons[1].Resolve( "Example", Colors::White, m_textures, m_mouseData, pos, size );
 	m_buttons[1].Update( dt );
 	pos.x += m_vScreenSize.x * offset;
 
 	// Quit game
-	if ( m_buttons[2].Resolve( "Exit", Colors::Black, m_textures, m_mouseData, pos, size ) )
+	if ( m_buttons[2].Resolve( "Exit", Colors::White, m_textures, m_mouseData, pos, size ) )
 		EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 	m_buttons[2].Update( dt );
+	pos.x += m_vScreenSize.x * offset;
+
+	// --- Drop Down Widgets ---
+	MouseData mData;
+	mData = m_mouseData;
+	if ( m_dropDown.GetIsDown() )
+		mData.LPress = false;
+	else
+		mData = m_mouseData;
+
+	std::vector<std::string> vValues = { "True", "False" };
+	m_dropDown.Resolve( vValues, pos, size, m_texturesDD, m_texturesDDButton, Colors::White, vValues[0], mData );
+	
+	static bool bValue = false;
+	if ( m_dropDown.GetSelected() == "False" )
+		bValue = false;
+	else
+		bValue = true;
+	m_dropDown.Update( dt );
+	mData.LPress = false;
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+	
+	m_dropDown.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix );
+	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+
 	m_energyBar.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
 	m_dataSlider.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
 	m_colourBlock.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );

@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "DropDown_Widget.h"
 
+DropDown_Widget::DropDown_Widget()
+{
+	m_spriteBack = std::make_shared<Sprite>();
+    m_transformBack = std::make_shared<Transform>( m_spriteBack );
+}
+
 DropDown_Widget::DropDown_Widget( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
 {
 	m_spriteBack = std::make_shared<Sprite>();
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
-
-	m_spriteOptions = std::make_shared<Sprite>();
-    m_transformOptions = std::make_shared<Transform>( m_spriteOptions );
 
 	Resolve( ddList, pos, size, backCol, buttonImg, textColour, currData, mData );
 }
@@ -22,10 +25,6 @@ void DropDown_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* con
     m_transformBack->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transformBack->SetScaleInit( m_vSize.x, m_vSize.y );
 
-	m_spriteOptions->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
-    m_transformOptions->SetPositionInit( m_vPosition.x, m_vPosition.y );
-	m_transformOptions->SetScaleInit( m_vSize.x, m_vSize.y );
-
 	m_wButtonDrop.Initialize( device, context, mat );
 	for ( unsigned int i = 0; i < ARRAYSIZE( m_wListButtons ); i++ )
 		m_wListButtons[i].Initialize( device, context, mat );
@@ -36,46 +35,47 @@ void DropDown_Widget::Update( const float dt )
 	m_spriteBack->Update( dt );
 	m_transformBack->Update();
 
-	m_spriteOptions->Update( dt );
-	m_transformOptions->Update();
-
 	m_wButtonDrop.Update( dt );
+
+	if ( m_vListData.size() <= 0 ) return;
+	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
+		m_wListButtons[i].Update( dt );
 }
 
 void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer, VertexShader& vert, PixelShader& pix )
 {
-	//m_transformBack->SetScale(_Size.x, _Size.y);
-	//m_transformBack->SetInitialPosition(_Pos.x, _Pos.y, 0);
-
 	// Background
-	m_spriteBack->UpdateTex( device, m_textureBack );
+	m_spriteBack->UpdateTex( device, "Resources\\Textures\\UI\\Drop-Down\\DropDownMain.png" );
 	m_spriteBack->UpdateBuffers( context );
 	m_spriteBack->Draw( m_transformBack->GetWorldMatrix(), worldOrtho );
 
 	// Drop-down button
-	ButtonDrop.Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, worldOrtho, textRenderer);
+	m_wButtonDrop.Draw( device, context, worldOrtho, textRenderer );
+	if ( m_vListData.size() <= 0 ) return;
+
 	Shaders::BindShaders( context, vert, pix );
-	if (m_eDropState == DropState::Down )
+	if ( m_eDropState == DropState::Down )
 	{
-		
-		for ( unsigned int i = 0; i < _ListData.size(); i++ )
+		for ( unsigned int i = 0; i < m_vListData.size(); i++ )
 		{
-			ListButtons[i].Draw(Contex, Device, cb_ps_scene, cb_vs_matrix_2d, worldOrtho, textRenderer );
-			Shaders::BindShaders(Contex, vert, pix);
+			m_wListButtons[i].Draw( device, context, worldOrtho, textRenderer );
+			Shaders::BindShaders( context, vert, pix );
 		}
-		
 	}
 	
-	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( _ListData[m_iSelected].c_str() );
-	XMFLOAT2 textpos = { m_vPosition.x + (m_vSize.x / 2) - (XMVectorGetX(textsize) * textRenderer->GetScale().x ) / 2, m_vPosition.y + (m_vSize.y / 2) - (XMVectorGetY(textsize) * textRenderer->GetScale().y) / 2 };
-	textRenderer->RenderString( _ListData[m_iSelected], textpos, m_vTextColour, true );
+	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_vListData[m_iSelected].c_str() );
+	XMFLOAT2 textpos =
+	{
+		m_vPosition.x + ( m_vSize.x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
+		m_vPosition.y + ( m_vSize.y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
+	};
+	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, false );
 }
 
 void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
 {
 	m_vListData = ddList;
 	m_vTextColour = textColour;
-	m_textureBack = backCol[2];
 
 	// Update position/scale
     m_vSize = size;
@@ -86,10 +86,14 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	ButtonDrop.Function("", ButtonImage, { size.y, size.y }, XMFLOAT2{ pos.x + size.x ,  pos.y }, textColour, mData );
+	m_wButtonDrop.Resolve(
+		"", textColour, buttonImg, mData,
+		{ pos.x + size.x, pos.y + m_wButtonDrop.GetSprite()->GetHeight() / 2.0f },
+		{ size.y / 2.0f, size.y / 2.0f }
+	);
 
-	for ( unsigned int i = 0; i < _ListData.size(); i++ )
-		if ( currData == _ListData[i] )
+	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
+		if ( currData == m_vListData[i] )
 			m_iSelected = i;
 
 	// List buttons
@@ -98,20 +102,19 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 
 	case DropState::Down:
 	{
 		float PosY = pos.y + size.y;
-		for ( unsigned int i = 0; i < DropDownList.size(); i++ )
+		for ( unsigned int i = 0; i < ddList.size(); i++ )
 		{
-			if ( ListButtons[i].Function(_ListData[i], Backcolour, { size.x,size.y }, { pos.x, PosY }, textColour, mData ) )
+			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData, { pos.x, PosY }, { size.x,size.y }, true ) )
 			{
 				m_iSelected = i;
 				m_eDropState = DropState::Up;
 				m_iFlag = 0;
 			}
-			PosY += size.y+1;
+			PosY += size.y;
 		}
 
-		if ( ButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
+		if ( m_wButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
 		{
-
 			m_eDropState = DropState::Up;
 			m_iFlag = 0;
 		}
@@ -123,9 +126,8 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 
 	break;
 	case DropState::Up:
 	{
-		if ( ButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
+		if ( m_wButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )
 		{
-
 			m_eDropState = DropState::Down;
 			m_iFlag = 0;
 		}
