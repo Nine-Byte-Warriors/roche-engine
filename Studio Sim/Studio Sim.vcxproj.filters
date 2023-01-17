@@ -124,6 +124,15 @@
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{713d6a57-b1e5-4a2c-8a28-b9139d44267c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Collisions">
+      <UniqueIdentifier>{764c75b0-db41-475d-9daf-4d47611d73b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collisions">
+      <UniqueIdentifier>{5e084099-62f0-470a-b385-45663da8e04d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Audio">
+      <UniqueIdentifier>{47e99ccd-838d-499d-a988-2f2d6bf7bc6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -219,10 +228,10 @@
     <ClCompile Include="Components\Physics.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-	<ClCompile Include="Components\ProjectileManager.cpp">
+    <ClCompile Include="Components\ProjectileManager.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-	<ClCompile Include="Components\Collider.cpp">
+    <ClCompile Include="Components\Collider.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Rendering\Colour.cpp">
@@ -314,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="Collisions\CollisionHandler.cpp">
       <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
+      <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -518,14 +530,8 @@
     <ClInclude Include="AI\AIStateMachine.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\\HelperTextRenderer.h">
-      <Filter>Header Files\Utility\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Projectile.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\ProjectileManager.h">
-      <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Rendering\Shader_Data.h">
       <Filter>Header Files\Utility\Rendering</Filter>
@@ -587,11 +593,17 @@
     <ClInclude Include="Utility\Helper\JsonLoading.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Collider.h">
-      <Filter>Header Files\Systems</Filter>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collisions\CollisionHandler.h">
       <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ProjectileManager.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Collider.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -637,8 +649,8 @@
       <Filter>Resource Files\Cursors</Filter>
     </None>
     <None Include="cpp.hint">
-		<Filter>Resource Files</Filter>
-	</None>
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc">
@@ -663,6 +675,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Resources\Audio\quietlaugh.wav">
+      <Filter>Resource Files\Audio</Filter>
+    </Media>
     <Media Include="Resources\Audio\creepymusic.wav">
       <Filter>Resource Files\Audio</Filter>
     </Media>
@@ -678,7 +693,7 @@
     <Media Include="Resources\Audio\piano2.wav">
       <Filter>Resource Files\Audio</Filter>
     </Media>
-    <Media Include="Resources\Audio\quietlaugh.wav">
+    <Media Include="Resources\Audio\bullettest.wav">
       <Filter>Resource Files\Audio</Filter>
     </Media>
   </ItemGroup>
