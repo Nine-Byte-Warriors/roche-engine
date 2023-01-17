@@ -4,6 +4,7 @@
 
 #if _DEBUG
 #include "EventSystem.h"
+#include <Vector2f.h>
 
 /// <summary>
 /// The main manager class for setting up ImGui components.
@@ -21,6 +22,10 @@ public:
 
 	void AddToEvent() noexcept;
 	void HandleEvent( Event* event ) override;
+
+	bool IsPressedInsideSceneWindow(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
+	Vector2f SceneWindowToGameWindowPositionConversion(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
+
 private:
 	void SetBlackGoldStyle();
 	XMFLOAT2 m_vWindowSize;

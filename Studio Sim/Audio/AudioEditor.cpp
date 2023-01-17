@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "AudioEditor.h"
 
-AudioEditor::AudioEditor()
-{
-
+AudioEditor::AudioEditor() {
+	m_iDefaultVolume = 1.0f;
+	m_iActiveSoundBank = SFX;
+	m_bChangedSoundBankType = false;
 }
 
 #if _DEBUG
@@ -14,9 +15,9 @@ void AudioEditor::SpawnControlWindow()
 		Play();
 		Pause();
 		Stop();
-		//Save();
-		//SaveNew();
-		//Load();
+		Save();
+		SaveNew();
+		Load();
 		SoundBankType();
 		SoundBankList();
 		VolumeSlider();
@@ -29,100 +30,135 @@ void AudioEditor::SpawnControlWindow()
 
 void AudioEditor::Update()
 {
-	if (m_bPlayButton)
-	{
-		AudioEngine::GetInstance()->PlayAudio(L"bullettest", SFX);
-		m_bPlayButton == false;
-	}
+	// Unused for now
 }
 
 void AudioEditor::Play()
 {
-	m_bPlayButton = ImGui::Button("Play");
-	if (m_bPlayButton)
-	{
-		m_bPlayButton = true;
+	if (ImGui::Button("Play")) {
+		// Play chosen audio from the soundbank list
+		AudioEngine::GetInstance()->PlayAudio(L"bullettest", SFX);
 	}
 }
 
 void AudioEditor::Pause()
 {
-	m_bPauseButton = ImGui::Button("Pause Music");
-	if (m_bPauseButton)
+	if (ImGui::Button("Pause Music"))
 	{
-		m_bPauseButton = true;
+		// Pause the music
+		AudioEngine::GetInstance()->PauseMusic();
 	}
 }
 
 void AudioEditor::Stop()
 {
-	m_bStopButton = ImGui::Button("Stop Music");
-	if (m_bStopButton)
+	if (ImGui::Button("Stop Music"))
 	{
-		m_bStopButton = true;
+		// Stop the music
+		AudioEngine::GetInstance()->StopMusic();
 	}
 }
 
 void AudioEditor::Save()
 {
-	m_bSaveButton = ImGui::Button("Save");
-	if (m_bSaveButton)
+	if (ImGui::Button("Save to JSON"))
 	{
-		m_bSaveButton = true;
+		// Save the sound bank information into JSON
+
 	}
 }
 
 void AudioEditor::SaveNew()
 {
-	m_bSaveNewButton = ImGui::Button("Save New");
-	if (m_bSaveNewButton)
+	if (ImGui::Button("Save New to JSON"))
 	{
-		m_bSaveNewButton = true;
+		// Save the sound bank information into JSON, but new file
+
 	}
 }
 
 void AudioEditor::Load()
 {
-	m_bLoadButton = ImGui::Button("Load");
-	if (m_bLoadButton)
+	if (ImGui::Button("Load from JSON"))
 	{
-		m_bLoadButton = true;
+		// Load the sound bank information from JSON
+
 	}
 }
 
 void AudioEditor::AddToSoundBank()
 {
-	m_bAddButton = ImGui::Button("Add");
-	if (m_bAddButton)
+	if (ImGui::Button("Add to Sound Bank"))
 	{
-		m_bAddButton = true;
+		// Add the chosen sound file into the sound bank
+
 	}
 }
 
 void AudioEditor::DeleteFromSoundBank()
 {
-	m_bDeleteButton = ImGui::Button("Delete");
-	if (m_bDeleteButton)
+	if (ImGui::Button("Delete from Sound Bank"))
 	{
-		m_bDeleteButton = true;
+		// Delete the chosen sound bank element from the sound bank list
 	}
 }
 
 void AudioEditor::SoundBankType()
 {
+	// Choose sound bank type
 	ImGui::Text("Sound Bank Type");
-	int activeType = 0;
+	static std::string previewSoundBank = "SFX";
+	static const char* soundBankNameList[]{ "SFX", "Music" };
 	
-	if (ImGui::BeginCombo("Sound Bank Type", 0));
+	if (ImGui::BeginCombo("##Sound Bank Type", previewSoundBank.c_str())) {
+		for (int i = 0; i < ARRAYSIZE(soundBankNameList); i++) {
+			const bool isSelected = i == m_iActiveSoundBank;
+			if (ImGui::Selectable(soundBankNameList[i], isSelected)) {
+				m_iActiveSoundBank = i;
+				previewSoundBank = soundBankNameList[i];
+			}
+			
+			switch (m_iActiveSoundBank) {
+			case SFX:
+				// Change sound bank list to SFX
+				break;
+			case MUSIC:
+				// Change sound bank list to Music
+				break;
+			default:
+				break;
+			}
+		}
+		ImGui::EndCombo();
+	}
 }
 
 void AudioEditor::SoundBankList()
 {
+	// Print active sound bank on the list, where you can choose specific sound to change values on (also add/remove from the soundbank list)
+	if (m_bChangedSoundBankType) {
+		std::vector<SoundBankFile*>* soundBank = AudioEngine::GetInstance()->GetSoundBank((AudioType)m_iActiveSoundBank);
+		for (int i = 0; soundBank->size() > i; i++) {
+			// print sounds on list
+			
+		}
+
+		m_bChangedSoundBankType = false;
+	}
 
 }
 
 void AudioEditor::VolumeSlider()
 {
+	// On choice of sound bank, update default volume to set up value in a sound bank
+	ImGui::Text("Default Volume");
+	ImGui::SliderFloat("##Default Volume", &m_iDefaultVolume, 0.0f, 1.0f);
 
 }
+
+
+
+
+
+
 #endif // DEBUG
