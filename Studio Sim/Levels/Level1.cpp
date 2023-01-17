@@ -38,6 +38,7 @@ void Level1::OnCreate()
 
 		// Initialise Projectile Editor
         m_projectileEditor = ProjectileEditor::CreateEditor();
+		m_projectileEditor->Initialise(*m_gfx, m_cbMatrices);
 	}
 	catch ( COMException& exception )
 	{
@@ -109,16 +110,21 @@ void Level1::BeginFrame()
 
 void Level1::RenderFrame()
 {
+	auto gfxContext = m_gfx->GetContext();
+	auto camMatrix = m_camera.GetWorldOrthoMatrix();
+    
     // Sprites
     RenderFrameTileMap(m_tileMapDrawBackground);
     RenderFrameTileMap(m_tileMapDrawForeground);
+    
+    m_projectileEditor->Draw(gfxContext, camMatrix);
 
-    m_player.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
-    m_player.GetProjectileManager()->Draw( m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix() );
+    m_player.GetSprite()->UpdateBuffers(gfxContext);
+    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
+    m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
 
-    m_enemy.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
+    m_enemy.GetSprite()->UpdateBuffers(gfxContext);
+    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
 void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
@@ -199,6 +205,7 @@ void Level1::Update( const float dt )
     m_player.Update( dt );
     m_enemy.Update( dt );
     m_ui->Update( dt );
+	m_projectileEditor->Update( dt );
 }
 
 void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)

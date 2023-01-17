@@ -13,7 +13,31 @@ ProjectileEditor::ProjectileEditor() :
 	m_sFileContent(""),
 	m_sFilePath("")
 {
+	m_pProjectileManager = std::make_shared<ProjectileManager>();
 	// TODO: Initialise images files for sprites of projectiles.
+}
+
+void ProjectileEditor::Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
+{
+	if (m_pProjectileManager == nullptr)
+		return;
+
+	// TODO: allow for multiples and nested managers
+	m_pProjectileManager->Initialize(gfx, mat);
+}
+
+void ProjectileEditor::Update(const float dt)
+{
+	m_pProjectileManager->Update(dt);
+}
+
+void ProjectileEditor::Draw(ID3D11DeviceContext* context, XMMATRIX matrix)
+{
+	if (m_pProjectileManager == nullptr)
+		return;
+
+	// TODO: allow for multiples and nested managers
+	m_pProjectileManager->Draw(context, matrix);
 }
 
 #if _DEBUG

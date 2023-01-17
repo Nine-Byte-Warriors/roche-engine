@@ -4,6 +4,7 @@
 
 #include "EventSystem.h"
 #include "JsonLoading.h"
+#include "ProjectileManager.h"
 
 namespace ProjectileData {
 	
@@ -35,6 +36,9 @@ public:
 	~ProjectileEditor() {}
 
 	static inline std::shared_ptr<ProjectileEditor> CreateEditor() { return std::make_shared<ProjectileEditor>(); }
+	void Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	void Update(const float dt);
+	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 	
 	void SpawnEditorWindow();
 	
@@ -53,6 +57,7 @@ private:
 	std::string m_sFileContent;
 	
 	std::vector< ProjectileData::ProjectileJSON> m_vecProjectiles;
+	std::shared_ptr<ProjectileManager> m_pProjectileManager;
 };
 
 #endif // !PROJECTILE_EDITOR_H
