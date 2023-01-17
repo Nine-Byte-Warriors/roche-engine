@@ -5,7 +5,8 @@
 // Holds the list of possible events that can occur.
 enum class EVENTID
 {
-	// Mouse Actions
+	// User Inputs
+	KeyInput,
 	MousePosition,
 	ImGuiMousePosition,
 

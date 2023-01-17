@@ -70,6 +70,9 @@ void Input::UpdateKeyboard( const float dt )
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+
+		m_cKey = keycode;
+		EventSystem::Instance()->AddEvent( EVENTID::KeyInput, &m_cKey );
 	}
 
     // Handle continuous key presses

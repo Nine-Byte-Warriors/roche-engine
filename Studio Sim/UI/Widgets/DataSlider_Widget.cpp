@@ -62,9 +62,9 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 
 	// Slider
 	m_transformSlider->SetPosition( ( m_vPosition.x + m_fPx ) - 25.0f / 2.0f, m_vPosition.y + ( 30.0f - ( 30.0f / 0.75f ) ) / 2.0f );
-	m_transformSlider->SetScale( 50.0f, m_vSize.y / 0.75f );
+	m_transformSlider->SetScale( 25.0f, m_vSize.y / 0.75f );
 	
-	m_spriteSlider->SetWidth( 50.0f );
+	m_spriteSlider->SetWidth( 25.0f );
 	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
 
 	m_spriteSlider->UpdateTex( device, m_sliderTexture );
