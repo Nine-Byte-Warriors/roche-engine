@@ -41,7 +41,7 @@ void UIManager::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, Te
 	}
 }
 
-std::shared_ptr<UIElement> UIManager::GetCustomUI( const std::string& name )
+std::shared_ptr<UIScreen> UIManager::GetCustomUI( const std::string& name )
 {
 	for ( auto const& UIItem : m_mUiList )
 		if ( UIItem.first == name )
@@ -50,7 +50,7 @@ std::shared_ptr<UIElement> UIManager::GetCustomUI( const std::string& name )
 	return nullptr;
 }
 
-void UIManager::AddUI( std::shared_ptr<UIElement> newUI, const std::string& name )
+void UIManager::AddUI( std::shared_ptr<UIScreen> newUI, const std::string& name )
 {
 	// Check if it is in list
 	bool bToAdd = true;

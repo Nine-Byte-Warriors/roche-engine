@@ -67,9 +67,9 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     m_sprite->SetWidth( m_vSize.x );
     m_sprite->SetHeight( m_vSize.y );
 
+    m_buttonState = ButtonState::Default;
 #if !_DEBUG // not updated for imgui mouse positions
     // Button collison
-    m_buttonState = ButtonState::Default;
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&

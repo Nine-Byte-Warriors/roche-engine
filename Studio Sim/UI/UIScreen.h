@@ -4,17 +4,22 @@
 
 class Graphics;
 #include "Shaders.h"
-#include "UIElement.h"
+#include "Listener.h"
+#include "TextRenderer.h"
+#include "WidgetIncludes.h"
 
-class UIScreen : public UIElement
+class UIScreen : public Listener
 {
 public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat ) override;
-	void Update( const float dt ) override;
-	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer ) override;
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
+	void Update( const float dt );
+	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
+
+	inline void SetCB( ConstantBuffer<Matrices>* mat ) noexcept { m_cbMatrices = mat; }
+	inline void SetScreenSize( XMFLOAT2 size ) noexcept { m_vScreenSize = size; }
 	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
@@ -28,6 +33,17 @@ private:
 	EnergyBar_Widget m_energyBar;
 	DataSlider_Widget m_dataSlider;
 	ColourBlock_Widget m_colourBlock;
+
+	// Inputs
+	MouseData m_mouseData;
+	std::string m_sKeys;
+
+	// Graphics
+	XMFLOAT2 m_vScreenSize;
+	ConstantBuffer<Matrices>* m_cbMatrices;
+
+	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;
 	
 	// GitHub link
 	bool m_bOpen = true;

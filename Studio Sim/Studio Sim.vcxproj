@@ -306,7 +306,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="UI\UIElement.cpp" />
     <ClCompile Include="UI\UIManager.cpp" />
     <ClCompile Include="UI\Widgets\Button_Widget.cpp" />
     <ClCompile Include="UI\Widgets\ColourBlock_Widget.cpp">
@@ -444,7 +443,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="UI\UIElement.h" />
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\WidgetIncludes.h" />
     <ClInclude Include="UI\Widgets\Button_Widget.h" />

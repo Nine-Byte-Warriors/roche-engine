@@ -306,9 +306,6 @@
     <ClCompile Include="UI\UIScreen.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UIElement.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UIManager.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
@@ -567,9 +564,6 @@
       <Filter>Header Files\UI\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="UI\UIScreen.h">
-      <Filter>Header Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\UIElement.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="UI\UIManager.h">

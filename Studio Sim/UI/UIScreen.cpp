@@ -5,7 +5,10 @@
 
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
-	UIElement::Initialize( gfx, mat );
+	m_cbMatrices = mat;
+	m_pDevice = gfx.GetDevice();
+	m_pContext = gfx.GetContext();
+
 	m_image.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_inputBox.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
 	m_dropDown.Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
@@ -92,7 +95,7 @@ void UIScreen::Update( const float dt )
 	pos = { m_vScreenSize.x * 0.025f, m_vScreenSize.y * 0.2f };
 
 	// --- Input Box Widgets ---
-	m_inputBox.Resolve( m_cKey, Colors::White, m_textures[0], m_mouseData, pos, size );
+	m_inputBox.Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, pos, size );
 	m_inputBox.Update( dt );
 }
 
@@ -149,7 +152,7 @@ void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::KeyInput: { m_cKey = *(unsigned char*)event->GetData(); } break;
+	case EVENTID::KeyInput: { m_sKeys = *(std::string*)event->GetData(); } break;
 	case EVENTID::MousePosition: { m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick: { m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease: { m_mouseData.LPress = false; } break;

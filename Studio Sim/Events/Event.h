@@ -7,6 +7,7 @@ enum class EVENTID
 {
 	// User Inputs
 	KeyInput,
+	ClearCharBuffer,
 	MousePosition,
 	ImGuiMousePosition,
 

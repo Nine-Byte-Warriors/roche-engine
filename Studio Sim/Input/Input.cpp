@@ -70,9 +70,13 @@ void Input::UpdateKeyboard( const float dt )
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+	}
 
-		m_cKey = keycode;
-		EventSystem::Instance()->AddEvent( EVENTID::KeyInput, &m_cKey );
+	while ( !m_keyboard.CharBufferIsEmpty() )
+	{
+		unsigned char keycode = m_keyboard.ReadChar();
+		m_sKeys += keycode;
+		EventSystem::Instance()->AddEvent( EVENTID::KeyInput, &m_sKeys );
 	}
 
     // Handle continuous key presses
@@ -95,6 +99,7 @@ void Input::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::ShowCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
 }
 
 void Input::HandleEvent( Event* event )
@@ -109,6 +114,11 @@ void Input::HandleEvent( Event* event )
 	case EVENTID::HideCursorEvent:
 	{
 		DisableCursor();
+	}
+	break;
+	case EVENTID::ClearCharBuffer:
+	{
+		m_sKeys.clear();
 	}
 	break;
 	}
