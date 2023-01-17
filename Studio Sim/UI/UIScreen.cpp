@@ -32,12 +32,12 @@ void UIScreen::Update( const float dt )
 	pos.x += m_vScreenSize.x * offset;
 
 	// --- Image  Widgets ---
-	m_image.Resolve( "Resources\\Textures\\cauliflower_ss.png", pos, size );
+	m_image.Resolve( "Resources\\Textures\\UI\\Board\\Board.png", pos, size );
 	m_image.Update( dt );
 	pos.x += m_vScreenSize.x * offset;
 
 	// --- Data Slider Widgets ---
-	m_dataSlider.Resolve( m_iSliderStart, "Resources\\Textures\\dirt.png", "Resources\\Textures\\wall.png", m_mouseData, pos, size );
+	m_dataSlider.Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png", "Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, pos, size );
 	m_dataSlider.Update( dt );
 	pos.x += m_vScreenSize.x * offset;
 

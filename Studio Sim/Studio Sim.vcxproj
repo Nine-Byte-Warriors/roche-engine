@@ -157,6 +157,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <OpenMPSupport>false</OpenMPSupport>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>$(ProjectDir)Components;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -324,8 +325,7 @@
     </ClCompile>
     <ClCompile Include="UI\Widgets\DropDown_Widget.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -455,8 +455,7 @@
     </ClInclude>
     <ClInclude Include="UI\Widgets\DropDown_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -517,6 +516,7 @@
     <None Include="Resources\Cursors\cur221.cur" />
     <None Include="Resources\Cursors\cur222.cur" />
     <None Include="Resources\Cursors\cur223.cur" />
+    <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
     <None Include="Resources\Tutorial01.aps" />

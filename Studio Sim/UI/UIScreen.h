@@ -39,9 +39,9 @@ private:
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{
-		"Resources\\Textures\\dirt.png",
-		"Resources\\Textures\\wall.png",
-		"Resources\\Textures\\grass.png"
+		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
+		"Resources\\Textures\\UI\\Button\\ButtonActive.png",
+		"Resources\\Textures\\UI\\Button\\ButtonActive.png"
 	};
 
 	// Logo from https://www.flaticon.com/free-icon/github_5968896

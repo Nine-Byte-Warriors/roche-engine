@@ -651,6 +651,9 @@
     <None Include="cpp.hint">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc">

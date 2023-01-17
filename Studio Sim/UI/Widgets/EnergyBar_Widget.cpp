@@ -14,9 +14,9 @@ EnergyBar_Widget::EnergyBar_Widget()
 
 	std::vector<std::string> textures =
 	{
-		"Resources\\Textures\\dirt.png",
-		"Resources\\Textures\\wall.png",
-		"Resources\\Textures\\grass.png"
+		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
+		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
+		"Resources\\Textures\\UI\\Button\\ButtonIdle.png"
 	};
 	Resolve( textures, 50.0f, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
@@ -78,13 +78,19 @@ void EnergyBar_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context,
 	m_spriteBack->Draw( m_transformBack->GetWorldMatrix(), worldOrtho );
 
 	// Moving bar
-	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
-	m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction, m_vSize.y );
+	const float xPadding = 0.8f;
+	const float yPadding = 0.5f;
+	m_transformBar->SetPosition(
+		m_transformBack->GetPosition().x + ( m_spriteBack->GetWidth() * 0.085f ),
+		m_transformBack->GetPosition().y + ( m_spriteBack->GetHeight() * 0.25f )
+	);
+	m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction * xPadding, m_vSize.y * yPadding );
 
-	m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction );
-	m_spriteBar->SetHeight( m_vSize.y );
+	m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction * xPadding );
+	m_spriteBar->SetHeight( m_vSize.y * yPadding );
 
-	m_spriteBar->UpdateTex( device, m_textureBar );
+	//m_spriteBar->UpdateTex( device, m_textureBar ); // use texture
+	m_spriteBar->UpdateTex( device, Colour( 255.0f, 100.0f, 100.0f ) ); // use colour
 	m_spriteBar->UpdateBuffers( context );
 	m_spriteBar->Draw( m_transformBar->GetWorldMatrix(), worldOrtho );
 
@@ -114,10 +120,15 @@ void EnergyBar_Widget::Resolve( const std::vector<std::string>& textures, float 
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
-    m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction, m_vSize.y );
-    m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction );
-    m_spriteBar->SetHeight( m_vSize.y );
+	const float xPadding = 0.8f;
+	const float yPadding = 0.5f;
+	m_transformBar->SetPosition(
+		m_transformBack->GetPosition().x + ( m_spriteBack->GetWidth() * 0.085f ),
+		m_transformBack->GetPosition().y + ( m_spriteBack->GetHeight() * 0.25f )
+	);
+    m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction * xPadding, m_vSize.y * yPadding );
+    m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction * xPadding );
+    m_spriteBar->SetHeight( m_vSize.y * yPadding );
 
 	m_transformFront->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transformFront->SetScale( m_vSize.x + 13.5f, m_vSize.y );

@@ -10,7 +10,7 @@ DataSlider_Widget::DataSlider_Widget()
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
 	int sliderStart = 50;
-	std::string texture = "Resources\\Textures\\empty.png";
+	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
 	Resolve( sliderStart, texture, texture, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
@@ -62,9 +62,9 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 
 	// Slider
 	m_transformSlider->SetPosition( ( m_vPosition.x + m_fPx ) - 25.0f / 2.0f, m_vPosition.y + ( 30.0f - ( 30.0f / 0.75f ) ) / 2.0f );
-	m_transformSlider->SetScale( 25.0f, m_vSize.y / 0.75f );
+	m_transformSlider->SetScale( 50.0f, m_vSize.y / 0.75f );
 	
-	m_spriteSlider->SetWidth( 25.0f );
+	m_spriteSlider->SetWidth( 50.0f );
 	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
 
 	m_spriteSlider->UpdateTex( device, m_sliderTexture );
@@ -88,8 +88,8 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
     m_spriteBar->SetHeight( m_vSize.y );
 
 	m_transformSlider->SetPosition( ( m_vPosition.x + m_fPx ) - 25.0f / 2.0f, m_vPosition.y + ( 30.0f - ( 30.0f / 0.75f ) ) );
-	m_transformSlider->SetScale( 25.0f, m_vSize.y / 0.75f );
-	m_spriteSlider->SetWidth( 25.0f );
+	m_transformSlider->SetScale( 50.0f, m_vSize.y / 0.75f );
+	m_spriteSlider->SetWidth( 50.0f );
 	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
 
 #if !_DEBUG // not updated for imgui mouse positions
