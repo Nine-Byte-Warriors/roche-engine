@@ -21,6 +21,7 @@ public:
 private:
     bool BoxToBox(BoxCollider* box1, BoxCollider* box2);
     bool CircleToBox(CircleCollider* circle, BoxCollider* box);
+    bool CircleToBox( BoxCollider* box, CircleCollider* circle);
     bool CircleToCircle(CircleCollider* circle1, CircleCollider* circle2);
     bool PointToBox(Vector2f point, BoxCollider* box);
     bool PointToCircle(Vector2f point, CircleCollider* circle);
@@ -31,6 +32,9 @@ private:
     void CollisionCheckAll();
 
     void Resolution(Collider* collider1, Collider* collider2);
+
+    //Closest Point on a collider to another collider
+    Vector2f ClosestPoint(Collider* collider1, Vector2f collider2);
 
 public:
     void Update();
