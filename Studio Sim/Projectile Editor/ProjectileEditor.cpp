@@ -21,8 +21,11 @@ void ProjectileEditor::SpawnEditorWindow()
 {
 	if (ImGui::Begin("Projectile Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
-		
-	LoadPattern();
+		LoadPattern();
+		SavePattern();
+
+		ShowPattern();
+
 	//SaveToExistingFile();
 	//SaveToNewFile();
 
@@ -54,17 +57,22 @@ void ProjectileEditor::LoadPattern()
 	std::ifstream fsPatternStream(DEFAULT_PATTERN_PATH + m_sSelectedFile);
 	static char saveFileName[128] = "";
 	
-	m_bLoadButton = ImGui::Button("Load Pattern");
+	bool bLoadButton = ImGui::Button("Load Pattern");
 	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
 	ImGui::Text(m_sSelectedFile.c_str());
 
-	if (!m_bLoadButton)
+	if (!bLoadButton)
 		return;
 	
 	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 	{
-		const size_t slash = m_sFilePath.find_last_of("/\\");
-		m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".json";
+		m_vecProjectiles.clear();
+		JsonLoading::LoadJson(m_vecProjectiles, m_sFilePath);
+		
+		//json jData = JSONHealper::LoadJSON(m_sFilePath);
+		ImGui::Text(m_sFilePath.append(" was loaded").c_str());
+		//const size_t slash = m_sFilePath.find_last_of("/\\");
+		//m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".json";
 		/*if (SaveWriteFile())
 		{
 			m_sSelectedFile = saveFileName;
@@ -79,6 +87,68 @@ void ProjectileEditor::LoadPattern()
 	else
 	{
 		m_sSelectedFile = "Open File Failed";
+	}
+}
+
+void ProjectileEditor::SavePattern()
+{
+	static char saveFileName[128] = "";
+	m_bSaveButton = ImGui::Button("Save Pattern");
+	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::Text(m_sSelectedFile.c_str());
+	
+	if (!m_bSaveButton)
+		return;
+
+	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+	{
+		// DEBUG: Fake Pattern
+		//std::string m_sID;
+		//std::string m_sName;
+		//std::string m_sTexture;
+		//int order;
+		//float m_fSpeed;
+		//float m_fLifeTime;
+		
+		ProjectileData::ProjectileJSON jData = 
+		{
+			"ProjectilePattern.json",
+			"ProjectilePattern",
+			"Resources\\Textures\\Projectile.png",
+			1,
+			100.0f,
+			5.0f
+		};
+		
+		std::vector<ProjectileData::ProjectileJSON> vecProjectileJSON;
+		vecProjectileJSON.push_back(jData);
+		
+		JsonLoading::SaveJson(vecProjectileJSON, m_sFilePath);
+	}
+}
+
+void ProjectileEditor::ShowPattern()
+{
+	std::string msg;
+
+	msg = m_vecProjectiles.size() > 0
+		? "Loaded Projectiles;"
+		: "No Projectiles Loaded";
+	ImGui::Text(msg.c_str());
+
+	for (ProjectileData::ProjectileJSON& projectile : m_vecProjectiles)
+	{
+		ImGui::Separator();
+		msg = "Pattern: " + projectile.m_sName;
+		ImGui::Text(msg.c_str());
+
+		msg = "ID: " + projectile.m_sID;
+		ImGui::Text(msg.c_str());
+
+		msg = "Speed: " + std::to_string(projectile.m_fSpeed);
+		ImGui::Text(msg.c_str());
+
+		ImGui::SliderFloat("Speed: ", &projectile.m_fSpeed, 0.0f, 100.0f, "%0.2f");
 	}
 }
 

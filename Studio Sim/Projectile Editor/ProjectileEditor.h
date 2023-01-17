@@ -5,15 +5,18 @@
 #include "EventSystem.h"
 #include "JsonLoading.h"
 
+namespace ProjectileData {
+	
 struct ProjectileJSON
 {
 	std::string m_sID;
 	std::string m_sName;
 	std::string m_sTexture;
-	int order;
+	int m_iOrder;
 	float m_fSpeed;
 	float m_fLifeTime;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_sID, m_sName, m_sTexture, m_iOrder, m_fSpeed, m_fLifeTime)
 
 struct ProjectileData
 {
@@ -22,6 +25,8 @@ struct ProjectileData
 	float m_fSpeed;
 	float m_fLifeTime;
 };
+
+}
 
 class ProjectileEditor : Listener
 {
@@ -40,12 +45,14 @@ private:
 	void LoadPattern();
 	void SavePattern();
 
-	bool m_bLoadButton;
+	void ShowPattern();
+
+	bool m_bSaveButton;
 	std::string m_sSelectedFile;
 	std::string m_sFilePath;
 	std::string m_sFileContent;
-
-	bool m_bSaveButton;
+	
+	std::vector< ProjectileData::ProjectileJSON> m_vecProjectiles;
 };
 
 #endif // !PROJECTILE_EDITOR_H

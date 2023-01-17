@@ -101,11 +101,11 @@ void TileMapEditor::DrawButton()
 void TileMapEditor::Load()
 {
 #if _DEBUG
-	m_bLoadButton = ImGui::Button("Load");
+	m_bSaveButton = ImGui::Button("Load");
 	ImGui::Text(m_sSelectedFile.c_str());
 #endif
 
-	if (m_bLoadButton)
+	if (m_bSaveButton)
 	{
 		if (m_tileMapLayer != TileMapLayer::Both)
 		{

@@ -506,6 +506,7 @@
     <None Include="Resources\Cursors\cur223.cur" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
+    <None Include="Resources\ProjectilePatterns\DefaultProjectile.ptn" />
     <None Include="Resources\Tutorial01.aps" />
   </ItemGroup>
   <ItemGroup>
