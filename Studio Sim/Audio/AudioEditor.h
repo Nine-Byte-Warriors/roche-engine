@@ -38,14 +38,20 @@ private:
 	// Parameter sliders
 	void VolumeSlider();
 
+	float m_iDefaultVolume;
+	int m_iActiveSoundBank; // 0 - SFX; 1 - MUSIC
+	bool m_bChangedSoundBankType;
+	std::vector<SoundBankFile*>* selectedSoundBank;
+
+
 	// Audio controls
-	bool m_bPlayButton;
-	bool m_bPauseButton;
-	bool m_bStopButton;
+	//bool m_bPlayButton;
+	//bool m_bPauseButton;
+	//bool m_bStopButton;
 	
 	// Sound Bank controls
-	bool m_bAddButton;
-	bool m_bDeleteButton;
+	//bool m_bAddButton;
+	//bool m_bDeleteButton;
 
 	// Saving/Loading fields ----- to be done
 	//std::wstring m_sSelectedFile = L"LoadFile.txt";
@@ -53,12 +59,15 @@ private:
 	//std::wstring m_sFileContent = L"";
 
 	// Save/Load controls
-	bool m_bSaveButton;
-	bool m_bSaveNewButton;
-	bool m_bLoadButton;
+	//bool m_bSaveButton;
+	//bool m_bSaveNewButton;
+	//bool m_bLoadButton;
 
 	// List of audio
 	//const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
+
+
+
 
 #endif // DEBUG
 };
