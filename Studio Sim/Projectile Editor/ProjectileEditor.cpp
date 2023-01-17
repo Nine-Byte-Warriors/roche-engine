@@ -11,7 +11,9 @@
 ProjectileEditor::ProjectileEditor() :
 	m_sSelectedFile("ProjectilePattern.json"),
 	m_sFileContent(""),
-	m_sFilePath("")
+	m_sFilePath(""),
+	m_iProjectileCount(0),
+	m_vSpawnPosition(Vector2f())
 {
 	m_pProjectileManager = std::make_shared<ProjectileManager>();
 	// TODO: Initialise images files for sprites of projectiles.
@@ -52,36 +54,12 @@ void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Mat
 
 		TestButtons(gfx, mat);
 		SpawnPattern();
-
-	//SaveToExistingFile();
-	//SaveToNewFile();
-
-	//SelectTileMapLayer();
-	//DrawButton();
-
-	//TileMapSelectionButtons();
-	//TileMapSelectedText();
-	//TileMapGridPreview();
-	
-	//ImGui::Text(std::string("Option 1").c_str());
-	//ImGui::SameLine();
-	////ImGui::InputText()
-	//ImGui::Text(std::string("Option 2").c_str());
-	//ImGui::Text(std::string("Option 3").c_str());
-	////ImGui::Text(std::string("X: ").append(std::to_string(m_transform->GetPosition().x)).c_str());
-	//ImGui::SameLine();
-	////ImGui::Text(std::string("Y: ").append(std::to_string(m_transform->GetPosition().y)).c_str());
-
-	//if (ImGui::Button("FIRE!"))
-	//	EventSystem::Instance()->AddEvent(EVENTID::PlayerFire, nullptr);
-	//
 	}
 	ImGui::End();
 }
 
 void ProjectileEditor::LoadPattern()
 {
-	std::ifstream fsPatternStream(DEFAULT_PATTERN_PATH + m_sSelectedFile);
 	static char saveFileName[128] = "";
 	
 	bool bLoadButton = ImGui::Button("Load Pattern");
@@ -93,7 +71,7 @@ void ProjectileEditor::LoadPattern()
 	
 	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 	{
-		m_vecProjectiles.clear();
+		//m_vecProjectiles.clear();
 		JsonLoading::LoadJson(m_vecProjectiles, m_sFilePath);
 	}
 	else
@@ -114,29 +92,7 @@ void ProjectileEditor::SavePattern()
 
 	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 	{
-		// DEBUG: Fake Pattern
-		//std::string m_sID;
-		//std::string m_sName;
-		//std::string m_sTexture;
-		//int order;
-		//float m_fSpeed;
-		//float m_fLifeTime;
-		
-		ProjectileData::ProjectileJSON jData = 
-		{
-			"ProjectilePattern.json",
-			"ProjectilePattern",
-			"Resources\\Textures\\Projectile.png",
-			1,
-			100.0f,
-			5.0f,
-			180.0f,
-		};
-		
-		std::vector<ProjectileData::ProjectileJSON> vecProjectileJSON;
-		vecProjectileJSON.push_back(jData);
-		
-		JsonLoading::SaveJson(vecProjectileJSON, m_sFilePath);
+		SaveProjectile();
 	}
 }
 
@@ -149,22 +105,55 @@ void ProjectileEditor::ShowPattern()
 		: "No Projectiles Loaded";
 	ImGui::Text(msg.c_str());
 
+	if (m_vecProjectiles.size() < 1)
+	{
+		ProjectileData::ProjectileJSON blank;
+		blank.m_fAngle = 0.0f;
+		blank.m_fLifeTime = 100;
+		blank.m_fSpeed = 10.0f;
+		blank.m_fX = 0.0f;
+		blank.m_fY = 0.0f;
+		blank.m_iCount = 0;
+		blank.m_iOrder = 0;
+		blank.m_sID = "Default";
+		blank.m_sName = "Default";
+		blank.m_sTexture = "Resources\\Textures\\Base_Projectile.png";
+		m_vecProjectiles.push_back(blank);
+	}
+
 	for (ProjectileData::ProjectileJSON& projectile : m_vecProjectiles)
 	{
 		ImGui::Separator();
+	
 		msg = "Pattern: " + projectile.m_sName;
 		ImGui::Text(msg.c_str());
 
 		msg = "ID: " + projectile.m_sID;
 		ImGui::Text(msg.c_str());
 
+		msg = "Count: " + std::to_string(projectile.m_iCount);
+		ImGui::Text(msg.c_str());
+		ImGui::SliderInt("Count", &projectile.m_iCount, 0, 100);
+
+		msg = "Order: " + std::to_string(projectile.m_iOrder);
+		ImGui::Text(msg.c_str());
+		ImGui::SliderInt("Order", &projectile.m_iOrder, 0, 100);
+
+		msg = "LifeTime: " + std::to_string(projectile.m_fLifeTime);
+		ImGui::Text(msg.c_str());
+		ImGui::SliderFloat("LifeTime: ", &projectile.m_fLifeTime, 0.0f, 1000.0f, "%0.2f");
+
 		msg = "Speed: " + std::to_string(projectile.m_fSpeed);
 		ImGui::Text(msg.c_str());
-
 		ImGui::SliderFloat("Speed: ", &projectile.m_fSpeed, 0.0f, 100.0f, "%0.2f");
 
+		ImGui::Text("Spawn Position");
+		ImGui::SliderFloat("X", &projectile.m_fX, -100.0f, 100.0f);
+		ImGui::SliderFloat("Y", &projectile.m_fY, -100.0f, 100.0f);
+
 		ImGui::Separator();
-		ImGui::SliderAngle("Target Angle", &projectile.m_fAngle);
+		msg = "Angle: " + std::to_string(projectile.m_fAngle);
+		ImGui::SliderAngle("Angle:", &projectile.m_fAngle);
 	}
 }
 
@@ -176,13 +165,25 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 		return;
 
 	// TODO: manage multiple managers
-	m_pProjectileManager->ResetPool(m_vecProjectiles[0], gfx, mat);
+	if (m_vecProjectiles.size() > 0)
+		m_pProjectileManager->ResetPool(m_vecProjectiles[0], gfx, mat);
+}
+
+void ProjectileEditor::SaveProjectile()
+{
+	JsonLoading::SaveJson(m_vecProjectiles, m_sFilePath);
 }
 
 void ProjectileEditor::SpawnPattern()
 {
-	if(m_vecProjectiles.size() > 0)
-		m_pProjectileManager->SpawnProjectile(Vector2f(), m_vecProjectiles[0].m_fAngle);
+	if (m_vecProjectiles.size() < 1)
+		return;
+
+	for (ProjectileData::ProjectileJSON projectile : m_vecProjectiles)
+	{
+		Vector2f vSpawnPosition = Vector2f(projectile.m_fX, projectile.m_fY);
+		m_pProjectileManager->SpawnProjectile(vSpawnPosition, projectile.m_fAngle);
+	}
 }
 
 void ProjectileEditor::AddToEvent() noexcept

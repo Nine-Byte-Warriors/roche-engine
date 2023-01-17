@@ -30,6 +30,11 @@ private:
 	
 	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	
+	void SaveProjectile();
+	void LoadProjectile();
+	void SaveManager();
+	void LoadManager();
+	
 	void SpawnPattern();
 
 	bool m_bSaveButton;
@@ -37,8 +42,11 @@ private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	
-	std::vector< ProjectileData::ProjectileJSON> m_vecProjectiles;
+	std::vector<ProjectileData::ProjectileJSON> m_vecProjectiles;
 	std::shared_ptr<ProjectileManager> m_pProjectileManager;
+
+	int m_iProjectileCount;
+	Vector2f m_vSpawnPosition;
 };
 
 #endif // !PROJECTILE_EDITOR_H

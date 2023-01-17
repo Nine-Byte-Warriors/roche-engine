@@ -1,11 +1,14 @@
 [
     {
-        "m_fAngle": 180.0,
-        "m_fLifeTime": 5.0,
-        "m_fSpeed": 100.0,
-        "m_iOrder": 1,
-        "m_sID": "ProjectilePattern.json",
-        "m_sName": "ProjectilePattern",
-        "m_sTexture": "Resources\\Textures\\Projectile.png"
+        "m_fAngle": 0.0,
+        "m_fLifeTime": 100.0,
+        "m_fSpeed": 10.0,
+        "m_fX": 46.875,
+        "m_fY": 0.0,
+        "m_iCount": 0,
+        "m_iOrder": 0,
+        "m_sID": "Default",
+        "m_sName": "Default",
+        "m_sTexture": "Resources\\Textures\\Base_Projectile.png"
     }
 ]
