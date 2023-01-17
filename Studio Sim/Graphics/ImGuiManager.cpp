@@ -173,4 +173,31 @@ void ImGuiManager::HandleEvent( Event* event )
     break;
     }
 }
+
+bool ImGuiManager::IsPressedInsideSceneWindow(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight)
+{
+    // Check whether mouse is pressed in scene view position
+    if (inputX > viewX && inputX < (viewX + viewWidth) && inputY > viewY && inputY < (viewY + viewHeight)) {
+        return true;
+    } 
+
+    return false;
+}
+
+Vector2f ImGuiManager::SceneWindowToGameWindowPositionConversion(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight)
+{
+    float convertedX;
+    float convertedY;
+
+    float conversionXRatio;
+    float conversionYRatio;
+
+    conversionXRatio = gameWidth / viewWidth; 
+    conversionYRatio = gameHeight / viewHeight; 
+    
+    convertedX = (inputX - viewX) * conversionXRatio; 
+    convertedY = (inputY - viewY) * conversionYRatio; 
+
+    return Vector2f(convertedX, convertedY);
+}
 #endif
