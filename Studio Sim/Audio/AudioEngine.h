@@ -67,8 +67,8 @@ public:
 	void Update(); // keep it on separate thread
 
 
-	void JSONLoadAudio(std::string loadFilePath); //JSON Pre-loading Function
-	void JSONSaveAudio(std::vector<JSONSoundFile> soundList, std::string filePath); // JSON Save Function WIP temporary for now
+	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
+	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string filePath); // JSON Save Function WIP temporary for now
 
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
@@ -134,6 +134,8 @@ private:
 	float m_fSFXVolume;
 
 	bool m_bIsMusicPaused;
+
+
 };
 
 #endif // VOICECALLBACK_H
