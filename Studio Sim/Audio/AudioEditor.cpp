@@ -2,9 +2,9 @@
 #include "AudioEditor.h"
 
 AudioEditor::AudioEditor() {
-	m_iDefaultVolume = 1.0f;
-	m_iActiveSoundBank = SFX;
-	m_bChangedSoundBankType = false;
+	//m_iDefaultVolume = 1.0f;
+	//m_iActiveSoundBank = SFX;
+	//m_bChangedSoundBankType = false;
 }
 
 #if _DEBUG
@@ -105,54 +105,54 @@ void AudioEditor::DeleteFromSoundBank()
 
 void AudioEditor::SoundBankType()
 {
-	// Choose sound bank type
-	ImGui::Text("Sound Bank Type");
-	static std::string previewSoundBank = "SFX";
-	static const char* soundBankNameList[]{ "SFX", "Music" };
-	
-	if (ImGui::BeginCombo("##Sound Bank Type", previewSoundBank.c_str())) {
-		for (int i = 0; i < ARRAYSIZE(soundBankNameList); i++) {
-			const bool isSelected = i == m_iActiveSoundBank;
-			if (ImGui::Selectable(soundBankNameList[i], isSelected)) {
-				m_iActiveSoundBank = i;
-				previewSoundBank = soundBankNameList[i];
-			}
-			
-			switch (m_iActiveSoundBank) {
-			case SFX:
-				// Change sound bank list to SFX
-				break;
-			case MUSIC:
-				// Change sound bank list to Music
-				break;
-			default:
-				break;
-			}
-		}
-		ImGui::EndCombo();
-	}
+	//// Choose sound bank type
+	//ImGui::Text("Sound Bank Type");
+	//static std::string previewSoundBank = "SFX";
+	//static const char* soundBankNameList[]{ "SFX", "Music" };
+	//
+	//if (ImGui::BeginCombo("##Sound Bank Type", previewSoundBank.c_str())) {
+	//	for (int i = 0; i < ARRAYSIZE(soundBankNameList); i++) {
+	//		const bool isSelected = i == m_iActiveSoundBank;
+	//		if (ImGui::Selectable(soundBankNameList[i], isSelected)) {
+	//			m_iActiveSoundBank = i;
+	//			previewSoundBank = soundBankNameList[i];
+	//		}
+	//		
+	//		switch (m_iActiveSoundBank) {
+	//		case SFX:
+	//			// Change sound bank list to SFX
+	//			break;
+	//		case MUSIC:
+	//			// Change sound bank list to Music
+	//			break;
+	//		default:
+	//			break;
+	//		}
+	//	}
+	//	ImGui::EndCombo();
+	//}
 }
 
 void AudioEditor::SoundBankList()
 {
-	// Print active sound bank on the list, where you can choose specific sound to change values on (also add/remove from the soundbank list)
-	if (m_bChangedSoundBankType) {
-		std::vector<SoundBankFile*>* soundBank = AudioEngine::GetInstance()->GetSoundBank((AudioType)m_iActiveSoundBank);
-		for (int i = 0; soundBank->size() > i; i++) {
-			// print sounds on list
-			
-		}
+	//// Print active sound bank on the list, where you can choose specific sound to change values on (also add/remove from the soundbank list)
+	//if (m_bChangedSoundBankType) {
+	//	std::vector<SoundBankFile*>* soundBank = AudioEngine::GetInstance()->GetSoundBank((AudioType)m_iActiveSoundBank);
+	//	for (int i = 0; soundBank->size() > i; i++) {
+	//		// print sounds on list
+	//		
+	//	}
 
-		m_bChangedSoundBankType = false;
-	}
+	//	m_bChangedSoundBankType = false;
+	//}
 
 }
 
 void AudioEditor::VolumeSlider()
 {
-	// On choice of sound bank, update default volume to set up value in a sound bank
-	ImGui::Text("Default Volume");
-	ImGui::SliderFloat("##Default Volume", &m_iDefaultVolume, 0.0f, 1.0f);
+	//// On choice of sound bank, update default volume to set up value in a sound bank
+	//ImGui::Text("Default Volume");
+	//ImGui::SliderFloat("##Default Volume", &m_iDefaultVolume, 0.0f, 1.0f);
 
 }
 

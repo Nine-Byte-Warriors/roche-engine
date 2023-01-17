@@ -277,10 +277,13 @@
     <ClCompile Include="Collisions\CollisionHandler.cpp" />
     <ClCompile Include="Components\Agent.cpp" />
     <ClCompile Include="Components\Collider.cpp" />
+    <ClCompile Include="Components\EntityController.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
+    <ClCompile Include="Components\Entity.cpp" />
+    <ClCompile Include="Components\EntityEditor.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp">
@@ -396,10 +399,13 @@
     <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Components\Agent.h" />
     <ClInclude Include="Components\Collider.h" />
+    <ClInclude Include="Components\EntityController.h" />
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
+    <ClInclude Include="Components\Entity.h" />
+    <ClInclude Include="Components\EntityEditor.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
