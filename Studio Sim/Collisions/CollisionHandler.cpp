@@ -6,35 +6,44 @@ void CollisionHandler::AddCollider(std::shared_ptr<Collider> collider)
     m_colliders.push_back(collider.get());
 }
 
-void CollisionHandler::AddCollider(std::vector<Collider>& colliders)
+void CollisionHandler::AddCollider(std::vector<std::shared_ptr<Collider>>& colliders)
 {
     for (int i = 0; i < colliders.size(); i++)
     {
-        m_colliders.push_back(&colliders[i]);
+        m_colliders.push_back(colliders[i].get());
     }
 }
 
-//int Clamp(int min, int max, int value)
-//{
-//    if (value > max)
-//    {
-//        return max;
-//    }
-//    else if (value < min)
-//    {
-//        return min;
-//    }
-//    else
-//    {
-//        return value;
-//    }
-//}
 bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
 {
-    if (box1->GetTransform()->GetPosition().x < box2->GetTransform()->GetPosition().x + box2->GetWidth() &&
-        box1->GetTransform()->GetPosition().x + box1->GetWidth() > box2->GetTransform()->GetPosition().x &&
-        box1->GetTransform()->GetPosition().y < box2->GetTransform()->GetPosition().y + box2->GetHeight() &&
-        box1->GetTransform()->GetPosition().y + box2->GetHeight() > box2->GetTransform()->GetPosition().y)
+    float box1HalfWidth = (box1->GetWidth() / 2);
+    float box1HalfHeight = (box1->GetHeight() / 2);
+
+    float box2HalfWidth = (box2->GetWidth() / 2);
+    float box2HalfHeight = (box2->GetHeight() / 2);
+
+    Vector2f box1Min(box1->GetTransform()->GetPosition().x - box1HalfWidth, box1->GetTransform()->GetPosition().y - box1HalfHeight);
+    Vector2f box1Max(box1->GetTransform()->GetPosition().x + box1HalfWidth, box1->GetTransform()->GetPosition().y + box1HalfHeight);
+                                                           
+    Vector2f box2Min(box2->GetTransform()->GetPosition().x - box1HalfWidth, box2->GetTransform()->GetPosition().y - box2HalfHeight);
+    Vector2f box2Max(box2->GetTransform()->GetPosition().x + box1HalfWidth, box2->GetTransform()->GetPosition().y + box2HalfHeight);
+
+//if (box1->GetTransform()->GetPosition().x < box2->GetTransform()->GetPosition().x + box2->GetWidth() / 2 &&
+//    box1->GetTransform()->GetPosition().x + box1->GetWidth() / 2 > box2->GetTransform()->GetPosition().x &&
+//    box1->GetTransform()->GetPosition().y < box2->GetTransform()->GetPosition().y + box2->GetHeight() / 2 &&
+//    box1->GetTransform()->GetPosition().y + box2->GetHeight() / 2 > box2->GetTransform()->GetPosition().y)
+//{
+//    return true;
+//}
+//else
+//{
+//    return false;
+//}
+
+    if (box1Min.x < box2Max.x &&
+        box1Max.x > box2Min.x &&
+        box1Min.y < box2Max.y &&
+        box1Max.y > box2Min.y)
     {
         return true;
     }
@@ -43,12 +52,9 @@ bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
         return false;
     }
 }
-bool CollisionHandler::CircleToBox(CircleCollider *circle, BoxCollider *box)
+bool CollisionHandler::CircleToBox(CircleCollider* circle, BoxCollider* box)
 {
-    //closestPoint.x = Clamp(box->GetTransform()->GetPosition().x, box->GetTransform()->GetPosition().x + box->GetWidth(), circle->GetTransform()->GetPosition().x);
-    //closestPoint.y = Clamp(box->GetTransform()->GetPosition().y, box->GetTransform()->GetPosition().y + box->GetHeight(), circle->GetTransform()->GetPosition().y);
-    
-    Vector2f circlePos(circle->GetTransform()->GetPosition().x, circle->GetTransform()->GetPosition().y);
+    Vector2f circlePos = circle->GetTransform()->GetPosition();
     Vector2f closestPoint = box->ClosestPoint(circlePos);
 
     int distance = (circlePos - closestPoint).Magnitude();
@@ -62,11 +68,11 @@ bool CollisionHandler::CircleToBox(CircleCollider *circle, BoxCollider *box)
         return false;
     }
 }
-bool CollisionHandler::CircleToCircle(CircleCollider *circle1, CircleCollider *circle2)
+bool CollisionHandler::CircleToCircle(CircleCollider* circle1, CircleCollider* circle2)
 {
     int radiusSum = circle1->GetRadius() + circle2->GetRadius();
     int distance = Vector2f(circle1->GetTransform()->GetPosition().x - circle2->GetTransform()->GetPosition().x,
-                            circle1->GetTransform()->GetPosition().y - circle2->GetTransform()->GetPosition().y).Magnitude();
+        circle1->GetTransform()->GetPosition().y - circle2->GetTransform()->GetPosition().y).Magnitude();
 
     if (distance < radiusSum)
     {
@@ -78,7 +84,44 @@ bool CollisionHandler::CircleToCircle(CircleCollider *circle1, CircleCollider *c
     }
 }
 
-bool CollisionHandler::CollisionChecker(Collider* collider1, Collider* collider2)
+bool CollisionHandler::PointToBox(Vector2f point, BoxCollider* box)
+{
+    float boxHalfWidth = (box->GetWidth() / 2);
+    float boxHalfHeight = (box->GetHeight() / 2);
+
+    Vector2f boxMin(box->GetTransform()->GetPosition().x - boxHalfWidth, box->GetTransform()->GetPosition().y - boxHalfHeight);
+    Vector2f boxMax(box->GetTransform()->GetPosition().x + boxHalfWidth, box->GetTransform()->GetPosition().y + boxHalfHeight);
+
+    if (point.x < boxMax.x &&
+        point.x > boxMin.x &&
+        point.y < boxMax.y &&
+        point.y >boxMin.y)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CollisionHandler::PointToCircle(Vector2f point, CircleCollider* circle)
+{
+    Vector2f circlePos = circle->GetTransform()->GetPosition();
+    
+    int distance = (circlePos - point).Magnitude();
+
+    if (distance < circle->GetRadius())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CollisionHandler::CollisionCheck(Collider* collider1, Collider* collider2)
 {
     if (collider1->GetColliderType() == ColliderType::Box && collider2->GetColliderType() == ColliderType::Box)
     {
@@ -94,13 +137,13 @@ bool CollisionHandler::CollisionChecker(Collider* collider1, Collider* collider2
     }
     else if (collider1->GetColliderType() == ColliderType::Circle && collider2->GetColliderType() == ColliderType::Box)
     {
-        return CircleToBox( (CircleCollider*)collider1, (BoxCollider*)collider2);
+        return CircleToBox((CircleCollider*)collider1, (BoxCollider*)collider2);
     }
 
     return false;
 }
 
-void CollisionHandler::CheckAll()
+void CollisionHandler::CollisionCheckAll()
 {
     int startIndex = 0;
     bool isCollision;
@@ -114,7 +157,7 @@ void CollisionHandler::CheckAll()
                 continue;
             }
 
-            bool isIntersection = CollisionChecker(m_colliders[i], m_colliders[n]);
+            bool isIntersection = CollisionCheck(m_colliders[i], m_colliders[n]);
 
             if (isIntersection)
             {
@@ -127,11 +170,16 @@ void CollisionHandler::CheckAll()
             m_colliders[i]->UpdateLastValidPosition();
         }
         startIndex++;
-    } 
+    }
 }
 
 void CollisionHandler::Resolution(Collider* collider1, Collider* collider2)
-{   
+{
+    if(collider1->GetIsTrigger() == true || collider2->GetIsTrigger() == true)
+    {
+        return;
+    }
+
     Vector2f closestPoint1;
     Vector2f closestPoint2;
     if (collider1->GetColliderType() == ColliderType::Box && collider2->GetColliderType() == ColliderType::Box)
@@ -164,11 +212,26 @@ void CollisionHandler::Resolution(Collider* collider1, Collider* collider2)
     }
     
     Vector2f intersectDistance = closestPoint2 - closestPoint1;
+    ////if changing the y works
+    //if ()
+    //{
+
+    //}
+    ////if changing the x works
+    //else if ()
+    //{
+
+    //}
+    ////if that doesn't work change both
+    //else
+    //{
+
+    //}
     collider1->GetTransform()->SetPosition((collider1->GetTransform()->GetPosition() + intersectDistance));
 }
 
 void CollisionHandler::Update()
 {
-    CheckAll();
+    CollisionCheckAll();
 }
 

@@ -25,8 +25,10 @@ Vector2f Collider::ClosestPoint(Vector2f position)
 Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition)
 {
     Vector2f closestPoint;
-    closestPoint.x = Clamp(m_tf->GetPosition().x, m_tf->GetPosition().x + m_w, targetPosition.x);
-    closestPoint.y = Clamp(m_tf->GetPosition().y, m_tf->GetPosition().y + m_h, targetPosition.y);
+    float halfHeight = (m_w / 2);
+    float halfWidth = (m_h / 2);
+    closestPoint.x = Clamp(m_tf->GetPosition().x - halfWidth, m_tf->GetPosition().x + halfWidth, targetPosition.x);
+    closestPoint.y = Clamp(m_tf->GetPosition().y - halfHeight, m_tf->GetPosition().y + halfHeight, targetPosition.y);
 
     return closestPoint;
 }

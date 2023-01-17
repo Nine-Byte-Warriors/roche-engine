@@ -47,7 +47,7 @@ class BoxCollider : public Collider
 {
 public:
     BoxCollider()  { m_type = ColliderType::Box; };
-    BoxCollider(std::shared_ptr<Transform> transform, int x, int y, int width, int height) : m_w(width), m_h(height) { m_tf = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
+    BoxCollider(std::shared_ptr<Transform> transform, int width, int height) : m_w(width), m_h(height) { m_tf = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
 
 private:
     //position from bottom left
@@ -65,7 +65,7 @@ class CircleCollider : public Collider
 {
 public:
     CircleCollider() { m_type = ColliderType::Circle; };
-    CircleCollider(std::shared_ptr<Transform> transform, int x, int y, float radius) : m_radius(radius) { m_tf = transform; m_type = ColliderType::Circle; }
+    CircleCollider(std::shared_ptr<Transform> transform, float radius) : m_radius(radius) { m_tf = transform; m_type = ColliderType::Circle; }
 
 private:
     float m_radius = 0;
