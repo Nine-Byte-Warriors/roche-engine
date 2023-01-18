@@ -319,21 +319,18 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Collisions\CollisionHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Collisions</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\Entity.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Components\EntityEditor.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="EntityController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\EntityController.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Entity.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -600,27 +597,24 @@
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Collisions\CollisionHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\Collider.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="Components\ProjectileManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\Entity.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Collider.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="Components\EntityEditor.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EntityController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Components\EntityController.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Entity.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -696,26 +690,26 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Resources\Audio\bullettest.wav">
-      <Filter>Resource Files</Filter>
+    <Media Include="Resources\Audio\quietlaugh.wav">
+      <Filter>Resource Files\Audio</Filter>
     </Media>
     <Media Include="Resources\Audio\creepymusic.wav">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Audio</Filter>
     </Media>
     <Media Include="Resources\Audio\partymusic.wav">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Audio</Filter>
     </Media>
     <Media Include="Resources\Audio\pcm-32bit-44khz-mono.wav">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Audio</Filter>
     </Media>
     <Media Include="Resources\Audio\pcm-32bit-44khz-stereo.wav">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Audio</Filter>
     </Media>
     <Media Include="Resources\Audio\piano2.wav">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Audio</Filter>
     </Media>
-    <Media Include="Resources\Audio\quietlaugh.wav">
-      <Filter>Resource Files</Filter>
+    <Media Include="Resources\Audio\bullettest.wav">
+      <Filter>Resource Files\Audio</Filter>
     </Media>
   </ItemGroup>
 </Project>

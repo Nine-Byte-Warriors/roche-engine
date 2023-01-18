@@ -12,12 +12,14 @@ struct MouseData
 		, LPress( false )
 		, RPress( false )
 		, MPress( false )
+		, Locked( false )
 	{}
 
 	XMFLOAT2 Pos;
 	bool LPress;
 	bool RPress;
 	bool MPress;
+	bool Locked;
 };
 
 class Widget

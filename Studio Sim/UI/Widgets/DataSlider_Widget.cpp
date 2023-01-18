@@ -10,11 +10,12 @@ DataSlider_Widget::DataSlider_Widget()
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
 	int sliderStart = 50;
+	MouseData mouseData = MouseData();
 	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
-	Resolve( sliderStart, texture, texture, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	Resolve( sliderStart, texture, texture, mouseData, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
-DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_spriteBar = std::make_shared<Sprite>();
     m_transformBar = std::make_shared<Transform>( m_spriteBar );
@@ -60,7 +61,7 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_barTexture = barTex;
 	m_sliderTexture = sliderTex;
@@ -91,6 +92,7 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 	{
 		if ( mData.LPress )
 		{
+			mData.Locked = true;
 			m_fPx = mData.Pos.x - pos.x;
 			start = ( m_fPx / size.x ) * 100.0f;
 		}

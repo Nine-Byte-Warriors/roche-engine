@@ -7,7 +7,7 @@ DropDown_Widget::DropDown_Widget()
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
 }
 
-DropDown_Widget::DropDown_Widget( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
+DropDown_Widget::DropDown_Widget( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
 {
 	m_spriteBack = std::make_shared<Sprite>();
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
@@ -72,7 +72,7 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, false );
 }
 
-void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData mData )
+void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
 {
 	m_vListData = ddList;
 	m_vTextColour = textColour;

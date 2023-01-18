@@ -9,10 +9,11 @@ PageSlider_Widget::PageSlider_Widget()
 	m_spriteSlider = std::make_shared<Sprite>();
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
-	Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	MouseData mouseData = MouseData();
+	Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), mouseData, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
-PageSlider_Widget::PageSlider_Widget( Colour barCol, Colour sliderCol, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+PageSlider_Widget::PageSlider_Widget( Colour barCol, Colour sliderCol, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_spriteBar = std::make_shared<Sprite>();
     m_transformBar = std::make_shared<Transform>( m_spriteBar );
@@ -58,7 +59,7 @@ void PageSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_vSize = size;
 	m_vPosition = pos;
@@ -86,7 +87,10 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData mDat
 	   )
 	{
 		if ( mData.LPress )
+		{
+			mData.Locked = true;
 			m_fPY = mData.Pos.y - ( pos.y );
+		}
 	}
 #endif
 

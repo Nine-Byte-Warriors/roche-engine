@@ -25,11 +25,8 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 
 void UIScreen::Update( const float dt )
 {
-	if ( m_bMouseLoad )
-	{
-		m_bMouseLoad = false;
-		m_mouseData.LPress = false;
-	}
+	if ( !m_mouseData.LPress )
+		m_mouseData.Locked = false;
 
 	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
 	XMFLOAT2 pos = { m_vScreenSize.x * 0.025f, m_fCurrentY };
