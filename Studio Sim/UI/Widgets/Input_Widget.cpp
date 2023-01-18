@@ -80,10 +80,10 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 	   )
 	{
 		m_buttonTexture = textures[1];
-		if ( mData.LPress )
+		if ( mData.LPress && !mData.Locked )
 		{
 			EventSystem::Instance()->AddEvent( EVENTID::ClearCharBuffer, this );
-			mData.LPress = false;
+			mData.Locked = true;
 			m_bSelected = true;
 			m_sCurrText = "";
 			keys.clear();

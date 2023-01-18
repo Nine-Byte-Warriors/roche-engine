@@ -56,10 +56,9 @@ private:
 	float m_fCurrentY, m_fCurrentPY;
 
 	// Widget data
-	float m_fPlayerHealth;
-	bool m_bMouseLoad = true;
 	int m_iSliderStart = 50;
 	UINT32 m_uLevelTo = 0;
+	float m_fPlayerHealth;
 
 	// Button state textures
 	std::vector<std::string> m_textures =
