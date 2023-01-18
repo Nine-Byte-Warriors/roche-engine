@@ -1,0 +1,52 @@
+{
+  "Filepath": "../Textures/Onion.png",
+  "Frame Counts": [
+    2,
+    1,
+    1
+  ],
+  "Frame Size": [
+    64,
+    64
+  ],
+  "Walk": [
+    {
+      "Alias": "Onion Running",
+      "Frame Order": [
+        0,
+        1
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "Hit": [
+    {
+      "Alias": "Onion getting hit",
+      "Frame Order": [
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "Death": [
+    {
+      "Alias": "Onion Death",
+      "Frame Order": [
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "Version": "1.5"
+}

@@ -6,7 +6,7 @@ Image_Widget::Image_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
-	Resolve( "Resources\\Textures\\empty.png", { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	Resolve( "Resources\\Textures\\Tiles\\empty.png", { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
 Image_Widget::Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )

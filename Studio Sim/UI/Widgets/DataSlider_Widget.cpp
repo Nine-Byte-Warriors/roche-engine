@@ -10,7 +10,7 @@ DataSlider_Widget::DataSlider_Widget()
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
 	int sliderStart = 50;
-	std::string texture = "Resources\\Textures\\empty.png";
+	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
 	Resolve( sliderStart, texture, texture, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
@@ -50,23 +50,11 @@ void DataSlider_Widget::Update( const float dt )
 void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho )
 {
 	// Bar
-	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
-	m_transformBar->SetScale( m_vSize.x, m_vSize.y );
-	
-	m_spriteBar->SetWidth( m_vSize.x );
-	m_spriteBar->SetHeight( m_vSize.y );
-
 	m_spriteBar->UpdateTex( device, m_barTexture );
 	m_spriteBar->UpdateBuffers( context );
 	m_spriteBar->Draw( m_transformBar->GetWorldMatrix(), worldOrtho );
 
 	// Slider
-	m_transformSlider->SetPosition( ( m_vPosition.x + m_fPx ) - 25.0f / 2.0f, m_vPosition.y + ( 30.0f - ( 30.0f / 0.75f ) ) / 2.0f );
-	m_transformSlider->SetScale( 25.0f, m_vSize.y / 0.75f );
-	
-	m_spriteSlider->SetWidth( 25.0f );
-	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
-
 	m_spriteSlider->UpdateTex( device, m_sliderTexture );
 	m_spriteSlider->UpdateBuffers( context );
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
@@ -92,12 +80,14 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 	m_spriteSlider->SetWidth( 25.0f );
 	m_spriteSlider->SetHeight( m_vSize.y / 0.75f );
 
+#if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
 	if (
 		mData.Pos.x >= pos.x &&
 		mData.Pos.x <= ( pos.x + size.x + 1.0f ) &&
 		mData.Pos.y >= pos.y &&
-		mData.Pos.y <= ( pos.y + size.y ) )
+		mData.Pos.y <= ( pos.y + size.y )
+	   )
 	{
 		if ( mData.LPress )
 		{
@@ -105,6 +95,7 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 			start = ( m_fPx / size.x ) * 100.0f;
 		}
 	}
+#endif
 
 	m_uDataOut = ( m_fPx / size.x ) * 100.0f;
 }
