@@ -1,5 +1,5 @@
 ---
-name: Game feature
+name: "\U0001F3AE Game feature"
 about: Suggest an idea for the game
 title: ''
 labels: game

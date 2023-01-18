@@ -1,5 +1,5 @@
 ---
-name: Engine feature
+name: "\U0001F680 Engine feature"
 about: Suggest an idea for the engine
 title: ''
 labels: engine
