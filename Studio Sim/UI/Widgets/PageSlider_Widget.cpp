@@ -90,5 +90,5 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData mDat
 	}
 #endif
 
-	m_fPagePos = m_fPageSize *( m_fPY / size.y );
+	m_fPagePos = m_fPageSize * ( m_fPY / size.y );
 }

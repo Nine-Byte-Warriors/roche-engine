@@ -3,6 +3,8 @@
 #include "Graphics.h"
 #include <shellapi.h>
 
+#define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
+
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
 {
 	m_cbMatrices = mat;
@@ -30,7 +32,7 @@ void UIScreen::Update( const float dt )
 	}
 
 	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
-	XMFLOAT2 pos = { m_vScreenSize.x * 0.025f, m_vScreenSize.y * 0.1f };
+	XMFLOAT2 pos = { m_vScreenSize.x * 0.025f, m_fCurrentY };
 	float offset = 0.115f;
 
 	// --- Colour Block Widgets ---
@@ -94,7 +96,7 @@ void UIScreen::Update( const float dt )
 	else
 		sValue = "True";
 	m_dropDown.Update( dt );
-	pos = { m_vScreenSize.x * 0.025f, m_vScreenSize.y * 0.2f };
+	pos = { m_vScreenSize.x * 0.025f, m_fCurrentY + ( m_vScreenSize.y * 0.1f ) };
 
 	// --- Input Box Widgets ---
 	m_inputBox.Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, pos, size );
@@ -106,25 +108,33 @@ void UIScreen::Update( const float dt )
 		{ m_vScreenSize.x - 30.0f , m_vScreenSize.y * 0.2f },
 		{ 30.0f, m_vScreenSize.y * 0.6f } );
 	m_pageSlider.Update( dt );
+	m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - m_pageSlider.GetPagePos();
+	if ( m_fCurrentPY != m_pageSlider.GetPY() )
+	{
+		m_fCurrentPY = m_pageSlider.GetPY();
+		m_bLoadFlag = true;
+	}
+
+	// Update render box
+	m_fBoxPos = { 0.0f, m_vScreenSize.y * 0.1f };
+	m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y * 0.6f };
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
-	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-	m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	
-	m_dropDown.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix );
+	RENDER_IF_IN_BOX( m_image.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_image.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+	RENDER_IF_IN_BOX( m_dropDown.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_dropDown.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 
-	m_inputBox.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
+	RENDER_IF_IN_BOX( m_inputBox.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_inputBox.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 	Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 
-	m_energyBar.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	m_dataSlider.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
-	m_colourBlock.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+	RENDER_IF_IN_BOX( m_energyBar.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_energyBar.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+	RENDER_IF_IN_BOX( m_dataSlider.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_dataSlider.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+	RENDER_IF_IN_BOX( m_colourBlock.GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_colourBlock.Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 	for ( unsigned int i = 0; i < ARRAYSIZE( m_buttons ); i++ )
 	{
-		m_buttons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer );
+		RENDER_IF_IN_BOX( m_buttons[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, m_buttons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	}
 

@@ -50,9 +50,15 @@ private:
 	bool m_bOpen = true;
 	bool m_bOpenLink = false;
 
+	// Page slider data
+	bool m_bLoadFlag = true;
+	XMFLOAT2 m_fBoxPos, m_fBoxSize;
+	float m_fCurrentY, m_fCurrentPY;
+
+	// Widget data
+	float m_fPlayerHealth;
 	bool m_bMouseLoad = true;
 	int m_iSliderStart = 50;
-	float m_fPlayerHealth;
 	UINT32 m_uLevelTo = 0;
 
 	// Button state textures

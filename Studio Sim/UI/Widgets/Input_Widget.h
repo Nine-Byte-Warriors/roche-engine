@@ -20,6 +20,9 @@ public:
     void SetCurrentText( std::string text ) noexcept { m_sCurrText = text; }
     std::string GetCurrentText() const noexcept { return m_sCurrText; }
 
+    inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
+    inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+
 private:
     std::string m_sCurrText;
     bool m_bSelected = false;

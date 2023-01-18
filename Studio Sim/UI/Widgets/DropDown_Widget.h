@@ -24,6 +24,9 @@ public:
 	inline void SetCurrent( int selected ) noexcept { m_iSelected = selected; }
 	inline bool GetIsDown() noexcept { if ( m_eDropState == DropState::Down ) { return true; } return false; }
 
+	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBack; }
+	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transformBack; }
+
 private:
 	int m_iFlag;
 	int m_iFlagMax = 20;
