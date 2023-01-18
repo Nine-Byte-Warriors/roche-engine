@@ -9,7 +9,6 @@ void Level1::OnCreate()
 {
 	try
 	{
-
 		// Initialize constant buffers
 		HRESULT hr = m_cbMatrices.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
@@ -18,6 +17,8 @@ void Level1::OnCreate()
         m_player.Initialize( *m_gfx, m_cbMatrices );
         m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
         m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
+
+        OnCreateEntity();
 
         // Initialize enemies
         m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
@@ -45,6 +46,25 @@ void Level1::OnCreate()
 		ErrorLogger::Log( exception );
         return;
 	}
+}
+
+void Level1::OnCreateEntity()
+{
+    m_iEntityAmount = m_entityController.GetSize();
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        Entity *entityPop = new Entity(m_entityController, i);
+        m_entity.push_back(*entityPop);
+
+        m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+
+        delete entityPop;
+    }
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+    }
 }
 
 void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
@@ -114,12 +134,24 @@ void Level1::RenderFrame()
     RenderFrameTileMap(m_tileMapDrawBackground);
     RenderFrameTileMap(m_tileMapDrawForeground);
 
+    RenderFrameEntity();
+
     m_player.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
     m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
     m_player.GetProjectileManager()->Draw( m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix() );
 
     m_enemy.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
+}
+
+void Level1::RenderFrameEntity()
+{
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+        m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+        m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+    }
 }
 
 void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
@@ -184,6 +216,7 @@ void Level1::EndFrame()
     m_tileMapEditor->SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
     
@@ -200,11 +233,21 @@ void Level1::Update( const float dt )
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
 
+    UpdateEntity(dt);
+
     m_player.Update( dt );
     m_enemy.Update( dt );
     m_ui->Update( dt );
 
     m_collisionHandler.Update();
+}
+
+void Level1::UpdateEntity(const float dt)
+{
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].Update(dt);
+    }
 }
 
 void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
