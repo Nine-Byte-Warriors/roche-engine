@@ -67,15 +67,15 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mDa
 	m_barColour = barCol;
 	m_sliderColour = sliderCol;
 
-	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
-	m_transformBar->SetScale( m_vSize.x, m_vSize.y + 85.0f );
-	m_spriteBar->SetWidth( m_vSize.x );
-	m_spriteBar->SetHeight( m_vSize.y + 85.0f );
-
-	m_transformSlider->SetPosition( m_vPosition.x, m_vPosition.y + m_fPY );
 	m_transformSlider->SetScale( m_vSize.x, m_vSize.y * 0.2f );
 	m_spriteSlider->SetWidth( m_vSize.x );
 	m_spriteSlider->SetHeight( m_vSize.y * 0.2f );
+	m_transformSlider->SetPosition( m_vPosition.x, m_vPosition.y + m_fPY - ( m_spriteSlider->GetHeight() / 2.0f ) );
+
+	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y - ( m_spriteSlider->GetHeight() / 2.0f ) );
+	m_transformBar->SetScale( m_vSize.x, m_vSize.y + 85.0f );
+	m_spriteBar->SetWidth( m_vSize.x );
+	m_spriteBar->SetHeight( m_vSize.y + 85.0f );
 
 #if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
