@@ -1,0 +1,20 @@
+[
+	"Manager": {
+		"m_sTexture": "Resources\\Textures\\Base_Projectile.png",
+		"m_iCount": 27,
+		"m_fDelay": 0,
+		
+        "m_sID": "Default",
+        "m_sName": "Default",
+		
+		"Projectiles" : [	
+			{
+				"m_fAngle": 0.0,
+				"m_fLifeTime": 344.7900085449219,
+				"m_fSpeed": 10.0,
+				"m_fX": 37.5,
+				"m_fY": 0.0,				
+			}
+		],
+	}
+]
