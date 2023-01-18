@@ -18,6 +18,8 @@ public:
     void Resolve( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size );
 
 	int GetCurrentPercent() const noexcept{ return m_iCurrentPercent; }
+    inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBack; }
+    inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transformBack; }
 
 private:
     int m_iCurrentPercent;

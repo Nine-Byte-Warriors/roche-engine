@@ -19,6 +19,7 @@ private:
 	void UpdateKeyboard( const float dt );
 	void AddToEvent() noexcept;
 	float* m_fPlayerHealth;
+	std::string m_sKeys;
 };
 
 #endif

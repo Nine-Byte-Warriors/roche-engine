@@ -30,7 +30,7 @@ void Level1::OnCreate()
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
-        m_textRenderer.Initialize( "open_sans_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
+        m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
         m_uiScreen = std::make_shared<UIScreen>();
 
         // Initialize TileMap
@@ -82,7 +82,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     {
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\empty.png");
+        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\Tiles\\empty.png");
 
         if (i != 0)
         {
@@ -270,7 +270,7 @@ void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw
             {
                 tileMapDraw[i].Update(dt);
 
-                std::string texture = "Resources\\Textures\\";
+                std::string texture = "Resources\\Textures\\Tiles\\";
                 texture += m_tileMapEditor->GetTileTypeName(i, tileMapLayer);
                 texture += ".png";
 
@@ -284,7 +284,7 @@ void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw
             {
                 tileMapDraw[i].Update(dt);
 
-                std::string texture = "Resources\\Textures\\100transparent.png";
+                std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
 
                 tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
             }
