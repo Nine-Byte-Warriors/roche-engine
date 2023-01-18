@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Engine feature
+about: Suggest an idea for the engine
 title: ''
-labels: ''
+labels: engine
 assignees: ''
 
 ---
