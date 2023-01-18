@@ -18,6 +18,8 @@ public:
 	void Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size );
 
 	uint32_t GetData() const noexcept { return m_uDataOut; }
+	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBar; }
+	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transformBar; }
 
 private:
 	float m_fPx = 0.0f;

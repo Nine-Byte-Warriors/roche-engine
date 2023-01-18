@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
-#include "TextRenderer.h"
 
 Button_Widget::Button_Widget()
 {    
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
-    std::string texture = "Resources\\Textures\\empty.png";
+    std::string texture = "Resources\\Textures\\Tiles\\empty.png";
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::Black, buttonTextures, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+    Resolve( "Default", Colors::White, buttonTextures, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
 Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
@@ -18,7 +17,7 @@ Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2
 	m_transform = std::make_shared<Transform>( m_sprite );
 
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::Black, buttonTextures, {}, pos, size );
+    Resolve( "Default", Colors::White, buttonTextures, {}, pos, size );
 }
 
 Button_Widget::~Button_Widget() { }
@@ -68,14 +67,14 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     m_sprite->SetWidth( m_vSize.x );
     m_sprite->SetHeight( m_vSize.y );
 
+    m_buttonState = ButtonState::Default;
 #if !_DEBUG // not updated for imgui mouse positions
     // Button collison
-    m_buttonState = ButtonState::Default;
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
         mData.Pos.y >= m_transform->GetPosition().y &&
-        mData.Pos.y <= ( m_transform->GetPosition().y + m_transform->GetScale().y )
+        mData.Pos.y <= ( m_transform->GetPosition().y + ( m_transform->GetScale().y ) )
        )
     {
     	if ( mData.LPress )
