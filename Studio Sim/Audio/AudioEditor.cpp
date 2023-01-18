@@ -2,11 +2,13 @@
 #include "AudioEditor.h"
 
 AudioEditor::AudioEditor() {
+#if _DEBUG
 	m_iDefaultVolume = 1.0f;
 	m_iActiveSoundBank = MUSIC;
 	m_bChangedSoundBankType = false;
 	m_selectedSoundBankFile = AudioEngine::GetInstance()->GetSoundBank(MUSIC)->at(1);
 	m_iDefaultVolume = AudioEngine::GetInstance()->GetSoundBank(MUSIC)->at(1)->volume;
+#endif // DEBUG
 }
 
 #if _DEBUG

@@ -318,23 +318,20 @@
     <ClCompile Include="Audio\VoiceCallback.cpp">
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions\CollisionHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Entity.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\EntityEditor.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="EntityController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Components\EntityController.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CollisionHandler.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
+      <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -599,15 +596,6 @@
     <ClInclude Include="Utility\Helper\JsonLoading.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions\CollisionHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Collisions\Rect2f.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\Collider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Components\ProjectileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -617,11 +605,17 @@
     <ClInclude Include="Components\EntityEditor.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EntityController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Components\EntityController.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CollisionHandler.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Collider.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Rect2f.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
