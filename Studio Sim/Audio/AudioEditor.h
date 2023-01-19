@@ -6,6 +6,7 @@
 
 #if _DEBUG
 #include <imgui/imgui.h>
+#include <FileLoading.h>
 #endif
 
 class AudioEditor
@@ -57,9 +58,9 @@ private:
 	//bool m_bDeleteButton;
 
 	// Saving/Loading fields ----- to be done
-	//std::wstring m_sSelectedFile = L"LoadFile.txt";
-	//std::wstring m_sFilePath = L"";
-	//std::wstring m_sFileContent = L"";
+	std::wstring m_sSelectedFile = L"LoadFile.json";
+	std::wstring m_sFilePath = L"";
+	std::wstring m_sFileContent = L"";
 
 	// Save/Load controls
 	//bool m_bSaveButton;
