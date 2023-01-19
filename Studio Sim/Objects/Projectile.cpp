@@ -41,7 +41,6 @@ void Projectile::Update(const float dt)
 	m_fLifeTime -= dt;
 
 	if (!m_bFixedDirection)
-		//m_vDirection.Add(Vector2f(m_fAngle).Normalised());
 	{
 		Vector2f vDirectionOffSet = CalcWaveVector(m_fAngle, m_fLifeTime, dt);
 		m_vDirection = m_vDirection.Add(vDirectionOffSet);
