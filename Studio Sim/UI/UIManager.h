@@ -14,7 +14,7 @@ public:
 	UIManager() { AddToEvent(); }
 	~UIManager() { RemoveAllUI(); RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<Widget>>& widgets );
 	void Update( const float dt );
 	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 

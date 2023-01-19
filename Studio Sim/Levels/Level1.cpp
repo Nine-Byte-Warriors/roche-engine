@@ -31,7 +31,6 @@ void Level1::OnCreate()
 
         // Initialize systems
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
-        m_uiScreen = std::make_shared<UIScreen>();
 
         // Initialize TileMap
         OnCreateTileMap(m_tileMapDrawBackground);
@@ -117,8 +116,9 @@ void Level1::OnSwitch()
     // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     m_ui->RemoveAllUI();
-	m_ui->AddUI( m_uiScreen, "Level1" );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices );
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
 }
 
 void Level1::BeginFrame()
@@ -169,13 +169,6 @@ void Level1::EndFrame()
     m_ui->Draw(
         m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
         m_camera.GetWorldOrthoMatrix(), &m_textRenderer
-    );
-
-	// Render text
-    m_textRenderer.RenderString(
-        "This is example text.",
-        XMFLOAT2( m_gfx->GetWidth() * 0.5f, m_gfx->GetHeight() * 0.96f ),
-        Colors::Green, true
     );
 
     // Render scene to texture

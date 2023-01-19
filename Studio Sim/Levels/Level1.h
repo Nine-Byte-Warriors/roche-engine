@@ -55,7 +55,7 @@ private:
 	Player m_player;
 	
 	UIEditor m_uiEditor;
-	std::shared_ptr<UIScreen> m_uiScreen;
+	//std::shared_ptr<UIScreen> m_uiScreen;
 
 	CollisionHandler m_collisionHandler;
 	ConstantBuffer<Matrices> m_cbMatrices;

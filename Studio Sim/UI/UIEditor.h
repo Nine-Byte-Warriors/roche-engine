@@ -6,21 +6,21 @@ class Graphics;
 #include "UIScreen.h"
 #include "JsonLoading.h"
 
-struct UIScreenList
+struct UIScreenData
 {
 	std::string name;
 	std::string file;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIScreenList, name, file )
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIScreenData, name, file )
 
-struct UIScreenData
+struct UIWidgetData
 {
 	std::string name;
 	std::string type;
 	std::vector<float> position;
 	std::vector<float> scale;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIScreenData, name, type, position, scale )
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIWidgetData, name, type, position, scale )
 
 class UIEditor
 {
@@ -31,21 +31,37 @@ public:
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
 	void SortScreens();
+
 #if _DEBUG
 	void SaveToFile_Screens();
 	void SaveToFile_Widgets();
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
+	
+	inline std::vector<UIScreenData> GetScreenData() const noexcept { return m_vUIScreenData; }
+	inline std::map<std::string, std::vector<UIWidgetData>> GetWidgetData() const noexcept { return m_vUIWidgetData; }
+
+	inline std::vector<std::vector<Widget>> GetWidgets() const noexcept { return m_vUIWidgets; }
+	inline std::vector<std::shared_ptr<UIScreen>> GetScreens() const noexcept { return m_vUIScreens; }
+
 private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
 
 	std::string m_sJsonFile = "Main Menu.json";
-	std::vector<std::string> m_vUITypes = { "Colour", "Button", "Image", "Data Slider", "Page Slider", "Energy Bar", "Input" };
+	const std::vector<std::string> m_vUITypes =
+	{
+		"Button", "Colour",
+		"Data Slider", "Energy Bar",
+		"Image", "Input", "Page Slider"
+	};
 	
-	std::vector<UIScreenList> m_vUIScreenList; // list of UI screens
-	std::map<std::string, std::vector<UIScreenData>> m_vUIScreenData; // list of UI components for a given screen
+	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen
+	std::vector<std::shared_ptr<UIScreen>> m_vUIScreens; // list of UI screen objects
+
+	std::vector<UIScreenData> m_vUIScreenData; // list of UI screen data
+	std::map<std::string, std::vector<UIWidgetData>> m_vUIWidgetData; // list of UI components for a given screen
 };
 
 #endif

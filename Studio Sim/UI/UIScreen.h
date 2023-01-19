@@ -14,35 +14,25 @@ public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets );
 	void Update( const float dt );
 	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
-	inline void SetCB( ConstantBuffer<Matrices>* mat ) noexcept { m_cbMatrices = mat; }
+	inline void SetWidgets( const std::vector<Widget>& widgets ) noexcept { m_vWidgets = widgets; }
 	inline void SetScreenSize( XMFLOAT2 size ) noexcept { m_vScreenSize = size; }
 	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 private:
-	// Main Menu
-	Image_Widget m_image;
-	Input_Widget m_inputBox;
-	Button_Widget m_buttons[3];
-	DropDown_Widget m_dropDown;
-	EnergyBar_Widget m_energyBar;
-	DataSlider_Widget m_dataSlider;
-	PageSlider_Widget m_pageSlider;
-	ColourBlock_Widget m_colourBlock;
-
 	// Inputs
 	MouseData m_mouseData;
 	std::string m_sKeys;
 
 	// Graphics
 	XMFLOAT2 m_vScreenSize;
+	std::vector<Widget> m_vWidgets;
 	ConstantBuffer<Matrices>* m_cbMatrices;
-
 	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;
 	
@@ -52,6 +42,7 @@ private:
 
 	// Page slider data
 	bool m_bLoadFlag = true;
+	bool m_bUpdateSlider = false;
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY, m_fCurrentPY;
 
