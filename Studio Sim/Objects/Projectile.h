@@ -24,12 +24,20 @@ public:
 	inline void SetLifeTime(const float fLifeTime) noexcept { m_fLifeTime = fLifeTime; }
 	inline void SetDirection(const Vector2f vDirection) noexcept { m_vDirection = vDirection; }
 	inline void SetOffSet(const Vector2f vOffSet) noexcept { m_vOffSet = vOffSet; }
+	inline void SetWaveAngle(const float vAngle) noexcept { m_bFixedDirection = false; m_fAngle = vAngle; }
 	inline bool IsAlive() const noexcept { return m_fLifeTime > 0.0f; }
 	
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	
 private:
+	inline Vector2f CalcWaveVector(const float fPeak, const float fCycles, const float fDelta) noexcept {
+		return Vector2f(
+			fPeak * sinf(AI_MATH_TWO_PI_F * fCycles * fDelta),
+			fPeak * cosf(AI_MATH_TWO_PI_F * fCycles * fDelta)
+		);
+	}
+
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
@@ -41,6 +49,9 @@ private:
 	Vector2f m_vTargetPosition;
 	Vector2f m_vDirection;
 	Vector2f m_vOffSet;
+
+	bool m_bFixedDirection;
+	float m_fAngle;
 };
 
 #endif // !PROJECTILE_H

@@ -10,9 +10,10 @@ namespace ProjectileData {
 		float m_fAngle;
 		float m_fX;
 		float m_fY;
+		float m_fWaveAngle;
 		//onDeathEvent or endOfLifeTimeEvent
 	};
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_fSpeed, m_fLifeTime, m_fAngle, m_fX, m_fY);
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_fSpeed, m_fLifeTime, m_fAngle, m_fX, m_fY, m_fWaveAngle);
 	
 	struct ManagerJSON
 	{

@@ -11,6 +11,8 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 
 	m_fSpeed = fSpeed;
 	m_fMaxLifeTime = fLifeTime;
+
+	m_bFixedDirection = true;
 	
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
@@ -37,6 +39,14 @@ void Projectile::Update(const float dt)
 		return;
 	
 	m_fLifeTime -= dt;
+
+	if (!m_bFixedDirection)
+		//m_vDirection.Add(Vector2f(m_fAngle).Normalised());
+	{
+		Vector2f vDirectionOffSet = CalcWaveVector(m_fAngle, m_fLifeTime, dt);
+		m_vDirection = m_vDirection.Add(vDirectionOffSet);
+		m_vDirection = m_vDirection.Normalised();
+	}
 
 	m_sprite->Update(dt);
 	m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));

@@ -55,7 +55,6 @@ void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Mat
 		ShowPattern();
 
 		TestButtons(gfx, mat);
-		//SpawnPattern();
 	}
 	ImGui::End();
 }
@@ -72,14 +71,9 @@ void ProjectileEditor::LoadPattern()
 		return;
 	
 	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-	{
-		//m_vecProjectiles.clear();
 		JsonLoading::LoadJson(m_vecManagers, m_sFilePath);
-	}
 	else
-	{
 		m_sSelectedFile = "Open File Failed";
-	}
 }
 
 void ProjectileEditor::SavePattern()
@@ -96,11 +90,7 @@ void ProjectileEditor::SavePattern()
 		return;
 
 	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-	{
 		JsonLoading::SaveJson(m_vecManagers, m_sFilePath);
-		//JsonLoading::SaveJson(m_vecProjectiles, m_sFilePath);
-		//SaveProjectile();
-	}
 }
 
 void ProjectileEditor::SpawnPosition(Vector2f vWinMax)
@@ -135,6 +125,7 @@ void ProjectileEditor::ShowPattern()
 		blankProjectile.m_fAngle = 0.0f;
 		blankProjectile.m_fX = 0.0f;
 		blankProjectile.m_fY = 0.0f;
+		blankProjectile.m_fWaveAngle = 0.0f;
 		
 		manager.m_vecProjectiles.push_back(blankProjectile);
 		m_vecManagers.push_back(manager);
@@ -208,15 +199,15 @@ void ProjectileEditor::ShowPattern()
 					ImGui::Text(msg.c_str());
 					ImGui::SliderFloat(
 						std::string("Speed##Man")
-						.append(std::to_string(iManIndex))
-						.append("Pro")
-						.append(std::to_string(iProIndex))
-						.c_str(), 
+							.append(std::to_string(iManIndex))
+							.append("Pro")
+							.append(std::to_string(iProIndex))
+							.c_str(), 
 						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fSpeed,
 						0.0f, 100.0f, "%0.2f");
 
 
-					msg = "Angle: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
+					msg = "Heading Angle: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
 					ImGui::SliderAngle(
 						std::string("Angle##Man")
 							.append(std::to_string(iManIndex))
@@ -224,6 +215,16 @@ void ProjectileEditor::ShowPattern()
 							.append(std::to_string(iProIndex))
 							.c_str(),
 						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
+
+					msg = "Traveling Angle Adjustment: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fWaveAngle);
+					ImGui::DragFloat(
+						std::string("Wave##Man")
+							.append(std::to_string(iManIndex))
+							.append("Pro")
+							.append(std::to_string(iProIndex))
+							.c_str(),
+						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fWaveAngle,
+						0.1f, -360.0f, 360.0f, "%.2f");
 
 					ImGui::TreePop();
 				}
@@ -262,6 +263,8 @@ std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(
 		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+		if (pJson.m_fWaveAngle != 0.0f)
+			pProjectile->SetWaveAngle(pJson.m_fWaveAngle);
 
 		vecProjectilePool.push_back(std::move(pProjectile));
 	}
