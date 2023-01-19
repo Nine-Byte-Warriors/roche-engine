@@ -128,9 +128,7 @@ void ProjectileEditor::ShowPattern()
 			ImGui::Text(msg.c_str());
 
 			ImGui::Text(std::string("Count: ").append(std::to_string(m_vecManagers[iManIndex].m_vecProjectiles.size())).c_str());
-			if (ImGui::Button("Add Projectile"))
-				m_vecManagers[iManIndex].m_vecProjectiles.push_back(ProjectileData::ProjectileJSON());
-
+			
 			ImGui::Text(std::string("Delay: ").append(std::to_string(m_vecManagers[iManIndex].m_fDelay)).c_str());
 			ImGui::SliderFloat(
 				std::string("Delay##").append(std::to_string(iManIndex)).c_str(),
@@ -214,6 +212,9 @@ void ProjectileEditor::ShowPattern()
 					ImGui::TreePop();
 				}
 			}
+
+			if (ImGui::Button("Add Projectile"))
+				m_vecManagers[iManIndex].m_vecProjectiles.push_back(CreateDefaultProjectile());
 		}
 	}
 }
@@ -278,7 +279,15 @@ ProjectileData::ManagerJSON ProjectileEditor::CreateDefaultManager()
 	manager.m_fDelay = 0.0f;
 	manager.m_iCount = 1;
 
+	manager.m_vecProjectiles.push_back(CreateDefaultProjectile());
+	
+	return manager;
+}
+
+ProjectileData::ProjectileJSON ProjectileEditor::CreateDefaultProjectile()
+{
 	ProjectileData::ProjectileJSON blankProjectile;
+
 	blankProjectile.m_fSpeed = 10.0f;
 	blankProjectile.m_fLifeTime = 100;
 	blankProjectile.m_fAngle = 0.0f;
@@ -286,8 +295,7 @@ ProjectileData::ManagerJSON ProjectileEditor::CreateDefaultManager()
 	blankProjectile.m_fY = 0.0f;
 	blankProjectile.m_fWaveAngle = 0.0f;
 
-	manager.m_vecProjectiles.push_back(blankProjectile);
-	return manager;
+	return blankProjectile;
 }
 
 void ProjectileEditor::AddToEvent() noexcept
