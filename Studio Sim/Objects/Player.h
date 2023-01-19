@@ -24,8 +24,9 @@ public:
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_pProjectileManager; }
+	//inline Vector2f GetPosition() const noexcept { return Vector2f(GetTransform()->x) }
 private:
-	Vector2f* m_vPlayerPos;
+	std::shared_ptr <Vector2f> m_vPlayerPos;
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;

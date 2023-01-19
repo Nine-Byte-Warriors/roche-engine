@@ -23,6 +23,7 @@ public:
 	inline void SetSpeed(const float fSpeed) noexcept { m_fSpeed = fSpeed; }
 	inline void SetLifeTime(const float fLifeTime) noexcept { m_fLifeTime = fLifeTime; }
 	inline void SetDirection(const Vector2f vDirection) noexcept { m_vDirection = vDirection; }
+	inline void SetOffSet(const Vector2f vOffSet) noexcept { m_vOffSet = vOffSet; }
 	inline bool IsAlive() const noexcept { return m_fLifeTime > 0.0f; }
 	
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
@@ -35,9 +36,11 @@ private:
 	
 	float m_fSpeed;
 	float m_fLifeTime;
+	float m_fMaxLifeTime;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	Vector2f m_vDirection;
+	Vector2f m_vOffSet;
 };
 
 #endif // !PROJECTILE_H

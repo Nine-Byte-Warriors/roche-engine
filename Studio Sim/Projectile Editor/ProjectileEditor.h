@@ -25,10 +25,11 @@ public:
 private:
 	void LoadPattern();
 	void SavePattern();
-
+	void SpawnPosition(Vector2f vWinMax);
 	void ShowPattern();
 	
 	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 	
 	void SaveProjectile();
 	void LoadProjectile();
@@ -38,6 +39,7 @@ private:
 	void SpawnPattern();
 
 	bool m_bSaveButton;
+	bool m_bMidPosSet;
 	std::string m_sSelectedFile;
 	std::string m_sFilePath;
 	std::string m_sFileContent;

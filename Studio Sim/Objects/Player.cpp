@@ -8,7 +8,7 @@
 
 Player::Player()
 {
-	m_vPlayerPos = new Vector2f();
+	m_vPlayerPos = std::make_shared<Vector2f>();
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
@@ -29,9 +29,17 @@ void Player::Update( const float dt )
 	m_transform->Update();
 	m_pProjectileManager->Update( dt );
 
-	m_vPlayerPos->x = m_transform->GetPosition().x;
-	m_vPlayerPos->y = m_transform->GetPosition().y;
-	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos );
+	m_vPlayerPos = std::make_shared<Vector2f>(m_transform->GetPosition());
+	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos.get());
+
+
+	//m_vPlayerPos = static_cast<std::shared_ptr<Vector2f>>(m_transform->GetPosition());
+	//m_vPlayerPos = static_cast<Vector2f>(m_transform->GetPosition());
+	//Vector2f vPlayerPos = m_transform->GetPosition();
+	//m_vPlayerPos = vPlayerPos;
+
+	//EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, m_transform->GetPosition());
+
 }
 
 #if _DEBUG

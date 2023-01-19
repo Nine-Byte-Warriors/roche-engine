@@ -2,6 +2,8 @@
 #include "ProjectileEditor.h"
 #include "FileLoading.h"
 
+#include "Graphics.h"	// TODO: Remove this as shouldn't need this here!
+
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif // _DEBUG
@@ -13,6 +15,7 @@ ProjectileEditor::ProjectileEditor() :
 	m_sFileContent(""),
 	m_sFilePath(""),
 	m_iProjectileCount(0),
+	m_bMidPosSet(false),
 	m_vSpawnPosition(Vector2f())
 {
 	//m_vecProjectileManager.push_back(std::make_shared<ProjectileManager>());
@@ -45,10 +48,14 @@ void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Mat
 		LoadPattern();
 		SavePattern();
 
+		ImGui::Separator();
+		SpawnPosition(Vector2f(gfx.GetWidth(), gfx.GetHeight()));
+
+		ImGui::Separator();
 		ShowPattern();
 
 		TestButtons(gfx, mat);
-		SpawnPattern();
+		//SpawnPattern();
 	}
 	ImGui::End();
 }
@@ -96,6 +103,19 @@ void ProjectileEditor::SavePattern()
 	}
 }
 
+void ProjectileEditor::SpawnPosition(Vector2f vWinMax)
+{
+	if (!m_bMidPosSet)
+	{
+		m_vSpawnPosition = Vector2f(vWinMax.x / 2, vWinMax.y / 2);
+		m_bMidPosSet = true;
+	}
+
+	ImGui::Text("Spawn Position");
+	ImGui::DragFloat("SpawnPosition-X", &m_vSpawnPosition.x, 1.0f, 0.0f, vWinMax.x, "%.1f");
+	ImGui::DragFloat("SpawnPosition-Y", &m_vSpawnPosition.y, 1.0f, 0.0f, vWinMax.y, "%.1f");
+}
+
 void ProjectileEditor::ShowPattern()
 {
 	std::string msg;
@@ -131,13 +151,9 @@ void ProjectileEditor::ShowPattern()
 			msg = "ID: " + m_vecManagers[iManIndex].m_sID;
 			ImGui::Text(msg.c_str());
 
-			ImGui::Text(std::string("Count: ").append(std::to_string(m_vecManagers[iManIndex].m_iCount)).c_str());
-			ImGui::SliderInt(
-				std::string("Count##").append(std::to_string(iManIndex)).c_str(),
-				&m_vecManagers[iManIndex].m_iCount,
-				0,
-				100
-			);
+			ImGui::Text(std::string("Count: ").append(std::to_string(m_vecManagers[iManIndex].m_vecProjectiles.size())).c_str());
+			if (ImGui::Button("Add Projectile"))
+				m_vecManagers[iManIndex].m_vecProjectiles.push_back(ProjectileData::ProjectileJSON());
 
 			ImGui::Text(std::string("Delay: ").append(std::to_string(m_vecManagers[iManIndex].m_fDelay)).c_str());
 			ImGui::SliderFloat(
@@ -227,12 +243,30 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 
 	for (int i = 0; i < m_vecManagers.size(); i++)
 	{
-		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
-		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath, m_vecManagers[i].m_iCount);
+		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
+		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
+		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
 
-		m_vecProjectileManager.push_back(pManager);
+		m_vecProjectileManager.push_back(std::move(pManager)); 
+	}	
+
+	SpawnPattern();
+}
+
+std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+{
+	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
+
+	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
+	{
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
+		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+
+		vecProjectilePool.push_back(std::move(pProjectile));
 	}
 
+	return vecProjectilePool;
 }
 
 void ProjectileEditor::SaveProjectile()
@@ -243,16 +277,7 @@ void ProjectileEditor::SaveProjectile()
 void ProjectileEditor::SpawnPattern()
 {
 	for (std::shared_ptr<ProjectileManager> manager : m_vecProjectileManager)
-		manager->SpawnProjectiles();
-	
-	/*if (m_vecProjectiles.size() < 1)
-		return;
-
-	for (ProjectileData::ProjectileJSON projectile : m_vecProjectiles)
-	{
-		Vector2f vSpawnPosition = Vector2f(projectile.m_fX, projectile.m_fY);
-		m_pProjectileManager->SpawnProjectile(vSpawnPosition, projectile.m_fAngle);
-	}*/
+		manager->SpawnProjectiles(m_vSpawnPosition);
 }
 
 void ProjectileEditor::AddToEvent() noexcept
@@ -279,4 +304,4 @@ void ProjectileEditor::HandleEvent(Event* event)
 		break;
 	}
 }
-#endif
+#endif // _DEBUG

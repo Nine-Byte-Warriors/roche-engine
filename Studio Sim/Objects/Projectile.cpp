@@ -4,8 +4,13 @@
 
 Projectile::Projectile(float fSpeed, float fLifeTime)
 {
+	m_vSpawnPosition = Vector2f();
+	m_vTargetPosition = Vector2f();
+	m_vDirection = Vector2f();
+	m_vOffSet = Vector2f();
+
 	m_fSpeed = fSpeed;
-	m_fLifeTime = fLifeTime;
+	m_fMaxLifeTime = fLifeTime;
 	
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
@@ -63,9 +68,9 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPositi
 
 void Projectile::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
-	m_fLifeTime = fLifeTime;
+	m_fLifeTime = fLifeTime <= 0.0f	? m_fMaxLifeTime : fLifeTime;
 
-	m_transform->SetPosition(vSpawnPosition);
+	m_transform->SetPosition(vSpawnPosition.Add(m_vOffSet));
 
 	m_physics->ResetForces();
 }
