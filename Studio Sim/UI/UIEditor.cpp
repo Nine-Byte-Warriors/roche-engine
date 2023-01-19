@@ -11,19 +11,36 @@
 #endif
 
 #define FOLDER_PATH "Resources\\UI\\"
+#define FOLDER_PATH_SCREENS "Resources\\UI\\Screens\\"
 
 UIEditor::UIEditor()
 {
-	LoadFromFile();
+	LoadFromFile_Screens();
+	LoadFromFile_Widgets();
 }
 
 UIEditor::~UIEditor() { }
 
-void UIEditor::LoadFromFile()
+void UIEditor::LoadFromFile_Screens()
 {
 	// Load UI screens
 	JsonLoading::LoadJson( m_vUIScreenList, FOLDER_PATH + m_sJsonFile );
+	SortScreens();
+}
 
+void UIEditor::LoadFromFile_Widgets()
+{
+	// Load screen widgets
+	for ( unsigned int i = 0; i < m_vUIScreenList.size(); i++ )
+	{
+		std::vector<UIScreenData> screenData;
+		JsonLoading::LoadJson( screenData, FOLDER_PATH_SCREENS + m_vUIScreenList[i].file );
+		m_vUIScreenData.emplace( m_vUIScreenList[i].name, screenData );
+	}
+}
+
+void UIEditor::SortScreens()
+{
 	// Sort screens by name for ImGui
 	std::vector<std::string> screenNames;
 	for ( unsigned int i = 0; i < m_vUIScreenList.size(); i++ )
@@ -41,14 +58,6 @@ void UIEditor::LoadFromFile()
 		}
 	}
 	m_vUIScreenList = tempScreenList;
-
-	// Load screen widgets
-	for ( unsigned int i = 0; i < m_vUIScreenList.size(); i++ )
-	{
-		std::vector<UIScreenData> screenData;
-		JsonLoading::LoadJson( screenData, FOLDER_PATH + m_vUIScreenList[i].file );
-		m_vUIScreenData.emplace( m_vUIScreenList[i].name, screenData );
-	}
 }
 
 #if _DEBUG
@@ -65,7 +74,7 @@ void UIEditor::SaveToFile_Widgets()
 		{
 			if ( m_vUIScreenList[i].name == it->first )
 			{
-				JsonLoading::SaveJson( it->second, FOLDER_PATH + m_vUIScreenList[i].file );
+				JsonLoading::SaveJson( it->second, FOLDER_PATH_SCREENS + m_vUIScreenList[i].file );
 			}
 		}
 	}
@@ -112,10 +121,10 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 		{
 			// List of all UI screens currently defined
 			ImGui::Text( "UI Screen List" );
-			if ( ImGui::BeginListBox( "##UI Screen List", ImVec2( -FLT_MIN, m_vUIScreenData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
+			if ( ImGui::BeginListBox( "##UI Screen List", ImVec2( -FLT_MIN, m_vUIScreenList.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
 			{
 				int index = 0;
-				for ( auto const& [key, value] : m_vUIScreenData )
+				for ( auto const& [key, value] : m_vUIScreenList )
 				{
 					const bool isSelected = ( currentScreenIdx == index );
 					if ( ImGui::Selectable( key.c_str(), isSelected ) )
@@ -156,14 +165,28 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				ImGui::SameLine();
 				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenList[currentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
+				{
 					if ( FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ) )
-						m_vUIScreenList[currentScreenIdx].file = FOLDER_PATH + m_sSelectedFile;
+					{
+						m_vUIScreenList[currentScreenIdx].file = m_sSelectedFile;
+						std::string type = ".json";
+						std::string::size_type idx = m_sSelectedFile.find( type );
+						if ( idx != std::string::npos )
+							m_sSelectedFile.erase( idx, type.length() );
+						m_vUIScreenList[currentScreenIdx].name = m_sSelectedFile;
+
+						SortScreens();
+						LoadFromFile_Widgets();
+					}
+				}
 				ImGui::NewLine();
 
 				// Add/remove screens
 				if ( ImGui::Button( "Add New Screen" ) )
 				{
-					m_vUIScreenList.push_back( UIScreenList( { "Blank Screen", std::string( FOLDER_PATH ).append( "MainMenu.json" ) } ) );
+					static int screenIdx = 0;
+					std::string screenName = "Blank Screen " + std::to_string( screenIdx );
+					m_vUIScreenList.push_back( UIScreenList( { screenName, std::string( screenName ).append( ".json" ) } ) );
 					currentScreenIdx -= m_vUIScreenList.size() - 1;
 				}
 				ImGui::SameLine();
@@ -172,6 +195,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					if ( m_vUIScreenList.size() > 1 )
 					{
 						m_vUIScreenList.erase( m_vUIScreenList.begin() + currentScreenIdx );
+						m_vUIScreenList.shrink_to_fit();
 						currentScreenIdx -= 1;
 					}
 				}
@@ -184,7 +208,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 			// Edit UI components for each screen
 			int index = 0;
-			for ( auto& [key, value] : m_vUIScreenData ) // loop each screen
+			for ( auto& [key, value] : m_vUIScreenData ) // loop each screens data struct
 			{
 				if ( index == currentScreenIdx )
 				{
@@ -250,7 +274,12 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::NewLine();
 
 							// Remove the current widget?
-
+							if ( ImGui::Button( "Remove Widget" ) )
+							{
+								value.erase( value.begin() + i );
+								value.shrink_to_fit();
+							}
+							ImGui::NewLine();
 
 							ImGui::TreePop();
 						}
@@ -260,7 +289,18 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 			}
 
 			// Add a new widget
-
+			if ( ImGui::Button( "Add New Widget" ) )
+			{
+				std::string screenName = m_vUIScreenList[currentScreenIdx].name;
+				for ( auto& [key, value] : m_vUIScreenData )
+				{
+					if ( key == screenName )
+					{
+						static int widgetIdx = 0;
+						value.push_back( UIScreenData( "Blank Widget " + std::to_string( widgetIdx ), "Image", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+					}
+				}
+			}
 		}
 	}
 	ImGui::End();

@@ -1,15 +1,15 @@
 [
     {
-        "file": "Credits.json",
-        "name": "Credits"
+        "file": "Pause.json",
+        "name": "Pause"
     },
     {
         "file": "HUD.json",
         "name": "HUD"
     },
     {
-        "file": "MainMenu.json",
-        "name": "Main Menu"
+        "file": "Menu.json",
+        "name": "Menu"
     },
     {
         "file": "Settings.json",

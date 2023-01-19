@@ -28,7 +28,9 @@ public:
 	UIEditor();
 	~UIEditor();
 
-	void LoadFromFile();
+	void LoadFromFile_Screens();
+	void LoadFromFile_Widgets();
+	void SortScreens();
 #if _DEBUG
 	void SaveToFile_Screens();
 	void SaveToFile_Widgets();
@@ -39,7 +41,7 @@ private:
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
 
-	std::string m_sJsonFile = "UIScreens.json";
+	std::string m_sJsonFile = "Main Menu.json";
 	std::vector<std::string> m_vUITypes = { "Colour", "Button", "Image", "Data Slider", "Page Slider", "Energy Bar", "Input" };
 	
 	std::vector<UIScreenList> m_vUIScreenList; // list of UI screens
