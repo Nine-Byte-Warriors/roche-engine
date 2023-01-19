@@ -24,7 +24,6 @@ public:
 private:
 	float m_fPx = 0.0f;
 	uint32_t m_uDataOut;
-	XMFLOAT2 m_vPosition, m_vSize;
 
 	std::string m_barTexture;
 	std::shared_ptr<Sprite> m_spriteBar;

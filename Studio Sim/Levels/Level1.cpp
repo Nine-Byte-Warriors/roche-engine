@@ -116,8 +116,9 @@ void Level1::OnSwitch()
     // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     m_ui->RemoveAllUI();
-    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+    //for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	//    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+    m_ui->AddUI( m_uiEditor.GetScreens()[0], m_uiEditor.GetScreenData()[0].name );
 	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
 }
 

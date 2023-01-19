@@ -52,9 +52,14 @@ void UIEditor::LoadFromFile_Widgets()
 		m_vUIWidgets.push_back( {} );
 		for ( unsigned int j = 0; j < it->second.size(); j++ ) // widget struct
 		{
-			Widget* widget;
+			m_vUIWidgets[index].push_back( { it->second[j].name, it->second[j].type,
+				XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
+				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) } );
+			/*Widget* widget;
 			if ( it->second[j].type == "Button" )
-				m_vUIWidgets[index].push_back( *new Button_Widget() );
+				m_vUIWidgets[index].push_back( *new Widget( it->second[j].name, it->second[j].type,
+					XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
+					XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) ) );
 			else if ( it->second[j].type == "Colour" )
 				m_vUIWidgets[index].push_back( *new ColourBlock_Widget() );
 			else if ( it->second[j].type == "Data Slider" )
@@ -66,13 +71,10 @@ void UIEditor::LoadFromFile_Widgets()
 			else if ( it->second[j].type == "Input" )
 				m_vUIWidgets[index].push_back( *new Input_Widget() );
 			else if ( it->second[j].type == "Page Slider" )
-				m_vUIWidgets[index].push_back( *new PageSlider_Widget() );
+				m_vUIWidgets[index].push_back( *new PageSlider_Widget() );*/
 		}
 		index++;
 	}
-	//for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ ) // each screen
-	//{
-	//}
 }
 
 void UIEditor::SortScreens()

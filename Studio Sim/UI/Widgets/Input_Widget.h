@@ -29,7 +29,6 @@ private:
 
     XMVECTORF32 m_textColour;
     std::string m_buttonTexture;
-    XMFLOAT2 m_vPosition, m_vSize;
 
     std::shared_ptr<Sprite> m_sprite;
     std::shared_ptr<Transform> m_transform;

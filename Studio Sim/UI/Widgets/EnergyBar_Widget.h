@@ -24,7 +24,6 @@ public:
 private:
     int m_iCurrentPercent;
     float m_fCurrentFraction;
-    XMFLOAT2 m_vPosition, m_vSize;
 
 	// Background
     std::string m_textureBack;

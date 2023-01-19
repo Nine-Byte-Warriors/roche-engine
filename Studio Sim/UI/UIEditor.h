@@ -38,6 +38,7 @@ public:
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
 	
+	inline 
 	inline std::vector<UIScreenData> GetScreenData() const noexcept { return m_vUIScreenData; }
 	inline std::map<std::string, std::vector<UIWidgetData>> GetWidgetData() const noexcept { return m_vUIWidgetData; }
 

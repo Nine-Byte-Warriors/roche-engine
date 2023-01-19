@@ -47,27 +47,27 @@ void UIScreen::Update( const float dt )
 
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( Button_Widget* widget = dynamic_cast<Button_Widget*>( &m_vWidgets[i] ) )
+		if ( m_vWidgets[i].GetType() == "Button" )
 		{
-			XMFLOAT2 posButton = XMFLOAT2( widget->GetTransform()->GetPosition().x, widget->GetTransform()->GetPosition().y );
-			switch ( widget->GetType() )
+			Button_Widget* buttonWidget = reinterpret_cast<Button_Widget*>( &m_vWidgets[i] );
+			switch ( buttonWidget->GetType() )
 			{
 			case Button_Widget::ButtonType::Quit_Game:
 			{
 				// Quit Game
-				if ( widget->Resolve( "Example", Colors::White, m_texturesGithub, m_mouseData, posButton, size ) )
+				if ( buttonWidget->Resolve( "Example", Colors::White, m_texturesGithub, m_mouseData, buttonWidget->GetPosition(), size ) )
 					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-				widget->Update( dt );
+				buttonWidget->Update( dt );
 			}
 			break;
 			case Button_Widget::ButtonType::GitHub_Link:
 			{
 				// GitHub Link
-				if ( widget->Resolve( "", Colors::White, m_texturesGithub, m_mouseData, posButton, size ) )
+				if ( buttonWidget->Resolve( "", Colors::White, m_texturesGithub, m_mouseData, buttonWidget->GetPosition(), size ) )
 					if ( !m_bOpenLink && m_bOpen )
 						m_bOpenLink = true;
-				widget->Update( dt );
-				if ( !widget->GetIsPressed() )
+				buttonWidget->Update( dt );
+				if ( !buttonWidget->GetIsPressed() )
 					m_bOpen = true;
 				if ( m_bOpenLink )
 				{

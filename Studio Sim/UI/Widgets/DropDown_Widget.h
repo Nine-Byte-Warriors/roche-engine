@@ -30,7 +30,6 @@ public:
 private:
 	int m_iFlag;
 	int m_iFlagMax = 20;
-	XMFLOAT2 m_vPosition, m_vSize;
     
 	int m_iSelected = 0;
     std::string m_sDataSelected;

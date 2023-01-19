@@ -27,7 +27,6 @@ private:
 	float m_fPY = 0.0f;
 	float m_fPagePos = 0.0f;
 	float m_fPageSize = 0.0f;
-	XMFLOAT2 m_vPosition, m_vSize;
 
 	Colour m_barColour;
 	std::shared_ptr<Sprite> m_spriteBar;

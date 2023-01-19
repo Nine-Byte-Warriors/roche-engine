@@ -38,7 +38,6 @@ private:
     std::string m_sText;
     XMVECTORF32 m_vTextColor;
     bool m_bIsPressed = false;
-    XMFLOAT2 m_vPosition, m_vSize;
 
     ButtonType m_buttonType;
     ButtonState m_buttonState;

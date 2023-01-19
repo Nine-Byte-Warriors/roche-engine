@@ -24,7 +24,6 @@ public:
 
 private:
     std::string m_sTextFile;
-    XMFLOAT2 m_vPosition, m_vSize;
     std::shared_ptr<Sprite> m_sprite;
     std::shared_ptr<Transform> m_transform;
 };
