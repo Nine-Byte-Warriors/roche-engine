@@ -333,6 +333,9 @@
     <ClCompile Include="Components\Entity.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UIEditor.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="Components\Entity.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIEditor.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

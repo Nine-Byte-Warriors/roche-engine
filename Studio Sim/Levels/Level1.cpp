@@ -213,10 +213,11 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
+    m_uiEditor.SpawnControlWindow( m_gfx->GetWidth(), m_gfx->GetHeight() );
     m_tileMapEditor->SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
-    m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
     
