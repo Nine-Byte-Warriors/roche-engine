@@ -333,6 +333,9 @@
     <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
       <Filter>Source Files\Utility\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\AudioEditorNew.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
       <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioEditorNew.h">
+      <Filter>Header Files\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

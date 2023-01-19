@@ -13,10 +13,12 @@
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
 #if _DEBUG
-#include "AudioEditor.h"
+//#include "AudioEditor.h"
+#include "AudioEditorNew.h"
 #endif
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
+
 
 /// <summary>
 /// The first level of the game.
@@ -57,7 +59,8 @@ private:
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG
-	AudioEditor m_audioEditor;
+	//AudioEditor m_audioEditor;
+	AudioEditorNew m_audioEditorNew;
 #endif
 	int m_iEntityAmount;
 	int m_iTileMapRows;

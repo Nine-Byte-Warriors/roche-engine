@@ -1,0 +1,14 @@
+[
+    {
+        "filePath": "Resources\\Audio\\SoundBankNumberOne.json",
+        "name": "SoundBankListNumberOne"
+    },
+    {
+        "filePath": "Resources\\Audio\\SoundBankNumberTwo.json",
+        "name": "SoundBankListNumberTwo"
+    },
+    {
+        "filePath": "Blank Sound Bank 0.json",
+        "name": "Blank Sound Bank 0"
+    }
+]

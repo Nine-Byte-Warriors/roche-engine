@@ -273,6 +273,7 @@
     <ClCompile Include="AI\AIStateMachine.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Audio\AudioEditor.cpp" />
+    <ClCompile Include="Audio\AudioEditorNew.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Audio\VoiceCallback.cpp" />
     <ClCompile Include="Collisions\CollisionHandler.cpp" />
@@ -405,6 +406,7 @@
     <ClInclude Include="AI\AIStateMachine.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Audio\AudioEditor.h" />
+    <ClInclude Include="Audio\AudioEditorNew.h" />
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Audio\VoiceCallback.h" />
     <ClInclude Include="Collisions\CollisionHandler.h" />

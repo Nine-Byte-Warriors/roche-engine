@@ -68,7 +68,7 @@ public:
 
 
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
-	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string filePath); // JSON Save Function WIP temporary for now
+	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName); // JSON Save Function
 
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
