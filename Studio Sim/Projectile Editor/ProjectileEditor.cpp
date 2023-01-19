@@ -191,6 +191,7 @@ void ProjectileEditor::ShowPattern()
 
 
 					msg = "Heading Angle: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
+					ImGui::Text(msg.c_str());
 					ImGui::SliderAngle(
 						std::string("Angle##Man")
 							.append(std::to_string(iManIndex))
@@ -200,6 +201,7 @@ void ProjectileEditor::ShowPattern()
 						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
 
 					msg = "Traveling Angle Adjustment: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fWaveAngle);
+					ImGui::Text(msg.c_str());
 					ImGui::DragFloat(
 						std::string("Wave##Man")
 							.append(std::to_string(iManIndex))
