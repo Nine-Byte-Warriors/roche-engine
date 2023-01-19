@@ -11,6 +11,8 @@ namespace ProjectileData {
 		float m_fX;
 		float m_fY;
 		float m_fWaveAngle;
+		float m_fAmplitude;
+		float m_fFrequency;
 		//onDeathEvent or endOfLifeTimeEvent
 	};
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_fSpeed, m_fLifeTime, m_fAngle, m_fX, m_fY, m_fWaveAngle);

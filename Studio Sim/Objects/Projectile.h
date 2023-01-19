@@ -24,7 +24,8 @@ public:
 	inline void SetLifeTime(const float fLifeTime) noexcept { m_fLifeTime = fLifeTime; }
 	inline void SetDirection(const Vector2f vDirection) noexcept { m_vDirection = vDirection; }
 	inline void SetOffSet(const Vector2f vOffSet) noexcept { m_vOffSet = vOffSet; }
-	inline void SetWaveAngle(const float vAngle) noexcept { m_bFixedDirection = false; m_fAngle = vAngle; }
+	inline void SetWave(const float vAngle, const float fAmp, const float fFreq) noexcept 
+		{ m_bFixedDirection = false; m_fAngle = vAngle; m_fAmplitude = fAmp; m_fFrequency = fFreq; }
 	inline bool IsAlive() const noexcept { return m_fLifeTime > 0.0f; }
 	
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
@@ -49,9 +50,12 @@ private:
 	Vector2f m_vTargetPosition;
 	Vector2f m_vDirection;
 	Vector2f m_vOffSet;
+	Vector2f m_vAnchorPosition;
 
 	bool m_bFixedDirection;
 	float m_fAngle;
+	float m_fAmplitude;
+	float m_fFrequency;
 };
 
 #endif // !PROJECTILE_H

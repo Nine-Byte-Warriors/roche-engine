@@ -211,6 +211,28 @@ void ProjectileEditor::ShowPattern()
 						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fWaveAngle,
 						0.1f, -360.0f, 360.0f, "%.2f");
 
+					msg = "Amplitude: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAmplitude);
+					ImGui::Text(msg.c_str());
+					ImGui::DragFloat(
+						std::string("Amplitude##Man")
+							.append(std::to_string(iManIndex))
+							.append("Pro")
+							.append(std::to_string(iProIndex))
+							.c_str(),
+						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAmplitude,
+						0.1f, -100.0f, 100.0f, "%.2f");
+
+					msg = "Frequency: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fFrequency);
+					ImGui::Text(msg.c_str());
+					ImGui::DragFloat(
+						std::string("Frequency##Man")
+							.append(std::to_string(iManIndex))
+							.append("Pro")
+							.append(std::to_string(iProIndex))
+							.c_str(),
+						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fFrequency,
+						0.1f, -100.0f, 100.0f, "%.2f");
+
 					ImGui::TreePop();
 				}
 			}
@@ -253,7 +275,7 @@ std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		if (pJson.m_fWaveAngle != 0.0f)
-			pProjectile->SetWaveAngle(pJson.m_fWaveAngle);
+			pProjectile->SetWave(pJson.m_fWaveAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
 
 		vecProjectilePool.push_back(std::move(pProjectile));
 	}
@@ -296,7 +318,8 @@ ProjectileData::ProjectileJSON ProjectileEditor::CreateDefaultProjectile()
 	blankProjectile.m_fX = 0.0f;
 	blankProjectile.m_fY = 0.0f;
 	blankProjectile.m_fWaveAngle = 0.0f;
-
+	blankProjectile.m_fAmplitude = 0.0f;
+	blankProjectile.m_fFrequency = 0.0f;
 	return blankProjectile;
 }
 
