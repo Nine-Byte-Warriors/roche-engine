@@ -18,6 +18,7 @@ public:
 	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
 
 	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool) { m_vecProjectilePool = vecProjectilePool; }
+	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	void SpawnProjectiles(Vector2f vSpawnPosition);
@@ -30,6 +31,8 @@ private:
 	std::shared_ptr<Projectile> GetFreeProjectile();
 
 	float m_fLifeTime;
+	float m_fDelay;
+	float m_fCounter;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	

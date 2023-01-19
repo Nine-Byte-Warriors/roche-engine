@@ -61,10 +61,10 @@ void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Mat
 
 void ProjectileEditor::LoadPattern()
 {
-	static char saveFileName[128] = "";
+	static char loadFileName[128] = "";
 	
 	bool bLoadButton = ImGui::Button("Load Pattern");
-	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::InputTextWithHint("##PatternLoadFile", "Load File Name", loadFileName, IM_ARRAYSIZE(loadFileName));
 	ImGui::Text(m_sSelectedFile.c_str());
 
 	if (!bLoadButton)
@@ -80,7 +80,7 @@ void ProjectileEditor::SavePattern()
 {
 	static char saveFileName[128] = "";
 	m_bSaveButton = ImGui::Button("Save Pattern");
-	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::InputTextWithHint("##PatternSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
 	ImGui::Text(m_sSelectedFile.c_str());
 	
 	if (!m_bSaveButton)
@@ -111,32 +111,17 @@ void ProjectileEditor::ShowPattern()
 	std::string msg;
 	
 	if (m_vecManagers.size() < 1)
-	{
-		ProjectileData::ManagerJSON manager;
-		manager.m_sID = "ID";
-		manager.m_sName = "Default Pattern";
-		manager.m_sImagePath = "Resources\\Textures\\Base_Projectile.png";
-		manager.m_fDelay = 0.0f;
-		manager.m_iCount = 1;
-
-		ProjectileData::ProjectileJSON blankProjectile;
-		blankProjectile.m_fSpeed = 10.0f;
-		blankProjectile.m_fLifeTime = 100;
-		blankProjectile.m_fAngle = 0.0f;
-		blankProjectile.m_fX = 0.0f;
-		blankProjectile.m_fY = 0.0f;
-		blankProjectile.m_fWaveAngle = 0.0f;
-		
-		manager.m_vecProjectiles.push_back(blankProjectile);
-		m_vecManagers.push_back(manager);
-	}
+		m_vecManagers.push_back(CreateDefaultManager());
+	
+	if(ImGui::Button("Add Pattern"))
+		m_vecManagers.push_back(CreateDefaultManager());
 
 	for (int iManIndex = 0; iManIndex < m_vecManagers.size(); iManIndex++)
 	{
 		std::string sManagerTitle = std::string("Manager #").append(std::to_string(iManIndex));
 		if(ImGui::CollapsingHeader(sManagerTitle.c_str()))
 		{
-			msg = "Pattern" + m_vecManagers[iManIndex].m_sName;
+			msg = "Pattern " + m_vecManagers[iManIndex].m_sName;
 			ImGui::Text(msg.c_str());
 
 			msg = "ID: " + m_vecManagers[iManIndex].m_sID;
@@ -245,6 +230,7 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	for (int i = 0; i < m_vecManagers.size(); i++)
 	{
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
+		pManager->SetDelay(m_vecManagers[i].m_fDelay);
 		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
 		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
 
@@ -281,6 +267,27 @@ void ProjectileEditor::SpawnPattern()
 {
 	for (std::shared_ptr<ProjectileManager> manager : m_vecProjectileManager)
 		manager->SpawnProjectiles(m_vSpawnPosition);
+}
+
+ProjectileData::ManagerJSON ProjectileEditor::CreateDefaultManager()
+{
+	ProjectileData::ManagerJSON manager;
+	manager.m_sID = "ID";
+	manager.m_sName = "Default Pattern";
+	manager.m_sImagePath = "Resources\\Textures\\Base_Projectile.png";
+	manager.m_fDelay = 0.0f;
+	manager.m_iCount = 1;
+
+	ProjectileData::ProjectileJSON blankProjectile;
+	blankProjectile.m_fSpeed = 10.0f;
+	blankProjectile.m_fLifeTime = 100;
+	blankProjectile.m_fAngle = 0.0f;
+	blankProjectile.m_fX = 0.0f;
+	blankProjectile.m_fY = 0.0f;
+	blankProjectile.m_fWaveAngle = 0.0f;
+
+	manager.m_vecProjectiles.push_back(blankProjectile);
+	return manager;
 }
 
 void ProjectileEditor::AddToEvent() noexcept

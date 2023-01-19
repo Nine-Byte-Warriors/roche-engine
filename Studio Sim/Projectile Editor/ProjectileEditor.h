@@ -30,7 +30,8 @@ private:
 	
 	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
-	
+	ProjectileData::ManagerJSON CreateDefaultManager();
+
 	void SaveProjectile();
 	void LoadProjectile();
 	void SaveManager();
