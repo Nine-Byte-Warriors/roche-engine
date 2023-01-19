@@ -1,8 +1,13 @@
 #include "stdafx.h"
 #include "UIEditor.h"
+#include "Graphics.h"
+#include "Timer.h"
+
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
+
+#define FOLDER_PATH "Resources\\UI\\"
 
 UIEditor::UIEditor()
 {
@@ -13,30 +18,70 @@ UIEditor::~UIEditor() { }
 
 void UIEditor::LoadFromFile()
 {
-	std::vector<UIScreenList> uiScreenList; // list of UI screens
-	JsonLoading::LoadJson( uiScreenList, m_sJsonFile );
-
-	for ( unsigned int i = 0; i < uiScreenList.size(); i++ )
+	JsonLoading::LoadJson( m_vUIScreenList, FOLDER_PATH + m_sJsonFile );
+	for ( unsigned int i = 0; i < m_vUIScreenList.size(); i++ )
 	{
 		std::vector<UIScreenData> screenData;
-		std::string folderPath = "Resources\\UI\\";
-		JsonLoading::LoadJson( screenData, folderPath + uiScreenList[i].file );
-		m_vUIScreenData.emplace( uiScreenList[i].name, screenData );
+		JsonLoading::LoadJson( screenData, FOLDER_PATH + m_vUIScreenList[i].file );
+		m_vUIScreenData.emplace( m_vUIScreenList[i].name, screenData );
 	}
 }
 
 #if _DEBUG
-void UIEditor::SaveToFile()
+void UIEditor::SaveToFile_Screens()
 {
-
+	JsonLoading::SaveJson( m_vUIScreenList, FOLDER_PATH + m_sJsonFile );
 }
 
-void UIEditor::SpawnControlWindow( int width, int height )
+void UIEditor::SaveToFile_Widgets()
 {
+	for ( unsigned int i = 0; i < m_vUIScreenList.size(); i++ )
+	{
+		for ( std::map<std::string, std::vector<UIScreenData>>::iterator it = m_vUIScreenData.begin(); it != m_vUIScreenData.end(); it++ )
+		{
+			if ( m_vUIScreenList[i].name == it->first )
+			{
+				JsonLoading::SaveJson( it->second, FOLDER_PATH + m_vUIScreenList[i].file );
+			}
+		}
+	}
+}
+
+void UIEditor::SpawnControlWindow( const Graphics& gfx )
+{
+	static Timer timer;
+	static float counter = 0.0f;
+	static bool savedFile = false;
+
 	if ( ImGui::Begin( "UI Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
-		if ( ImGui::Button( "Save Changes to UI" ) )
-			SaveToFile();
+		// Save UI Screens
+		if ( ImGui::Button( "Save screens?" ) )
+		{
+			SaveToFile_Widgets();
+			savedFile = true;
+		}
+		ImGui::SameLine();
+
+		// Save UI components
+		if ( ImGui::Button( "Save widgets?" ) )
+		{
+			SaveToFile_Widgets();
+			savedFile = true;
+		}
+
+		// Update save message
+		if ( savedFile )
+		{
+			ImGui::TextColored( ImVec4( 0.1f, 1.0f, 0.1f, 1.0f ), "FILE SAVED!" );
+			counter += timer.GetDeltaTime();
+			if ( counter > 3.0f )
+			{
+				counter = 0.0f;
+				savedFile = false;
+			}
+		}
+		ImGui::NewLine();
 
 		// List of all UI screens currently defined
 		static int currentIdx = -1;
@@ -116,7 +161,7 @@ void UIEditor::SpawnControlWindow( int width, int height )
 						ImGui::NewLine();
 
 						ImGui::Text( "Position" );
-						float max = ( width > height ? width : height );
+						float max = ( gfx.GetWidth() > gfx.GetHeight() ? gfx.GetWidth() : gfx.GetHeight() );
 						static float position[2] = { value[i].position[0], value[i].position[1] };
 						ImGui::SliderFloat2( std::string( "##Position" ).append( key ).append( value[i].name ).c_str(), position, 0.0f, max, "%.1f" );
 						value[i].position = { position[0], position[1] };

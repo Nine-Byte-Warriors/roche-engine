@@ -2,6 +2,7 @@
 #ifndef UIEDITOR_H
 #define UIEDITOR_H
 
+class Graphics;
 #include "UIScreen.h"
 #include "JsonLoading.h"
 
@@ -29,16 +30,19 @@ public:
 
 	void LoadFromFile();
 #if _DEBUG
-	void SaveToFile();
-	void SpawnControlWindow( int width, int height );
+	void SaveToFile_Screens();
+	void SaveToFile_Widgets();
+	void SpawnControlWindow( const Graphics& gfx );
 #endif
 private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
 
-	std::string m_sJsonFile = "Resources\\UI\\UIScreens.json";
+	std::string m_sJsonFile = "UIScreens.json";
 	std::vector<std::string> m_vUITypes = { "Colour", "Button", "Image", "Data Slider", "Page Slider", "Energy Bar", "Input" };
+	
+	std::vector<UIScreenList> m_vUIScreenList; // list of UI screens
 	std::map<std::string, std::vector<UIScreenData>> m_vUIScreenData; // list of UI components for a given screen
 };
 
