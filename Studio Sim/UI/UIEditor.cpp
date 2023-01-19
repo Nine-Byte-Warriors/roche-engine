@@ -218,7 +218,9 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 						{
 							ImGui::NewLine();
 
-							static char buf[32] = "";
+							// TODO: prevent user from setting duplicate names
+							const int bufSize = 32;
+							static char buf[bufSize] = "";
 							static bool modifiedName = false;
 							ImGui::Text( "Widget Name: " );
 							ImGui::SameLine();
@@ -229,8 +231,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							{
 								if ( ImGui::Button( std::string( "Save Name##" ).append( value[i].name ).c_str() ) )
 								{
-									// TODO: prevent user from setting duplicate names
 									value[i].name = buf;
+									memset( buf, 0, bufSize );
 									modifiedName = false;
 								}
 							}
