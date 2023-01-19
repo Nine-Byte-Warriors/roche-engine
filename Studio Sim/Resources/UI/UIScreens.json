@@ -1,18 +1,18 @@
 [
-	{
-		"name": "Main Menu",
-		"file": "MainMenu.json"
-	},
-	{
-		"name": "HUD",
-		"file": "HUD.json"
-	},
-	{
-		"name": "Settings",
-		"file": "Settings.json"
-	},
-	{
-		"name": "Credits",
-		"file": "Credits.json"
-	}
+    {
+        "file": "Credits.json",
+        "name": "Credits"
+    },
+    {
+        "file": "HUD.json",
+        "name": "HUD"
+    },
+    {
+        "file": "MainMenu.json",
+        "name": "Main Menu"
+    },
+    {
+        "file": "Settings.json",
+        "name": "Settings"
+    }
 ]
