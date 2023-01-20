@@ -38,9 +38,9 @@ private:
 	// Parameter sliders
 	void VolumeSlider();
 
-	float m_iDefaultVolume;
-	int m_iActiveSoundBank; // 0 - SFX; 1 - MUSIC
-	bool m_bChangedSoundBankType;
+	//float m_iDefaultVolume;
+	//int m_iActiveSoundBank; // 0 - SFX; 1 - MUSIC
+	//bool m_bChangedSoundBankType;
 	std::vector<SoundBankFile*>* selectedSoundBank;
 
 

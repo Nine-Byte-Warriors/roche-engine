@@ -306,9 +306,6 @@
     <ClCompile Include="UI\UIScreen.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UIElement.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\UIManager.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
@@ -326,6 +323,15 @@
     </ClCompile>
     <ClCompile Include="Utility\Rendering\DDSTextureLoader.cpp">
       <Filter>Source Files\Utility\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\EntityEditor.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\EntityController.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Entity.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,9 +575,6 @@
     <ClInclude Include="UI\UIScreen.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\UIElement.h">
-      <Filter>Header Files\UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\UIManager.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
@@ -604,6 +607,15 @@
     </ClInclude>
     <ClInclude Include="Collisions\Rect2f.h">
       <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\EntityEditor.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\EntityController.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Entity.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -650,6 +662,9 @@
     </None>
     <None Include="cpp.hint">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
