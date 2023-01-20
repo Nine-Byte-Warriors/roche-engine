@@ -6,7 +6,7 @@
 #include "JsonLoading.h"
 #include "ProjectileManager.h"
 
-class ProjectileEditor : Listener
+class ProjectileEditor : public Listener
 {
 public:
 	ProjectileEditor();
@@ -32,6 +32,8 @@ private:
 	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 	ProjectileData::ManagerJSON CreateDefaultManager();
 	ProjectileData::ProjectileJSON CreateDefaultProjectile();
+
+	void SaveProjectile();
 
 	void SpawnPattern();
 
