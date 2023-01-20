@@ -6,7 +6,7 @@
 #include "JsonLoading.h"
 #include "ProjectileManager.h"
 
-class ProjectileEditor : public Listener
+class ProjectileEditor 
 {
 public:
 	ProjectileEditor();
@@ -18,9 +18,6 @@ public:
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 	
 	void SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
-	
-	void AddToEvent() noexcept;
-	void HandleEvent(Event* event) override;
 	
 private:
 	void LoadPattern();

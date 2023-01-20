@@ -309,29 +309,4 @@ ProjectileData::ProjectileJSON ProjectileEditor::CreateDefaultProjectile()
 	
 	return blankProjectile;
 }
-
-void ProjectileEditor::AddToEvent() noexcept
-{
-	/*EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
-	EventSystem::Instance()->AddClient(EVENTID::TargetPosition, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerFire, this);*/
-}
-
-void ProjectileEditor::HandleEvent(Event* event)
-{
-	switch (event->GetEventID())
-	{
-	/*case EVENTID::PlayerPosition:
-		m_vSpawnPosition = *static_cast<Vector2f*>(event->GetData());
-		break;
-	case EVENTID::TargetPosition:
-		m_vTargetPosition = *static_cast<Vector2f*>(event->GetData());
-		break;
-	case EVENTID::PlayerFire:
-		SpawnProjectile();
-		break;*/
-	default:
-		break;
-	}
-}
 #endif // _DEBUG
