@@ -10,7 +10,6 @@ void Level1::OnCreate()
 {
 	try
 	{
-
 		// Initialize constant buffers
 		HRESULT hr = m_cbMatrices.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
@@ -19,6 +18,8 @@ void Level1::OnCreate()
         m_player.Initialize( *m_gfx, m_cbMatrices );
         m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
         m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
+
+        OnCreateEntity();
 
         // Initialize enemies
         m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
@@ -30,7 +31,7 @@ void Level1::OnCreate()
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
-        m_textRenderer.Initialize( "open_sans_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
+        m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
         m_uiScreen = std::make_shared<UIScreen>();
 
         // Initialize TileMap
@@ -52,6 +53,25 @@ void Level1::OnCreate()
 	}
 }
 
+void Level1::OnCreateEntity()
+{
+    m_iEntityAmount = m_entityController.GetSize();
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        Entity *entityPop = new Entity(m_entityController, i);
+        m_entity.push_back(*entityPop);
+
+        m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+
+        delete entityPop;
+    }
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+    }
+}
+
 void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
     int colPositionTotalTileLength = 0;
@@ -67,7 +87,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     {
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\empty.png");
+        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\Tiles\\empty.png");
 
         if (i != 0)
         {
@@ -127,9 +147,21 @@ void Level1::RenderFrame()
     m_player.GetSprite()->UpdateBuffers(gfxContext);
     m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
     m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
+    
+    RenderFrameEntity();
 
     m_enemy.GetSprite()->UpdateBuffers(gfxContext);
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
+}
+
+void Level1::RenderFrameEntity()
+{
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+        m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+        m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+    }
 }
 
 void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
@@ -196,6 +228,7 @@ void Level1::EndFrame()
     m_tileMapEditor->SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
     
@@ -212,12 +245,22 @@ void Level1::Update( const float dt )
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
 
+    UpdateEntity(dt);
+
     m_player.Update( dt );
     m_enemy.Update( dt );
     m_ui->Update( dt );
 
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
+}
+
+void Level1::UpdateEntity(const float dt)
+{
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].Update(dt);
+    }
 }
 
 void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
@@ -240,7 +283,7 @@ void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw
             {
                 tileMapDraw[i].Update(dt);
 
-                std::string texture = "Resources\\Textures\\";
+                std::string texture = "Resources\\Textures\\Tiles\\";
                 texture += m_tileMapEditor->GetTileTypeName(i, tileMapLayer);
                 texture += ".png";
 
@@ -254,7 +297,7 @@ void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw
             {
                 tileMapDraw[i].Update(dt);
 
-                std::string texture = "Resources\\Textures\\100transparent.png";
+                std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
 
                 tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
             }

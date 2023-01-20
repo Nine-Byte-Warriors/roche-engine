@@ -2,6 +2,9 @@
 #ifndef LEVEL1_H
 #define LEVEL1_H
 
+#include "Entity.h"
+#include "EntityEditor.h"
+#include "EntityController.h"
 #include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
@@ -41,7 +44,12 @@ private:
 	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
 	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
+	void OnCreateEntity();
+	void RenderFrameEntity();
+	void UpdateEntity(const float dt);
+
 	// Objects
+	std::vector<Entity> m_entity;
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
@@ -52,8 +60,11 @@ private:
 #if _DEBUG
 	AudioEditor m_audioEditor;
 #endif
+	int m_iEntityAmount;
 	int m_iTileMapRows;
 	int m_iTileMapColumns;
+	EntityEditor m_entityEditor;
+	EntityController m_entityController;
 	TextRenderer m_textRenderer;
 	TileMapEditor* m_tileMapEditor;
 	std::vector<TileMapDraw> m_tileMapDrawBackground;

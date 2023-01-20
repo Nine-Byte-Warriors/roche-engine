@@ -22,14 +22,14 @@ bool Sprite::Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
 	std::string spritePath;
 	switch ( type )
 	{
-	case Type::Player:		spritePath = "Resources\\Textures\\carrot_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Carrot:		spritePath = "Resources\\Textures\\carrot_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Tomato:		spritePath = "Resources\\Textures\\tomato_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Cauliflower: spritePath = "Resources\\Textures\\cauliflower_ss.png";  m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
-	case Type::Bean:		spritePath = "Resources\\Textures\\bean_ss.png";		 m_iMaxFrameX = 1; m_iMaxFrameY = 2; break;
-	//case Type::Potato:	spritePath = "Resources\\Textures\\potato_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Onion:		spritePath = "Resources\\Textures\\onion_ss.png";		 m_iMaxFrameX = 2; m_iMaxFrameY = 2; break;
-	case Type::Projectile:	spritePath = "Resources\\Textures\\Base_Projectile.png"; m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
+	case Type::Player:		spritePath = "Resources\\Textures\\Entity\\Carrot\\Carrot.png";			  m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Carrot:		spritePath = "Resources\\Textures\\Entity\\Carrot\\Carrot.png";			  m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Tomato:		spritePath = "Resources\\Textures\\Entity\\Tomato\\Tomato.png";			  m_iMaxFrameX = 3; m_iMaxFrameY = 3; break;
+	case Type::Cauliflower: spritePath = "Resources\\Textures\\Entity\\Cauliflower\\Cauliflower.png"; m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Bean:		spritePath = "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png"; m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Potato:		spritePath = "Resources\\Textures\\Entity\\Potato\\Potato.png";			  m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Onion:		spritePath = "Resources\\Textures\\Entity\\Onion\\Onion.png";			  m_iMaxFrameX = 3; m_iMaxFrameY = 2; break;
+	case Type::Projectile:	spritePath = "Resources\\Textures\\Base_Projectile.png";				  m_iMaxFrameX = 1; m_iMaxFrameY = 1; break;
 	default: break;
 	}
 
@@ -120,7 +120,7 @@ void Sprite::Update( const float dt )
 	while ( m_fCurFrameTime >= m_fHoldTime )
 	{
 		m_iCurFrameX++;
-		if ( m_iCurFrameX >= m_iMaxFrameX )
+		if ( m_iCurFrameX >= m_iMaxFrameY )
 			m_iCurFrameX = 0;
 		m_fCurFrameTime -= m_fHoldTime;
 	}

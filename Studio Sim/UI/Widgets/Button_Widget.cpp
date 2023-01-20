@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
-#include "TextRenderer.h"
 
 Button_Widget::Button_Widget()
 {    
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
-    std::string texture = "Resources\\Textures\\empty.png";
+    MouseData mouseData = MouseData();
+    std::string texture = "Resources\\Textures\\Tiles\\empty.png";
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::Black, buttonTextures, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+    Resolve( "Default", Colors::White, buttonTextures, mouseData, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
 }
 
 Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
@@ -17,8 +17,9 @@ Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 
+    MouseData mouseData = MouseData();
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::Black, buttonTextures, {}, pos, size );
+    Resolve( "Default", Colors::White, buttonTextures, mouseData, pos, size );
 }
 
 Button_Widget::~Button_Widget() { }
@@ -53,7 +54,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
 {
     m_sText = text;
     m_vTextColor = textColour;
@@ -68,17 +69,17 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     m_sprite->SetWidth( m_vSize.x );
     m_sprite->SetHeight( m_vSize.y );
 
+    m_buttonState = ButtonState::Default;
 #if !_DEBUG // not updated for imgui mouse positions
     // Button collison
-    m_buttonState = ButtonState::Default;
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
         mData.Pos.y >= m_transform->GetPosition().y &&
-        mData.Pos.y <= ( m_transform->GetPosition().y + m_transform->GetScale().y )
+        mData.Pos.y <= ( m_transform->GetPosition().y + ( m_transform->GetScale().y ) )
        )
     {
-    	if ( mData.LPress )
+    	if ( mData.LPress && !mData.Locked )
     		m_buttonState = ButtonState::Pressed;
     	else 
             m_buttonState = ButtonState::Hover;
@@ -97,6 +98,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     case ButtonState::Pressed:
         m_buttonTexture = textures[2];
         m_bIsPressed = true;
+        mData.Locked = true;
     	return true;
     default:
     	break;
