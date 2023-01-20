@@ -9,8 +9,9 @@
 #include <imgui/imgui.h>
 #endif
 
-#define MAIN_SOUND_BANK_LIST "Resources\\Audio\\SoundBanksList.json"
-#define SOUNDS_FILES_PATH  "Resources\\Audio\\"
+#define SOUND_BANK_LISTS_PATH "Resources\\Audio\\Sound Banks\\!SoundBankList.json"
+#define SOUND_BANK_PATH  "Resources\\Audio\\Sound Banks\\"
+#define SOUND_FILES_PATH  "Resources\\Audio\\"
 
 AudioEditorNew::AudioEditorNew()
 {
@@ -23,58 +24,80 @@ AudioEditorNew::~AudioEditorNew() { }
 void AudioEditorNew::LoadFromFileSoundBankLists()
 {
 	// Load UI screens
-	JsonLoading::LoadJson(SoundBanksList, MAIN_SOUND_BANK_LIST);
-	//SortScreens();
+	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH);
+	SortScreens();
 }
 
 //void AudioEditorNew::LoadFromFileSoundBankFiles()
 //{
 //	// Load screen widgets
-//	for (unsigned int i = 0; i < SoundBanksList.size(); i++)
+//	for (unsigned int i = 0; i < m_vSoundBanksList.size(); i++)
 //	{
 //		std::vector<JSONSoundFile> soundFileData;
-//		JsonLoading::LoadJson(soundFileData, FOLDER_PATH_SOUND_FILES + SoundBanksList[i].file);
-//		m_vSoundFileData.emplace(SoundBanksList[i].name, soundFileData);
+//		JsonLoading::LoadJson(soundFileData, FOLDER_PATH_SOUND_FILES + m_vSoundBanksList[i].file);
+//		m_vSoundFileData.emplace(m_vSoundBanksList[i].name, soundFileData);
 //	}
 //}
+
 
 //void AudioEditorNew::SortScreens()
 //{
 //	// Sort screens by name for ImGui
 //	std::vector<std::string> screenNames;
-//	for (unsigned int i = 0; i < SoundBanksList.size(); i++)
-//		screenNames.push_back(SoundBanksList[i].name);
+//	for (unsigned int i = 0; i < m_vSoundBanksList.size(); i++)
+//		screenNames.push_back(m_vSoundBanksList[i].name);
 //	sort(screenNames.begin(), screenNames.end());
-//	std::vector<SoundBankList> tempScreenList;
+//	std::vector<SoundBanksList> tempScreenList;
 //	for (unsigned int i = 0; i < screenNames.size(); i++)
 //	{
-//		for (unsigned int j = 0; j < SoundBanksList.size(); j++)
+//		for (unsigned int j = 0; j < m_vSoundBanksList.size(); j++)
 //		{
-//			if (screenNames[i] == SoundBanksList[j].name)
+//			if (screenNames[i] == m_vSoundBanksList[j].name)
 //			{
-//				tempScreenList.push_back(SoundBanksList[j]);
+//				tempScreenList.push_back(m_vSoundBanksList[j]);
 //			}
 //		}
 //	}
-//	SoundBanksList = tempScreenList;
+//	m_vSoundBanksList = tempScreenList;
 //}
+
+void AudioEditorNew::SortScreens()
+{
+	// Sort screens by name for ImGui
+	std::vector<std::string> screenNames;
+	for (unsigned int i = 0; i < m_vSoundBanksList.size(); i++)
+		screenNames.push_back(m_vSoundBanksList[i].name);
+	sort(screenNames.begin(), screenNames.end());
+	std::vector<SoundBanksList> tempScreenList;
+	for (unsigned int i = 0; i < screenNames.size(); i++)
+	{
+		for (unsigned int j = 0; j < m_vSoundBanksList.size(); j++)
+		{
+			if (screenNames[i] == m_vSoundBanksList[j].name)
+			{
+				tempScreenList.push_back(m_vSoundBanksList[j]);
+			}
+		}
+	}
+	m_vSoundBanksList = tempScreenList;
+}
 
 #if _DEBUG
 void AudioEditorNew::SaveToFileSoundBankLists()
 {
 	// Add check duplicate of name
-	JsonLoading::SaveJson(SoundBanksList, MAIN_SOUND_BANK_LIST);
+	JsonLoading::SaveJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH);
 }
 
 //void AudioEditorNew::SaveToFileSoundBankFiles()
 //{
-//	for (unsigned int i = 0; i < SoundBanksList.size(); i++)
+//	for (unsigned int i = 0; i < m_vSoundBanksList.size(); i++)
 //	{
 //		for (std::map<std::string, std::vector<JSONSoundFile>>::iterator it = m_vSoundFileData.begin(); it != m_vSoundFileData.end(); it++)
 //		{
-//			if (SoundBanksList[i].name == it->first)
+//			if (m_vSoundBanksList[i].name == it->first)
 //			{
-//				JsonLoading::SaveJson(it->second, FOLDER_PATH_SOUND_FILES + SoundBanksList[i].file);
+//				JsonLoading::SaveJson(it->second, FOLDER_PATH_SOUND_FILES + m_vSoundBanksList[i].file);
 //			}
 //		}
 //	}
@@ -121,10 +144,10 @@ void AudioEditorNew::SpawnControlWindow()
 		{
 			// List of all UI screens currently defined
 			ImGui::Text("Sound Banks List");
-			if (ImGui::BeginListBox("##Sound Banks List", ImVec2(-FLT_MIN, SoundBanksList.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
+			if (ImGui::BeginListBox("##Sound Banks List", ImVec2(-FLT_MIN, m_vSoundBanksList.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
 			{
 				int index = 0;
-				for (auto const& [key, value] : SoundBanksList)
+				for (auto const& [key, value] : m_vSoundBanksList)
 				{
 					const bool isSelected = (currentSoundBankFileIdx == index);
 					if (ImGui::Selectable(key.c_str(), isSelected))
@@ -140,20 +163,20 @@ void AudioEditorNew::SpawnControlWindow()
 
 			// Add/remove sound banks
 			// TO DO: Check whether duplicate name exists, if so add up index and check again
-			if (ImGui::Button("Add New SoundBank"))
+			if (ImGui::Button("Add New Sound Bank"))
 			{
 				static int screenIdx = 0;
 				std::string screenName = "Sound Bank " + std::to_string(screenIdx);
-				SoundBanksList.push_back(SoundBankList({ screenName, SOUNDS_FILES_PATH + screenName + ".json" }));
-				currentSoundBankFileIdx -= SoundBanksList.size() - 1;
+				m_vSoundBanksList.push_back(SoundBanksList({ screenName, SOUND_BANK_PATH + screenName + ".json" }));
+				currentSoundBankFileIdx -= m_vSoundBanksList.size() - 1;
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Remove Sound Bank"))
 			{
-				if (SoundBanksList.size() > 1)
+				if (m_vSoundBanksList.size() > 1)
 				{
-					SoundBanksList.erase(SoundBanksList.begin() + currentSoundBankFileIdx);
-					SoundBanksList.shrink_to_fit();
+					m_vSoundBanksList.erase(m_vSoundBanksList.begin() + currentSoundBankFileIdx);
+					m_vSoundBanksList.shrink_to_fit();
 					currentSoundBankFileIdx -= 1;
 				}
 			}
@@ -161,51 +184,70 @@ void AudioEditorNew::SpawnControlWindow()
 			// Modify sound bank
 			if (currentSoundBankFileIdx > -1)
 			{
-				// Update screen name
-				static char buf[32] = "";
-				static bool modifiedName = false;
-				ImGui::Text("Screen Name: ");
-				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), SoundBanksList[currentSoundBankFileIdx].name.c_str());
-				if (ImGui::InputText(std::string("##").append(SoundBanksList[currentSoundBankFileIdx].name).c_str(), buf, IM_ARRAYSIZE(buf)))
-					modifiedName = true;
-				if (modifiedName)
+				if (ImGui::Button("Manage Sound Bank"))
 				{
-					if (ImGui::Button(std::string("Save Name##").append(SoundBanksList[currentSoundBankFileIdx].name).c_str()))
-					{
-						// TODO: prevent user from setting duplicate names
-						SoundBanksList[currentSoundBankFileIdx].name = buf;
-						modifiedName = false;
-					}
+					// Load all files of the Sound Bank JSON
 				}
-				ImGui::NewLine();
+				//// Update screen name
+				//static char buf[32] = "";
+				//static bool modifiedName = false;
+				//ImGui::Text("Screen Name: ");
+				//ImGui::SameLine();
+				//ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), m_vSoundBanksList[currentSoundBankFileIdx].name.c_str());
+				//if (ImGui::InputText(std::string("##").append(m_vSoundBanksList[currentSoundBankFileIdx].name).c_str(), buf, IM_ARRAYSIZE(buf)))
+				//	modifiedName = true;
+				//if (modifiedName)
+				//{
+				//	if (ImGui::Button(std::string("Save Name##").append(m_vSoundBanksList[currentSoundBankFileIdx].name).c_str()))
+				//	{
+				//		// TODO: prevent user from setting duplicate names
+				//		m_vSoundBanksList[currentSoundBankFileIdx].name = buf;
+				//		modifiedName = false;
+				//	}
+				//}
+				//ImGui::NewLine();
 
-				// Update screen widget file
-				ImGui::Text("Screen Widget File: ");
-				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), SoundBanksList[currentSoundBankFileIdx].filePath.c_str());
-				if (ImGui::Button("Load Widget File"))
-				{
-					if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-					{
-						SoundBanksList[currentSoundBankFileIdx].filePath = m_sSelectedFile;
-						std::string type = ".json";
-						std::string::size_type idx = m_sSelectedFile.find(type);
-						if (idx != std::string::npos)
-							m_sSelectedFile.erase(idx, type.length());
-						SoundBanksList[currentSoundBankFileIdx].name = m_sSelectedFile;
+				//// Update screen widget file
+				//ImGui::Text("Screen Widget File: ");
+				//ImGui::SameLine();
+				//ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), m_vSoundBanksList[currentSoundBankFileIdx].filePath.c_str());
+				//if (ImGui::Button("Load Widget File"))
+				//{
+				//	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+				//	{
+				//		m_vSoundBanksList[currentSoundBankFileIdx].filePath = m_sSelectedFile;
+				//		std::string type = ".json";
+				//		std::string::size_type idx = m_sSelectedFile.find(type);
+				//		if (idx != std::string::npos)
+				//			m_sSelectedFile.erase(idx, type.length());
+				//		m_vSoundBanksList[currentSoundBankFileIdx].name = m_sSelectedFile;
 
-						//SortScreens();
-						//LoadFromFileSoundBankFiles();
-					}
-				}
-				ImGui::NewLine();
+				//		SortScreens();
+				//		// LOAD chosen sound bank
+				//	}
+				//}
+				//ImGui::NewLine();
 
 
 			}
 		}
 		ImGui::NewLine();
 
+		ImGui::Text("Active Sound Bank: ");
+
+		if (ImGui::CollapsingHeader("SFX List", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::TreeNode("whatever");
+
+
+
+		}
+
+		if (ImGui::CollapsingHeader("Music List", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+
+
+
+		}
 		//if (ImGui::CollapsingHeader("Widgets", ImGuiTreeNodeFlags_DefaultOpen))
 		//{
 
@@ -296,7 +338,7 @@ void AudioEditorNew::SpawnControlWindow()
 			// Add a new widget
 			//if (ImGui::Button("Add New Widget"))
 			//{
-			//	std::string screenName = SoundBanksList[currentSoundBankFileIdx].name;
+			//	std::string screenName = m_vSoundBanksList[currentSoundBankFileIdx].name;
 			//	for (auto& [key, value] : m_vSoundFileData)
 			//	{
 			//		if (key == screenName)

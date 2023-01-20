@@ -64,7 +64,7 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	//LoadAudio(L"Resources\\Audio\\partymusic.wav", 1.0f, MUSIC);
 
 
-	LoadAudioFromJSON("Resources\\Audio\\soundFileList.json");
+	LoadAudioFromJSON("Resources\\Audio\\Sound Banks\\soundFileList.json");
 	//SaveAudioToJSON(m_vSFXSoundBank, m_vMusicSoundBank, "soundFiles");
 
 }
@@ -119,7 +119,7 @@ void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std
 		soundFileList.push_back({ "Resources\\Audio\\" + ConvertWstringToString(musicSoundList->at(i)->fileName) + ".wav", musicSoundList->at(i)->volume, 1 });
 	}
 
-	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\" + fileName + ".json");
+	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
 }
 
 HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)

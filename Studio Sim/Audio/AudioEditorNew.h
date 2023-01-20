@@ -6,12 +6,12 @@
 
 #include "JsonLoading.h"
 
-struct SoundBankList // these are the lists to hold file paths to different sound bank jsons
+struct SoundBanksList // these are the lists to hold file paths to different sound bank jsons
 {
 	std::string name;
 	std::string filePath;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBankList, name, filePath)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
 
 //struct JSONSoundFile
 //{
@@ -28,13 +28,13 @@ public:
 	AudioEditorNew();
 	~AudioEditorNew();
 
-	void LoadFromFileSoundBankLists();
-	//void LoadFromFileSoundBankFiles();
-	//void SortScreens();
+	void SortScreens();
+
 #if _DEBUG
-	void SaveToFileSoundBankLists();
-	//void SaveToFileSoundBankFiles();
 	void SpawnControlWindow();
+	void SaveToFileSoundBankLists();
+	void LoadFromFileSoundBankLists();
+	//void SaveToFileSoundBankFiles();
 #endif // _DEBUG
 private:
 	std::string m_sFilePath;
@@ -43,8 +43,8 @@ private:
 
 	std::vector<std::string> m_vSoundTypes = { "SFX", "MUSIC" };
 
-	std::vector<SoundBankList> SoundBanksList; // list of UI screens
-	std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of UI components for a given screen
+	std::vector<SoundBanksList> m_vSoundBanksList; // list of Sound Bank Lists
+	std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of Sound Files for a given Sound Bank
 };
 
 #endif // AUDIOEDITORNEW_H
