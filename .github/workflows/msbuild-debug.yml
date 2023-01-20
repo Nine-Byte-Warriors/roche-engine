@@ -1,4 +1,4 @@
-name: MSBuild
+name: MSBuild-Debug
 
 on:
   push:
