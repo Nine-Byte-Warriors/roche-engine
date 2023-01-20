@@ -8,6 +8,7 @@
 #include "Graphics.h"
 #include "UIManager.h"
 #include "WindowContainer.h"
+#include "AudioEngine.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"

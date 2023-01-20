@@ -9,8 +9,12 @@
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
+#if _DEBUG
+#include "AudioEditor.h"
+#endif
 #include "ProjectileEditor.h"
 #include "LevelStateMachine.h"
+#include "CollisionHandler.h"
 
 /// <summary>
 /// The first level of the game.
@@ -42,9 +46,12 @@ private:
 	Camera m_camera;
 	Player m_player;
 
+	CollisionHandler m_collisionHandler;
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
-	
+#if _DEBUG
+	AudioEditor m_audioEditor;
+#endif
 	int m_iTileMapRows;
 	int m_iTileMapColumns;
 	TextRenderer m_textRenderer;

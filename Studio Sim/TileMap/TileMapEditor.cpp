@@ -16,7 +16,8 @@ TileMapEditor::TileMapEditor(int rows, int columns)
 #if _DEBUG
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		m_TileMapPreviewImageButtonColor.push_back(m_sTileTypeData[0].color);
+		ImColor color = m_tileMapBackground->GetColorFromType(0);
+		m_TileMapPreviewImageButtonColor.push_back(color);
 	}
 #endif
 
@@ -51,7 +52,6 @@ void TileMapEditor::SpawnControlWindow()
 		TileMapSelectionButtons();
 		TileMapSelectedText();
 		TileMapGridPreview();
-
 	}
 
 	ImGui::End();
@@ -130,45 +130,27 @@ void TileMapEditor::Load()
 
 bool TileMapEditor::LoadProcessFile()
 {
-	std::ifstream file(m_sFilePath);
-	json jsonFile;
-	json jsonRow;
-	file >> jsonFile;
-	int rowNum = 0;
-	int colNum = 0;
-	std::string rowNumStr;
+	std::vector<std::string> tileTypeName;
+	JsonLoading::LoadJson(tileTypeName, m_sFilePath);
 
-	for (int i = 0; i < m_iRows; i++)
+	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
-		rowNumStr = "row";
-		rowNumStr += std::to_string(rowNum);
-		jsonRow = jsonFile[rowNumStr];
-
-		for (auto jsonTileType = jsonRow.begin(); jsonTileType != jsonRow.end(); ++jsonTileType)
+		if (m_tileMapLayer == TileMapLayer::Background)
 		{
-			for (int tileType = 0; tileType < m_iSizeOfTileTypeData; tileType++)
-			{
-				if (jsonTileType.value() == std::to_string(tileType) || StringHelper::StringEqualsIgnoreCase(jsonTileType.value(), m_sTileTypeData[tileType].name))
-				{
-					int pos = rowNum * m_iColumns + colNum;
-#if _DEBUG
-					m_TileMapPreviewImageButtonColor[pos] = m_sTileTypeData[tileType].color;
-#endif
-					if (m_tileMapLayer == TileMapLayer::Background)
-					{
-						m_tileMapBackground->UpdateTile(pos, tileType);
-					}
-					else if (m_tileMapLayer == TileMapLayer::Foreground)
-					{
-						m_tileMapForeground->UpdateTile(pos, tileType);
-					}
-				}
-			}
-			colNum++;
+			m_tileMapBackground->UpdateTileFromName(i, tileTypeName[i]);
 		}
-		colNum = 0;
-		rowNum++;
+		else if (m_tileMapLayer == TileMapLayer::Foreground)
+		{
+			m_tileMapForeground->UpdateTileFromName(i, tileTypeName[i]);
+		}
+#if _DEBUG
+		ImColor color = m_tileMapBackground->GetColorFromPosition(i);
+		m_TileMapPreviewImageButtonColor[i] = color;
+#endif
 	}
+
+	tileTypeName.clear();
+
 	return true;
 }
 
@@ -249,35 +231,30 @@ void TileMapEditor::SaveToNewFile()
 
 bool TileMapEditor::SaveWriteFile()
 {
-	json jsonFile;
-	int rowNum;
-	std::string rowNumStr;
-	std::vector<std::string> rowValues;
+	std::vector<std::string> tileTypeName;
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
 		if (m_tileMapLayer == TileMapLayer::Background)
 		{
-			rowValues.push_back(m_sTileTypeData[m_tileMapBackground->GetTileType(i)].name);
+			tileTypeName.push_back(m_tileMapBackground->GetTileTypeNameFromPosition(i));
 		}
 		else if (m_tileMapLayer == TileMapLayer::Foreground)
 		{
-			rowValues.push_back(m_sTileTypeData[m_tileMapForeground->GetTileType(i)].name);
-		}
-
-		bool endOfRow = (i + 1) % m_iColumns == 0 && i != 0;
-		if (endOfRow)
-		{
-			rowNum = i / m_iColumns;
-			rowNumStr = "row";
-			rowNumStr += std::to_string(rowNum);
-			jsonFile[rowNumStr] = rowValues;
-			rowValues.clear();
+			tileTypeName.push_back(m_tileMapForeground->GetTileTypeNameFromPosition(i));
 		}
 	}
 
-	std::ofstream o(m_sFilePath);
-	o << std::setw(4) << jsonFile << std::endl;
+	if (m_tileMapLayer == TileMapLayer::Background)
+	{
+		JsonLoading::SaveJson(tileTypeName, m_sFilePath);
+	}
+	else if (m_tileMapLayer == TileMapLayer::Foreground)
+	{
+		JsonLoading::SaveJson(tileTypeName, m_sFilePath);
+	}
+
+	tileTypeName.clear();
 
 	return true;
 }
@@ -289,8 +266,9 @@ void TileMapEditor::TileMapSelectionButtons()
 
 	for (int i = 0; i < m_iSizeOfTileTypeData; i++)
 	{
+		ImColor color = m_tileMapBackground->GetColorFromType(i);
 		m_sTileTypeData[i].button =
-			ImGui::ImageButtonNoTexture(m_sTileTypeData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_sTileTypeData[i].color);
+			ImGui::ImageButtonNoTexture(m_sTileTypeData[i].name.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, color);
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
@@ -381,15 +359,16 @@ void TileMapEditor::UpdateSingleTileMapGridPreview()
 					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
 					{
 #if _DEBUG
-						m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+						ImColor color = m_tileMapBackground->GetColorFromType(j);
+						m_TileMapPreviewImageButtonColor[i] = color;
 #endif
 						if (m_tileMapLayer == TileMapLayer::Background)
 						{
-							m_tileMapBackground->UpdateTile(i, m_tileMapBackground->GetTileTypeData()[j].type);
+							m_tileMapBackground->UpdateTileFromType(i, m_tileMapBackground->GetTileTypeData()[j].type);
 						}
 						else if (m_tileMapLayer == TileMapLayer::Foreground)
 						{
-							m_tileMapForeground->UpdateTile(i, m_tileMapBackground->GetTileTypeData()[j].type);
+							m_tileMapForeground->UpdateTileFromType(i, m_tileMapBackground->GetTileTypeData()[j].type);
 						}
 					}
 				}
@@ -409,14 +388,16 @@ void TileMapEditor::UpdateWholeTileMapGridPreview()
 			{
 				if (m_tileMapBackground->GetTileType(i) == m_tileMapBackground->GetTileTypeData()[j].type)
 				{
-					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+					ImColor color = m_tileMapBackground->GetColorFromType(j);
+					m_TileMapPreviewImageButtonColor[i] = color;
 				}
 			}
 			else if (m_tileMapLayer == TileMapLayer::Foreground)
 			{
 				if (m_tileMapForeground->GetTileType(i) == m_tileMapForeground->GetTileTypeData()[j].type)
 				{
-					m_TileMapPreviewImageButtonColor[i] = m_sTileTypeData[j].color;
+					ImColor color = m_tileMapForeground->GetColorFromType(j);
+					m_TileMapPreviewImageButtonColor[i] = color;
 				}
 			}
 		}
@@ -431,7 +412,7 @@ void TileMapEditor::SelectTileMapLayer()
 	ImGui::Text("Select Tile Map Layer");
 	static int tileMapLayer = 0;
 	static std::string previewMapLayer = "Background";
-	static const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked"};
+	static const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked" };
 	if (ImGui::BeginCombo("##SelectTileMapLayer", previewMapLayer.c_str()))
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(tileMapLayers); i++)
