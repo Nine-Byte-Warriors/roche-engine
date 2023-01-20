@@ -96,9 +96,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
-		switch ( m_vButtons[i].GetType() )
-		{
-		case Button_Widget::ButtonType::GitHub_Link:
+		if ( m_vButtons[i].GetAction() == "Link" )
 		{
 			// GitHub Link
 			if ( m_vButtons[i].Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
@@ -114,50 +112,86 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 				m_bOpen = false;
 			}
 		}
-		break;
-		case Button_Widget::ButtonType::Quit_Game:
+		else if ( m_vButtons[i].GetAction() == "Close" )
 		{
 			// Quit Game
 			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
 				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			m_vButtons[i].Update( dt );
 		}
-		break;
+		else
+		{
+			// Default
+			m_vButtons[i].Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
+			m_vButtons[i].Update( dt );
 		}
 	}
 
 	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
 	{
+		// Doesn't need actions
 		m_vColourBlocks[i].Resolve( { 210, 210, 150 } );
 		m_vColourBlocks[i].Update( dt );
 	}
 
 	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
 	{
-		m_vDataSliders[i].Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
-			"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-		m_vDataSliders[i].Update( dt );
+		if ( m_vDataSliders[i].GetAction() == "Master Volume" )
+		{
+			// Create a slider that syncs with master volume
+		}
+		else  if ( m_vDataSliders[i].GetAction() == "Music Volume" )
+		{
+			// Create a slider that syncs with musics volume
+		}
+		else
+		{
+			// Default
+			m_vDataSliders[i].Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
+				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+			m_vDataSliders[i].Update( dt );
+		}
 	}
 
 	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
 	{
-		std::vector<std::string> vValues = { "True", "False" };
-		static std::string sValue = vValues[0];
-		m_vDropDowns[i].Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-		if ( m_vDropDowns[i].GetSelected() == "False" )
-			sValue = "False";
+		if ( m_vDropDowns[i].GetAction() == "Resolution" )
+		{
+			// Create a drop down that allows user to change resolution
+		}
 		else
-			sValue = "True";
-		m_vDropDowns[i].Update( dt );
+		{
+			// Default
+			std::vector<std::string> vValues = { "True", "False" };
+			static std::string sValue = vValues[0];
+			m_vDropDowns[i].Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+			if ( m_vDropDowns[i].GetSelected() == "False" )
+				sValue = "False";
+			else
+				sValue = "True";
+			m_vDropDowns[i].Update( dt );
+		}
 	}
 
 	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
 	{
-		std::string temp = m_textures[2];
-		m_textures[2] = "";
-		m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
-		m_textures[2] = temp;
-		m_vEnergyBars[i].Update( dt );
+		if ( m_vEnergyBars[i].GetAction() == "Player Health" )
+		{
+			// Bar that displays the player's health
+		}
+		else if ( m_vEnergyBars[i].GetAction() == "Enemy Health" )
+		{
+			// Bar that displays an enemy's health
+		}
+		else
+		{
+			// Default
+			std::string temp = m_textures[2];
+			m_textures[2] = "";
+			m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
+			m_textures[2] = temp;
+			m_vEnergyBars[i].Update( dt );
+		}
 	}
 
 	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
@@ -168,8 +202,16 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
 	{
-		m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData );
-		m_vInputs[i].Update( dt );
+		if ( m_vInputs[i].GetAction() == "Player Name" )
+		{
+			// Input that allows the user to enter their name
+		}
+		else
+		{
+			// Default
+			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData );
+			m_vInputs[i].Update( dt );
+		}
 	}
 
 	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )

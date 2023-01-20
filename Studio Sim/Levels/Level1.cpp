@@ -225,13 +225,16 @@ void Level1::Update( const float dt )
 #if _DEBUG
     m_audioEditor.Update();
     m_uiEditor.Update( dt );
-    if ( m_uiEditor.ShouldShowAll() )
+    static bool firstLoad = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoad )
     {
+        firstLoad = false;
         m_ui->ShowAllUI();
     }
     else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
         m_ui->HideAllUI();
+        std::string name = m_uiEditor.GetCurrentScreenName();
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
     else

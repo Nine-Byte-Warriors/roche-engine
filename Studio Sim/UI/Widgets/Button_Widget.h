@@ -15,12 +15,6 @@ public:
         Hover
     };
 
-    enum class ButtonType
-    {
-        GitHub_Link,
-        Quit_Game
-    };
-
     Button_Widget();
     Button_Widget( const std::string& texture );
     ~Button_Widget();
@@ -31,7 +25,6 @@ public:
     bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData );
     
     inline bool GetIsPressed() const noexcept { return m_bIsPressed; }
-    inline ButtonType GetType() const noexcept { return m_buttonType; }
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 private:
@@ -39,7 +32,6 @@ private:
     XMVECTORF32 m_vTextColor;
     bool m_bIsPressed = false;
 
-    ButtonType m_buttonType;
     ButtonState m_buttonState;
     std::string  m_buttonTexture;
 

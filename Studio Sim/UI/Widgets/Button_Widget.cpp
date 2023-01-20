@@ -3,7 +3,6 @@
 
 Button_Widget::Button_Widget()
 {
-    m_buttonType = ButtonType::Quit_Game;
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
@@ -15,7 +14,6 @@ Button_Widget::Button_Widget()
 
 Button_Widget::Button_Widget( const std::string& texture )
 {
-    m_buttonType = ButtonType::Quit_Game;
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 

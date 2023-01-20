@@ -9,7 +9,8 @@
             500.0,
             100.0
         ],
-        "type": "Energy Bar"
+        "type": "Energy Bar",
+		"action": "Boss Health"
     },
     {
         "name": "Boss Icon",
@@ -21,6 +22,7 @@
             100.0,
             100.0
         ],
-        "type": "Image"
+        "type": "Image",
+		"action": ""
     }
 ]

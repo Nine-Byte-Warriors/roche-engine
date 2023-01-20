@@ -52,7 +52,7 @@ void UIEditor::LoadFromFile_Widgets()
 		m_vUIWidgets.push_back( {} );
 		for ( unsigned int j = 0; j < it->second.size(); j++ ) // widget struct
 		{
-			m_vUIWidgets[index].push_back( { it->second[j].name, it->second[j].type,
+			m_vUIWidgets[index].push_back( { it->second[j].name, it->second[j].type, it->second[j].action,
 				XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
 				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) } );
 		}
@@ -103,19 +103,19 @@ void UIEditor::SaveToFile_Widgets()
 
 void UIEditor::Update( const float dt )
 {
+	if ( m_vUIWidgets.size() > 0 )
+		m_vUIWidgets.clear();
+
 	int index = 0;
 	for ( auto& [key, value] : m_vUIWidgetData ) // each ui screen
 	{
-		if ( m_vUIWidgets.size() < index )
-			m_vUIWidgets.push_back( {} );
-
+		m_vUIWidgets.push_back( {} );
 		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 		{
-			if ( m_vUIWidgets[index].size() < i )
-				m_vUIWidgets[index].push_back( {} );
-
+			m_vUIWidgets[index].push_back( {} );
 			m_vUIWidgets[index][i].SetName( value[i].name );
 			m_vUIWidgets[index][i].SetType( value[i].type );
+			m_vUIWidgets[index][i].SetAction( value[i].action );
 			m_vUIWidgets[index][i].SetSize( { value[i].scale[0], value[i].scale[1] } );
 			m_vUIWidgets[index][i].SetPosition( { value[i].position[0], value[i].position[1] } );
 		}
@@ -128,6 +128,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 	static Timer timer;
 	static float counter = 0.0f;
 	static bool savedFile = false;
+	static ImVec4 highlightCol = ImVec4( 1.0f, 0.1f, 0.1f, 1.0f );
 
 	if ( ImGui::Begin( "UI Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
@@ -194,7 +195,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				static bool modifiedName = false;
 				ImGui::Text( "Screen Name: " );
 				ImGui::SameLine();
-				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[m_iCurrentScreenIdx].name.c_str() );
+				ImGui::TextColored( highlightCol, m_vUIScreenData[m_iCurrentScreenIdx].name.c_str() );
 				if ( ImGui::InputText( std::string( "##" ).append( m_vUIScreenData[m_iCurrentScreenIdx].name ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
 					modifiedName = true;
 				if ( modifiedName )
@@ -211,7 +212,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				// Update screen widget file
 				ImGui::Text( "Screen Widget File: " );
 				ImGui::SameLine();
-				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
+				ImGui::TextColored( highlightCol, m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
 				{
 					if ( FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ) )
@@ -276,7 +277,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							static bool modifiedName = false;
 							ImGui::Text( "Widget Name: " );
 							ImGui::SameLine();
-							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].name.c_str() );
+							ImGui::TextColored( highlightCol, value[i].name.c_str() );
 							if ( ImGui::InputText( std::string( "##WidgetName" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
 								modifiedName = true;
 							if ( modifiedName )
@@ -292,7 +293,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 							ImGui::Text( "Widget Type: " );
 							ImGui::SameLine();
-							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].type.c_str() );
+							ImGui::TextColored( highlightCol, value[i].type.c_str() );
 							static int currentType = 0;
 							const char* comboPreview = value[i].type.c_str();
 							if ( ImGui::BeginCombo( std::string( "##WidgetType" ).append( value[i].name ).append( std::to_string( i ) ).c_str(), comboPreview ) )
@@ -312,6 +313,14 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 								ImGui::EndCombo();
 							}
 							ImGui::NewLine();
+
+							if ( value[i].action.size() > 0 )
+							{
+								ImGui::Text( "Action: " );
+								ImGui::SameLine();
+								ImGui::TextColored( highlightCol, value[i].action.c_str() );
+								ImGui::NewLine();
+							}
 
 							ImGui::Text( "Position" );
 							float max = ( gfx.GetWidth() > gfx.GetHeight() ? gfx.GetWidth() : gfx.GetHeight() );
@@ -349,7 +358,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 						if ( key == screenName )
 						{
 							static int widgetIdx = 0;
-							value.push_back( UIWidgetData( "Blank Widget " + std::to_string( widgetIdx ), "Image", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+							value.push_back( UIWidgetData( "Blank Widget " + std::to_string( widgetIdx ),
+								"Image", "", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
 						}
 					}
 				}
