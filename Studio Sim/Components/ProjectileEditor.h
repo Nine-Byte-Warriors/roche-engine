@@ -33,6 +33,8 @@ private:
 	ProjectileData::ManagerJSON CreateDefaultManager();
 	ProjectileData::ProjectileJSON CreateDefaultProjectile();
 
+	void SaveProjectile();
+
 	void SpawnPattern();
 
 	bool m_bSaveButton;
