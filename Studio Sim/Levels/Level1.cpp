@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Level1.h"
+#include "ProjectileEditor.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -39,6 +40,10 @@ void Level1::OnCreate()
         //Initialize CollisionHandler
         m_collisionHandler.AddCollider(m_player.GetCollider());
         m_collisionHandler.AddCollider(m_enemy.GetCollider());
+
+		// Initialise Projectile Editor
+        m_projectileEditor = ProjectileEditor::CreateEditor();
+		m_projectileEditor->Initialise(*m_gfx, m_cbMatrices);
 	}
 	catch ( COMException& exception )
 	{
@@ -135,18 +140,23 @@ void Level1::BeginFrame()
 
 void Level1::RenderFrame()
 {
+	auto gfxContext = m_gfx->GetContext();
+	auto camMatrix = m_camera.GetWorldOrthoMatrix();
+    
     // Sprites
     RenderFrameTileMap(m_tileMapDrawBackground);
     RenderFrameTileMap(m_tileMapDrawForeground);
+    
+    m_projectileEditor->Draw(gfxContext, camMatrix);
 
+    m_player.GetSprite()->UpdateBuffers(gfxContext);
+    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
+    m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
+    
     RenderFrameEntity();
 
-    m_player.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
-    m_player.GetProjectileManager()->Draw( m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix() );
-
-    m_enemy.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
+    m_enemy.GetSprite()->UpdateBuffers(gfxContext);
+    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
 void Level1::RenderFrameEntity()
@@ -212,6 +222,7 @@ void Level1::EndFrame()
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
     m_uiEditor.SpawnControlWindow( *m_gfx );
+    m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     m_tileMapEditor->SpawnControlWindow();
     m_entityEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
@@ -255,6 +266,7 @@ void Level1::Update( const float dt )
     m_enemy.Update( dt );
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
+	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
 }
 

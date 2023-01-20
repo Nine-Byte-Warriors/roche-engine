@@ -16,6 +16,7 @@
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
+#include "ProjectileEditor.h"
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
 
@@ -70,6 +71,7 @@ private:
 	TileMapEditor* m_tileMapEditor;
 	std::vector<TileMapDraw> m_tileMapDrawBackground;
 	std::vector<TileMapDraw> m_tileMapDrawForeground;
+	std::shared_ptr<ProjectileEditor> m_projectileEditor;
 };
 
 #endif
