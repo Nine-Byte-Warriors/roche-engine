@@ -120,6 +120,10 @@ void Level1::OnSwitch()
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
 	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
     m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Pause" );
+#endif
 }
 
 void Level1::BeginFrame()
