@@ -10,6 +10,7 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_vOffSet = Vector2f();
 
 	m_fSpeed = fSpeed;
+	m_fLifeTime = 0.0f;
 	m_fMaxLifeTime = fLifeTime;
 
 	m_bFixedDirection = true;
@@ -42,21 +43,10 @@ void Projectile::Update(const float dt)
 	
 	m_fLifeTime -= dt;
 
-	if (m_bFixedDirection)
-	{
+	if (m_fAmplitude == 0.0f || m_fFrequency == 0.0f)
 		m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
-	}
 	else
-	{
-		float fAngle = m_fAngle + AI_MATH_HALF_PI_F;
-		float fCurrentDist = m_fAmplitude * sinf((m_fMaxLifeTime - m_fLifeTime) * m_fFrequency);
-		Vector2f vWavePosition = Vector2f(
-			cosf(fAngle) * fCurrentDist,
-			sinf(fAngle) * fCurrentDist
-		);
-		m_vAnchorPosition = m_vAnchorPosition.Add(m_physics->GetVelocity());
-		m_transform->SetPosition(vWavePosition.Add(m_vAnchorPosition));
-	}
+		CalcDirection();
 
 	m_sprite->Update(dt);
 	m_physics->Update(dt);
@@ -94,4 +84,16 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 	m_transform->SetPosition(m_vAnchorPosition);
 
 	m_physics->ResetForces();
+}
+
+void Projectile::CalcDirection()
+{
+	float fAngle = m_fAngle + AI_MATH_HALF_PI_F;
+	float fCurrentDist = m_fAmplitude * sinf((m_fMaxLifeTime - m_fLifeTime) * m_fFrequency);
+	Vector2f vWavePosition = Vector2f(
+		cosf(fAngle) * fCurrentDist,
+		sinf(fAngle) * fCurrentDist
+	);
+	m_vAnchorPosition = m_vAnchorPosition.Add(m_vDirection.Multiply(m_fSpeed));
+	m_transform->SetPosition(vWavePosition.Add(m_vAnchorPosition));
 }

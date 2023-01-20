@@ -32,12 +32,7 @@ public:
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	
 private:
-	inline Vector2f CalcWaveVector(const float fPeak, const float fCycles, const float fDelta) noexcept {
-		return Vector2f(
-			fPeak * sinf(AI_MATH_TWO_PI_F * fCycles * fDelta),
-			fPeak * cosf(AI_MATH_TWO_PI_F * fCycles * fDelta)
-		);
-	}
+	void CalcDirection();
 
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
