@@ -7,7 +7,7 @@ class Graphics;
 #include "Physics.h"
 #include "EventSystem.h"
 #include "ProjectileManager.h"
-#include "Collider.h"
+#include "Colliders.h"
 
 class Entity : public Listener
 {
