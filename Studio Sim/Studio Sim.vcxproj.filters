@@ -133,6 +133,9 @@
     <Filter Include="Resource Files\Audio">
       <UniqueIdentifier>{47e99ccd-838d-499d-a988-2f2d6bf7bc6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Patterns">
+      <UniqueIdentifier>{9d133298-ec83-4a55-a80a-cf740f1a6b68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -671,6 +674,12 @@
     </None>
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
       <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Patterns\DefaultProjectile.ptn">
+      <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Patterns\DefaultManagerPattern.ptn">
+      <Filter>Resource Files\Patterns</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

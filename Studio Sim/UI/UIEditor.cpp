@@ -128,7 +128,6 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 	static Timer timer;
 	static float counter = 0.0f;
 	static bool savedFile = false;
-	static int currentScreenIdx = -1;
 
 	if ( ImGui::Begin( "UI Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
@@ -162,6 +161,11 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 		if ( ImGui::CollapsingHeader( "Screens", ImGuiTreeNodeFlags_DefaultOpen ) )
 		{
+			// Show all screens at once?
+			ImGui::NewLine();
+			ImGui::Checkbox( "Show all screens?", &m_bShouldShowAll );
+			ImGui::NewLine();
+
 			// List of all UI screens currently defined
 			ImGui::Text( "UI Screen List" );
 			if ( ImGui::BeginListBox( "##UI Screen List", ImVec2( -FLT_MIN, m_vUIScreenData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
@@ -169,9 +173,9 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				int index = 0;
 				for ( auto const& [key, value] : m_vUIScreenData )
 				{
-					const bool isSelected = ( currentScreenIdx == index );
+					const bool isSelected = ( m_iCurrentScreenIdx == index );
 					if ( ImGui::Selectable( key.c_str(), isSelected ) )
-						currentScreenIdx = index;
+						m_iCurrentScreenIdx = index;
 
 					if ( isSelected )
 						ImGui::SetItemDefaultFocus();
@@ -180,24 +184,25 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				}
 				ImGui::EndListBox();
 			}
+			ImGui::NewLine();
 
 			// Modify screens
-			if ( currentScreenIdx > -1 )
+			if ( m_iCurrentScreenIdx > -1 )
 			{
 				// Update screen name
 				static char buf[32] = "";
 				static bool modifiedName = false;
 				ImGui::Text( "Screen Name: " );
 				ImGui::SameLine();
-				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[currentScreenIdx].name.c_str() );
-				if ( ImGui::InputText( std::string( "##" ).append( m_vUIScreenData[currentScreenIdx].name ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
+				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[m_iCurrentScreenIdx].name.c_str() );
+				if ( ImGui::InputText( std::string( "##" ).append( m_vUIScreenData[m_iCurrentScreenIdx].name ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
 					modifiedName = true;
 				if ( modifiedName )
 				{
-					if ( ImGui::Button( std::string( "Save Name##" ).append( m_vUIScreenData[currentScreenIdx].name ).c_str() ) )
+					if ( ImGui::Button( std::string( "Save Name##" ).append( m_vUIScreenData[m_iCurrentScreenIdx].name ).c_str() ) )
 					{
 						// TODO: prevent user from setting duplicate names
-						m_vUIScreenData[currentScreenIdx].name = buf;
+						m_vUIScreenData[m_iCurrentScreenIdx].name = buf;
 						modifiedName = false;
 					}
 				}
@@ -206,17 +211,17 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				// Update screen widget file
 				ImGui::Text( "Screen Widget File: " );
 				ImGui::SameLine();
-				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[currentScreenIdx].file.c_str() );
+				ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
 				{
 					if ( FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ) )
 					{
-						m_vUIScreenData[currentScreenIdx].file = m_sSelectedFile;
+						m_vUIScreenData[m_iCurrentScreenIdx].file = m_sSelectedFile;
 						std::string type = ".json";
 						std::string::size_type idx = m_sSelectedFile.find( type );
 						if ( idx != std::string::npos )
 							m_sSelectedFile.erase( idx, type.length() );
-						m_vUIScreenData[currentScreenIdx].name = m_sSelectedFile;
+						m_vUIScreenData[m_iCurrentScreenIdx].name = m_sSelectedFile;
 
 						SortScreens();
 						LoadFromFile_Widgets();
@@ -230,31 +235,34 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					static int screenIdx = 0;
 					std::string screenName = "Blank Screen " + std::to_string( screenIdx );
 					m_vUIScreenData.push_back( UIScreenData( { screenName, std::string( screenName ).append( ".json" ) } ) );
-					currentScreenIdx -= m_vUIScreenData.size() - 1;
+					m_iCurrentScreenIdx -= m_vUIScreenData.size() - 1;
 				}
 				ImGui::SameLine();
 				if ( ImGui::Button( "Remove Current Screen" ) )
 				{
 					if ( m_vUIScreenData.size() > 1 )
 					{
-						m_vUIScreenData.erase( m_vUIScreenData.begin() + currentScreenIdx );
+						m_vUIScreenData.erase( m_vUIScreenData.begin() + m_iCurrentScreenIdx );
 						m_vUIScreenData.shrink_to_fit();
-						currentScreenIdx -= 1;
+						m_iCurrentScreenIdx -= 1;
 					}
 				}
 			}
 		}
 		ImGui::NewLine();
 		
-		if ( ImGui::CollapsingHeader( "Widgets", ImGuiTreeNodeFlags_DefaultOpen ) )
+		if ( m_iCurrentScreenIdx > -1 )
 		{
-
-			// Edit UI components for each screen
-			int index = 0;
-			for ( auto& [key, value] : m_vUIWidgetData ) // loop each screens data struct
+			if ( ImGui::CollapsingHeader( "Widgets", ImGuiTreeNodeFlags_DefaultOpen ) )
 			{
-				if ( index == currentScreenIdx )
+				// Edit UI components for each screen
+				int index = -1;
+				for ( auto& [key, value] : m_vUIWidgetData ) // loop each screens data struct
 				{
+					index++;
+					if ( index != m_iCurrentScreenIdx )
+						continue;
+
 					for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 					{
 						ImGui::PushID( i );
@@ -269,8 +277,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::Text( "Widget Name: " );
 							ImGui::SameLine();
 							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].name.c_str() );
-							//std::string( "##" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str()
-							if ( ImGui::InputText( "##WidgetName", buf, IM_ARRAYSIZE( buf ) ) )
+							if ( ImGui::InputText( std::string( "##WidgetName" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
 								modifiedName = true;
 							if ( modifiedName )
 							{
@@ -288,8 +295,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].type.c_str() );
 							static int currentType = 0;
 							const char* comboPreview = value[i].type.c_str();
-							//std::string( "##" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str()
-							if ( ImGui::BeginCombo( "##WidgetType", comboPreview ) )
+							if ( ImGui::BeginCombo( std::string( "##WidgetType" ).append( value[i].name ).append( std::to_string( i ) ).c_str(), comboPreview ) )
 							{
 								for ( unsigned int j = 0; j < m_vUITypes.size(); j++ )
 								{
@@ -309,16 +315,14 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 							ImGui::Text( "Position" );
 							float max = ( gfx.GetWidth() > gfx.GetHeight() ? gfx.GetWidth() : gfx.GetHeight() );
-							static float position[2] = { value[i].position[0], value[i].position[1] };
-							//std::string( "##Position" ).append( key ).append( value[i].name ).append( std::to_string( i ) ).c_str()
-							ImGui::SliderFloat2( "##Position", position, 0.0f, max, "%.1f" );
+							float position[2] = { value[i].position[0], value[i].position[1] };
+							ImGui::DragFloat2( std::string( "##Position" ).append( key ).append( value[i].name ).c_str(), position, 1.0f, 0.0f, max, "%.1f" );
 							value[i].position = { position[0], position[1] };
 							ImGui::NewLine();
 
 							ImGui::Text( "Scale" );
-							static float scale[2] = { value[i].scale[0], value[i].scale[1] };
-							//std::string( "##Scale" ).append( key ).append( value[i].name ).append( std::to_string( i ) ).c_str()
-							ImGui::SliderFloat2( "##Scale", scale, 0.0f, max, "%.1f" );
+							float scale[2] = { value[i].scale[0], value[i].scale[1] };
+							ImGui::DragFloat2( std::string( "##Scale" ).append( key ).append( value[i].name ).c_str(), scale, 1.0f, 0.0f, max, "%.1f" );
 							value[i].scale = { scale[0], scale[1] };
 							ImGui::NewLine();
 
@@ -335,19 +339,18 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 						ImGui::PopID();
 					}
 				}
-				index++;
-			}
 
-			// Add a new widget
-			if ( ImGui::Button( "Add New Widget" ) )
-			{
-				std::string screenName = m_vUIScreenData[currentScreenIdx].name;
-				for ( auto& [key, value] : m_vUIWidgetData )
+				// Add a new widget
+				if ( ImGui::Button( "Add New Widget" ) )
 				{
-					if ( key == screenName )
+					std::string screenName = m_vUIScreenData[m_iCurrentScreenIdx].name;
+					for ( auto& [key, value] : m_vUIWidgetData )
 					{
-						static int widgetIdx = 0;
-						value.push_back( UIWidgetData( "Blank Widget " + std::to_string( widgetIdx ), "Image", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+						if ( key == screenName )
+						{
+							static int widgetIdx = 0;
+							value.push_back( UIWidgetData( "Blank Widget " + std::to_string( widgetIdx ), "Image", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+						}
 					}
 				}
 			}

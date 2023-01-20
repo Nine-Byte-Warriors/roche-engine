@@ -39,6 +39,10 @@ public:
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
 	
+	inline bool ShouldShowAll() const noexcept { return m_bShouldShowAll; }
+	inline int GetCurrentScreenIndex() const noexcept { return m_iCurrentScreenIdx; }
+	inline std::string GetCurrentScreenName() const noexcept { return m_vUIScreenData[m_iCurrentScreenIdx].name; }
+
 	inline std::vector<UIScreenData> GetScreenData() const noexcept { return m_vUIScreenData; }
 	inline std::map<std::string, std::vector<UIWidgetData>> GetWidgetData() const noexcept { return m_vUIWidgetData; }
 
@@ -49,6 +53,8 @@ private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
+	int m_iCurrentScreenIdx = -1;
+	bool m_bShouldShowAll = false;
 
 	std::string m_sJsonFile = "Main Menu.json";
 	const std::vector<std::string> m_vUITypes =

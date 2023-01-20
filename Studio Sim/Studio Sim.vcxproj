@@ -545,6 +545,8 @@
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
+    <None Include="Resources\Patterns\DefaultManagerPattern.ptn" />
+    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Tutorial01.aps" />
   </ItemGroup>
   <ItemGroup>

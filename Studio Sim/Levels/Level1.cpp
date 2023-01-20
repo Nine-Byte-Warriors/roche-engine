@@ -119,7 +119,7 @@ void Level1::OnSwitch()
     for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
 	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
-    m_ui->ShowAllUI();
+    m_ui->HideAllUI();
 }
 
 void Level1::BeginFrame()
@@ -225,6 +225,19 @@ void Level1::Update( const float dt )
 #if _DEBUG
     m_audioEditor.Update();
     m_uiEditor.Update( dt );
+    if ( m_uiEditor.ShouldShowAll() )
+    {
+        m_ui->ShowAllUI();
+    }
+    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    {
+        m_ui->HideAllUI();
+        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
+    }
+    else
+    {
+        m_ui->HideAllUI();
+    }
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
