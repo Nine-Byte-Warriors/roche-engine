@@ -11,13 +11,13 @@ class Image_Widget : public Widget
 {
 public:
     Image_Widget();
-    Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
+    Image_Widget( const std::string& texture );
     ~Image_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho );
-    void Resolve( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
+    void Resolve( const std::string& texture );
 
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }

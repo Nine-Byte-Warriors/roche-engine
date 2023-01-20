@@ -6,14 +6,14 @@ Image_Widget::Image_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
-	Resolve( "Resources\\Textures\\Tiles\\empty.png", { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	Resolve( "Resources\\Textures\\Tiles\\empty.png" );
 }
 
-Image_Widget::Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
+Image_Widget::Image_Widget( const std::string& texture )
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
-	Resolve( texture, pos, size );
+	Resolve( texture );
 }
 
 Image_Widget::~Image_Widget() { }
@@ -38,11 +38,8 @@ void Image_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMM
 	m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 }
 
-void Image_Widget::Resolve( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
+void Image_Widget::Resolve( const std::string& texture )
 {
-	m_vSize = size;
-	m_vPosition = pos;
-
 	m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScale( m_vSize.x, m_vSize.y );
 	

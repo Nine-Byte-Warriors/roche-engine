@@ -11,168 +11,238 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 	m_vWidgets = widgets;
 	m_pDevice = gfx.GetDevice();
 	m_pContext = gfx.GetContext();
-
-	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
-	{
-		if ( Button_Widget* widget = dynamic_cast<Button_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( ColourBlock_Widget* widget = dynamic_cast<ColourBlock_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( DataSlider_Widget* widget = dynamic_cast<DataSlider_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( DropDown_Widget* widget = dynamic_cast<DropDown_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( EnergyBar_Widget* widget = dynamic_cast<EnergyBar_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( Image_Widget* widget = dynamic_cast<Image_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( Input_Widget* widget = dynamic_cast<Input_Widget*>( &m_vWidgets[i] ) )
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-		else if ( PageSlider_Widget* widget = dynamic_cast<PageSlider_Widget*>( &m_vWidgets[i] ) )
-		{
-			widget->Initialize( m_pDevice.Get(), m_pContext.Get(), *mat );
-			widget->SetPageSize( m_vScreenSize.y );
-		}
-	}
+	UpdateWidgets();
 }
 
-void UIScreen::Update( const float dt )
+void UIScreen::UpdateWidgets()
 {
-	if ( !m_mouseData.LPress )
-		m_mouseData.Locked = false;
-
-	XMFLOAT2 size = { m_vScreenSize.x * 0.1f, m_vScreenSize.y * 0.1f };
-	XMFLOAT2 pos = { m_vScreenSize.x * 0.025f, m_fCurrentY };
-	float offset = 0.115f;
-
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
 		if ( m_vWidgets[i].GetType() == "Button" )
 		{
-			Button_Widget* buttonWidget = reinterpret_cast<Button_Widget*>( &m_vWidgets[i] );
-			switch ( buttonWidget->GetType() )
+			Button_Widget button;
+			button.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			button.IntializeWidget( m_vWidgets[i] );
+			m_vButtons.push_back( std::move( button ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Colour Block" )
+		{
+			ColourBlock_Widget colourBlock;
+			colourBlock.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			colourBlock.IntializeWidget( m_vWidgets[i] );
+			m_vColourBlocks.push_back( std::move( colourBlock ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Data Slider" )
+		{
+			DataSlider_Widget dataSlider;
+			dataSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			dataSlider.IntializeWidget( m_vWidgets[i] );
+			m_vDataSliders.push_back( std::move( dataSlider ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Drop Down" )
+		{
+			DropDown_Widget dropDown;
+			dropDown.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			dropDown.IntializeWidget( m_vWidgets[i] );
+			m_vDropDowns.push_back( std::move( dropDown ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Energy Bar" )
+		{
+			EnergyBar_Widget energyBar;
+			energyBar.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			energyBar.IntializeWidget( m_vWidgets[i] );
+			m_vEnergyBars.push_back( std::move( energyBar ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Image" )
+		{
+			Image_Widget image;
+			image.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			image.IntializeWidget( m_vWidgets[i] );
+			m_vImages.push_back( std::move( image ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Input" )
+		{
+			Input_Widget input;
+			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			input.IntializeWidget( m_vWidgets[i] );
+			m_vInputs.push_back( std::move( input ) );
+		}
+		else if ( m_vWidgets[i].GetType() == "Page Slider" )
+		{
+			PageSlider_Widget pageSlider;
+			pageSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			pageSlider.IntializeWidget( m_vWidgets[i] );
+			pageSlider.SetPageSize( m_vScreenSize.y );
+			m_vPageSliders.push_back( std::move( pageSlider ) );
+		}
+	}
+}
+
+void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
+{
+	m_vWidgets = widgets;
+	m_vButtons.clear();
+	m_vColourBlocks.clear();
+	m_vDataSliders.clear();
+	m_vDropDowns.clear();
+	m_vEnergyBars.clear();
+	m_vImages.clear();
+	m_vInputs.clear();
+	m_vPageSliders.clear();
+	UpdateWidgets();
+
+	if ( !m_mouseData.LPress )
+		m_mouseData.Locked = false;
+
+	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
+	{
+		switch ( m_vButtons[i].GetType() )
+		{
+		case Button_Widget::ButtonType::GitHub_Link:
+		{
+			// GitHub Link
+			if ( m_vButtons[i].Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
+				if ( !m_bOpenLink && m_bOpen )
+					m_bOpenLink = true;
+			m_vButtons[i].Update( dt );
+			if ( !m_vButtons[i].GetIsPressed() )
+				m_bOpen = true;
+			if ( m_bOpenLink )
 			{
-			case Button_Widget::ButtonType::Quit_Game:
-			{
-				// Quit Game
-				if ( buttonWidget->Resolve( "Example", Colors::White, m_texturesGithub, m_mouseData, buttonWidget->GetPosition(), size ) )
-					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-				buttonWidget->Update( dt );
-			}
-			break;
-			case Button_Widget::ButtonType::GitHub_Link:
-			{
-				// GitHub Link
-				if ( buttonWidget->Resolve( "", Colors::White, m_texturesGithub, m_mouseData, buttonWidget->GetPosition(), size ) )
-					if ( !m_bOpenLink && m_bOpen )
-						m_bOpenLink = true;
-				buttonWidget->Update( dt );
-				if ( !buttonWidget->GetIsPressed() )
-					m_bOpen = true;
-				if ( m_bOpenLink )
-				{
-					ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors", 0, 0, SW_SHOW );
-					m_bOpenLink = false;
-					m_bOpen = false;
-				}
-			}
-			break;
+				ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors", 0, 0, SW_SHOW );
+				m_bOpenLink = false;
+				m_bOpen = false;
 			}
 		}
-		else if ( ColourBlock_Widget* widget = dynamic_cast<ColourBlock_Widget*>( &m_vWidgets[i] ) )
+		break;
+		case Button_Widget::ButtonType::Quit_Game:
 		{
-			widget->Resolve( { 210, 210, 150 }, pos, size );
-			widget->Update( dt );
+			// Quit Game
+			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
+				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+			m_vButtons[i].Update( dt );
 		}
-		else if ( DataSlider_Widget* widget = dynamic_cast<DataSlider_Widget*>( &m_vWidgets[i] ) )
+		break;
+		}
+	}
+
+	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
+	{
+		m_vColourBlocks[i].Resolve( { 210, 210, 150 } );
+		m_vColourBlocks[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
+	{
+		m_vDataSliders[i].Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
+			"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+		m_vDataSliders[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
+	{
+		std::vector<std::string> vValues = { "True", "False" };
+		static std::string sValue = vValues[0];
+		m_vDropDowns[i].Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+		if ( m_vDropDowns[i].GetSelected() == "False" )
+			sValue = "False";
+		else
+			sValue = "True";
+		m_vDropDowns[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
+	{
+		std::string temp = m_textures[2];
+		m_textures[2] = "";
+		m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
+		m_textures[2] = temp;
+		m_vEnergyBars[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
+	{
+		m_vImages[i].Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
+		m_vImages[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData );
+		m_vInputs[i].Update( dt );
+	}
+
+	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
+	{
+		m_vPageSliders[i].Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
+		m_vPageSliders[i].SetPosition( { m_vScreenSize.x - 30.0f, m_vScreenSize.y * 0.2f } );
+		m_vPageSliders[i].SetSize( { 30.0f, m_vScreenSize.y * 0.6f } );
+		m_vPageSliders[i].Update( dt );
+		m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - m_vPageSliders[i].GetPagePos();
+		if ( m_fCurrentPY != m_vPageSliders[i].GetPY() )
 		{
-			widget->Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
-				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, pos, size );
-			widget->Update( dt );
+			m_fCurrentPY = m_vPageSliders[i].GetPY();
+			m_bLoadFlag = true;
 		}
-		else if ( DropDown_Widget* widget = dynamic_cast<DropDown_Widget*>( &m_vWidgets[i] ) )
-		{
-			std::vector<std::string> vValues = { "True", "False" };
-			static std::string sValue = vValues[0];
-			widget->Resolve( vValues, pos, size, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-			if ( widget->GetSelected() == "False" )
-				sValue = "False";
-			else
-				sValue = "True";
-			widget->Update( dt );
-		}
-		else if ( EnergyBar_Widget* widget = dynamic_cast<EnergyBar_Widget*>( &m_vWidgets[i] ) )
-		{
-			std::string temp = m_textures[2];
-			m_textures[2] = "";
-			widget->Resolve( m_textures, m_fPlayerHealth, pos, size );
-			m_textures[2] = temp;
-			widget->Update( dt );
-		}
-		else if ( Image_Widget* widget = dynamic_cast<Image_Widget*>( &m_vWidgets[i] ) )
-		{
-			widget->Resolve( "Resources\\Textures\\UI\\Board\\Board.png", pos, size );
-			widget->Update( dt );
-		}
-		else if ( Input_Widget* widget = dynamic_cast<Input_Widget*>( &m_vWidgets[i] ) )
-		{
-			widget->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, pos, size );
-			widget->Update( dt );
-		}
-		else if ( PageSlider_Widget* widget = dynamic_cast<PageSlider_Widget*>( &m_vWidgets[i] ) )
-		{
-			widget->Resolve(
-				Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData,
-				{ m_vScreenSize.x - 30.0f , m_vScreenSize.y * 0.2f },
-				{ 30.0f, m_vScreenSize.y * 0.6f } );
-			widget->Update( dt );
-			m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - widget->GetPagePos();
-			if ( m_fCurrentPY != widget->GetPY() )
-			{
-				m_fCurrentPY = widget->GetPY();
-				m_bLoadFlag = true;
-			}
-			if ( m_bUpdateSlider )
-				widget->SetPageSize( m_vScreenSize.y );
-		}
-		pos.x += m_vScreenSize.x * offset;
+		if ( m_bUpdateSlider )
+			m_vPageSliders[i].SetPageSize( m_vScreenSize.y );
 	}
 
 	// Update render box
-	m_fBoxPos = { 0.0f, m_vScreenSize.y * 0.1f };
-	m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y * 0.6f };
+	if ( m_vPageSliders.size() > 0 )
+	{
+		m_fBoxPos = { 0.0f, m_vScreenSize.y * 0.1f };
+		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y * 0.6f };
+	}
+	else
+	{
+		m_fBoxPos = { 0.0f, 0.0f };
+		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
+	}
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
-	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
+	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
-		if ( Button_Widget* widget = dynamic_cast<Button_Widget*>( &m_vWidgets[i] ) )
-		{
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-			Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-		}	
-		else if ( ColourBlock_Widget* widget = dynamic_cast<ColourBlock_Widget*>( &m_vWidgets[i] ) )
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-		else if ( DataSlider_Widget* widget = dynamic_cast<DataSlider_Widget*>( &m_vWidgets[i] ) )
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-		else if ( DropDown_Widget* widget = dynamic_cast<DropDown_Widget*>( &m_vWidgets[i] ) )
-		{
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
-			Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-		}
-		else if ( EnergyBar_Widget* widget = dynamic_cast<EnergyBar_Widget*>( &m_vWidgets[i] ) )
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-		else if ( Image_Widget* widget = dynamic_cast<Image_Widget*>( &m_vWidgets[i] ) )
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-		else if ( Input_Widget* widget = dynamic_cast<Input_Widget*>( &m_vWidgets[i] ) )
-		{
-			RENDER_IF_IN_BOX( widget->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y, widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-			Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-		}
-		else if ( PageSlider_Widget* widget = dynamic_cast<PageSlider_Widget*>( &m_vWidgets[i] ) )
-			widget->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho );
+		RENDER_IF_IN_BOX( m_vButtons[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vButtons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 	}
+
+	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
+		RENDER_IF_IN_BOX( m_vColourBlocks[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vColourBlocks[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+
+	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
+		RENDER_IF_IN_BOX( m_vDataSliders[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vDataSliders[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+
+	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
+	{
+		RENDER_IF_IN_BOX( m_vDropDowns[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vDropDowns[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+	}
+
+	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
+		RENDER_IF_IN_BOX( m_vEnergyBars[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vEnergyBars[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+
+	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
+		RENDER_IF_IN_BOX( m_vImages[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vImages[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		RENDER_IF_IN_BOX( m_vInputs[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vInputs[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+	}
+
+	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
+		RENDER_IF_IN_BOX( m_vPageSliders[i].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+			m_vPageSliders[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 }
 
 void UIScreen::AddToEvent() noexcept

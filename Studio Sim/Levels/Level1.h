@@ -53,9 +53,7 @@ private:
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
-	
 	UIEditor m_uiEditor;
-	//std::shared_ptr<UIScreen> m_uiScreen;
 
 	CollisionHandler m_collisionHandler;
 	ConstantBuffer<Matrices> m_cbMatrices;

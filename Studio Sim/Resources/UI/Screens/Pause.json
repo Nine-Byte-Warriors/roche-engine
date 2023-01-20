@@ -2,36 +2,24 @@
     {
         "name": "Background",
         "position": [
-            0.0,
-            0.0
+            600.0,
+            200.0
         ],
         "scale": [
-            1280.0,
-            720.0
+            128.0,
+            72.0
         ],
         "type": "Image"
     },
     {
         "name": "GitHub Link",
         "position": [
-            500.0,
-            500.0
+            600.0,
+            400.0
         ],
         "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Button"
-    },
-    {
-        "name": "Settings",
-        "position": [
-            500.0,
-            500.0
-        ],
-        "scale": [
-            64.0,
-            64.0
+            128.0,
+            72.0
         ],
         "type": "Button"
     },
@@ -42,8 +30,8 @@
             600.0
         ],
         "scale": [
-            64.0,
-            64.0
+            128.0,
+            72.0
         ],
         "type": "Button"
     }

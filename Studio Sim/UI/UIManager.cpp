@@ -15,8 +15,9 @@ void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, 
 	}
 }
 
-void UIManager::Update( float dt )
+void UIManager::Update( const float dt, const std::vector<std::vector<Widget>>& widgets )
 {
+	int index = 0;
 	for ( auto const& UIItem : m_mUiList )
 	{
 		bool bToDraw = false;
@@ -25,7 +26,8 @@ void UIManager::Update( float dt )
 				bToDraw = true;
 
 		if ( bToDraw )
-			UIItem.second->Update( dt );
+			UIItem.second->Update( dt, widgets[index] );
+		index++;
 	}
 }
 

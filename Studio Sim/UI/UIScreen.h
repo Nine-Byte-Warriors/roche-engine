@@ -15,7 +15,7 @@ public:
 	~UIScreen() { RemoveFromEvent(); }
 
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets );
-	void Update( const float dt );
+	void Update( const float dt, const std::vector<Widget>& widgets );
 	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
 	inline void SetWidgets( const std::vector<Widget>& widgets ) noexcept { m_vWidgets = widgets; }
@@ -25,9 +25,21 @@ public:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 private:
+	void UpdateWidgets();
+
 	// Inputs
 	MouseData m_mouseData;
 	std::string m_sKeys;
+
+	// UI Widgets
+	std::vector<Button_Widget> m_vButtons;
+	std::vector<ColourBlock_Widget> m_vColourBlocks;
+	std::vector<DataSlider_Widget> m_vDataSliders;
+	std::vector<DropDown_Widget> m_vDropDowns;
+	std::vector<EnergyBar_Widget> m_vEnergyBars;
+	std::vector<Image_Widget> m_vImages;
+	std::vector<Input_Widget> m_vInputs;
+	std::vector<PageSlider_Widget> m_vPageSliders;
 
 	// Graphics
 	XMFLOAT2 m_vScreenSize;

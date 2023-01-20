@@ -35,10 +35,10 @@ public:
 #if _DEBUG
 	void SaveToFile_Screens();
 	void SaveToFile_Widgets();
+	void Update( const float dt );
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
 	
-	inline 
 	inline std::vector<UIScreenData> GetScreenData() const noexcept { return m_vUIScreenData; }
 	inline std::map<std::string, std::vector<UIWidgetData>> GetWidgetData() const noexcept { return m_vUIWidgetData; }
 
@@ -53,7 +53,7 @@ private:
 	std::string m_sJsonFile = "Main Menu.json";
 	const std::vector<std::string> m_vUITypes =
 	{
-		"Button", "Colour",
+		"Button", "Colour Block",
 		"Data Slider", "Energy Bar",
 		"Image", "Input", "Page Slider"
 	};

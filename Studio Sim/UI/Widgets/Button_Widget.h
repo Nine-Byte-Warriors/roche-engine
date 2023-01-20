@@ -22,13 +22,13 @@ public:
     };
 
     Button_Widget();
-    Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
+    Button_Widget( const std::string& texture );
     ~Button_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
-    bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size );
+    bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData );
     
     inline bool GetIsPressed() const noexcept { return m_bIsPressed; }
     inline ButtonType GetType() const noexcept { return m_buttonType; }

@@ -6,13 +6,5 @@
     {
         "file": "HUD.json",
         "name": "HUD"
-    },
-    {
-        "file": "Menu.json",
-        "name": "Menu"
-    },
-    {
-        "file": "Settings.json",
-        "name": "Settings"
     }
 ]

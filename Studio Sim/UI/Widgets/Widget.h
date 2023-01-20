@@ -33,12 +33,23 @@ public:
 
 	virtual void Resolve() {}
 	virtual void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho ) {}
-
-	inline std::string GetName() const noexcept { return m_sName; }
-	inline std::string GetType() const noexcept { return m_sType; }
+	inline void IntializeWidget( Widget widget )
+	{
+		m_sName = widget.GetName();
+		m_sType = widget.GetType();
+		m_vSize = widget.GetSize();
+		m_vPosition = widget.GetPosition();
+	}
 
 	inline XMFLOAT2 GetSize() const noexcept { return m_vSize; }
+	inline std::string GetName() const noexcept { return m_sName; }
+	inline std::string GetType() const noexcept { return m_sType; }
 	inline XMFLOAT2 GetPosition() const noexcept { return m_vPosition; }
+
+	inline void SetSize( const XMFLOAT2& size ) noexcept { m_vSize = size; }
+	inline void SetName( const std::string& name ) noexcept { m_sName = name; }
+	inline void SetType( const std::string& type ) noexcept { m_sType = type; }
+	inline void SetPosition( const XMFLOAT2& pos ) noexcept { m_vPosition = pos; }
 
 protected:
 	std::string m_sName, m_sType;

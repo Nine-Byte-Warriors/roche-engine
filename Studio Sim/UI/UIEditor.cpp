@@ -55,23 +55,6 @@ void UIEditor::LoadFromFile_Widgets()
 			m_vUIWidgets[index].push_back( { it->second[j].name, it->second[j].type,
 				XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
 				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) } );
-			/*Widget* widget;
-			if ( it->second[j].type == "Button" )
-				m_vUIWidgets[index].push_back( *new Widget( it->second[j].name, it->second[j].type,
-					XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
-					XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) ) );
-			else if ( it->second[j].type == "Colour" )
-				m_vUIWidgets[index].push_back( *new ColourBlock_Widget() );
-			else if ( it->second[j].type == "Data Slider" )
-				m_vUIWidgets[index].push_back( *new DataSlider_Widget() );
-			else if ( it->second[j].type == "Energy Bar" )
-				m_vUIWidgets[index].push_back( *new EnergyBar_Widget() );
-			else if ( it->second[j].type == "Image" )
-				m_vUIWidgets[index].push_back( *new Image_Widget() );
-			else if ( it->second[j].type == "Input" )
-				m_vUIWidgets[index].push_back( *new Input_Widget() );
-			else if ( it->second[j].type == "Page Slider" )
-				m_vUIWidgets[index].push_back( *new PageSlider_Widget() );*/
 		}
 		index++;
 	}
@@ -115,6 +98,28 @@ void UIEditor::SaveToFile_Widgets()
 				JsonLoading::SaveJson( it->second, FOLDER_PATH_SCREENS + m_vUIScreenData[i].file );
 			}
 		}
+	}
+}
+
+void UIEditor::Update( const float dt )
+{
+	int index = 0;
+	for ( auto& [key, value] : m_vUIWidgetData ) // each ui screen
+	{
+		if ( m_vUIWidgets.size() < index )
+			m_vUIWidgets.push_back( {} );
+
+		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
+		{
+			if ( m_vUIWidgets[index].size() < i )
+				m_vUIWidgets[index].push_back( {} );
+
+			m_vUIWidgets[index][i].SetName( value[i].name );
+			m_vUIWidgets[index][i].SetType( value[i].type );
+			m_vUIWidgets[index][i].SetSize( { value[i].scale[0], value[i].scale[1] } );
+			m_vUIWidgets[index][i].SetPosition( { value[i].position[0], value[i].position[1] } );
+		}
+		index++;
 	}
 }
 
@@ -252,6 +257,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				{
 					for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 					{
+						ImGui::PushID( i );
 						if ( ImGui::TreeNode( std::string( value[i].name ).append( " (" + value[i].type + ")" ).c_str() ) )
 						{
 							ImGui::NewLine();
@@ -263,7 +269,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::Text( "Widget Name: " );
 							ImGui::SameLine();
 							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].name.c_str() );
-							if ( ImGui::InputText( std::string( "##" ).append( value[i].name ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
+							//std::string( "##" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str()
+							if ( ImGui::InputText( "##WidgetName", buf, IM_ARRAYSIZE( buf ) ) )
 								modifiedName = true;
 							if ( modifiedName )
 							{
@@ -281,7 +288,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::TextColored( ImVec4( 1.0f, 0.1f, 0.1f, 1.0f ), value[i].type.c_str() );
 							static int currentType = 0;
 							const char* comboPreview = value[i].type.c_str();
-							if ( ImGui::BeginCombo( std::string( "##" ).append( value[i].name ).append( value[i].type ).c_str(), comboPreview ) )
+							//std::string( "##" ).append( value[i].name ).append( value[i].type ).append( std::to_string( i ) ).c_str()
+							if ( ImGui::BeginCombo( "##WidgetType", comboPreview ) )
 							{
 								for ( unsigned int j = 0; j < m_vUITypes.size(); j++ )
 								{
@@ -297,19 +305,20 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 								}
 								ImGui::EndCombo();
 							}
-							// TODO: the widget should change depending on what the user sets
 							ImGui::NewLine();
 
 							ImGui::Text( "Position" );
 							float max = ( gfx.GetWidth() > gfx.GetHeight() ? gfx.GetWidth() : gfx.GetHeight() );
 							static float position[2] = { value[i].position[0], value[i].position[1] };
-							ImGui::SliderFloat2( std::string( "##Position" ).append( key ).append( value[i].name ).c_str(), position, 0.0f, max, "%.1f" );
+							//std::string( "##Position" ).append( key ).append( value[i].name ).append( std::to_string( i ) ).c_str()
+							ImGui::SliderFloat2( "##Position", position, 0.0f, max, "%.1f" );
 							value[i].position = { position[0], position[1] };
 							ImGui::NewLine();
 
 							ImGui::Text( "Scale" );
 							static float scale[2] = { value[i].scale[0], value[i].scale[1] };
-							ImGui::SliderFloat2( std::string( "##Scale" ).append( key ).append( value[i].name ).c_str(), scale, 0.0f, max, "%.1f" );
+							//std::string( "##Scale" ).append( key ).append( value[i].name ).append( std::to_string( i ) ).c_str()
+							ImGui::SliderFloat2( "##Scale", scale, 0.0f, max, "%.1f" );
 							value[i].scale = { scale[0], scale[1] };
 							ImGui::NewLine();
 
@@ -323,6 +332,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 							ImGui::TreePop();
 						}
+						ImGui::PopID();
 					}
 				}
 				index++;
