@@ -280,6 +280,7 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
+    <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
@@ -413,6 +414,7 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\EntityController.h" />
     <ClInclude Include="Components\Physics.h" />
+    <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
@@ -543,6 +545,9 @@
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
+    <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
+    <None Include="Resources\Patterns\SlowCircle.ptn" />
+    <None Include="Resources\Patterns\SlowWiggle.ptn" />
     <None Include="Resources\Tutorial01.aps" />
   </ItemGroup>
   <ItemGroup>

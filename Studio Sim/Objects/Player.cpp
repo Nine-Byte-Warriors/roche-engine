@@ -8,19 +8,19 @@
 
 Player::Player()
 {
-	m_vPlayerPos = new Vector2f();
+	m_vPlayerPos = std::make_shared<Vector2f>();
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
-	m_projectileManager = std::make_shared<ProjectileManager>();
 	m_collider = std::make_shared<BoxCollider>( m_transform, 1, 1, 32, 32 );
+	m_pProjectileManager = std::make_shared<ProjectileManager>();
 	AddToEvent();
 }
 
 void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Carrot, mat );
-	m_projectileManager->Initialize( gfx, mat );
+	m_pProjectileManager->Initialize( gfx, mat );
 }
 
 void Player::Update( const float dt )
@@ -28,11 +28,10 @@ void Player::Update( const float dt )
 	m_sprite->Update( dt );
 	m_physics->Update( dt );
 	m_transform->Update();
-	m_projectileManager->Update( dt );
+	m_pProjectileManager->Update( dt );
 
-	m_vPlayerPos->x = m_transform->GetPosition().x;
-	m_vPlayerPos->y = m_transform->GetPosition().y;
-	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos );
+	m_vPlayerPos = std::make_shared<Vector2f>(m_transform->GetPosition());
+	EventSystem::Instance()->AddEvent( EVENTID::PlayerPosition, m_vPlayerPos.get());
 }
 
 #if _DEBUG

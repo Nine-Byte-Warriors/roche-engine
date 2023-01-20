@@ -42,6 +42,8 @@ public:
 	bool Initialize( ID3D11Device* device, ID3D11DeviceContext* context,
 		Type type, ConstantBuffer<Matrices>& mat,
 		float width = 64.0f, float height = 64.0f );
+	bool InitializeFromFile(ID3D11Device* device, ID3D11DeviceContext* context,
+		std::string sSpritePath, ConstantBuffer<Matrices>& mat, int iCols, int iRows);
 
 	void Draw( XMMATRIX worldMatrix, XMMATRIX orthoMatrix );
 	void UpdateBuffers( ID3D11DeviceContext* context );

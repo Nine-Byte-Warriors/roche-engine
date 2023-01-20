@@ -53,7 +53,6 @@ private:
 	int m_iCurrentSelectedTileType;
 	std::string m_sCurrentSelectedTileType;
 
-	bool m_bLoadButton;
 	std::string m_sSelectedFile = "LoadFile.txt";
 	std::string m_sFilePath = "";
 	std::string m_sFileContent = "";

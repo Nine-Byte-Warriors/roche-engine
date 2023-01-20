@@ -11,9 +11,9 @@
 class AudioEditor
 {
 public:
-	AudioEditor();
 
 #if _DEBUG
+	AudioEditor();
 	void SpawnControlWindow();
 	void Update();
 
