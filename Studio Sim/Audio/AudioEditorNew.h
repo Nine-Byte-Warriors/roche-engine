@@ -35,6 +35,10 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	//void SaveToFileSoundBankFiles();
+
+	// sound bank handle
+	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
+	void SaveSoundFileInfoToJSON(std::string fileName);
 #endif // _DEBUG
 private:
 	std::string m_sFilePath;
@@ -44,7 +48,11 @@ private:
 	std::vector<std::string> m_vSoundTypes = { "SFX", "MUSIC" };
 
 	std::vector<SoundBanksList> m_vSoundBanksList; // list of Sound Bank Lists
-	std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of Sound Files for a given Sound Bank
+	std::vector<JSONSoundFile> m_vSoundFileInfo;
+	//std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of Sound Files for a given Sound Bank
+
+	bool m_bSoundBankToLoad;
+	bool m_bIsSoundBankReloaded;
 };
 
 #endif // AUDIOEDITORNEW_H

@@ -15,6 +15,8 @@
 
 AudioEditorNew::AudioEditorNew()
 {
+	LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
+	m_bSoundBankToLoad = false;
 	LoadFromFileSoundBankLists();
 	//LoadFromFileSoundBankFiles();
 }
@@ -24,8 +26,19 @@ AudioEditorNew::~AudioEditorNew() { }
 void AudioEditorNew::LoadFromFileSoundBankLists()
 {
 	// Load UI screens
-	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH);
+	JsonLoading::LoadJson(m_vSoundBanksList , SOUND_BANK_LISTS_PATH);
 	SortScreens();
+}
+
+void AudioEditorNew::LoadSoundFileInfoFromJSON(std::string loadFilePath)
+{
+	// Load Json File from given file path
+	JsonLoading::LoadJson(m_vSoundFileInfo, loadFilePath);
+}
+
+void AudioEditorNew::SaveSoundFileInfoToJSON(std::string fileName)
+{
+	JsonLoading::SaveJson(m_vSoundFileInfo, SOUND_BANK_PATH + fileName + ".json");
 }
 
 //void AudioEditorNew::LoadFromFileSoundBankFiles()
@@ -186,6 +199,7 @@ void AudioEditorNew::SpawnControlWindow()
 			{
 				if (ImGui::Button("Manage Sound Bank"))
 				{
+					m_bSoundBankToLoad = true;
 					// Load all files of the Sound Bank JSON
 				}
 				//// Update screen name
@@ -233,21 +247,43 @@ void AudioEditorNew::SpawnControlWindow()
 		}
 		ImGui::NewLine();
 
-		ImGui::Text("Active Sound Bank: ");
+		ImGui::Text("Active Sound Bank: "); // TODO: add name of active sound bank
 
-		if (ImGui::CollapsingHeader("SFX List", ImGuiTreeNodeFlags_DefaultOpen)) {
-			ImGui::TreeNode("whatever");
+		if (ImGui::CollapsingHeader("Sound Bank Edit", ImGuiTreeNodeFlags_DefaultOpen)) {
+			int index = 0;
+			if (m_bSoundBankToLoad == true) {
+					if (ImGui::CollapsingHeader("SFX List", ImGuiTreeNodeFlags_DefaultOpen)) {
+						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+							if (m_vSoundFileInfo[i].audioType == SFX) {
+								if (ImGui::TreeNode("Sfx")) { // add their own labels bs
+									ImGui::Text("TestText");
+									// populate it with sfx stuff in treenode
+									ImGui::TreePop();
+								}
+								ImGui::NewLine();
+							}
+						}
+					}
 
+					if (ImGui::CollapsingHeader("Music List", ImGuiTreeNodeFlags_DefaultOpen)) {
+						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+							if (m_vSoundFileInfo[i].audioType == MUSIC) {
+								if (ImGui::TreeNode("Music")) {
+									ImGui::Text("TestText");
+									// populate it with sfx stuff in treenode
+									ImGui::TreePop();
+								}
+								ImGui::NewLine();
+
+							}
+						}
+					}
+				/*m_bSoundBankToLoad = false;*/
+			}
 
 
 		}
-
-		if (ImGui::CollapsingHeader("Music List", ImGuiTreeNodeFlags_DefaultOpen)) {
-
-
-
-
-		}
+		
 		//if (ImGui::CollapsingHeader("Widgets", ImGuiTreeNodeFlags_DefaultOpen))
 		//{
 
