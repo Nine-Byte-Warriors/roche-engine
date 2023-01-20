@@ -309,6 +309,7 @@ ProjectileData::ProjectileJSON ProjectileEditor::CreateDefaultProjectile()
 	
 	return blankProjectile;
 }
+#endif // _DEBUG
 
 void ProjectileEditor::AddToEvent() noexcept
 {
@@ -334,4 +335,3 @@ void ProjectileEditor::HandleEvent(Event* event)
 		break;
 	}
 }
-#endif // _DEBUG

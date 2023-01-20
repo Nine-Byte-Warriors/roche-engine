@@ -20,7 +20,7 @@ Player::Player()
 void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Carrot, mat );
-	m_projectileManager->Initialize( gfx, mat );
+	m_pProjectileManager->Initialize( gfx, mat );
 }
 
 void Player::Update( const float dt )
