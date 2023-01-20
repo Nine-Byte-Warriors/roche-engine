@@ -70,68 +70,8 @@
     <Filter Include="Header Files\Events">
       <UniqueIdentifier>{c78113e1-26e2-43dc-99b0-f3b8092ced66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Levels">
-      <UniqueIdentifier>{4356bd59-f782-4cea-af65-1834c96d0196}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Levels">
-      <UniqueIdentifier>{63157405-8b77-4488-a262-63f6c9ad9b60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\TileMap">
-      <UniqueIdentifier>{74095f31-b961-41b3-be89-bcb5438140b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TileMap">
-      <UniqueIdentifier>{45dd80ba-b825-4c10-bd07-29316f1b6978}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AI">
-      <UniqueIdentifier>{ad96bc81-c018-4772-a87e-17a3d59a1fe3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\AI">
-      <UniqueIdentifier>{3b325e23-ae82-4c6d-93bb-0d6b5cc1cc24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utility\Errors">
-      <UniqueIdentifier>{d08afb93-f981-46e0-a49e-4607abdfae6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility\Errors">
-      <UniqueIdentifier>{ed5dffe5-ec1f-4594-9191-709b0adc1dce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utility\Helper">
-      <UniqueIdentifier>{2db431fb-3c7b-492e-a863-fc9376bddc3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility\Helper">
-      <UniqueIdentifier>{2416d614-899e-4994-9e2f-131a212395a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utility\Rendering">
-      <UniqueIdentifier>{ab592d8e-baf5-4a66-84df-36f3fb42ff41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utility\Rendering">
-      <UniqueIdentifier>{991be574-a421-49ca-adb1-442377b2be38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI">
-      <UniqueIdentifier>{039835b3-7a46-4904-a279-bb3d83f92270}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UI\Widgets">
-      <UniqueIdentifier>{b7b6245e-f1c4-41af-ab37-7cdc70313a52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI">
-      <UniqueIdentifier>{5e854462-49df-4034-b039-3032948113f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\UI\Widgets">
-      <UniqueIdentifier>{1a9925b2-fc13-4430-a6a1-ceaa1e1494e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Audio">
-      <UniqueIdentifier>{66c374fe-dad1-4ef9-892b-31072a9ecb1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Audio">
-      <UniqueIdentifier>{713d6a57-b1e5-4a2c-8a28-b9139d44267c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Collisions">
-      <UniqueIdentifier>{764c75b0-db41-475d-9daf-4d47611d73b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Collisions">
-      <UniqueIdentifier>{5e084099-62f0-470a-b385-45663da8e04d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Audio">
-      <UniqueIdentifier>{47e99ccd-838d-499d-a988-2f2d6bf7bc6f}</UniqueIdentifier>
+    <Filter Include="AI">
+      <UniqueIdentifier>{a6efc698-c844-4b83-9408-3cb0b256d6f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +373,12 @@
     </ClInclude>
     <ClInclude Include="Events\Event.h">
       <Filter>Header Files\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="AI.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
