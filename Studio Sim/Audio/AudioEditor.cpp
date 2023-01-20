@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "AudioEditor.h"
 
+#if _DEBUG
 AudioEditor::AudioEditor() {
 	m_iDefaultVolume = 1.0f;
 	m_iActiveSoundBank = SFX;
 	m_bChangedSoundBankType = false;
 }
 
-#if _DEBUG
 void AudioEditor::SpawnControlWindow()
 {
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
