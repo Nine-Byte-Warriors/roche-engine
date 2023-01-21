@@ -133,6 +133,9 @@
     <Filter Include="Resource Files\Audio">
       <UniqueIdentifier>{47e99ccd-838d-499d-a988-2f2d6bf7bc6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Patterns">
+      <UniqueIdentifier>{61583ade-1bf6-4f25-9a60-1e28c81ec8a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -331,6 +334,9 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\Entity.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ProjectileEditor.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -617,6 +623,12 @@
     <ClInclude Include="Components\Entity.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\ProjectileEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RND.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\directx.ico">
@@ -665,6 +677,15 @@
     </None>
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
       <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Patterns\DefaultProjectile2.ptn">
+      <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Patterns\SlowCircle.ptn">
+      <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Patterns\SlowWiggle.ptn">
+      <Filter>Resource Files\Patterns</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
