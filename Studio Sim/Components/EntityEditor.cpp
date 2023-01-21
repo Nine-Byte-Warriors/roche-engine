@@ -4,54 +4,209 @@
 EntityEditor::EntityEditor()
 {
 	JsonLoading::LoadJson(m_vEntityData, JsonFile);
-}
 
-EntityEditor::~EntityEditor()
-{
+	m_vEntityDataCopy = m_vEntityData;
 }
 
 #if _DEBUG
-void EntityEditor::SpawnControlWindow()
+void EntityEditor::SpawnControlWindow(float width, float height)
 {
+	m_fWidth = width;
+	m_fHeight = height;
+
 	if (ImGui::Begin("Entity Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
-		GetName();
-		GetType();
-		GetTexture();
-		GetPosition();
-		GetScale();
-		Save();
+		AddNewEntity();
+		ImGui::SameLine();
+		SaveButton();
+
+		EntityListBox();
+		EntityWidget();
 	}
 
 	ImGui::End();
 }
 #endif
 
-void EntityEditor::GetName()
+std::vector<EntityData> EntityEditor::GetEntityData()
 {
 #if _DEBUG
-	std::string displayText = "Name";
-	std::string lable = "##Entity" + displayText;
-	std::string hint = "Enemy0";
-	ImGui::Text(displayText.c_str());
-
-	static char entityName[128] = "";
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityName, IM_ARRAYSIZE(entityName));
-
-	m_sName = entityName;
+	return m_vEntityDataCopy;
 #endif
 }
 
-void EntityEditor::GetType()
+void EntityEditor::EntityWidget()
 {
 #if _DEBUG
 	ImGui::NewLine();
+	SpriteWidget();
+	ImGui::NewLine();
+	PhysicsWidget();
+	ImGui::NewLine();
+	AIWidget();
+	ImGui::NewLine();
+	ProjectileSystemWidget();
+	ImGui::NewLine();
+	ColliderWidget();
+#endif
+}
 
-	ImGui::Text("Type");
-	static int entityType = 0;
-	static std::string previewEntityType = "Player";
-	static const char* entityTypes[]{ "Player", "Enemy", "Projectile" };
-	if (ImGui::BeginCombo("##SelectEntityType", previewEntityType.c_str()))
+void EntityEditor::EntityListBox()
+{
+#if _DEBUG
+	if (ImGui::BeginListBox("##UI Screen List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
+	{
+		int index = 0;
+		for (int i = 0; i < m_vEntityData.size(); i++)
+		{
+			const bool isSelected = (i == index);
+			if (ImGui::Selectable(m_vEntityData[i].name.c_str(), isSelected))
+			{
+				i = index;
+				m_iIdentifier = i;
+			}
+
+			if (isSelected)
+				ImGui::SetItemDefaultFocus();
+
+			index++;
+		}
+
+		ImGui::EndListBox();
+	}
+#endif
+}
+
+void EntityEditor::AddNewEntity()
+{
+#if _DEBUG
+	if (ImGui::Button("Add New Entity"))
+	{
+		EntityData* entityData;
+		entityData = new EntityData();
+
+		entityData->name = "Name";
+		entityData->position.push_back(0.0f);
+		entityData->position.push_back(0.0f);
+		entityData->scale.push_back(0.0f);
+		entityData->scale.push_back(0.0f);
+		entityData->texture = "";
+		entityData->type = "Type";
+		entityData->identifier = m_vEntityData.size();
+		entityData->maxFrame.push_back(0);
+		entityData->maxFrame.push_back(0);
+
+		m_vEntityData.push_back(*entityData);
+		m_vEntityDataCopy.push_back(*entityData);
+
+		delete entityData;
+	}
+#endif
+}
+
+void EntityEditor::SpriteWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Sprite"))
+	{
+		ImGui::NewLine();
+		SetName();
+		ImGui::NewLine();
+		SetType();
+		ImGui::NewLine();
+		SetTexture();
+		ImGui::NewLine();
+		SetPosition();
+		ImGui::NewLine();
+		SetScale();
+		ImGui::NewLine();
+		SetMaxFrame();
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::PhysicsWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Physics"))
+	{
+		ImGui::NewLine();
+		SetMass();
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::AIWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("AI"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::ProjectileSystemWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("ProjectileSystem"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::ColliderWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Collider"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::SetName()
+{
+#if _DEBUG
+	std::string name = m_vEntityDataCopy[m_iIdentifier].name;
+	std::string displayText = "Name";
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	std::string hint = name;
+	ImGui::Text(displayText.c_str());
+
+	static char entityName[128] = "";
+	strcpy_s(entityName, name.c_str());
+
+	ImGui::PushItemWidth(200.0f);
+	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityName, IM_ARRAYSIZE(entityName));
+
+	m_vEntityDataCopy[m_iIdentifier].name = entityName;
+#endif
+}
+
+void EntityEditor::SetType()
+{
+#if _DEBUG
+	std::string displayText = "Type";
+	ImGui::Text(displayText.c_str());
+
+	int entityType = 0;
+	std::string previewEntityType = m_vEntityDataCopy[m_iIdentifier].type;
+	const char* entityTypes[]{ "Player", "Enemy", "Projectile" };
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(lable.c_str(), previewEntityType.c_str()))
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(entityTypes); i++)
 		{
@@ -66,148 +221,165 @@ void EntityEditor::GetType()
 
 		if (entityType == 0)
 		{
-			m_sType = "Player";
+			m_vEntityDataCopy[m_iIdentifier].type = "Player";
 		}
 		else if (entityType == 1)
 		{
-			m_sType = "Enemy";
+			m_vEntityDataCopy[m_iIdentifier].type = "Enemy";
 		}
-		else
+		else if (entityType == 2)
 		{
-			m_sType = "Projectile";
+			m_vEntityDataCopy[m_iIdentifier].type = "Projectile";
 		}
 	}
 #endif
 }
 
-void EntityEditor::GetPosition()
+void EntityEditor::SetTexture()
 {
 #if _DEBUG
-	ImGui::NewLine();
-
-	std::string displayText = "Position";
-	std::string lable = "##Entity" + displayText + "x";
-	std::string hint = "x";
-	ImGui::Text(displayText.c_str());
-
-	static char entityPositionX[128] = "";
-	ImGui::PushItemWidth(100.0f);
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityPositionX, IM_ARRAYSIZE(entityPositionX));
-
-	ImGui::SameLine();
-	static char entityPositionY[128] = "";
-	lable = "##Entity" + displayText + "y";
-	hint = "y";
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityPositionY, IM_ARRAYSIZE(entityPositionY));
-
-	try
-	{
-		std::string x(entityPositionX);
-		m_fPosX = std::stof(x);
-		std::string y(entityPositionY);
-		m_fPosY = std::stof(y);
-		m_bValidData = true;
-	}
-	catch (const std::exception&)
-	{
-		ImGui::Text("Not a float");
-		m_bValidData = false;
-	}
-#endif
-}
-
-void EntityEditor::GetTexture()
-{
-#if _DEBUG
-	ImGui::NewLine();
-
 	ImGui::Text("Texture");
 	if (ImGui::Button("Load Texture"))
 	{
 		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 		{
-			m_sSelectedFile = "Resources\\Textures\\" + m_sSelectedFile;
+			m_sSelectedFile = m_sFilePath.substr(m_sFilePath.find("Resources\\Textures\\"));
+			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
+			m_bValidTex = true;
 		}
 		else
 		{
 			m_sSelectedFile = "Open File Failed";
-			m_bValidData = false;
-		}			
+			m_bValidTex = false;
+		}
 	}
 	ImGui::Text(m_sSelectedFile.c_str());
 #endif
 }
 
-void EntityEditor::GetScale()
+void EntityEditor::SetPosition()
 {
 #if _DEBUG
-	ImGui::NewLine();
+	ImGui::PushItemWidth(100.0f);
 
-	std::string displayText = "Scale";
-	std::string lable = "##Entity" + displayText + "x";
-	std::string hint = "x";
+	std::string displayText = "Position";
 	ImGui::Text(displayText.c_str());
 
-	static char entityPositionX[128] = "";
-	ImGui::PushItemWidth(100.0f);
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityPositionX, IM_ARRAYSIZE(entityPositionX));
+	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);	
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[0], 1.0f, -m_fWidth, m_fWidth, "%.1f");
 
 	ImGui::SameLine();
-	static char entityPositionY[128] = "";
-	lable = "##Entity" + displayText + "y";
-	hint = "y";
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityPositionY, IM_ARRAYSIZE(entityPositionY));
+
+	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
+#endif
+}
+
+void EntityEditor::SetScale()
+{
+#if _DEBUG
+	int maxSize = 10000;
+
+	ImGui::PushItemWidth(100.0f);
+
+	std::string displayText = "Scale";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[0], 0.2f, 0.0f, maxSize, "%.1f");
+
+	ImGui::SameLine();
+
+	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[1], 0.2f, 0.0f, maxSize, "%.1f");
+#endif
+}
+
+void EntityEditor::SetMaxFrame()
+{
+#if _DEBUG
+	std::string frameX = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[0]);
+	std::string frameY = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[1]);
+
+	std::string displayText = "Max Frame";
+	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);
+	std::string hint = frameX;
+	ImGui::Text(displayText.c_str());
+
+	static char entityMaxFrameX[128] = "";
+	strcpy_s(entityMaxFrameX, frameX.c_str());
+
+	ImGui::PushItemWidth(100.0f);
+	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityMaxFrameX, IM_ARRAYSIZE(entityMaxFrameX));
+
+	ImGui::SameLine();
+
+	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
+	hint = frameY;
+
+	static char entityMaxFrameY[128] = "";
+	strcpy_s(entityMaxFrameY, frameY.c_str());
+
+	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityMaxFrameY, IM_ARRAYSIZE(entityMaxFrameY));
 
 	try
 	{
-		std::string x(entityPositionX);
-		m_fScaleX = std::stof(x);
-		std::string y(entityPositionY);
-		m_fScaleY = std::stof(y);
-		m_bValidData = true;
+		std::string x(entityMaxFrameX);
+		m_vEntityDataCopy[m_iIdentifier].maxFrame[0] = std::stof(x);
+		std::string y(entityMaxFrameY);
+		m_vEntityDataCopy[m_iIdentifier].maxFrame[1] = std::stof(y);
+		m_bValidFrame = true;
 	}
 	catch (const std::exception&)
 	{
-		ImGui::Text("Not a float");
-		m_bValidData = false;
+		ImGui::Text("Not an int");
+		m_bValidFrame = false;
 	}
 #endif
 }
 
-void EntityEditor::Save()
+void EntityEditor::SetMass()
 {
 #if _DEBUG
-	ImGui::NewLine();
-	ImGui::Text("Save");
+	int maxMass = 1000;
+	ImGui::PushItemWidth(200.0f);
 
-	bool SaveEntityButton = ImGui::Button("Save Entity");
+	std::string displayText = "Mass";
+	ImGui::Text(displayText.c_str());
 
-	if (SaveEntityButton && m_bValidData)
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].mass, 0.2f, 1.0f, maxMass, "%.1f");
+#endif
+}
+
+void EntityEditor::SaveButton()
+{
+#if _DEBUG
+	bool SaveEntityButton = ImGui::Button("Save Entities");
+
+	if (SaveEntityButton)
 	{
-		PopulateEntityDataWithNewEntity();
-
-		JsonLoading::SaveJson(m_vEntityData, JsonFile);
-		m_sSavedText = "Saved";
-	}
-	else if (SaveEntityButton)
-	{
-		ImGui::Button("Save Entity");
-		m_sSavedText = "Invalid Data";
+		if (m_bValidTex && m_bValidFrame)
+		{
+			SaveEntity();			
+		}
+		else
+		{
+			ImGui::Button("Save Entity");
+			m_sSavedText = "Invalid Data";
+		}
 	}
 
 	ImGui::Text(m_sSavedText.c_str());
 #endif
 }
 
-void EntityEditor::PopulateEntityDataWithNewEntity()
+void EntityEditor::SaveEntity()
 {
-	m_entityData.name = m_sName;
-	m_entityData.position.push_back(m_fPosX);
-	m_entityData.position.push_back(m_fPosY);
-	m_entityData.scale.push_back(m_fScaleX);
-	m_entityData.scale.push_back(m_fScaleY);
-	m_entityData.texture = m_sSelectedFile;
-	m_entityData.type = m_sType;
+#if _DEBUG
+	m_vEntityData = m_vEntityDataCopy;
 
-	m_vEntityData.push_back(m_entityData);
+	JsonLoading::SaveJson(m_vEntityData, JsonFile);
+	m_sSavedText = "Saved";
+#endif
 }

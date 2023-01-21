@@ -86,7 +86,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     {
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\Tiles\\empty.png");
+        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "NONE");
 
         if (i != 0)
         {
@@ -224,7 +224,7 @@ void Level1::EndFrame()
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     m_tileMapEditor->SpawnControlWindow();
-    m_entityEditor.SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();
@@ -272,9 +272,39 @@ void Level1::Update( const float dt )
 
 void Level1::UpdateEntity(const float dt)
 {
+#if _DEBUG
+    UpdateEntityFromEditor(dt);
+#endif
+
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].Update(dt);
+    }
+}
+
+void Level1::UpdateEntityFromEditor(const float dt)
+{
+    m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+
+    if (m_iEntityAmount < m_entityController.GetSize())
+    {
+        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+        {
+            Entity* entityPop = new Entity(m_entityController, i);
+            m_entity.push_back(*entityPop);
+            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+            delete entityPop;
+
+            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
+        m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    }
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].UpdateFromEntityData(dt);
     }
 }
 

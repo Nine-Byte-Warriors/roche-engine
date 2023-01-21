@@ -9,6 +9,11 @@ EntityController::EntityController()
 	//temp.type = "Player";
 	//temp.position.push_back(0.0f);
 	//temp.position.push_back(0.1f);
+	//temp.scale.push_back(0.0f);
+	//temp.scale.push_back(0.1f);
+	//temp.frame.push_back(1);
+	//temp.frame.push_back(1);
+	//temp.identifier = 0;
 
 	//m_entityData.push_back(temp);
 
@@ -25,7 +30,6 @@ int EntityController::GetSize()
 {
 	return m_entityData.size();
 }
-
 
 std::string EntityController::GetTexture(int num)
 {
@@ -45,5 +49,20 @@ std::string EntityController::GetType(int num)
 std::vector<float> EntityController::GetScale(int num)
 {
 	return m_entityData[num].scale;
+}
+
+std::vector<int> EntityController::GetMaxFrame(int num)
+{
+	return m_entityData[num].maxFrame;
+}
+
+float EntityController::GetMass(int num)
+{
+	return m_entityData[num].mass;
+}
+
+void EntityController::SetEntityData(std::vector<EntityData> entityData)
+{
+	m_entityData = entityData;
 }
 

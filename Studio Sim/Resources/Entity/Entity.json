@@ -1,54 +1,59 @@
 [
     {
+        "identifier": 0,
+        "mass": 10.0,
+        "maxFrame": [
+            3,
+            3
+        ],
         "name": "Enemy0",
         "position": [
-            500.0,
+            618.0,
             500.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "texture": "Resources\\Textures\\carrot_ss.png",
+        "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
         "type": "Enemy"
     },
     {
-        "name": "Enemy1",
+        "identifier": 1,
+        "mass": 10.0,
+        "maxFrame": [
+            3,
+            3
+        ],
+        "name": "Name2",
         "position": [
-            600.0,
-            600.0
+            352.0,
+            435.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "texture": "Resources\\Textures\\tomato_ss.png",
+        "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
         "type": "Enemy"
     },
     {
-        "name": "Enemy3",
+        "identifier": 2,
+        "mass": 0.0,
+        "maxFrame": [
+            0,
+            0
+        ],
+        "name": "Name",
         "position": [
-            400.0,
-            400.0
+            0.0,
+            0.0
         ],
         "scale": [
-            64.0,
-            64.0
+            0.0,
+            0.0
         ],
-        "texture": "Resources\\Textures\\cauliflower_ss.png",
-        "type": "Enemy"
-    },
-    {
-        "name": "Enemy4",
-        "position": [
-            700.0,
-            700.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "texture": "Resources\\Textures\\onion_ss.png",
-        "type": "Enemy"
+        "texture": "",
+        "type": "Type"
     }
 ]
