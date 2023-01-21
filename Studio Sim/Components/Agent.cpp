@@ -12,6 +12,7 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	m_fSpeed = 5.0f;
 	
 	m_pStateMachine = new AIStateMachine(this);
+	
 	AIState* pSeekState = m_pStateMachine->NewState(AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
 	pSeekState->SetActivation(0.0f);
@@ -25,6 +26,39 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pFleeState->SetBounds(1.0f, 0.0f);
 	pFleeState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Flee, pFleeState);
+	
+	PatrolParams* patrolParams = new PatrolParams();
+	patrolParams->fDistanceToWaypoint = 200.0f;
+	patrolParams->fSensingRange = 10.0f;
+	patrolParams->iWaypointCount = 6;
+	patrolParams->ePatrolType = PatrolType::Loop;
+	
+	AIState* pPatrolState = m_pStateMachine->NewState(AIStateTypes::Patrol);
+	pPatrolState->SetBounds(1.0f, 0.0f);
+	pPatrolState->SetActivation(0.0f);
+	pPatrolState->SetParams((void*)patrolParams);
+	m_mapStates.emplace(AIStateTypes::Patrol, pPatrolState);
+
+	FollowParams* followParams = new FollowParams();
+	followParams->bKeepRange = true;
+	followParams->fFollowRange = 200.0f;
+	followParams->fRepulseRange = 100.0f;
+
+	AIState* pFollowState = m_pStateMachine->NewState(AIStateTypes::Follow);
+	pFollowState->SetBounds(1.0f, 0.0f);
+	pFollowState->SetActivation(0.0f);
+	pFollowState->SetParams(followParams);
+	m_mapStates.emplace(AIStateTypes::Follow, pFollowState);
+
+	WanderParams* pWanderParams = new WanderParams();
+	pWanderParams->fWanderAngle = 5.0f;
+	pWanderParams->fWanderDelay = 0.5f;
+
+	AIState* pWanderState = m_pStateMachine->NewState(AIStateTypes::Wander);
+	pWanderState->SetBounds(1.0f, 0.0f);
+	pWanderState->SetActivation(0.0f);
+	pWanderState->SetParams(pWanderParams);
+	m_mapStates.emplace(AIStateTypes::Wander, pWanderState);
 	
 	AddToEvent();
 }
@@ -45,7 +79,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 		ImGui::Text("Behaviour");
 		static int activeBehaviour = 0;
 		static std::string previewValueBehaviour = "Idle";
-		static const char* behaviourList[]{ "Idle", "Seek", "Flee" };
+		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander" };
 		if (ImGui::BeginCombo("##Active Behaviour", previewValueBehaviour.c_str()))
 		{
 			for (uint32_t i = 0; i < IM_ARRAYSIZE(behaviourList); i++)
@@ -64,16 +98,49 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 1:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 2:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				break;
+			case 3:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				break;
+			case 4:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				break;
+			case 5:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(1.0f);
 				break;
 			}
 
@@ -95,7 +162,33 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
         ImGui::Text(std::string("Y: ").append(std::to_string(fGO.y)).c_str());
 		
 		ImGui::NewLine();
-        ImGui::Separator();
+		float fDistance = fGO.Distance(fTarg);
+		ImGui::Text(std::string("Distance: ").append(std::to_string(fDistance)).c_str());
+
+		std::vector<Vector2f> vecWaypoints = m_mapStates.find(AIStateTypes::Patrol)->second->GetWaypoints();
+		int iCurrentWaypoint = m_mapStates.find(AIStateTypes::Patrol)->second->GetCurrentWaypointIndex();
+		if (vecWaypoints.size() > 0)
+		{
+			ImGui::NewLine();
+			ImGui::Separator();
+			ImGui::NewLine();
+
+			ImGui::Text("Waypoints");
+			ImGui::Text(std::string("Current Waypoint #").append(std::to_string(iCurrentWaypoint)).c_str());
+
+			for (int i = 0; i < vecWaypoints.size(); i++)
+			{
+				ImGui::Text(std::string("Waypoint #").append(std::to_string(i)).c_str());
+
+				ImGui::Text(std::string("X: ").append(std::to_string(vecWaypoints[i].x)).c_str());
+				ImGui::Text(std::string("Y: ").append(std::to_string(vecWaypoints[i].y)).c_str());
+
+				ImGui::NewLine();
+			}
+		}
+
+		ImGui::NewLine();
+		ImGui::Separator();
 		ImGui::NewLine();
 
         ImGui::Text("Target");
