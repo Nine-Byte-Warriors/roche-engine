@@ -626,7 +626,7 @@
     <ClInclude Include="Components\ProjectileEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RND.h">
+    <ClInclude Include="Utility\Helper\RND.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>

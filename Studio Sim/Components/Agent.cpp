@@ -12,6 +12,7 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	m_fSpeed = 5.0f;
 	
 	m_pStateMachine = new AIStateMachine(this);
+	
 	AIState* pSeekState = m_pStateMachine->NewState(AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
 	pSeekState->SetActivation(0.0f);
@@ -25,6 +26,17 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pFleeState->SetBounds(1.0f, 0.0f);
 	pFleeState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Flee, pFleeState);
+	
+	StateParams pPatrolParams;
+	pPatrolParams.fDistanceToWaypoint = 100.0f;
+	pPatrolParams.fSensingRange = 10.0f;
+	pPatrolParams.iWaypointCount = 5;
+	
+	AIState* pPatrolState = m_pStateMachine->NewState(AIStateTypes::Patrol);
+	pPatrolState->SetBounds(1.0f, 0.0f);
+	pPatrolState->SetActivation(0.0f);
+	pPatrolState->SetParams(pPatrolParams);
+	m_mapStates.emplace(AIStateTypes::Patrol, pPatrolState);
 	
 	AddToEvent();
 }
@@ -45,7 +57,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 		ImGui::Text("Behaviour");
 		static int activeBehaviour = 0;
 		static std::string previewValueBehaviour = "Idle";
-		static const char* behaviourList[]{ "Idle", "Seek", "Flee" };
+		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol" };
 		if (ImGui::BeginCombo("##Active Behaviour", previewValueBehaviour.c_str()))
 		{
 			for (uint32_t i = 0; i < IM_ARRAYSIZE(behaviourList); i++)
@@ -64,16 +76,25 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
 				break;
 			case 1:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
 				break;
 			case 2:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				break;
+			case 3:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(1.0f);
 				break;
 			}
 

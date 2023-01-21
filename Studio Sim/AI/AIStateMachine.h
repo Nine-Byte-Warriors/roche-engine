@@ -10,7 +10,8 @@ namespace AILogic
 	{
 		Idle = 0,
 		Seek = 1,
-		Flee = 2
+		Flee = 2,
+		Patrol = 3,
 	};
 	
 	class AIStateMachine : public AIState

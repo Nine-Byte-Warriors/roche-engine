@@ -7,6 +7,20 @@ class Agent;
 
 namespace AILogic
 {
+	enum class PatrolType
+	{
+		Loop,
+		Random
+	};
+
+	struct StateParams
+	{
+		float fSensingRange;
+		int iWaypointCount;
+		float fDistanceToWaypoint;
+		PatrolType ePatrolType;
+	};
+
 	class AIState
 	{
 	public:
@@ -24,10 +38,13 @@ namespace AILogic
 		virtual void CheckLowerBound() { if (m_fActivationLevel < m_fLower) m_fActivationLevel = m_fLower; }
 		virtual void CheckUpperBound() { if (m_fActivationLevel > m_fUpper) m_fActivationLevel = m_fUpper; }
 		
+		virtual void SetParams(StateParams params) { m_params = params; }
+		
 		float m_fActivationLevel;
 		
 	protected:
 		Agent* m_pAgent;
+		StateParams m_params;
 		
 	private:
 		float m_fUpper;
