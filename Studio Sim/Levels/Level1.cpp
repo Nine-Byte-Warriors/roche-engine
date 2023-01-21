@@ -86,7 +86,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     {
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\Tiles\\empty.png");
+        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "NONE");
 
         if (i != 0)
         {
