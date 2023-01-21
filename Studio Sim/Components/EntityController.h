@@ -13,8 +13,9 @@ struct EntityData
 	std::vector<float> scale;
 	int identifier;
 	std::vector<int> maxFrame;
+	float mass;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier, maxFrame)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier, maxFrame, mass)
 
 class EntityController
 {
@@ -29,6 +30,9 @@ public:
 	std::vector<float> GetPosition(int num);
 	std::vector<float> GetScale(int num);
 	std::vector<int> GetMaxFrame(int num);
+	float GetMass(int num);
+
+	void SetEntityData(std::vector<EntityData>);
 
 private:
 	std::string JsonFile = "Resources\\Entity\\Entity.json";

@@ -56,3 +56,13 @@ std::vector<int> EntityController::GetMaxFrame(int num)
 	return m_entityData[num].maxFrame;
 }
 
+float EntityController::GetMass(int num)
+{
+	return m_entityData[num].mass;
+}
+
+void EntityController::SetEntityData(std::vector<EntityData> entityData)
+{
+	m_entityData = entityData;
+}
+

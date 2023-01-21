@@ -48,6 +48,7 @@ private:
 	void OnCreateEntity();
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
+	void UpdateEntityFromEditor(const float dt);
 
 	// Objects
 	std::vector<Entity> m_entity;

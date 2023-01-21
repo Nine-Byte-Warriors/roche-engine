@@ -1,6 +1,7 @@
 [
     {
         "identifier": 0,
+        "mass": 10.0,
         "maxFrame": [
             3,
             3
@@ -19,6 +20,7 @@
     },
     {
         "identifier": 1,
+        "mass": 10.0,
         "maxFrame": [
             3,
             3
@@ -34,5 +36,24 @@
         ],
         "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
         "type": "Enemy"
+    },
+    {
+        "identifier": 2,
+        "mass": 0.0,
+        "maxFrame": [
+            0,
+            0
+        ],
+        "name": "Name",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            0.0,
+            0.0
+        ],
+        "texture": "",
+        "type": "Type"
     }
 ]

@@ -16,44 +16,44 @@ void EntityEditor::SpawnControlWindow(float width, float height)
 
 	if (ImGui::Begin("Entity Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
+		AddNewEntity();
+		ImGui::SameLine();
+		SaveButton();
+
 		EntityListBox();
 		EntityWidget();
-
-		ImGui::NewLine();
-		AddNewEntity();
-		SaveButton();		
 	}
 
 	ImGui::End();
 }
 #endif
 
+std::vector<EntityData> EntityEditor::GetEntityData()
+{
+#if _DEBUG
+	return m_vEntityDataCopy;
+#endif
+}
+
 void EntityEditor::EntityWidget()
 {
 #if _DEBUG
-	for (int i = 0; i < m_vEntityData.size(); i++)
-	{
-		ImGui::PushID(i);
-		if (ImGui::TreeNode(m_vEntityData[i].name.c_str()))
-		{
-			//m_iIdentifier = i;
-
-			GetName();
-			GetType();
-			GetTexture();
-			GetPosition();
-			GetScale();
-			GetMaxFrame();
-
-			ImGui::TreePop();
-		}
-		ImGui::PopID();
-	}
+	ImGui::NewLine();
+	SpriteWidget();
+	ImGui::NewLine();
+	PhysicsWidget();
+	ImGui::NewLine();
+	AIWidget();
+	ImGui::NewLine();
+	ProjectileSystemWidget();
+	ImGui::NewLine();
+	ColliderWidget();
 #endif
 }
 
 void EntityEditor::EntityListBox()
 {
+#if _DEBUG
 	if (ImGui::BeginListBox("##UI Screen List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
 	{
 		int index = 0;
@@ -74,6 +74,7 @@ void EntityEditor::EntityListBox()
 
 		ImGui::EndListBox();
 	}
+#endif
 }
 
 void EntityEditor::AddNewEntity()
@@ -103,7 +104,79 @@ void EntityEditor::AddNewEntity()
 #endif
 }
 
-void EntityEditor::GetName()
+void EntityEditor::SpriteWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Sprite"))
+	{
+		ImGui::NewLine();
+		SetName();
+		ImGui::NewLine();
+		SetType();
+		ImGui::NewLine();
+		SetTexture();
+		ImGui::NewLine();
+		SetPosition();
+		ImGui::NewLine();
+		SetScale();
+		ImGui::NewLine();
+		SetMaxFrame();
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::PhysicsWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Physics"))
+	{
+		ImGui::NewLine();
+		SetMass();
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::AIWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("AI"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::ProjectileSystemWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("ProjectileSystem"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::ColliderWidget()
+{
+#if _DEBUG
+	if (ImGui::TreeNode("Collider"))
+	{
+
+
+		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::SetName()
 {
 #if _DEBUG
 	std::string name = m_vEntityDataCopy[m_iIdentifier].name;
@@ -122,11 +195,9 @@ void EntityEditor::GetName()
 #endif
 }
 
-void EntityEditor::GetType()
+void EntityEditor::SetType()
 {
 #if _DEBUG
-	ImGui::NewLine();
-
 	std::string displayText = "Type";
 	ImGui::Text(displayText.c_str());
 
@@ -156,7 +227,7 @@ void EntityEditor::GetType()
 		{
 			m_vEntityDataCopy[m_iIdentifier].type = "Enemy";
 		}
-		else
+		else if (entityType == 2)
 		{
 			m_vEntityDataCopy[m_iIdentifier].type = "Projectile";
 		}
@@ -164,11 +235,9 @@ void EntityEditor::GetType()
 #endif
 }
 
-void EntityEditor::GetTexture()
+void EntityEditor::SetTexture()
 {
 #if _DEBUG
-	ImGui::NewLine();
-
 	ImGui::Text("Texture");
 	if (ImGui::Button("Load Texture"))
 	{
@@ -188,49 +257,47 @@ void EntityEditor::GetTexture()
 #endif
 }
 
-void EntityEditor::GetPosition()
+void EntityEditor::SetPosition()
 {
 #if _DEBUG
-	ImGui::NewLine();
 	ImGui::PushItemWidth(100.0f);
 
 	std::string displayText = "Position";
 	ImGui::Text(displayText.c_str());
 
 	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);	
-	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[0], 1.0f, 0.0f, m_fWidth, "%.1f");
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[0], 1.0f, -m_fWidth, m_fWidth, "%.1f");
 
 	ImGui::SameLine();
 
 	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
-	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, 0.0f, m_fHeight, "%.1f");
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 #endif
 }
 
-void EntityEditor::GetScale()
+void EntityEditor::SetScale()
 {
 #if _DEBUG
-	ImGui::NewLine();
+	int maxSize = 10000;
+
 	ImGui::PushItemWidth(100.0f);
 
 	std::string displayText = "Scale";
 	ImGui::Text(displayText.c_str());
 
 	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);
-	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[0], 0.2f, 0.0f, m_fWidth, "%.1f");
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[0], 0.2f, 0.0f, maxSize, "%.1f");
 
 	ImGui::SameLine();
 
 	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
-	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[1], 0.2f, 0.0f, m_fHeight, "%.1f");
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[1], 0.2f, 0.0f, maxSize, "%.1f");
 #endif
 }
 
-void EntityEditor::GetMaxFrame()
+void EntityEditor::SetMaxFrame()
 {
 #if _DEBUG
-	ImGui::NewLine();
-
 	std::string frameX = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[0]);
 	std::string frameY = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[1]);
 
@@ -271,10 +338,23 @@ void EntityEditor::GetMaxFrame()
 #endif
 }
 
+void EntityEditor::SetMass()
+{
+#if _DEBUG
+	int maxMass = 1000;
+	ImGui::PushItemWidth(200.0f);
+
+	std::string displayText = "Mass";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].mass, 0.2f, 1.0f, maxMass, "%.1f");
+#endif
+}
+
 void EntityEditor::SaveButton()
 {
 #if _DEBUG
-
 	bool SaveEntityButton = ImGui::Button("Save Entities");
 
 	if (SaveEntityButton)

@@ -272,9 +272,39 @@ void Level1::Update( const float dt )
 
 void Level1::UpdateEntity(const float dt)
 {
+#if _DEBUG
+    UpdateEntityFromEditor(dt);
+#endif
+
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].Update(dt);
+    }
+}
+
+void Level1::UpdateEntityFromEditor(const float dt)
+{
+    m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+
+    if (m_iEntityAmount < m_entityController.GetSize())
+    {
+        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+        {
+            Entity* entityPop = new Entity(m_entityController, i);
+            m_entity.push_back(*entityPop);
+            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+            delete entityPop;
+
+            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
+        m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    }
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].UpdateFromEntityData(dt);
     }
 }
 

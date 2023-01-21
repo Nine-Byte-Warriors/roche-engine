@@ -18,20 +18,33 @@ public:
 	void SpawnControlWindow(float width, float height);
 #endif
 
-private:
-	void EntityWidget();
-	void EntityListBox();
-	void AddNewEntity();
+	std::vector<EntityData> GetEntityData();
 
-	void GetName();
-	void GetType();
-	void GetPosition();
-	void GetTexture();
-	void GetScale();
-	void GetMaxFrame();
+private:
+	void EntityListBox();
+	void EntityWidget();
+
+	void SpriteWidget();
+	void PhysicsWidget();
+	void AIWidget();
+	void ProjectileSystemWidget();
+	void ColliderWidget();
+
+	//Sprite
+	void SetName();
+	void SetType();
+	void SetPosition();
+	void SetTexture();
+	void SetScale();
+	void SetMaxFrame();
+
+	//Physics
+	void SetMass();
 
 	void SaveButton();
 	void SaveEntity();
+
+	void AddNewEntity();
 
 	std::string JsonFile = "Resources\\Entity\\Entity.json";
 
@@ -45,12 +58,14 @@ private:
 
 	std::string m_sSavedText = "";
 
-	int m_iIdentifier;
+	int m_iIdentifier = 0;
 
 	std::vector<EntityData> m_vEntityDataCopy;
 
 	float m_fWidth;
 	float m_fHeight;
+
+	bool m_bIsUpdated;
 };
 
 #endif
