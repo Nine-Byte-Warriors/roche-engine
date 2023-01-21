@@ -69,19 +69,12 @@ void AIPatrol::Enter()
 
 void AIPatrol::GetPatrolParams()
 {
-	m_ePatrolType = m_params.ePatrolType;
-	m_fSensingRange = m_params.fSensingRange;
-	m_fWaypointDistance = m_params.fDistanceToWaypoint;
-	m_iWaypointCount = m_params.iWaypointCount;
+	PatrolParams* pParams = (PatrolParams*)m_params;
+	m_ePatrolType = pParams->ePatrolType;
+	m_fSensingRange = pParams->fSensingRange;
+	m_fWaypointDistance = pParams->fDistanceToWaypoint;
+	m_iWaypointCount = pParams->iWaypointCount;
 }
-
-//bool AIPatrol::IsWaypointInRange(Vector2f vAgentPos) noexcept
-//{
-//	Vector2f vTargetWaypoint = m_vecWaypoints[m_iCurrentWaypoint];
-//	float fDistance = vAgentPos.Distance(vTargetWaypoint);
-//	bool bResult = m_fSensingRange >= fDistance;
-//	return bResult;
-//}
 
 int AIPatrol::GetNextWaypoint() noexcept
 {

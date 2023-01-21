@@ -14,20 +14,27 @@ namespace AILogic
 	};
 
 	// TODO: find a better way to pass parameters to specific states
-	struct StateParams
+	struct PatrolParams
 	{
-		// Patrol Params
 		float fSensingRange;
 		int iWaypointCount;
 		float fDistanceToWaypoint;
 		PatrolType ePatrolType;
+	};
 
-		// Follow Params
+	struct FollowParams
+	{
 		float fFollowRange;
 		float fRepulseRange;
 		bool bKeepRange;
 	};
 
+	struct WanderParams
+	{
+		float fWanderAngle;
+		float fWanderDelay;
+	};
+	
 	class AIState
 	{
 	public:
@@ -45,7 +52,7 @@ namespace AILogic
 		virtual void CheckLowerBound() { if (m_fActivationLevel < m_fLower) m_fActivationLevel = m_fLower; }
 		virtual void CheckUpperBound() { if (m_fActivationLevel > m_fUpper) m_fActivationLevel = m_fUpper; }
 		
-		virtual void SetParams(StateParams params) { m_params = params; }
+		virtual void SetParams(void* params) { m_params = params; }
 
 		// DEBUG
 		virtual std::vector<Vector2f> GetWaypoints() const { return std::vector<Vector2f>(); }
@@ -55,7 +62,7 @@ namespace AILogic
 		
 	protected:
 		Agent* m_pAgent;
-		StateParams m_params;
+		void* m_params;
 		
 	private:
 		float m_fUpper;

@@ -14,7 +14,7 @@ namespace AILogic
         virtual ~AIFollow() = default;
 
         virtual void Update(const float dt) override;
-        virtual void Enter() override { GetFollowParams(); };
+        virtual void Enter() override { GetFollowParams(); }
         virtual void Exit() override {};
 
     private:

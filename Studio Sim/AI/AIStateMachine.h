@@ -12,7 +12,8 @@ namespace AILogic
 		Seek = 1,
 		Flee = 2,
 		Patrol = 3,
-		Follow = 4
+		Follow = 4,
+		Wander = 5,
 	};
 	
 	class AIStateMachine : public AIState

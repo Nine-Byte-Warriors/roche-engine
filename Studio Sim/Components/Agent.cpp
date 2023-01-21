@@ -27,28 +27,38 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pFleeState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Flee, pFleeState);
 	
-	StateParams patrolParams{};
-	patrolParams.fDistanceToWaypoint = 200.0f;
-	patrolParams.fSensingRange = 10.0f;
-	patrolParams.iWaypointCount = 6;
-	patrolParams.ePatrolType = PatrolType::Loop;
+	PatrolParams* patrolParams = new PatrolParams();
+	patrolParams->fDistanceToWaypoint = 200.0f;
+	patrolParams->fSensingRange = 10.0f;
+	patrolParams->iWaypointCount = 6;
+	patrolParams->ePatrolType = PatrolType::Loop;
 	
 	AIState* pPatrolState = m_pStateMachine->NewState(AIStateTypes::Patrol);
 	pPatrolState->SetBounds(1.0f, 0.0f);
 	pPatrolState->SetActivation(0.0f);
-	pPatrolState->SetParams(patrolParams);
+	pPatrolState->SetParams((void*)patrolParams);
 	m_mapStates.emplace(AIStateTypes::Patrol, pPatrolState);
 
-	StateParams followParams{};
-	followParams.bKeepRange = true;
-	followParams.fFollowRange = 150.0f;
-	followParams.fRepulseRange = 50.0f;
+	FollowParams* followParams = new FollowParams();
+	followParams->bKeepRange = true;
+	followParams->fFollowRange = 200.0f;
+	followParams->fRepulseRange = 100.0f;
 
 	AIState* pFollowState = m_pStateMachine->NewState(AIStateTypes::Follow);
 	pFollowState->SetBounds(1.0f, 0.0f);
 	pFollowState->SetActivation(0.0f);
 	pFollowState->SetParams(followParams);
 	m_mapStates.emplace(AIStateTypes::Follow, pFollowState);
+
+	WanderParams* pWanderParams = new WanderParams();
+	pWanderParams->fWanderAngle = 5.0f;
+	pWanderParams->fWanderDelay = 2.5f;
+
+	AIState* pWanderState = m_pStateMachine->NewState(AIStateTypes::Wander);
+	pWanderState->SetBounds(1.0f, 0.0f);
+	pWanderState->SetActivation(0.0f);
+	pWanderState->SetParams(pWanderParams);
+	m_mapStates.emplace(AIStateTypes::Wander, pWanderState);
 	
 	AddToEvent();
 }
@@ -69,7 +79,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 		ImGui::Text("Behaviour");
 		static int activeBehaviour = 0;
 		static std::string previewValueBehaviour = "Idle";
-		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow" };
+		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander" };
 		if (ImGui::BeginCombo("##Active Behaviour", previewValueBehaviour.c_str()))
 		{
 			for (uint32_t i = 0; i < IM_ARRAYSIZE(behaviourList); i++)
@@ -90,6 +100,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 1:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -97,6 +108,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 2:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -104,6 +116,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 3:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -111,6 +124,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
 			case 4:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -118,6 +132,16 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				break;
+			case 5:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(1.0f);
+				break;
 			}
 
 			ImGui::EndCombo();

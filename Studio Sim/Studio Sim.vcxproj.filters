@@ -342,6 +342,9 @@
     <ClCompile Include="AI\AIFollow.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="AI\AIWander.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -633,7 +636,10 @@
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="AI\AIFollow.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIWander.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

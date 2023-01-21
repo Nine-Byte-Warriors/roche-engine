@@ -34,7 +34,8 @@ void AIFollow::Update(const float dt)
 
 void AIFollow::GetFollowParams()
 {
-	m_fFollowRange = m_params.fFollowRange;
-	m_fRepulseRange = m_params.fRepulseRange;
-	m_bKeepRange = m_params.bKeepRange;
+	FollowParams* pParams = (FollowParams*)m_params;
+	m_fFollowRange = pParams->fFollowRange;
+	m_fRepulseRange = pParams->fRepulseRange;
+	m_bKeepRange = pParams->bKeepRange;
 }

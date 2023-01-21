@@ -5,6 +5,7 @@
 #include "AIFlee.h"
 #include "AIPatrol.h"
 #include "AIFollow.h"
+#include "AIWander.h"
 
 using namespace AILogic;
 
@@ -61,6 +62,7 @@ AIState* AIStateMachine::NewState(AIStateTypes fType)
 	case AIStateTypes::Flee: return new AIFlee(m_pAgent);
 	case AIStateTypes::Patrol: return new AIPatrol(m_pAgent);
 	case AIStateTypes::Follow: return new AIFollow(m_pAgent);
+	case AIStateTypes::Wander: return new AIWander(m_pAgent);
 	default: return nullptr;
 	}
 }

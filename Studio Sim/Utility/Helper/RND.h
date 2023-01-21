@@ -23,6 +23,10 @@ public:
 	static int Get(int iMin, int iMax) noexcept { return iMin + std::rand() / ((RAND_MAX + iMin) / iMax); }
 	static int Get(int iMax) noexcept { return std::rand() / (RAND_MAX / iMax); }
 	static int Get() noexcept { return std::rand(); }
+
+	static float Getf(float fMin, float fMax) noexcept { return fMin + std::rand() / ((RAND_MAX + fMin) / fMax); }
+	static float Getf(float fMax) noexcept { return std::rand() / (RAND_MAX / fMax); }
+	static float Getf() noexcept { return std::rand(); }
 	
 private:
 	RND() = default;
