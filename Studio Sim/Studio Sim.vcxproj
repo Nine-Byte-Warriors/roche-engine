@@ -266,6 +266,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AI\AIFollow.cpp" />
     <ClCompile Include="AI\AIFlee.cpp" />
     <ClCompile Include="AI\AIIdle.cpp" />
     <ClCompile Include="AI\AIPatrol.cpp" />
@@ -398,6 +399,7 @@
     <ClInclude Include="..\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\External\imgui\imstb_textedit.h" />
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="AI\AIFollow.h" />
     <ClInclude Include="AI\AIFlee.h" />
     <ClInclude Include="AI\AIIdle.h" />
     <ClInclude Include="AI\AIPatrol.h" />
