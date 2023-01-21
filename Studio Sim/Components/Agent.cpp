@@ -52,7 +52,7 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 
 	WanderParams* pWanderParams = new WanderParams();
 	pWanderParams->fWanderAngle = 5.0f;
-	pWanderParams->fWanderDelay = 2.5f;
+	pWanderParams->fWanderDelay = 0.5f;
 
 	AIState* pWanderState = m_pStateMachine->NewState(AIStateTypes::Wander);
 	pWanderState->SetBounds(1.0f, 0.0f);
