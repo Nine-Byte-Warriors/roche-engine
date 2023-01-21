@@ -2,24 +2,24 @@
 #include "Button_Widget.h"
 
 Button_Widget::Button_Widget()
-{    
+{
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
     MouseData mouseData = MouseData();
     std::string texture = "Resources\\Textures\\Tiles\\empty.png";
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::White, buttonTextures, mouseData, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+    Resolve( "Default", Colors::White, buttonTextures, mouseData );
 }
 
-Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
+Button_Widget::Button_Widget( const std::string& texture )
 {
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 
     MouseData mouseData = MouseData();
     std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::White, buttonTextures, mouseData, pos, size );
+    Resolve( "Default", Colors::White, buttonTextures, mouseData );
 }
 
 Button_Widget::~Button_Widget() { }
@@ -54,14 +54,10 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData )
 {
     m_sText = text;
     m_vTextColor = textColour;
-
-    // Update position/scale
-    m_vSize = size;
-    m_vPosition = pos;
 
     m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transform->SetScale( m_vSize.x, m_vSize.y );

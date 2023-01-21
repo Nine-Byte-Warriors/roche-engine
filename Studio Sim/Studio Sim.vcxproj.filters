@@ -345,6 +345,9 @@
     <ClCompile Include="AI\AIWander.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
+    <ClCompile Include="UI\UIEditor.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -640,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="AI\AIWander.h">
       <Filter>Header Files\AI</Filter>
+    </ClCompile>
+    <ClInclude Include="UI\UIEditor.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

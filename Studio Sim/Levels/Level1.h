@@ -5,10 +5,11 @@
 #include "Entity.h"
 #include "EntityEditor.h"
 #include "EntityController.h"
+
 #include "Enemy.h"
 #include "Camera.h"
 #include "Player.h"
-#include "UIScreen.h"
+#include "UIEditor.h"
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
@@ -53,9 +54,9 @@ private:
 	Enemy m_enemy;
 	Camera m_camera;
 	Player m_player;
+	UIEditor m_uiEditor;
 
 	CollisionHandler m_collisionHandler;
-	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG
 	AudioEditor m_audioEditor;
@@ -65,6 +66,7 @@ private:
 	int m_iTileMapColumns;
 	EntityEditor m_entityEditor;
 	EntityController m_entityController;
+
 	TextRenderer m_textRenderer;
 	TileMapEditor* m_tileMapEditor;
 	std::vector<TileMapDraw> m_tileMapDrawBackground;

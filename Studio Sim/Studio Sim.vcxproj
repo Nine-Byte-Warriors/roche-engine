@@ -308,6 +308,7 @@
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
+    <ClCompile Include="UI\UIEditor.cpp" />
     <ClCompile Include="UI\UIScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -456,6 +457,7 @@
     <ClInclude Include="TileMap\TileMap.h" />
     <ClInclude Include="TileMap\TileMapDraw.h" />
     <ClInclude Include="TileMap\TileMapEditor.h" />
+    <ClInclude Include="UI\UIEditor.h" />
     <ClInclude Include="UI\UIScreen.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
