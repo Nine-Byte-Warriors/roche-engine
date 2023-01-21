@@ -20,8 +20,8 @@ void AIPatrol::Update(const float dt)
 	Vector2f vTargetPos = m_vecWaypoints[m_iCurrentWaypoint];
 	
 	// get normalised direction to target waypoint
-	Vector2f vDirection = vTargetPos
-		.DirectionTo(vAgentPos)
+	Vector2f vDirection = vAgentPos
+		.DirectionTo(vTargetPos)
 		.Normalised();
 
 	// apply the directional force and speed
@@ -55,7 +55,9 @@ void AIPatrol::Enter()
 	for (int i = 0; i < m_iWaypointCount; ++i)
 	{
 		// calculate the position of the waypoint
-		Vector2f vWaypointPosition = vTargetPosition + Vector2f(fAngle * i) * m_fSensingRange;
+		Vector2f vWaypointPosition = 
+			vTargetPosition +
+			(Vector2f(fAngle * i).Normalised() * m_fWaypointDistance);
 
 		// add the waypoint to the list of waypoints
 		m_vecWaypoints.push_back(vWaypointPosition);
@@ -72,6 +74,14 @@ void AIPatrol::GetPatrolParams()
 	m_fWaypointDistance = m_params.fDistanceToWaypoint;
 	m_iWaypointCount = m_params.iWaypointCount;
 }
+
+//bool AIPatrol::IsWaypointInRange(Vector2f vAgentPos) noexcept
+//{
+//	Vector2f vTargetWaypoint = m_vecWaypoints[m_iCurrentWaypoint];
+//	float fDistance = vAgentPos.Distance(vTargetWaypoint);
+//	bool bResult = m_fSensingRange >= fDistance;
+//	return bResult;
+//}
 
 int AIPatrol::GetNextWaypoint() noexcept
 {

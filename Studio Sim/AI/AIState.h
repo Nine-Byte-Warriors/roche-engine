@@ -39,6 +39,10 @@ namespace AILogic
 		virtual void CheckUpperBound() { if (m_fActivationLevel > m_fUpper) m_fActivationLevel = m_fUpper; }
 		
 		virtual void SetParams(StateParams params) { m_params = params; }
+
+		// DEBUG
+		virtual std::vector<Vector2f> GetWaypoints() const { return std::vector<Vector2f>(); }
+		virtual int GetCurrentWaypointIndex() const noexcept { return 0; }
 		
 		float m_fActivationLevel;
 		

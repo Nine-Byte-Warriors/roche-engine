@@ -21,6 +21,9 @@ namespace AILogic
 
 		//virtual float CalculateActivation() override {};
 
+		virtual std::vector<Vector2f> GetWaypoints() const override { return m_vecWaypoints; }
+		virtual int GetCurrentWaypointIndex() const noexcept { return m_iCurrentWaypoint; }
+
 		//void SetSensingRange(const float fRange) noexcept { m_fSensingRange = fRange; }
 		//void SetWaypointCount(const int iWaypoints) noexcept { m_iWaypointCount = iWaypoints; }
 		//void SetWaypointDistance(const float fDistance) noexcept { m_fWaypointDistance = fDistance; }
@@ -28,8 +31,9 @@ namespace AILogic
 
 	private:
 		void GetPatrolParams();
+//		bool IsWaypointInRange(Vector2f vAgentPos) noexcept;
 		inline bool IsWaypointInRange(Vector2f vAgentPos) noexcept 
-			{ return m_fWaypointDistance <= vAgentPos.Distance(m_vecWaypoints[m_iCurrentWaypoint]); }
+			{ return m_fSensingRange >= vAgentPos.Distance(m_vecWaypoints[m_iCurrentWaypoint]); }
 		inline int GetRandomWaypoint() const noexcept { return RND::Get(m_iWaypointCount); }
 		int GetNextWaypoint() noexcept;
 
