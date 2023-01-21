@@ -134,7 +134,7 @@
       <UniqueIdentifier>{47e99ccd-838d-499d-a988-2f2d6bf7bc6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Patterns">
-      <UniqueIdentifier>{9d133298-ec83-4a55-a80a-cf740f1a6b68}</UniqueIdentifier>
+      <UniqueIdentifier>{61583ade-1bf6-4f25-9a60-1e28c81ec8a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +335,15 @@
     </ClCompile>
     <ClCompile Include="Components\Entity.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\ProjectileEditor.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIFollow.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\AIWander.cpp">
+      <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="UI\UIEditor.cpp">
       <Filter>Source Files\UI</Filter>
@@ -623,6 +632,18 @@
     <ClInclude Include="Components\Entity.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\ProjectileEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Helper\RND.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFollow.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIWander.h">
+      <Filter>Header Files\AI</Filter>
+    </ClCompile>
     <ClInclude Include="UI\UIEditor.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
@@ -675,10 +696,13 @@
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
       <Filter>Resource Files\Fonts</Filter>
     </None>
-    <None Include="Resources\Patterns\DefaultProjectile.ptn">
+    <None Include="Resources\Patterns\DefaultProjectile2.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
-    <None Include="Resources\Patterns\DefaultManagerPattern.ptn">
+    <None Include="Resources\Patterns\SlowCircle.ptn">
+      <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Patterns\SlowWiggle.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
   </ItemGroup>
