@@ -24,6 +24,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 
 	SetPositionInit();
 	SetScaleInit();
+	SetFrameInit();
 }
 
 void Entity::Update(const float dt)
@@ -74,4 +75,12 @@ void Entity::SetScaleInit()
 	float widthScale = m_entityController->GetScale(m_iEntityNum)[0];
 	float heightScale = m_entityController->GetScale(m_iEntityNum)[1];
 	m_transform->SetScaleInit(widthScale, heightScale);
+}
+
+void Entity::SetFrameInit()
+{
+	float maxFrameX = m_entityController->GetMaxFrame(m_iEntityNum)[0];
+	float maxFrameY = m_entityController->GetMaxFrame(m_iEntityNum)[1];
+
+	m_sprite->SetMaxFrame(maxFrameX, maxFrameY);
 }

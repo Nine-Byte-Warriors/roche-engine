@@ -29,6 +29,7 @@ public:
 private:
 	void SetPositionInit();
 	void SetScaleInit();
+	void SetFrameInit();
 
 	int m_iEntityNum;
 

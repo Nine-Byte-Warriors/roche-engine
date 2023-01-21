@@ -224,7 +224,7 @@ void Level1::EndFrame()
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     m_tileMapEditor->SpawnControlWindow();
-    m_entityEditor.SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_imgui->EndRender();

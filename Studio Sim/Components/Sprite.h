@@ -55,6 +55,8 @@ public:
 	inline float GetHeight() const noexcept { return m_fHeight; }
 	inline void SetHeight( float height ) noexcept { m_fHeight = height; }
 
+	inline void SetMaxFrame(int maxFrameX, int maxFrameY) noexcept { m_iMaxFrameX = maxFrameX; m_iMaxFrameY = maxFrameY; }
+
 	inline void UpdateTex( ID3D11Device* device, std::string tex ) { texture->UpdateTexture( device, tex ); }
 	inline void UpdateTex( ID3D11Device* device, Colour tex ) { texture->UpdateTexture( device, tex ); }
 private:

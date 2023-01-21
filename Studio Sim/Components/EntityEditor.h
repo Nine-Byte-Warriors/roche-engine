@@ -13,39 +13,44 @@ class EntityEditor
 {
 public:
 	EntityEditor();
-	~EntityEditor();
 
 #if _DEBUG
-	void SpawnControlWindow();
+	void SpawnControlWindow(float width, float height);
 #endif
 
 private:
+	void EntityWidget();
+	void EntityListBox();
+	void AddNewEntity();
+
 	void GetName();
 	void GetType();
 	void GetPosition();
 	void GetTexture();
 	void GetScale();
-	void Save();
-	void PopulateEntityDataWithNewEntity();
+	void GetMaxFrame();
+
+	void SaveButton();
+	void SaveEntity();
 
 	std::string JsonFile = "Resources\\Entity\\Entity.json";
 
 	std::vector<EntityData> m_vEntityData;
 
-	EntityData m_entityData;
-
 	std::string m_sSelectedFile = "LoadFile.txt";
 	std::string m_sFilePath = "";
 
-	bool m_bValidData;
+	bool m_bValidFrame;
+	bool m_bValidTex;
+
 	std::string m_sSavedText = "";
 
-	std::string m_sName;
-	std::string m_sType;
-	float m_fPosX;
-	float m_fPosY;
-	float m_fScaleX;
-	float m_fScaleY;
+	int m_iIdentifier;
+
+	std::vector<EntityData> m_vEntityDataCopy;
+
+	float m_fWidth;
+	float m_fHeight;
 };
 
 #endif
