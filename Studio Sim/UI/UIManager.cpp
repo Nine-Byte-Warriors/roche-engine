@@ -3,18 +3,21 @@
 #include "UIScreen.h"
 #include "Graphics.h"
 
-void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat )
+void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<Widget>>& widgets )
 {
 	m_vWindowSize = { (float)gfx.GetWidth(), (float)gfx.GetHeight() };
+	int index = 0;
 	for ( auto const& UIItem : m_mUiList )
 	{
 		UIItem.second->SetScreenSize( m_vWindowSize );
-		UIItem.second->Initialize( gfx, mat );
+		UIItem.second->Initialize( gfx, mat, widgets[index] );
+		index++;
 	}
 }
 
-void UIManager::Update( float dt )
+void UIManager::Update( const float dt, const std::vector<std::vector<Widget>>& widgets )
 {
+	int index = 0;
 	for ( auto const& UIItem : m_mUiList )
 	{
 		bool bToDraw = false;
@@ -23,7 +26,8 @@ void UIManager::Update( float dt )
 				bToDraw = true;
 
 		if ( bToDraw )
-			UIItem.second->Update( dt );
+			UIItem.second->Update( dt, widgets[index] );
+		index++;
 	}
 }
 

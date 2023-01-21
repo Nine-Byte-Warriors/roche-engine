@@ -7,12 +7,12 @@ DropDown_Widget::DropDown_Widget()
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
 }
 
-DropDown_Widget::DropDown_Widget( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
+DropDown_Widget::DropDown_Widget( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
 {
 	m_spriteBack = std::make_shared<Sprite>();
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
 
-	Resolve( ddList, pos, size, backCol, buttonImg, textColour, currData, mData );
+	Resolve( ddList, backCol, buttonImg, textColour, currData, mData );
 }
 
 DropDown_Widget::~DropDown_Widget() { }
@@ -72,21 +72,19 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, false );
 }
 
-void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 pos, XMFLOAT2 size, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
+void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
 {
 	m_vListData = ddList;
 	m_vTextColour = textColour;
-
-	// Update position/scale
-    m_vSize = size;
-    m_vPosition = pos;
 
     m_transformBack->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transformBack->SetScale( m_vSize.x, m_vSize.y );
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData, { pos.x + size.x, pos.y }, { size.y, size.y } );
+	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
+	m_wButtonDrop.SetPosition( { m_vPosition.x + m_vSize.x, m_vPosition.y } );
+	m_wButtonDrop.SetSize( { m_vSize.y, m_vSize.y } );
 	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
 		if ( currData == m_vListData[i] )
 			m_iSelected = i;
@@ -96,16 +94,18 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, XMFLOAT2 
 	{
 	case DropState::Down:
 	{
-		float PosY = pos.y + size.y;
+		float PosY = m_vPosition.y + m_vSize.y;
 		for ( unsigned int i = 0; i < ddList.size(); i++ )
 		{
-			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData, { pos.x, PosY }, { size.x,size.y } ) )
+			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
+			m_wListButtons[i].SetPosition( { m_vPosition.x, PosY } );
+			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData ) )
 			{
-				m_iSelected = i;
 				m_eDropState = DropState::Up;
+				m_iSelected = i;
 				m_iFlag = 0;
 			}
-			PosY += size.y;
+			PosY += m_vSize.y;
 		}
 
 		if ( m_wButtonDrop.GetIsPressed() && m_iFlag == m_iFlagMax )

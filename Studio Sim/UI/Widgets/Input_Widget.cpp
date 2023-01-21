@@ -10,17 +10,17 @@ Input_Widget::Input_Widget()
 	std::string keys = "";
 	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
 	std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( keys, Colors::White, buttonTextures, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+    Resolve( keys, Colors::White, buttonTextures, {} );
 }
 
-Input_Widget::Input_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
+Input_Widget::Input_Widget( const std::string& texture )
 {
 	m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
 	std::string keys = "";
 	std::vector<std::string> buttonTextures = { texture, texture, texture };
-	Resolve( keys, Colors::White, buttonTextures, {}, pos, size );
+	Resolve( keys, Colors::White, buttonTextures, {} );
 }
 
 Input_Widget::~Input_Widget() { }
@@ -55,14 +55,10 @@ void Input_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMM
 	textRenderer->RenderString( m_sCurrText, textpos, m_textColour, false );
 }
 
-void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData )
 {
 	m_textColour = textColour;
 	m_buttonTexture = textures[0];
-
-	// Update position/scale
-    m_vSize = size;
-    m_vPosition = pos;
 
     m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transform->SetScale( m_vSize.x, m_vSize.y );
@@ -73,10 +69,10 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 #if !_DEBUG  // not updated for imgui mouse positions
 	// Button collison
 	if (
-		mData.Pos.x >= pos.x &&
-		mData.Pos.x <= ( pos.x + size.x ) &&
-		mData.Pos.y >= pos.y &&
-		mData.Pos.y <= ( pos.y + size.y )
+		mData.Pos.x >= m_vPosition.x &&
+		mData.Pos.x <= ( m_vPosition.x + m_vSize.x ) &&
+		mData.Pos.y >= m_vPosition.y &&
+		mData.Pos.y <= ( m_vPosition.y + m_vSize.y )
 	   )
 	{
 		m_buttonTexture = textures[1];

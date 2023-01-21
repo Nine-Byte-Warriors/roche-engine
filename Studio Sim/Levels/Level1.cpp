@@ -32,7 +32,6 @@ void Level1::OnCreate()
 
         // Initialize systems
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
-        m_uiScreen = std::make_shared<UIScreen>();
 
         // Initialize TileMap
         OnCreateTileMap(m_tileMapDrawBackground);
@@ -122,8 +121,14 @@ void Level1::OnSwitch()
     // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     m_ui->RemoveAllUI();
-	m_ui->AddUI( m_uiScreen, "Level1" );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices );
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Pause" );
+#endif
 }
 
 void Level1::BeginFrame()
@@ -181,13 +186,6 @@ void Level1::EndFrame()
         m_camera.GetWorldOrthoMatrix(), &m_textRenderer
     );
 
-	// Render text
-    m_textRenderer.RenderString(
-        "This is example text.",
-        XMFLOAT2( m_gfx->GetWidth() * 0.5f, m_gfx->GetHeight() * 0.96f ),
-        Colors::Green, true
-    );
-
     // Render scene to texture
     m_gfx->RenderSceneToTexture();
 
@@ -223,12 +221,12 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
+    m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
-    
     m_tileMapEditor->SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
-    m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
     
@@ -241,15 +239,32 @@ void Level1::Update( const float dt )
     // Update entities
 #if _DEBUG
     m_audioEditor.Update();
+    m_uiEditor.Update( dt );
+    static bool firstLoad = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoad )
+    {
+        firstLoad = false;
+        m_ui->ShowAllUI();
+    }
+    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    {
+        m_ui->HideAllUI();
+        std::string name = m_uiEditor.GetCurrentScreenName();
+        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
+    }
+    else
+    {
+        m_ui->HideAllUI();
+    }
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
 
-    UpdateEntity(dt);
+    UpdateEntity( dt );
 
     m_player.Update( dt );
     m_enemy.Update( dt );
-    m_ui->Update( dt );
+    m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();

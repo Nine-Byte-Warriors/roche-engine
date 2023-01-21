@@ -14,8 +14,8 @@ public:
 	UIManager() { AddToEvent(); }
 	~UIManager() { RemoveAllUI(); RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat );
-	void Update( const float dt );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<Widget>>& widgets );
+	void Update( const float dt, const std::vector<std::vector<Widget>>& widgets );
 	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
 	std::shared_ptr<UIScreen> GetCustomUI( const std::string& name );

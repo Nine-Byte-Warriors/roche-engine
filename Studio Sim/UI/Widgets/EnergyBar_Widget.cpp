@@ -18,10 +18,10 @@ EnergyBar_Widget::EnergyBar_Widget()
 		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
 		"Resources\\Textures\\UI\\Button\\ButtonIdle.png"
 	};
-	Resolve( textures, 50.0f, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	Resolve( textures, 50.0f );
 }
 
-EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size )
+EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, float fraction )
 {
 	m_spriteBack = std::make_shared<Sprite>();
     m_transformBack = std::make_shared<Transform>( m_spriteBack );
@@ -32,7 +32,7 @@ EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, fl
 	m_spriteFront = std::make_shared<Sprite>();
     m_transformFront = std::make_shared<Transform>( m_spriteFront );
 
-	Resolve( textures, fraction, pos, size );
+	Resolve( textures, fraction );
 }
 
 EnergyBar_Widget::~EnergyBar_Widget() { }
@@ -86,12 +86,8 @@ void EnergyBar_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context,
 	}
 }
 
-void EnergyBar_Widget::Resolve( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size )
+void EnergyBar_Widget::Resolve( const std::vector<std::string>& textures, float fraction )
 {
-	// Update position/scale
-    m_vSize = size;
-    m_vPosition = pos;
-
     m_transformBack->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transformBack->SetScale( m_vSize.x, m_vSize.y );
     m_spriteBack->SetWidth( m_vSize.x );
