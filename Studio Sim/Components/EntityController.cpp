@@ -20,6 +20,8 @@ EntityController::EntityController()
 	//JsonLoading::SaveJson(m_entityData, JsonFile);
 
 	JsonLoading::LoadJson(m_entityData, JsonFile);
+
+	AddToEvent();
 }
 
 EntityController::~EntityController()
@@ -61,8 +63,30 @@ float EntityController::GetMass(int num)
 	return m_entityData[num].mass;
 }
 
+std::string EntityController::GetBehaviour(int num)
+{
+	return m_entityData[num].behaviour;
+}
+
 void EntityController::SetEntityData(std::vector<EntityData> entityData)
 {
 	m_entityData = entityData;
 }
 
+void EntityController::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient(EVENTID::PlayerUp, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
+}
+
+void EntityController::HandleEvent(Event* event)
+{
+	m_eventId = event->GetEventID();
+}
+
+EVENTID EntityController::GetEventId()
+{
+	return m_eventId;
+}

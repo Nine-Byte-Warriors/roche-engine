@@ -5,6 +5,7 @@
 #include "FileLoading.h"
 #include "JsonLoading.h"
 #include "Entity.h"
+#include "AIStateMachine.h"
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
@@ -19,6 +20,8 @@ public:
 #endif
 
 	std::vector<EntityData> GetEntityData();
+
+	bool IsPositionLocked();
 
 private:
 	void EntityListBox();
@@ -40,6 +43,9 @@ private:
 
 	//Physics
 	void SetMass();
+
+	//AI
+	void SetBehaviour();
 
 	void SaveButton();
 	void SaveEntity();
@@ -66,6 +72,7 @@ private:
 	float m_fHeight;
 
 	bool m_bIsUpdated;
+	bool m_bLockPosition;
 };
 
 #endif

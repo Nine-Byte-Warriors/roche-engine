@@ -24,6 +24,9 @@ public:
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
 	inline Vector2f GetTargetPosition() const noexcept { return m_vTargetPos; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
+
+	void SetBehaviour(AILogic::AIStateTypes behaviour);
+	void ResetBehaviour();
 	
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;

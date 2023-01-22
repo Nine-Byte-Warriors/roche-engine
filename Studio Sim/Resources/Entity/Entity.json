@@ -1,59 +1,82 @@
 [
     {
+        "behaviour": "Patrol",
         "identifier": 0,
         "mass": 10.0,
         "maxFrame": [
             3,
-            3
+            2
         ],
-        "name": "Enemy0",
+        "name": "PotatoMan",
         "position": [
-            618.0,
-            500.0
+            73.0,
+            80.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
+        "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
         "type": "Enemy"
     },
     {
+        "behaviour": "Seek",
         "identifier": 1,
         "mass": 10.0,
         "maxFrame": [
             3,
-            3
+            2
         ],
-        "name": "Name2",
+        "name": "Bean",
         "position": [
-            352.0,
-            435.0
+            2.0,
+            588.0
+        ],
+        "scale": [
+            128.0,
+            128.0
+        ],
+        "texture": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png",
+        "type": "Enemy"
+    },
+    {
+        "behaviour": "None",
+        "identifier": 2,
+        "mass": 21.200000762939453,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "Player",
+        "position": [
+            1099.0,
+            45.0
+        ],
+        "scale": [
+            124.0,
+            124.0
+        ],
+        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "type": "Player"
+    },
+    {
+        "behaviour": "Follow",
+        "identifier": 3,
+        "mass": 10.0,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "Onion",
+        "position": [
+            1010.0,
+            571.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
+        "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
         "type": "Enemy"
-    },
-    {
-        "identifier": 2,
-        "mass": 0.0,
-        "maxFrame": [
-            0,
-            0
-        ],
-        "name": "Name",
-        "position": [
-            0.0,
-            0.0
-        ],
-        "scale": [
-            0.0,
-            0.0
-        ],
-        "texture": "",
-        "type": "Type"
     }
 ]
