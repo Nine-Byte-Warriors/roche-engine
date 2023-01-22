@@ -207,9 +207,7 @@ void AudioEditor::SpawnControlWindow()
 					if (ImGui::CollapsingHeader("SFX List", ImGuiTreeNodeFlags_DefaultOpen)) {
 						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
 							if (m_vSoundFileInfo[i].audioType == SFX) {
-								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { // add their own labels bs
-									ImGui::Text("TestText");
-									// populate it with sfx stuff in treenode
+								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { 
 									float defaultVolume = m_vSoundFileInfo[i].volume;
 									if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
 										m_vSoundFileInfo[i].volume = defaultVolume;
@@ -248,9 +246,7 @@ void AudioEditor::SpawnControlWindow()
 					if (ImGui::CollapsingHeader("Music List", ImGuiTreeNodeFlags_DefaultOpen)) {
 						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
 							if (m_vSoundFileInfo[i].audioType == MUSIC) {
-								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { // add their own labels bs
-									ImGui::Text("TestText");
-									// populate it with music stuff in treenode
+								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { 
 									float defaultVolume = m_vSoundFileInfo[i].volume;
 									if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
 										m_vSoundFileInfo[i].volume = defaultVolume;
