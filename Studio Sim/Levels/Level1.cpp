@@ -215,7 +215,7 @@ void Level1::EndFrame()
 
     m_tileMapEditor->SpawnControlWindow();
     //m_audioEditor.SpawnControlWindow();
-    m_audioEditorNew.SpawnControlWindow();
+    m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
     m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();

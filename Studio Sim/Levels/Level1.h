@@ -13,8 +13,7 @@
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
 #if _DEBUG
-//#include "AudioEditor.h"
-#include "AudioEditorNew.h"
+#include "AudioEditor.h"
 #endif
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
@@ -59,8 +58,7 @@ private:
 	std::shared_ptr<UIScreen> m_uiScreen;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG
-	//AudioEditor m_audioEditor;
-	AudioEditorNew m_audioEditorNew;
+	AudioEditor m_audioEditor;
 #endif
 	int m_iEntityAmount;
 	int m_iTileMapRows;
