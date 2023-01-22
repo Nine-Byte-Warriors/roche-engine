@@ -16,7 +16,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 4. You may merge the Pull Request once you have the sign-off of two other developers, or if you 
    do not have permission to do that, you may request the second reviewer to merge it for you.
 
-### Forking the Repository
+## Forking the Repository
 
 Please refer to [this](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) page on the process of forking the repository. Doing this will mean that can create your own branches, implement new features and then make pull requests from your forked repository to that of the original if you feel that it could be a beneficial addition.
 
