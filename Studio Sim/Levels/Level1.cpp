@@ -6,6 +6,8 @@
 #include <imgui/imgui.h>
 #endif
 
+#define DEBUG_ENEMY_COUNT 5
+
 void Level1::OnCreate()
 {
 	try
@@ -23,6 +25,14 @@ void Level1::OnCreate()
 
         // Initialize enemies
         m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
+        
+        for (int i = 0; i < DEBUG_ENEMY_COUNT; i++)
+        {
+		    std::shared_ptr<Enemy> pEnemy = std::make_shared<Enemy>();
+            // TODO: set ai states and initial positions here for each enemy
+		    m_enemyManager.AddEnemy(std::move(pEnemy));
+        }
+        m_enemyManager.Initialize(*m_gfx, m_cbMatrices, Sprite::Type::Cauliflower);
 
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( m_gfx->GetWidth() ), static_cast<float>( m_gfx->GetHeight() ) };
@@ -154,6 +164,7 @@ void Level1::RenderFrame()
     RenderFrameEntity();
 
 	m_enemy.Render(*m_gfx, camMatrix);
+	m_enemyManager.Render(*m_gfx, camMatrix);
 }
 
 void Level1::RenderFrameEntity()
@@ -261,6 +272,8 @@ void Level1::Update( const float dt )
 
     m_player.Update( dt );
     m_enemy.Update( dt );
+	m_enemyManager.Update( dt );
+
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
 	m_projectileEditor->Update( dt );

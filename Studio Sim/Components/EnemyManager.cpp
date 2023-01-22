@@ -8,23 +8,25 @@ EnemyManager::EnemyManager()
 
 void EnemyManager::AddEnemy(const std::shared_ptr<Enemy>& pEnemy)
 {
-	vecEnemies.push_back(pEnemy);
+	m_vecEnemies.push_back(pEnemy);
 }
 
 void EnemyManager::Update(const float dt)
 {
-	for (std::shared_ptr<Enemy>& pEnemy : vecEnemies)
-	{
+	for (std::shared_ptr<Enemy>& pEnemy : m_vecEnemies)
 		pEnemy->Update(dt);
-	}
 }
 
 void EnemyManager::Initialize(Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type)
 {
-	for (std::shared_ptr<Enemy>& pEnemy : vecEnemies)
-	{
+	for (std::shared_ptr<Enemy>& pEnemy : m_vecEnemies)
 		pEnemy->Initialize(gfx, mat, type);
-	}
+}
+
+void EnemyManager::Render(Graphics& gfx, XMMATRIX& mat)
+{
+	for (std::shared_ptr<Enemy>& pEnemy : m_vecEnemies)
+		pEnemy->Render(gfx, mat);
 }
 
 void EnemyManager::AddToEvent() noexcept

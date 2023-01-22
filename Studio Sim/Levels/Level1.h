@@ -19,6 +19,7 @@
 #include "ProjectileEditor.h"
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
+#include <EnemyManager.h>
 
 /// <summary>
 /// The first level of the game.
@@ -53,6 +54,7 @@ private:
 	// Objects
 	std::vector<Entity> m_entity;
 	Enemy m_enemy;
+	EnemyManager m_enemyManager;
 	Camera m_camera;
 	Player m_player;
 	UIEditor m_uiEditor;

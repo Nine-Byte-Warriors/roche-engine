@@ -25,6 +25,7 @@ void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Ty
 	float fRadius = fWidth > fHeight ? fWidth / 2.0f : fHeight / 2.0f;
 	m_collider = std::make_shared<CircleCollider>( m_transform, 1, 1, fRadius);
 
+	// TODO: either move outside of this method to allow custom initial positioning
 	m_transform->SetPositionInit(gfx.GetWidth() * 0.4f, gfx.GetHeight() / 2);
 	m_transform->SetScaleInit(fWidth, fHeight);
 	

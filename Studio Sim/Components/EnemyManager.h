@@ -14,16 +14,17 @@ public:
 	EnemyManager();
 	~EnemyManager() {};
 
-	void Update(const float dt);
-	void AddEnemy(const std::shared_ptr<Enemy>& pEnemy);
-
 	void Initialize(Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);
+	void Update(const float dt);
+	void Render(Graphics& gfx, XMMATRIX& mat);
+
+	void AddEnemy(const std::shared_ptr<Enemy>& pEnemy);
 	
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
 	
 private:
-	std::vector<std::shared_ptr<Enemy>> vecEnemies;
+	std::vector<std::shared_ptr<Enemy>> m_vecEnemies;
 };
 
 #endif // !ENEMY_MANAGER_H
