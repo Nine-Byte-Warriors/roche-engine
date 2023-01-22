@@ -6,24 +6,24 @@ EnemyManager::EnemyManager()
 	AddToEvent();
 }
 
-void EnemyManager::AddAgent(const std::shared_ptr<Enemy>& pEnemy)
+void EnemyManager::AddEnemy(const std::shared_ptr<Enemy>& pEnemy)
 {
-	pEnemies.push_back(pEnemy);
+	vecEnemies.push_back(pEnemy);
 }
 
 void EnemyManager::Update(const float dt)
 {
-	for (auto& enemy : pEnemies)
+	for (std::shared_ptr<Enemy>& pEnemy : vecEnemies)
 	{
-		enemy->Update(dt);
+		pEnemy->Update(dt);
 	}
 }
 
 void EnemyManager::Initialize(Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type)
 {
-	for (auto& enemy : pEnemies)
+	for (std::shared_ptr<Enemy>& pEnemy : vecEnemies)
 	{
-		enemy->Initialize(gfx, mat, type);
+		pEnemy->Initialize(gfx, mat, type);
 	}
 }
 

@@ -29,3 +29,9 @@ void Enemy::Update( const float dt )
 	m_vEnemyPos->y = m_transform->GetPosition().y;
 	EventSystem::Instance()->AddEvent( EVENTID::TargetPosition, m_vEnemyPos ); // DEBUG: remove
 }
+
+void Enemy::Render(Graphics& gfx, XMMATRIX& mat)
+{
+	m_sprite->UpdateBuffers(gfx.GetContext());
+	m_sprite->Draw(m_transform->GetWorldMatrix(), mat);
+}

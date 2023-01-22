@@ -15,7 +15,7 @@ public:
 	~EnemyManager() {};
 
 	void Update(const float dt);
-	void AddAgent(const std::shared_ptr<Enemy>& pEnemy);
+	void AddEnemy(const std::shared_ptr<Enemy>& pEnemy);
 
 	void Initialize(Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);
 	
@@ -23,7 +23,7 @@ public:
 	void HandleEvent(Event* event) override;
 	
 private:
-	std::vector<std::shared_ptr<Enemy>> pEnemies;
+	std::vector<std::shared_ptr<Enemy>> vecEnemies;
 };
 
 #endif // !ENEMY_MANAGER_H

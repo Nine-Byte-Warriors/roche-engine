@@ -13,6 +13,7 @@ public:
 	Enemy();
 	void Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type );
 	void Update( const float dt );
+	void Render(Graphics& gfx, XMMATRIX& mat);
 
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
