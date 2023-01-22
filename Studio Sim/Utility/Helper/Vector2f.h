@@ -31,6 +31,7 @@ public:
 	Vector2f() : x( 0.0f ), y( 0.0f ) {}
 	Vector2f( const Vector2f& vec ) : x( vec.x ), y( vec.y ) {}
 	Vector2f( const float x, const float y ) : x( x ), y( y ) {}
+	Vector2f( const float fAngle) : x(cos(fAngle)), y(sin(fAngle)) {}
 	~Vector2f() { ; }
 
 	Vector2f Add(const Vector2f v) { return Vector2f(x + v.x, y + v.y); }

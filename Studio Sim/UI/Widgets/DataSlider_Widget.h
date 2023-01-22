@@ -9,13 +9,13 @@ class DataSlider_Widget : public Widget
 {
 public:
 	DataSlider_Widget();
-	DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size );
+	DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData& mData );
 	~DataSlider_Widget();
 
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
 	void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho );
-	void Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size );
+	void Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData& mData );
 
 	uint32_t GetData() const noexcept { return m_uDataOut; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBar; }
@@ -24,7 +24,6 @@ public:
 private:
 	float m_fPx = 0.0f;
 	uint32_t m_uDataOut;
-	XMFLOAT2 m_vPosition, m_vSize;
 
 	std::string m_barTexture;
 	std::shared_ptr<Sprite> m_spriteBar;

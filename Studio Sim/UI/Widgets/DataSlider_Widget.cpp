@@ -10,11 +10,12 @@ DataSlider_Widget::DataSlider_Widget()
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
 	int sliderStart = 50;
+	MouseData mouseData = MouseData();
 	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
-	Resolve( sliderStart, texture, texture, {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	Resolve( sliderStart, texture, texture, mouseData );
 }
 
-DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData& mData )
 {
 	m_spriteBar = std::make_shared<Sprite>();
     m_transformBar = std::make_shared<Transform>( m_spriteBar );
@@ -22,7 +23,7 @@ DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, cons
 	m_spriteSlider = std::make_shared<Sprite>();
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
-	Resolve( start, barTex, sliderTex, mData, pos, size );
+	Resolve( start, barTex, sliderTex, mData );
 }
 
 DataSlider_Widget::~DataSlider_Widget() { }
@@ -60,15 +61,11 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData& mData )
 {
 	m_barTexture = barTex;
 	m_sliderTexture = sliderTex;
-	m_fPx = ( ( float )start / 100.0f ) * size.x;
-
-	// Update position/scale
-    m_vSize = size;
-    m_vPosition = pos;
+	m_fPx = ( ( float )start / 100.0f ) * m_vSize.x;
 
     m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
     m_transformBar->SetScale( m_vSize.x, m_vSize.y );
@@ -83,19 +80,20 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 #if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
 	if (
-		mData.Pos.x >= pos.x &&
-		mData.Pos.x <= ( pos.x + size.x + 1.0f ) &&
-		mData.Pos.y >= pos.y &&
-		mData.Pos.y <= ( pos.y + size.y )
+		mData.Pos.x >= m_vPosition.x &&
+		mData.Pos.x <= ( m_vPosition.x + m_vSize.x + 1.0f ) &&
+		mData.Pos.y >= m_vPosition.y &&
+		mData.Pos.y <= ( m_vPosition.y + m_vSize.y )
 	   )
 	{
 		if ( mData.LPress )
 		{
-			m_fPx = mData.Pos.x - pos.x;
-			start = ( m_fPx / size.x ) * 100.0f;
+			mData.Locked = true;
+			m_fPx = mData.Pos.x - m_vPosition.x;
+			start = ( m_fPx / m_vSize.x ) * 100.0f;
 		}
 	}
 #endif
 
-	m_uDataOut = ( m_fPx / size.x ) * 100.0f;
+	m_uDataOut = ( m_fPx / m_vSize.x ) * 100.0f;
 }

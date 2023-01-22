@@ -266,6 +266,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="AI\AIWander.cpp" />
+    <ClCompile Include="AI\AIFollow.cpp" />
     <ClCompile Include="AI\AIFlee.cpp" />
     <ClCompile Include="AI\AIIdle.cpp" />
     <ClCompile Include="AI\AIPatrol.cpp" />
@@ -280,6 +282,7 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
+    <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
@@ -305,6 +308,7 @@
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
+    <ClCompile Include="UI\UIEditor.cpp" />
     <ClCompile Include="UI\UIScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -397,6 +401,8 @@
     <ClInclude Include="..\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\External\imgui\imstb_textedit.h" />
     <ClInclude Include="..\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="AI\AIWander.h" />
+    <ClInclude Include="AI\AIFollow.h" />
     <ClInclude Include="AI\AIFlee.h" />
     <ClInclude Include="AI\AIIdle.h" />
     <ClInclude Include="AI\AIPatrol.h" />
@@ -413,6 +419,7 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\EntityController.h" />
     <ClInclude Include="Components\Physics.h" />
+    <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
@@ -445,10 +452,12 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="Utility\Helper\RND.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="TileMap\TileMap.h" />
     <ClInclude Include="TileMap\TileMapDraw.h" />
     <ClInclude Include="TileMap\TileMapEditor.h" />
+    <ClInclude Include="UI\UIEditor.h" />
     <ClInclude Include="UI\UIScreen.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -543,6 +552,9 @@
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
+    <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
+    <None Include="Resources\Patterns\SlowCircle.ptn" />
+    <None Include="Resources\Patterns\SlowWiggle.ptn" />
     <None Include="Resources\Tutorial01.aps" />
   </ItemGroup>
   <ItemGroup>

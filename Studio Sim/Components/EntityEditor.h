@@ -13,39 +13,59 @@ class EntityEditor
 {
 public:
 	EntityEditor();
-	~EntityEditor();
 
 #if _DEBUG
-	void SpawnControlWindow();
+	void SpawnControlWindow(float width, float height);
 #endif
 
+	std::vector<EntityData> GetEntityData();
+
 private:
-	void GetName();
-	void GetType();
-	void GetPosition();
-	void GetTexture();
-	void GetScale();
-	void Save();
-	void PopulateEntityDataWithNewEntity();
+	void EntityListBox();
+	void EntityWidget();
+
+	void SpriteWidget();
+	void PhysicsWidget();
+	void AIWidget();
+	void ProjectileSystemWidget();
+	void ColliderWidget();
+
+	//Sprite
+	void SetName();
+	void SetType();
+	void SetPosition();
+	void SetTexture();
+	void SetScale();
+	void SetMaxFrame();
+
+	//Physics
+	void SetMass();
+
+	void SaveButton();
+	void SaveEntity();
+
+	void AddNewEntity();
 
 	std::string JsonFile = "Resources\\Entity\\Entity.json";
 
 	std::vector<EntityData> m_vEntityData;
 
-	EntityData m_entityData;
-
 	std::string m_sSelectedFile = "LoadFile.txt";
 	std::string m_sFilePath = "";
 
-	bool m_bValidData;
+	bool m_bValidFrame;
+	bool m_bValidTex;
+
 	std::string m_sSavedText = "";
 
-	std::string m_sName;
-	std::string m_sType;
-	float m_fPosX;
-	float m_fPosY;
-	float m_fScaleX;
-	float m_fScaleY;
+	int m_iIdentifier = 0;
+
+	std::vector<EntityData> m_vEntityDataCopy;
+
+	float m_fWidth;
+	float m_fHeight;
+
+	bool m_bIsUpdated;
 };
 
 #endif

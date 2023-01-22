@@ -12,13 +12,12 @@ void AIFlee::Update(const float dt)
 	Vector2f vTargetPosition = m_pAgent->GetTargetPosition();
 
 	// Get the direction from the target
-	Vector2f vDirection = vTargetPosition.DirectionTo(vAgentPos);
-
-	// Normalize the direction
-	Vector2f vNormDir = vDirection.Normalised();
+	Vector2f vDirection = vTargetPosition
+		.DirectionTo(vAgentPos)
+		.Normalised();
 
 	// Apply the directional force and speed
-	m_pAgent->GetPhysics()->AddForce( vNormDir * m_pAgent->GetSpeed() );
+	m_pAgent->GetPhysics()->AddForce(vDirection * m_pAgent->GetSpeed() );
 	
 	// Update the physics model
 	m_pAgent->GetPhysics()->Update( dt );

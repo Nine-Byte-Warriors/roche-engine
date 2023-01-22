@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Level1.h"
+#include "ProjectileEditor.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -31,7 +32,6 @@ void Level1::OnCreate()
 
         // Initialize systems
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
-        m_uiScreen = std::make_shared<UIScreen>();
 
         // Initialize TileMap
         OnCreateTileMap(m_tileMapDrawBackground);
@@ -40,6 +40,10 @@ void Level1::OnCreate()
         //Initialize CollisionHandler
         m_collisionHandler.AddCollider(m_player.GetCollider());
         m_collisionHandler.AddCollider(m_enemy.GetCollider());
+
+		// Initialise Projectile Editor
+        m_projectileEditor = ProjectileEditor::CreateEditor();
+		m_projectileEditor->Initialise(*m_gfx, m_cbMatrices);
 	}
 	catch ( COMException& exception )
 	{
@@ -82,7 +86,7 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     {
         TileMapDraw *tileMapDrawPop = new TileMapDraw;
         tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "Resources\\Textures\\Tiles\\empty.png");
+        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "NONE");
 
         if (i != 0)
         {
@@ -117,8 +121,14 @@ void Level1::OnSwitch()
     // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     m_ui->RemoveAllUI();
-	m_ui->AddUI( m_uiScreen, "Level1" );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices );
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Pause" );
+#endif
 }
 
 void Level1::BeginFrame()
@@ -130,18 +140,23 @@ void Level1::BeginFrame()
 
 void Level1::RenderFrame()
 {
+	auto gfxContext = m_gfx->GetContext();
+	auto camMatrix = m_camera.GetWorldOrthoMatrix();
+    
     // Sprites
     RenderFrameTileMap(m_tileMapDrawBackground);
     RenderFrameTileMap(m_tileMapDrawForeground);
+    
+    m_projectileEditor->Draw(gfxContext, camMatrix);
 
+    m_player.GetSprite()->UpdateBuffers(gfxContext);
+    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
+    m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
+    
     RenderFrameEntity();
 
-    m_player.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
-    m_player.GetProjectileManager()->Draw( m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix() );
-
-    m_enemy.GetSprite()->UpdateBuffers( m_gfx->GetContext() );
-    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix() );
+    m_enemy.GetSprite()->UpdateBuffers(gfxContext);
+    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
 void Level1::RenderFrameEntity()
@@ -169,13 +184,6 @@ void Level1::EndFrame()
     m_ui->Draw(
         m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
         m_camera.GetWorldOrthoMatrix(), &m_textRenderer
-    );
-
-	// Render text
-    m_textRenderer.RenderString(
-        "This is example text.",
-        XMFLOAT2( m_gfx->GetWidth() * 0.5f, m_gfx->GetHeight() * 0.96f ),
-        Colors::Green, true
     );
 
     // Render scene to texture
@@ -213,11 +221,12 @@ void Level1::EndFrame()
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
+    m_uiEditor.SpawnControlWindow( *m_gfx );
+    m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     m_tileMapEditor->SpawnControlWindow();
-    //m_audioEditor.SpawnControlWindow();
+    m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
-    m_entityEditor.SpawnControlWindow();
     m_imgui->EndRender();
 #endif
     
@@ -229,25 +238,73 @@ void Level1::Update( const float dt )
 {
     // Update entities
 #if _DEBUG
-    //m_audioEditor.Update();
+    m_audioEditor.Update();
+    m_uiEditor.Update( dt );
+    static bool firstLoad = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoad )
+    {
+        firstLoad = false;
+        m_ui->ShowAllUI();
+    }
+    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    {
+        m_ui->HideAllUI();
+        std::string name = m_uiEditor.GetCurrentScreenName();
+        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
+    }
+    else
+    {
+        m_ui->HideAllUI();
+    }
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
 
-    UpdateEntity(dt);
+    UpdateEntity( dt );
 
     m_player.Update( dt );
     m_enemy.Update( dt );
-    m_ui->Update( dt );
+    m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
+	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
 }
 
 void Level1::UpdateEntity(const float dt)
 {
+#if _DEBUG
+    UpdateEntityFromEditor(dt);
+#endif
+
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].Update(dt);
+    }
+}
+
+void Level1::UpdateEntityFromEditor(const float dt)
+{
+    m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+
+    if (m_iEntityAmount < m_entityController.GetSize())
+    {
+        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+        {
+            Entity* entityPop = new Entity(m_entityController, i);
+            m_entity.push_back(*entityPop);
+            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+            delete entityPop;
+
+            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
+        m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    }
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].UpdateFromEntityData(dt);
     }
 }
 

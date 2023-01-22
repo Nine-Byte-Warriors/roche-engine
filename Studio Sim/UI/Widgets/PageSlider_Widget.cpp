@@ -9,10 +9,11 @@ PageSlider_Widget::PageSlider_Widget()
 	m_spriteSlider = std::make_shared<Sprite>();
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
-	Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), {}, { 0.0f, 0.0f }, { 64.0f, 64.0f } );
+	MouseData mouseData = MouseData();
+	Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), mouseData );
 }
 
-PageSlider_Widget::PageSlider_Widget( Colour barCol, Colour sliderCol, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
+PageSlider_Widget::PageSlider_Widget( Colour barCol, Colour sliderCol, MouseData& mData )
 {
 	m_spriteBar = std::make_shared<Sprite>();
     m_transformBar = std::make_shared<Transform>( m_spriteBar );
@@ -20,7 +21,7 @@ PageSlider_Widget::PageSlider_Widget( Colour barCol, Colour sliderCol, MouseData
 	m_spriteSlider = std::make_shared<Sprite>();
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
 
-	Resolve( barCol, sliderCol, mData, pos, size );
+	Resolve( barCol, sliderCol, mData );
 }
 
 PageSlider_Widget::~PageSlider_Widget() { }
@@ -58,37 +59,37 @@ void PageSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData mData, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_vSize = size;
-	m_vPosition = pos;
-	
+void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mData )
+{	
 	m_barColour = barCol;
 	m_sliderColour = sliderCol;
 
-	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y );
+	m_transformSlider->SetScale( m_vSize.x, m_vSize.y * 0.2f );
+	m_spriteSlider->SetWidth( m_vSize.x );
+	m_spriteSlider->SetHeight( m_vSize.y * 0.2f );
+	m_transformSlider->SetPosition( m_vPosition.x, m_vPosition.y + m_fPY - ( m_spriteSlider->GetHeight() / 2.0f ) );
+
+	m_transformBar->SetPosition( m_vPosition.x, m_vPosition.y - ( m_spriteSlider->GetHeight() / 2.0f ) );
 	m_transformBar->SetScale( m_vSize.x, m_vSize.y + 85.0f );
 	m_spriteBar->SetWidth( m_vSize.x );
 	m_spriteBar->SetHeight( m_vSize.y + 85.0f );
 
-	m_transformSlider->SetPosition( m_vPosition.x, m_vPosition.y + m_fPY );
-	m_transformSlider->SetScale( m_vSize.x, m_vSize.y * 0.2f );
-	m_spriteSlider->SetWidth( m_vSize.x );
-	m_spriteSlider->SetHeight( m_vSize.y * 0.2f );
-
 #if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
 	if (
-		mData.Pos.x >= pos.x &&
-		mData.Pos.x <= ( pos.x + size.x ) &&
-		mData.Pos.y >= pos.y &&
-		mData.Pos.y <= ( pos.y + size.y )
+		mData.Pos.x >= m_vPosition.x &&
+		mData.Pos.x <= ( m_vPosition.x + m_vSize.x ) &&
+		mData.Pos.y >= m_vPosition.y &&
+		mData.Pos.y <= ( m_vPosition.y + m_vSize.y )
 	   )
 	{
 		if ( mData.LPress )
-			m_fPY = mData.Pos.y - ( pos.y );
+		{
+			mData.Locked = true;
+			m_fPY = mData.Pos.y - ( m_vPosition.y );
+		}
 	}
 #endif
 
-	m_fPagePos = m_fPageSize * ( m_fPY / size.y );
+	m_fPagePos = m_fPageSize * ( m_fPY / m_vSize.y );
 }

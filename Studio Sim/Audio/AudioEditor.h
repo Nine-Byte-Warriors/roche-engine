@@ -16,12 +16,14 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
 class AudioEditor
 {
 public:
-	AudioEditor();
-	~AudioEditor();
 
-	void SortScreens();
+
+
 
 #if _DEBUG
+	AudioEditor();
+	~AudioEditor();
+	void SortScreens();
 	void SpawnControlWindow();
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();

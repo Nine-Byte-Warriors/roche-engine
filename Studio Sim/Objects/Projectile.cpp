@@ -2,9 +2,20 @@
 #include "Projectile.h"
 #include "Graphics.h"
 
-Projectile::Projectile(float fSpeed)
+Projectile::Projectile(float fSpeed, float fLifeTime)
 {
+	m_vSpawnPosition = Vector2f();
+	m_vTargetPosition = Vector2f();
+	m_vDirection = Vector2f();
+	m_vOffSet = Vector2f();
+
 	m_fSpeed = fSpeed;
+	m_fLifeTime = 0.0f;
+	m_fMaxLifeTime = fLifeTime;
+
+	m_bFixedDirection = true;
+	m_fAmplitude = 0.0f;
+	m_fFrequency = 0.0f;
 	
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
@@ -18,6 +29,13 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
+void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, std::string sSpritePath)
+{
+	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), sSpritePath, mat);
+	m_transform->SetPositionInit(0.0f, 0.0f);
+	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
+}
+
 void Projectile::Update(const float dt)
 {
 	if (!IsAlive())
@@ -25,8 +43,12 @@ void Projectile::Update(const float dt)
 	
 	m_fLifeTime -= dt;
 
+	if (m_fAmplitude == 0.0f || m_fFrequency == 0.0f)
+		m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
+	else
+		CalcDirection();
+
 	m_sprite->Update(dt);
-	m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
 	m_physics->Update(dt);
 	m_transform->Update();
 }
@@ -48,7 +70,30 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPositi
 		.DirectionTo(vTargetPosition)
 		.Normalised();
 	
-	m_transform->SetPosition(vSpawnPosition);
+	m_vAnchorPosition = vSpawnPosition;
+	m_transform->SetPosition(m_vAnchorPosition);
 
 	m_physics->ResetForces();
+}
+
+void Projectile::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
+{
+	m_fLifeTime = fLifeTime <= 0.0f	? m_fMaxLifeTime : fLifeTime;
+
+	m_vAnchorPosition = vSpawnPosition.Add(m_vOffSet);
+	m_transform->SetPosition(m_vAnchorPosition);
+
+	m_physics->ResetForces();
+}
+
+void Projectile::CalcDirection()
+{
+	float fAngle = m_fAngle + AI_MATH_HALF_PI_F;
+	float fCurrentDist = m_fAmplitude * sinf((m_fMaxLifeTime - m_fLifeTime) * m_fFrequency);
+	Vector2f vWavePosition = Vector2f(
+		cosf(fAngle) * fCurrentDist,
+		sinf(fAngle) * fCurrentDist
+	);
+	m_vAnchorPosition = m_vAnchorPosition.Add(m_vDirection.Multiply(m_fSpeed));
+	m_transform->SetPosition(vWavePosition.Add(m_vAnchorPosition));
 }

@@ -9,13 +9,13 @@ class EnergyBar_Widget : public Widget
 {
 public:
     EnergyBar_Widget();
-    EnergyBar_Widget( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size );
+    EnergyBar_Widget( const std::vector<std::string>& textures, float fraction );
     ~EnergyBar_Widget();
 
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho );
-    void Resolve( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size );
+    void Resolve( const std::vector<std::string>& textures, float fraction );
 
 	int GetCurrentPercent() const noexcept{ return m_iCurrentPercent; }
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBack; }
@@ -24,7 +24,6 @@ public:
 private:
     int m_iCurrentPercent;
     float m_fCurrentFraction;
-    XMFLOAT2 m_vPosition, m_vSize;
 
 	// Background
     std::string m_textureBack;
