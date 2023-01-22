@@ -2,6 +2,8 @@
 #include "Enemy.h"
 #include "Graphics.h"
 
+#define DEBUG_PATTERN_PATH "Resources\\Patterns\\SlowWiggle.ptn"
+
 Enemy::Enemy()
 {
 	m_vEnemyPos = new Vector2f();
@@ -10,6 +12,8 @@ Enemy::Enemy()
 	m_physics = std::make_shared<Physics>( m_transform );
 	m_agent = std::make_shared<Agent>( m_physics );
 
+	fShootRange = 200.0f;
+	m_projectileManager = std::make_shared<ProjectileManager>();
 }
 
 void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type )
@@ -23,6 +27,9 @@ void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Ty
 
 	m_transform->SetPositionInit(gfx.GetWidth() * 0.4f, gfx.GetHeight() / 2);
 	m_transform->SetScaleInit(fWidth, fHeight);
+	
+	m_projectileManager->LoadProjectileData(DEBUG_PATTERN_PATH);
+	m_projectileManager->Initialize(gfx, mat);
 }
 
 void Enemy::Update( const float dt )
@@ -30,9 +37,19 @@ void Enemy::Update( const float dt )
 	m_sprite->Update( dt );
 	m_agent->Update( dt );
 	m_transform->Update();
+	
+	Vector2f vPos = m_transform->GetPosition();
+	m_vEnemyPos = &vPos;
+	
+	Vector2f vTargetPos = m_agent->GetTargetPosition();
+	float fDistance = vPos.Distance(vTargetPos);
+	
+	// TODO: manage collision between player and projectiles instead of pushing player off screen
+	//if (fShootRange >= fDistance)
+	//	m_projectileManager->SpawnProjectiles(*m_vEnemyPos, vTargetPos);
+	
+	m_projectileManager->Update(dt);
 
-	m_vEnemyPos->x = m_transform->GetPosition().x;
-	m_vEnemyPos->y = m_transform->GetPosition().y;
 	EventSystem::Instance()->AddEvent( EVENTID::TargetPosition, m_vEnemyPos ); // DEBUG: remove
 }
 
@@ -40,4 +57,6 @@ void Enemy::Render(Graphics& gfx, XMMATRIX& mat)
 {
 	m_sprite->UpdateBuffers(gfx.GetContext());
 	m_sprite->Draw(m_transform->GetWorldMatrix(), mat);
+
+	m_projectileManager->Draw(gfx.GetContext(), mat);
 }

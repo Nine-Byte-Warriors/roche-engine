@@ -70,7 +70,7 @@ void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPositi
 		.DirectionTo(vTargetPosition)
 		.Normalised();
 	
-	m_vAnchorPosition = vSpawnPosition;
+	m_vAnchorPosition = vSpawnPosition.Add(m_vOffSet);
 	m_transform->SetPosition(m_vAnchorPosition);
 
 	m_physics->ResetForces();

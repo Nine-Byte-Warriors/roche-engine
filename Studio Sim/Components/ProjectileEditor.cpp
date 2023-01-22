@@ -18,8 +18,6 @@ ProjectileEditor::ProjectileEditor() :
 	m_bMidPosSet(false),
 	m_vSpawnPosition(Vector2f())
 {
-	//m_vecProjectileManager.push_back(std::make_shared<ProjectileManager>());
-	// TODO: Initialise images files for sprites of projectiles.
 }
 
 void ProjectileEditor::Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -245,7 +243,9 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
 		pManager->SetDelay(m_vecManagers[i].m_fDelay);
 		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
-		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
+		pManager->SetProjectileImagePath(m_vecManagers[i].m_sImagePath);
+		pManager->Initialize(gfx, mat);
+		//pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
 
 		m_vecProjectileManager.push_back(std::move(pManager)); 
 	}	
