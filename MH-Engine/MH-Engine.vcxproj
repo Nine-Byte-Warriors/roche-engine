@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2d3c8768-a36a-4b34-a9ae-cd286d381aba}</ProjectGuid>
-    <RootNamespace>StudioSim</RootNamespace>
+    <ProjectGuid>{60EFAB4C-9086-4109-9CA9-040CB39D93D0}</ProjectGuid>
+    <RootNamespace>MH-Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>MH-Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

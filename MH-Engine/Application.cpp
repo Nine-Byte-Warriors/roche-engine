@@ -10,7 +10,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
     try
     {
         // Initialize window
-        if ( !m_renderWindow.Initialize( &m_input, hInstance, "Five Nights of Farming", "TutorialWindowClass", width, height ) )
+        if ( !m_renderWindow.Initialize( &m_input, hInstance, "Midnight Harvest -Engine-", "TutorialWindowClass", width, height ) )
 		    return false;
 
         // Initialize m_graphics
