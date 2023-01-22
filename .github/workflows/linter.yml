@@ -1,0 +1,21 @@
+name: Linter
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Super-Linter
+      uses: docker://github/super-linter:latest
+    env:
+      VALIDATE_ALL_CODEBASE: false
+      VALIDATE_CPP: true
+      DEFAULT_BRANCH: master
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
