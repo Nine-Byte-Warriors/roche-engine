@@ -53,6 +53,7 @@ Please reach out to a member of Nine Byte Warriors if you have any additional qu
 
 ## Authors
 
+_Engine Developers_
 | Name                      | Profile                                                   |
 | ------------------------- | --------------------------------------------------------- |
 | Kyle Robinson             | [kyle-robinson](https://github.com/kyle-robinson)         |
@@ -60,6 +61,10 @@ Please reach out to a member of Nine Byte Warriors if you have any additional qu
 | Maurice Thompson-Hamilton | [BlackRece](https://github.com/BlackRece)                 |
 | Charlie Morris            | [charliemorris56](https://github.com/charliemorris56)     |
 | Alvin Aggrey              | [Alvin Aggrey](https://github.com/AlvinAggrey)            |
+
+_Game Developers_
+| Name                      | Profile                                                   |
+| ------------------------- | --------------------------------------------------------- |
 | Will Bennett              | [WillBennett2](https://github.com/WillBennett2)           |
 | James Barber              | [Tuffy137](https://github.com/Tuffy137)                   |
 | Said Mozamil Sadat        | [Said-Sadat](https://github.com/Said-Sadat)               |
@@ -68,4 +73,4 @@ Please reach out to a member of Nine Byte Warriors if you have any additional qu
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.txt file for details
+This project is licensed under the MIT License - see the LICENSE.txt file for details.
