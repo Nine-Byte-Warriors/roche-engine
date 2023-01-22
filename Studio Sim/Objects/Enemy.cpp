@@ -9,14 +9,20 @@ Enemy::Enemy()
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>( m_transform );
 	m_agent = std::make_shared<Agent>( m_physics );
-	m_collider = std::make_shared<CircleCollider>( m_transform, 1, 1, 32 );
+
 }
 
 void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), type, mat );
+
+	float fWidth = m_sprite->GetWidth();
+	float fHeight = m_sprite->GetHeight();
+	float fRadius = fWidth > fHeight ? fWidth / 2.0f : fHeight / 2.0f;
+	m_collider = std::make_shared<CircleCollider>( m_transform, 1, 1, fRadius);
+
 	m_transform->SetPositionInit(gfx.GetWidth() * 0.4f, gfx.GetHeight() / 2);
-	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
+	m_transform->SetScaleInit(fWidth, fHeight);
 }
 
 void Enemy::Update( const float dt )
