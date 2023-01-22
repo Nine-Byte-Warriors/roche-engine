@@ -35,18 +35,18 @@ std::vector<EntityData> EntityEditor::GetEntityData()
 #endif
 }
 
+bool EntityEditor::IsPositionLocked()
+{
+	return m_bLockPosition;
+}
+
 void EntityEditor::EntityWidget()
 {
 #if _DEBUG
-	ImGui::NewLine();
 	SpriteWidget();
-	ImGui::NewLine();
 	PhysicsWidget();
-	ImGui::NewLine();
 	AIWidget();
-	ImGui::NewLine();
 	ProjectileSystemWidget();
-	ImGui::NewLine();
 	ColliderWidget();
 #endif
 }
@@ -85,7 +85,7 @@ void EntityEditor::AddNewEntity()
 		EntityData* entityData;
 		entityData = new EntityData();
 
-		entityData->name = "Name";
+		entityData->name = "Name" + std::to_string(m_vEntityData.size());
 		entityData->position.push_back(0.0f);
 		entityData->position.push_back(0.0f);
 		entityData->scale.push_back(0.0f);
@@ -95,6 +95,8 @@ void EntityEditor::AddNewEntity()
 		entityData->identifier = m_vEntityData.size();
 		entityData->maxFrame.push_back(0);
 		entityData->maxFrame.push_back(0);
+		entityData->mass = 1.0f;
+		entityData->behaviour = "None";
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -107,6 +109,7 @@ void EntityEditor::AddNewEntity()
 void EntityEditor::SpriteWidget()
 {
 #if _DEBUG
+	ImGui::NewLine();
 	if (ImGui::TreeNode("Sprite"))
 	{
 		ImGui::NewLine();
@@ -130,6 +133,7 @@ void EntityEditor::SpriteWidget()
 void EntityEditor::PhysicsWidget()
 {
 #if _DEBUG
+	ImGui::NewLine();
 	if (ImGui::TreeNode("Physics"))
 	{
 		ImGui::NewLine();
@@ -143,11 +147,16 @@ void EntityEditor::PhysicsWidget()
 void EntityEditor::AIWidget()
 {
 #if _DEBUG
-	if (ImGui::TreeNode("AI"))
+	if (m_vEntityDataCopy[m_iIdentifier].type == "Enemy")
 	{
+		ImGui::NewLine();
+		if (ImGui::TreeNode("AI"))
+		{
+			ImGui::NewLine();
+			SetBehaviour();
 
-
-		ImGui::TreePop();
+			ImGui::TreePop();
+		}
 	}
 #endif
 }
@@ -155,6 +164,7 @@ void EntityEditor::AIWidget()
 void EntityEditor::ProjectileSystemWidget()
 {
 #if _DEBUG
+	ImGui::NewLine();
 	if (ImGui::TreeNode("ProjectileSystem"))
 	{
 
@@ -167,6 +177,7 @@ void EntityEditor::ProjectileSystemWidget()
 void EntityEditor::ColliderWidget()
 {
 #if _DEBUG
+	ImGui::NewLine();
 	if (ImGui::TreeNode("Collider"))
 	{
 
@@ -201,7 +212,7 @@ void EntityEditor::SetType()
 	std::string displayText = "Type";
 	ImGui::Text(displayText.c_str());
 
-	int entityType = 0;
+	static int entityType = 0;
 	std::string previewEntityType = m_vEntityDataCopy[m_iIdentifier].type;
 	const char* entityTypes[]{ "Player", "Enemy", "Projectile" };
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
@@ -239,6 +250,7 @@ void EntityEditor::SetTexture()
 {
 #if _DEBUG
 	ImGui::Text("Texture");
+	m_sSelectedFile = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
 		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
@@ -272,6 +284,10 @@ void EntityEditor::SetPosition()
 
 	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
+
+	ImGui::SameLine();
+
+	ImGui::Checkbox("Lock", &m_bLockPosition);
 #endif
 }
 
@@ -349,6 +365,56 @@ void EntityEditor::SetMass()
 
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].mass, 0.2f, 1.0f, maxMass, "%.1f");
+#endif
+}
+
+void EntityEditor::SetBehaviour()
+{
+#if _DEBUG
+	std::string displayText = "Behaviour";
+	ImGui::Text(displayText.c_str());
+
+	static int activeBehaviour = 0;
+	std::string previewEntityBehaviour = m_vEntityDataCopy[m_iIdentifier].behaviour;
+	const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander" };
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(lable.c_str(), previewEntityBehaviour.c_str()))
+	{
+		for (int i = 0; i < IM_ARRAYSIZE(behaviourList); i++)
+		{
+			const bool isSelected = i == activeBehaviour;
+			if (ImGui::Selectable(behaviourList[i], isSelected))
+			{
+				activeBehaviour = i;
+				previewEntityBehaviour = behaviourList[i];
+			}
+		}
+
+		ImGui::EndCombo();
+
+		switch (activeBehaviour)
+		{
+		case 0:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Idle";
+			break;
+		case 1:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Seek";
+			break;
+		case 2:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Flee";
+			break;
+		case 3:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Patrol";
+			break;
+		case 4:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Follow";
+			break;
+		case 5:
+			m_vEntityDataCopy[m_iIdentifier].behaviour = "Wander";
+			break;
+		}
+	}
 #endif
 }
 

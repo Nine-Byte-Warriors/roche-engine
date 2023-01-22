@@ -205,6 +205,25 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 }
 #endif
 
+void Agent::SetBehaviour(AILogic::AIStateTypes behaviour)
+{
+	m_bTargetMouse = false;
+	m_fSpeed = 5.0f;
+	ResetBehaviour();
+
+	m_mapStates.find(behaviour)->second->SetActivation(1.0f);
+}
+
+void Agent::ResetBehaviour()
+{
+	m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+}
+
 void Agent::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::MousePosition, this);

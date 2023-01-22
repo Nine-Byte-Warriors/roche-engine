@@ -165,7 +165,11 @@ void Level1::RenderFrameEntity()
     {
         m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
         m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-        m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+
+        if (m_entity[i].GetEntityType() == EntityType::Player)
+        {
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
     }
 }
 
@@ -304,7 +308,7 @@ void Level1::UpdateEntityFromEditor(const float dt)
 
     for (int i = 0; i < m_iEntityAmount; i++)
     {
-        m_entity[i].UpdateFromEntityData(dt);
+        m_entity[i].UpdateFromEntityData(dt, m_entityEditor.IsPositionLocked());
     }
 }
 
