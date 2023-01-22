@@ -16,10 +16,6 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
 class AudioEditor
 {
 public:
-
-
-
-
 #if _DEBUG
 	AudioEditor();
 	~AudioEditor();

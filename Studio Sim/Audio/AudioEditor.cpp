@@ -14,6 +14,8 @@
 #define SOUND_BANK_PATH  "Resources\\Audio\\Sound Banks\\"
 #define SOUND_FILES_PATH  "Resources\\Audio\\"
 
+#if _DEBUG
+
 AudioEditor::AudioEditor()
 {
 	//LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
@@ -76,7 +78,6 @@ void AudioEditor::SortScreens()
 	m_vSoundBanksList = tempScreenList;
 }
 
-#if _DEBUG
 void AudioEditor::SaveToFileSoundBankLists()
 {
 	// Add check duplicate of name
