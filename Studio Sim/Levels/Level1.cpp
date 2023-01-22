@@ -242,7 +242,6 @@ void Level1::Update( const float dt )
 {
     // Update entities
 #if _DEBUG
-    m_audioEditor.Update();
     m_uiEditor.Update( dt );
     static bool firstLoad = true;
     if ( m_uiEditor.ShouldShowAll() || firstLoad )
