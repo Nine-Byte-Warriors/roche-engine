@@ -154,8 +154,6 @@ void Level1::RenderFrame()
     RenderFrameEntity();
 
 	m_enemy.Render(*m_gfx, camMatrix);
-    //m_enemy.GetSprite()->UpdateBuffers(gfxContext);
-    //m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
 void Level1::RenderFrameEntity()
