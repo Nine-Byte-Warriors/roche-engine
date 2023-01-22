@@ -1,13 +1,8 @@
 [
     {
-        "audioType": 0,
-        "filePath": "Resources\\Audio\\pcm-32bit-44khz-mono.wav",
-        "volume": 1.0
-    },
-    {
-        "audioType": 0,
-        "filePath": "Resources\\Audio\\pcm-32bit-44khz-stereo.wav",
-        "volume": 1.0
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\partymusic.wav",
+        "volume": 0.2240000069141388
     },
     {
         "audioType": 0,
@@ -22,16 +17,6 @@
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
-        "volume": 1.0
-    },
-    {
-        "audioType": 1,
-        "filePath": "Resources\\Audio\\creepymusic.wav",
-        "volume": 1.0
-    },
-    {
-        "audioType": 1,
-        "filePath": "Resources\\Audio\\partymusic.wav",
-        "volume": 1.0
+        "volume": 0.13500000536441803
     }
 ]

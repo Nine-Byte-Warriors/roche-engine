@@ -84,6 +84,7 @@ public:
 	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume);
 	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
 	std::wstring GetFileName(std::wstring filePath);
+	std::wstring GetFileName(std::string filePath); //overload for string
 
 	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
 	
@@ -100,6 +101,8 @@ public:
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
 	inline void SetDefaultVolume(SoundBankFile* soundBank, float defaultVolume) { soundBank->volume = defaultVolume; };
+
+	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
 	inline std::wstring ConvertStringToWstring(std::string stringToConvert) { return std::wstring(stringToConvert.begin(), stringToConvert.end()); };
 	std::string ConvertWstringToString(std::wstring wstringToConvert) { return std::string(wstringToConvert.begin(), wstringToConvert.end()); };

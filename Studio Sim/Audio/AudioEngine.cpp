@@ -45,26 +45,7 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	m_iMaxSFXSourceVoicesLimit = maxSFXSourceVoices;
 	m_iMaxMusicSourceVoicesLimit = maxMusicSourceVoices;
 
-	//m_iSFXSourceVoicesPlaying = 0;
-	//m_iMusicSourceVoicesPlaying = 0;
-
-	// Load Sound Bank for SFX
-	// Handle it with JSON later
-	// Current one is the temporary implementation
-	//LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX);
-	//LoadAudio(L"Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX);
-	//LoadAudio(L"Resources\\Audio\\piano2.wav", 1.0f, SFX);
-	//LoadAudio(L"Resources\\Audio\\quietlaugh.wav", 1.0f, SFX);
-	//LoadAudio(L"Resources\\Audio\\bullettest.wav", 1.0f, SFX);
-
-	// Load Sound Bank for Music
-	// Handle it with JSON later
-	// Current one is the temporary implementation
-	//LoadAudio(L"Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC);
-	//LoadAudio(L"Resources\\Audio\\partymusic.wav", 1.0f, MUSIC);
-
-
-	LoadAudioFromJSON("Resources\\Audio\\Sound Banks\\soundFileList.json");
+	//LoadAudioFromJSON("Resources\\Audio\\Sound Banks\\soundFileList.json");
 	//SaveAudioToJSON(m_vSFXSoundBank, m_vMusicSoundBank, "soundFiles");
 
 }
@@ -76,6 +57,7 @@ void AudioEngine::Update()
 	for (int i = 0; m_vSFXSourceVoiceList->size() > i; i++) {
 		if (m_vSFXSourceVoiceList->at(i)->GetState(&state), state.BuffersQueued <= 0)
 		{
+			m_vSFXSourceVoiceList->at(i)->DestroyVoice();
 			m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i	);
 		}
 	}
@@ -94,21 +76,6 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 
 void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName)
 {
-	//// Save given JSONSoundFile struct into given file path, for now its temporary solution
-	//std::vector<JSONSoundFile> soundFileList;
-	//// SFX
-	//soundFileList.push_back({ "Resources\\Audio\\pcm-32bit-44khz-mono.wav", 1.0f, SFX });
-	//soundFileList.push_back({ "Resources\\Audio\\pcm-32bit-44khz-stereo.wav", 1.0f, SFX });
-	//soundFileList.push_back({ "Resources\\Audio\\piano2.wav", 1.0f, SFX });
-	//soundFileList.push_back({ "Resources\\Audio\\quietlaugh.wav", 1.0f, SFX });
-	//soundFileList.push_back({ "Resources\\Audio\\bullettest.wav", 1.0f, SFX });
-	//// Music
-	//soundFileList.push_back({ "Resources\\Audio\\creepymusic.wav", 1.0f, MUSIC });
-	//soundFileList.push_back({ "Resources\\Audio\\partymusic.wav", 1.0f, MUSIC });
-
-	//JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\soundFileList.json");
-
-	// to be used solution
 	std::vector<JSONSoundFile> soundFileList;
 
 	for (int i = 0; sfxSoundList->size() > i; i++) {
@@ -190,6 +157,7 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType au
 HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
+	float finalVolume;
 
 	if (audioType == SFX && m_vSFXSourceVoiceList->size() >= m_iMaxSFXSourceVoicesLimit) {
 		return S_FALSE;
@@ -216,24 +184,26 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 				return hr;
 			}
 
-			if (FAILED(hr = pVoice->Start(0))) {
-				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
-				return hr;
-			}
-
 			switch (audioType)
 			{
 			case SFX:
-				pVoice->SetVolume(m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume);
+				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume;
+				pVoice->SetVolume(finalVolume);
 				m_vSFXSourceVoiceList->push_back(pVoice);
 				break;
 			case MUSIC:
-				pVoice->SetVolume(m_fMasterVolume * m_fMusicVolume * soundBank->at(i)->volume);
+				finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank->at(i)->volume;
+				pVoice->SetVolume(finalVolume);
 				m_vMusicSourceVoiceList->push_back(pVoice);
 				break;
 			default:
 				ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
 				break;
+			}
+
+			if (FAILED(hr = pVoice->Start(0))) {
+				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
+				return hr;
 			}
 			
 			//pVoice->SetFrequencyRatio(12000);
@@ -427,6 +397,13 @@ std::wstring AudioEngine::GetFileName(std::wstring filePath)
 	return fileName.stem();
 }
 
+std::wstring AudioEngine::GetFileName(std::string filePath)
+{
+	std::filesystem::path fileName(ConvertStringToWstring(filePath));
+
+	return fileName.stem();
+}
+
 std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {
 	switch (audioType)
 	{
@@ -440,4 +417,16 @@ std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {
 		ErrorLogger::Log("AudioEngine::GetSoundBank: Invalid audio type");
 		break;
 	}
+}
+
+SoundBankFile* AudioEngine::FindSoundBankFile(std::wstring fileName, AudioType audioType)
+{
+	for (int i = 0; GetSoundBank(audioType)->size() > i; i++) {
+		if (fileName == GetSoundBank(audioType)->at(i)->fileName) {
+			return GetSoundBank(audioType)->at(i);
+		}
+	}
+
+	ErrorLogger::Log("AudioEngine::FindSoundBankFile: Sound Bank File not found");
+	return nullptr;
 }

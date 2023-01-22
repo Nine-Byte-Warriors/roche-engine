@@ -28,5 +28,10 @@
         "audioType": 1,
         "filePath": "Resources\\Audio\\creepymusic.wav",
         "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\partymusic.wav",
+        "volume": 1.0
     }
 ]

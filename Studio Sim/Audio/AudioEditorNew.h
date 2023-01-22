@@ -52,7 +52,8 @@ private:
 	//std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of Sound Files for a given Sound Bank
 
 	bool m_bSoundBankToLoad;
-	bool m_bIsSoundBankReloaded;
+	//bool m_bIsSoundBankReloaded;
+	int m_iActiveSoundBankIndex;
 };
 
 #endif // AUDIOEDITORNEW_H

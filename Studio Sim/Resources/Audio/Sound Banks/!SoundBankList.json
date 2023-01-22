@@ -1,14 +1,14 @@
 [
     {
-        "filePath": "Resources\\Audio\\Sound Banks\\Sound Bank 0.json",
-        "name": "Sound Bank 0"
-    },
-    {
         "filePath": "Resources\\Audio\\Sound Banks\\soundFileList.json",
         "name": "soundFileList"
     },
     {
         "filePath": "Resources\\Audio\\Sound Banks\\soundFiles.json",
         "name": "soundFiles"
+    },
+	{
+        "filePath": "Resources\\Audio\\Sound Banks\\soundFilesTestTest.json",
+        "name": "soundFilesTestTest"
     }
 ]
