@@ -1,10 +1,10 @@
 # Midnight Harvest -Engine- :moon: :seedling:
 
-This is the repository for the engine that was used to develop Midnight Harvest.
+This is the repository for the engine that was used to develop Midnight Harvest. The engine is continually being improved and modified to support the creation of more complex games. If you have any suggestions for features or improvements, feel free to reach out to a member of Nine Byte Warriors.
 
 ## Getting Started
 
-_Refer to the wiki_
+Please refer to the [wiki](https://github.com/Nine-Byte-Warriors/five-nights-of-farming/wiki) and technical documentation on the various uses of the engine.
 
 ### Dependencies
 
@@ -22,7 +22,7 @@ The engine relies on the following libraries and APIs to function.
 
 ### Installing
 
-To download a copy of the engine, select "Download ZIP" from the main code repository page, or create a fork of the project.<br/>More information on forking a GitHub respository can be found [here](https://www.youtube.com/watch?v=XTolZqmZq6s).
+To download a copy of the engine, select "Download ZIP" from the main code repository page, or create a fork of the project. More information on forking a GitHub respository can be found [here](https://www.youtube.com/watch?v=XTolZqmZq6s).
 
 ### Executing program
 
