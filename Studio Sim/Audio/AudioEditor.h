@@ -2,74 +2,47 @@
 #ifndef AUDIOEDITOR_H
 #define AUDIOEDITOR_H
 
-#include "AudioEngine.h"
+#include "Audio/AudioEngine.h"
 
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
+#include "JsonLoading.h"
+
+struct SoundBanksList // these are the lists to hold file paths to different sound bank jsons
+{
+	std::string name;
+	std::string filePath;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
 
 class AudioEditor
 {
 public:
-
 #if _DEBUG
 	AudioEditor();
+	~AudioEditor();
+	void SortScreens();
 	void SpawnControlWindow();
-	void Update();
+	void SaveToFileSoundBankLists();
+	void LoadFromFileSoundBankLists();
+	//void SaveToFileSoundBankFiles();
 
+	// sound bank handle
+	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
+	void SaveSoundFileInfoToJSON(std::string fileName);
+#endif // _DEBUG
 private:
-	// Window functions:
-	void Play();
-	void Pause();
-	void Stop();
+	std::string m_sFilePath;
+	std::string m_sFileContent;
+	std::string m_sSelectedFile;
 
-	// to be added file path and stuff
-	void Save();
-	void SaveNew();
-	void Load();
+	std::vector<std::string> m_vSoundTypes = { "SFX", "MUSIC" };
 
-	void AddToSoundBank();
-	void DeleteFromSoundBank();
+	std::vector<SoundBanksList> m_vSoundBanksList; // list of Sound Bank Lists
+	std::vector<JSONSoundFile> m_vSoundFileInfo;
+	//std::map<std::string, std::vector<JSONSoundFile>> m_vSoundFileData; // list of Sound Files for a given Sound Bank
 
-	// Sound list handle
-	void SoundBankType();
-	void SoundBankList();
-
-	// Parameter sliders
-	void VolumeSlider();
-
-	//float m_iDefaultVolume;
-	//int m_iActiveSoundBank; // 0 - SFX; 1 - MUSIC
-	//bool m_bChangedSoundBankType;
-	std::vector<SoundBankFile*>* selectedSoundBank;
-
-
-	// Audio controls
-	//bool m_bPlayButton;
-	//bool m_bPauseButton;
-	//bool m_bStopButton;
-	
-	// Sound Bank controls
-	//bool m_bAddButton;
-	//bool m_bDeleteButton;
-
-	// Saving/Loading fields ----- to be done
-	//std::wstring m_sSelectedFile = L"LoadFile.txt";
-	//std::wstring m_sFilePath = L"";
-	//std::wstring m_sFileContent = L"";
-
-	// Save/Load controls
-	//bool m_bSaveButton;
-	//bool m_bSaveNewButton;
-	//bool m_bLoadButton;
-
-	// List of audio
-	//const ImVec2 m_vImageButtonSize = ImVec2(32, 32);
-
-
-
-
-#endif // DEBUG
+	bool m_bSoundBankToLoad;
+	//bool m_bIsSoundBankReloaded;
+	int m_iActiveSoundBankIndex;
 };
 
 #endif // AUDIOEDITOR_H

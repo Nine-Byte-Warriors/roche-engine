@@ -18,7 +18,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 		    return false;
 
         // Initialize audio
-        AudioEngine::GetInstance()->Initialize(1.0f, 1.0f, 1.0f, 1, 2);
+        AudioEngine::GetInstance()->Initialize(1.0f, 1.0f, 1.0f, 1, 4);
         //AudioEngine::GetInstance()->PlayAudio(L"quietlaugh", SFX); // remove later, just test
         //AudioEngine::GetInstance()->PlayAudio(L"piano2", SFX); // remove later, just test
 
