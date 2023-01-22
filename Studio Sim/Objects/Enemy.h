@@ -6,6 +6,7 @@ class Graphics;
 #include "Agent.h"
 #include "Physics.h"
 #include "Collider.h"
+#include "ProjectileManager.h"
 
 class Enemy
 {
@@ -20,13 +21,18 @@ public:
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::shared_ptr<CircleCollider> GetCollider() const noexcept { return m_collider; };
+	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager; }
+	
 private:
+	float fShootRange;
 	Vector2f* m_vEnemyPos;
+	
 	std::shared_ptr<Agent> m_agent;
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<CircleCollider> m_collider;
+	std::shared_ptr<ProjectileManager> m_projectileManager;
 };
 
 #endif

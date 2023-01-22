@@ -10,6 +10,7 @@ ProjectileManager::ProjectileManager()
 	float fSpeed = 50.0f; 
 	m_fDelay = 0.0f;
 	m_fCounter = 0.0f;
+	m_sProjectileImagePath = "";
 
 	m_vecProjectilePool = std::vector<std::shared_ptr<Projectile>>();
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
@@ -27,8 +28,12 @@ ProjectileManager::~ProjectileManager()
 
 void ProjectileManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
-	for(std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
-		pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
+	if (m_sProjectileImagePath == "")
+		for(std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+			pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
+	else
+		for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+			pProjectile->Initialize(gfx, mat, m_sProjectileImagePath);
 }
 
 void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename)
@@ -53,6 +58,36 @@ void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix
 {
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->Draw(context, orthoMatrix);
+}
+
+void ProjectileManager::LoadProjectileData(const std::string& sFilePath)
+{
+	std::vector<ProjectileData::ManagerJSON> vecManagers;
+	JsonLoading::LoadJson(vecManagers, sFilePath);
+	
+	if (vecManagers.size() < 1)
+		return;
+	
+	SetDelay(vecManagers[0].m_fDelay);
+	SetProjectileImagePath(vecManagers[0].m_sImagePath);
+	SetProjectilePool(CreateProjectilePool(vecManagers[0].m_vecProjectiles));
+}
+
+std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+{
+	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
+
+	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
+	{
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
+		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
+
+		vecProjectilePool.push_back(std::move(pProjectile));
+	}
+
+	return vecProjectilePool;
 }
 
 void ProjectileManager::SpawnProjectile()
@@ -81,6 +116,14 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
+}
+
+void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition, Vector2f vTargetPosition)
+{
+	m_fCounter = m_fDelay;
+
+	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+		pProjectile->SpawnProjectile(vSpawnPosition, vTargetPosition, -1.0f);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
