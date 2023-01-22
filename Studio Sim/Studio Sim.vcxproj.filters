@@ -513,7 +513,7 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\ProjectileEditor.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\RND.h">
       <Filter>Header Files\Utility\Helper</Filter>
