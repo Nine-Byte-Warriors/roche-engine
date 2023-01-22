@@ -238,7 +238,7 @@ void AudioEditor::SpawnControlWindow()
 							newSound.volume = 1.0f;
 							newSound.audioType = SFX;
 							m_vSoundFileInfo.emplace_back(newSound);
-							AudioEngine::GetInstance()->LoadAudio(AudioEngine::GetInstance()->ConvertStringToWstring(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+							AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
 						}
 					}
 
@@ -290,7 +290,7 @@ void AudioEditor::SpawnControlWindow()
 							newSound.volume = 1.0f;
 							newSound.audioType = MUSIC;
 							m_vSoundFileInfo.emplace_back(newSound);
-							AudioEngine::GetInstance()->LoadAudio(AudioEngine::GetInstance()->ConvertStringToWstring(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+							AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
 						}
 					}
 

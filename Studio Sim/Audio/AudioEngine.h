@@ -104,9 +104,6 @@ public:
 
 	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
-	inline std::wstring ConvertStringToWstring(std::string stringToConvert) { return std::wstring(stringToConvert.begin(), stringToConvert.end()); };
-	std::string ConvertWstringToString(std::wstring wstringToConvert) { return std::string(wstringToConvert.begin(), wstringToConvert.end()); };
-
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;

@@ -70,7 +70,7 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 	JsonLoading::LoadJson(soundFileListToLoad, loadFilePath);
 	// Load audio into Sound Banks
 	for (int i = 0; soundFileListToLoad.size() > i; i++) {
-		LoadAudio(ConvertStringToWstring(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType);
+		LoadAudio(StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType);
 	}
 }
 
@@ -79,11 +79,11 @@ void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std
 	std::vector<JSONSoundFile> soundFileList;
 
 	for (int i = 0; sfxSoundList->size() > i; i++) {
-		soundFileList.push_back({ "Resources\\Audio\\" + ConvertWstringToString(sfxSoundList->at(i)->fileName) + ".wav", sfxSoundList->at(i)->volume, 0 });
+		soundFileList.push_back({ "Resources\\Audio\\" + StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName) + ".wav", sfxSoundList->at(i)->volume, 0 });
 	}
 
 	for (int i = 0; musicSoundList->size() > i; i++) {
-		soundFileList.push_back({ "Resources\\Audio\\" + ConvertWstringToString(musicSoundList->at(i)->fileName) + ".wav", musicSoundList->at(i)->volume, 1 });
+		soundFileList.push_back({ "Resources\\Audio\\" + StringHelper::StringToNarrow(musicSoundList->at(i)->fileName) + ".wav", musicSoundList->at(i)->volume, 1 });
 	}
 
 	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
@@ -399,7 +399,7 @@ std::wstring AudioEngine::GetFileName(std::wstring filePath)
 
 std::wstring AudioEngine::GetFileName(std::string filePath)
 {
-	std::filesystem::path fileName(ConvertStringToWstring(filePath));
+	std::filesystem::path fileName(StringHelper::StringToWide(filePath));
 
 	return fileName.stem();
 }
