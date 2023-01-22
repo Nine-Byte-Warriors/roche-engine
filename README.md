@@ -1,6 +1,6 @@
 # Midnight Harvest -Game- :moon: :seedling:
 
-This is the repository for the engine that was used to develop Midnight Harvest. The engine is being continually improved and modified to support the creation of more complex games. If you have any suggestions for features or improvements, feel free to reach out to a member of Nine Byte Warriors.
+This is the repository of the game, Midnight Harvest. This repository is cloned from the engine branch and continually receives updates to improve the use of the editor and to ensure tools are easier to use, and bugs are fixed.
 
 ## Getting Started
 
