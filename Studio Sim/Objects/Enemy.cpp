@@ -15,6 +15,8 @@ Enemy::Enemy()
 void Enemy::Initialize( Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), type, mat );
+	m_transform->SetPositionInit(gfx.GetWidth() * 0.4f, gfx.GetHeight() / 2);
+	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
 void Enemy::Update( const float dt )
