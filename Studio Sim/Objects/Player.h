@@ -6,7 +6,7 @@ class Graphics;
 #include "Physics.h"
 #include "EventSystem.h"
 #include "ProjectileManager.h"
-#include "Colliders.h"
+#include "Collider.h"
 
 class Player : public Listener
 {

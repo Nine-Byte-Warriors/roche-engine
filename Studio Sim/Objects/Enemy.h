@@ -5,7 +5,7 @@
 class Graphics;
 #include "Agent.h"
 #include "Physics.h"
-#include "Colliders.h"
+#include "Collider.h"
 
 class Enemy
 {

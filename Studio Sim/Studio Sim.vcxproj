@@ -275,10 +275,6 @@
     <ClCompile Include="Audio\AudioEditor.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Audio\VoiceCallback.cpp" />
-    <ClCompile Include="BoxCollider.cpp" />
-    <ClCompile Include="CircleCollider.cpp" />
-    <ClCompile Include="Colliders.cpp" />
-    <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="Collisions\CollisionHandler.cpp" />
     <ClCompile Include="Components\Agent.cpp" />
     <ClCompile Include="Components\Collider.cpp" />
@@ -411,10 +407,6 @@
     <ClInclude Include="Audio\AudioEditor.h" />
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Audio\VoiceCallback.h" />
-    <ClInclude Include="BoxCollider.h" />
-    <ClInclude Include="CircleCollider.h" />
-    <ClInclude Include="Colliders.h" />
-    <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="Collisions\CollisionHandler.h" />
     <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Components\Agent.h" />
