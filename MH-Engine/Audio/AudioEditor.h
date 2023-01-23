@@ -24,10 +24,11 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	//void SaveToFileSoundBankFiles();
-
+	
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
 	void SaveSoundFileInfoToJSON(std::string fileName);
+
 #endif // _DEBUG
 private:
 	std::string m_sFilePath;

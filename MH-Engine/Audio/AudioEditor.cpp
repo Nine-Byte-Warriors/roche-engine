@@ -192,6 +192,7 @@ void AudioEditor::SpawnControlWindow()
 			{
 				if (soundBankToLoad) {
 					// Unload audio from audio engine
+					AudioEngine::GetInstance()->StopAllAudio();
 					if (previousSoundBankFileIdx > -1) {
 						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
 							AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
@@ -233,12 +234,39 @@ void AudioEditor::SpawnControlWindow()
 					if (ImGui::Button(std::string("Add SFX##Add Sound to SFX Sound Bank").c_str())) {
 						if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 						{
+							bool isNew = true;
 							JSONSoundFile newSound;
-							newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
-							newSound.volume = 1.0f;
-							newSound.audioType = SFX;
-							m_vSoundFileInfo.emplace_back(newSound);
-							AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+							std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
+							std::string selectedFilePath = StringHelper::StringToNarrow(path.extension());
+
+							//fileExtension.extension();
+
+							if (selectedFilePath == ".wav") {
+								// not working
+								
+								std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
+								selectedFilePath = StringHelper::StringToNarrow(fileName);
+
+
+								newSound.name = selectedFilePath;
+								newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
+								newSound.volume = 1.0f;
+								newSound.audioType = SFX;
+
+								for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+									if (m_vSoundFileInfo[i].name == newSound.name) {
+										isNew = false;
+									}
+								}
+
+								if (isNew) {
+									m_vSoundFileInfo.emplace_back(newSound);
+									AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+								}
+							}
+							else {
+								ErrorLogger::Log("AudioEditor::SpawnControlWindow: Invalid file format chosen to load into the Sound Bank");
+							}
 						}
 					}
 
@@ -257,7 +285,7 @@ void AudioEditor::SpawnControlWindow()
 										AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), MUSIC);
 									}
 									ImGui::SameLine();
-									if (ImGui::Button(std::string("Unpause##").append(std::to_string(i)).append("Unpause").c_str())) {
+									if (ImGui::Button(std::string("Unpause##").append(std::to_string(i)).append("unpause").c_str())) {
 										AudioEngine::GetInstance()->UnpauseMusic();
 									}
 									ImGui::SameLine();
@@ -285,12 +313,25 @@ void AudioEditor::SpawnControlWindow()
 					if (ImGui::Button(std::string("Add Music##Add Sound to Music Sound Bank").c_str())) {
 						if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 						{
+							bool isNew = true;
 							JSONSoundFile newSound;
+							std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
+							fileName.stem();
+							newSound.name = StringHelper::StringToNarrow(fileName);
 							newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
 							newSound.volume = 1.0f;
 							newSound.audioType = MUSIC;
-							m_vSoundFileInfo.emplace_back(newSound);
-							AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+
+							for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+								if (m_vSoundFileInfo[i].name == newSound.name) {
+									isNew = false;
+								}
+							}
+
+							if (isNew) {
+								m_vSoundFileInfo.emplace_back(newSound);
+								AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+							}
 						}
 					}
 
