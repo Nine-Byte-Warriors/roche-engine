@@ -14,6 +14,93 @@ void CollisionHandler::AddCollider(std::vector<std::shared_ptr<Collider>>& colli
     }
 }
 
+bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
+{
+    float box1HalfWidth = (box1->GetWidth() / 2);
+    float box1HalfHeight = (box1->GetHeight() / 2);
+
+    float box2HalfWidth = (box2->GetWidth() / 2);
+    float box2HalfHeight = (box2->GetHeight() / 2);
+
+    Vector2f box1Min(box1->GetTransform()->GetPosition().x - box1HalfWidth, box1->GetTransform()->GetPosition().y - box1HalfHeight);
+    Vector2f box1Max(box1->GetTransform()->GetPosition().x + box1HalfWidth, box1->GetTransform()->GetPosition().y + box1HalfHeight);
+                                                           
+    Vector2f box2Min(box2->GetTransform()->GetPosition().x - box1HalfWidth, box2->GetTransform()->GetPosition().y - box2HalfHeight);
+    Vector2f box2Max(box2->GetTransform()->GetPosition().x + box1HalfWidth, box2->GetTransform()->GetPosition().y + box2HalfHeight);
+
+//if (box1->GetTransform()->GetPosition().x < box2->GetTransform()->GetPosition().x + box2->GetWidth() / 2 &&
+//    box1->GetTransform()->GetPosition().x + box1->GetWidth() / 2 > box2->GetTransform()->GetPosition().x &&
+//    box1->GetTransform()->GetPosition().y < box2->GetTransform()->GetPosition().y + box2->GetHeight() / 2 &&
+//    box1->GetTransform()->GetPosition().y + box2->GetHeight() / 2 > box2->GetTransform()->GetPosition().y)
+//{
+//    return true;
+//}
+//else
+//{
+//    return false;
+//}
+
+    if (box1Min.x < box2Max.x &&
+        box1Max.x > box2Min.x &&
+        box1Min.y < box2Max.y &&
+        box1Max.y > box2Min.y)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool CollisionHandler::CircleToBox(CircleCollider* circle, BoxCollider* box)
+{
+    Vector2f circlePos = circle->GetTransform()->GetPosition();
+    Vector2f closestPoint = box->ClosestPoint(circlePos);
+
+    int distance = (circlePos - closestPoint).Magnitude();
+
+    if (distance < circle->GetRadius())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool CollisionHandler::CircleToBox(BoxCollider* box, CircleCollider* circle)
+{
+    Vector2f circlePos = circle->GetTransform()->GetPosition();
+    Vector2f closestPoint = box->ClosestPoint(circlePos);
+
+    int distance = (circlePos - closestPoint).Magnitude();
+
+    if (distance < circle->GetRadius())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CollisionHandler::CircleToCircle(CircleCollider* circle1, CircleCollider* circle2)
+{
+    int radiusSum = circle1->GetRadius() + circle2->GetRadius();
+    int distance = Vector2f(circle1->GetTransform()->GetPosition().x - circle2->GetTransform()->GetPosition().x,
+        circle1->GetTransform()->GetPosition().y - circle2->GetTransform()->GetPosition().y).Magnitude();
+
+    if (distance < radiusSum)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 bool CollisionHandler::PointToBox(Vector2f point, BoxCollider* box)
 {
     float boxHalfWidth = (box->GetWidth() / 2);
@@ -75,11 +162,12 @@ bool CollisionHandler::CollisionCheck(Collider* collider1, Collider* collider2)
 
 void CollisionHandler::CollisionCheckAll()
 {
+    int startIndex = 0;
     bool isCollision;
     for (int i = 0; i < m_colliders.size(); i++)
     {
         isCollision = false;
-        for (int n = 0; n < m_colliders.size(); n++)
+        for (int n = startIndex; n < m_colliders.size(); n++)
         {
             if (n == i)
             {
@@ -87,20 +175,18 @@ void CollisionHandler::CollisionCheckAll()
             }
 
             bool isIntersection = CollisionCheck(m_colliders[i], m_colliders[n]);
-            //bool isIntersection = m_colliders[i]->CollisionCheck(m_colliders[n]);
 
             if (isIntersection)
             {
                 isCollision = true;
-                //m_colliders[i]->GetTransform()->SetPosition(m_colliders[n]->GetLastValidPosition());
-                m_colliders[i]->Resolution(m_colliders[n]);
-                //Resolution(m_colliders[i], m_colliders[n]);
+                Resolution(m_colliders[i], m_colliders[n]);
             }
         }
-        if (isCollision == false)
+        if (!isCollision)
         {
             m_colliders[i]->UpdateLastValidPosition();
         }
+        startIndex++;
     }
 }
 
