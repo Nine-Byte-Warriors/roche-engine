@@ -77,13 +77,16 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName)
 {
 	std::vector<JSONSoundFile> soundFileList;
+	std::string name;
 
 	for (int i = 0; sfxSoundList->size() > i; i++) {
-		soundFileList.push_back({ "Resources\\Audio\\" + StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName) + ".wav", sfxSoundList->at(i)->volume, 0 });
+		name = StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName);
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->volume, 0 });
 	}
 
 	for (int i = 0; musicSoundList->size() > i; i++) {
-		soundFileList.push_back({ "Resources\\Audio\\" + StringHelper::StringToNarrow(musicSoundList->at(i)->fileName) + ".wav", musicSoundList->at(i)->volume, 1 });
+		name = StringHelper::StringToNarrow(musicSoundList->at(i)->fileName);
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->volume, 1 });
 	}
 
 	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
@@ -288,6 +291,19 @@ HRESULT AudioEngine::UnloadAudio(std::wstring fileName, AudioType audioType)
 	}
 
 	return hr;
+}
+
+void AudioEngine::StopAllAudio()
+{
+	for (int i = 0; m_vSFXSourceVoiceList->size() > i; i++) {
+		m_vSFXSourceVoiceList->at(i)->DestroyVoice();
+		m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i);
+	}
+
+	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
+		m_vMusicSourceVoiceList->at(i)->DestroyVoice();
+		m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->begin() + i);
+	}
 }
 
 HRESULT AudioEngine::FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition)
