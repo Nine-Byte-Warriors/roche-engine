@@ -12,12 +12,13 @@ const enum class ColliderType
     Circle
 };
 
+class BoxCollider;
+class CircleCollider;
 class Collider
 {
 public:
     Collider(){}
     Collider(bool trigger, std::shared_ptr<Transform>& transform) : m_isTrigger(trigger), m_tf(transform) {};
-    virtual Vector2f ClosestPoint(Vector2f position) = 0;
 
 protected:
     ColliderType m_type = ColliderType::None;
@@ -26,11 +27,12 @@ public:
 
 protected:
     bool m_isTrigger = false;
+    //bool m_isStatic = false;
 public:
     inline bool GetIsTrigger() { return m_isTrigger; };
     inline void SetIsTrigger(bool trigger) { m_isTrigger = trigger; }
 
-private:
+protected:
     Vector2f m_lastValidPosition = Vector2f(0,0);
 public:
     inline Vector2f GetLastValidPosition() { return m_lastValidPosition; }
@@ -40,40 +42,53 @@ protected:
     std::shared_ptr<Transform> m_tf;
 public:
     std::shared_ptr<Transform> GetTransform() { return m_tf; }
+
+    float Clamp(float min, float max, float value);
+
+    virtual Vector2f ClosestPoint(Vector2f position) = 0;
+
+    //Collision Checks
+    virtual bool ToBox(BoxCollider* box) = 0;
+    virtual bool ToCircle(CircleCollider* circle) = 0;
+    virtual bool ToPoint(Vector2f point) = 0;
+    virtual bool CollisionCheck(Collider* collider) = 0;
+
+    //Resolution
+    virtual void Resolution(Collider* collider) = 0;
 };
 
-//AABB
-class BoxCollider : public Collider
-{
-public:
-    BoxCollider()  { m_type = ColliderType::Box; };
-    BoxCollider(std::shared_ptr<Transform> transform, int width, int height) : m_w(width), m_h(height) { m_tf = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
-
-private:
-    //position from bottom left
-    float m_w = 0;
-    float m_h = 0;
-public:
-    Vector2f ClosestPoint(Vector2f position) override;
-    inline float GetWidth() { return m_w; }
-    inline float GetHeight() { return m_h; }
-    inline void SetWidth(float width) { m_w = width; }
-    inline void SetHeight(float height) { m_h = height; }
-};
-
-class CircleCollider : public Collider
-{
-public:
-    CircleCollider() { m_type = ColliderType::Circle; };
-    CircleCollider(std::shared_ptr<Transform> transform, float radius) : m_radius(radius) { m_tf = transform; m_type = ColliderType::Circle; }
-
-private:
-    float m_radius = 0;
-public:
-    Vector2f ClosestPoint(Vector2f position) override;
-
-    inline float GetRadius() { return m_radius; };
-    inline void SetRadius(float radius) { m_radius = radius; };
-};
+////AABB
+//class BoxCollider : public Collider
+//{
+//public:
+//    BoxCollider()  { m_type = ColliderType::Box; };
+//    BoxCollider(std::shared_ptr<Transform> transform, int width, int height) : m_w(width), m_h(height) { m_tf = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
+//
+//private:
+//    //position from bottom left
+//    float m_w = 0;
+//    float m_h = 0;
+//public:
+//    Vector2f ClosestPoint(Vector2f position) override;
+//    inline float GetWidth() { return m_w; }
+//    inline float GetHeight() { return m_h; }
+//    inline void SetWidth(float width) { m_w = width; }
+//    inline void SetHeight(float height) { m_h = height; }
+//};
+//
+//class CircleCollider : public Collider
+//{
+//public:
+//    CircleCollider() { m_type = ColliderType::Circle; };
+//    CircleCollider(std::shared_ptr<Transform> transform, float radius) : m_radius(radius) { m_tf = transform; m_type = ColliderType::Circle; }
+//
+//private:
+//    float m_radius = 0;
+//public:
+//    Vector2f ClosestPoint(Vector2f position) override;
+//
+//    inline float GetRadius() { return m_radius; };
+//    inline void SetRadius(float radius) { m_radius = radius; };
+//};
 
 #endif

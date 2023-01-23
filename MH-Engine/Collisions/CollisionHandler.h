@@ -2,7 +2,7 @@
 #ifndef COLLISIONHANDLER_H
 #define COLLISIONHANDLER_H
 
-#include "Collider.h"
+#include "Collision.h"
 
 //Monitors collisions between colliders and resolve them
 class CollisionHandler
