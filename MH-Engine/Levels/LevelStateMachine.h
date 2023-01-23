@@ -9,7 +9,8 @@ class LevelStateMachine : public Listener
 {
 public:
 	LevelStateMachine();
-	void Render();
+	void Render_Start();
+	void Render_End();
 	void Update( const float dt );
 
 	std::shared_ptr<LevelContainer> GetCurrentLevel() const noexcept { return currentLevel; }

@@ -4,7 +4,7 @@
 
 #include "Input.h"
 #include "Timer.h"
-#include "Level1.h"
+#include "Level.h"
 #include "Graphics.h"
 #include "UIManager.h"
 #include "WindowContainer.h"
@@ -25,9 +25,10 @@ public:
 	void Render();
 private:
 	// Levels
-	uint32_t m_uLevel1_ID;
+	int m_uCurrLevelId = 1;
 	LevelStateMachine m_stateMachine;
-	std::shared_ptr<Level1> m_pLevel1;
+	std::vector<uint32_t> m_uLevel_IDs;
+	std::vector<std::shared_ptr<Level>> m_pLevels;
 
 	// Objects
 #if _DEBUG

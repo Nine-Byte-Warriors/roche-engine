@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "Level1.h"
+#include "Level.h"
 #include "ProjectileEditor.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
 
-void Level1::OnCreate()
+void Level::OnCreate()
 {
 	try
 	{
@@ -52,7 +52,7 @@ void Level1::OnCreate()
 	}
 }
 
-void Level1::OnCreateEntity()
+void Level::OnCreateEntity()
 {
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)
@@ -71,7 +71,7 @@ void Level1::OnCreateEntity()
     }
 }
 
-void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
+void Level::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
     int colPositionTotalTileLength = 0;
     int rowPositionTotalTileLength = 0;
@@ -109,14 +109,11 @@ void Level1::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     }
 }
 
-void Level1::OnSwitch()
+void Level::OnSwitch()
 {
 	// Update level system
-	CurrentLevel = 0;
-	levelName = "Level1";
-	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &CurrentLevel );
-	NextLevel = 1;
-	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &NextLevel );
+	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
+	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
 
     // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
@@ -131,14 +128,14 @@ void Level1::OnSwitch()
 #endif
 }
 
-void Level1::BeginFrame()
+void Level::BeginFrame()
 {
 	// Setup pipeline state
 	m_gfx->BeginFrame();
 	m_gfx->UpdateRenderState();
 }
 
-void Level1::RenderFrame()
+void Level::RenderFrame()
 {
 	auto gfxContext = m_gfx->GetContext();
 	auto camMatrix = m_camera.GetWorldOrthoMatrix();
@@ -159,7 +156,7 @@ void Level1::RenderFrame()
     m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
-void Level1::RenderFrameEntity()
+void Level::RenderFrameEntity()
 {
     for (int i = 0; i < m_iEntityAmount; i++)
     {
@@ -173,7 +170,7 @@ void Level1::RenderFrameEntity()
     }
 }
 
-void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
+void Level::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
     for ( unsigned i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++ )
     {
@@ -182,7 +179,7 @@ void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
     }
 }
 
-void Level1::EndFrame()
+void Level::EndFrame_Start()
 {
     // Render ui
     m_ui->Draw(
@@ -196,7 +193,6 @@ void Level1::EndFrame()
 #if _DEBUG
     // Render imgui windows
     m_imgui->BeginRender();
-
     ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
     if ( ImGui::Begin( "Scene Window", FALSE ) )
     {
@@ -231,6 +227,12 @@ void Level1::EndFrame()
     m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
+#endif
+}
+
+void Level::EndFrame_End()
+{
+#if _DEBUG
     m_imgui->EndRender();
 #endif
     
@@ -238,7 +240,7 @@ void Level1::EndFrame()
 	m_gfx->EndFrame();
 }
 
-void Level1::Update( const float dt )
+void Level::Update( const float dt )
 {
     // Update entities
 #if _DEBUG
@@ -273,7 +275,7 @@ void Level1::Update( const float dt )
     m_collisionHandler.Update();
 }
 
-void Level1::UpdateEntity(const float dt)
+void Level::UpdateEntity(const float dt)
 {
 #if _DEBUG
     UpdateEntityFromEditor(dt);
@@ -285,7 +287,7 @@ void Level1::UpdateEntity(const float dt)
     }
 }
 
-void Level1::UpdateEntityFromEditor(const float dt)
+void Level::UpdateEntityFromEditor(const float dt)
 {
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 
@@ -311,7 +313,7 @@ void Level1::UpdateEntityFromEditor(const float dt)
     }
 }
 
-void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
+void Level::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
 {
     const int numberOfTileMapLayers = 2;
     static int firstTimeTileMapDrawBothLayers = numberOfTileMapLayers;
@@ -362,7 +364,7 @@ void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw
     }
 }
 
-void Level1::CleanUp()
+void Level::CleanUp()
 {
     delete m_tileMapEditor;
 }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LEVEL1_H
-#define LEVEL1_H
+#ifndef LEVEL_H
+#define LEVEL_H
 
 #include "Entity.h"
 #include "EntityEditor.h"
@@ -25,17 +25,24 @@
 /// The first level of the game.
 /// Inherits from Level to render/update objects used in each level.
 /// </summary>
-class Level1 : public LevelContainer
+class Level : public LevelContainer
 {
 public:
-	Level1() {}
+	Level( const std::string& name, int& levelId )
+	{
+		m_sLevelName = name;
+		levelId++;
+		m_iCurrentLevel = levelId;
+		m_iNextLevel = levelId + 1;
+	}
 
 	void OnCreate() override;
 	void OnSwitch() override;
 	
 	void BeginFrame() override;
 	void RenderFrame() override;
-	void EndFrame() override;
+	void EndFrame_Start() override;
+	void EndFrame_End() override;
 
 	void Update( const float dt ) override;
 	void CleanUp() override;

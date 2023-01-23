@@ -78,7 +78,7 @@
     <ClCompile Include="Levels\LevelStateMachine.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Levels\Level1.cpp">
+    <ClCompile Include="Levels\Level.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Quad.cpp">
@@ -230,7 +230,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-	<ClInclude Include="Application.h">
+    <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Viewport.h">
@@ -332,7 +332,7 @@
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Levels\Level1.h">
+    <ClInclude Include="Levels\Level.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
     <ClInclude Include="Levels\LevelContainer.h">

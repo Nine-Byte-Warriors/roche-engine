@@ -9,13 +9,21 @@ void LevelStateMachine::Update( const float dt )
 		currentLevel->Update( dt );
 }
 
-void LevelStateMachine::Render()
+void LevelStateMachine::Render_Start()
 {
 	if ( currentLevel )
 	{
 		currentLevel->BeginFrame();
 		currentLevel->RenderFrame();
-		currentLevel->EndFrame();
+		currentLevel->EndFrame_Start();
+	}
+}
+
+void LevelStateMachine::Render_End()
+{
+	if ( currentLevel )
+	{
+		currentLevel->EndFrame_End();
 	}
 }
 

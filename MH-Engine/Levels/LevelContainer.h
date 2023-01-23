@@ -34,7 +34,7 @@ public:
 	}
 #endif
 	
-	inline std::string GetLevelName() { return levelName; }
+	inline std::string GetLevelName() { return m_sLevelName; }
 	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
 	inline UIManager* GetUIManager() const noexcept { return m_ui; }
 #if _DEBUG
@@ -47,7 +47,8 @@ public:
 
 	virtual void BeginFrame() {}
 	virtual void RenderFrame() {}
-	virtual void EndFrame() {}
+	virtual void EndFrame_Start() {}
+	virtual void EndFrame_End() {}
 
 	virtual void Update( const float dt ) {}
 	virtual void CleanUp() {}
@@ -61,9 +62,9 @@ protected:
 #endif
 
 	// Next Level
-	std::string levelName;
-	UINT32 NextLevel;
-	UINT32 CurrentLevel;
+	std::string m_sLevelName;
+	int m_iCurrentLevel;
+	int m_iNextLevel;
 };
 
 #endif

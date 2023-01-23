@@ -299,7 +299,7 @@
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
-    <ClCompile Include="Levels\Level1.cpp" />
+    <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Enemy.cpp" />
@@ -445,7 +445,7 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
-    <ClInclude Include="Levels\Level1.h" />
+    <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />
     <ClInclude Include="Objects\Camera.h" />
