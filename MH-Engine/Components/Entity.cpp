@@ -13,7 +13,7 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_transform = std::make_shared<Transform>(m_sprite);
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_agent = std::make_shared<Agent>(m_physics);
-	m_collider = std::make_shared<CircleCollider>(m_transform, 1, 1, 32);
+	m_collider = std::make_shared<CircleCollider>(m_transform, 32);
 	m_projectileManager = std::make_shared<ProjectileManager>();
 
 	//AddToEvent();
