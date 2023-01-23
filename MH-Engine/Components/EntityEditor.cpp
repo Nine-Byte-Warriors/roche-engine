@@ -19,6 +19,10 @@ void EntityEditor::SpawnControlWindow(float width, float height)
 		AddNewEntity();
 		ImGui::SameLine();
 		SaveButton();
+		//ImGui::SameLine();
+		//RemoveEntity();
+
+		LockPositon();
 
 		EntityListBox();
 		EntityWidget();
@@ -48,6 +52,26 @@ void EntityEditor::EntityWidget()
 	AIWidget();
 	ProjectileSystemWidget();
 	ColliderWidget();
+#endif
+}
+
+void EntityEditor::PopulateProjectileList()
+{
+	m_projectileList.clear();
+
+	for (int i = 0; i < m_vEntityDataCopy.size(); i++)
+	{
+		if (m_vEntityDataCopy[i].type == "Projectile")
+		{
+			m_projectileList.push_back(m_vEntityDataCopy[i].name);
+		}
+	}
+}
+
+void EntityEditor::LockPositon()
+{
+#if _DEBUG
+	ImGui::Checkbox("Reset/Lock Position", &m_bLockPosition);
 #endif
 }
 
@@ -86,22 +110,40 @@ void EntityEditor::AddNewEntity()
 		entityData = new EntityData();
 
 		entityData->name = "Name" + std::to_string(m_vEntityData.size());
-		entityData->position.push_back(0.0f);
-		entityData->position.push_back(0.0f);
-		entityData->scale.push_back(0.0f);
-		entityData->scale.push_back(0.0f);
-		entityData->texture = "";
-		entityData->type = "Type";
+		entityData->position.push_back(500.0f);
+		entityData->position.push_back(500.0f);
+		entityData->scale.push_back(64.0f);
+		entityData->scale.push_back(64.0f);
+		entityData->texture = "None";
+		entityData->type = "Enemy";
 		entityData->identifier = m_vEntityData.size();
-		entityData->maxFrame.push_back(0);
-		entityData->maxFrame.push_back(0);
+		entityData->maxFrame.push_back(1);
+		entityData->maxFrame.push_back(1);
 		entityData->mass = 1.0f;
+		entityData->speed = 10.0f;
 		entityData->behaviour = "None";
+		entityData->colliderShape = "Circle";
+		entityData->colliderRadius.push_back(64.0f);
+		entityData->colliderRadius.push_back(64.0f);
+		entityData->projectilePattern = "None";
+		entityData->projectileBullet = "None";
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
 
 		delete entityData;
+	}
+#endif
+}
+
+void EntityEditor::RemoveEntity()
+{
+#if _DEBUG
+	if (ImGui::Button("Remove Entity"))
+	{
+		m_vEntityDataCopy.erase(m_vEntityDataCopy.begin() + m_iIdentifier);
+		m_vEntityData.erase(m_vEntityData.begin() + m_iIdentifier);
+		m_iIdentifier = 0;
 	}
 #endif
 }
@@ -138,6 +180,8 @@ void EntityEditor::PhysicsWidget()
 	{
 		ImGui::NewLine();
 		SetMass();
+		ImGui::NewLine();
+		SetSpeed();
 
 		ImGui::TreePop();
 	}
@@ -167,7 +211,16 @@ void EntityEditor::ProjectileSystemWidget()
 	ImGui::NewLine();
 	if (ImGui::TreeNode("ProjectileSystem"))
 	{
-
+		if (m_vEntityDataCopy[m_iIdentifier].type == "Projectile")
+		{
+			ImGui::NewLine();
+			SetProjectilePattern();
+		}
+		else
+		{
+			ImGui::NewLine();
+			SetProjectileBullet();
+		}
 
 		ImGui::TreePop();
 	}
@@ -180,7 +233,10 @@ void EntityEditor::ColliderWidget()
 	ImGui::NewLine();
 	if (ImGui::TreeNode("Collider"))
 	{
-
+		ImGui::NewLine();
+		SetColliderShape();
+		ImGui::NewLine();
+		SetColliderSize();
 
 		ImGui::TreePop();
 	}
@@ -230,18 +286,7 @@ void EntityEditor::SetType()
 		}
 		ImGui::EndCombo();
 
-		if (entityType == 0)
-		{
-			m_vEntityDataCopy[m_iIdentifier].type = "Player";
-		}
-		else if (entityType == 1)
-		{
-			m_vEntityDataCopy[m_iIdentifier].type = "Enemy";
-		}
-		else if (entityType == 2)
-		{
-			m_vEntityDataCopy[m_iIdentifier].type = "Projectile";
-		}
+		m_vEntityDataCopy[m_iIdentifier].type = entityTypes[entityType];
 	}
 #endif
 }
@@ -250,22 +295,22 @@ void EntityEditor::SetTexture()
 {
 #if _DEBUG
 	ImGui::Text("Texture");
-	m_sSelectedFile = m_vEntityDataCopy[m_iIdentifier].texture;
+	m_sSelectedFileTex = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
-		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+		if (FileLoading::OpenFileExplorer(m_sSelectedFileTex, m_sFilePathTex))
 		{
-			m_sSelectedFile = m_sFilePath.substr(m_sFilePath.find("Resources\\Textures\\"));
-			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
+			m_sSelectedFileTex = m_sFilePathTex.substr(m_sFilePathTex.find("Resources\\Textures\\"));
+			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFileTex;
 			m_bValidTex = true;
 		}
 		else
 		{
-			m_sSelectedFile = "Open File Failed";
+			m_sSelectedFileTex = "Open File Failed";
 			m_bValidTex = false;
 		}
 	}
-	ImGui::Text(m_sSelectedFile.c_str());
+	ImGui::Text(m_sSelectedFileTex.c_str());
 #endif
 }
 
@@ -286,8 +331,6 @@ void EntityEditor::SetPosition()
 	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 
 	ImGui::SameLine();
-
-	ImGui::Checkbox("Lock", &m_bLockPosition);
 #endif
 }
 
@@ -368,6 +411,20 @@ void EntityEditor::SetMass()
 #endif
 }
 
+void EntityEditor::SetSpeed()
+{
+#if _DEBUG
+	int maxSpeed = 100;
+	ImGui::PushItemWidth(200.0f);
+
+	std::string displayText = "Speed";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].speed, 0.2f, 1.0f, maxSpeed, "%.1f");
+#endif
+}
+
 void EntityEditor::SetBehaviour()
 {
 #if _DEBUG
@@ -393,27 +450,134 @@ void EntityEditor::SetBehaviour()
 
 		ImGui::EndCombo();
 
-		switch (activeBehaviour)
+		m_vEntityDataCopy[m_iIdentifier].behaviour = behaviourList[activeBehaviour];
+	}
+#endif
+}
+
+void EntityEditor::SetProjectilePattern()
+{
+#if _DEBUG
+	if (m_vEntityDataCopy[m_iIdentifier].type == "Projectile")
+	{
+		ImGui::Text("Pattern");
+		m_sSelectedFileProjectile = m_vEntityDataCopy[m_iIdentifier].projectilePattern;
+		if (ImGui::Button("Load Pattern"))
 		{
-		case 0:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Idle";
-			break;
-		case 1:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Seek";
-			break;
-		case 2:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Flee";
-			break;
-		case 3:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Patrol";
-			break;
-		case 4:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Follow";
-			break;
-		case 5:
-			m_vEntityDataCopy[m_iIdentifier].behaviour = "Wander";
-			break;
+			if (FileLoading::OpenFileExplorer(m_sSelectedFileProjectile, m_sFilePathProjectile))
+			{
+				m_sSelectedFileProjectile = m_sFilePathProjectile.substr(m_sFilePathProjectile.find("Resources\\Patterns\\"));
+				m_vEntityDataCopy[m_iIdentifier].projectilePattern = m_sSelectedFileProjectile;
+				m_bValidProjectile = true;
+			}
+			else
+			{
+				m_sSelectedFileProjectile = "Open File Failed";
+				m_bValidProjectile = false;
+			}
 		}
+		ImGui::Text(m_sSelectedFileProjectile.c_str());
+	}
+#endif
+}
+
+void EntityEditor::SetProjectileBullet()
+{
+#if _DEBUG
+	PopulateProjectileList();
+
+	std::string displayText = "Bullet";
+	ImGui::Text(displayText.c_str());
+
+	static int activeProjectorBullet = 0;
+	std::string previewEntityProjectileButtlet = m_vEntityDataCopy[m_iIdentifier].projectileBullet;
+
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(lable.c_str(), previewEntityProjectileButtlet.c_str()))
+	{
+		for (int i = 0; i < m_projectileList.size(); i++)
+		{
+			const bool isSelected = i == activeProjectorBullet;
+			if (ImGui::Selectable(m_projectileList[i].c_str(), isSelected))
+			{
+				activeProjectorBullet = i;
+				previewEntityProjectileButtlet = m_projectileList[i];
+			}
+		}
+
+		ImGui::EndCombo();
+
+		m_vEntityDataCopy[m_iIdentifier].projectileBullet = m_projectileList[activeProjectorBullet];
+	}
+#endif
+}
+
+void EntityEditor::SetColliderShape()
+{
+#if _DEBUG
+	std::string displayText = "Collider Shape";
+	ImGui::Text(displayText.c_str());
+
+	static int activeCollider = 0;
+	std::string previewEntityCollider = m_vEntityDataCopy[m_iIdentifier].colliderShape;
+	const char* colliderList[]{ "Circle", "Box" };
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(lable.c_str(), previewEntityCollider.c_str()))
+	{
+		for (int i = 0; i < IM_ARRAYSIZE(colliderList); i++)
+		{
+			const bool isSelected = i == activeCollider;
+			if (ImGui::Selectable(colliderList[i], isSelected))
+			{
+				activeCollider = i;
+				previewEntityCollider = colliderList[i];
+			}
+		}
+
+		ImGui::EndCombo();
+
+		m_vEntityDataCopy[m_iIdentifier].colliderShape = colliderList[activeCollider];
+	}
+#endif
+}
+
+void EntityEditor::SetColliderSize()
+{
+#if _DEBUG
+	ImGui::Checkbox("Lock To Scale", &m_bLockToScale);
+
+	if (m_bLockToScale)
+	{
+		m_vEntityDataCopy[m_iIdentifier].colliderRadius[0] = m_vEntityDataCopy[m_iIdentifier].scale[0];
+		m_vEntityDataCopy[m_iIdentifier].colliderRadius[1] = m_vEntityDataCopy[m_iIdentifier].scale[1];
+	}
+
+	if (m_vEntityDataCopy[m_iIdentifier].colliderShape == "Circle")
+	{
+		ImGui::PushItemWidth(200.0f);
+
+		std::string displayText = "Radius";
+		ImGui::Text(displayText.c_str());
+
+		std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[0], 1.0f, -m_fWidth, m_fWidth, "%.1f");
+	}
+	else if (m_vEntityDataCopy[m_iIdentifier].colliderShape == "Box")
+	{
+		ImGui::PushItemWidth(100.0f);
+
+		std::string displayText = "Radius";
+		ImGui::Text(displayText.c_str());
+
+		std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);
+		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[0], 1.0f, -m_fWidth, m_fWidth, "%.1f");
+
+		ImGui::SameLine();
+
+		lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
+		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 	}
 #endif
 }
@@ -425,7 +589,7 @@ void EntityEditor::SaveButton()
 
 	if (SaveEntityButton)
 	{
-		if (m_bValidTex && m_bValidFrame)
+		if (m_bValidTex && m_bValidFrame && m_bValidProjectile)
 		{
 			SaveEntity();			
 		}
