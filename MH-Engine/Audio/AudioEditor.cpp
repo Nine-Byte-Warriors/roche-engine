@@ -237,18 +237,14 @@ void AudioEditor::SpawnControlWindow()
 							bool isNew = true;
 							JSONSoundFile newSound;
 							std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
-							std::string selectedFilePath = StringHelper::StringToNarrow(path.extension());
+							std::string selectedFile = StringHelper::StringToNarrow(path.extension());
 
 							//fileExtension.extension();
 
-							if (selectedFilePath == ".wav") {
-								// not working
-								
+							if (selectedFile == ".wav") {
 								std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
-								selectedFilePath = StringHelper::StringToNarrow(fileName);
-
-
-								newSound.name = selectedFilePath;
+								selectedFile = StringHelper::StringToNarrow(fileName.stem());
+								newSound.name = selectedFile;
 								newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
 								newSound.volume = 1.0f;
 								newSound.audioType = SFX;
@@ -315,16 +311,23 @@ void AudioEditor::SpawnControlWindow()
 						{
 							bool isNew = true;
 							JSONSoundFile newSound;
-							std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
-							fileName.stem();
-							newSound.name = StringHelper::StringToNarrow(fileName);
-							newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
-							newSound.volume = 1.0f;
-							newSound.audioType = MUSIC;
+							std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
+							std::string selectedFile = StringHelper::StringToNarrow(path.extension());
 
-							for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-								if (m_vSoundFileInfo[i].name == newSound.name) {
-									isNew = false;
+							//fileExtension.extension();
+
+							if (selectedFile == ".wav") {
+								std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
+								selectedFile = StringHelper::StringToNarrow(fileName.stem());
+								newSound.name = selectedFile;
+								newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
+								newSound.volume = 1.0f;
+								newSound.audioType = MUSIC;
+
+								for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+									if (m_vSoundFileInfo[i].name == newSound.name) {
+										isNew = false;
+									}
 								}
 							}
 
