@@ -27,8 +27,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #endif
 
         // Initialize levels
-        m_pLevels.push_back( std::make_shared<Level>( "Farm", m_uCurrLevelId ) );
-        m_pLevels.push_back( std::make_shared<Level>( "Shop", m_uCurrLevelId ) );
+        m_pLevels.push_back( std::make_shared<Level>( "Farm", m_iCurrLevelId ) );
+        m_pLevels.push_back( std::make_shared<Level>( "Shop", m_iCurrLevelId ) );
 #if _DEBUG
         m_pLevels[0]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
         m_pLevels[1]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
@@ -40,7 +40,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[0] ) );
         m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[1] ) );
         m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
-        m_uCurrLevelId = 0;
+        m_iCurrLevelId = 0;
     }
     catch ( COMException& exception )
 	{
@@ -101,17 +101,17 @@ void Application::Render()
     static bool shouldSwitchLevel = false;
     if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
     {
-        ImGui::Text( "UI Screen List" );
-		if ( ImGui::BeginListBox( "##UI Screen List", ImVec2( -FLT_MIN, m_pLevels.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
+        ImGui::Text( "Level List" );
+		if ( ImGui::BeginListBox( "##Level List", ImVec2( -FLT_MIN, m_pLevels.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
 		{
 			int index = 0;
 			for ( unsigned int i = 0; i < m_pLevels.size(); i++ )
 			{
-				const bool isSelected = ( m_uCurrLevelId == index );
+				const bool isSelected = ( m_iCurrLevelId == index );
 				if ( ImGui::Selectable( m_pLevels[i]->GetLevelName().c_str(), isSelected ) )
                 {
-                    m_uCurrLevelId = index;
-                    if ( m_uCurrLevelId == m_uLevel_IDs[index] )
+                    m_iCurrLevelId = index;
+                    if ( m_iCurrLevelId == m_uLevel_IDs[index] )
                     {
                         shouldSwitchLevel = true;
                         break;
@@ -126,36 +126,50 @@ void Application::Render()
 			ImGui::EndListBox();
 		}
 
-        if ( ImGui::Button( "Switch To Selected" ) && shouldSwitchLevel )
+        // Handle level switching
+        if ( ImGui::Button( "Switch To" ) && shouldSwitchLevel )
         {
-            m_stateMachine.SwitchTo( m_uLevel_IDs[m_uCurrLevelId] );
+            m_stateMachine.SwitchTo( m_uLevel_IDs[m_iCurrLevelId] );
             shouldSwitchLevel = false;
         }
 
-        if ( ImGui::Button( "Add New Level" ) )
+        // Add/remove level
+        if ( ImGui::Button( "Add Level" ) )
 	    {
 		    static int levelIdx = 0;
 		    std::string levelName = "New Level " + std::to_string( levelIdx );
-		    m_pLevels.push_back( std::make_shared<Level>( levelName, m_uCurrLevelId ) );
+		    m_pLevels.push_back( std::make_shared<Level>( levelName, m_iCurrLevelId ) );
 #if _DEBUG
-            m_pLevels[m_uCurrLevelId]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
+            m_pLevels[m_iCurrLevelId]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
 #else
-            m_pLevel[m_uCurrLevelId]->Initialize( &m_graphics, &m_uiManager );
+            m_pLevel[m_iCurrLevelId]->Initialize( &m_graphics, &m_uiManager );
 #endif
-            m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_uCurrLevelId] ) );
+            m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_iCurrLevelId] ) );
 	    }
 	    ImGui::SameLine();
-	    if ( ImGui::Button( "Remove Current Level" ) )
+	    if ( ImGui::Button( "Remove Level" ) )
 	    {
 		    if ( m_pLevels.size() > 1 )
 		    {
-                m_pLevels.erase( m_pLevels.begin() + m_uCurrLevelId );
+                m_pLevels.erase( m_pLevels.begin() + m_iCurrLevelId );
                 m_pLevels.shrink_to_fit();
-                m_uLevel_IDs.erase( m_uLevel_IDs.begin() + m_uCurrLevelId );
+                m_uLevel_IDs.erase( m_uLevel_IDs.begin() + m_iCurrLevelId );
                 m_uLevel_IDs.shrink_to_fit();
-                m_uCurrLevelId -= 1;
+                m_iCurrLevelId -= 1;
 		    }
 	    }
+
+        // Active level options
+        if ( m_iCurrLevelId > -1 )
+        {
+            if ( ImGui::Button( "Add UI Manager" ) )
+            {
+                if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
+                {
+
+                }
+            }
+        }
     }
     ImGui::End();
 

@@ -25,7 +25,10 @@ public:
 	void Render();
 private:
 	// Levels
-	int m_uCurrLevelId = 1;
+	std::string m_sUIFile;
+	std::string m_sFilePath;
+
+	int m_iCurrLevelId = 1;
 	LevelStateMachine m_stateMachine;
 	std::vector<uint32_t> m_uLevel_IDs;
 	std::vector<std::shared_ptr<Level>> m_pLevels;
