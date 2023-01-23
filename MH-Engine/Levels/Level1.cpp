@@ -15,16 +15,16 @@ void Level1::OnCreate()
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
 
         // Initialize player
-        m_player.Initialize( *m_gfx, m_cbMatrices );
-        m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
-        m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
+        //m_player.Initialize( *m_gfx, m_cbMatrices );
+        //m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
+        //m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
         OnCreateEntity();
 
         // Initialize enemies
-        m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
-        m_enemy.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.4f, m_gfx->GetHeight() / 2 );
-        m_enemy.GetTransform()->SetScaleInit( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
+        //m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
+        //m_enemy.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.4f, m_gfx->GetHeight() / 2 );
+        //m_enemy.GetTransform()->SetScaleInit( m_enemy.GetSprite()->GetWidth(), m_enemy.GetSprite()->GetHeight() );
 
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( m_gfx->GetWidth() ), static_cast<float>( m_gfx->GetHeight() ) };
@@ -38,8 +38,8 @@ void Level1::OnCreate()
         OnCreateTileMap(m_tileMapDrawForeground);
 
         //Initialize CollisionHandler
-        m_collisionHandler.AddCollider(m_player.GetCollider());
-        m_collisionHandler.AddCollider(m_enemy.GetCollider());
+        //m_collisionHandler.AddCollider(m_player.GetCollider());
+        //m_collisionHandler.AddCollider(m_enemy.GetCollider());
 
 		// Initialise Projectile Editor
         m_projectileEditor = ProjectileEditor::CreateEditor();
@@ -149,14 +149,14 @@ void Level1::RenderFrame()
     
     m_projectileEditor->Draw(gfxContext, camMatrix);
 
-    m_player.GetSprite()->UpdateBuffers(gfxContext);
-    m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
-    m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
+    //m_player.GetSprite()->UpdateBuffers(gfxContext);
+    //m_player.GetSprite()->Draw( m_player.GetTransform()->GetWorldMatrix(), camMatrix);
+    //m_player.GetProjectileManager()->Draw(gfxContext, camMatrix);
     
     RenderFrameEntity();
 
-    m_enemy.GetSprite()->UpdateBuffers(gfxContext);
-    m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
+    //m_enemy.GetSprite()->UpdateBuffers(gfxContext);
+    //m_enemy.GetSprite()->Draw( m_enemy.GetTransform()->GetWorldMatrix(), camMatrix);
 }
 
 void Level1::RenderFrameEntity()
@@ -265,8 +265,8 @@ void Level1::Update( const float dt )
 
     UpdateEntity( dt );
 
-    m_player.Update( dt );
-    m_enemy.Update( dt );
+    //m_player.Update( dt );
+    //m_enemy.Update( dt );
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
 	m_projectileEditor->Update( dt );

@@ -25,6 +25,8 @@ public:
 	
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
+
+	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
 	
 private:
 	void SpawnProjectile();

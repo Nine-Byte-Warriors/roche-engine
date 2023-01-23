@@ -5,7 +5,6 @@
 #include "JsonLoading.h"
 #include "EventSystem.h"
 
-
 struct EntityData
 {
 	std::string name;
@@ -16,11 +15,17 @@ struct EntityData
 	int identifier;
 	std::vector<int> maxFrame;
 	float mass;
+	float speed;
 	std::string behaviour;
+	std::string colliderShape;
+	std::vector<float> colliderRadius;
+	std::string projectilePattern;
+	std::string projectileBullet;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier, maxFrame, mass, behaviour)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier,
+	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet)
 
-class EntityController : public Listener
+class EntityController
 {
 public:
 	EntityController();
@@ -33,22 +38,23 @@ public:
 	std::vector<float> GetPosition(int num);
 	std::vector<float> GetScale(int num);
 	std::vector<int> GetMaxFrame(int num);
+
 	float GetMass(int num);
+	float GetSpeed(int num);
+
 	std::string GetBehaviour(int num);
 
+	std::string GetColliderShape(int num);
+	std::vector<float> GetColliderRadius(int num);
+
+	EntityData* GetProjectileBullet(int num);
+
 	void SetEntityData(std::vector<EntityData> entityData);
-
-	void AddToEvent() noexcept;
-	void HandleEvent(Event* event) override;
-
-	EVENTID GetEventId();
 
 private:
 	std::string JsonFile = "Resources\\Entity\\Entity.json";
 
 	std::vector<EntityData> m_entityData;
-
-	EVENTID m_eventId;
 };
 
 #endif
