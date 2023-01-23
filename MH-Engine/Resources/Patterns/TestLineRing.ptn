@@ -1,0 +1,200 @@
+[
+    {
+        "m_fDelay": 0.0,
+        "m_iCount": 1,
+        "m_sID": "ID",
+        "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
+        "m_sName": "Default Pattern",
+        "m_vecProjectiles": [
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.0,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 30.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.0,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 30.0,
+                "m_fX": 70.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.0,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 30.0,
+                "m_fX": 140.0,
+                "m_fY": 0.0
+            }
+        ]
+    },
+    {
+        "m_fDelay": 0.5,
+        "m_iCount": 1,
+        "m_sID": "ID",
+        "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
+        "m_sName": "Default Pattern",
+        "m_vecProjectiles": [
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.0,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.5707963705062866,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 3.1415927410125732,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 4.71238899230957,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.7853981852531433,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 2.356194496154785,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 3.9269907474517822,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 5.497786998748779,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            }
+        ]
+    },
+    {
+        "m_fDelay": 0.75,
+        "m_iCount": 1,
+        "m_sID": "ID",
+        "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
+        "m_sName": "Default Pattern",
+        "m_vecProjectiles": [
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.39269909262657166,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.1780972480773926,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.9634953737258911,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 2.7488934993743896,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 3.534291982650757,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 4.319689750671387,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 5.105088233947754,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 5.890486717224121,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 20.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            }
+        ]
+    }
+]
