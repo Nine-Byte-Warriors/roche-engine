@@ -60,35 +60,131 @@ bool CircleCollider::ToPoint(Vector2f point)
         return false;
     }
 }
+//
+//void CircleCollider::Resolution(Collider* collider)
+//{
+//    //Vector2f intersectDistance = closestPoint2 - closestPoint1;
+////collider1->GetTransform()->SetPosition((collider1->GetTransform()->GetPosition() + intersectDistance));
+//
+//    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
+//
+//    Vector2f lastValidPos = collider->GetLastValidPosition();
+//    Vector2f newPos = collider->GetTransform()->GetPosition();
+//
+//
+//    //Change the position on the x or y axis or both to move collider out of the other
+//    bool changeXValue = false;
+//    bool changeYValue = false;
+//
+//
+//
+//    //change gameobjects position on either the x or y axis
+//    if (changeXValue)
+//    {
+//        newPos.x = lastValidPos.x;
+//    }
+//    //if changing the x works
+//    if (changeYValue)
+//    {
+//        newPos.y = lastValidPos.y;
+//    }
+//
+//    collider->GetTransform()->SetPosition(newPos);
+//}
 
 void CircleCollider::Resolution(Collider* collider)
 {
-    //Vector2f intersectDistance = closestPoint2 - closestPoint1;
-//collider1->GetTransform()->SetPosition((collider1->GetTransform()->GetPosition() + intersectDistance));
-
-    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
-
-    Vector2f lastValidPos = collider->GetLastValidPosition();
-    Vector2f newPos = collider->GetTransform()->GetPosition();
-
-
-    //Change the position on the x or y axis or both to move collider out of the other
-    bool changeXValue = false;
-    bool changeYValue = false;
-
-
-
-    //change gameobjects position on either the x or y axis
-    if (changeXValue)
+    if (m_isTrigger == true)
     {
-        newPos.x = lastValidPos.x;
+        return;
     }
-    //if changing the x works
-    if (changeYValue)
+    if (m_isStatic)
     {
-        newPos.y = lastValidPos.y;
+        return;
     }
 
-    collider->GetTransform()->SetPosition(newPos);
+
+    Vector2f newPos = m_tf->GetPosition();
+
+    switch (collider->GetColliderType())
+    {
+    case ColliderType::Box:
+    {
+        Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
+
+        Vector2f lastValidPos = m_lastValidPosition;
+        //Change the position on the x or y axis or both to move collider out of the other
+        bool changeXValue = false;
+        bool changeYValue = false;
+
+        changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
+        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+
+        //change gameobjects position on either the x or y axis
+        if (changeXValue)
+        {
+            newPos.x = lastValidPos.x;
+        }
+        //if changing the x works
+        else if (changeYValue)
+        {
+            newPos.y = lastValidPos.y;
+        }
+        else if (changeXValue && changeYValue)
+        {
+            newPos = lastValidPos;
+        }
+
+        break;
+    }
+    case ColliderType::Circle:
+    {
+
+        Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
+
+        Vector2f lastValidPos = m_lastValidPosition;
+        //Change the position on the x or y axis or both to move collider out of the other
+        bool changeXValue = false;
+        bool changeYValue = false;
+
+        changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
+        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+
+        //change gameobjects position on either the x or y axis
+        if (changeXValue)
+        {
+            newPos.x = lastValidPos.x;
+        }
+        //if changing the x works
+        else if (changeYValue)
+        {
+            newPos.y = lastValidPos.y;
+        }
+        else if (changeXValue && changeYValue)
+        {
+            newPos = lastValidPos;
+        }
+
+        break;
+    }
+    }
+
+    m_tf->SetPosition(newPos);
+
+
 }
 
+bool CircleCollider::CollisionCheck(Collider* collider)
+{
+    switch (collider->GetColliderType())
+    {
+    case ColliderType::Box:
+        return ToBox((BoxCollider*)collider);
+        break;
+    case ColliderType::Circle:
+        return ToCircle((CircleCollider*)collider);
+        break;
+    }
+
+    return false;
+}

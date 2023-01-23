@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Collider.h"
 
-int Collider::Clamp(int min, int max, int value)
+float Collider::Clamp(float min, float max, float value)
 {
     if (value > max)
     {
@@ -15,21 +15,6 @@ int Collider::Clamp(int min, int max, int value)
     {
         return value;
     }
-}
-
-bool Collider::CollisionCheck(Collider* collider)
-{
-    switch (collider->GetColliderType())
-    {
-    case ColliderType::Box:
-        ToBox((BoxCollider*)collider);
-        break;
-    case ColliderType::Circle:
-        ToCircle((CircleCollider*)collider);
-        break;
-    }
-
-    return false;
 }
 
 Vector2f Collider::ClosestPoint(Vector2f position)

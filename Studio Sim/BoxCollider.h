@@ -26,6 +26,9 @@ public:
     bool ToBox(BoxCollider* box) override;
     bool ToCircle(CircleCollider* circle) override;
     bool ToPoint(Vector2f point) override;
+    bool CollisionCheck(Collider* collider) override;
+
+    Vector2f ClosestSurfacePoint(Vector2f point);
 
     void Resolution(Collider* collider) override;
 };
