@@ -39,10 +39,18 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create XAudio2 engine.");
 	}
 
+	IXAudio2MasteringVoice* pMasterVoiceRaw = nullptr;
+
 	// Master voice encapsulates and audio device, the final destination where all audio sources go
-	if (FAILED(hr = m_pXAudio2->CreateMasteringVoice(&m_pMasterVoice))) {
+	if (FAILED(hr = m_pXAudio2->CreateMasteringVoice(&pMasterVoiceRaw))) {
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create mastering voice.");
 	}
+
+	//m_pMasterVoice = std::make_shared<IXAudio2MasteringVoice>(pMasterVoiceRaw);
+	m_pMasterVoice = std::make_shared<IXAudio2MasteringVoice>(pMasterVoiceRaw);
+
+	//delete pMasterVoiceRaw;
+	//pMasterVoiceRaw = nullptr;
 
 	m_fMasterVolume = masterVolume;
 	m_fMusicVolume = musicVolume;
@@ -180,20 +188,26 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 		return S_FALSE;
 	}
 
-	std::shared_ptr<IXAudio2SourceVoice> pVoice = nullptr;
 	//std::shared_ptr<IXAudio2SourceVoice> pVoice = nullptr;
 	//Microsoft::WRL::ComPtr<IXAudio2SourceVoice> pVoice = nullptr;
+
 	std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> soundBank = GetSoundBank(audioType);
+	IXAudio2SourceVoice* pVoiceRaw = nullptr;
 
 	// Check with the file name exists, if so, grab a buffer from it
 	for (int i = 0; soundBank->size() > i; i++) {
 		if (fileName == soundBank->at(i)->fileName) {
 
-			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice.get(), soundBank->at(i)->sourceFormat.get(), 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoiceRaw, soundBank->at(i)->sourceFormat.get(), 0, XAUDIO2_DEFAULT_FREQ_RATIO,
 				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
 				return hr;
 			}
+
+			std::shared_ptr<IXAudio2SourceVoice> pVoice(pVoiceRaw);
+
+			//delete pVoiceRaw;
+			//pVoiceRaw = nullptr;
 
 			if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank->at(i)->buffer.get()))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");

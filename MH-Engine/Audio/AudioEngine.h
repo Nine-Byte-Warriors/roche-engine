@@ -108,8 +108,8 @@ public:
 private:
 	Microsoft::WRL::ComPtr<IXAudio2> m_pXAudio2; // Microsoft's smart pointer of XAudio2 audio engine instance
 	//std::shared_ptr<IXAudio2> m_pXAudio2; // XAudio2 audio engine instance
-	Microsoft::WRL::ComPtr<IXAudio2MasteringVoice> m_pMasterVoice;
-	//std::shared_ptr<IXAudio2MasteringVoice> m_pMasterVoice;
+	//Microsoft::WRL::ComPtr<IXAudio2MasteringVoice> m_pMasterVoice;
+	std::shared_ptr<IXAudio2MasteringVoice> m_pMasterVoice;
 
 	// For singleton
 	static std::shared_ptr<AudioEngine> m_pAudioEngineInstance;
