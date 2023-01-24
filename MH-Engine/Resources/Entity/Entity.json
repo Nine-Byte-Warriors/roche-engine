@@ -158,7 +158,7 @@
             103.0
         ],
         "projectileBullet": "None",
-        "projectilePattern": "Resources\\Patterns\\SlowCircle.ptn",
+        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "scale": [
             32.0,
             32.0

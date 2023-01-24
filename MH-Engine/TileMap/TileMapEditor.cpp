@@ -68,21 +68,26 @@ void TileMapEditor::UpdateDrawOnceDone()
 	m_bDrawOnce = false;
 }
 
-bool TileMapEditor::UpdateDrawContinuousAvalible()
+void TileMapEditor::UpdateMapDrawn()
 {
-	return m_bDrawContinuous;
+	m_bMapUpdated = false;
 }
 
-std::string TileMapEditor::GetTileTypeName(int pos, TileMapLayer tileMapLayer)
+TileMap* TileMapEditor::GetLevel(TileMapLayer layer)
 {
-	if (tileMapLayer == TileMapLayer::Background)
+	if (layer == TileMapLayer::Background)
 	{
-		return m_sTileTypeData[m_tileMapBackground->GetTileType(pos)].name;
+		return m_tileMapBackground;
 	}
-	else if (tileMapLayer == TileMapLayer::Foreground)
+	else if (layer == TileMapLayer::Foreground)
 	{
-		return m_sTileTypeData[m_tileMapForeground->GetTileType(pos)].name;
+		return m_tileMapForeground;
 	}
+}
+
+bool TileMapEditor::UpdateDrawContinuousAvalible()
+{
+	return m_bDrawContinuous && m_bMapUpdated;	
 }
 
 void TileMapEditor::DrawButton()
@@ -354,6 +359,7 @@ void TileMapEditor::UpdateSingleTileMapGridPreview()
 		{
 			if (m_bTileMapPreviewImageButton[i])
 			{
+				m_bMapUpdated = true;
 				for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 				{
 					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
@@ -440,6 +446,7 @@ void TileMapEditor::SelectTileMapLayer()
 		{
 			m_tileMapLayer = TileMapLayer::Both;
 		}
+		m_bMapUpdated = true;
 	}
 #endif
 }

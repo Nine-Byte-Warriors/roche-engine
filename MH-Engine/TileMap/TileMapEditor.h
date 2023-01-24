@@ -26,8 +26,10 @@ public:
 	bool UpdateDrawOnceAvalible();
 	bool UpdateDrawContinuousAvalible();
 	void UpdateDrawOnceDone();
+	void UpdateMapDrawn();
 
-	std::string GetTileTypeName(int pos, TileMapLayer tileMapLayer);
+	TileMap* GetLevel(TileMapLayer layer);
+
 	TileMapLayer GetTileMapLayer();
 private:
 	void Load();
@@ -63,6 +65,7 @@ private:
 	bool m_bDrawButton;
 	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
+	bool m_bMapUpdated;
 
 	std::vector<bool> m_bTileMapPreviewImageButton;
 
