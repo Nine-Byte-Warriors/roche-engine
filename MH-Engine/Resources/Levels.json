@@ -1,21 +1,21 @@
 [
 	{
 		"name": "Menu",
-		"audio": "TempAudio.json",
+		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
 		"tileMap": "TileMap_New.json",
 		"ui": "Menu.json"
 	},
 	{
 		"name": "Game",
-		"audio": "TempAudio.json",
+		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
 		"tileMap": "TileMap_New.json",
 		"ui": "Game.json"
 	},
 	{
 		"name": "Credits",
-		"audio": "TempAudio.json",
+		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
 		"tileMap": "TileMap_New.json",
 		"ui": "Credits.json"

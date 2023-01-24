@@ -57,7 +57,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
-            //level->SetAudioJson( m_vLevelData[i].audio );
+            level->SetAudioJson( m_vLevelData[i].audio );
             level->SetEntityJson( m_vLevelData[i].entity );
             level->SetTileMapJson( m_vLevelData[i].tileMap );
             level->SetUIJson( m_vLevelData[i].ui );
@@ -214,8 +214,13 @@ void Application::Render()
             ImGui::SameLine();
             ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].audio.c_str() );
             if ( ImGui::Button( "Add Existing Audio Manager?" ) )
+            {
                 if ( FileLoading::OpenFileExplorer( m_sAudioFile, m_sFilePath ) )
+                {
                     m_vLevelData[m_iActiveLevelIdx].audio = m_sAudioFile;
+                    m_pLevels[m_iActiveLevelIdx]->SetAudioJson( m_sAudioFile );
+                }
+            }
             ImGui::NewLine();
 
             ImGui::Text( "Entity Manager: " );
