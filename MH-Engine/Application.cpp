@@ -57,6 +57,11 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
+            //level->SetAudioJson( m_vLevelData[i].audio );
+            level->SetEntityJson( m_vLevelData[i].entity );
+            //level->SetTileMapJson( m_vLevelData[i].tileMap );
+            level->SetUIJson( m_vLevelData[i].ui );
+
             m_pLevels.push_back( std::move( level ) );
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
         }
@@ -118,6 +123,7 @@ void Application::Render()
     // Render current level
     m_stateMachine.Render_Start();
 
+#if _DEBUG
     // Level Editor
     static bool shouldSwitchLevel = false;
     if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
@@ -216,8 +222,14 @@ void Application::Render()
             ImGui::SameLine();
             ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].entity.c_str() );
             if ( ImGui::Button( "Add Existing Entity Manager?" ) )
+            {
                 if ( FileLoading::OpenFileExplorer( m_sEntityFile, m_sFilePath ) )
+                {
                     m_vLevelData[m_iActiveLevelIdx].entity = m_sEntityFile;
+                    m_pLevels[m_iActiveLevelIdx]->SetEntityJson( m_sEntityFile );
+                    m_pLevels[m_iActiveLevelIdx]->CreateEntity();
+                }
+            }
             ImGui::NewLine();
 
             ImGui::Text( "Tile Map Manager: " );
@@ -237,11 +249,13 @@ void Application::Render()
                 {
                     m_vLevelData[m_iActiveLevelIdx].ui = m_sUIFile;
                     m_pLevels[m_iActiveLevelIdx]->SetUIJson( m_sUIFile );
+                    m_pLevels[m_iActiveLevelIdx]->CreateUI();
                 }
             }
         }
     }
     ImGui::End();
+#endif
 
     m_stateMachine.Render_End();
 }

@@ -20,7 +20,7 @@ public:
 #endif
 
 	std::vector<EntityData> GetEntityData();
-
+	void SetJsonFile( const std::string& name );
 	bool IsPositionLocked();
 
 private:
@@ -52,7 +52,7 @@ private:
 
 	void AddNewEntity();
 
-	std::string JsonFile = "Resources\\Entity\\Entity.json";
+	std::string JsonFile = "Entity.json";
 
 	std::vector<EntityData> m_vEntityData;
 

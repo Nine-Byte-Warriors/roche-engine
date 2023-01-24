@@ -47,18 +47,25 @@ public:
 	void Update( const float dt ) override;
 	void CleanUp() override {}
 
-	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); OnSwitch(); }
+	inline bool GetIsFirstLoad() const noexcept { return m_bFirstLoad; }
+	//inline void SetAudioJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
+	inline void SetEntityJson( const std::string& name ) noexcept
+	{ m_entityEditor.SetJsonFile( name ); m_entityController.SetJsonFile( name ); }
+	//inline void SetTileMapJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
+	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
+	
+	void CreateEntity();
+	void CreateUI();
+	void CreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
   
 private:
-	// Tile Map
-	void OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
-	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
-	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
-
-	void OnCreateEntity();
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
 	void UpdateEntityFromEditor(const float dt);
+
+	// Tile Map
+	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
+	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
 	// Objects
 	Enemy m_enemy;
@@ -69,20 +76,19 @@ private:
 
 	CollisionHandler m_collisionHandler;
 	ConstantBuffer<Matrices> m_cbMatrices;
+
 #if _DEBUG
+	int m_iUpdateBothTileMapLayers;
 	AudioEditor m_audioEditor;
 #endif
+	bool m_bFirstLoad = true;
+	int m_iFirstTimeTileMapDrawBothLayers;
+
 	int m_iEntityAmount;
 	int m_iTileMapRows;
 	int m_iTileMapColumns;
-	bool m_bFirstLoad = true;
 	EntityEditor m_entityEditor;
 	EntityController m_entityController;
-
-	int m_iFirstTimeTileMapDrawBothLayers;
-#if _DEBUG
-	int m_iUpdateBothTileMapLayers;
-#endif
 
 	TextRenderer m_textRenderer;
 	TileMapEditor m_tileMapEditor;

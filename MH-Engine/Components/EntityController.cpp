@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EntityController.h"
 
+#define FOLDER_PATH "Resources\\Entity\\"
+
 EntityController::EntityController()
 {
 	//EntityData temp;
@@ -18,10 +20,14 @@ EntityController::EntityController()
 	//m_entityData.push_back(temp);
 
 	//JsonLoading::SaveJson(m_entityData, JsonFile);
-
-	JsonLoading::LoadJson(m_entityData, JsonFile);
-
+	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
 	AddToEvent();
+}
+
+void EntityController::SetJsonFile( const std::string& name )
+{
+	JsonFile = name;
+	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
 }
 
 EntityController::~EntityController()

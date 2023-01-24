@@ -19,8 +19,6 @@ void Level::OnCreate()
         m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
         m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
-        OnCreateEntity();
-
         // Initialize enemies
         m_enemy.Initialize( *m_gfx, m_cbMatrices, Sprite::Type::Tomato );
         m_enemy.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.4f, m_gfx->GetHeight() / 2 );
@@ -34,8 +32,8 @@ void Level::OnCreate()
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
 
         // Initialize TileMap
-        OnCreateTileMap(m_tileMapDrawBackground);
-        OnCreateTileMap(m_tileMapDrawForeground);
+        CreateTileMap(m_tileMapDrawBackground);
+        CreateTileMap(m_tileMapDrawForeground);
 
         // Initialize CollisionHandler
         m_collisionHandler.AddCollider(m_player.GetCollider());
@@ -52,26 +50,39 @@ void Level::OnCreate()
 	}
 }
 
-void Level::OnCreateEntity()
+void Level::CreateEntity()
 {
+    m_entity.clear();
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
-
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-
         delete entityPop;
     }
 
+    m_collisionHandler.RemoveAllColliders();
     for (int i = 0; i < m_iEntityAmount; i++)
-    {
         m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-    }
 }
 
-void Level::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
+void Level::CreateUI()
+{
+    // Update user interface
+    EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
+    m_ui->RemoveAllUI();
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Credits" );
+#endif
+}
+
+void Level::CreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
     int colPositionTotalTileLength = 0;
     int rowPositionTotalTileLength = 0;
@@ -113,17 +124,8 @@ void Level::OnSwitch()
 	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
 	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
 
-    // Update user interface
-    EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
-    m_ui->RemoveAllUI();
-    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
-    m_ui->HideAllUI();
-
-#if !_DEBUG
-    m_ui->ShowUI( "Menu" );
-#endif
+    CreateEntity();
+    CreateUI();
 }
 
 void Level::BeginFrame()
@@ -321,7 +323,7 @@ void Level::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw,
 
     if (m_tileMapEditor.UpdateDrawOnceAvalible() || m_iFirstTimeTileMapDrawBothLayers > 0 || m_tileMapEditor.UpdateDrawContinuousAvalible())
 #else
-    if (firstTimeTileMapDrawBothLayers > 0)
+    if (m_iFirstTimeTileMapDrawBothLayers > 0)
 #endif
     {
 #if _DEBUG

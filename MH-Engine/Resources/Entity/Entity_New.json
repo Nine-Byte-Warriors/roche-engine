@@ -1,0 +1,22 @@
+[
+    {
+        "behaviour": "None",
+        "identifier": 2,
+        "mass": 21.200000762939453,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "Player",
+        "position": [
+            1099.0,
+            45.0
+        ],
+        "scale": [
+            124.0,
+            124.0
+        ],
+        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "type": "Player"
+    }
+]

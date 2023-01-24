@@ -25,7 +25,8 @@ class EntityController : public Listener
 public:
 	EntityController();
 	~EntityController();
-
+	
+	void SetJsonFile( const std::string& name );
 	int GetSize();
 
 	std::string GetType(int num);
@@ -45,7 +46,7 @@ public:
 	EVENTID GetEventId();
 
 private:
-	std::string JsonFile = "Resources\\Entity\\Entity.json";
+	std::string JsonFile = "Entity.json";
 
 	std::vector<EntityData> m_entityData;
 

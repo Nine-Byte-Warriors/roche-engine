@@ -46,6 +46,7 @@ private:
 
 	int m_iCurrLevelId = -1;
 	int m_iActiveLevelIdx = 0;
+	bool m_bFirstLoad = false;
 	LevelStateMachine m_stateMachine;
 	std::vector<uint32_t> m_uLevel_IDs;
 	std::vector<std::shared_ptr<Level>> m_pLevels;
