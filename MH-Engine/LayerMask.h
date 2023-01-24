@@ -12,19 +12,27 @@ enum class LayerNo
 //from Decorations to Projectiles
 struct LayerMask
 {
-	bool mask[4] = { true, true, true, true };
+	const int m_size = 4;
+	bool m_mask[4] = { true, true, true, true };
 	LayerMask() = default;
-	LayerMask(const LayerMask& layerMask) = default;
+	LayerMask(LayerMask& layerMask) 
+	{ 
+		ChangeMask(layerMask.m_mask[0],layerMask.m_mask[1],layerMask.m_mask[2],layerMask.m_mask[3]);
+	};
 	LayerMask(bool decorations, bool player, bool enemy, bool projectiles)
 	{
 		ChangeMask(decorations, player, enemy, projectiles);
 	};
-
+	
 	void ChangeMask(bool decorations, bool player, bool enemy, bool projectiles)
 	{
-		mask[0] = decorations;
-		mask[1] = player;
-		mask[2] = enemy;
-		mask[3] = projectiles;
+		m_mask[0] = decorations;
+		m_mask[1] = player;
+		m_mask[2] = enemy;
+		m_mask[3] = projectiles;
+	}
+	void operator = (LayerMask& layerMask)
+	{
+		ChangeMask(layerMask.m_mask[0], layerMask.m_mask[1], layerMask.m_mask[2], layerMask.m_mask[3]);
 	}
 };

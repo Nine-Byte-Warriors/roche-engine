@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "CollisionHandler.h"
 
+CollisionHandler::CollisionHandler(CollisionMatrix collisionMatrix)
+{
+    m_collisionMatrix.SetMatrix(collisionMatrix);
+}
+
 void CollisionHandler::AddCollider(std::shared_ptr<Collider> collider)
 {
     m_colliders.push_back(collider.get());
@@ -12,6 +17,17 @@ void CollisionHandler::AddCollider(std::vector<std::shared_ptr<Collider>>& colli
     {
         m_colliders.push_back(colliders[i].get());
     }
+}
+
+void CollisionHandler::SetMatrix(bool dD, bool dP, bool dE, bool dPj,
+    bool pD, bool pP, bool pE, bool pPj,
+    bool eD, bool eP, bool eE, bool ePj,
+    bool pjD, bool pjP, bool pjE, bool pjPj)
+{
+    m_collisionMatrix.SetMatrix(dD, dP, dE, dPj,
+                                pD, pP, pE, pPj,
+                                eD, eP, eE, ePj,
+                                pjD, pjP, pjE, pjPj);
 }
 
 bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
@@ -164,14 +180,17 @@ void CollisionHandler::CollisionCheckAll()
 {
     int startIndex = 0;
     bool isCollision;
-    bool canCollide;
+    bool layersInteract;
+    bool collidersInteract;
     for (int i = 0; i < m_colliders.size(); i++)
     {
         isCollision = false;
         for (int n = startIndex; n < m_colliders.size(); n++)
         {
-            canCollide = m_colliders[i]->GetLayerMask().mask[(int)m_colliders[n]->GetLayer()];
-            if (n == i ||  canCollide == false)
+            layersInteract = m_collisionMatrix.GetElement((int)m_colliders[i]->GetLayer(),(int)m_colliders[n]->GetLayer());
+            collidersInteract = m_colliders[i]->GetLayerMask().m_mask[(int)m_colliders[n]->GetLayer()];
+
+            if (n == i || layersInteract == false || collidersInteract == false)
             {
                 continue;
             }

@@ -50,7 +50,7 @@ protected:
 
 public:
     void SetLayer(LayerNo layer) { m_layer = layer; };
-    void SetCollisionMask(LayerMask collisionMask) { m_collisionMask = collisionMask; };
+    void SetCollisionMask(LayerMask collisionMask) { m_collisionMask = collisionMask; m_collisionMask = collisionMask; };
     LayerNo GetLayer() { return m_layer; };
     LayerMask GetLayerMask() { return m_collisionMask; };
 

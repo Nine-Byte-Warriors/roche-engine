@@ -234,6 +234,9 @@
     <ClCompile Include="Collisions\CircleCollider.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -543,7 +546,10 @@
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="LayerMask.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMatrix.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
