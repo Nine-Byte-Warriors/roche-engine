@@ -13,6 +13,7 @@
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
+#include "TileMapLoader.h"
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
@@ -42,7 +43,8 @@ public:
   
 private:
 	// Tile Map
-	void OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
+	void OnCreateTileMap();
+	void OnCreateTileMapDraw(std::vector<TileMapDraw>& tileMapDraw);
 	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
 	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
@@ -71,9 +73,12 @@ private:
 
 	TextRenderer m_textRenderer;
 	TileMapEditor* m_tileMapEditor;
+	TileMapLoader* m_tileMapLoader;
 	std::vector<TileMapDraw> m_tileMapDrawBackground;
 	std::vector<TileMapDraw> m_tileMapDrawForeground;
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
+
+	const int m_iTileSize = 32;
 };
 
 #endif

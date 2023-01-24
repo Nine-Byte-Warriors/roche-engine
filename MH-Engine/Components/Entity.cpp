@@ -17,6 +17,13 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	//UpdateColliderShape(); //TODO
 	m_projectileManager = std::make_shared<ProjectileManager>();
 }
+Entity::~Entity()
+{
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerUp, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerLeft, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDown, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerRight, this);
+}
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
@@ -111,11 +118,12 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	}
 	UpdateScale();
 	UpdateFrame();
-	UpdateTexture();
 	UpdateMass();
 	UpdateType();
 	UpdateBehaviour();
 	UpdateSpeed();
+	UpdateProjectilePattern();
+	UpdateTexture();
 }
 
 EntityType Entity::GetEntityType()
@@ -199,7 +207,6 @@ void Entity::UpdateTexture()
 		m_sBulletTex = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
 		{
-			m_projectileManager->GetProjector()[i]->GetSprite()->UpdateTex(m_device, m_sBulletTex);
 			m_projectileManager->GetProjector()[i]->GetSprite()->UpdateTex(m_device, m_sBulletTex);
 		}
 	}
@@ -290,10 +297,22 @@ void Entity::UpdateProjectilePattern() //TODO
 {
 	//if (m_entityType != EntityType::Projectile)
 	//{
-	//	m_fBulletSpeed = m_entityController->GetProjectileBullet(m_iEntityNum)->speed;
-	//	for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+	//	m_sBulletPattern = m_entityController->GetProjectileBullet(m_iEntityNum)->projectilePattern;
+	//	if (m_sBulletPattern != "None")
 	//	{
-	//		m_projectileManager->GetProjector()[i]->SetSpeed(m_fBulletSpeed);
+	//		static bool temp = true;
+	//		if (true)
+	//		{
+	//			temp = !temp;
+
+	//			auto temp = m_projectileManager->GetProjector().size();
+	//			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+	//			{
+
+	//				m_projectileManager->UpdatePattern(m_sBulletPattern);
+	//				/*m_projectileManager->GetProjector()[i]->*/
+	//			}
+	//		}
 	//	}
 	//}
 }
