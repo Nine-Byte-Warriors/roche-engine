@@ -53,7 +53,11 @@ void LevelStateMachine::SwitchTo( uint32_t id )
 		if ( currentLevel )
 			currentLevel->CleanUp();
 		currentLevel = it->second;
-		currentLevel->OnCreate();
+		if ( !currentLevel->GetIsCreated() )
+		{
+			currentLevel->OnCreate();
+			currentLevel->SetIsCreated( true );
+		}
 		currentLevel->OnSwitch();
 	}
 }

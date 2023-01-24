@@ -60,8 +60,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_pLevels.push_back( std::move( level ) );
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
         }
-        m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
-        m_iCurrLevelId = 0;
+        m_stateMachine.SwitchTo( m_uLevel_IDs[1] );
+        m_iCurrLevelId = 1;
     }
     catch ( COMException& exception )
 	{
@@ -159,6 +159,7 @@ void Application::Render()
             m_stateMachine.SwitchTo( m_uLevel_IDs[m_iCurrLevelId] );
             shouldSwitchLevel = false;
         }
+        ImGui::SameLine();
 
         // Add/remove level
         if ( ImGui::Button( "Add Level" ) )
@@ -173,6 +174,7 @@ void Application::Render()
 #endif
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_iCurrLevelId] ) );
 	    }
+        ImGui::SameLine();
 
 	    if ( ImGui::Button( "Remove Level" ) )
 	    {
@@ -192,18 +194,46 @@ void Application::Render()
                 m_stateMachine.SwitchTo( m_uLevel_IDs[m_iCurrLevelId] );
 		    }
 	    }
+        ImGui::NewLine();
 
         // Active level options
         if ( m_iCurrLevelId > -1 )
         {
-            //ImGui::Text(  );
-            //if ( ImGui::Button( "UI Manager" ) )
-            //{
-            //    if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
-            //    {
-            //
-            //    }
-            //}
+            // Get current level info
+            for( unsigned int i = 0; i < m_vLevelData.size(); i++ )
+                if ( m_stateMachine.GetCurrentLevel()->GetLevelName() == m_vLevelData[i].name )
+                    m_iActiveLevelIdx = i;
+
+            ImGui::Text( "Audio Manager: " );
+            ImGui::SameLine();
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].audio.c_str() );
+            if ( ImGui::Button( "Add Existing Audio Manager?" ) )
+                if ( FileLoading::OpenFileExplorer( m_sAudioFile, m_sFilePath ) )
+                    m_vLevelData[m_iActiveLevelIdx].audio = m_sAudioFile;
+            ImGui::NewLine();
+
+            ImGui::Text( "Entity Manager: " );
+            ImGui::SameLine();
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].entity.c_str() );
+            if ( ImGui::Button( "Add Existing Entity Manager?" ) )
+                if ( FileLoading::OpenFileExplorer( m_sEntityFile, m_sFilePath ) )
+                    m_vLevelData[m_iActiveLevelIdx].entity = m_sEntityFile;
+            ImGui::NewLine();
+
+            ImGui::Text( "Tile Map Manager: " );
+            ImGui::SameLine();
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].tileMap.c_str() );
+            if ( ImGui::Button( "Add Existing Tile Map Manager?" ) )
+                if ( FileLoading::OpenFileExplorer( m_sTileMapFile, m_sFilePath ) )
+                    m_vLevelData[m_iActiveLevelIdx].tileMap = m_sTileMapFile;
+            ImGui::NewLine();
+
+            ImGui::Text( "UI Manager: " );
+            ImGui::SameLine();
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].ui.c_str() );
+            if ( ImGui::Button( "Add Existing UI Manager?" ) )
+                if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
+                    m_vLevelData[m_iActiveLevelIdx].ui = m_sUIFile;
         }
     }
     ImGui::End();

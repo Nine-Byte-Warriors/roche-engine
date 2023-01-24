@@ -33,8 +33,13 @@ public:
 		m_gfx = gfx;
 	}
 #endif
-	
-	inline std::string GetLevelName() { return m_sLevelName; }
+
+	inline bool GetIsCreated() const noexcept { return m_bIsCreated; }
+	inline void SetIsCreated( bool created ) noexcept { m_bIsCreated = created; }
+
+	inline void SetLevelName( std::string name ) noexcept { m_sLevelName = name; }
+	inline std::string GetLevelName() const noexcept { return m_sLevelName; }
+
 	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
 	inline UIManager* GetUIManager() const noexcept { return m_ui; }
 #if _DEBUG
@@ -62,6 +67,7 @@ protected:
 #endif
 
 	// Next Level
+	bool m_bIsCreated = false;
 	std::string m_sLevelName;
 	int m_iCurrentLevel;
 	int m_iNextLevel;

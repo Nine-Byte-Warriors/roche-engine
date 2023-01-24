@@ -19,11 +19,11 @@ public:
 	void Remove( uint32_t id );
 	void SwitchTo( uint32_t id );
 
+private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
-private:
 	uint32_t insertedLevelID;
 	std::shared_ptr<LevelContainer> currentLevel;
 	std::unordered_map<uint32_t, std::shared_ptr<LevelContainer>> levels;

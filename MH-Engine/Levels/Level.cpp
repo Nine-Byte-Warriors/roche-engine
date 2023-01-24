@@ -37,7 +37,7 @@ void Level::OnCreate()
         OnCreateTileMap(m_tileMapDrawBackground);
         OnCreateTileMap(m_tileMapDrawForeground);
 
-        //Initialize CollisionHandler
+        // Initialize CollisionHandler
         m_collisionHandler.AddCollider(m_player.GetCollider());
         m_collisionHandler.AddCollider(m_enemy.GetCollider());
 
@@ -80,12 +80,12 @@ void Level::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
     m_iTileMapRows = ( m_gfx->GetHeight() / tileSize ) + 1;
     m_iTileMapColumns = m_gfx->GetWidth() / tileSize;
 
-    m_tileMapEditor = new TileMapEditor(m_iTileMapRows, m_iTileMapColumns);
+    m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
     for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
     {
-        TileMapDraw *tileMapDrawPop = new TileMapDraw;
-        tileMapDraw.push_back(*tileMapDrawPop);
+        TileMapDraw tileMapDrawPop;
+        tileMapDraw.push_back(tileMapDrawPop);
         tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "NONE");
 
         if (i != 0)
@@ -104,8 +104,6 @@ void Level::OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
 
         tileMapDraw[i].GetTransform()->SetPositionInit(positionWidth, positionHeight);
         tileMapDraw[i].GetTransform()->SetScaleInit(tileSize, tileSize);
-
-        delete tileMapDrawPop;
     }
 }
 
@@ -124,7 +122,7 @@ void Level::OnSwitch()
     m_ui->HideAllUI();
 
 #if !_DEBUG
-    m_ui->ShowUI( "Pause" );
+    m_ui->ShowUI( "Menu" );
 #endif
 }
 
@@ -223,8 +221,8 @@ void Level::EndFrame_Start()
 
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
-    m_tileMapEditor->SpawnControlWindow();
     m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
+    m_tileMapEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
 #endif
@@ -245,10 +243,8 @@ void Level::Update( const float dt )
     // Update entities
 #if _DEBUG
     m_uiEditor.Update( dt );
-    static bool firstLoad = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoad )
+    if ( m_uiEditor.ShouldShowAll() || m_bFirstLoad )
     {
-        firstLoad = false;
         m_ui->ShowAllUI();
     }
     else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
@@ -263,6 +259,7 @@ void Level::Update( const float dt )
     }
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
+    m_bFirstLoad = false;
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
 
     UpdateEntity( dt );
@@ -316,17 +313,19 @@ void Level::UpdateEntityFromEditor(const float dt)
 void Level::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
 {
     const int numberOfTileMapLayers = 2;
-    static int firstTimeTileMapDrawBothLayers = numberOfTileMapLayers;
+    if ( m_bFirstLoad )
+        m_iFirstTimeTileMapDrawBothLayers = numberOfTileMapLayers;
 #if _DEBUG
-    static int updateBothTileMapLayers = numberOfTileMapLayers;
+    if ( m_bFirstLoad )
+        m_iUpdateBothTileMapLayers = numberOfTileMapLayers;
 
-    if (m_tileMapEditor->UpdateDrawOnceAvalible() || firstTimeTileMapDrawBothLayers > 0 || m_tileMapEditor->UpdateDrawContinuousAvalible())
+    if (m_tileMapEditor.UpdateDrawOnceAvalible() || m_iFirstTimeTileMapDrawBothLayers > 0 || m_tileMapEditor.UpdateDrawContinuousAvalible())
 #else
     if (firstTimeTileMapDrawBothLayers > 0)
 #endif
     {
 #if _DEBUG
-        if (tileMapLayer == m_tileMapEditor->GetTileMapLayer() || m_tileMapEditor->GetTileMapLayer() == TileMapLayer::Both)
+        if (tileMapLayer == m_tileMapEditor.GetTileMapLayer() || m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Both)
 #endif
         {
             for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
@@ -334,7 +333,7 @@ void Level::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw,
                 tileMapDraw[i].Update(dt);
 
                 std::string texture = "Resources\\Textures\\Tiles\\";
-                texture += m_tileMapEditor->GetTileTypeName(i, tileMapLayer);
+                texture += m_tileMapEditor.GetTileTypeName(i, tileMapLayer);
                 texture += ".png";
 
                 tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
@@ -352,19 +351,14 @@ void Level::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw,
                 tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
             }
         }
-        updateBothTileMapLayers--;
-        if (updateBothTileMapLayers == 0)
+        m_iUpdateBothTileMapLayers--;
+        if (m_iUpdateBothTileMapLayers == 0)
         {
-            m_tileMapEditor->UpdateDrawOnceDone();
-            updateBothTileMapLayers = numberOfTileMapLayers;
+            m_tileMapEditor.UpdateDrawOnceDone();
+            m_iUpdateBothTileMapLayers = numberOfTileMapLayers;
         }
 #endif
 
-        firstTimeTileMapDrawBothLayers--;
+        m_iFirstTimeTileMapDrawBothLayers--;
     }
-}
-
-void Level::CleanUp()
-{
-    delete m_tileMapEditor;
 }

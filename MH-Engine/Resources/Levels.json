@@ -1,14 +1,23 @@
 [
 	{
 		"name": "Menu",
+		"audio": "TempAudio.json",
+		"entity": "TempEntity.json",
+		"tileMap": "TempTileMap.json",
 		"ui": "Menu.json"
 	},
 	{
 		"name": "Game",
+		"audio": "TempAudio.json",
+		"entity": "TempEntity.json",
+		"tileMap": "TempTileMap.json",
 		"ui": "Game.json"
 	},
 	{
 		"name": "Credits",
+		"audio": "TempAudio.json",
+		"entity": "TempEntity.json",
+		"tileMap": "TempTileMap.json",
 		"ui": "Credits.json"
 	}
 ]

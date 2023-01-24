@@ -17,9 +17,12 @@
 struct LevelData
 {
 	std::string name;
+	std::string audio;
+	std::string entity;
+	std::string tileMap;
 	std::string ui;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, ui )
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, audio, entity, tileMap, ui )
 
 class Application : public WindowContainer
 {
@@ -32,10 +35,17 @@ public:
 	void Render();
 private:
 	// Levels
-	std::string m_sJsonFile = "Levels.json";
+	std::string m_sAudioFile;
+	std::string m_sEntityFile;
+	std::string m_sTileMapFile;
+	std::string m_sUIFile;
+
+	std::string m_sFilePath;
 	std::vector<LevelData> m_vLevelData;
+	std::string m_sJsonFile = "Levels.json";
 
 	int m_iCurrLevelId = -1;
+	int m_iActiveLevelIdx = 0;
 	LevelStateMachine m_stateMachine;
 	std::vector<uint32_t> m_uLevel_IDs;
 	std::vector<std::shared_ptr<Level>> m_pLevels;
