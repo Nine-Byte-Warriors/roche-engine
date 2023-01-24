@@ -34,8 +34,8 @@ class VoiceCallback;
 struct SoundBankFile
 {
 	std::wstring fileName;
-	XAUDIO2_BUFFER* buffer;
-	WAVEFORMATEX* sourceFormat;
+	std::shared_ptr<XAUDIO2_BUFFER> buffer;
+	std::shared_ptr<WAVEFORMATEX> sourceFormat;
 	//VoiceCallback* voiceCallback;
 	float volume;
 };
@@ -58,6 +58,7 @@ class AudioEngine
 {
 public:
 	AudioEngine();
+	~AudioEngine();
 
 	AudioEngine(AudioEngine& otherEngine) = delete;
 	void operator=(const AudioEngine&) = delete;
@@ -68,7 +69,7 @@ public:
 	void Update(); // keep it on separate thread
 
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
-	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName); // JSON Save Function
+	void SaveAudioToJSON(std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> sfxSoundList, std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> musicSoundList, std::string fileName); // JSON Save Function
 
 	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
@@ -80,14 +81,14 @@ public:
 
 	//// Loading Audio stuff
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
-	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
+	HRESULT ReadChunkData(HANDLE hFile, std::shared_ptr<void> buffer, DWORD buffersize, DWORD bufferoffset);
 
-	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume);
-	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
+	std::shared_ptr<SoundBankFile> CreateSoundBankFile(std::wstring filePath, std::shared_ptr<XAUDIO2_BUFFER> buffer, std::shared_ptr<WAVEFORMATEX> waveformatex, float volume);
+	void AddToSoundBank(std::shared_ptr<SoundBankFile> soundBankFile, std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> soundBank);
 	std::wstring GetFileName(std::wstring filePath);
 	std::wstring GetFileName(std::string filePath); //overload for string
 
-	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
+	std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> GetSoundBank(AudioType audioType);
 	
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
@@ -105,21 +106,23 @@ public:
 	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
 private:
-	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
-	IXAudio2MasteringVoice* m_pMasterVoice;
+	Microsoft::WRL::ComPtr<IXAudio2> m_pXAudio2; // Microsoft's smart pointer of XAudio2 audio engine instance
+	//std::shared_ptr<IXAudio2> m_pXAudio2; // XAudio2 audio engine instance
+	Microsoft::WRL::ComPtr<IXAudio2MasteringVoice> m_pMasterVoice;
+	//std::shared_ptr<IXAudio2MasteringVoice> m_pMasterVoice;
 
 	// For singleton
-	static AudioEngine* m_pAudioEngineInstance;
+	static std::shared_ptr<AudioEngine> m_pAudioEngineInstance;
 	static std::mutex m_mutex;
 
-	IXAudio2SourceVoice* pSourceVoice;
-	IXAudio2SourceVoice* pSourceVoice2;
+	std::shared_ptr<IXAudio2SourceVoice> pSourceVoice;
+	std::shared_ptr<IXAudio2SourceVoice> pSourceVoice2;
 
-	std::vector<SoundBankFile*>* m_vMusicSoundBank; // Music Sound Bank
-	std::vector<SoundBankFile*>* m_vSFXSoundBank; // SFX Sound Bank
+	std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> m_vMusicSoundBank; // Music Sound Bank
+	std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> m_vSFXSoundBank; // SFX Sound Bank
 
-	std::vector<IXAudio2SourceVoice*>* m_vMusicSourceVoiceList;
-	std::vector<IXAudio2SourceVoice*>* m_vSFXSourceVoiceList;
+	std::shared_ptr<std::vector<std::shared_ptr<IXAudio2SourceVoice>>> m_vMusicSourceVoiceList;
+	std::shared_ptr<std::vector<std::shared_ptr<IXAudio2SourceVoice>>> m_vSFXSourceVoiceList;
 
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;
