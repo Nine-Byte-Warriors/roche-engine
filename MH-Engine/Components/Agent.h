@@ -22,6 +22,7 @@ public:
 #endif
 	
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
+	inline void SetSpeed(float speed) { m_fSpeed = speed; }
 	inline Vector2f GetTargetPosition() const noexcept { return m_vTargetPos; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 
