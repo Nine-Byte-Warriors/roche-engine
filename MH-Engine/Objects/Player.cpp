@@ -17,6 +17,11 @@ Player::Player()
 	AddToEvent();
 }
 
+Player::~Player()
+{
+	RemoveFromEvent();
+}
+
 void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Carrot, mat );
@@ -42,10 +47,10 @@ void Player::SpawnControlWindow()
 		ImGui::Text( std::string( "X: " ).append( std::to_string( m_transform->GetPosition().x ) ).c_str() );
 		ImGui::SameLine();
 		ImGui::Text( std::string( "Y: " ).append( std::to_string( m_transform->GetPosition().y ) ).c_str() );
-		
+
 		if ( ImGui::Button("FIRE!") )
 			EventSystem::Instance()->AddEvent(EVENTID::PlayerFire, nullptr);
-	}	
+	}
 	ImGui::End();
 }
 #endif
@@ -56,6 +61,14 @@ void Player::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::PlayerLeft, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerDown, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerRight, this );
+}
+
+void Player::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerUp, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerLeft, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerDown, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerRight, this );
 }
 
 void Player::HandleEvent( Event* event )

@@ -14,6 +14,13 @@
 #include "ImGuiManager.h"
 #endif
 
+struct LevelData
+{
+	std::string name;
+	std::string ui;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, ui )
+
 class Application : public WindowContainer
 {
 public:
@@ -25,10 +32,10 @@ public:
 	void Render();
 private:
 	// Levels
-	std::string m_sUIFile;
-	std::string m_sFilePath;
+	std::string m_sJsonFile = "Levels.json";
+	std::vector<LevelData> m_vLevelData;
 
-	int m_iCurrLevelId = 1;
+	int m_iCurrLevelId = -1;
 	LevelStateMachine m_stateMachine;
 	std::vector<uint32_t> m_uLevel_IDs;
 	std::vector<std::shared_ptr<Level>> m_pLevels;

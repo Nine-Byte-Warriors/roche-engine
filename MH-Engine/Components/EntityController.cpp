@@ -26,6 +26,7 @@ EntityController::EntityController()
 
 EntityController::~EntityController()
 {
+	RemoveFromEvent();
 }
 
 int EntityController::GetSize()
@@ -79,6 +80,14 @@ void EntityController::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
+}
+
+void EntityController::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerUp, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerLeft, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDown, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerRight, this);
 }
 
 void EntityController::HandleEvent(Event* event)

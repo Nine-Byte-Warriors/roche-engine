@@ -13,12 +13,14 @@ class Camera : public Listener
 {
 public:
 	Camera();
+	~Camera();
 	void SetProjectionValues( float width, float height, float nearZ, float farZ );
 	const XMMATRIX& GetOrthoMatrix() const noexcept;
 	const XMMATRIX& GetWorldOrthoMatrix() const noexcept;
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 private:
 	void UpdateMatrix();

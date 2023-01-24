@@ -39,6 +39,7 @@ public:
 	void SetEntityData(std::vector<EntityData> entityData);
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
 	EVENTID GetEventId();

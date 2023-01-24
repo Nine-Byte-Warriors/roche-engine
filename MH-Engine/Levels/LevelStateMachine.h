@@ -9,6 +9,7 @@ class LevelStateMachine : public Listener
 {
 public:
 	LevelStateMachine();
+	~LevelStateMachine();
 	void Render_Start();
 	void Render_End();
 	void Update( const float dt );
@@ -19,6 +20,7 @@ public:
 	void SwitchTo( uint32_t id );
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 private:

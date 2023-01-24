@@ -39,7 +39,7 @@ public:
 	void Update( const float dt );
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
-	
+
 	inline bool ShouldShowAll() const noexcept { return m_bShouldShowAll; }
 	inline int GetCurrentScreenIndex() const noexcept { return m_iCurrentScreenIdx; }
 	inline std::string GetCurrentScreenName() const noexcept { return m_vUIScreenData[m_iCurrentScreenIdx].name; }
@@ -57,14 +57,14 @@ private:
 	int m_iCurrentScreenIdx = -1;
 	bool m_bShouldShowAll = false;
 
-	std::string m_sJsonFile = "Main Menu.json";
+	std::string m_sJsonFile = "Menu.json";
 	const std::vector<std::string> m_vUITypes =
 	{
 		"Button", "Colour Block",
 		"Data Slider", "Energy Bar",
 		"Image", "Input", "Page Slider"
 	};
-	
+
 	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen
 	std::vector<std::shared_ptr<UIScreen>> m_vUIScreens; // list of UI screen objects
 

@@ -16,19 +16,21 @@ class Agent : public Listener
 {
 public:
 	Agent( const std::shared_ptr<Physics>& physics );
+	~Agent() { RemoveFromEvent(); }
 	void Update(const float dt);
 #if _DEBUG
 	void SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept;
 #endif
-	
+
 	inline float GetSpeed() const noexcept { return m_fSpeed; }
 	inline Vector2f GetTargetPosition() const noexcept { return m_vTargetPos; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 
 	void SetBehaviour(AILogic::AIStateTypes behaviour);
 	void ResetBehaviour();
-	
+
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 private:
 	std::map<AILogic::AIStateTypes, AILogic::AIState*> m_mapStates;

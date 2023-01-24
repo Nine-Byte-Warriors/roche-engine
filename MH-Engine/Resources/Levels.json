@@ -1,0 +1,14 @@
+[
+	{
+		"name": "Menu",
+		"ui": "Menu.json"
+	},
+	{
+		"name": "Game",
+		"ui": "Game.json"
+	},
+	{
+		"name": "Credits",
+		"ui": "Credits.json"
+	}
+]

@@ -3,6 +3,8 @@
 
 LevelStateMachine::LevelStateMachine() : levels( 0 ), currentLevel( 0 ) { AddToEvent(); }
 
+LevelStateMachine::~LevelStateMachine() { RemoveFromEvent(); }
+
 void LevelStateMachine::Update( const float dt )
 {
 	if ( currentLevel )
@@ -59,6 +61,11 @@ void LevelStateMachine::SwitchTo( uint32_t id )
 void LevelStateMachine::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::GameLevelChangeEvent, this );
+}
+
+void LevelStateMachine::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::GameLevelChangeEvent, this );
 }
 
 void LevelStateMachine::HandleEvent( Event* event )

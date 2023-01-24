@@ -26,19 +26,40 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_imgui.Initialize( m_renderWindow.GetHWND(), m_graphics.GetDevice(), m_graphics.GetContext() );
 #endif
 
-        // Initialize levels
-        m_pLevels.push_back( std::make_shared<Level>( "Farm", m_iCurrLevelId ) );
-        m_pLevels.push_back( std::make_shared<Level>( "Shop", m_iCurrLevelId ) );
-#if _DEBUG
-        m_pLevels[0]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
-        m_pLevels[1]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
-#else
-        m_pLevel[0]->Initialize( &m_graphics, &m_uiManager );
-        m_pLevel[1]->Initialize( &m_graphics, &m_uiManager );
-#endif
+        // Load level data
+		std::string folderPath = "Resources/";
+        JsonLoading::LoadJson( m_vLevelData, folderPath + m_sJsonFile );
 
-        m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[0] ) );
-        m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[1] ) );
+        // Sort levels by name for ImGui
+	    std::vector<std::string> levelNames;
+	    for ( unsigned int i = 0; i < m_vLevelData.size(); i++ )
+		    levelNames.push_back( m_vLevelData[i].name );
+	    sort( levelNames.begin(), levelNames.end() );
+	    std::vector<LevelData> tempLevelList;
+	    for ( unsigned int i = 0; i < levelNames.size(); i++ )
+	    {
+		    for ( unsigned int j = 0; j < m_vLevelData.size(); j++ )
+		    {
+			    if ( levelNames[i] == m_vLevelData[j].name )
+			    {
+                    tempLevelList.push_back( m_vLevelData[j] );
+			    }
+		    }
+	    }
+        m_vLevelData = tempLevelList;
+
+        // Create levels
+        for ( unsigned int i = 0; i < m_vLevelData.size(); i++ )
+        {
+            std::shared_ptr<Level> level = std::make_shared<Level>( m_vLevelData[i].name, m_iCurrLevelId );
+#if _DEBUG
+            level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
+#else
+            level->Initialize( &m_graphics, &m_uiManager );
+#endif
+            m_pLevels.push_back( std::move( level ) );
+            m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
+        }
         m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
         m_iCurrLevelId = 0;
     }
@@ -120,11 +141,17 @@ void Application::Render()
 
 				if ( isSelected )
 					ImGui::SetItemDefaultFocus();
-				
+
 				index++;
 			}
 			ImGui::EndListBox();
 		}
+
+        ImGui::NewLine();
+        ImGui::Text( "Active Level: " );
+        ImGui::SameLine();
+        ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_stateMachine.GetCurrentLevel()->GetLevelName().c_str() );
+        ImGui::NewLine();
 
         // Handle level switching
         if ( ImGui::Button( "Switch To" ) && shouldSwitchLevel )
@@ -146,29 +173,37 @@ void Application::Render()
 #endif
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_iCurrLevelId] ) );
 	    }
-	    ImGui::SameLine();
+
 	    if ( ImGui::Button( "Remove Level" ) )
 	    {
 		    if ( m_pLevels.size() > 1 )
 		    {
                 m_pLevels.erase( m_pLevels.begin() + m_iCurrLevelId );
                 m_pLevels.shrink_to_fit();
+
+                m_stateMachine.Remove( m_uLevel_IDs[m_iCurrLevelId] );
                 m_uLevel_IDs.erase( m_uLevel_IDs.begin() + m_iCurrLevelId );
                 m_uLevel_IDs.shrink_to_fit();
+
                 m_iCurrLevelId -= 1;
+				if ( m_iCurrLevelId < 0 )
+					m_iCurrLevelId = 0;
+
+                m_stateMachine.SwitchTo( m_uLevel_IDs[m_iCurrLevelId] );
 		    }
 	    }
 
         // Active level options
         if ( m_iCurrLevelId > -1 )
         {
-            if ( ImGui::Button( "Add UI Manager" ) )
-            {
-                if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
-                {
-
-                }
-            }
+            //ImGui::Text(  );
+            //if ( ImGui::Button( "UI Manager" ) )
+            //{
+            //    if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
+            //    {
+            //
+            //    }
+            //}
         }
     }
     ImGui::End();
