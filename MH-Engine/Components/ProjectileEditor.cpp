@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ProjectileEditor.h"
-#include "FileLoading.h"
+//#include "FileLoading.h"
+#include "FileHandler.h"
 
 #include "Graphics.h"	// TODO: Remove this as shouldn't need this here!
 
@@ -70,7 +71,7 @@ void ProjectileEditor::LoadPattern()
 	if (!bLoadButton)
 		return;
 	
-	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+	if (FileHandler::OpenFileDialog(m_sSelectedFile, m_sFilePath))
 		JsonLoading::LoadJson(m_vecManagers, m_sFilePath);
 	else
 		m_sSelectedFile = "Open File Failed";
@@ -78,19 +79,51 @@ void ProjectileEditor::LoadPattern()
 
 void ProjectileEditor::SavePattern()
 {
+	//std::shared_ptr<FileHandler::FileObject> foSave = FileHandler::GetFileObject();
+	std::shared_ptr<FileHandler::FileObject> foSave = FileHandler::CreateFileObject();
 	static char saveFileName[128] = "";
 	m_bSaveButton = ImGui::Button("Save Pattern");
 	ImGui::InputTextWithHint("##PatternSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	foSave->m_sFile = saveFileName;
+	/*
+	m_bSaveButton = ImGui::Button("Save Pattern");
+	ImGui::InputTextWithHint("##PatternSaveFile", "New Save File Name", foSave->m_cFile.get(), IM_ARRAYSIZE(foSave->m_cFile));
 	ImGui::Text(m_sSelectedFile.c_str());
-	
+	*/
 	if (!m_bSaveButton)
 		return;
 	
 	if (m_vecManagers.size() < 1)
 		return;
 
-	if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-		JsonLoading::SaveJson(m_vecManagers, m_sFilePath);
+	std::string sPath, sFile;
+	//std::shared_ptr<FileHandler::FileObject> fileObj = FileHandler::FileDialog(foSave).UseSaveDialog().ShowDialog();
+	//std::shared_ptr<FileHandler::FileObject> fileObj = FileHandler::FileDialog(foSave)
+	foSave = FileHandler::FileDialog(foSave)
+		->UseSaveDialog()
+		->ShowDialog()
+		->StoreResult();
+	/*
+		.SetPath(DEFAULT_PATTERN_PATH)
+		.SaveFile(m_sSelectedFile);
+	*/
+	if (foSave->HasPath())
+		JsonLoading::SaveJson(m_vecManagers, foSave->GetFullPath());
+
+//	if (FileHandler::SaveFileDialog(m_sSelectedFile, m_sFilePath))
+	//{
+	//	const size_t extention = m_sFilePath.find_last_of(".");
+	//	if (extention == std::string::npos)
+	//	{
+	//		m_sFilePath.append(".json");
+	//	}
+
+	//	//{
+	//	//	const size_t slash = m_sFilePath.find_last_of("/\\");
+	//	//	m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".ptn";
+	//	//}
+	//	JsonLoading::SaveJson(m_vecManagers, m_sFilePath);
+	//}
 }
 
 void ProjectileEditor::SpawnPosition(Vector2f vWinMax)
