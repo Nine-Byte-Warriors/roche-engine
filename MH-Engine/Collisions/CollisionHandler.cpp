@@ -164,17 +164,19 @@ void CollisionHandler::CollisionCheckAll()
 {
     int startIndex = 0;
     bool isCollision;
+    bool canCollide;
     for (int i = 0; i < m_colliders.size(); i++)
     {
         isCollision = false;
         for (int n = startIndex; n < m_colliders.size(); n++)
         {
-            if (n == i)
+            canCollide = m_colliders[i]->GetLayerMask().mask[(int)m_colliders[n]->GetLayer()];
+            if (n == i ||  canCollide == false)
             {
                 continue;
             }
 
-            bool isIntersection = CollisionCheck(m_colliders[i], m_colliders[n]);
+            bool isIntersection = m_colliders[i]->CollisionCheck(m_colliders[n]);//CollisionCheck(m_colliders[i], m_colliders[n]);
 
             if (isIntersection)
             {

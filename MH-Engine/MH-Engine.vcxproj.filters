@@ -542,6 +542,9 @@
     <ClInclude Include="Collisions\Collision.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="LayerMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc">
