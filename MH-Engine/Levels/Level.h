@@ -46,6 +46,8 @@ public:
 
 	void Update( const float dt ) override;
 	void CleanUp() override {}
+
+	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); OnSwitch(); }
   
 private:
 	// Tile Map

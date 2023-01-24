@@ -40,8 +40,8 @@ public:
 	inline void SetLevelName( std::string name ) noexcept { m_sLevelName = name; }
 	inline std::string GetLevelName() const noexcept { return m_sLevelName; }
 
-	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
 	inline UIManager* GetUIManager() const noexcept { return m_ui; }
+	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
 #if _DEBUG
 	inline ImGuiManager* GetImguiManager() const noexcept { return m_imgui; }
 #endif

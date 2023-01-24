@@ -21,13 +21,22 @@ UIEditor::UIEditor()
 
 UIEditor::~UIEditor() { }
 
+void UIEditor::SetJsonFile( const std::string& name )
+{
+	m_sJsonFile = name;
+	LoadFromFile_Screens();
+	LoadFromFile_Widgets();
+}
+
 void UIEditor::LoadFromFile_Screens()
 {
 	// Load UI screens
+	m_vUIScreenData.clear();
 	JsonLoading::LoadJson( m_vUIScreenData, FOLDER_PATH + m_sJsonFile );
 	SortScreens();
 
 	// Create screen objects
+	m_vUIScreens.clear();
 	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
 	{
 		std::shared_ptr<UIScreen> screen = std::make_shared<UIScreen>();
@@ -38,6 +47,7 @@ void UIEditor::LoadFromFile_Screens()
 void UIEditor::LoadFromFile_Widgets()
 {
 	// Load screen widgets
+	m_vUIWidgetData.clear();
 	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
 	{
 		std::vector<UIWidgetData> screenData;
@@ -47,6 +57,7 @@ void UIEditor::LoadFromFile_Widgets()
 
 	// Create widget objects
 	int index = 0;
+	m_vUIWidgets.clear();
 	for ( std::map<std::string, std::vector<UIWidgetData>>::iterator it = m_vUIWidgetData.begin(); it != m_vUIWidgetData.end(); it++ ) // widget struct
 	{
 		m_vUIWidgets.push_back( {} );

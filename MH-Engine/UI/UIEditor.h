@@ -29,6 +29,7 @@ public:
 	UIEditor();
 	~UIEditor();
 
+	void SetJsonFile( const std::string& name );
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
 	void SortScreens();

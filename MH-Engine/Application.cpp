@@ -60,8 +60,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_pLevels.push_back( std::move( level ) );
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
         }
-        m_stateMachine.SwitchTo( m_uLevel_IDs[1] );
-        m_iCurrLevelId = 1;
+        m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
+        m_iCurrLevelId = 0;
     }
     catch ( COMException& exception )
 	{
@@ -232,8 +232,13 @@ void Application::Render()
             ImGui::SameLine();
             ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].ui.c_str() );
             if ( ImGui::Button( "Add Existing UI Manager?" ) )
+            {
                 if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
+                {
                     m_vLevelData[m_iActiveLevelIdx].ui = m_sUIFile;
+                    m_pLevels[m_iActiveLevelIdx]->SetUIJson( m_sUIFile );
+                }
+            }
         }
     }
     ImGui::End();
