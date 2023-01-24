@@ -7,10 +7,6 @@ using json = nlohmann::json;
 #include "JsonLoading.h"
 #include "TileMap.h"
 
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
-
 //#define COLUMNS 40
 //#define ROWS 22
 
@@ -24,7 +20,7 @@ public:
 
 	void LoadLevel(std::string filePathBackground, std::string filePathForeground);
 
-	std::string GetTileTypeName(int pos, TileMapLayer tileMapLayer);
+	std::string GetTileTypeName(int tileMapLayer, int pos);
 
 private:
 	int m_iRows;
@@ -38,7 +34,5 @@ private:
 
 	std::vector<TileTypeData> m_sTileTypeData;
 };
-
-
 
 #endif

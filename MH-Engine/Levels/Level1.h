@@ -44,9 +44,12 @@ public:
 private:
 	// Tile Map
 	void OnCreateTileMap();
-	void OnCreateTileMapDraw(std::vector<TileMapDraw>& tileMapDraw);
-	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
-	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
+	void OnCreateTileMapDraw();
+	void UpdateTileMap(const float dt);
+	void UpdateBothTileMaps(const float dt);
+	void UpdateTileMapTexture(const float dt);
+	void UpdateTileMapEmpty(const float dt);
+	void RenderFrameTileMap();
 
 	void OnCreateEntity();
 	void RenderFrameEntity();
@@ -74,11 +77,14 @@ private:
 	TextRenderer m_textRenderer;
 	TileMapEditor* m_tileMapEditor;
 	TileMapLoader* m_tileMapLoader;
-	std::vector<TileMapDraw> m_tileMapDrawBackground;
-	std::vector<TileMapDraw> m_tileMapDrawForeground;
+	std::vector<std::vector<TileMapDraw>> m_tileMapDrawLayers;
+	const int m_iTileMapLayers = 2;
+
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
 
 	const int m_iTileSize = 32;
+
+	bool m_bMapUpdate = true;
 };
 
 #endif
