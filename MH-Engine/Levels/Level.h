@@ -48,7 +48,9 @@ public:
 	void CleanUp() override {}
 
 	inline bool GetIsFirstLoad() const noexcept { return m_bFirstLoad; }
+#if _DEBUG
 	inline void SetAudioJson( const std::string& name ) noexcept { m_audioEditor.SetJsonFile( name ); }
+#endif
 	inline void SetEntityJson( const std::string& name ) noexcept { m_entityEditor.SetJsonFile( name ); m_entityController.SetJsonFile( name ); }
 	inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor.SetJsonFile( name ); }
 	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }

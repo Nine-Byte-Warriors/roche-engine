@@ -29,6 +29,7 @@ public:
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
 	void SaveSoundFileInfoToJSON(std::string fileName);
+
 #endif // _DEBUG
 private:
 	std::string m_sFilePath;

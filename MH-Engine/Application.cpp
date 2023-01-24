@@ -54,10 +54,10 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             std::shared_ptr<Level> level = std::make_shared<Level>( m_vLevelData[i].name, m_iCurrLevelId );
 #if _DEBUG
             level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
+            level->SetAudioJson( m_vLevelData[i].audio );
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
-            level->SetAudioJson( m_vLevelData[i].audio );
             level->SetEntityJson( m_vLevelData[i].entity );
             level->SetTileMapJson( m_vLevelData[i].tileMap );
             level->SetUIJson( m_vLevelData[i].ui );

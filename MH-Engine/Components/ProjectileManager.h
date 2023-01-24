@@ -27,6 +27,8 @@ public:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
+	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
+	
 private:
 	void SpawnProjectile();
 	std::shared_ptr<Projectile> GetFreeProjectile();
@@ -36,7 +38,6 @@ private:
 	float m_fCounter;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
-
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
 };
 
