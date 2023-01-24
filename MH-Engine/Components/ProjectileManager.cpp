@@ -63,6 +63,34 @@ void ProjectileManager::SpawnProjectile()
 		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
 }
 
+void ProjectileManager::UpdatePattern(std::string filepath)
+{
+	JsonLoading::LoadJson(m_vecManagers, filepath);
+
+	for (int i = 0; i < m_vecManagers.size(); i++)
+	{
+		m_fDelay = m_vecManagers[i].m_fDelay;
+		UpdateProjectilePool(m_vecManagers[i].m_vecProjectiles);
+	}
+}
+
+void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+{
+	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
+
+	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
+	{
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
+		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
+
+		vecProjectilePool.push_back(std::move(pProjectile));
+	}
+
+	m_vecProjectilePool = vecProjectilePool;
+}
+
 void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
 	m_fCounter = m_fDelay;

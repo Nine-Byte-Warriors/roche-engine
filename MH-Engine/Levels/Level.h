@@ -13,6 +13,7 @@
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
+#include "TileMapLoader.h"
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
@@ -52,20 +53,21 @@ public:
 	inline void SetAudioJson( const std::string& name ) noexcept { m_audioEditor.SetJsonFile( name ); }
 #endif
 	inline void SetEntityJson( const std::string& name ) noexcept { m_entityEditor.SetJsonFile( name ); m_entityController.SetJsonFile( name ); }
-	inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor.SetJsonFile( name ); }
+	//inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor->SetJsonFile( name ); }
+	inline void SetTileMapJson( const std::string& back, const std::string& front ) noexcept { m_tileMapLoader.LoadLevel( back, front ); }
 	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
 	
 	void CreateEntity();
-	void CreateTileMaps();
+	void CreateTileMap();
 	void CreateUI();
   
 private:
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
 	void UpdateEntityFromEditor(const float dt);
-	void CreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
 	// Tile Map
+	void CreateTileMapDraw(std::vector<TileMapDraw>& tileMapDraw);
 	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
 	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
@@ -94,9 +96,12 @@ private:
 
 	TextRenderer m_textRenderer;
 	TileMapEditor m_tileMapEditor;
+	TileMapLoader m_tileMapLoader;
 	std::vector<TileMapDraw> m_tileMapDrawBackground;
 	std::vector<TileMapDraw> m_tileMapDrawForeground;
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
+
+	const int m_iTileSize = 32;
 };
 
 #endif

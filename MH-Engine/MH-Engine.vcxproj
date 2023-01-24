@@ -309,6 +309,7 @@
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
+    <ClCompile Include="TileMap\TileMapLoader.cpp" />
     <ClCompile Include="UI\UIEditor.cpp" />
     <ClCompile Include="UI\UIScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -453,6 +454,7 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="TileMap\TileMapLoader.h" />
     <ClInclude Include="Utility\Helper\RND.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="TileMap\TileMap.h" />

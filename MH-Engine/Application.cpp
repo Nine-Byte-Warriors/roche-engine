@@ -59,7 +59,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
             level->SetEntityJson( m_vLevelData[i].entity );
-            level->SetTileMapJson( m_vLevelData[i].tileMap );
+            level->CreateTileMap();
+            level->SetTileMapJson( m_vLevelData[i].tileMap, m_vLevelData[i].tileMap );
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
@@ -245,8 +246,8 @@ void Application::Render()
                 if ( FileLoading::OpenFileExplorer( m_sTileMapFile, m_sFilePath ) )
                 {
                     m_vLevelData[m_iActiveLevelIdx].tileMap = m_sTileMapFile;
-                    m_pLevels[m_iActiveLevelIdx]->CreateTileMaps();
-                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_sTileMapFile );
+                    m_pLevels[m_iActiveLevelIdx]->CreateTileMap();
+                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_sTileMapFile, m_sTileMapFile );
                 }
             }
             ImGui::NewLine();
