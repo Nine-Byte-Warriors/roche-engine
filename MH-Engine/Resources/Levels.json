@@ -3,21 +3,21 @@
 		"name": "Menu",
 		"audio": "TempAudio.json",
 		"entity": "Entity.json",
-		"tileMap": "TempTileMap.json",
+		"tileMap": "TileMap_New.json",
 		"ui": "Menu.json"
 	},
 	{
 		"name": "Game",
 		"audio": "TempAudio.json",
 		"entity": "Entity.json",
-		"tileMap": "TempTileMap.json",
+		"tileMap": "TileMap_New.json",
 		"ui": "Game.json"
 	},
 	{
 		"name": "Credits",
 		"audio": "TempAudio.json",
 		"entity": "Entity.json",
-		"tileMap": "TempTileMap.json",
+		"tileMap": "TileMap_New.json",
 		"ui": "Credits.json"
 	}
 ]

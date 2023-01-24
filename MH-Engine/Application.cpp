@@ -59,7 +59,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #endif
             //level->SetAudioJson( m_vLevelData[i].audio );
             level->SetEntityJson( m_vLevelData[i].entity );
-            //level->SetTileMapJson( m_vLevelData[i].tileMap );
+            level->SetTileMapJson( m_vLevelData[i].tileMap );
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
@@ -236,8 +236,14 @@ void Application::Render()
             ImGui::SameLine();
             ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].tileMap.c_str() );
             if ( ImGui::Button( "Add Existing Tile Map Manager?" ) )
+            {
                 if ( FileLoading::OpenFileExplorer( m_sTileMapFile, m_sFilePath ) )
+                {
                     m_vLevelData[m_iActiveLevelIdx].tileMap = m_sTileMapFile;
+                    m_pLevels[m_iActiveLevelIdx]->CreateTileMaps();
+                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_sTileMapFile );
+                }
+            }
             ImGui::NewLine();
 
             ImGui::Text( "UI Manager: " );

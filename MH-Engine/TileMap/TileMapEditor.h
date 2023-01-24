@@ -20,6 +20,7 @@ public:
 	~TileMapEditor();
 
 	void Initialize(int rows, int columns);
+	void SetJsonFile( const std::string& name );
 
 #if _DEBUG
 	void SpawnControlWindow();

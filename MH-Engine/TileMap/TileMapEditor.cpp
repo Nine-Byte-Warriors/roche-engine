@@ -2,6 +2,8 @@
 #include "TileMapEditor.h"
 #include "FileLoading.h"
 
+#define FOLDER_PATH "Resources\\TileMaps\\"
+
 TileMapEditor::TileMapEditor() { }
 
 TileMapEditor::~TileMapEditor() { }
@@ -33,6 +35,12 @@ void TileMapEditor::Initialize(int rows, int columns)
 	m_bDrawContinuous = false;
 
 	m_tileMapLayer = TileMapLayer::Background;
+}
+
+void TileMapEditor::SetJsonFile( const std::string& name )
+{
+	m_sFilePath = name;
+	LoadProcessFile();
 }
 
 #if _DEBUG
@@ -115,6 +123,7 @@ void TileMapEditor::Load()
 			}
 			else
 			{
+				m_sFilePath = m_sSelectedFile;
 				m_sSelectedFile = "Open File Failed";
 			}
 		}
@@ -128,7 +137,7 @@ void TileMapEditor::Load()
 bool TileMapEditor::LoadProcessFile()
 {
 	std::vector<std::string> tileTypeName;
-	JsonLoading::LoadJson(tileTypeName, m_sFilePath);
+	JsonLoading::LoadJson(tileTypeName, FOLDER_PATH + m_sFilePath);
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
@@ -170,6 +179,7 @@ void TileMapEditor::SaveToExistingFile()
 				}
 				else
 				{
+					m_sFilePath = m_sSelectedFile;
 					m_sSelectedFile = "Save Write Failed";
 				}
 			}

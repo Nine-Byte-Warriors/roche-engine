@@ -51,17 +51,18 @@ public:
 	//inline void SetAudioJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
 	inline void SetEntityJson( const std::string& name ) noexcept
 	{ m_entityEditor.SetJsonFile( name ); m_entityController.SetJsonFile( name ); }
-	//inline void SetTileMapJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
+	inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor.SetJsonFile( name ); }
 	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
 	
 	void CreateEntity();
+	void CreateTileMaps();
 	void CreateUI();
-	void CreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
   
 private:
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
 	void UpdateEntityFromEditor(const float dt);
+	void CreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
 
 	// Tile Map
 	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);

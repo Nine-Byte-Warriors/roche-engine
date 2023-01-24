@@ -30,10 +30,7 @@ void Level::OnCreate()
 
         // Initialize systems
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
-
-        // Initialize TileMap
-        CreateTileMap(m_tileMapDrawBackground);
-        CreateTileMap(m_tileMapDrawForeground);
+        
 
         // Initialize CollisionHandler
         m_collisionHandler.AddCollider(m_player.GetCollider());
@@ -82,6 +79,12 @@ void Level::CreateUI()
 #endif
 }
 
+void Level::CreateTileMaps()
+{
+    CreateTileMap(m_tileMapDrawBackground);
+    CreateTileMap(m_tileMapDrawForeground);
+}
+
 void Level::CreateTileMap(std::vector<TileMapDraw>& tileMapDraw)
 {
     int colPositionTotalTileLength = 0;
@@ -126,6 +129,7 @@ void Level::OnSwitch()
 
     CreateEntity();
     CreateUI();
+    CreateTileMaps();
 }
 
 void Level::BeginFrame()
