@@ -113,8 +113,8 @@
                 "m_fSpeed": 9.5,
                 "m_fX": 0.0,
                 "m_fY": 0.0
-            },     
-	    {
+            },
+            {
                 "m_fAmplitude": 0.0,
                 "m_fAngle": -0.4908738434314728,
                 "m_fFrequency": 0.0,
@@ -138,6 +138,465 @@
                 "m_fFrequency": 0.0,
                 "m_fLifeTime": 100.0,
                 "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.7853981852531433,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.8844456076622009,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.9773844480514526,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.082104206085205,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.1868239641189575,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.2740904092788696,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.378810167312622,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.483529806137085,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.5707963705062866,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.7853981852531433,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.8835729956626892,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.9817476868629456,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.0799224376678467,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.1780972480773926,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.2762720584869385,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.3744467496871948,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.3744467496871948,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.4726216793060303,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": 10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.0,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.39269909262657166,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.19634954631328583,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.09817477315664291,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.29452431201934814,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.39269909262657166,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.19634954631328583,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.09817477315664291,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.29452431201934814,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.4908738434314728,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.5890486240386963,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.6872233748435974,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.4908738434314728,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.5890486240386963,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.6872233748435974,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.7853981852531433,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.8844456076622009,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -0.9773844480514526,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.082104206085205,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.1868239641189575,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.2740904092788696,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.378810167312622,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.483529806137085,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": -1.5707963705062866,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.7853981852531433,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.8835729956626892,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 0.9817476868629456,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.0799224376678467,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.1780972480773926,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.2762720584869385,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.3744467496871948,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.0,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.3744467496871948,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -9.5,
+                "m_fX": 0.0,
+                "m_fY": 0.0
+            },
+            {
+                "m_fAmplitude": 0.0,
+                "m_fAngle": 1.4726216793060303,
+                "m_fFrequency": 0.0,
+                "m_fLifeTime": 100.0,
+                "m_fSpeed": -10.0,
                 "m_fX": 0.0,
                 "m_fY": 0.0
             }
