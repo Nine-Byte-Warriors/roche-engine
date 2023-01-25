@@ -36,7 +36,13 @@ void Health::EnemyDamage(float DamageAmount)
 {
 	m_fEnemyCurrentHealth -= DamageAmount;
 
-	if (m_fEnemyCurrentHealth <= 0); //{ kill enemy }
+	if (m_fEnemyCurrentHealth <= 0)
+	{
+		OutputDebugStringA("dead");
+		//{ kill enemy }
+	} 
+	else
+		OutputDebugStringA("Alive");
 
 }
 
