@@ -3,19 +3,29 @@
 
 LevelStateMachine::LevelStateMachine() : levels( 0 ), currentLevel( 0 ) { AddToEvent(); }
 
+LevelStateMachine::~LevelStateMachine() { RemoveFromEvent(); }
+
 void LevelStateMachine::Update( const float dt )
 {
 	if ( currentLevel )
 		currentLevel->Update( dt );
 }
 
-void LevelStateMachine::Render()
+void LevelStateMachine::Render_Start()
 {
 	if ( currentLevel )
 	{
 		currentLevel->BeginFrame();
 		currentLevel->RenderFrame();
-		currentLevel->EndFrame();
+		currentLevel->EndFrame_Start();
+	}
+}
+
+void LevelStateMachine::Render_End()
+{
+	if ( currentLevel )
+	{
+		currentLevel->EndFrame_End();
 	}
 }
 
@@ -43,7 +53,11 @@ void LevelStateMachine::SwitchTo( uint32_t id )
 		if ( currentLevel )
 			currentLevel->CleanUp();
 		currentLevel = it->second;
-		currentLevel->OnCreate();
+		if ( !currentLevel->GetIsCreated() )
+		{
+			currentLevel->OnCreate();
+			currentLevel->SetIsCreated( true );
+		}
 		currentLevel->OnSwitch();
 	}
 }
@@ -51,6 +65,11 @@ void LevelStateMachine::SwitchTo( uint32_t id )
 void LevelStateMachine::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::GameLevelChangeEvent, this );
+}
+
+void LevelStateMachine::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::GameLevelChangeEvent, this );
 }
 
 void LevelStateMachine::HandleEvent( Event* event )

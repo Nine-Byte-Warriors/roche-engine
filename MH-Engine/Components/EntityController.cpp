@@ -1,27 +1,17 @@
 #include "stdafx.h"
 #include "EntityController.h"
 
+#define FOLDER_PATH "Resources\\Entity\\"
+
 EntityController::EntityController()
 {
-	//EntityData temp;
-	//temp.name = "Player";
-	//temp.texture = "Resources\\Textures\\carrot_ss.png";
-	//temp.type = "Player";
-	//temp.position.push_back(0.0f);
-	//temp.position.push_back(0.1f);
-	//temp.scale.push_back(0.0f);
-	//temp.scale.push_back(0.1f);
-	//temp.frame.push_back(1);
-	//temp.frame.push_back(1);
-	//temp.identifier = 0;
+	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
+}
 
-	//m_entityData.push_back(temp);
-
-	//JsonLoading::SaveJson(m_entityData, JsonFile);
-
-	JsonLoading::LoadJson(m_entityData, JsonFile);
-
-	AddToEvent();
+void EntityController::SetJsonFile( const std::string& name )
+{
+	JsonFile = name;
+	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
 }
 
 EntityController::~EntityController()
@@ -63,30 +53,38 @@ float EntityController::GetMass(int num)
 	return m_entityData[num].mass;
 }
 
+float EntityController::GetSpeed(int num)
+{
+	return m_entityData[num].speed;
+}
+
 std::string EntityController::GetBehaviour(int num)
 {
 	return m_entityData[num].behaviour;
 }
 
+std::string EntityController::GetColliderShape(int num)
+{
+	return m_entityData[num].colliderShape;
+}
+
+std::vector<float> EntityController::GetColliderRadius(int num)
+{
+	return m_entityData[num].colliderRadius;
+}
+
+EntityData* EntityController::GetProjectileBullet(int num)
+{
+	for (int i = 0; i < m_entityData.size(); i++)
+	{
+		if (m_entityData[i].name != m_entityData[num].projectileBullet)
+		{
+			return &m_entityData[i];
+		}
+	}
+}
+
 void EntityController::SetEntityData(std::vector<EntityData> entityData)
 {
 	m_entityData = entityData;
-}
-
-void EntityController::AddToEvent() noexcept
-{
-	EventSystem::Instance()->AddClient(EVENTID::PlayerUp, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
-}
-
-void EntityController::HandleEvent(Event* event)
-{
-	m_eventId = event->GetEventID();
-}
-
-EVENTID EntityController::GetEventId()
-{
-	return m_eventId;
 }

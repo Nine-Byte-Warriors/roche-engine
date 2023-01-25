@@ -24,15 +24,18 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	//void SaveToFileSoundBankFiles();
+	void SetJsonFile( const std::string& name );
 
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
 	void SaveSoundFileInfoToJSON(std::string fileName);
+
 #endif // _DEBUG
 private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
+	std::string m_sSoundBankFile = "!SoundBankList.json";
 
 	std::vector<std::string> m_vSoundTypes = { "SFX", "MUSIC" };
 

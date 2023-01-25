@@ -20,12 +20,16 @@ public:
 #endif
 
 	std::vector<EntityData> GetEntityData();
-
+	void SetJsonFile( const std::string& name );
 	bool IsPositionLocked();
 
 private:
 	void EntityListBox();
 	void EntityWidget();
+
+	void PopulateProjectileList();
+
+	void LockPositon();
 
 	void SpriteWidget();
 	void PhysicsWidget();
@@ -43,24 +47,38 @@ private:
 
 	//Physics
 	void SetMass();
+	void SetSpeed();
 
 	//AI
 	void SetBehaviour();
+
+	//ProjectileSystem
+	void SetProjectilePattern();
+	void SetProjectileBullet();
+
+	//Collider
+	void SetColliderShape();
+	void SetColliderSize();
 
 	void SaveButton();
 	void SaveEntity();
 
 	void AddNewEntity();
+	void RemoveEntity();
 
-	std::string JsonFile = "Resources\\Entity\\Entity.json";
+	std::string JsonFile = "Entity.json";
 
 	std::vector<EntityData> m_vEntityData;
 
-	std::string m_sSelectedFile = "LoadFile.txt";
-	std::string m_sFilePath = "";
+	std::string m_sSelectedFileTex = "LoadFile.txt";
+	std::string m_sFilePathTex = "";
+
+	std::string m_sSelectedFileProjectile = "LoadFile.txt";
+	std::string m_sFilePathProjectile = "";
 
 	bool m_bValidFrame;
 	bool m_bValidTex;
+	bool m_bValidProjectile;
 
 	std::string m_sSavedText = "";
 
@@ -73,6 +91,9 @@ private:
 
 	bool m_bIsUpdated;
 	bool m_bLockPosition;
+	bool m_bLockToScale;
+
+	std::vector<std::string> m_projectileList;
 };
 
 #endif

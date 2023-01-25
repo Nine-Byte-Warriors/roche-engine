@@ -36,6 +36,7 @@ public:
 	inline void SetIsStopNextFrame( bool isStop ) { m_bIsStopNextFrame = isStop; }
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 private:

@@ -142,6 +142,12 @@ void RenderWindow::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::QuitGameEvent, this );
 }
 
+void RenderWindow::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::QuitGameEvent, this );
+}
+
 void RenderWindow::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
@@ -183,6 +189,7 @@ void RenderWindow::RegisterWindowClass() noexcept
 
 RenderWindow::~RenderWindow() noexcept
 {
+	RemoveFromEvent();
 	if ( m_hWnd != NULL )
 	{
 		UnregisterClass( m_wsWindowClass.c_str(), m_hInstance );
