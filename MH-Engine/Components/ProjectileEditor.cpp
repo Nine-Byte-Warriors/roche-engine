@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "ProjectileEditor.h"
-//#include "FileLoading.h"
 #include "FileHandler.h"
 
-#include "Graphics.h"	// TODO: Remove this as shouldn't need this here!
+#include "Graphics.h"	// required for gfx initialisation
 
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif // _DEBUG
 
-#define DEFAULT_PATTERN_PATH "Resources\\Patterns\\"
+//#define DEFAULT_PATTERN_PATH "Resources\\Patterns\\"
 
 ProjectileEditor::ProjectileEditor() :
 	m_sSelectedFile("ProjectilePattern.json"),
@@ -19,8 +18,6 @@ ProjectileEditor::ProjectileEditor() :
 	m_bMidPosSet(false),
 	m_vSpawnPosition(Vector2f())
 {
-	//m_vecProjectileManager.push_back(std::make_shared<ProjectileManager>());
-	// TODO: Initialise images files for sprites of projectiles.
 }
 
 void ProjectileEditor::Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -62,68 +59,57 @@ void ProjectileEditor::SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Mat
 
 void ProjectileEditor::LoadPattern()
 {
-	static char loadFileName[128] = "";
-	
 	bool bLoadButton = ImGui::Button("Load Pattern");
+	
+	static char loadFileName[128] = "";
 	ImGui::InputTextWithHint("##PatternLoadFile", "Load File Name", loadFileName, IM_ARRAYSIZE(loadFileName));
-	ImGui::Text(m_sSelectedFile.c_str());
 
 	if (!bLoadButton)
 		return;
 	
-	if (FileHandler::OpenFileDialog(m_sSelectedFile, m_sFilePath))
-		JsonLoading::LoadJson(m_vecManagers, m_sFilePath);
+	// Call the FileDialog Builder and store the result in a file object.
+	std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+		->UseOpenDialog()	// Choose the dialog to use.
+		->ShowDialog()		// Show the dialog.
+		->StoreDialogResult();	// Store the result.
+
+	// Check if the file object has a file path/name.
+	if (foLoad->HasPath()) 
+		JsonLoading::LoadJson(m_vecManagers, foLoad->GetFullPath());
 	else
 		m_sSelectedFile = "Open File Failed";
+
+	// Smile. :D
 }
 
 void ProjectileEditor::SavePattern()
 {
-	//std::shared_ptr<FileHandler::FileObject> foSave = FileHandler::GetFileObject();
-	std::shared_ptr<FileHandler::FileObject> foSave = FileHandler::CreateFileObject();
+	m_bSaveButton = ImGui::Button("Save Pattern");
+	
 	static char saveFileName[128] = "";
-	m_bSaveButton = ImGui::Button("Save Pattern");
 	ImGui::InputTextWithHint("##PatternSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
-	foSave->m_sFile = saveFileName;
-	/*
-	m_bSaveButton = ImGui::Button("Save Pattern");
-	ImGui::InputTextWithHint("##PatternSaveFile", "New Save File Name", foSave->m_cFile.get(), IM_ARRAYSIZE(foSave->m_cFile));
-	ImGui::Text(m_sSelectedFile.c_str());
-	*/
+
 	if (!m_bSaveButton)
 		return;
 	
 	if (m_vecManagers.size() < 1)
 		return;
-
-	std::string sPath, sFile;
-	//std::shared_ptr<FileHandler::FileObject> fileObj = FileHandler::FileDialog(foSave).UseSaveDialog().ShowDialog();
-	//std::shared_ptr<FileHandler::FileObject> fileObj = FileHandler::FileDialog(foSave)
+	
+	// Create a file object with a file name. Optional.
+	std::shared_ptr<FileHandler::FileObject> foSave = FileHandler::CreateFileObject(saveFileName);
+	
+	// pass file object to the FileDialog Buidler.
 	foSave = FileHandler::FileDialog(foSave)
-		->UseSaveDialog()
-		->ShowDialog()
-		->StoreResult();
-	/*
-		.SetPath(DEFAULT_PATTERN_PATH)
-		.SaveFile(m_sSelectedFile);
-	*/
+		->UseSaveDialog()	// Choose the dialog to use.
+		->ShowDialog()		// Show the dialog.
+		->StoreDialogResult();	// Store the result.
+	
+	// Check if the file object has a file path/name.
 	if (foSave->HasPath())
-		JsonLoading::SaveJson(m_vecManagers, foSave->GetFullPath());
-
-//	if (FileHandler::SaveFileDialog(m_sSelectedFile, m_sFilePath))
-	//{
-	//	const size_t extention = m_sFilePath.find_last_of(".");
-	//	if (extention == std::string::npos)
-	//	{
-	//		m_sFilePath.append(".json");
-	//	}
-
-	//	//{
-	//	//	const size_t slash = m_sFilePath.find_last_of("/\\");
-	//	//	m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".ptn";
-	//	//}
-	//	JsonLoading::SaveJson(m_vecManagers, m_sFilePath);
-	//}
+		// Save the file.
+		JsonLoading::SaveJson(m_vecManagers, foSave->GetJsonPath());
+	
+	// Smile. :D
 }
 
 void ProjectileEditor::SpawnPosition(Vector2f vWinMax)

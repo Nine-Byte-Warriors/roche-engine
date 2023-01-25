@@ -3,7 +3,6 @@
 #define FILE_HANDLER_H
 
 #include <ShObjIdl.h>
-#include <string.h>
 
 class FileHandler : public std::enable_shared_from_this<FileHandler>
 {
@@ -17,172 +16,59 @@ public:
 
 		std::string m_sErrorMsg;
 
+		FileObject(std::string sFileName)
+		{
+			m_sPath = "";
+			m_sFile = sFileName;
+			m_sExt = "";
+			m_sErrorMsg = "";
+		}
+
+		bool HasPath() { return m_sPath.empty() ? false : true; }
+
 		std::string GetFullPath()
 		{
 			if (!HasPath()) return "";
 
-			if (m_sExt.empty()) m_sExt = ".json";
-			return m_sPath + "/\\" + m_sFile + "." + m_sExt;
+			std::string sFullPath(m_sPath);
+			if (!m_sFile.empty()) sFullPath.append("\\" + m_sFile);
+			if (!m_sExt.empty()) sFullPath.append("." + m_sExt);
+			return sFullPath;
 		}
 
-		bool HasPath()
+		std::string GetJsonPath()
 		{
-			if (m_sPath.empty()) return false;
-			if (m_sFile.empty()) return false;
-			return true;
+			if (!HasPath()) return "";
+
+			if (m_sExt.empty()) m_sExt = "json";
+			return m_sPath + "\\" + m_sFile + "." + m_sExt;
 		}
 	};
 
-	FileHandler(std::shared_ptr<FileHandler::FileObject>& foFile)
-	{
-		m_fileObject = foFile != nullptr
-			? foFile
-			: CreateFileObject();
-
-		m_pOpenDialog = nullptr;
-		m_pSaveDialog = nullptr;
-	}
+	FileHandler(std::shared_ptr<FileHandler::FileObject>& foFile);
 	~FileHandler() {};
 
-	static bool OpenFileDialog(std::string& selectedFile, std::string& filePath);
-	static bool SaveFileDialog(std::string& selectedFile, std::string& filePath);
+	inline static std::shared_ptr<FileHandler::FileObject> CreateFileObject(std::string sFileName = "")
+		{ return std::make_shared<FileHandler::FileObject>(sFileName); }
 
-	static std::shared_ptr<FileHandler::FileObject> CreateFileObject()
-	{
-		std::shared_ptr<FileHandler::FileObject> pFileObject = std::make_shared<FileHandler::FileObject>();
-		pFileObject->m_sPath = "";
-		pFileObject->m_sFile = "";
-		pFileObject->m_sExt = "";
-		pFileObject->m_sErrorMsg = "";
-		return pFileObject;
-	}
-
-	static std::shared_ptr<FileHandler> FileDialog(std::shared_ptr<FileHandler::FileObject> foFile)
+	inline static std::shared_ptr<FileHandler> FileDialog(std::shared_ptr<FileHandler::FileObject> foFile)
 		{ return std::make_shared<FileHandler>(foFile); }
 	
-	std::shared_ptr<FileHandler> UseSaveDialog()
-	{
-		//m_fileObject = CreateFileObject();
-		
-		//m_hResult = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-		
-		//m_pSaveDialog = std::make_unique<IFileSaveDialog>();
-
-		m_hResult = CoCreateInstance(
-			CLSID_FileSaveDialog,
-			NULL,
-			CLSCTX_ALL,
-			IID_IFileSaveDialog,
-			reinterpret_cast<void**>(&m_pSaveDialog)
-		);
-
-		if (FAILED(m_hResult)) {
-			CoUninitialize();
-			return nullptr;
-		}
-
-		return shared_from_this();
-	}
-
-	std::shared_ptr<FileHandler> ShowDialog()
-	{
-		if (m_pSaveDialog == nullptr && m_pOpenDialog == nullptr)
-		{
-			m_fileObject->m_sErrorMsg = "No Dialog selected. Use 'UseSaveDialog' or 'UseOpenDialog'.";
-			m_hResult = false;
-			return nullptr;
-		}
-
-		//  SHOW FILE DIALOG WINDOW
-		m_hResult = m_pOpenDialog == nullptr
-			? m_pSaveDialog->Show(NULL)
-			: m_pOpenDialog->Show(NULL);
-
-		if (FAILED(m_hResult)) {
-			if (m_pOpenDialog != nullptr)
-				m_pSaveDialog->Release();
-			else
-				m_pOpenDialog->Release();
-
-			CoUninitialize();
-			return nullptr;
-		}
-
-		return shared_from_this();
-	}
-
-	std::shared_ptr<FileObject> StoreResult()
-	{
-		//  RETRIEVE FILE NAME FROM THE SELECTED ITEM
-		IShellItem* pShellFile;
-		m_hResult = m_pOpenDialog == nullptr
-			? m_pSaveDialog->GetResult(&pShellFile)
-			: m_pOpenDialog->GetResult(&pShellFile);
-
-		if (FAILED(m_hResult)) {
-			if (m_pOpenDialog != nullptr)
-				m_pSaveDialog->Release();
-			else
-				m_pOpenDialog->Release();
-
-			CoUninitialize();
-			return nullptr;
-		}
-
-		//  STORE AND CONVERT THE FILE NAME
-		PWSTR pwcPath;
-		m_hResult = pShellFile->GetDisplayName(SIGDN_FILESYSPATH, &pwcPath);
-		if (FAILED(m_hResult)) {
-			pShellFile->Release();
-
-			if (m_pOpenDialog != nullptr)
-				m_pSaveDialog->Release();
-			else
-				m_pOpenDialog->Release();
-
-			CoUninitialize();
-			return nullptr;
-		}
-
-		SetPath(pwcPath);
-
-		//  SUCCESS, CLEAN UP
-		CoTaskMemFree(pwcPath);
-		pShellFile->Release();
-		if (m_pOpenDialog != nullptr)
-			m_pOpenDialog->Release();
-		else
-			m_pSaveDialog->Release();
-		CoUninitialize();
-
-		return m_fileObject;
-	}
+	std::shared_ptr<FileHandler> UseOpenDialog();
+	std::shared_ptr<FileHandler> UseSaveDialog();
+	std::shared_ptr<FileHandler> ShowDialog();
+	std::shared_ptr<FileObject> StoreDialogResult();
 
 private:
-	std::shared_ptr<FileObject> SetPath(const std::wstring wsPath)
-	{
-		std::string sFullPath(wsPath.begin(), wsPath.end());
-
-		const size_t lSlash = sFullPath.find_last_of("/\\");
-		m_fileObject->m_sPath = sFullPath.substr(0, lSlash);
-
-		m_fileObject->m_sFile = sFullPath.substr(lSlash + 1);
-
-		const size_t lExt = sFullPath.find_last_of(".");
-		m_fileObject->m_sExt = lExt != std::string::npos
-			? sFullPath.substr(lExt)
-			: "";
-
-		return m_fileObject;
-	}
-
+	std::shared_ptr<FileObject> SetPath(const std::wstring wsPath);
+	void CleanUp();
+	
 	std::shared_ptr<FileHandler::FileObject> m_fileObject;
 	
 	IFileSaveDialog* m_pSaveDialog;
 	IFileOpenDialog* m_pOpenDialog;
 
 	HRESULT m_hResult;
-
 };
 
 #endif // !FILE_HANDLER_H

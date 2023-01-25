@@ -1,129 +1,145 @@
 #include "stdafx.h"
 #include "FileHandler.h"
 
-bool FileHandler::SaveFileDialog(std::string& selectedFile, std::string& filePath)
+FileHandler::FileHandler(std::shared_ptr<FileHandler::FileObject>& foFile)
 {
-	HRESULT f_SysHr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
+	m_fileObject = foFile != nullptr
+		? foFile
+		: CreateFileObject();
 
-	// CREATE FileSaveDialog OBJECT
-	IFileOpenDialog* f_FileSystem;
-	f_SysHr = CoCreateInstance(
-		CLSID_FileSaveDialog, 
-		NULL, 
-		CLSCTX_ALL, 
-		IID_IFileSaveDialog, 
-		reinterpret_cast<void**>(&f_FileSystem)
-	);
-	
-	if (FAILED(f_SysHr)) {
-		CoUninitialize();
-		return FALSE;
-	}
-
-	//  SHOW SAVE FILE DIALOG WINDOW
-	f_SysHr = f_FileSystem->Show(NULL);
-	if (FAILED(f_SysHr)) {
-		f_FileSystem->Release();
-		CoUninitialize();
-		return FALSE;
-	}
-
-	//  RETRIEVE FILE NAME FROM THE SELECTED ITEM
-	IShellItem* f_Files;
-	f_SysHr = f_FileSystem->GetResult(&f_Files);
-	if (FAILED(f_SysHr)) {
-		f_FileSystem->Release();
-		CoUninitialize();
-		return FALSE;
-	}
-
-	//  STORE AND CONVERT THE FILE NAME
-	PWSTR f_Path;
-	f_SysHr = f_Files->GetDisplayName(SIGDN_FILESYSPATH, &f_Path);
-	if (FAILED(f_SysHr)) {
-		f_Files->Release();
-		f_FileSystem->Release();
-		CoUninitialize();
-		return FALSE;
-	}
-
-	//FileObject pFile = FileObject::SetPath(f_Path);
-	
-	//  FORMAT AND STORE THE FILE PATH
-	std::wstring path(f_Path);
-	std::string c(path.begin(), path.end());
-	filePath = c;
-
-	//  FORMAT STRING FOR EXECUTABLE NAME
-	const size_t slash = filePath.find_last_of("/\\");
-	selectedFile = filePath.substr(slash + 1);
-	std::string folderPath = filePath.substr(0, slash);
-
-	//  SUCCESS, CLEAN UP
-	CoTaskMemFree(f_Path);
-	f_Files->Release();
-	f_FileSystem->Release();
-	CoUninitialize();
+	m_pOpenDialog = nullptr;
+	m_pSaveDialog = nullptr;
 }
 
-bool FileHandler::OpenFileDialog(std::string& selectedFile, std::string& filePath)
+std::shared_ptr<FileHandler> FileHandler::UseOpenDialog()
 {
-	HRESULT f_SysHr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-
-	// CREATE FileOpenDialog OBJECT
-	IFileOpenDialog* f_FileSystem;
-	f_SysHr = CoCreateInstance(
+	m_hResult = CoCreateInstance(
 		CLSID_FileOpenDialog,
 		NULL,
 		CLSCTX_ALL,
 		IID_IFileOpenDialog,
-		reinterpret_cast<void**>(&f_FileSystem)
+		reinterpret_cast<void**>(&m_pOpenDialog)
 	);
 
-	if (FAILED(f_SysHr)) {
-		CoUninitialize();
-		return FALSE;
+	if (FAILED(m_hResult)) {
+		CleanUp();
+		return nullptr;
 	}
 
-	//  SHOW OPEN FILE DIALOG WINDOW
-	f_SysHr = f_FileSystem->Show(NULL);
-	if (FAILED(f_SysHr)) {
-		f_FileSystem->Release();
-		CoUninitialize();
-		return FALSE;
+	return shared_from_this();
+}
+
+std::shared_ptr<FileHandler> FileHandler::UseSaveDialog()
+{
+	m_hResult = CoCreateInstance(
+		CLSID_FileSaveDialog,
+		NULL,
+		CLSCTX_ALL,
+		IID_IFileSaveDialog,
+		reinterpret_cast<void**>(&m_pSaveDialog)
+	);
+
+	if (FAILED(m_hResult)) {
+		CleanUp();
+		return nullptr;
+	}
+
+	return shared_from_this();
+}
+
+std::shared_ptr<FileHandler> FileHandler::ShowDialog()
+{
+	if (m_pSaveDialog == nullptr && m_pOpenDialog == nullptr)
+	{
+		m_fileObject->m_sErrorMsg
+			.append("\nNo Dialog selected. Use 'UseSaveDialog' or 'UseOpenDialog'.");
+		return nullptr;
+	}
+
+	//  SHOW FILE DIALOG WINDOW
+	m_hResult = m_pOpenDialog == nullptr
+		? m_pSaveDialog->Show(NULL)
+		: m_pOpenDialog->Show(NULL);
+
+	if (FAILED(m_hResult)) {
+		CleanUp();
+		return nullptr;
+	}
+
+	return shared_from_this();
+}
+
+std::shared_ptr<FileHandler::FileObject> FileHandler::StoreDialogResult()
+{
+	if (m_pSaveDialog == nullptr && m_pOpenDialog == nullptr)
+	{
+		m_fileObject->m_sErrorMsg
+			.append("\nNo Dialog selected. Use 'UseSaveDialog' or 'UseOpenDialog'.");
+		return nullptr;
 	}
 
 	//  RETRIEVE FILE NAME FROM THE SELECTED ITEM
-	IShellItem* f_Files;
-	f_SysHr = f_FileSystem->GetResult(&f_Files);
-	if (FAILED(f_SysHr)) {
-		f_FileSystem->Release();
+	IShellItem* pShellFile;
+	m_hResult = m_pOpenDialog == nullptr
+		? m_pSaveDialog->GetResult(&pShellFile)
+		: m_pOpenDialog->GetResult(&pShellFile);
+
+	if (FAILED(m_hResult)) {
+		CleanUp();
+
 		CoUninitialize();
-		return FALSE;
+		return nullptr;
 	}
 
 	//  STORE AND CONVERT THE FILE NAME
-	PWSTR f_Path;
-	f_SysHr = f_Files->GetDisplayName(SIGDN_FILESYSPATH, &f_Path);
-	if (FAILED(f_SysHr)) {
-		f_Files->Release();
-		f_FileSystem->Release();
-		CoUninitialize();
-		return FALSE;
+	PWSTR pwcPath;
+	m_hResult = pShellFile->GetDisplayName(SIGDN_FILESYSPATH, &pwcPath);
+	if (FAILED(m_hResult)) {
+		pShellFile->Release();
+
+		CleanUp();
+		return nullptr;
 	}
 
-	//  FORMAT AND STORE THE FILE PATH
-	std::wstring path(f_Path);
-	std::string c(path.begin(), path.end());
-	filePath = c;
-
-	//  FORMAT STRING FOR EXECUTABLE NAME
-	const size_t slash = filePath.find_last_of("/\\");
-	selectedFile = filePath.substr(slash + 1);
+	SetPath(pwcPath);
 
 	//  SUCCESS, CLEAN UP
-	CoTaskMemFree(f_Path);
-	f_Files->Release();
-	f_FileSystem->Release();
+	CoTaskMemFree(pwcPath);
+	pShellFile->Release();
+	CleanUp();
+
+	return m_fileObject;
+}
+
+std::shared_ptr<FileHandler::FileObject> FileHandler::SetPath(const std::wstring wsPath)
+{
+	std::string sFullPath(wsPath.begin(), wsPath.end());
+
+	const size_t lSlash = sFullPath.find_last_of("/\\");
+	m_fileObject->m_sPath = sFullPath.substr(0, lSlash);
+
+	std::string sFileName = sFullPath.substr(lSlash + 1);
+
+	const size_t lExt = sFileName.find_last_of(".");
+	m_fileObject->m_sFile = sFileName.substr(0, lExt);
+
+	m_fileObject->m_sExt = lExt != std::string::npos
+		? sFileName.substr(lExt + 1)
+		: "";
+
+	return m_fileObject;
+}
+
+void FileHandler::CleanUp()
+{
+	if (m_pOpenDialog != nullptr)
+		m_pOpenDialog->Release();
+
+	if (m_pSaveDialog != nullptr)
+		m_pSaveDialog->Release();
+
+	m_pSaveDialog = nullptr;
+	m_pOpenDialog = nullptr;
+
 	CoUninitialize();
 }
