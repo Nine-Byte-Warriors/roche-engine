@@ -14,6 +14,10 @@ Player::Player()
 	m_physics = std::make_shared<Physics>( m_transform );
 	m_collider = std::make_shared<BoxCollider>( m_transform, 1, 1, 32, 32 );
 	m_pProjectileManager = std::make_shared<ProjectileManager>();
+
+	//Healthcomp
+	m_Health = std::make_shared<Health>();
+
 	AddToEvent();
 }
 
@@ -21,6 +25,9 @@ void Player::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat )
 {
 	m_sprite->Initialize( gfx.GetDevice(), gfx.GetContext(), Sprite::Type::Carrot, mat );
 	m_pProjectileManager->Initialize( gfx, mat );
+
+	//Healthcomp
+	m_Health->Initialize();
 }
 
 void Player::Update( const float dt )
@@ -56,6 +63,8 @@ void Player::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::PlayerLeft, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerDown, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerRight, this );
+	//Healthcomp
+	EventSystem::Instance()->AddClient(EVENTID::PlayerDamage, this);
 }
 
 void Player::HandleEvent( Event* event )
@@ -67,6 +76,8 @@ void Player::HandleEvent( Event* event )
 	case EVENTID::PlayerLeft: m_physics->AddForce( { -movementFactor, 0.0f } ); break;
 	case EVENTID::PlayerDown: m_physics->AddForce( { 0.0f, movementFactor } ); break;
 	case EVENTID::PlayerRight: m_physics->AddForce( { movementFactor, 0.0f } ); break;
+		//Healthcomp
+	case EVENTID::PlayerDamage: m_Health->PlayerDamage({ 1 }); break;
 	default: break;
 	}
 }

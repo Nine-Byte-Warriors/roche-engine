@@ -11,8 +11,10 @@ public:
 	float m_fEnemyCurrentHealth;
 	float m_fPlayerCurrentHealth;
 
-	float m_fPlayerMaxHealth = 3;
-	float m_fEnemyMaxHealth = 3;
+	float m_fPlayerMaxHealth;
+	float m_fEnemyMaxHealth;
+
+
 
 	Health();
 	

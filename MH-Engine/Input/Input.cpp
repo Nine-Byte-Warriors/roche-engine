@@ -62,6 +62,7 @@ void Input::UpdateKeyboard( const float dt )
 
 		// Update player health
 		if ( m_keyboard.KeyIsPressed( 'E' ) )
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
 			*m_fPlayerHealth -= 10.0f;
 
 		if ( m_keyboard.KeyIsPressed( 'Q' ) )
@@ -92,7 +93,12 @@ void Input::UpdateKeyboard( const float dt )
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
 
-	EventSystem::Instance()->AddEvent( EVENTID::PlayerHealth, m_fPlayerHealth );
+
+	
+		
+
+
+	
 }
 
 void Input::AddToEvent() noexcept
