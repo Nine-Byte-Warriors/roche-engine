@@ -17,7 +17,7 @@ void TileMapLoader::Initialize(int rows, int columns)
 }
 
 void TileMapLoader::SetLevel(std::shared_ptr<TileMap> background, std::shared_ptr<TileMap> foreground)
-{ 
+{
 	m_tileMapBackground = background;
 	m_tileMapForeground = foreground;
 	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();

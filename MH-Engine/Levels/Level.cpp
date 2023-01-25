@@ -66,16 +66,20 @@ void Level::CreateUI()
 
 void Level::CreateTileMap()
 {
-    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
-    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
-    m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
+    if ( m_bFirstLoad )
+    {
+        m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
+        m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
+        m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
+    }
 
 #ifdef _DEBUG
-    m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
+    if ( m_bFirstLoad )
+        m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
     m_tileMapLoader->LoadLevel("Resources\\TileMaps\\blue.json", "Resources\\TileMaps\\blue.json");
-#endif  
+#endif
 
     CreateTileMapDraw(m_tileMapDrawBackground);
     CreateTileMapDraw(m_tileMapDrawForeground);
@@ -120,7 +124,6 @@ void Level::OnSwitch()
 
     CreateEntity();
     CreateUI();
-    CreateTileMap();
 }
 
 void Level::BeginFrame()
@@ -134,13 +137,13 @@ void Level::RenderFrame()
 {
 	auto gfxContext = m_gfx->GetContext();
 	auto camMatrix = m_camera.GetWorldOrthoMatrix();
-    
+
     // Sprites
     RenderFrameTileMap(m_tileMapDrawBackground);
     RenderFrameTileMap(m_tileMapDrawForeground);
-    
+
     m_projectileEditor->Draw(gfxContext, camMatrix);
-    
+
     RenderFrameEntity();
 }
 
@@ -186,7 +189,7 @@ void Level::EndFrame_Start()
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 vMax = ImGui::GetWindowContentRegionMax();
-        
+
         // Update imgui mouse position for scene render window
         Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
         EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
@@ -204,7 +207,7 @@ void Level::EndFrame_Start()
 
     m_imgui->SpawnInstructionWindow();
     m_gfx->SpawnControlWindow();
-	
+
     Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
@@ -223,7 +226,7 @@ void Level::EndFrame_End()
 #if _DEBUG
     m_imgui->EndRender();
 #endif
-    
+
     // Present Frame
 	m_gfx->EndFrame();
 }
@@ -248,8 +251,8 @@ void Level::Update( const float dt )
     }
 #endif
     UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
-    m_bFirstLoad = false;
     UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
+    m_bFirstLoad = false;
 
     UpdateEntity( dt );
 

@@ -60,7 +60,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #endif
             level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
-            level->SetTileMapJson( m_vLevelData[i].tileMap, m_vLevelData[i].tileMap );
+            level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
@@ -129,6 +129,9 @@ void Application::Render()
     static bool shouldSwitchLevel = false;
     if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
     {
+        ImGui::TextColored( ImVec4( 1.0f, 1.0f, 0.0f, 1.0f ), "Work In Progress..." );
+        ImGui::NewLine();
+
         ImGui::Text( "Level List" );
 		if ( ImGui::BeginListBox( "##Level List", ImVec2( -FLT_MIN, m_pLevels.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
 		{
@@ -211,10 +214,9 @@ void Application::Render()
                 if ( m_stateMachine.GetCurrentLevel()->GetLevelName() == m_vLevelData[i].name )
                     m_iActiveLevelIdx = i;
 
-            ImGui::Text( "Audio Manager: " );
+            ImGui::Text( "Audio Manager" );
             ImGui::SameLine();
-            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].audio.c_str() );
-            if ( ImGui::Button( "Add Existing Audio Manager?" ) )
+            if ( ImGui::Button( "Add +##Add Existing Audio Manager?" ) )
             {
                 if ( FileLoading::OpenFileExplorer( m_sAudioFile, m_sFilePath ) )
                 {
@@ -222,12 +224,12 @@ void Application::Render()
                     m_pLevels[m_iActiveLevelIdx]->SetAudioJson( m_sAudioFile );
                 }
             }
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].audio.c_str() );
             ImGui::NewLine();
 
-            ImGui::Text( "Entity Manager: " );
+            ImGui::Text( "Entity Manager" );
             ImGui::SameLine();
-            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].entity.c_str() );
-            if ( ImGui::Button( "Add Existing Entity Manager?" ) )
+            if ( ImGui::Button( "Add +##Add Existing Entity Manager?" ) )
             {
                 if ( FileLoading::OpenFileExplorer( m_sEntityFile, m_sFilePath ) )
                 {
@@ -236,26 +238,40 @@ void Application::Render()
                     m_pLevels[m_iActiveLevelIdx]->CreateEntity();
                 }
             }
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].entity.c_str() );
             ImGui::NewLine();
 
-            ImGui::Text( "Tile Map Manager: " );
+            ImGui::Text( "Tile Map Back" );
             ImGui::SameLine();
-            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].tileMap.c_str() );
-            if ( ImGui::Button( "Add Existing Tile Map Manager?" ) )
+            if ( ImGui::Button( "Add +##Add Existing Tile Map Back?" ) )
             {
-                if ( FileLoading::OpenFileExplorer( m_sTileMapFile, m_sFilePath ) )
+                if ( FileLoading::OpenFileExplorer( m_sTileMapBackFile, m_sFilePath ) )
                 {
-                    m_vLevelData[m_iActiveLevelIdx].tileMap = m_sTileMapFile;
+                    m_vLevelData[m_iActiveLevelIdx].tmBack = m_sTileMapBackFile;
                     m_pLevels[m_iActiveLevelIdx]->CreateTileMap();
-                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_sTileMapFile, m_sTileMapFile );
+                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_sTileMapBackFile, m_vLevelData[m_iActiveLevelIdx].tmFront );
                 }
             }
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].tmBack.c_str() );
             ImGui::NewLine();
 
-            ImGui::Text( "UI Manager: " );
+            ImGui::Text( "Tile Map Front" );
             ImGui::SameLine();
-            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].ui.c_str() );
-            if ( ImGui::Button( "Add Existing UI Manager?" ) )
+            if ( ImGui::Button( "Add +##Add Existing Tile Map Front?" ) )
+            {
+                if ( FileLoading::OpenFileExplorer( m_sTileMapFrontFile, m_sFilePath ) )
+                {
+                    m_vLevelData[m_iActiveLevelIdx].tmFront = m_sTileMapFrontFile;
+                    m_pLevels[m_iActiveLevelIdx]->CreateTileMap();
+                    m_pLevels[m_iActiveLevelIdx]->SetTileMapJson( m_vLevelData[m_iActiveLevelIdx].tmBack, m_sTileMapFrontFile );
+                }
+            }
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].tmFront.c_str() );
+            ImGui::NewLine();
+
+            ImGui::Text( "UI Manager" );
+            ImGui::SameLine();
+            if ( ImGui::Button( "Add +##Add Existing UI Manager?" ) )
             {
                 if ( FileLoading::OpenFileExplorer( m_sUIFile, m_sFilePath ) )
                 {
@@ -264,6 +280,7 @@ void Application::Render()
                     m_pLevels[m_iActiveLevelIdx]->CreateUI();
                 }
             }
+            ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_vLevelData[m_iActiveLevelIdx].ui.c_str() );
         }
     }
     ImGui::End();

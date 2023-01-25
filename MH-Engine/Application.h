@@ -19,10 +19,11 @@ struct LevelData
 	std::string name;
 	std::string audio;
 	std::string entity;
-	std::string tileMap;
+	std::string tmBack;
+	std::string tmFront;
 	std::string ui;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, audio, entity, tileMap, ui )
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, audio, entity, tmBack, tmFront, ui )
 
 class Application : public WindowContainer
 {
@@ -37,7 +38,8 @@ private:
 	// Levels
 	std::string m_sAudioFile;
 	std::string m_sEntityFile;
-	std::string m_sTileMapFile;
+	std::string m_sTileMapBackFile;
+	std::string m_sTileMapFrontFile;
 	std::string m_sUIFile;
 
 	std::string m_sFilePath;
