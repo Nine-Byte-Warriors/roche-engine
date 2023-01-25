@@ -14,6 +14,11 @@ void CollisionHandler::AddCollider(std::vector<Collider>& colliders)
     }
 }
 
+void CollisionHandler::RemoveAllColliders()
+{
+    m_colliders.clear();
+}
+
 //int Clamp(int min, int max, int value)
 //{
 //    if (value > max)

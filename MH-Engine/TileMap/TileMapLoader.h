@@ -13,11 +13,11 @@ using json = nlohmann::json;
 class TileMapLoader
 {
 public:
-	TileMapLoader(int rows, int columns);
+	TileMapLoader();
 	~TileMapLoader();
 
-	void SetLevel(TileMap *background, TileMap *foreground);
-
+	void Initialize(int rows, int columns);
+	void SetLevel(std::shared_ptr<TileMap> background, std::shared_ptr<TileMap> foreground);
 	void LoadLevel(std::string filePathBackground, std::string filePathForeground);
 
 	std::string GetTileTypeName(int tileMapLayer, int pos);
@@ -27,8 +27,8 @@ private:
 	int m_iColumns;
 	int m_iLevel;
 
-	TileMap* m_tileMapBackground;
-	TileMap* m_tileMapForeground;
+	std::shared_ptr<TileMap> m_tileMapBackground;
+	std::shared_ptr<TileMap> m_tileMapForeground;
 
 	TileMapLayer m_tileMapLayer;
 

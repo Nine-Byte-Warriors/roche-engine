@@ -22,9 +22,17 @@ UIEditor::UIEditor()
 
 UIEditor::~UIEditor() { }
 
+void UIEditor::SetJsonFile( const std::string& name )
+{
+	m_sJsonFile = name;
+	LoadFromFile_Screens();
+	LoadFromFile_Widgets();
+}
+
 void UIEditor::LoadFromFile_Screens()
 {
 	// Load UI screens
+	m_vUIScreenData.clear();
 	JsonLoading::LoadJson( m_vUIScreenData, FOLDER_PATH + m_sJsonFile );
 	SortScreens();
 
@@ -169,6 +177,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 			// Show all screens at once?
 			ImGui::NewLine();
 			ImGui::Checkbox( "Show all screens?", &m_bShouldShowAll );
+			ImGui::SameLine();
+			ImGui::Checkbox( "Hide all screens?", &m_bShouldHideAll );
 			ImGui::NewLine();
 
 			// List of all UI screens currently defined
@@ -237,6 +247,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							m_vUIScreens.push_back( std::move( screen ) );
 						}
 						LoadFromFile_Widgets();
+						m_bRequiresUpdate = true;
 					}
 				}
 				ImGui::NewLine();

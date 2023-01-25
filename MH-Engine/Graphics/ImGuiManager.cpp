@@ -15,6 +15,7 @@ ImGuiManager::ImGuiManager()
 
 ImGuiManager::~ImGuiManager()
 {
+    RemoveFromEvent();
 	ImGui::DestroyContext();
 }
 
@@ -45,7 +46,7 @@ void ImGuiManager::EndRender() const noexcept
 }
 
 void ImGuiManager::SpawnInstructionWindow() const noexcept
-{   
+{
 	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( "Camera Controls" );
@@ -162,6 +163,11 @@ void ImGuiManager::AddToEvent() noexcept
     EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
+void ImGuiManager::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+}
+
 void ImGuiManager::HandleEvent( Event* event )
 {
     switch ( event->GetEventID() )
@@ -179,7 +185,7 @@ bool ImGuiManager::IsPressedInsideSceneWindow(int inputX, int inputY, int viewX,
     // Check whether mouse is pressed in scene view position
     if (inputX > viewX && inputX < (viewX + viewWidth) && inputY > viewY && inputY < (viewY + viewHeight)) {
         return true;
-    } 
+    }
 
     return false;
 }
@@ -192,11 +198,11 @@ Vector2f ImGuiManager::SceneWindowToGameWindowPositionConversion(int inputX, int
     float conversionXRatio;
     float conversionYRatio;
 
-    conversionXRatio = gameWidth / viewWidth; 
-    conversionYRatio = gameHeight / viewHeight; 
-    
-    convertedX = (inputX - viewX) * conversionXRatio; 
-    convertedY = (inputY - viewY) * conversionYRatio; 
+    conversionXRatio = gameWidth / viewWidth;
+    conversionYRatio = gameHeight / viewHeight;
+
+    convertedX = (inputX - viewX) * conversionXRatio;
+    convertedY = (inputY - viewY) * conversionYRatio;
 
     return Vector2f(convertedX, convertedY);
 }

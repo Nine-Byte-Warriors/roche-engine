@@ -31,7 +31,8 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 
 	if (m_entityType != EntityType::Projectile)
 	{
-		m_projectileManager->InitialiseFromFile(gfx, mat, m_entityController->GetProjectileBullet(m_iEntityNum)->texture);
+		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
+		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
 	}
 	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), m_entityController->GetTexture(m_iEntityNum), mat);
 

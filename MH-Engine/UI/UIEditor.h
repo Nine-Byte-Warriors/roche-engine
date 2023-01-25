@@ -29,6 +29,7 @@ public:
 	UIEditor();
 	~UIEditor();
 
+	void SetJsonFile( const std::string& name );
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
 	void SortScreens();
@@ -39,16 +40,21 @@ public:
 	void Update( const float dt );
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
-	
+
+	inline bool GetShouldUpdate() const noexcept { return m_bRequiresUpdate; }
+	inline void SetShouldUpdate( bool update ) noexcept { m_bRequiresUpdate = update; }
+
 	inline bool ShouldShowAll() const noexcept { return m_bShouldShowAll; }
+	inline bool ShouldHideAll() const noexcept { return m_bShouldHideAll; }
+
 	inline int GetCurrentScreenIndex() const noexcept { return m_iCurrentScreenIdx; }
 	inline std::string GetCurrentScreenName() const noexcept { return m_vUIScreenData[m_iCurrentScreenIdx].name; }
 
-	inline std::vector<UIScreenData> GetScreenData() const noexcept { return m_vUIScreenData; }
-	inline std::map<std::string, std::vector<UIWidgetData>> GetWidgetData() const noexcept { return m_vUIWidgetData; }
+	inline const std::vector<UIScreenData>& GetScreenData() const noexcept { return m_vUIScreenData; }
+	inline const std::map<std::string, std::vector<UIWidgetData>>& GetWidgetData() const noexcept { return m_vUIWidgetData; }
 
-	inline std::vector<std::vector<Widget>> GetWidgets() const noexcept { return m_vUIWidgets; }
-	inline std::vector<std::shared_ptr<UIScreen>> GetScreens() const noexcept { return m_vUIScreens; }
+	inline const std::vector<std::vector<Widget>>& GetWidgets() const noexcept { return m_vUIWidgets; }
+	inline const std::vector<std::shared_ptr<UIScreen>>& GetScreens() const noexcept { return m_vUIScreens; }
 
 private:
 	std::string m_sFilePath;
@@ -56,15 +62,17 @@ private:
 	std::string m_sSelectedFile;
 	int m_iCurrentScreenIdx = -1;
 	bool m_bShouldShowAll = false;
+	bool m_bShouldHideAll = false;
+	bool m_bRequiresUpdate = true;
 
-	std::string m_sJsonFile = "Main Menu.json";
+	std::string m_sJsonFile = "Menu.json";
 	const std::vector<std::string> m_vUITypes =
 	{
 		"Button", "Colour Block",
 		"Data Slider", "Energy Bar",
 		"Image", "Input", "Page Slider"
 	};
-	
+
 	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen
 	std::vector<std::shared_ptr<UIScreen>> m_vUIScreens; // list of UI screen objects
 

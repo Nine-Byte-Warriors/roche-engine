@@ -33,10 +33,15 @@ public:
 		m_gfx = gfx;
 	}
 #endif
-	
-	inline std::string GetLevelName() { return levelName; }
-	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
+
+	inline bool GetIsCreated() const noexcept { return m_bIsCreated; }
+	inline void SetIsCreated( bool created ) noexcept { m_bIsCreated = created; }
+
+	inline void SetLevelName( std::string name ) noexcept { m_sLevelName = name; }
+	inline std::string GetLevelName() const noexcept { return m_sLevelName; }
+
 	inline UIManager* GetUIManager() const noexcept { return m_ui; }
+	inline Graphics* GetGraphics() const noexcept { return m_gfx; }
 #if _DEBUG
 	inline ImGuiManager* GetImguiManager() const noexcept { return m_imgui; }
 #endif
@@ -47,7 +52,8 @@ public:
 
 	virtual void BeginFrame() {}
 	virtual void RenderFrame() {}
-	virtual void EndFrame() {}
+	virtual void EndFrame_Start() {}
+	virtual void EndFrame_End() {}
 
 	virtual void Update( const float dt ) {}
 	virtual void CleanUp() {}
@@ -61,9 +67,10 @@ protected:
 #endif
 
 	// Next Level
-	std::string levelName;
-	UINT32 NextLevel;
-	UINT32 CurrentLevel;
+	bool m_bIsCreated = false;
+	std::string m_sLevelName;
+	int m_iCurrentLevel;
+	int m_iNextLevel;
 };
 
 #endif

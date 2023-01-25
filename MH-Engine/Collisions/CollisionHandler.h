@@ -14,6 +14,7 @@ private:
 public:
     void AddCollider(std::shared_ptr<Collider> collider);
     void AddCollider(std::vector<Collider>& colliders);
+    void RemoveAllColliders();
 
 private:
     bool BoxToBox(BoxCollider* box1, BoxCollider* box2);

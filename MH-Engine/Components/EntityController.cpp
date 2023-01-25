@@ -1,9 +1,17 @@
 #include "stdafx.h"
 #include "EntityController.h"
 
+#define FOLDER_PATH "Resources\\Entity\\"
+
 EntityController::EntityController()
 {
-	JsonLoading::LoadJson(m_entityData, JsonFile);
+	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
+}
+
+void EntityController::SetJsonFile( const std::string& name )
+{
+	JsonFile = name;
+	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
 }
 
 EntityController::~EntityController()
@@ -69,7 +77,7 @@ EntityData* EntityController::GetProjectileBullet(int num)
 {
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
-		if (m_entityData[i].name == m_entityData[num].projectileBullet)
+		if (m_entityData[i].name != m_entityData[num].projectileBullet)
 		{
 			return &m_entityData[i];
 		}

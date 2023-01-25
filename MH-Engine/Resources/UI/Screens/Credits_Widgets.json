@@ -1,18 +1,5 @@
 [
     {
-        "name": "Background",
-        "position": [
-            0.0,
-            0.0
-        ],
-        "scale": [
-            1280.0,
-            720.0
-        ],
-        "type": "Image",
-		"action": ""
-    },
-    {
         "name": "Title Card",
         "position": [
             700.0,
@@ -36,7 +23,7 @@
             64.0
         ],
         "type": "Button",
-		"action": "Link"
+		"action": "Close"
     },
     {
         "name": "Start Game",
