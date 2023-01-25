@@ -33,6 +33,97 @@ void AudioEditor::LoadFromFileSoundBankLists()
 	SortScreens();
 }
 
+void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
+{
+	std::string audioTypeString;
+
+	switch (audioType)
+	{
+	case SFX:
+		audioTypeString = "SFX";
+		break;
+	case MUSIC:
+		audioTypeString = "Music";
+		break;
+	default:
+		audioTypeString = "Unknown Type";
+		break;
+	}
+	if (ImGui::CollapsingHeader((audioTypeString + " List").c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+		for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+			if (m_vSoundFileInfo[i].audioType == audioType) {
+				if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) {
+					float defaultVolume = m_vSoundFileInfo[i].volume;
+					if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
+						m_vSoundFileInfo[i].volume = defaultVolume;
+						AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), defaultVolume);
+					}
+
+					if (ImGui::Button(std::string("Play##").append(std::to_string(i)).append("play").c_str())) {
+						AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType);
+					}
+					ImGui::SameLine();
+					if (audioType == MUSIC) { // If its MUSIC, then spawn these additional buttons
+						if (ImGui::Button(std::string("Unpause##").append(std::to_string(i)).append("unpause").c_str())) {
+							AudioEngine::GetInstance()->UnpauseMusic();
+						}
+						ImGui::SameLine();
+						if (ImGui::Button(std::string("Pause##").append(std::to_string(i)).append("pause").c_str())) {
+							AudioEngine::GetInstance()->PauseMusic();
+						}
+						ImGui::SameLine();
+						if (ImGui::Button(std::string("Stop##").append(std::to_string(i)).append("stop").c_str())) {
+							AudioEngine::GetInstance()->StopMusic();
+						}
+						ImGui::SameLine();
+					}
+					if (ImGui::Button(std::string("Delete##").append(std::to_string(i)).append("delete").c_str())) {
+						AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
+						m_vSoundFileInfo.erase(m_vSoundFileInfo.begin() + i);
+					}
+					ImGui::TreePop();
+				}
+				ImGui::NewLine();
+			}
+		}
+	}
+
+	if (ImGui::Button(("Add to " + audioTypeString + " list" + "##" + audioTypeString).c_str())) {
+		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+		{
+			bool isNew = true;
+			JSONSoundFile newSound;
+			std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
+			std::string selectedFile = StringHelper::StringToNarrow(path.extension());
+
+			//fileExtension.extension();
+
+			if (selectedFile == ".wav") {
+				std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
+				selectedFile = StringHelper::StringToNarrow(fileName.stem());
+				newSound.name = selectedFile;
+				newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
+				newSound.volume = 1.0f;
+				newSound.audioType = audioType;
+
+				for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+					if (m_vSoundFileInfo[i].name == newSound.name) {
+						isNew = false;
+					}
+				}
+
+				if (isNew) {
+					m_vSoundFileInfo.emplace_back(newSound);
+					AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+				}
+			}
+			else {
+				ErrorLogger::Log("AudioEditor::SpawnControlWindow: Invalid file format chosen to load into the Sound Bank");
+			}
+		}
+	}
+}
+
 void AudioEditor::LoadSoundFileInfoFromJSON(std::string loadFilePath)
 {
 	// Load Json File from given file path
@@ -205,138 +296,9 @@ void AudioEditor::SpawnControlWindow()
 				}
 
 				if (ImGui::CollapsingHeader("Sound Bank Edit", ImGuiTreeNodeFlags_DefaultOpen)) {
-					if (ImGui::CollapsingHeader("SFX List", ImGuiTreeNodeFlags_DefaultOpen)) {
-						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-							if (m_vSoundFileInfo[i].audioType == SFX) {
-								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { 
-									float defaultVolume = m_vSoundFileInfo[i].volume;
-									if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
-										m_vSoundFileInfo[i].volume = defaultVolume;
-										AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), SFX), defaultVolume);
-									}
 
-									if (ImGui::Button(std::string("Play##").append(std::to_string(i)).append("play").c_str())) {
-										AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), SFX);
-									}
-									ImGui::SameLine();
-
-									if (ImGui::Button(std::string("Delete##").append(std::to_string(i)).append("delete").c_str())) {
-										AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
-										m_vSoundFileInfo.erase(m_vSoundFileInfo.begin() + i);
-									}
-									ImGui::TreePop();
-								}
-								ImGui::NewLine();
-							}
-						}
-					}
-
-					if (ImGui::Button(std::string("Add SFX##Add Sound to SFX Sound Bank").c_str())) {
-						if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-						{
-							bool isNew = true;
-							JSONSoundFile newSound;
-							std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
-							std::string selectedFile = StringHelper::StringToNarrow(path.extension());
-
-							//fileExtension.extension();
-
-							if (selectedFile == ".wav") {
-								std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
-								selectedFile = StringHelper::StringToNarrow(fileName.stem());
-								newSound.name = selectedFile;
-								newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
-								newSound.volume = 1.0f;
-								newSound.audioType = SFX;
-
-								for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-									if (m_vSoundFileInfo[i].name == newSound.name) {
-										isNew = false;
-									}
-								}
-
-								if (isNew) {
-									m_vSoundFileInfo.emplace_back(newSound);
-									AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
-								}
-							}
-							else {
-								ErrorLogger::Log("AudioEditor::SpawnControlWindow: Invalid file format chosen to load into the Sound Bank");
-							}
-						}
-					}
-
-
-					if (ImGui::CollapsingHeader("Music List", ImGuiTreeNodeFlags_DefaultOpen)) {
-						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-							if (m_vSoundFileInfo[i].audioType == MUSIC) {
-								if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) { 
-									float defaultVolume = m_vSoundFileInfo[i].volume;
-									if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
-										m_vSoundFileInfo[i].volume = defaultVolume;
-										AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), MUSIC), defaultVolume);
-									}
-
-									if (ImGui::Button(std::string("Play##").append(std::to_string(i)).append("play").c_str())) {
-										AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), MUSIC);
-									}
-									ImGui::SameLine();
-									if (ImGui::Button(std::string("Unpause##").append(std::to_string(i)).append("unpause").c_str())) {
-										AudioEngine::GetInstance()->UnpauseMusic();
-									}
-									ImGui::SameLine();
-									if (ImGui::Button(std::string("Pause##").append(std::to_string(i)).append("pause").c_str())) {
-										AudioEngine::GetInstance()->PauseMusic();
-									}
-									ImGui::SameLine();
-									if (ImGui::Button(std::string("Stop##").append(std::to_string(i)).append("stop").c_str())) {
-										AudioEngine::GetInstance()->StopMusic();
-									}
-									ImGui::SameLine();
-
-									if (ImGui::Button(std::string("Delete##").append(std::to_string(i)).append("delete").c_str())) {
-										AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
-										m_vSoundFileInfo.erase(m_vSoundFileInfo.begin() + i);
-									}
-									ImGui::TreePop();
-								}
-								ImGui::NewLine();
-
-							}
-						}
-					}
-
-					if (ImGui::Button(std::string("Add Music##Add Sound to Music Sound Bank").c_str())) {
-						if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-						{
-							bool isNew = true;
-							JSONSoundFile newSound;
-							std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
-							std::string selectedFile = StringHelper::StringToNarrow(path.extension());
-
-							//fileExtension.extension();
-
-							if (selectedFile == ".wav") {
-								std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
-								selectedFile = StringHelper::StringToNarrow(fileName.stem());
-								newSound.name = selectedFile;
-								newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
-								newSound.volume = 1.0f;
-								newSound.audioType = MUSIC;
-
-								for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-									if (m_vSoundFileInfo[i].name == newSound.name) {
-										isNew = false;
-									}
-								}
-							}
-
-							if (isNew) {
-								m_vSoundFileInfo.emplace_back(newSound);
-								AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
-							}
-						}
-					}
+					SpawnSoundBankWindow(SFX);
+					SpawnSoundBankWindow(MUSIC);
 
 					ImGui::NewLine();
 
