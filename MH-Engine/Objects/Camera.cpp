@@ -9,6 +9,11 @@ Camera::Camera()
 	AddToEvent();
 }
 
+Camera::~Camera()
+{
+	RemoveFromEvent();
+}
+
 void Camera::SetProjectionValues( float width, float height, float nearZ, float farZ )
 {
 	orthoMatrix = XMMatrixOrthographicOffCenterLH( 0.0f, width, height, 0.0f, nearZ, farZ );
@@ -37,6 +42,11 @@ void Camera::UpdateMatrix()
 void Camera::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+}
+
+void Camera::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
 void Camera::HandleEvent( Event* event )

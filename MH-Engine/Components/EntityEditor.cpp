@@ -2,10 +2,12 @@
 #include "EntityEditor.h"
 #include <FileHandler.h>
 
+#define FOLDER_PATH "Resources\\Entity\\"
+
 EntityEditor::EntityEditor()
 {
-	JsonLoading::LoadJson(m_vEntityData, JsonFile);
-
+	m_vEntityData.clear();
+	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
 	m_vEntityDataCopy = m_vEntityData;
 }
 
@@ -38,6 +40,14 @@ std::vector<EntityData> EntityEditor::GetEntityData()
 #if _DEBUG
 	return m_vEntityDataCopy;
 #endif
+}
+
+void EntityEditor::SetJsonFile( const std::string& name )
+{
+	JsonFile = name;
+	m_vEntityData.clear();
+	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
+	m_vEntityDataCopy = m_vEntityData;
 }
 
 bool EntityEditor::IsPositionLocked()
@@ -79,7 +89,7 @@ void EntityEditor::LockPositon()
 void EntityEditor::EntityListBox()
 {
 #if _DEBUG
-	if (ImGui::BeginListBox("##UI Screen List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
+	if (ImGui::BeginListBox("##Entity List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
 	{
 		int index = 0;
 		for (int i = 0; i < m_vEntityData.size(); i++)
@@ -618,7 +628,7 @@ void EntityEditor::SaveEntity()
 #if _DEBUG
 	m_vEntityData = m_vEntityDataCopy;
 
-	JsonLoading::SaveJson(m_vEntityData, JsonFile);
+	JsonLoading::SaveJson(m_vEntityData, FOLDER_PATH + JsonFile);
 	m_sSavedText = "Saved";
 #endif
 }

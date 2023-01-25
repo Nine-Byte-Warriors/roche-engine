@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "Level1.h"
+#include "Level.h"
 #include "ProjectileEditor.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
 
-void Level1::OnCreate()
+void Level::OnCreate()
 {
 	try
 	{
@@ -14,17 +14,12 @@ void Level1::OnCreate()
 		HRESULT hr = m_cbMatrices.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 		COM_ERROR_IF_FAILED( hr, "Failed to create 'Matrices' constant buffer!" );
 
-        OnCreateEntity();
-
         // Initialize 2d camera
         XMFLOAT2 aspectRatio = { static_cast<float>( m_gfx->GetWidth() ), static_cast<float>( m_gfx->GetHeight() ) };
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
         m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
-
-        // Initialize TileMap
-        OnCreateTileMap();     
 
 		// Initialise Projectile Editor
         m_projectileEditor = ProjectileEditor::CreateEditor();
@@ -37,55 +32,68 @@ void Level1::OnCreate()
 	}
 }
 
-void Level1::OnCreateEntity()
+void Level::CreateEntity()
 {
+    m_entity.clear();
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
-
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-
         delete entityPop;
     }
 
+    m_collisionHandler.RemoveAllColliders();
     for (int i = 0; i < m_iEntityAmount; i++)
-    {
         m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-    }
 }
 
-void Level1::OnCreateTileMap()
+void Level::CreateUI()
+{
+    // Update user interface
+    EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
+    m_ui->RemoveAllUI();
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Credits" );
+#endif
+}
+
+void Level::CreateTileMap()
 {
     m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
     m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
-    m_tileMapLoader = new TileMapLoader(m_iTileMapRows, m_iTileMapColumns);
+    m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
 #ifdef _DEBUG
-    m_tileMapEditor = new TileMapEditor(m_iTileMapRows, m_iTileMapColumns);
-    m_tileMapLoader->SetLevel(m_tileMapEditor->GetLevel(TileMapLayer::Background), m_tileMapEditor->GetLevel(TileMapLayer::Foreground));
+    m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
+    m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
-    m_tileMapLoader->LoadLevel("Resources\\TileMaps\\blue.json", "Resources\\TileMaps\\blue.json");
-#endif  
+    m_tileMapLoader.LoadLevel("blue.json", "blue.json");
+#endif
 
-    OnCreateTileMapDraw();
+    CreateTileMapDraw();
 }
 
-void Level1::OnCreateTileMapDraw()
+void Level::CreateTileMapDraw()
 {
     int colPositionTotalTileLength = 0;
     int rowPositionTotalTileLength = 0;
     const int gapBetweenTiles = 0;
-    
+
     for (int i = 0; i < m_iTileMapLayers; i++)
     {
         std::vector<TileMapDraw>* tileMapDraw = new std::vector<TileMapDraw>;
 
         for (int j = 0; j < m_iTileMapRows * m_iTileMapColumns; j++)
         {
-            TileMapDraw* tileMapDrawPop = new TileMapDraw;
-            tileMapDraw->push_back(*tileMapDrawPop);
+            TileMapDraw tileMapDrawPop;
+            tileMapDraw->push_back(tileMapDrawPop);
             (*tileMapDraw)[j].Initialize(*m_gfx, m_cbMatrices, "NONE");
 
             if (j != 0)
@@ -104,8 +112,6 @@ void Level1::OnCreateTileMapDraw()
 
             (*tileMapDraw)[j].GetTransform()->SetPositionInit(positionWidth, positionHeight);
             (*tileMapDraw)[j].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
-
-            delete tileMapDrawPop;
         }
 
         m_tileMapDrawLayers.push_back(*tileMapDraw);
@@ -117,39 +123,38 @@ void Level1::OnCreateTileMapDraw()
     }
 }
 
-void Level1::OnSwitch()
+void Level::OnSwitch()
 {
 	// Update level system
-	CurrentLevel = 0;
-	levelName = "Level1";
-	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &CurrentLevel );
-	NextLevel = 1;
-	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &NextLevel );
-
+	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
+	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
+
+    CreateEntity();
+    CreateUI();
 }
 
-void Level1::BeginFrame()
+void Level::BeginFrame()
 {
 	// Setup pipeline state
 	m_gfx->BeginFrame();
 	m_gfx->UpdateRenderState();
 }
 
-void Level1::RenderFrame()
+void Level::RenderFrame()
 {
 	auto gfxContext = m_gfx->GetContext();
 	auto camMatrix = m_camera.GetWorldOrthoMatrix();
-    
+
     // Sprites
     RenderFrameTileMap();
-    
+
     m_projectileEditor->Draw(gfxContext, camMatrix);
-    
+
     RenderFrameEntity();
 }
 
-void Level1::RenderFrameEntity()
+void Level::RenderFrameEntity()
 {
     for (int i = 0; i < m_iEntityAmount; i++)
     {
@@ -163,7 +168,7 @@ void Level1::RenderFrameEntity()
     }
 }
 
-void Level1::RenderFrameTileMap()
+void Level::RenderFrameTileMap()
 {
     for (int i = 0; i < m_tileMapDrawLayers.size(); i++)
     {
@@ -175,7 +180,7 @@ void Level1::RenderFrameTileMap()
     }
 }
 
-void Level1::EndFrame()
+void Level::EndFrame_Start()
 {
     // Render ui
     m_ui->Draw(
@@ -189,13 +194,12 @@ void Level1::EndFrame()
 #if _DEBUG
     // Render imgui windows
     m_imgui->BeginRender();
-
     ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
     if ( ImGui::Begin( "Scene Window", FALSE ) )
     {
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 vMax = ImGui::GetWindowContentRegionMax();
-        
+
         // Update imgui mouse position for scene render window
         Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
         EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
@@ -213,25 +217,31 @@ void Level1::EndFrame()
 
     m_imgui->SpawnInstructionWindow();
     m_gfx->SpawnControlWindow();
-	
+
     Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
-    m_tileMapEditor->SpawnControlWindow();
     m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
+    m_tileMapEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_player.SpawnControlWindow();
+#endif
+}
+
+void Level::EndFrame_End()
+{
+#if _DEBUG
     m_imgui->EndRender();
 #endif
-    
+
     // Present Frame
 	m_gfx->EndFrame();
 }
 
-void Level1::Update( const float dt )
+void Level::Update( const float dt )
 {
     UpdateTileMap( dt );
     UpdateEntity( dt );
@@ -241,7 +251,7 @@ void Level1::Update( const float dt )
     m_collisionHandler.Update();
 }
 
-void Level1::UpdateEntity(const float dt)
+void Level::UpdateEntity(const float dt)
 {
 #if _DEBUG
     UpdateEntityFromEditor(dt);
@@ -253,26 +263,30 @@ void Level1::UpdateEntity(const float dt)
     }
 }
 
-void Level1::UpdateUI( const float dt )
+void Level::UpdateUI( const float dt )
 {
 #if _DEBUG
-    // Update user interface
- //   m_ui->RemoveAllUI();
- //   for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	//    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	//m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
- //   m_ui->HideAllUI();
+    if ( m_uiEditor.GetShouldUpdate() )
+    {
+        // Update user interface
+        m_ui->RemoveAllUI();
+        for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	        m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	    m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+        m_ui->HideAllUI();
 
 #if !_DEBUG
-    m_ui->ShowUI( "Pause" );
+        m_ui->ShowUI( "Pause" );
 #endif
+        m_uiEditor.SetShouldUpdate( false );
+    }
 
     m_uiEditor.Update( dt );
-    static bool firstLoad = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoad )
+    static bool firstLoadEver = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
     {
-        firstLoad = false;
         m_ui->ShowAllUI();
+        firstLoadEver = false;
     }
     else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
@@ -283,11 +297,15 @@ void Level1::UpdateUI( const float dt )
     {
         m_ui->HideAllUI();
     }
+    if ( m_uiEditor.ShouldHideAll() )
+    {
+        m_ui->HideAllUI();
+    }
 #endif
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }
 
-void Level1::UpdateEntityFromEditor(const float dt)
+void Level::UpdateEntityFromEditor(const float dt)
 {
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 
@@ -313,12 +331,12 @@ void Level1::UpdateEntityFromEditor(const float dt)
     }
 }
 
-void Level1::UpdateTileMap(const float dt)
+void Level::UpdateTileMap(const float dt)
 {
 #if _DEBUG
-    if (m_tileMapEditor->IsDrawOnceAvalible() || m_tileMapEditor->IsDrawContinuousAvalible())
+    if (m_tileMapEditor.IsDrawOnceAvalible() || m_tileMapEditor.IsDrawContinuousAvalible())
     {
-        if (m_tileMapEditor->GetTileMapLayer() != TileMapLayer::Both)
+        if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
         {
             UpdateTileMapTexture(dt);
             UpdateTileMapEmpty(dt);
@@ -328,7 +346,7 @@ void Level1::UpdateTileMap(const float dt)
             UpdateBothTileMaps(dt);
         }
 
-        m_tileMapEditor->SetDrawOnceDone();
+        m_tileMapEditor.SetDrawOnceDone();
     }
 
 #else
@@ -340,10 +358,10 @@ void Level1::UpdateTileMap(const float dt)
 #endif
 }
 
-void Level1::UpdateBothTileMaps(const float dt)
+void Level::UpdateBothTileMaps(const float dt)
 {
 #if _DEBUG
-    if (m_tileMapEditor->IsLayerSwitched())
+    if (m_tileMapEditor.IsLayerSwitched())
 #endif
     {
         for (int layer = 0; layer < m_tileMapDrawLayers.size(); layer++)
@@ -353,61 +371,62 @@ void Level1::UpdateBothTileMaps(const float dt)
                 m_tileMapDrawLayers[layer][pos].Update(dt);
 
                 std::string texture = "Resources\\Textures\\Tiles\\";
-                texture += m_tileMapLoader->GetTileTypeName(layer, pos);
+                std::string tileType = m_tileMapLoader.GetTileTypeName(layer, pos);
+                texture += tileType;
                 texture += ".png";
 
                 m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
             }
         }
 #if _DEBUG
-        m_tileMapEditor->SetLayerSwitchedDone();
+        m_tileMapEditor.SetLayerSwitchedDone();
 #endif
     }
 }
 
-void Level1::UpdateTileMapTexture(const float dt)
+void Level::UpdateTileMapTexture(const float dt)
 {
-    int layer = m_tileMapEditor->GetTileMapLayerInt();
+    int layer = m_tileMapEditor.GetTileMapLayerInt();
 
-    if (m_tileMapEditor->IsLayerSwitched() || m_tileMapEditor->IsLoadedFile())
+    if (m_tileMapEditor.IsLayerSwitched() || m_tileMapEditor.IsLoadedFile())
     {
         for (int pos = 0; pos < m_iTileMapRows * m_iTileMapColumns; pos++)
         {
             m_tileMapDrawLayers[layer][pos].Update(dt);
 
             std::string texture = "Resources\\Textures\\Tiles\\";
-            texture += m_tileMapLoader->GetTileTypeName(layer, pos);
+            texture += m_tileMapLoader.GetTileTypeName(layer, pos);
             texture += ".png";
 
             m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
         }
 
-        m_tileMapEditor->SetLoadedFileDone();
+        m_tileMapEditor.SetLoadedFileDone();
     }
     else
     {
-        std::vector<int> updatedTiles = m_tileMapEditor->GetUpdatedTileMapTiles();
+        std::vector<int> updatedTiles = m_tileMapEditor.GetUpdatedTileMapTiles();
 
         for (int pos = 0; pos < updatedTiles.size(); pos++)
         {
             m_tileMapDrawLayers[layer][updatedTiles[pos]].Update(dt);
 
             std::string texture = "Resources\\Textures\\Tiles\\";
-            texture += m_tileMapLoader->GetTileTypeName(layer, updatedTiles[pos]);
+            texture += m_tileMapLoader.GetTileTypeName(layer, updatedTiles[pos]);
             texture += ".png";
 
             m_tileMapDrawLayers[layer][updatedTiles[pos]].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
         }
 
-        m_tileMapEditor->SetClearUpdatedTileMapTiles();
+        m_tileMapEditor.SetClearUpdatedTileMapTiles();
     }
 }
 
-void Level1::UpdateTileMapEmpty(const float dt)
+void Level::UpdateTileMapEmpty(const float dt)
 {
-    if (m_tileMapEditor->IsLayerSwitched())
+    if (m_tileMapEditor.IsLayerSwitched())
     {
-        int layer = m_tileMapEditor->GetTileMapOtherLayerInt();
+        int layer = m_tileMapEditor.GetTileMapOtherLayerInt();
         for (int pos = 0; pos < m_iTileMapRows * m_iTileMapColumns; pos++)
         {
             m_tileMapDrawLayers[layer][pos].Update(dt);
@@ -417,12 +436,6 @@ void Level1::UpdateTileMapEmpty(const float dt)
             m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
         }
 
-        m_tileMapEditor->SetLayerSwitchedDone();
+        m_tileMapEditor.SetLayerSwitchedDone();
     }
-}
-
-void Level1::CleanUp()
-{
-    delete m_tileMapEditor;
-    delete m_tileMapLoader;
 }

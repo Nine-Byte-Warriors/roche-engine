@@ -7,6 +7,7 @@
 class Input : public WindowContainer
 {
 public:
+	~Input() { RemoveFromEvent(); }
 	void Initialize( RenderWindow& window );
 	void Update( const float dt );
 
@@ -17,6 +18,7 @@ public:
 private:
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
+	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
 	float* m_fPlayerHealth;
 	std::string m_sKeys;

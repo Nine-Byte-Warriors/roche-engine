@@ -4,7 +4,7 @@
 
 #include "Input.h"
 #include "Timer.h"
-#include "Level1.h"
+#include "Level.h"
 #include "Graphics.h"
 #include "UIManager.h"
 #include "WindowContainer.h"
@@ -13,6 +13,17 @@
 #if _DEBUG
 #include "ImGuiManager.h"
 #endif
+
+struct LevelData
+{
+	std::string name;
+	std::string audio;
+	std::string entity;
+	std::string tmBack;
+	std::string tmFront;
+	std::string ui;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, audio, entity, tmBack, tmFront, ui )
 
 class Application : public WindowContainer
 {
@@ -25,9 +36,22 @@ public:
 	void Render();
 private:
 	// Levels
-	uint32_t m_uLevel1_ID;
+	std::string m_sAudioFile;
+	std::string m_sEntityFile;
+	std::string m_sTileMapBackFile;
+	std::string m_sTileMapFrontFile;
+	std::string m_sUIFile;
+
+	std::string m_sFilePath;
+	std::vector<LevelData> m_vLevelData;
+	std::string m_sJsonFile = "Levels.json";
+
+	int m_iCurrLevelId = -1;
+	int m_iActiveLevelIdx = 0;
+	bool m_bFirstLoad = false;
 	LevelStateMachine m_stateMachine;
-	std::shared_ptr<Level1> m_pLevel1;
+	std::vector<uint32_t> m_uLevel_IDs;
+	std::vector<std::shared_ptr<Level>> m_pLevels;
 
 	// Objects
 #if _DEBUG
