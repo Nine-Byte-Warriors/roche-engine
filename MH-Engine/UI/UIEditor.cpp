@@ -247,6 +247,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							m_vUIScreens.push_back( std::move( screen ) );
 						}
 						LoadFromFile_Widgets();
+						m_bRequiresUpdate = true;
 					}
 				}
 				ImGui::NewLine();
