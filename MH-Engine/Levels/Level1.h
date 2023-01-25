@@ -13,6 +13,7 @@
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
+#include "TileMapLoader.h"
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
@@ -42,9 +43,13 @@ public:
   
 private:
 	// Tile Map
-	void OnCreateTileMap(std::vector<TileMapDraw>& tileMapDraw);
-	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
-	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
+	void OnCreateTileMap();
+	void OnCreateTileMapDraw();
+	void UpdateTileMap(const float dt);
+	void UpdateBothTileMaps(const float dt);
+	void UpdateTileMapTexture(const float dt);
+	void UpdateTileMapEmpty(const float dt);
+	void RenderFrameTileMap();
 
 	void OnCreateEntity();
 	void RenderFrameEntity();
@@ -71,9 +76,15 @@ private:
 
 	TextRenderer m_textRenderer;
 	TileMapEditor* m_tileMapEditor;
-	std::vector<TileMapDraw> m_tileMapDrawBackground;
-	std::vector<TileMapDraw> m_tileMapDrawForeground;
+	TileMapLoader* m_tileMapLoader;
+	std::vector<std::vector<TileMapDraw>> m_tileMapDrawLayers;
+	const int m_iTileMapLayers = 2;
+
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
+
+	const int m_iTileSize = 32;
+
+	bool m_bMapUpdate = true;
 };
 
 #endif

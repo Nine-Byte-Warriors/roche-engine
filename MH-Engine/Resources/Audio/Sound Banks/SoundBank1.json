@@ -1,35 +1,42 @@
 [
     {
+		"name": "pcm-32bit-44khz-mono",
         "audioType": 0,
         "filePath": "Resources\\Audio\\pcm-32bit-44khz-mono.wav",
         "volume": 1.0
     },
     {
+		"name": "pcm-32bit-44khz-stereo",		
         "audioType": 0,
         "filePath": "Resources\\Audio\\pcm-32bit-44khz-stereo.wav",
         "volume": 1.0
     },
     {
+		"name": "piano2",
         "audioType": 0,
         "filePath": "Resources\\Audio\\piano2.wav",
         "volume": 1.0
     },
     {
+		"name": "quietlaugh",
         "audioType": 0,
         "filePath": "Resources\\Audio\\quietlaugh.wav",
         "volume": 1.0
     },
     {
+		"name": "bullettest",
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
         "volume": 1.0
     },
     {
+		"name": "creepymusic",
         "audioType": 1,
         "filePath": "Resources\\Audio\\creepymusic.wav",
         "volume": 1.0
     },
     {
+		"name": "partymusic",
         "audioType": 1,
         "filePath": "Resources\\Audio\\partymusic.wav",
         "volume": 1.0

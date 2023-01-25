@@ -25,8 +25,9 @@ TileMapEditor::TileMapEditor(int rows, int columns)
 	m_sCurrentSelectedTileType = "Current Tile Type: ";
 	m_sCurrentSelectedTileType += m_sTileTypeData[0].name;
 
-	m_bDrawOnce = false;
+	m_bDrawOnce = true;
 	m_bDrawContinuous = false;
+	m_bLayerSwitched = true;
 
 	m_tileMapLayer = TileMapLayer::Background;
 }
@@ -58,31 +59,66 @@ void TileMapEditor::SpawnControlWindow()
 }
 #endif
 
-bool TileMapEditor::UpdateDrawOnceAvalible()
+bool TileMapEditor::IsDrawOnceAvalible()
 {
 	return m_bDrawOnce;
 }
 
-void TileMapEditor::UpdateDrawOnceDone()
+void TileMapEditor::SetDrawOnceDone()
 {
 	m_bDrawOnce = false;
 }
 
-bool TileMapEditor::UpdateDrawContinuousAvalible()
+void TileMapEditor::SetMapDrawnDone()
 {
-	return m_bDrawContinuous;
+	m_bMapUpdated = false;
 }
 
-std::string TileMapEditor::GetTileTypeName(int pos, TileMapLayer tileMapLayer)
+void TileMapEditor::SetLayerSwitchedDone()
 {
-	if (tileMapLayer == TileMapLayer::Background)
+	m_bLayerSwitched = false;
+}
+
+void TileMapEditor::SetLoadedFileDone()
+{
+	m_bLoadedFile = false;
+}
+
+std::vector<int> TileMapEditor::GetUpdatedTileMapTiles()
+{
+	return m_iUpdatedTileMapTiles;
+}
+
+void TileMapEditor::SetClearUpdatedTileMapTiles()
+{
+	m_iUpdatedTileMapTiles.clear();
+}
+
+TileMap* TileMapEditor::GetLevel(TileMapLayer layer)
+{
+	if (layer == TileMapLayer::Background)
 	{
-		return m_sTileTypeData[m_tileMapBackground->GetTileType(pos)].name;
+		return m_tileMapBackground;
 	}
-	else if (tileMapLayer == TileMapLayer::Foreground)
+	else if (layer == TileMapLayer::Foreground)
 	{
-		return m_sTileTypeData[m_tileMapForeground->GetTileType(pos)].name;
+		return m_tileMapForeground;
 	}
+}
+
+bool TileMapEditor::IsDrawContinuousAvalible()
+{
+	return m_bDrawContinuous && m_bMapUpdated;	
+}
+
+bool TileMapEditor::IsLayerSwitched()
+{
+	return m_bLayerSwitched;
+}
+
+bool TileMapEditor::IsLoadedFile()
+{
+	return m_bLoadedFile;
 }
 
 void TileMapEditor::DrawButton()
@@ -111,7 +147,11 @@ void TileMapEditor::Load()
 		{
 			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 			{
-				if (!LoadProcessFile())
+				if (LoadProcessFile())
+				{
+					m_bLoadedFile = true;
+				}
+				else
 				{
 					m_sSelectedFile = "Load Process Failed";
 				}
@@ -354,6 +394,8 @@ void TileMapEditor::UpdateSingleTileMapGridPreview()
 		{
 			if (m_bTileMapPreviewImageButton[i])
 			{
+				m_bMapUpdated = true;
+				m_iUpdatedTileMapTiles.push_back(i);
 				for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 				{
 					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
@@ -440,6 +482,8 @@ void TileMapEditor::SelectTileMapLayer()
 		{
 			m_tileMapLayer = TileMapLayer::Both;
 		}
+		m_bMapUpdated = true;
+		m_bLayerSwitched = true;
 	}
 #endif
 }
@@ -447,4 +491,30 @@ void TileMapEditor::SelectTileMapLayer()
 TileMapLayer TileMapEditor::GetTileMapLayer()
 {
 	return m_tileMapLayer;
+}
+
+int TileMapEditor::GetTileMapLayerInt()
+{
+	if (m_tileMapLayer == TileMapLayer::Background)
+	{
+		return 0;
+	}
+	else if (m_tileMapLayer == TileMapLayer::Foreground)
+	{
+		return 1;
+	}
+	return 2;
+}
+
+int TileMapEditor::GetTileMapOtherLayerInt()
+{
+	if (m_tileMapLayer == TileMapLayer::Background)
+	{
+		return 1;
+	}
+	else if (m_tileMapLayer == TileMapLayer::Foreground)
+	{
+		return 0;
+	}
+	return 2;
 }

@@ -41,11 +41,12 @@ struct SoundBankFile
 };
 
 struct JSONSoundFile {
+	std::string name;
 	std::string filePath;
 	float volume;
 	int audioType;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, filePath, volume, audioType);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, name, filePath, volume, audioType);
 
 enum AudioType
 {
@@ -76,6 +77,7 @@ public:
 	HRESULT PauseMusic(); // Pauses ALL music
 	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
 	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType); // Unloading audio from sound bank list
+	void StopAllAudio();
 
 	//// Loading Audio stuff
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
