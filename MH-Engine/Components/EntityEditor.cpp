@@ -299,7 +299,7 @@ void EntityEditor::SetTexture()
 	m_sSelectedFileTex = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
-		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFile);
+		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFileTex);
 		
 		foLoad = FileHandler::FileDialog(foLoad)
 			->UseOpenDialog()
@@ -309,8 +309,8 @@ void EntityEditor::SetTexture()
 		if (foLoad->HasPath())
 		{
 			std::string sFullPath = foLoad->GetFullPath();
-			m_sSelectedFile = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
-			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
+			m_sSelectedFileTex = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
+			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFileTex;
 
 			m_bValidTex = true;
 		}
