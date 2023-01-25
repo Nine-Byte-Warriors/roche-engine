@@ -31,9 +31,15 @@ public:
 			if (!HasPath()) return "";
 
 			std::string sFullPath(m_sPath);
-			if (!m_sFile.empty()) sFullPath.append("\\" + m_sFile);
-			if (!m_sExt.empty()) sFullPath.append("." + m_sExt);
-			return sFullPath;
+			return sFullPath.append("\\" + GetFilePath());
+		}
+
+		std::string GetFilePath()
+		{
+			std::string sFilePath("");
+			if (!m_sFile.empty()) sFilePath.append(m_sFile);
+			if (!m_sExt.empty()) sFilePath.append("." + m_sExt);
+			return sFilePath;
 		}
 
 		std::string GetJsonPath()

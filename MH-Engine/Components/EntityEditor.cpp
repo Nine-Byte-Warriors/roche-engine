@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EntityEditor.h"
+#include <FileHandler.h>
 
 EntityEditor::EntityEditor()
 {
@@ -253,12 +254,27 @@ void EntityEditor::SetTexture()
 	m_sSelectedFile = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
-		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFile);
+		
+		foLoad = FileHandler::FileDialog(foLoad)
+			->UseOpenDialog()
+			->ShowDialog()
+			->StoreDialogResult();
+		
+		if (foLoad->HasPath())
 		{
-			m_sSelectedFile = m_sFilePath.substr(m_sFilePath.find("Resources\\Textures\\"));
+			std::string sFullPath = foLoad->GetFullPath();
+			m_sSelectedFile = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
 			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
 			m_bValidTex = true;
 		}
+		
+		//if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+		//{
+		//	m_sSelectedFile = m_sFilePath.substr(m_sFilePath.find("Resources\\Textures\\"));
+		//	m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
+		//	m_bValidTex = true;
+		//}
 		else
 		{
 			m_sSelectedFile = "Open File Failed";
