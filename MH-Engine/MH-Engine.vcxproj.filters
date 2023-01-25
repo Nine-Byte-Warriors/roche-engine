@@ -78,7 +78,7 @@
     <ClCompile Include="Levels\LevelStateMachine.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="Levels\Level1.cpp">
+    <ClCompile Include="Levels\Level.cpp">
       <Filter>Source Files\Levels</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Quad.cpp">
@@ -239,6 +239,9 @@
     <ClCompile Include="TileMap\TileMapLoader.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Helper\FileHandler.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -343,7 +346,7 @@
     <ClInclude Include="Levels\LevelStateMachine.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="Levels\Level1.h">
+    <ClInclude Include="Levels\Level.h">
       <Filter>Header Files\Levels</Filter>
     </ClInclude>
     <ClInclude Include="Levels\LevelContainer.h">
@@ -554,6 +557,12 @@
       <Filter>Header Files\Collisions</Filter>
     <ClInclude Include="TileMap\TileMapLoader.h">
       <Filter>Header Files\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Helper\FileHandler.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Rendering\ProjectileData.h">
+      <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

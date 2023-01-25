@@ -23,7 +23,7 @@ void Input::UpdateMouse( const float dt )
     // update camera orientation
     while ( !m_mouse.EventBufferIsEmpty() )
     {
-        Mouse::MouseEvent me = m_mouse.ReadEvent();        
+        Mouse::MouseEvent me = m_mouse.ReadEvent();
         if ( m_mouse.IsRightDown() || !m_bCursorEnabled )
         {
             if ( me.GetType() == Mouse::MouseEvent::EventType::RawMove )
@@ -100,6 +100,13 @@ void Input::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::ShowCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
+}
+
+void Input::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::ShowCursorEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::HideCursorEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::ClearCharBuffer, this );
 }
 
 void Input::HandleEvent( Event* event )

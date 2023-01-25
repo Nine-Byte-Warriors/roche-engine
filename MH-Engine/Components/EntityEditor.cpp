@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "EntityEditor.h"
+#include <FileHandler.h>
+
+#define FOLDER_PATH "Resources\\Entity\\"
 
 EntityEditor::EntityEditor()
 {
-	JsonLoading::LoadJson(m_vEntityData, JsonFile);
-
+	m_vEntityData.clear();
+	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
 	m_vEntityDataCopy = m_vEntityData;
 }
 
@@ -37,6 +40,14 @@ std::vector<EntityData> EntityEditor::GetEntityData()
 #if _DEBUG
 	return m_vEntityDataCopy;
 #endif
+}
+
+void EntityEditor::SetJsonFile( const std::string& name )
+{
+	JsonFile = name;
+	m_vEntityData.clear();
+	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
+	m_vEntityDataCopy = m_vEntityData;
 }
 
 bool EntityEditor::IsPositionLocked()
@@ -78,7 +89,7 @@ void EntityEditor::LockPositon()
 void EntityEditor::EntityListBox()
 {
 #if _DEBUG
-	if (ImGui::BeginListBox("##UI Screen List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
+	if (ImGui::BeginListBox("##Entity List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
 	{
 		int index = 0;
 		for (int i = 0; i < m_vEntityData.size(); i++)
@@ -298,9 +309,17 @@ void EntityEditor::SetTexture()
 	m_sSelectedFileTex = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
-		if (FileLoading::OpenFileExplorer(m_sSelectedFileTex, m_sFilePathTex))
+		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFileTex);
+		
+		foLoad = FileHandler::FileDialog(foLoad)
+			->UseOpenDialog()
+			->ShowDialog()
+			->StoreDialogResult();
+		
+		if (foLoad->HasPath())
 		{
-			m_sSelectedFileTex = m_sFilePathTex.substr(m_sFilePathTex.find("Resources\\Textures\\"));
+			std::string sFullPath = foLoad->GetFullPath();
+			m_sSelectedFileTex = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
 			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFileTex;
 			m_bValidTex = true;
 		}
@@ -609,7 +628,7 @@ void EntityEditor::SaveEntity()
 #if _DEBUG
 	m_vEntityData = m_vEntityDataCopy;
 
-	JsonLoading::SaveJson(m_vEntityData, JsonFile);
+	JsonLoading::SaveJson(m_vEntityData, FOLDER_PATH + JsonFile);
 	m_sSavedText = "Saved";
 #endif
 }

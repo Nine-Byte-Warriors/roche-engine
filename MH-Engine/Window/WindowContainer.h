@@ -12,6 +12,7 @@ class WindowContainer : public Listener
 {
 public:
 	WindowContainer();
+	~WindowContainer();
 	LRESULT CALLBACK WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 	void EnableCursor() noexcept;
@@ -19,6 +20,7 @@ public:
 	inline bool IsCursorEnabled() const noexcept { return m_bCursorEnabled; }
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 protected:

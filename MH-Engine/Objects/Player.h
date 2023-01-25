@@ -13,6 +13,7 @@ class Player : public Listener
 {
 public:
 	Player();
+	~Player();
 	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
 #if _DEBUG
@@ -20,6 +21,7 @@ public:
 #endif
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }

@@ -2,13 +2,19 @@
 #include "TileMapEditor.h"
 #include "FileLoading.h"
 
-TileMapEditor::TileMapEditor(int rows, int columns)
+#define FOLDER_PATH "Resources\\TileMaps\\"
+
+TileMapEditor::TileMapEditor() { }
+
+TileMapEditor::~TileMapEditor() { }
+
+void TileMapEditor::Initialize(int rows, int columns)
 {
 	m_iRows = rows;
 	m_iColumns = columns;
 
-	m_tileMapBackground = new TileMap(m_iRows, m_iColumns);
-	m_tileMapForeground = new TileMap(m_iRows, m_iColumns);
+	m_tileMapBackground = std::make_shared<TileMap>(m_iRows, m_iColumns);
+	m_tileMapForeground = std::make_shared<TileMap>(m_iRows, m_iColumns);
 
 	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();
 	m_iSizeOfTileTypeData = m_sTileTypeData.size();
@@ -32,10 +38,10 @@ TileMapEditor::TileMapEditor(int rows, int columns)
 	m_tileMapLayer = TileMapLayer::Background;
 }
 
-TileMapEditor::~TileMapEditor()
+void TileMapEditor::SetJsonFile( const std::string& name )
 {
-	delete m_tileMapBackground;
-	delete m_tileMapForeground;
+	m_sFilePath = name;
+	LoadProcessFile();
 }
 
 #if _DEBUG
@@ -54,7 +60,6 @@ void TileMapEditor::SpawnControlWindow()
 		TileMapSelectedText();
 		TileMapGridPreview();
 	}
-
 	ImGui::End();
 }
 #endif
@@ -94,7 +99,7 @@ void TileMapEditor::SetClearUpdatedTileMapTiles()
 	m_iUpdatedTileMapTiles.clear();
 }
 
-TileMap* TileMapEditor::GetLevel(TileMapLayer layer)
+std::shared_ptr<TileMap> TileMapEditor::GetLevel(TileMapLayer layer)
 {
 	if (layer == TileMapLayer::Background)
 	{
@@ -108,7 +113,7 @@ TileMap* TileMapEditor::GetLevel(TileMapLayer layer)
 
 bool TileMapEditor::IsDrawContinuousAvalible()
 {
-	return m_bDrawContinuous && m_bMapUpdated;	
+	return m_bDrawContinuous && m_bMapUpdated;
 }
 
 bool TileMapEditor::IsLayerSwitched()
@@ -158,6 +163,7 @@ void TileMapEditor::Load()
 			}
 			else
 			{
+				m_sFilePath = m_sSelectedFile;
 				m_sSelectedFile = "Open File Failed";
 			}
 		}
@@ -171,7 +177,7 @@ void TileMapEditor::Load()
 bool TileMapEditor::LoadProcessFile()
 {
 	std::vector<std::string> tileTypeName;
-	JsonLoading::LoadJson(tileTypeName, m_sFilePath);
+	JsonLoading::LoadJson(tileTypeName, FOLDER_PATH + m_sFilePath);
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
@@ -213,6 +219,7 @@ void TileMapEditor::SaveToExistingFile()
 				}
 				else
 				{
+					m_sFilePath = m_sSelectedFile;
 					m_sSelectedFile = "Save Write Failed";
 				}
 			}
@@ -231,10 +238,9 @@ void TileMapEditor::SaveToExistingFile()
 
 void TileMapEditor::SaveToNewFile()
 {
-	static char saveFileName[128] = "";
 #if _DEBUG
 	m_bSaveNewButton = ImGui::Button("Save To New File");
-	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", saveFileName, IM_ARRAYSIZE(saveFileName));
+	ImGui::InputTextWithHint("##TileMapSaveFile", "New Save File Name", m_cSaveFileName, IM_ARRAYSIZE(m_cSaveFileName));
 #endif
 
 	if (m_bSaveNewButton)
@@ -244,10 +250,10 @@ void TileMapEditor::SaveToNewFile()
 			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 			{
 				const size_t slash = m_sFilePath.find_last_of("/\\");
-				m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + saveFileName + ".json";
+				m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + m_cSaveFileName + ".json";
 				if (SaveWriteFile())
 				{
-					m_sSelectedFile = saveFileName;
+					m_sSelectedFile = m_cSaveFileName;
 					m_sSelectedFile += ".json";
 					m_sSelectedFile += " Save Successful";
 				}
@@ -364,12 +370,10 @@ void TileMapEditor::TileMapGridPreview()
 {
 #if _DEBUG
 	ImGui::NewLine();
-
-	static bool firstTime = true;
-	if (firstTime)
+	if (!m_bInitTileGrid)
 	{
 		TileMapGridInit();
-		firstTime = false;
+		m_bInitTileGrid = true;
 	}
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
@@ -452,28 +456,26 @@ void TileMapEditor::SelectTileMapLayer()
 #if _DEBUG
 	ImGui::NewLine();
 	ImGui::Text("Select Tile Map Layer");
-	static int tileMapLayer = 0;
-	static std::string previewMapLayer = "Background";
-	static const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked" };
-	if (ImGui::BeginCombo("##SelectTileMapLayer", previewMapLayer.c_str()))
+	const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked" };
+	if (ImGui::BeginCombo("##SelectTileMapLayer", m_sPreviewMapLayer.c_str()))
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(tileMapLayers); i++)
 		{
-			const bool isSelected = i == tileMapLayer;
+			const bool isSelected = i == m_iTileMapLayer;
 			if (ImGui::Selectable(tileMapLayers[i], isSelected))
 			{
-				tileMapLayer = i;
-				previewMapLayer = tileMapLayers[i];
+				m_iTileMapLayer = i;
+				m_sPreviewMapLayer = tileMapLayers[i];
 			}
 		}
 		ImGui::EndCombo();
 
-		if (tileMapLayer == 0)
+		if (m_iTileMapLayer == 0)
 		{
 			m_tileMapLayer = TileMapLayer::Background;
 			UpdateWholeTileMapGridPreview();
 		}
-		else if (tileMapLayer == 1)
+		else if (m_iTileMapLayer == 1)
 		{
 			m_tileMapLayer = TileMapLayer::Foreground;
 			UpdateWholeTileMapGridPreview();

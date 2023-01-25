@@ -25,6 +25,8 @@ public:
         bool pD, bool pP, bool pE, bool pPj,
         bool eD, bool eP, bool eE, bool ePj,
         bool pjD, bool pjP, bool pjE, bool pjPj);
+    void AddCollider(std::vector<Collider>& colliders);
+    void RemoveAllColliders();
 
 private:
     bool BoxToBox(BoxCollider* box1, BoxCollider* box2);

@@ -18,9 +18,10 @@
 class Graphics : public Listener
 {
 public:
+	~Graphics() { RemoveFromEvent(); }
 	bool Initialize( HWND hWnd, UINT width, UINT height );
 	void UpdateRenderState();
-	
+
 	void RenderSceneToTexture();
 #if _DEBUG
 	void SpawnControlWindow();
@@ -31,10 +32,10 @@ public:
 
 	inline UINT GetWidth() const noexcept { return m_viewWidth; }
 	inline UINT GetHeight() const noexcept { return m_viewHeight; }
-	
+
 	inline ID3D11Device* GetDevice() const noexcept { return m_pDevice.Get(); }
 	inline ID3D11DeviceContext* GetContext() const noexcept { return m_pContext.Get(); }
-	
+
 	inline PixelShader GetShaderPix() const noexcept { return m_pixelShader2D; }
 	inline VertexShader GetShaderVtx() const noexcept { return m_vertexShader2D; }
 
@@ -43,6 +44,7 @@ public:
 	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 private:
@@ -55,7 +57,7 @@ private:
 	UINT m_viewWidth;
 	UINT m_viewHeight;
 	float m_clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	
+
 	ConstantBuffer<RenderToTexture> m_cbPostProcessing;
 	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 

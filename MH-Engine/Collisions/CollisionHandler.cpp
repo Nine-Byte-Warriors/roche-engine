@@ -31,6 +31,12 @@ void CollisionHandler::SetMatrix(bool dD, bool dP, bool dE, bool dPj,
 }
 
 //bool CollisionHandler::BoxToBox(BoxCollider* box1, BoxCollider *box2)
+void CollisionHandler::RemoveAllColliders()
+{
+    m_colliders.clear();
+}
+
+//int Clamp(int min, int max, int value)
 //{
 //    float box1HalfWidth = (box1->GetWidth() / 2);
 //    float box1HalfHeight = (box1->GetHeight() / 2);
@@ -40,7 +46,7 @@ void CollisionHandler::SetMatrix(bool dD, bool dP, bool dE, bool dPj,
 //
 //    Vector2f box1Min(box1->GetTransform()->GetPosition().x - box1HalfWidth, box1->GetTransform()->GetPosition().y - box1HalfHeight);
 //    Vector2f box1Max(box1->GetTransform()->GetPosition().x + box1HalfWidth, box1->GetTransform()->GetPosition().y + box1HalfHeight);
-//                                                           
+//
 //    Vector2f box2Min(box2->GetTransform()->GetPosition().x - box1HalfWidth, box2->GetTransform()->GetPosition().y - box2HalfHeight);
 //    Vector2f box2Max(box2->GetTransform()->GetPosition().x + box1HalfWidth, box2->GetTransform()->GetPosition().y + box2HalfHeight);
 //
@@ -293,4 +299,3 @@ void CollisionHandler::Update()
         col->Update();
     }
 }
-

@@ -1,23 +1,23 @@
 #include "stdafx.h"
 #include "TileMapLoader.h"
 
-TileMapLoader::TileMapLoader(int rows, int columns)
+#define FOLDER_PATH "Resources\\TileMaps\\"
+
+TileMapLoader::TileMapLoader() { }
+
+TileMapLoader::~TileMapLoader() { }
+
+void TileMapLoader::Initialize(int rows, int columns)
 {
 	m_iRows = rows;
 	m_iColumns = columns;
 
-	m_tileMapBackground = new TileMap(m_iRows, m_iColumns);
-	m_tileMapForeground = new TileMap(m_iRows, m_iColumns);
+	m_tileMapBackground = std::make_shared<TileMap>(m_iRows, m_iColumns);
+	m_tileMapForeground = std::make_shared<TileMap>(m_iRows, m_iColumns);
 }
 
-TileMapLoader::~TileMapLoader()
+void TileMapLoader::SetLevel(std::shared_ptr<TileMap> background, std::shared_ptr<TileMap> foreground)
 {
-	delete m_tileMapBackground;
-	delete m_tileMapForeground;
-}
-
-void TileMapLoader::SetLevel(TileMap *background, TileMap *foreground)
-{ 
 	m_tileMapBackground = background;
 	m_tileMapForeground = foreground;
 	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();
@@ -26,7 +26,7 @@ void TileMapLoader::SetLevel(TileMap *background, TileMap *foreground)
 void TileMapLoader::LoadLevel(std::string filePathBackground, std::string filePathForeground)
 {
 	std::vector<std::string> tileTypeName;
-	JsonLoading::LoadJson(tileTypeName, filePathBackground);
+	JsonLoading::LoadJson(tileTypeName, FOLDER_PATH + filePathBackground);
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
@@ -34,7 +34,7 @@ void TileMapLoader::LoadLevel(std::string filePathBackground, std::string filePa
 	}
 
 	tileTypeName.clear();
-	JsonLoading::LoadJson(tileTypeName, filePathForeground);
+	JsonLoading::LoadJson(tileTypeName, FOLDER_PATH + filePathForeground);
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{

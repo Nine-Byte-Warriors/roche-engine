@@ -12,6 +12,9 @@
 class TextRenderer
 {
 public:
+	TextRenderer() {}
+	~TextRenderer() {}
+
 	void Initialize( const std::string& font, ID3D11Device* device, ID3D11DeviceContext* context );
 	void RenderString( const std::string& text, XMFLOAT2 position, XMVECTORF32 color, bool outline );
 	void UpdateViewport( D3D11_VIEWPORT& viewport );

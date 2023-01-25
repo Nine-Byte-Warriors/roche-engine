@@ -18,7 +18,7 @@ bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )
 
 	if ( !InitializeRTT() )
 		return false;
-	
+
 	return true;
 }
 
@@ -32,7 +32,7 @@ void Graphics::InitializeDirectX( HWND hWnd, bool resizingWindow )
 	m_pRenderTargetPP = std::make_shared<Bind::RenderTarget>( m_pDevice.Get(), m_viewWidth, m_viewHeight );
     m_pDepthStencil = std::make_shared<Bind::DepthStencil>( m_pDevice.Get(), m_viewWidth, m_viewHeight );
 	m_pViewport = std::make_shared<Bind::Viewport>( m_pContext.Get(), m_viewWidth, m_viewHeight );
-    
+
     m_pRasterizerStates.emplace( Bind::Rasterizer::Type::SOLID, std::make_shared<Bind::Rasterizer>( m_pDevice.Get(), Bind::Rasterizer::Type::SOLID ) );
     m_pRasterizerStates.emplace( Bind::Rasterizer::Type::WIREFRAME, std::make_shared<Bind::Rasterizer>( m_pDevice.Get(), Bind::Rasterizer::Type::WIREFRAME ) );
 
@@ -132,7 +132,7 @@ void Graphics::RenderSceneToTexture()
 	// 2. Render fullscreen texture to new render target
 	Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
 	m_quad.SetupBuffers( m_pContext.Get() );
-	
+
 	m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
 	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
 
@@ -145,7 +145,7 @@ void Graphics::RenderSceneToTexture()
 	// 4. Render only the scene to the back buffer
 	Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
 	m_quad.SetupBuffers( m_pContext.Get() );
-	
+
 	m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
 	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
 
@@ -184,6 +184,12 @@ void Graphics::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::UpdateSettingsEvent, this );
 }
 
+void Graphics::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSettingsEvent, this );
+}
+
 void Graphics::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
@@ -194,7 +200,7 @@ void Graphics::HandleEvent( Event* event )
 		m_viewWidth = sizeOfScreen.x;
 		m_viewHeight = sizeOfScreen.y;
 
-		// Window size: changing buffers size 
+		// Window size: changing buffers size
 		m_pContext->OMSetRenderTargets( 0u, nullptr, nullptr );
 
 		// Clear all buffers

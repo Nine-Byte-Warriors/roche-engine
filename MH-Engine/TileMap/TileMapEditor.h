@@ -16,8 +16,11 @@
 class TileMapEditor
 {
 public:
-	TileMapEditor(int rows, int columns);
+	TileMapEditor();
 	~TileMapEditor();
+
+	void Initialize(int rows, int columns);
+	void SetJsonFile( const std::string& name );
 
 #if _DEBUG
 	void SpawnControlWindow();
@@ -36,7 +39,7 @@ public:
 	std::vector<int> GetUpdatedTileMapTiles();
 	void SetClearUpdatedTileMapTiles();
 
-	TileMap* GetLevel(TileMapLayer layer);
+	std::shared_ptr<TileMap> GetLevel(TileMapLayer layer);
 
 	TileMapLayer GetTileMapLayer();
 	int GetTileMapLayerInt();
@@ -59,8 +62,13 @@ private:
 
 	void SelectTileMapLayer();
 
-	TileMap* m_tileMapBackground;
-	TileMap* m_tileMapForeground;
+	std::shared_ptr<TileMap> m_tileMapBackground;
+	std::shared_ptr<TileMap> m_tileMapForeground;
+
+	int m_iTileMapLayer = 0;
+	char m_cSaveFileName[128] = "";
+	bool m_bInitTileGrid = false;
+	std::string m_sPreviewMapLayer = "Background";
 
 	int m_iCurrentSelectedTileType;
 	std::string m_sCurrentSelectedTileType;
