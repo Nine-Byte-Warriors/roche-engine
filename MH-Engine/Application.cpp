@@ -5,6 +5,8 @@
 #include <imgui/imgui.h>
 #endif
 
+#define FOLDER_PATH "Resources\\"
+
 bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 {
     try
@@ -27,8 +29,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #endif
 
         // Load level data
-		std::string folderPath = "Resources/";
-        JsonLoading::LoadJson( m_vLevelData, folderPath + m_sJsonFile );
+        JsonLoading::LoadJson( m_vLevelData, FOLDER_PATH + m_sJsonFile );
 
         // Sort levels by name for ImGui
 	    std::vector<std::string> levelNames;
@@ -129,6 +130,26 @@ void Application::Render()
     static bool shouldSwitchLevel = false;
     if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
     {
+        static Timer timer;
+        static float counter = 0.0f;
+        static bool savedFile = false;
+        if ( ImGui::Button( "Save Levels?" ) )
+        {
+            JsonLoading::SaveJson( m_vLevelData, FOLDER_PATH + m_sJsonFile );
+            savedFile = true;
+        }
+        if ( savedFile )
+		{
+			ImGui::TextColored( ImVec4( 0.1f, 1.0f, 0.1f, 1.0f ), "FILE SAVED!" );
+			counter += timer.GetDeltaTime();
+			if ( counter > 3.0f )
+			{
+				counter = 0.0f;
+				savedFile = false;
+			}
+		}
+        ImGui::NewLine();
+
         ImGui::Text( "Level List" );
 		if ( ImGui::BeginListBox( "##Level List", ImVec2( -FLT_MIN, m_pLevels.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f ) ) )
 		{
