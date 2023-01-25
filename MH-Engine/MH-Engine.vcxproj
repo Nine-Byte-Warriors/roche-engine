@@ -299,7 +299,7 @@
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
-    <ClCompile Include="Levels\Level1.cpp" />
+    <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Enemy.cpp" />
@@ -309,6 +309,7 @@
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
+    <ClCompile Include="TileMap\TileMapLoader.cpp" />
     <ClCompile Include="UI\UIEditor.cpp" />
     <ClCompile Include="UI\UIScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -375,6 +376,7 @@
       </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Utility\Errors\ErrorLogger.cpp" />
+    <ClCompile Include="Utility\Helper\FileHandler.cpp" />
     <ClCompile Include="Utility\Helper\FileLoading.cpp" />
     <ClCompile Include="Utility\Helper\StringHelper.cpp" />
     <ClCompile Include="Utility\Helper\TextRenderer.cpp" />
@@ -445,7 +447,7 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
-    <ClInclude Include="Levels\Level1.h" />
+    <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />
     <ClInclude Include="Objects\Camera.h" />
@@ -453,6 +455,8 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
+    <ClInclude Include="TileMap\TileMapLoader.h" />
+    <ClInclude Include="Utility\Helper\FileHandler.h" />
     <ClInclude Include="Utility\Helper\RND.h" />
     <ClInclude Include="Resources\Resource.h" />
     <ClInclude Include="TileMap\TileMap.h" />
@@ -530,6 +534,7 @@
     <ClInclude Include="Utility\Helper\Vector2f.h" />
     <ClInclude Include="Utility\Rendering\Colour.h" />
     <ClInclude Include="Utility\Rendering\DDSTextureLoader.h" />
+    <ClInclude Include="Utility\Rendering\ProjectileData.h" />
     <ClInclude Include="Utility\Rendering\Shader_Data.h" />
     <ClInclude Include="Utility\Rendering\Texture.h" />
     <ClInclude Include="Utility\stdafx.h" />

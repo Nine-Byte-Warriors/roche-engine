@@ -22,6 +22,7 @@ class Entity : public Listener
 {
 public:
 	Entity(EntityController& entityController, int EntityNum);
+	~Entity();
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
@@ -85,6 +86,7 @@ private:
 	int m_iBulletMaxFrameY;
 	float m_fBulletMass;
 	float m_fBulletSpeed;
+	std::string m_sBulletPattern;
 
 	float m_fMass;
 	float m_fSpeed;

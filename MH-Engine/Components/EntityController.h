@@ -30,7 +30,8 @@ class EntityController
 public:
 	EntityController();
 	~EntityController();
-
+	
+	void SetJsonFile( const std::string& name );
 	int GetSize();
 
 	std::string GetType(int num);
@@ -52,7 +53,7 @@ public:
 	void SetEntityData(std::vector<EntityData> entityData);
 
 private:
-	std::string JsonFile = "Resources\\Entity\\Entity.json";
+	std::string JsonFile = "Entity.json";
 
 	std::vector<EntityData> m_entityData;
 };

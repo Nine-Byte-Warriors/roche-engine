@@ -21,6 +21,7 @@ public:
 	void SpawnInstructionWindow() const noexcept;
 
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
 	bool IsPressedInsideSceneWindow(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);

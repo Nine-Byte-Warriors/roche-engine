@@ -1,5 +1,6 @@
 [
     {
+        "action": "Boss Health",
         "name": "Boss Health",
         "position": [
             400.0,
@@ -9,10 +10,10 @@
             500.0,
             100.0
         ],
-        "type": "Energy Bar",
-		"action": "Boss Health"
+        "type": "Energy Bar"
     },
     {
+        "action": "",
         "name": "Boss Icon",
         "position": [
             250.0,
@@ -22,7 +23,6 @@
             100.0,
             100.0
         ],
-        "type": "Image",
-		"action": ""
+        "type": "Image"
     }
 ]

@@ -10,14 +10,14 @@ using namespace AILogic;
 Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 {
 	m_fSpeed = 5.0f;
-	
+
 	m_pStateMachine = new AIStateMachine(this);
-	
+
 	AIState* pSeekState = m_pStateMachine->NewState(AIStateTypes::Seek);
 	pSeekState->SetBounds(1.0f, 0.0f);
 	pSeekState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Seek, pSeekState);
-	
+
 	AIState* pIdleState = m_pStateMachine->NewState(AIStateTypes::Idle);
 	pIdleState->SetActivation(1.0f);
 	m_mapStates.emplace(AIStateTypes::Idle, pIdleState);
@@ -26,13 +26,13 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pFleeState->SetBounds(1.0f, 0.0f);
 	pFleeState->SetActivation(0.0f);
 	m_mapStates.emplace(AIStateTypes::Flee, pFleeState);
-	
+
 	PatrolParams* patrolParams = new PatrolParams();
 	patrolParams->fDistanceToWaypoint = 200.0f;
 	patrolParams->fSensingRange = 10.0f;
 	patrolParams->iWaypointCount = 6;
 	patrolParams->ePatrolType = PatrolType::Loop;
-	
+
 	AIState* pPatrolState = m_pStateMachine->NewState(AIStateTypes::Patrol);
 	pPatrolState->SetBounds(1.0f, 0.0f);
 	pPatrolState->SetActivation(0.0f);
@@ -59,7 +59,7 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pWanderState->SetActivation(0.0f);
 	pWanderState->SetParams(pWanderParams);
 	m_mapStates.emplace(AIStateTypes::Wander, pWanderState);
-	
+
 	AddToEvent();
 }
 
@@ -98,7 +98,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
-				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
@@ -106,7 +106,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
-				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f); 
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
 				break;
@@ -152,7 +152,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 		ImGui::Text("Speed");
 		ImGui::SliderFloat("##EnemySpeed", speed, 1.0f, 10.0f, "%.1f");
 		m_fSpeed = *speed;
-        
+
 		ImGui::NewLine();
 		ImGui::Separator();
 		ImGui::NewLine();
@@ -160,7 +160,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
         ImGui::Text("Enemy");
         ImGui::Text(std::string("X: ").append(std::to_string(fGO.x)).c_str());
         ImGui::Text(std::string("Y: ").append(std::to_string(fGO.y)).c_str());
-		
+
 		ImGui::NewLine();
 		float fDistance = fGO.Distance(fTarg);
 		ImGui::Text(std::string("Distance: ").append(std::to_string(fDistance)).c_str());
@@ -228,6 +228,12 @@ void Agent::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::MousePosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
+}
+
+void Agent::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient(EVENTID::MousePosition, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerPosition, this);
 }
 
 void Agent::HandleEvent(Event* event)

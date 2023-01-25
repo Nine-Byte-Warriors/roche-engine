@@ -16,19 +16,34 @@
 class TileMapEditor
 {
 public:
-	TileMapEditor(int rows, int columns);
+	TileMapEditor();
 	~TileMapEditor();
+
+	void Initialize(int rows, int columns);
+	void SetJsonFile( const std::string& name );
 
 #if _DEBUG
 	void SpawnControlWindow();
 #endif
 
-	bool UpdateDrawOnceAvalible();
-	bool UpdateDrawContinuousAvalible();
-	void UpdateDrawOnceDone();
+	bool IsDrawOnceAvalible();
+	bool IsDrawContinuousAvalible();
+	bool IsLayerSwitched();
+	bool IsLoadedFile();
 
-	std::string GetTileTypeName(int pos, TileMapLayer tileMapLayer);
+	void SetDrawOnceDone();
+	void SetMapDrawnDone();
+	void SetLayerSwitchedDone();
+	void SetLoadedFileDone();
+
+	std::vector<int> GetUpdatedTileMapTiles();
+	void SetClearUpdatedTileMapTiles();
+
+	std::shared_ptr<TileMap> GetLevel(TileMapLayer layer);
+
 	TileMapLayer GetTileMapLayer();
+	int GetTileMapLayerInt();
+	int GetTileMapOtherLayerInt();
 private:
 	void Load();
 	bool LoadProcessFile();
@@ -47,8 +62,13 @@ private:
 
 	void SelectTileMapLayer();
 
-	TileMap* m_tileMapBackground;
-	TileMap* m_tileMapForeground;
+	std::shared_ptr<TileMap> m_tileMapBackground;
+	std::shared_ptr<TileMap> m_tileMapForeground;
+
+	int m_iTileMapLayer = 0;
+	char m_cSaveFileName[128] = "";
+	bool m_bInitTileGrid = false;
+	std::string m_sPreviewMapLayer = "Background";
 
 	int m_iCurrentSelectedTileType;
 	std::string m_sCurrentSelectedTileType;
@@ -63,11 +83,16 @@ private:
 	bool m_bDrawButton;
 	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
+	bool m_bMapUpdated;
+	bool m_bLayerSwitched;
+	bool m_bLoadedFile;
 
 	std::vector<bool> m_bTileMapPreviewImageButton;
 
 	int m_iRows;
 	int m_iColumns;
+
+	std::vector<int> m_iUpdatedTileMapTiles;
 
 #if _DEBUG
 	std::vector<ImColor> m_TileMapPreviewImageButtonColor;

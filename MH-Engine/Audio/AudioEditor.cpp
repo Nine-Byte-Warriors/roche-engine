@@ -10,7 +10,7 @@
 #include <imgui/imgui.h>
 #endif
 
-#define SOUND_BANK_LISTS_PATH "Resources\\Audio\\Sound Banks\\!SoundBankList.json"
+#define SOUND_BANK_LISTS_PATH "Resources\\Audio\\Sound Banks\\"
 #define SOUND_BANK_PATH  "Resources\\Audio\\Sound Banks\\"
 #define SOUND_FILES_PATH  "Resources\\Audio\\"
 
@@ -26,10 +26,17 @@ AudioEditor::AudioEditor()
 
 AudioEditor::~AudioEditor() { }
 
+void AudioEditor::SetJsonFile( const std::string& name )
+{
+	m_sSoundBankFile = name;
+	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + m_sSoundBankFile);
+	SortScreens();
+}
+
 void AudioEditor::LoadFromFileSoundBankLists()
 {
 	// Load UI screens
-	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH);
+	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + m_sSoundBankFile);
 	SortScreens();
 }
 

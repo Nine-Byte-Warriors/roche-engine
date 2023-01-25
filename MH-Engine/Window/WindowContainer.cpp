@@ -28,6 +28,11 @@ WindowContainer::WindowContainer()
 	}
 }
 
+WindowContainer::~WindowContainer()
+{
+    RemoveFromEvent();
+}
+
 #if _DEBUG
 extern LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 #endif
@@ -437,6 +442,11 @@ void WindowContainer::DisableImGuiMouse() noexcept
 void WindowContainer::AddToEvent() noexcept
 {
     EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
+}
+
+void WindowContainer::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
 }
 
 void WindowContainer::HandleEvent( Event* event )
