@@ -311,16 +311,8 @@ void EntityEditor::SetTexture()
 			std::string sFullPath = foLoad->GetFullPath();
 			m_sSelectedFileTex = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
 			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFileTex;
-
 			m_bValidTex = true;
 		}
-		
-		//if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
-		//{
-		//	m_sSelectedFile = m_sFilePath.substr(m_sFilePath.find("Resources\\Textures\\"));
-		//	m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFile;
-		//	m_bValidTex = true;
-		//}
 		else
 		{
 			m_sSelectedFileTex = "Open File Failed";
