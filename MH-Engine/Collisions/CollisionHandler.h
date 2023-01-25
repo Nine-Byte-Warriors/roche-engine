@@ -13,23 +13,23 @@ public:
     CollisionHandler(CollisionMatrix collisionMatrix);
 
 private:
-    std::vector<Collider*> m_colliders;
+    std::vector<std::shared_ptr<Collider>> m_colliders;
     CollisionMatrix m_collisionMatrix;
 public:
     //Specify which colliders to monitor
 
     void AddCollider(std::shared_ptr<Collider> collider);
-    void AddCollider(std::vector<std::shared_ptr<Collider>>& colliders);
+    void AddCollider(std::vector<std::shared_ptr<Collider>> colliders);
     void SetMatrix(CollisionMatrix collisionMatrix) { m_collisionMatrix.SetMatrix(collisionMatrix); }
     void SetMatrix(bool dD, bool dP, bool dE, bool dPj,
-                    bool pD, bool pP, bool pE, bool pPj,
-                    bool eD, bool eP, bool eE, bool ePj,
-                    bool pjD, bool pjP, bool pjE, bool pjPj);
+        bool pD, bool pP, bool pE, bool pPj,
+        bool eD, bool eP, bool eE, bool ePj,
+        bool pjD, bool pjP, bool pjE, bool pjPj);
 
 private:
     bool BoxToBox(BoxCollider* box1, BoxCollider* box2);
     bool CircleToBox(CircleCollider* circle, BoxCollider* box);
-    bool CircleToBox( BoxCollider* box, CircleCollider* circle);
+    bool CircleToBox(BoxCollider* box, CircleCollider* circle);
     bool CircleToCircle(CircleCollider* circle1, CircleCollider* circle2);
     bool PointToBox(Vector2f point, BoxCollider* box);
     bool PointToCircle(Vector2f point, CircleCollider* circle);

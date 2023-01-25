@@ -19,12 +19,13 @@ bool BoxCollider::ToBox(BoxCollider* box)
 
     float box2HalfWidth = (m_w / 2);
     float box2HalfHeight = (m_h / 2);
+    Transform& box2Tf = *box->GetTransform();
 
     Vector2f box1Min(m_tf->GetPosition().x - box1HalfWidth, m_tf->GetPosition().y - box1HalfHeight);
     Vector2f box1Max(m_tf->GetPosition().x + box1HalfWidth, m_tf->GetPosition().y + box1HalfHeight);
 
-    Vector2f box2Min(m_tf->GetPosition().x - box1HalfWidth, m_tf->GetPosition().y - box2HalfHeight);
-    Vector2f box2Max(m_tf->GetPosition().x + box1HalfWidth, m_tf->GetPosition().y + box2HalfHeight);
+    Vector2f box2Min(box2Tf.GetPosition().x - box1HalfWidth, box2Tf.GetPosition().y - box2HalfHeight);
+    Vector2f box2Max(box2Tf.GetPosition().x + box1HalfWidth, box2Tf.GetPosition().y + box2HalfHeight);
 
     if (box1Min.x < box2Max.x &&
         box1Max.x > box2Min.x &&
@@ -99,7 +100,7 @@ Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point)
     Vector2f surfacePoint = Vector2f(surfacePointx, surfacePointy);
     return surfacePoint;
 }
-void BoxCollider::Resolution(Collider* collider)
+void BoxCollider::Resolution(Collider*  collider)
 {
     if (m_isTrigger == true)
     {
@@ -108,6 +109,11 @@ void BoxCollider::Resolution(Collider* collider)
 
     Vector2f newPos = m_tf->GetPosition();
     
+    bool changeXValue = false;
+    bool changeYValue = false;
+   Vector2f lastValidPos = m_lastValidPosition;
+
+    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
@@ -123,42 +129,38 @@ void BoxCollider::Resolution(Collider* collider)
 
         newPos = ClosestSurfacePoint(m_tf->GetPosition());//
 
-        //changeXValue = !ToPoint(Vector2f(lastValidPos.x, m_tf->GetPosition().x);
-        //changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+        changeXValue = !ToPoint(Vector2f(lastValidPos.x, m_tf->GetPosition().x));
+        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
         break;
     }
     case ColliderType::Circle:
     {
 
-        Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
 
-        Vector2f lastValidPos = m_lastValidPosition;
         //Change the position on the x or y axis or both to move collider out of the other
-        bool changeXValue = false;
-        bool changeYValue = false;
 
         changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
         changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
 
-        //change gameobjects position on either the x or y axis
-        if (changeXValue)
-        {
-            newPos.x = lastValidPos.x;
-        }
-        //if changing the x works
-        else if (changeYValue)
-        {
-            newPos.y = lastValidPos.y;
-        }
-        else if (changeXValue && changeYValue)
-        {
-            newPos = lastValidPos;
-        }
 
         break;
     }
     }
     
+    //change gameobjects position on either the x or y axis
+    if (changeXValue)
+    {
+        newPos.x = lastValidPos.x;
+    }
+    //if changing the x works
+    else if (changeYValue)
+    {
+        newPos.y = lastValidPos.y;
+    }
+    else if (changeXValue && changeYValue)
+    {
+        newPos = lastValidPos;
+    }
     m_tf->SetPosition(newPos);
 
 

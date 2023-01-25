@@ -71,17 +71,18 @@ void CircleCollider::Resolution(Collider* collider)
 
 
     Vector2f newPos = m_tf->GetPosition();
+    Vector2f lastValidPos = m_lastValidPosition;
+    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
+
+    bool changeXValue = false;
+    bool changeYValue = false;
 
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
     {
-        Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
-
-        Vector2f lastValidPos = m_lastValidPosition;
         //Change the position on the x or y axis or both to move collider out of the other
-        bool changeXValue = false;
-        bool changeYValue = false;
+
 
         changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
         changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
@@ -106,13 +107,7 @@ void CircleCollider::Resolution(Collider* collider)
     case ColliderType::Circle:
     {
 
-        Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
-
-        Vector2f lastValidPos = m_lastValidPosition;
         //Change the position on the x or y axis or both to move collider out of the other
-        bool changeXValue = false;
-        bool changeYValue = false;
-
         changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
         changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
 
@@ -136,8 +131,6 @@ void CircleCollider::Resolution(Collider* collider)
     }
 
     m_tf->SetPosition(newPos);
-
-
 }
 
 bool CircleCollider::CollisionCheck(Collider* collider)
