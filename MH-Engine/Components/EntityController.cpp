@@ -77,7 +77,7 @@ EntityData* EntityController::GetProjectileBullet(int num)
 {
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
-		if (m_entityData[i].name == m_entityData[num].projectileBullet)
+		if (m_entityData[i].name != m_entityData[num].projectileBullet)
 		{
 			return &m_entityData[i];
 		}

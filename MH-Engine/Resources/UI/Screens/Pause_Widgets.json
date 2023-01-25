@@ -1,5 +1,6 @@
 [
     {
+        "action": "",
         "name": "Background",
         "position": [
             600.0,
@@ -9,10 +10,10 @@
             128.0,
             72.0
         ],
-        "type": "Image",
-		"action": ""
+        "type": "Image"
     },
     {
+        "action": "Link",
         "name": "GitHub Link",
         "position": [
             600.0,
@@ -22,10 +23,10 @@
             128.0,
             72.0
         ],
-        "type": "Button",
-		"action": "Link"
+        "type": "Button"
     },
     {
+        "action": "Close",
         "name": "Quit Game",
         "position": [
             600.0,
@@ -35,7 +36,6 @@
             128.0,
             72.0
         ],
-        "type": "Button",
-		"action": "Close"
+        "type": "Button"
     }
 ]

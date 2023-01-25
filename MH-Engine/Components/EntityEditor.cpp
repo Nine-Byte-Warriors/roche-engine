@@ -44,6 +44,7 @@ std::vector<EntityData> EntityEditor::GetEntityData()
 void EntityEditor::SetJsonFile( const std::string& name )
 {
 	JsonFile = name;
+	m_vEntityData.clear();
 	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
 	m_vEntityDataCopy = m_vEntityData;
 }

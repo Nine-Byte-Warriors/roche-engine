@@ -176,6 +176,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 			// Show all screens at once?
 			ImGui::NewLine();
 			ImGui::Checkbox( "Show all screens?", &m_bShouldShowAll );
+			ImGui::SameLine();
+			ImGui::Checkbox( "Hide all screens?", &m_bShouldHideAll );
 			ImGui::NewLine();
 
 			// List of all UI screens currently defined

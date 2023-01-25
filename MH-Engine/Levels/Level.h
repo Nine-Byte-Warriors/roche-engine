@@ -48,12 +48,10 @@ public:
 	void Update( const float dt ) override;
 	void CleanUp() override {}
 
-	inline bool GetIsFirstLoad() const noexcept { return m_bFirstLoad; }
 #if _DEBUG
 	inline void SetAudioJson( const std::string& name ) noexcept { m_audioEditor.SetJsonFile( name ); }
 #endif
 	inline void SetEntityJson( const std::string& name ) noexcept { m_entityEditor.SetJsonFile( name ); m_entityController.SetJsonFile( name ); }
-	//inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor->SetJsonFile( name ); }
 	inline void SetTileMapJson( const std::string& back, const std::string& front ) noexcept { m_tileMapLoader.LoadLevel( back, front ); }
 	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
 
@@ -88,8 +86,6 @@ private:
 	int m_iUpdateBothTileMapLayers;
 	AudioEditor m_audioEditor;
 #endif
-	bool m_bFirstLoad = true;
-	int m_iFirstTimeTileMapDrawBothLayers;
 
 	int m_iEntityAmount;
 	int m_iTileMapRows;
@@ -102,6 +98,7 @@ private:
 	TileMapEditor m_tileMapEditor;
 	TileMapLoader m_tileMapLoader;
 	std::vector<std::vector<TileMapDraw>> m_tileMapDrawLayers;
+	int m_iFirstTimeTileMapDrawBothLayers;
 	const int m_iTileMapLayers = 2;
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;

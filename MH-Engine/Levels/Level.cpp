@@ -66,16 +66,12 @@ void Level::CreateUI()
 
 void Level::CreateTileMap()
 {
-    if ( m_bFirstLoad )
-    {
-        m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
-        m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
-        m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
-    }
+    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
+    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
+    m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
 #ifdef _DEBUG
-    if ( m_bFirstLoad )
-        m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
+    m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
     m_tileMapLoader->LoadLevel("Resources\\TileMaps\\blue.json", "Resources\\TileMaps\\blue.json");
@@ -248,9 +244,11 @@ void Level::Update( const float dt )
 {
 #if _DEBUG
     m_uiEditor.Update( dt );
-    if ( m_uiEditor.ShouldShowAll() || m_bFirstLoad )
+    static bool firstLoadEver = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
     {
         m_ui->ShowAllUI();
+        firstLoadEver = false;
     }
     else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
@@ -259,6 +257,10 @@ void Level::Update( const float dt )
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
     else
+    {
+        m_ui->HideAllUI();
+    }
+    if ( m_uiEditor.ShouldHideAll() )
     {
         m_ui->HideAllUI();
     }
@@ -350,7 +352,8 @@ void Level::UpdateBothTileMaps(const float dt)
                 m_tileMapDrawLayers[layer][pos].Update(dt);
 
                 std::string texture = "Resources\\Textures\\Tiles\\";
-                texture += m_tileMapLoader.GetTileTypeName(layer, pos);
+                std::string tileType = m_tileMapLoader.GetTileTypeName(layer, pos);
+                texture += tileType;//m_tileMapLoader.GetTileTypeName(layer, pos);
                 texture += ".png";
 
                 m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);

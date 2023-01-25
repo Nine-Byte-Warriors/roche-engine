@@ -42,6 +42,8 @@ public:
 #endif
 
 	inline bool ShouldShowAll() const noexcept { return m_bShouldShowAll; }
+	inline bool ShouldHideAll() const noexcept { return m_bShouldHideAll; }
+
 	inline int GetCurrentScreenIndex() const noexcept { return m_iCurrentScreenIdx; }
 	inline std::string GetCurrentScreenName() const noexcept { return m_vUIScreenData[m_iCurrentScreenIdx].name; }
 
@@ -57,6 +59,7 @@ private:
 	std::string m_sSelectedFile;
 	int m_iCurrentScreenIdx = -1;
 	bool m_bShouldShowAll = false;
+	bool m_bShouldHideAll = false;
 
 	std::string m_sJsonFile = "Menu.json";
 	const std::vector<std::string> m_vUITypes =
