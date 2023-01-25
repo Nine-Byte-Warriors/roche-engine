@@ -39,7 +39,7 @@ public:
 
 	void OnCreate() override;
 	void OnSwitch() override;
-	
+
 	void BeginFrame() override;
 	void RenderFrame() override;
 	void EndFrame_Start() override;
@@ -56,20 +56,23 @@ public:
 	//inline void SetTileMapJson( const std::string& name ) noexcept { m_tileMapEditor->SetJsonFile( name ); }
 	inline void SetTileMapJson( const std::string& back, const std::string& front ) noexcept { m_tileMapLoader.LoadLevel( back, front ); }
 	inline void SetUIJson( const std::string& name ) noexcept { m_uiEditor.SetJsonFile( name ); }
-	
+
 	void CreateEntity();
 	void CreateTileMap();
 	void CreateUI();
-  
+
 private:
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
 	void UpdateEntityFromEditor(const float dt);
 
 	// Tile Map
-	void CreateTileMapDraw(std::vector<TileMapDraw>& tileMapDraw);
-	void UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer);
-	void RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw);
+	void CreateTileMapDraw();
+	void UpdateTileMap(const float dt);
+	void UpdateBothTileMaps(const float dt);
+	void UpdateTileMapTexture(const float dt);
+	void UpdateTileMapEmpty(const float dt);
+	void RenderFrameTileMap();
 
 	// Objects
 	Enemy m_enemy;
@@ -93,15 +96,15 @@ private:
 	int m_iTileMapColumns;
 	EntityEditor m_entityEditor;
 	EntityController m_entityController;
+	std::shared_ptr<ProjectileEditor> m_projectileEditor;
 
 	TextRenderer m_textRenderer;
 	TileMapEditor m_tileMapEditor;
 	TileMapLoader m_tileMapLoader;
-	std::vector<TileMapDraw> m_tileMapDrawBackground;
-	std::vector<TileMapDraw> m_tileMapDrawForeground;
-	std::shared_ptr<ProjectileEditor> m_projectileEditor;
-
+	std::vector<std::vector<TileMapDraw>> m_tileMapDrawLayers;
+	const int m_iTileMapLayers = 2;
 	const int m_iTileSize = 32;
+	bool m_bMapUpdate = true;
 };
 
 #endif

@@ -26,14 +26,24 @@ public:
 	void SpawnControlWindow();
 #endif
 
-	bool UpdateDrawOnceAvalible();
-	bool UpdateDrawContinuousAvalible();
-	void UpdateDrawOnceDone();
-	void UpdateMapDrawn();
+	bool IsDrawOnceAvalible();
+	bool IsDrawContinuousAvalible();
+	bool IsLayerSwitched();
+	bool IsLoadedFile();
+
+	void SetDrawOnceDone();
+	void SetMapDrawnDone();
+	void SetLayerSwitchedDone();
+	void SetLoadedFileDone();
+
+	std::vector<int> GetUpdatedTileMapTiles();
+	void SetClearUpdatedTileMapTiles();
 
 	std::shared_ptr<TileMap> GetLevel(TileMapLayer layer);
 
 	TileMapLayer GetTileMapLayer();
+	int GetTileMapLayerInt();
+	int GetTileMapOtherLayerInt();
 private:
 	void Load();
 	bool LoadProcessFile();
@@ -74,11 +84,15 @@ private:
 	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
 	bool m_bMapUpdated;
+	bool m_bLayerSwitched;
+	bool m_bLoadedFile;
 
 	std::vector<bool> m_bTileMapPreviewImageButton;
 
 	int m_iRows;
 	int m_iColumns;
+
+	std::vector<int> m_iUpdatedTileMapTiles;
 
 #if _DEBUG
 	std::vector<ImColor> m_TileMapPreviewImageButtonColor;
