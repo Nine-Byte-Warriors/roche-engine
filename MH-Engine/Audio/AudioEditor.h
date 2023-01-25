@@ -24,6 +24,8 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	//void SaveToFileSoundBankFiles();
+	void SpawnSoundBankWindow(AudioType audioType);
+
 	
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
