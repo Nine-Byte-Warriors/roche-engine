@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "Graphics.h"
 #include "FileLoading.h"
+#include "FileHandler.h"
 #include <algorithm>
 
 #if _DEBUG
@@ -215,18 +216,31 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				ImGui::TextColored( highlightCol, m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
 				{
-					if ( FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ) )
-					{
-						m_vUIScreenData[m_iCurrentScreenIdx].file = m_sSelectedFile;
-						std::string type = ".json";
-						std::string::size_type idx = m_sSelectedFile.find( type );
-						if ( idx != std::string::npos )
-							m_sSelectedFile.erase( idx, type.length() );
-						m_vUIScreenData[m_iCurrentScreenIdx].name = m_sSelectedFile;
+					std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+						->UseOpenDialog()
+						->ShowDialog()
+						->StoreDialogResult();
 
+					if (foLoad->HasPath())
+					{
+						m_vUIScreenData[m_iCurrentScreenIdx].file = foLoad->GetFilePath();
+						m_vUIScreenData[m_iCurrentScreenIdx].name = foLoad->m_sFile;
 						SortScreens();
 						LoadFromFile_Widgets();
 					}
+
+					//if ( FileLoading::OpenFileExplorer( m_sSelectedFile, m_sFilePath ) )
+					//{
+					//	m_vUIScreenData[m_iCurrentScreenIdx].file = m_sSelectedFile;
+					//	std::string type = ".json";
+					//	std::string::size_type idx = m_sSelectedFile.find( type );
+					//	if ( idx != std::string::npos )
+					//		m_sSelectedFile.erase( idx, type.length() );
+					//	m_vUIScreenData[m_iCurrentScreenIdx].name = m_sSelectedFile;
+
+					//	SortScreens();
+					//	LoadFromFile_Widgets();
+					//}
 				}
 				ImGui::NewLine();
 
