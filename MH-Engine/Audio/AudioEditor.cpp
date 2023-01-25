@@ -3,6 +3,7 @@
 
 #include "Timer.h"
 #include "FileLoading.h"
+#include <FileHandler.h>
 #include <algorithm>
 //#include <string>
 
@@ -89,36 +90,45 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 	}
 
 	if (ImGui::Button(("Add to " + audioTypeString + " list" + "##" + audioTypeString).c_str())) {
-		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+
+
+		// Call the FileDialog Builder and store the result in a file object.
+		std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+			->UseOpenDialog()	// Choose the dialog to use.
+			->ShowDialog()		// Show the dialog.
+			->StoreDialogResult();	// Store the result.
+
+
+
+		if (foLoad->HasPath())
 		{
 			bool isNew = true;
 			JSONSoundFile newSound;
-			std::filesystem::path path(StringHelper::StringToWide(m_sSelectedFile));
-			std::string selectedFile = StringHelper::StringToNarrow(path.extension());
 
-			//fileExtension.extension();
+			if (foLoad->m_sExt == "wav") {
+				if (foLoad->GetFullPath().find(SOUND_FILES_PATH) != std::string::npos) {
+					newSound.name = foLoad->m_sFile;
+					newSound.filePath =  SOUND_FILES_PATH + foLoad->GetFilePath();
+					newSound.volume = 1.0f;
+					newSound.audioType = audioType;
 
-			if (selectedFile == ".wav") {
-				std::filesystem::path fileName(StringHelper::StringToWide(m_sSelectedFile));
-				selectedFile = StringHelper::StringToNarrow(fileName.stem());
-				newSound.name = selectedFile;
-				newSound.filePath = SOUND_FILES_PATH + m_sSelectedFile;
-				newSound.volume = 1.0f;
-				newSound.audioType = audioType;
+					for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
+						if (m_vSoundFileInfo[i].name == newSound.name) {
+							isNew = false;
+						}
+					}
 
-				for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-					if (m_vSoundFileInfo[i].name == newSound.name) {
-						isNew = false;
+					if (isNew) {
+						m_vSoundFileInfo.emplace_back(newSound);
+						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
 					}
 				}
-
-				if (isNew) {
-					m_vSoundFileInfo.emplace_back(newSound);
-					AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+				else {
+					ErrorLogger::Log("AudioEditor::SpawnSoundBankWindow: Invalid file path");
 				}
 			}
 			else {
-				ErrorLogger::Log("AudioEditor::SpawnControlWindow: Invalid file format chosen to load into the Sound Bank");
+				ErrorLogger::Log("AudioEditor::SpawnSoundBankWindow: Invalid file format chosen to load into the Sound Bank");
 			}
 		}
 	}
