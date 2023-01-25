@@ -54,7 +54,6 @@ private:
 	void OnCreateEntity();
 	void RenderFrameEntity();
 	void UpdateEntity(const float dt);
-	void UpdateUI( const float dt );
 	void UpdateEntityFromEditor(const float dt);
 
 	// Objects

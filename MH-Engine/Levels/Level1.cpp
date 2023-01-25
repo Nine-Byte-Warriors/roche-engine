@@ -126,7 +126,17 @@ void Level1::OnSwitch()
 	NextLevel = 1;
 	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &NextLevel );
 
+    // Update user interface
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
+    m_ui->RemoveAllUI();
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Pause" );
+#endif
 }
 
 void Level1::BeginFrame()
@@ -233,9 +243,30 @@ void Level1::EndFrame()
 
 void Level1::Update( const float dt )
 {
+#if _DEBUG
+    m_uiEditor.Update( dt );
+    static bool firstLoad = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoad )
+    {
+        firstLoad = false;
+        m_ui->ShowAllUI();
+    }
+    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    {
+        m_ui->HideAllUI();
+        std::string name = m_uiEditor.GetCurrentScreenName();
+        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
+    }
+    else
+    {
+        m_ui->HideAllUI();
+    }
+#endif
     UpdateTileMap( dt );
+
     UpdateEntity( dt );
-    UpdateUI( dt );
+
+    m_ui->Update( dt, m_uiEditor.GetWidgets() );
 
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
@@ -251,40 +282,6 @@ void Level1::UpdateEntity(const float dt)
     {
         m_entity[i].Update(dt);
     }
-}
-
-void Level1::UpdateUI( const float dt )
-{
-#if _DEBUG
-    // Update user interface
-    m_ui->RemoveAllUI();
-    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
-    m_ui->HideAllUI();
-
-#if !_DEBUG
-    m_ui->ShowUI( "Pause" );
-#endif
-
-    m_uiEditor.Update( dt );
-    static bool firstLoad = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoad )
-    {
-        firstLoad = false;
-        m_ui->ShowAllUI();
-    }
-    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
-    {
-        m_ui->HideAllUI();
-        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
-    }
-    else
-    {
-        m_ui->HideAllUI();
-    }
-#endif
-    m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }
 
 void Level1::UpdateEntityFromEditor(const float dt)

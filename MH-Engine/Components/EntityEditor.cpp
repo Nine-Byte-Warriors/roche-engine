@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "EntityEditor.h"
-#include <FileHandler.h>
 
 EntityEditor::EntityEditor()
 {
@@ -299,17 +298,9 @@ void EntityEditor::SetTexture()
 	m_sSelectedFileTex = m_vEntityDataCopy[m_iIdentifier].texture;
 	if (ImGui::Button("Load Texture"))
 	{
-		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFileTex);
-		
-		foLoad = FileHandler::FileDialog(foLoad)
-			->UseOpenDialog()
-			->ShowDialog()
-			->StoreDialogResult();
-		
-		if (foLoad->HasPath())
+		if (FileLoading::OpenFileExplorer(m_sSelectedFileTex, m_sFilePathTex))
 		{
-			std::string sFullPath = foLoad->GetFullPath();
-			m_sSelectedFileTex = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
+			m_sSelectedFileTex = m_sFilePathTex.substr(m_sFilePathTex.find("Resources\\Textures\\"));
 			m_vEntityDataCopy[m_iIdentifier].texture = m_sSelectedFileTex;
 			m_bValidTex = true;
 		}
