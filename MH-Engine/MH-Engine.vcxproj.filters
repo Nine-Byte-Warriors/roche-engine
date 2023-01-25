@@ -236,6 +236,8 @@
     </ClCompile>
     <ClCompile Include="CollisionMatrix.cpp">
       <Filter>Source Files</Filter>
+    <ClCompile Include="TileMap\TileMapLoader.cpp">
+      <Filter>Source Files\TileMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +552,8 @@
     </ClInclude>
     <ClInclude Include="CollisionMatrix.h">
       <Filter>Header Files\Collisions</Filter>
+    <ClInclude Include="TileMap\TileMapLoader.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

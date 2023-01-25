@@ -25,5 +25,5 @@ void Enemy::Update( const float dt )
 
 	m_vEnemyPos->x = m_transform->GetPosition().x;
 	m_vEnemyPos->y = m_transform->GetPosition().y;
-	EventSystem::Instance()->AddEvent( EVENTID::TargetPosition, m_vEnemyPos ); // DEBUG: remove
+	//EventSystem::Instance()->AddEvent( EVENTID::TargetPosition, m_vEnemyPos ); // DEBUG: remove
 }
