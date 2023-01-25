@@ -290,6 +290,7 @@
     <ClCompile Include="Components\Entity.cpp" />
     <ClCompile Include="Components\EntityEditor.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
+    <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\ImGuiManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -430,6 +431,7 @@
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
+    <ClInclude Include="FileHandler.h" />
     <ClInclude Include="Graphics\BackBuffer.h" />
     <ClInclude Include="Graphics\ConstantBuffer.h" />
     <ClInclude Include="Graphics\DepthStencil.h" />

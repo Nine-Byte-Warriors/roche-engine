@@ -128,6 +128,7 @@ void Level::OnSwitch()
 	// Update level system
 	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
 	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
+    EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
 
     CreateEntity();
     CreateUI();
@@ -242,33 +243,9 @@ void Level::EndFrame_End()
 
 void Level::Update( const float dt )
 {
-#if _DEBUG
-    m_uiEditor.Update( dt );
-    static bool firstLoadEver = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
-    {
-        m_ui->ShowAllUI();
-        firstLoadEver = false;
-    }
-    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
-    {
-        m_ui->HideAllUI();
-        std::string name = m_uiEditor.GetCurrentScreenName();
-        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
-    }
-    else
-    {
-        m_ui->HideAllUI();
-    }
-    if ( m_uiEditor.ShouldHideAll() )
-    {
-        m_ui->HideAllUI();
-    }
-#endif
     UpdateTileMap( dt );
     UpdateEntity( dt );
-
-    m_ui->Update( dt, m_uiEditor.GetWidgets() );
+    UpdateUI( dt );
 
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
@@ -284,6 +261,44 @@ void Level::UpdateEntity(const float dt)
     {
         m_entity[i].Update(dt);
     }
+}
+
+void Level::UpdateUI( const float dt )
+{
+#if _DEBUG
+    // Update user interface
+    m_ui->RemoveAllUI();
+    for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
+	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
+	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+    m_ui->HideAllUI();
+
+#if !_DEBUG
+    m_ui->ShowUI( "Pause" );
+#endif
+
+    m_uiEditor.Update( dt );
+    static bool firstLoadEver = true;
+    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
+    {
+        m_ui->ShowAllUI();
+        firstLoadEver = false;
+    }
+    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    {
+        m_ui->HideAllUI();
+        m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
+    }
+    else
+    {
+        m_ui->HideAllUI();
+    }
+    if ( m_uiEditor.ShouldHideAll() )
+    {
+        m_ui->HideAllUI();
+    }
+#endif
+    m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }
 
 void Level::UpdateEntityFromEditor(const float dt)
@@ -353,7 +368,7 @@ void Level::UpdateBothTileMaps(const float dt)
 
                 std::string texture = "Resources\\Textures\\Tiles\\";
                 std::string tileType = m_tileMapLoader.GetTileTypeName(layer, pos);
-                texture += tileType;//m_tileMapLoader.GetTileTypeName(layer, pos);
+                texture += tileType;
                 texture += ".png";
 
                 m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);

@@ -228,6 +228,9 @@
     <ClCompile Include="UI\UIEditor.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="FileHandler.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
+	</ClCompile>
     <ClCompile Include="TileMap\TileMapLoader.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
@@ -530,6 +533,9 @@
     <ClInclude Include="UI\UIEditor.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="FileHandler.h">
+      <Filter>Header Files\Utility\Helper</Filter>
+	</ClInclude>
     <ClInclude Include="TileMap\TileMapLoader.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>

@@ -61,6 +61,7 @@ public:
 
 private:
 	void RenderFrameEntity();
+	void UpdateUI( const float dt );
 	void UpdateEntity(const float dt);
 	void UpdateEntityFromEditor(const float dt);
 
