@@ -69,40 +69,51 @@ void Level1::OnCreateTileMap()
     m_tileMapLoader->LoadLevel("Resources\\TileMaps\\blue.json", "Resources\\TileMaps\\blue.json");
 #endif  
 
-    OnCreateTileMapDraw(m_tileMapDrawBackground);
-    OnCreateTileMapDraw(m_tileMapDrawForeground);
+    OnCreateTileMapDraw();
 }
 
-void Level1::OnCreateTileMapDraw(std::vector<TileMapDraw>& tileMapDraw)
+void Level1::OnCreateTileMapDraw()
 {
     int colPositionTotalTileLength = 0;
     int rowPositionTotalTileLength = 0;
     const int gapBetweenTiles = 0;
-
-    for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
+    
+    for (int i = 0; i < m_iTileMapLayers; i++)
     {
-        TileMapDraw *tileMapDrawPop = new TileMapDraw;
-        tileMapDraw.push_back(*tileMapDrawPop);
-        tileMapDraw[i].Initialize(*m_gfx, m_cbMatrices, "NONE");
+        std::vector<TileMapDraw>* tileMapDraw = new std::vector<TileMapDraw>;
 
-        if (i != 0)
+        for (int j = 0; j < m_iTileMapRows * m_iTileMapColumns; j++)
         {
-            colPositionTotalTileLength += m_iTileSize + gapBetweenTiles;
+            TileMapDraw* tileMapDrawPop = new TileMapDraw;
+            tileMapDraw->push_back(*tileMapDrawPop);
+            (*tileMapDraw)[j].Initialize(*m_gfx, m_cbMatrices, "NONE");
+
+            if (j != 0)
+            {
+                colPositionTotalTileLength += m_iTileSize + gapBetweenTiles;
+            }
+            bool endOfRow = j % m_iTileMapColumns == 0 && j != 0;
+            if (endOfRow)
+            {
+                rowPositionTotalTileLength += m_iTileSize + gapBetweenTiles;
+                colPositionTotalTileLength = 0;
+            }
+
+            float positionWidth = colPositionTotalTileLength;
+            float positionHeight = rowPositionTotalTileLength;
+
+            (*tileMapDraw)[j].GetTransform()->SetPositionInit(positionWidth, positionHeight);
+            (*tileMapDraw)[j].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
+
+            delete tileMapDrawPop;
         }
-        bool endOfRow = i % m_iTileMapColumns == 0 && i != 0;
-        if (endOfRow)
-        {
-            rowPositionTotalTileLength += m_iTileSize + gapBetweenTiles;
-            colPositionTotalTileLength = 0;
-        }
 
-        float positionWidth = colPositionTotalTileLength;
-        float positionHeight = rowPositionTotalTileLength;
+        m_tileMapDrawLayers.push_back(*tileMapDraw);
+        tileMapDraw->clear();
+        delete tileMapDraw;
 
-        tileMapDraw[i].GetTransform()->SetPositionInit(positionWidth, positionHeight);
-        tileMapDraw[i].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
-
-        delete tileMapDrawPop;
+        colPositionTotalTileLength = 0;
+        rowPositionTotalTileLength = 0;
     }
 }
 
@@ -141,8 +152,7 @@ void Level1::RenderFrame()
 	auto camMatrix = m_camera.GetWorldOrthoMatrix();
     
     // Sprites
-    RenderFrameTileMap(m_tileMapDrawBackground);
-    RenderFrameTileMap(m_tileMapDrawForeground);
+    RenderFrameTileMap();
     
     m_projectileEditor->Draw(gfxContext, camMatrix);
     
@@ -163,12 +173,15 @@ void Level1::RenderFrameEntity()
     }
 }
 
-void Level1::RenderFrameTileMap(std::vector<TileMapDraw>& tileMapDraw)
+void Level1::RenderFrameTileMap()
 {
-    for ( unsigned i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++ )
+    for (int i = 0; i < m_tileMapDrawLayers.size(); i++)
     {
-        tileMapDraw[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-        tileMapDraw[i].GetSprite()->Draw(tileMapDraw[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+        for (unsigned j = 0; j < m_iTileMapRows * m_iTileMapColumns; j++)
+        {
+            m_tileMapDrawLayers[i][j].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_tileMapDrawLayers[i][j].GetSprite()->Draw(m_tileMapDrawLayers[i][j].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+        }
     }
 }
 
@@ -249,8 +262,7 @@ void Level1::Update( const float dt )
         m_ui->HideAllUI();
     }
 #endif
-    UpdateTileMap( dt, m_tileMapDrawBackground, TileMapLayer::Background);
-    UpdateTileMap( dt, m_tileMapDrawForeground, TileMapLayer::Foreground);
+    UpdateTileMap( dt );
 
     UpdateEntity( dt );
 
@@ -298,54 +310,111 @@ void Level1::UpdateEntityFromEditor(const float dt)
     }
 }
 
-void Level1::UpdateTileMap(const float dt, std::vector<TileMapDraw>& tileMapDraw, TileMapLayer tileMapLayer)
+void Level1::UpdateTileMap(const float dt)
 {
-    const int numberOfTileMapLayers = 2;
-    static int firstTimeTileMapDrawBothLayers = numberOfTileMapLayers;
 #if _DEBUG
-    static int updateBothTileMapLayers = numberOfTileMapLayers;
-
-    if (m_tileMapEditor->UpdateDrawOnceAvalible() || firstTimeTileMapDrawBothLayers > 0 || m_tileMapEditor->UpdateDrawContinuousAvalible())
-#else
-    if (firstTimeTileMapDrawBothLayers > 0)
-#endif
+    if (m_tileMapEditor->IsDrawOnceAvalible() || m_tileMapEditor->IsDrawContinuousAvalible())
     {
-#if _DEBUG
-        if (tileMapLayer == m_tileMapEditor->GetTileMapLayer() || m_tileMapEditor->GetTileMapLayer() == TileMapLayer::Both)
-#endif
+        if (m_tileMapEditor->GetTileMapLayer() != TileMapLayer::Both)
         {
-            for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
-            {
-                tileMapDraw[i].Update(dt);
-
-                std::string texture = "Resources\\Textures\\Tiles\\";
-                texture += m_tileMapLoader->GetTileTypeName(i, tileMapLayer);
-                texture += ".png";
-
-                tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
-            }
+            UpdateTileMapTexture(dt);
+            UpdateTileMapEmpty(dt);
         }
-#if _DEBUG
         else
         {
-            for (int i = 0; i < m_iTileMapRows * m_iTileMapColumns; i++)
+            UpdateBothTileMaps(dt);
+        }
+
+        m_tileMapEditor->SetDrawOnceDone();
+    }
+
+#else
+    if (m_bMapUpdate)
+    {
+        UpdateBothTileMaps(dt);
+        m_bMapUpdate = false;
+    }
+#endif
+}
+
+void Level1::UpdateBothTileMaps(const float dt)
+{
+#if _DEBUG
+    if (m_tileMapEditor->IsLayerSwitched())
+#endif
+    {
+        for (int layer = 0; layer < m_tileMapDrawLayers.size(); layer++)
+        {
+            for (int pos = 0; pos < m_iTileMapRows * m_iTileMapColumns; pos++)
             {
-                tileMapDraw[i].Update(dt);
+                m_tileMapDrawLayers[layer][pos].Update(dt);
 
-                std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
+                std::string texture = "Resources\\Textures\\Tiles\\";
+                texture += m_tileMapLoader->GetTileTypeName(layer, pos);
+                texture += ".png";
 
-                tileMapDraw[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+                m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
             }
         }
-        updateBothTileMapLayers--;
-        if (updateBothTileMapLayers == 0)
-        {
-            m_tileMapEditor->UpdateDrawOnceDone();
-            m_tileMapEditor->UpdateMapDrawn();
-            updateBothTileMapLayers = numberOfTileMapLayers;
-        }
+#if _DEBUG
+        m_tileMapEditor->SetLayerSwitchedDone();
 #endif
-        firstTimeTileMapDrawBothLayers--;
+    }
+}
+
+void Level1::UpdateTileMapTexture(const float dt)
+{
+    int layer = m_tileMapEditor->GetTileMapLayerInt();
+
+    if (m_tileMapEditor->IsLayerSwitched() || m_tileMapEditor->IsLoadedFile())
+    {
+        for (int pos = 0; pos < m_iTileMapRows * m_iTileMapColumns; pos++)
+        {
+            m_tileMapDrawLayers[layer][pos].Update(dt);
+
+            std::string texture = "Resources\\Textures\\Tiles\\";
+            texture += m_tileMapLoader->GetTileTypeName(layer, pos);
+            texture += ".png";
+
+            m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
+
+        m_tileMapEditor->SetLoadedFileDone();
+    }
+    else
+    {
+        std::vector<int> updatedTiles = m_tileMapEditor->GetUpdatedTileMapTiles();
+
+        for (int pos = 0; pos < updatedTiles.size(); pos++)
+        {
+            m_tileMapDrawLayers[layer][updatedTiles[pos]].Update(dt);
+
+            std::string texture = "Resources\\Textures\\Tiles\\";
+            texture += m_tileMapLoader->GetTileTypeName(layer, updatedTiles[pos]);
+            texture += ".png";
+
+            m_tileMapDrawLayers[layer][updatedTiles[pos]].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
+
+        m_tileMapEditor->SetClearUpdatedTileMapTiles();
+    }
+}
+
+void Level1::UpdateTileMapEmpty(const float dt)
+{
+    if (m_tileMapEditor->IsLayerSwitched())
+    {
+        int layer = m_tileMapEditor->GetTileMapOtherLayerInt();
+        for (int pos = 0; pos < m_iTileMapRows * m_iTileMapColumns; pos++)
+        {
+            m_tileMapDrawLayers[layer][pos].Update(dt);
+
+            std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
+
+            m_tileMapDrawLayers[layer][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
+
+        m_tileMapEditor->SetLayerSwitchedDone();
     }
 }
 
