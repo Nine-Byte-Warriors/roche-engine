@@ -18,17 +18,15 @@ public:
 	void Initialize( HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* context ) const noexcept;
 	void BeginRender() const noexcept;
 	void EndRender() const noexcept;
-	void SpawnInstructionWindow() const noexcept;
-
-	void AddToEvent() noexcept;
-	void RemoveFromEvent() noexcept;
-	void HandleEvent( Event* event ) override;
 
 	bool IsPressedInsideSceneWindow(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
 	Vector2f SceneWindowToGameWindowPositionConversion(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
 
 private:
 	void SetBlackGoldStyle();
+	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 	XMFLOAT2 m_vWindowSize;
 };
 #endif

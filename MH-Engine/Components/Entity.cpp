@@ -70,6 +70,11 @@ void Entity::UpdatePlayer(const float dt)
 	m_vPosition->x = m_transform->GetPosition().x;
 	m_vPosition->y = m_transform->GetPosition().y;
 	EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, m_vPosition);
+	
+	std::pair<Sprite*, Vector2f*>* spriteAndLocation = new std::pair<Sprite*, Vector2f*>();
+	spriteAndLocation->first = m_sprite.get();
+	spriteAndLocation->second = m_vPosition;
+	EventSystem::Instance()->AddEvent(EVENTID::LockCameraToPlayer, spriteAndLocation);
 
 	//m_projectileManager->SpawnProjectile(*m_vPosition, 10.0f);
 }

@@ -29,6 +29,13 @@ enum class EVENTID
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
 
+	// Camera Actions
+	CameraUp,
+	CameraLeft,
+	CameraDown,
+	CameraRight,
+	LockCameraToPlayer,
+
 	// Player Actions
 	PlayerHealth,
 	PlayerPosition,

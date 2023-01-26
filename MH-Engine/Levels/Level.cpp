@@ -185,8 +185,7 @@ void Level::EndFrame_Start()
     // Render ui
     m_ui->Draw(
         m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
-        m_camera.GetWorldOrthoMatrix(), &m_textRenderer
-    );
+        m_camera.GetWorldOrthoMatrix(), &m_textRenderer );
 
     // Render scene to texture
     m_gfx->RenderSceneToTexture();
@@ -215,18 +214,17 @@ void Level::EndFrame_Start()
     ImGui::End();
     ImGui::PopStyleVar();
 
-    m_imgui->SpawnInstructionWindow();
-    m_gfx->SpawnControlWindow();
-
     Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
     Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
     m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
+    m_gfx->SpawnControlWindow();
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
     m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
     m_tileMapEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
+    m_camera.SpawnControlWindow();
     m_player.SpawnControlWindow();
 #endif
 }
@@ -249,6 +247,7 @@ void Level::Update( const float dt )
 
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
+    m_camera.Update( dt );
 }
 
 void Level::UpdateEntity(const float dt)
