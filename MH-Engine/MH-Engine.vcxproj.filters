@@ -243,6 +243,9 @@
     <ClCompile Include="Collisions\CollisionMatrix.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Helper\MouseCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -568,6 +571,9 @@
     </ClInclude>
     <ClInclude Include="Collisions\CollisionMatrix.h">
       <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Helper\MouseCapture.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

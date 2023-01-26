@@ -201,20 +201,78 @@ void Level::EndFrame_Start()
     ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
     if ( ImGui::Begin( "Scene Window", FALSE ) )
     {
+        //ImVec2 pos = ImGui::GetCursorScreenPos();
+        //ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        //
+        //// Update imgui mouse position for scene render window
+        //Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
+        //EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
+        //
+        //vMax.x += ImGui::GetWindowPos().x;
+        //vMax.y += ImGui::GetWindowPos().y;
+        //
+        //ImGui::GetWindowDrawList()->AddImage(
+        //    (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
+        //    pos, ImVec2( vMax.x, vMax.y )
+        //);
+
         ImVec2 pos = ImGui::GetCursorScreenPos();
-        ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
 
-        // Update imgui mouse position for scene render window
-        Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
-        EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
+        ImVec2 vImageMax = ImVec2(
+            vRegionMax.x + ImGui::GetWindowPos().x,
+            vRegionMax.y + ImGui::GetWindowPos().y
+        );
 
-        vMax.x += ImGui::GetWindowPos().x;
-        vMax.y += ImGui::GetWindowPos().y;
+        Vector2f vMousePos = Vector2f(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+		Vector2f vScenePos = Vector2f(pos.x, pos.y);
+		Vector2f vGameSize(vRegionMax.x, vRegionMax.y);
+
+        bool bTest = MouseCapture::IsInScene(vMousePos, vScenePos, vGameSize);
 
         ImGui::GetWindowDrawList()->AddImage(
             (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, ImVec2( vMax.x, vMax.y )
+            pos, vImageMax
         );
+
+        if (bTest)
+        {
+            ImGui::Text("On Screen");
+
+			/*Vector2f vFakedPos = MouseCapture::EditorPosToGamePos(vMousePos, vScenePos, vGameSize);
+
+            std::string sFakedMouseText = "Faked Mouse Pos: "
+                " X: " + std::to_string(vFakedPos.x) +
+                " Y: " + std::to_string(vFakedPos.y);
+            ImGui::Text(sFakedMouseText.c_str());*/
+        }
+
+        auto mouseData = MouseCapture::GetOverlayData();
+        mouseData.DataOverlay();
+        //{
+        //    std::string posText = "CursorPos: X: " + std::to_string(pos.x) + " Y: " + std::to_string(pos.y);
+        //    ImGui::Text(posText.c_str());
+
+        //    std::string winPosText = "WindowPos: X: "
+        //        + std::to_string(ImGui::GetWindowPos().x)
+        //        + " Y: " + std::to_string(ImGui::GetWindowPos().y);
+        //    ImGui::Text(winPosText.c_str());
+
+        //    std::string regionSizeText = "RegionSize: "
+        //        " W: " + std::to_string(vRegionMax.x) +
+        //        " H: " + std::to_string(vRegionMax.y);
+        //    ImGui::Text(regionSizeText.c_str());
+
+        //    std::string mousePosText = "MousePos: X: "
+        //        + std::to_string(vMousePos.x)
+        //        + " Y: " + std::to_string(vMousePos.y);
+        //    ImGui::Text(mousePosText.c_str());
+
+        //    //std::string debugMouseText = "Debug Mouse Pos: "
+        //    //    " X: " + std::to_string(m_mouseCapture.vPos->x) +
+        //    //    " Y: " + std::to_string(m_mouseCapture.vPos->y);
+        //    //ImGui::Text(debugMouseText.c_str());
+        //}
     }
     ImGui::End();
     ImGui::PopStyleVar();
