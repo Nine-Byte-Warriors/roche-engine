@@ -1,42 +1,134 @@
 #include "stdafx.h"
 #include "Collider.h"
 
-int Clamp(int min, int max, int value)
+Collider::Collider(Collider& col)
+{
+    m_collisionMask = col.m_collisionMask;
+    m_curintersections = col.m_curintersections;
+    m_intersections = col.m_intersections;
+    m_isTrigger = col.m_isTrigger;
+    m_lastValidPosition = col.m_lastValidPosition;
+    m_layer = col.m_layer;
+    m_tf = col.m_tf;
+    m_type = col.m_type;
+}
+
+float Collider::Clamp(float min, float max, float value)
 {
     if (value > max)
-    {
         return max;
-    }
     else if (value < min)
-    {
         return min;
-    }
     else
-    {
         return value;
+}
+
+void Collider::OnEnter(Collider& col)
+{
+    for (auto& callback : m_onEnterCallbacks)
+        callback(col);
+}
+
+void Collider::OnExit(Collider& col)
+{
+    for (auto& callback : m_onExitCallbacks)
+        callback(col);
+}
+
+template <typename T>
+void Collider::RemoveDuplicateEntries(std::vector<T>& vec)
+{
+    std::vector<int> duplicateIndices;
+    //remove duplicates
+    for (int i = 0; i < vec.size(); i++)
+    {
+        //find duplicates
+        for (int n = 0; n < vec.size(); n++)
+        {
+            if (i == n)
+                continue;
+
+            if (vec[i] == vec[n])
+                duplicateIndices.push_back(n);
+        }
+
+        //remove
+        for (int n = 0; n < duplicateIndices.size(); n++)
+        {
+            vec.erase(vec.begin() + n);
+        }
+        duplicateIndices.clear();
     }
 }
 
-Vector2f Collider::ClosestPoint(Vector2f position)
+void Collider::ManageIntersections()
 {
-    return Vector2f();
+    //check if entering or leaving
+    std::vector<int> curintersectmatchesCount(m_curintersections.size());
+    for ( auto& [key, value] : m_intersections )
+    {
+        bool left = true;
+
+        for (int n = 0; n < m_curintersections.size(); n++)
+        {
+            //auto pastintersection = m_curintersections[n];
+            if (m_curintersections[n] == key)
+            {
+                left = false;
+                curintersectmatchesCount[n]++;
+                if (value == CollisionState::Entering || value == CollisionState::Leaving)
+                {
+                    value = CollisionState::Staying;
+                }
+            }
+        }
+
+        if (left)
+        {
+            value = CollisionState::Leaving;
+        }
+    }
+    for (int i = 0; i < m_curintersections.size(); i++)
+    {
+        if (curintersectmatchesCount[i] == 0)
+        {
+            m_intersections.emplace(m_curintersections[i], CollisionState::Entering);
+        }
+    }
+    m_curintersections.clear();
 }
 
-Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition)
+void Collider::Process()
 {
-    Vector2f closestPoint;
-    closestPoint.x = Clamp(m_tf->GetPosition().x, m_tf->GetPosition().x + m_w, targetPosition.x);
-    closestPoint.y = Clamp(m_tf->GetPosition().y, m_tf->GetPosition().y + m_h, targetPosition.y);
+    if ( m_intersections.size() < 1 )
+        return;
 
-    return closestPoint;
+    //Run functions
+    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_intersections.begin(); itr != m_intersections.end(); )
+    {
+        if ( itr->first )
+        {
+            switch ( itr->second )
+            {
+            case CollisionState::Entering:
+                OnEnter(*itr->first);
+                ++itr;
+                break;
+            case CollisionState::Leaving:
+                OnExit(*itr->first);
+                itr = m_intersections.erase( itr );
+                break;
+            }
+        }
+    }
 }
 
-Vector2f CircleCollider::ClosestPoint(Vector2f position)
+void Collider::Update()
 {
-    Vector2f direction = position - m_tf->GetPosition();
-    Vector2f unit = direction.Divide(direction.Magnitude());
-    
-    Vector2f closestPoint = m_tf->GetPosition() + unit.Multiply(m_radius);
+    if (m_curintersections.size() == 0 && m_intersections.size() == 0)
+        return;
 
-    return closestPoint;
+    RemoveDuplicateEntries<std::shared_ptr<Collider>>(m_curintersections);
+    ManageIntersections();
+    Process();
 }

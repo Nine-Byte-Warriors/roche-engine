@@ -4,6 +4,8 @@
 
 #include "Vector2f.h"
 #include "Transform.h"
+#include "LayerMask.h"
+#include <functional>
 
 const enum class ColliderType
 {
@@ -12,68 +14,79 @@ const enum class ColliderType
     Circle
 };
 
+enum class CollisionState
+{
+    Entering,
+    Staying,
+    Leaving
+};
+
+class BoxCollider;
+class CircleCollider;
 class Collider
 {
 public:
-    Collider(){}
-    Collider(bool trigger, std::shared_ptr<Transform>& transform) : m_isTrigger(trigger), m_tf(transform) {};
-    virtual Vector2f ClosestPoint(Vector2f position) = 0;
+    Collider() {}
+    Collider(bool trigger, std::shared_ptr<Transform>& transform) : m_isTrigger(trigger), m_tf(transform) {}
+    Collider(Collider& col);
 
 protected:
     ColliderType m_type = ColliderType::None;
+    bool m_isTrigger = false;
+    LayerMask m_collisionMask = LayerMask(true, true, true, true);
+    LayerNo m_layer = LayerNo::Enemy;
+
+    std::shared_ptr<Transform> m_tf;
+    Vector2f m_lastValidPosition = Vector2f(0, 0);
+
+    std::vector<std::shared_ptr<Collider>> m_curintersections;
+    std::map<std::shared_ptr<Collider>, CollisionState> m_intersections;
+
+    std::vector<std::function<void(Collider&)>> m_onEnterCallbacks;
+    std::vector<std::function<void(Collider&)>> m_onExitCallbacks;
+
 public:
     inline const ColliderType GetColliderType() { return m_type; }
 
-protected:
-    bool m_isTrigger = false;
-public:
-    inline bool GetIsTrigger() { return m_isTrigger; };
-    inline void SetIsTrigger(bool trigger) { m_isTrigger = trigger; }
+    inline bool GetIsTrigger() noexcept { return m_isTrigger; };
+    inline void SetIsTrigger(bool trigger) noexcept { m_isTrigger = trigger; }
 
-private:
-    Vector2f m_lastValidPosition = Vector2f(0,0);
-public:
-    inline Vector2f GetLastValidPosition() { return m_lastValidPosition; }
-    inline void UpdateLastValidPosition() { m_lastValidPosition = m_tf->GetPosition(); };
-    
-protected:
-    std::shared_ptr<Transform> m_tf;
-public:
-    std::shared_ptr<Transform> GetTransform() { return m_tf; }
-};
+    inline void SetLayer(LayerNo layer) { m_layer = layer; };
+    inline void SetCollisionMask(LayerMask collisionMask) noexcept { m_collisionMask = collisionMask; m_collisionMask = collisionMask; }
+    inline LayerNo GetLayer() const noexcept { return m_layer; };
+    inline LayerMask GetLayerMask() noexcept { return m_collisionMask; };
+    inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_tf; }
 
-//AABB
-class BoxCollider : public Collider
-{
-public:
-    BoxCollider()  { m_type = ColliderType::Box; };
-    BoxCollider(std::shared_ptr<Transform> transform, int x, int y, int width, int height) : m_w(width), m_h(height) { m_tf = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
+    inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
+    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_tf->GetPosition(); }
+    inline void LogCollision(std::shared_ptr<Collider>& col) { m_curintersections.push_back(col); }
 
-private:
-    //position from bottom left
-    float m_w = 0;
-    float m_h = 0;
-public:
-    Vector2f ClosestPoint(Vector2f position) override;
-    inline float GetWidth() { return m_w; }
-    inline float GetHeight() { return m_h; }
-    inline void SetWidth(float width) { m_w = width; }
-    inline void SetHeight(float height) { m_h = height; }
-};
+    float Clamp(float min, float max, float value);
+    virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
 
-class CircleCollider : public Collider
-{
-public:
-    CircleCollider() { m_type = ColliderType::Circle; };
-    CircleCollider(std::shared_ptr<Transform> transform, int x, int y, float radius) : m_radius(radius) { m_tf = transform; m_type = ColliderType::Circle; }
+    //Collision Checks
+    virtual bool ToBox(BoxCollider* box) noexcept { return false; }
+    virtual bool ToCircle(CircleCollider* circle) noexcept { return false; }
+    virtual bool ToPoint(Vector2f point) noexcept { return false; }
+    virtual bool CollisionCheck(Collider* collider) noexcept { return false; }
 
-private:
-    float m_radius = 0;
-public:
-    Vector2f ClosestPoint(Vector2f position) override;
+    //Resolution
+    virtual void Resolution(Collider* collider) noexcept {}
 
-    inline float GetRadius() { return m_radius; };
-    inline void SetRadius(float radius) { m_radius = radius; };
+    inline void AddOnEnterCallback(std::function<void(Collider&)> callback) { m_onEnterCallbacks.push_back(callback); };
+    inline void AddOnExitCallback(std::function<void(Collider&)> callback) { m_onExitCallbacks.push_back(callback); };
+    inline void ClearOnEnterCallbacks() { m_onEnterCallbacks.clear(); };
+    inline void ClearOnExitCallbacks() { m_onExitCallbacks.clear(); };
+
+    void ManageIntersections();
+    template <typename T>
+    void RemoveDuplicateEntries(std::vector<T>& vec);
+    void Process();
+    void Update();
+
+    //std::function<void(Collider&)> f = std::bind(&Player::foo, this, std::placeholders::_1);
+    void OnEnter(Collider& col);
+    void OnExit(Collider& col);
 };
 
 #endif
