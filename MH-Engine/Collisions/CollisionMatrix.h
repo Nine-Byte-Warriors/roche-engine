@@ -1,11 +1,13 @@
 #pragma once
-#include <memory>
-#include <vector>
+#ifndef COLLISIONMATRIX_H
+#define COLLISIONMATRIX_H
+
 #include "LayerMask.h"
 
 //Maps which layers can interact
 class CollisionMatrix
 {
+private:
 	std::shared_ptr<std::vector<LayerMask>> m_matrix;
 
 public:
@@ -30,3 +32,5 @@ public:
 	bool GetElement(int mask, int element) { return m_matrix->at(mask).m_mask[element]; };
 	void SetElement(int mask, int element, bool value) { m_matrix->at(mask).m_mask[element] = value; };
 };
+
+#endif

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CircleCollider.h"
 
-
 Vector2f CircleCollider::ClosestPoint(Vector2f position)
 {
     Vector2f direction = position - m_tf->GetPosition();
