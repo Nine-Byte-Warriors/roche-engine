@@ -190,7 +190,8 @@ bool ImGuiManager::IsPressedInsideSceneWindow(int inputX, int inputY, int viewX,
     return false;
 }
 
-Vector2f ImGuiManager::SceneWindowToGameWindowPositionConversion(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight)
+Vector2f ImGuiManager::SceneWindowToGameWindowPositionConversion
+(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight)
 {
     float convertedX;
     float convertedY;

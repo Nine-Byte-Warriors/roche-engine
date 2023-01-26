@@ -378,6 +378,7 @@
     <ClCompile Include="Utility\Errors\ErrorLogger.cpp" />
     <ClCompile Include="Utility\Helper\FileHandler.cpp" />
     <ClCompile Include="Utility\Helper\FileLoading.cpp" />
+    <ClCompile Include="Utility\Helper\MouseCapture.cpp" />
     <ClCompile Include="Utility\Helper\StringHelper.cpp" />
     <ClCompile Include="Utility\Helper\TextRenderer.cpp" />
     <ClCompile Include="Utility\Helper\ThreadManager.cpp" />
@@ -447,6 +448,7 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />

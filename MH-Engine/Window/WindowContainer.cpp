@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "WindowContainer.h"
 #include <Vector2f.h>
+#include "MouseCapture.h"
 
 #if _DEBUG
 #include <imgui/imgui.h>
@@ -136,10 +137,23 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, mousePos );
-			return 0;
+            Vector2f vGamePos = MouseCapture::GetGamePos(
+                ImGui::GetMousePos(),
+                m_vImguiPos,
+                ImGui::GetWindowContentRegionMax(),
+                imio.DisplaySize
+            );
+            EventSystem::Instance()->AddEvent(EVENTID::MousePosition, &vGamePos);
+            return 0;
+            
+            /*mousePos = new Vector2f(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+            Vector2f vSceneSize(imio.DisplaySize.x, imio.DisplaySize.y);
+			if (MouseCapture::IsInScene(*mousePos, m_vImguiPos, vSceneSize))
+			{
+				Vector2f vGamePos = MouseCapture::EditorPosToGamePos(*mousePos, m_vImguiPos, vSceneSize);
+                EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vGamePos);
+				return 0;
+			}*/
         }
 #endif
 

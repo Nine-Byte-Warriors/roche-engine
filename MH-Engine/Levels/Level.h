@@ -20,7 +20,7 @@
 #include "ProjectileEditor.h"
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
-
+#include "MouseCapture.h"
 
 /// <summary>
 /// The first level of the game.
@@ -103,6 +103,8 @@ private:
 	const int m_iTileMapLayers = 2;
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;
+
+	//MouseCapture m_mouseCapture = MouseCapture();
 };
 
 #endif
