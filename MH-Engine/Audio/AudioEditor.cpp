@@ -20,22 +20,15 @@ AudioEditor::AudioEditor()
 {
 	//LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
 	m_bSoundBankToLoad = false;
-	LoadFromFileSoundBankLists();
+	//LoadFromFileSoundBankLists();
 	//LoadFromFileSoundBankFiles();
 }
 
 AudioEditor::~AudioEditor() { }
 
-void AudioEditor::SetJsonFile( const std::string& name )
+void AudioEditor::SetJsonFile(const std::string& name)
 {
 	m_sSoundBankFile = name;
-	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + m_sSoundBankFile);
-	SortScreens();
-}
-
-void AudioEditor::LoadFromFileSoundBankLists()
-{
-	// Load UI screens
 	JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + m_sSoundBankFile);
 	SortScreens();
 }
@@ -188,7 +181,36 @@ void AudioEditor::SortScreens()
 void AudioEditor::SaveToFileSoundBankLists()
 {
 	// Add check duplicate of name
-	JsonLoading::SaveJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH);
+	//JsonLoading::SaveJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + std::string("!SoundBankList_New.json"));
+
+	std::shared_ptr<FileHandler::FileObject> foSave;
+
+	foSave = FileHandler::FileDialog(foSave)	// pass file object to the FileDialog Buidler.
+		->UseSaveDialog()	// Choose the dialog to use.
+		->ShowDialog()		// Show the dialog.
+		->StoreDialogResult();	// Store the result.
+
+	// Check if the file object has a file path/name.
+	if (foSave->HasPath()) {
+		JsonLoading::SaveJson(m_vSoundBanksList, foSave->GetJsonPath()); // Save the file.
+	}
+}
+
+void AudioEditor::LoadFromFileSoundBankLists()
+{
+	// Call the FileDialog Builder and store the result in a file object.
+	std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+		->UseOpenDialog()	// Choose the dialog to use.
+		->ShowDialog()		// Show the dialog.
+		->StoreDialogResult();	// Store the result.
+
+	if (foLoad->HasPath()) {
+		if (foLoad->GetFullPath().find(SOUND_BANK_LISTS_PATH) != std::string::npos) {
+			// Load UI screens
+			JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + foLoad->GetFilePath());
+			SortScreens();
+		}
+	}
 }
 
 //void AudioEditor::SaveToFileSoundBankFiles()
@@ -219,12 +241,17 @@ void AudioEditor::SpawnControlWindow()
 	if (ImGui::Begin("Audio Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		// Save Sound Banks List
-		if (ImGui::Button("Save Sound Banks"))
+		if (ImGui::Button("Save Sound Bank List"))
 		{
 			SaveToFileSoundBankLists();
 			savedFileSoundBankList = true;
 		}
 		ImGui::SameLine();
+
+		if (ImGui::Button("Load Sound Bank List"))
+		{
+			LoadFromFileSoundBankLists();
+		}
 
 		// Save Sound Bank
 		//if (ImGui::Button("Save Sound Bank Files"))
