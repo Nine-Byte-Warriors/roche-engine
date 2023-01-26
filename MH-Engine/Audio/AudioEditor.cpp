@@ -20,6 +20,8 @@ AudioEditor::AudioEditor()
 {
 	//LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
 	m_bSoundBankToLoad = false;
+	m_sActiveSoundBankList = "None";
+	m_sActiveSoundBankPath = "None";
 	//LoadFromFileSoundBankLists();
 	//LoadFromFileSoundBankFiles();
 }
@@ -90,19 +92,15 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 	}
 
 	if (ImGui::Button(("Add to " + audioTypeString + " list" + "##" + audioTypeString).c_str())) {
-
-
 		// Call the FileDialog Builder and store the result in a file object.
 		std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
 			->UseOpenDialog()	// Choose the dialog to use.
 			->ShowDialog()		// Show the dialog.
 			->StoreDialogResult();	// Store the result.
 
-
-
 		if (foLoad->HasPath())
 		{
-			bool isNew = true;
+			bool duplicateFound = false;
 			JSONSoundFile newSound;
 
 			if (foLoad->m_sExt == "wav") {
@@ -114,11 +112,11 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 
 					for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
 						if (m_vSoundFileInfo[i].name == newSound.name) {
-							isNew = false;
+							duplicateFound = true;
 						}
 					}
 
-					if (isNew) {
+					if (!duplicateFound) {
 						m_vSoundFileInfo.emplace_back(newSound);
 						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
 					}
@@ -256,6 +254,10 @@ void AudioEditor::SpawnControlWindow()
 
 		ImGui::NewLine();
 
+		ImGui::Text(std::string("Active Sound Bank List:").c_str());
+		ImGui::Text(m_sActiveSoundBankList.c_str());
+		ImGui::NewLine();
+
 		if (ImGui::CollapsingHeader("Sound Banks", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			// List of all UI screens currently defined
@@ -269,6 +271,7 @@ void AudioEditor::SpawnControlWindow()
 					if (ImGui::Selectable(key.c_str(), isSelected)) {
 						previousSoundBankFileIdx = currentSoundBankFileIdx;
 						currentSoundBankFileIdx = index;
+						m_sActiveSoundBankPath = m_vSoundBanksList.at(currentSoundBankFileIdx).filePath;
 						soundBankToLoad = true;
 					}
 
@@ -280,6 +283,9 @@ void AudioEditor::SpawnControlWindow()
 				ImGui::EndListBox();
 			}
 
+			ImGui::Text(std::string("Active Sound Bank file path:").c_str());
+			ImGui::Text(m_sActiveSoundBankPath.c_str());
+			ImGui::NewLine();
 
 			// Add/remove sound banks
 			// TO DO: Check whether duplicate name exists, if so add up index and check again + ADD JSON when creating it, give option to rename it
@@ -329,7 +335,7 @@ void AudioEditor::SpawnControlWindow()
 
 				}
 			}
-			ImGui::SameLine();
+			ImGui::NewLine();
 
 			if (ImGui::Button("Remove Sound Bank"))
 			{
@@ -340,7 +346,7 @@ void AudioEditor::SpawnControlWindow()
 					currentSoundBankFileIdx -= 1;
 				}
 			}
-			ImGui::SameLine();
+			ImGui::NewLine();
 
 			// Modify sound bank
 			if (currentSoundBankFileIdx > -1)
