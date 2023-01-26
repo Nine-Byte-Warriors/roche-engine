@@ -6,12 +6,14 @@
 EntityController::EntityController()
 {
 	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
+	m_entityDataCopy = m_entityData;
 }
 
 void EntityController::SetJsonFile( const std::string& name )
 {
 	JsonFile = name;
 	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
+	m_entityDataCopy = m_entityData;
 }
 
 EntityController::~EntityController()
@@ -31,6 +33,11 @@ std::string EntityController::GetTexture(int num)
 std::vector<float> EntityController::GetPosition(int num)
 {
 	return m_entityData[num].position;
+}
+
+std::string EntityController::GetName(int num)
+{
+	return m_entityData[num].name;
 }
 
 std::string EntityController::GetType(int num)
@@ -77,14 +84,64 @@ EntityData* EntityController::GetProjectileBullet(int num)
 {
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
-		if (m_entityData[i].name != m_entityData[num].projectileBullet)
+		if (m_entityData[i].name == m_entityData[num].projectileBullet)
 		{
 			return &m_entityData[i];
 		}
 	}
+
+	return &m_entityData[num];
 }
 
 void EntityController::SetEntityData(std::vector<EntityData> entityData)
 {
 	m_entityData = entityData;
+}
+
+bool EntityController::HasAI(int num)
+{
+	return m_entityData[num].AI;
+}
+
+bool EntityController::HasProjectileSystem(int num)
+{
+	return m_entityData[num].projectileSystem;
+}
+
+bool EntityController::HasCollider(int num)
+{
+	return m_entityData[num].collider;
+}
+
+bool EntityController::HasProjectileButtet(int num)
+{
+	return m_entityData[num].bProjectileBullet;
+}
+
+bool EntityController::HasProjectilePattern(int num)
+{
+	return m_entityData[num].bProjectilePattern;
+}
+
+bool EntityController::HasComponentUpdated()
+{
+	for (int i = 0; i < m_entityData.size(); i++)
+	{
+		bool componentUpdated =
+			m_entityDataCopy[i].collider != m_entityData[i].collider ||
+			m_entityDataCopy[i].AI != m_entityData[i].AI ||
+			m_entityDataCopy[i].projectileSystem != m_entityData[i].projectileSystem;
+
+		if (componentUpdated)
+		{
+			m_entityDataCopy = m_entityData;
+			return true;
+		}
+	}
+	return false;
+}
+
+void EntityController::UpdateCopy()
+{
+	m_entityDataCopy = m_entityData;
 }

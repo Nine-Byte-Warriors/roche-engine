@@ -11,13 +11,6 @@ class Graphics;
 #include "Agent.h"
 #include "Player.h"
 
-enum class EntityType
-{
-	Player,
-	Enemy,
-	Projectile
-};
-
 class Entity : public Listener
 {
 public:
@@ -28,15 +21,17 @@ public:
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
 
-	EntityType GetEntityType();
-
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager;	}
-	inline std::shared_ptr<Collider> GetCollider() const noexcept { return m_collider; };
-	//inline std::shared_ptr<BoxCollider> GetCollider() const noexcept { return m_boxCollider; };
+	inline std::shared_ptr<Collider> GetCollider() const noexcept {
+		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
+			return m_colliderCircle;
+		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
+			return m_colliderBox;		
+	};
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -47,6 +42,8 @@ private:
 	void SetPositionInit();
 	void SetScaleInit();
 
+	void SetComponents();
+
 	void UpdatePosition();
 	void UpdateScale();
 	void UpdateFrame();
@@ -55,20 +52,13 @@ private:
 	void UpdateMass();
 	void UpdateSpeed();
 
-	void UpdateType();
 	void UpdateBehaviour();
 
 	void UpdateProjectilePattern();
 
-	void UpdateColliderShape();
 	void UpdateColliderRadius();
 
-	void UpdatePlayer(const float dt);
-	void UpdateEnemy(const float dt);
-	void UpdateProjectile(const float dt);
-
 	int m_iEntityNum;
-	EntityType m_entityType;
 
 	ID3D11Device* m_device;
 
@@ -103,7 +93,8 @@ private:
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<ProjectileManager> m_projectileManager;
-	std::shared_ptr<CircleCollider> m_collider;
+	std::shared_ptr<CircleCollider> m_colliderCircle;
+	std::shared_ptr<BoxCollider> m_colliderBox;
 
 	EntityController* m_entityController;
 };
