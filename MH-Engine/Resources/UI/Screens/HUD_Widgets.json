@@ -11,7 +11,8 @@
             100.0
         ],
         "type": "Energy Bar",
-		"zindex": 0
+		"zindex": 0,
+		"hide": false
     },
     {
         "action": "",
@@ -25,6 +26,7 @@
             100.0
         ],
         "type": "Image",
-		"zindex": 1
+		"zindex": 1,
+		"hide": false
     }
 ]

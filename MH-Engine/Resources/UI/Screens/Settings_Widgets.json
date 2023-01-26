@@ -11,7 +11,8 @@
             64.0
         ],
         "type": "Image",
-		"zindex": 0
+		"zindex": 0,
+		"hide": false
     },
     {
         "action": "Link",
@@ -25,7 +26,8 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 1
+		"zindex": 1,
+		"hide": false
     },
     {
         "action": "Start",
@@ -39,7 +41,8 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 2
+		"zindex": 2,
+		"hide": false
     },
     {
         "action": "",
@@ -53,7 +56,8 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 3
+		"zindex": 3,
+		"hide": false
     },
     {
         "action": "Close",
@@ -67,6 +71,7 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 4
+		"zindex": 4,
+		"hide": false
     }
 ]
