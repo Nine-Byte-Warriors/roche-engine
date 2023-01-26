@@ -1,19 +1,28 @@
 #include "stdafx.h"
 #include "CircleCollider.h"
 
-Vector2f CircleCollider::ClosestPoint(Vector2f position) noexcept
+Vector2f CircleCollider::ClosestPoint(Vector2f point) noexcept
 {
-    Vector2f direction = position - m_tf->GetPosition();
+    Vector2f direction = point - m_transform->GetPosition();
     Vector2f unit = direction.Divide(direction.Magnitude());
 
-    Vector2f closestPoint = m_tf->GetPosition() + unit.Multiply(m_radius);
+    Vector2f closestPoint = m_transform->GetPosition() + unit.Multiply(m_radius);
 
     return closestPoint;
 }
 
+Vector2f CircleCollider::ClosestSurfacePoint(Vector2f point) 
+{
+    Vector2f pos = m_transform->GetPosition();
+    Vector2f direction = pos.DirectionTo(point);
+    Vector2f result = direction.Multiply(m_radius);
+
+    return result;
+}
+
 bool CircleCollider::ToBox(BoxCollider* box) noexcept
 {
-    Vector2f circlePos = m_tf->GetPosition();
+    Vector2f circlePos = m_transform->GetPosition();
     Vector2f closestPoint = box->ClosestPoint(circlePos);
 
     int distance = (circlePos - closestPoint).Magnitude();
@@ -27,8 +36,8 @@ bool CircleCollider::ToBox(BoxCollider* box) noexcept
 bool CircleCollider::ToCircle(CircleCollider* circle) noexcept
 {
     int radiusSum = m_radius + circle->GetRadius();
-    int distance = Vector2f(m_tf->GetPosition().x - circle->GetTransform()->GetPosition().x,
-                            m_tf->GetPosition().y - circle->GetTransform()->GetPosition().y).Magnitude();
+    int distance = Vector2f(m_transform->GetPosition().x - circle->GetTransform()->GetPosition().x,
+                            m_transform->GetPosition().y - circle->GetTransform()->GetPosition().y).Magnitude();
 
     if (distance < radiusSum)
         return true;
@@ -38,7 +47,7 @@ bool CircleCollider::ToCircle(CircleCollider* circle) noexcept
 
 bool CircleCollider::ToPoint(Vector2f point) noexcept
 {
-    Vector2f circlePos = m_tf->GetPosition();
+    Vector2f circlePos = m_transform->GetPosition();
 
     int distance = (circlePos - point).Magnitude();
 
@@ -53,7 +62,7 @@ void CircleCollider::Resolution(Collider* collider) noexcept
     if (m_isTrigger)
         return;
 
-    Vector2f newPos = m_tf->GetPosition();
+    Vector2f newPos = m_transform->GetPosition();
     Vector2f lastValidPos = m_lastValidPosition;
     Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
 
@@ -66,8 +75,8 @@ void CircleCollider::Resolution(Collider* collider) noexcept
     {
         //Change the position on the x or y axis or both to move collider out of the other
 
-        changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
-        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+        changeXValue = !collider->ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
+        changeYValue = !collider->ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
 
         //change gameobjects position on either the x or y axis
         if (changeXValue)
@@ -90,8 +99,8 @@ void CircleCollider::Resolution(Collider* collider) noexcept
     {
 
         //Change the position on the x or y axis or both to move collider out of the other
-        changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
-        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+        changeXValue = !collider->ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
+        changeYValue = !collider->ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
 
         //change gameobjects position on either the x or y axis
         if (changeXValue)
@@ -99,7 +108,7 @@ void CircleCollider::Resolution(Collider* collider) noexcept
             newPos.x = lastValidPos.x;
         }
         //if changing the x works
-        else if (changeYValue)
+         else if (changeYValue)
         {
             newPos.y = lastValidPos.y;
         }
@@ -112,7 +121,7 @@ void CircleCollider::Resolution(Collider* collider) noexcept
     }
     }
 
-    m_tf->SetPosition(newPos);
+    m_transform->SetPosition(newPos);
 }
 
 bool CircleCollider::CollisionCheck(Collider* collider) noexcept

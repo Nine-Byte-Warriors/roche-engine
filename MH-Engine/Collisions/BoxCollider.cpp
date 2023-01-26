@@ -4,25 +4,47 @@
 Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition) noexcept
 {
     Vector2f closestPoint;
-    float halfHeight = (m_w / 2);
-    float halfWidth = (m_h / 2);
-    closestPoint.x = Clamp(m_tf->GetPosition().x - halfWidth, m_tf->GetPosition().x + halfWidth, targetPosition.x);
-    closestPoint.y = Clamp(m_tf->GetPosition().y - halfHeight, m_tf->GetPosition().y + halfHeight, targetPosition.y);
+    float halfHeight = (m_width / 2);
+    float halfWidth = (m_height / 2);
+    closestPoint.x = Clamp(m_transform->GetPosition().x - halfWidth, m_transform->GetPosition().x + halfWidth, targetPosition.x);
+    closestPoint.y = Clamp(m_transform->GetPosition().y - halfHeight, m_transform->GetPosition().y + halfHeight, targetPosition.y);
 
     return closestPoint;
+}
+Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point) noexcept
+{
+    Vector2f position = m_transform->GetPosition();
+
+    Vector2f direction = (point - position).Normalised();
+    Vector2f projectedVector;
+
+    if (m_width > m_height)
+    {
+        projectedVector = position + direction.Multiply(m_width);
+    }
+    else
+    {
+        projectedVector = position + direction.Multiply(m_height);
+    }
+
+    float surfacePointx = Clamp((position.x - m_width), (position.x + m_width), projectedVector.x);
+    float surfacePointy = Clamp((position.y - m_height), (position.x + m_height), projectedVector.y);
+
+    Vector2f surfacePoint = Vector2f(surfacePointx, surfacePointy);
+    return surfacePoint;
 }
 
 bool BoxCollider::ToBox(BoxCollider* box) noexcept
 {
-    float box1HalfWidth = (m_w / 2);
-    float box1HalfHeight = (m_h / 2);
+    float box1HalfWidth = (m_width / 2);
+    float box1HalfHeight = (m_height / 2);
 
-    float box2HalfWidth = (m_w / 2);
-    float box2HalfHeight = (m_h / 2);
+    float box2HalfWidth = (m_width / 2);
+    float box2HalfHeight = (m_height / 2);
     Transform& box2Tf = *box->GetTransform();
 
-    Vector2f box1Min(m_tf->GetPosition().x - box1HalfWidth, m_tf->GetPosition().y - box1HalfHeight);
-    Vector2f box1Max(m_tf->GetPosition().x + box1HalfWidth, m_tf->GetPosition().y + box1HalfHeight);
+    Vector2f box1Min(m_transform->GetPosition().x - box1HalfWidth, m_transform->GetPosition().y - box1HalfHeight);
+    Vector2f box1Max(m_transform->GetPosition().x + box1HalfWidth, m_transform->GetPosition().y + box1HalfHeight);
 
     Vector2f box2Min(box2Tf.GetPosition().x - box1HalfWidth, box2Tf.GetPosition().y - box2HalfHeight);
     Vector2f box2Max(box2Tf.GetPosition().x + box1HalfWidth, box2Tf.GetPosition().y + box2HalfHeight);
@@ -51,11 +73,11 @@ bool BoxCollider::ToCircle(CircleCollider* circle) noexcept
 
 bool BoxCollider::ToPoint(Vector2f point) noexcept
 {
-    float boxHalfWidth = (m_w / 2);
-    float boxHalfHeight = (m_h / 2);
+    float boxHalfWidth = (m_width / 2);
+    float boxHalfHeight = (m_height / 2);
 
-    Vector2f boxMin(m_tf->GetPosition().x - boxHalfWidth, m_tf->GetPosition().y - boxHalfHeight);
-    Vector2f boxMax(m_tf->GetPosition().x + boxHalfWidth, m_tf->GetPosition().y + boxHalfHeight);
+    Vector2f boxMin(m_transform->GetPosition().x - boxHalfWidth, m_transform->GetPosition().y - boxHalfHeight);
+    Vector2f boxMax(m_transform->GetPosition().x + boxHalfWidth, m_transform->GetPosition().y + boxHalfHeight);
 
     if (point.x < boxMax.x &&
         point.x > boxMin.x &&
@@ -66,35 +88,13 @@ bool BoxCollider::ToPoint(Vector2f point) noexcept
     return false;
 }
 
-Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point) noexcept
-{
-    Vector2f position = m_tf->GetPosition();
-
-    Vector2f direction = (point - position).Normalised();
-    Vector2f projectedVector;
-
-    if (m_w > m_h)
-    {
-        projectedVector = position + direction.Multiply(m_w);
-    }
-    else
-    {
-        projectedVector = position + direction.Multiply(m_h);
-    }
-
-    float surfacePointx = Clamp((position.x - m_w), (position.x + m_w), projectedVector.x);
-    float surfacePointy = Clamp((position.y - m_h), (position.x + m_h), projectedVector.y);
-
-    Vector2f surfacePoint = Vector2f(surfacePointx, surfacePointy);
-    return surfacePoint;
-}
 
 void BoxCollider::Resolution(Collider*  collider) noexcept
 {
     if (m_isTrigger)
         return;
 
-    Vector2f newPos = m_tf->GetPosition();
+    Vector2f newPos = m_transform->GetPosition();
 
     bool changeXValue = false;
     bool changeYValue = false;
@@ -110,13 +110,13 @@ void BoxCollider::Resolution(Collider*  collider) noexcept
         float width = temp.GetWidth();
         float height = temp.GetHeight();
 
-        temp.SetHeight(height + (m_h/2));
-        temp.SetWidth(width + (m_w / 2));
-        Vector2f position = m_tf->GetPosition();
+        temp.SetHeight(height + (m_height/2));
+        temp.SetWidth(width + (m_width / 2));
+        Vector2f position = m_transform->GetPosition();
 
-        newPos = ClosestSurfacePoint(m_tf->GetPosition());//
+        newPos = ClosestSurfacePoint(m_transform->GetPosition());//
 
-        changeXValue = !ToPoint(Vector2f(lastValidPos.x, m_tf->GetPosition().x));
+        changeXValue = !ToPoint(Vector2f(lastValidPos.x, m_transform->GetPosition().x));
         changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
         break;
     }
@@ -145,7 +145,7 @@ void BoxCollider::Resolution(Collider*  collider) noexcept
     {
         newPos = lastValidPos;
     }
-    m_tf->SetPosition(newPos);
+    m_transform->SetPosition(newPos);
 
 
 }

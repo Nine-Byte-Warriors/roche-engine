@@ -194,7 +194,7 @@ void CollisionHandler::CollisionCheckAll()
         for (int n = 0; n < m_colliders.size(); n++)
         {
             layersInteract = m_collisionMatrix.GetElement((int)m_colliders[i]->GetLayer(), (int)m_colliders[n]->GetLayer());
-            collidersInteract = m_colliders[i]->GetLayerMask().m_mask[(int)m_colliders[n]->GetLayer()];
+            collidersInteract = m_colliders[i]->GetCollisionMask().m_mask[(int)m_colliders[n]->GetLayer()];
 
             if (n == i || layersInteract == false || collidersInteract == false)
             {
@@ -211,8 +211,8 @@ void CollisionHandler::CollisionCheckAll()
                 m_colliders[i]->LogCollision(collider2);
                 m_colliders[n]->LogCollision(collider1);
 
-                //m_colliders[i]->Resolution(m_colliders[n].get());
-                Resolution(m_colliders[i].get(), m_colliders[n].get());
+                m_colliders[i]->Resolution(m_colliders[n].get());
+                //Resolution(m_colliders[i].get(), m_colliders[n].get());
             }
         }
         if (!isCollision)

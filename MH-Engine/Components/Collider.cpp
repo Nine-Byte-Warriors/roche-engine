@@ -4,12 +4,12 @@
 Collider::Collider(Collider& col)
 {
     m_collisionMask = col.m_collisionMask;
-    m_curintersections = col.m_curintersections;
-    m_intersections = col.m_intersections;
+    m_curCollisions = col.m_curCollisions;
+    m_collisions = col.m_collisions;
     m_isTrigger = col.m_isTrigger;
     m_lastValidPosition = col.m_lastValidPosition;
     m_layer = col.m_layer;
-    m_tf = col.m_tf;
+    m_transform = col.m_transform;
     m_type = col.m_type;
 }
 
@@ -22,21 +22,8 @@ float Collider::Clamp(float min, float max, float value)
     else
         return value;
 }
-
-void Collider::OnEnter(Collider& col)
-{
-    for (auto& callback : m_onEnterCallbacks)
-        callback(col);
-}
-
-void Collider::OnExit(Collider& col)
-{
-    for (auto& callback : m_onExitCallbacks)
-        callback(col);
-}
-
 template <typename T>
-void Collider::RemoveDuplicateEntries(std::vector<T>& vec)
+void Collider::RemoveDuplicateElements(std::vector<T>& vec)
 {
     std::vector<int> duplicateIndices;
     //remove duplicates
@@ -61,18 +48,31 @@ void Collider::RemoveDuplicateEntries(std::vector<T>& vec)
     }
 }
 
-void Collider::ManageIntersections()
+
+void Collider::OnEnter(Collider& col)
+{
+    for (auto& callback : m_onEnterCallbacks)
+        callback(col);
+}
+
+void Collider::OnLeave(Collider& col)
+{
+    for (auto& callback : m_onLeaveCallbacks)
+        callback(col);
+}
+
+void Collider::ManageCollisions()
 {
     //check if entering or leaving
-    std::vector<int> curintersectmatchesCount(m_curintersections.size());
-    for ( auto& [key, value] : m_intersections )
+    std::vector<int> curintersectmatchesCount(m_curCollisions.size());
+    for ( auto& [key, value] : m_collisions )
     {
         bool left = true;
 
-        for (int n = 0; n < m_curintersections.size(); n++)
+        for (int n = 0; n < m_curCollisions.size(); n++)
         {
             //auto pastintersection = m_curintersections[n];
-            if (m_curintersections[n] == key)
+            if (m_curCollisions[n] == key)
             {
                 left = false;
                 curintersectmatchesCount[n]++;
@@ -88,23 +88,23 @@ void Collider::ManageIntersections()
             value = CollisionState::Leaving;
         }
     }
-    for (int i = 0; i < m_curintersections.size(); i++)
+    for (int i = 0; i < m_curCollisions.size(); i++)
     {
         if (curintersectmatchesCount[i] == 0)
         {
-            m_intersections.emplace(m_curintersections[i], CollisionState::Entering);
+            m_collisions.emplace(m_curCollisions[i], CollisionState::Entering);
         }
     }
-    m_curintersections.clear();
+    m_curCollisions.clear();
 }
 
-void Collider::Process()
+void Collider::ProcessCollisions()
 {
-    if ( m_intersections.size() == 0 )
+    if ( m_collisions.size() == 0 )
         return;
 
     //Run functions
-    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_intersections.begin(); itr != m_intersections.end(); )
+    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_collisions.begin(); itr != m_collisions.end(); )
     {
         if ( itr->first )
         {
@@ -115,10 +115,10 @@ void Collider::Process()
                 ++itr;
                 break;
             case CollisionState::Leaving:
-                OnExit(*itr->first);
-                if ( m_intersections.size() == 1 )
+                OnLeave(*itr->first);
+                if ( m_collisions.size() == 1 )
                     return;
-                itr = m_intersections.erase( itr );
+                itr = m_collisions.erase( itr );
                 break;
             }
         }
@@ -127,10 +127,10 @@ void Collider::Process()
 
 void Collider::Update()
 {
-    if (m_curintersections.size() == 0 && m_intersections.size() == 0)
+    if (m_curCollisions.size() == 0 && m_collisions.size() == 0)
         return;
 
-    RemoveDuplicateEntries<std::shared_ptr<Collider>>(m_curintersections);
-    ManageIntersections();
-    Process();
+    RemoveDuplicateElements<std::shared_ptr<Collider>>(m_curCollisions);
+    ManageCollisions();
+    ProcessCollisions();
 }
