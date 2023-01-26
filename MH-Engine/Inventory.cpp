@@ -3,7 +3,8 @@
 
 Inventory::Inventory()
 {
-
+	InventoryStruct carrot = { "Carrot",5 };
+	m_seedInventory.push_back(carrot);
 }
 Inventory::~Inventory()
 {

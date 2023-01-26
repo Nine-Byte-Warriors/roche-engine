@@ -10,6 +10,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "Player.h"
+#include "Inventory.h"
 
 enum class EntityType
 {
@@ -104,6 +105,7 @@ private:
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<ProjectileManager> m_projectileManager;
 	std::shared_ptr<CircleCollider> m_collider;
+	std::shared_ptr<Inventory> m_inventory;
 
 	EntityController* m_entityController;
 };

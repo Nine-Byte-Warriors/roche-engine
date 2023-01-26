@@ -20,17 +20,13 @@ public :
 	Inventory();
 	~Inventory();
 
-
-
-private:
-	void SetJsonFile(const string& name);
-	void SaveInventory();
-
 	void UpdateInventoryCount(string seedName, int seedChange);
+private:
+
 	bool SeedCountCheck(int seedIndex);
 
 	string m_currentSeed;
-	vector<InventoryStruct> m_seedInventory;
+	vector<InventoryStruct> m_seedInventory ;
 
 };
 
