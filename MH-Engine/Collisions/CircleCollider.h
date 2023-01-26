@@ -14,19 +14,19 @@ public:
 private:
     float m_radius = 0;
 public:
-    Vector2f ClosestPoint(Vector2f position) override;
+    Vector2f ClosestPoint(Vector2f position) noexcept override;
 
-    inline float GetRadius() { return m_radius; };
-    inline void SetRadius(float radius) { m_radius = radius; };
+    inline float GetRadius() const noexcept { return m_radius; };
+    inline void SetRadius(float radius) noexcept { m_radius = radius; };
 
     //Collision Checks
-    bool ToBox(BoxCollider* box) override;
-    bool ToCircle(CircleCollider* circle) override;
-    bool ToPoint(Vector2f point) override;
-    bool CollisionCheck(Collider* collider) override;
+    bool ToBox(BoxCollider* box) noexcept override;
+    bool ToCircle(CircleCollider* circle) noexcept override;
+    bool ToPoint(Vector2f point) noexcept override;
+    bool CollisionCheck(Collider* collider) noexcept override;
 
 
     //Resolution
-    void Resolution(Collider* collider) override;
+    void Resolution(Collider* collider) noexcept override;
 };
 #endif

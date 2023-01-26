@@ -16,21 +16,21 @@ private:
     float m_w = 0;
     float m_h = 0;
 public:
-    Vector2f ClosestPoint(Vector2f position) override;
-    inline float GetWidth() { return m_w; }
-    inline float GetHeight() { return m_h; }
-    inline void SetWidth(float width) { m_w = width; }
-    inline void SetHeight(float height) { m_h = height; }
+    Vector2f ClosestPoint(Vector2f position) noexcept override;
+    inline float GetWidth() const noexcept { return m_w; }
+    inline float GetHeight() const noexcept { return m_h; }
+    inline void SetWidth(float width) noexcept { m_w = width; }
+    inline void SetHeight(float height) noexcept { m_h = height; }
 
     //Collision Checks
-    bool ToBox(BoxCollider* box) override;
-    bool ToCircle(CircleCollider* circle) override;
-    bool ToPoint(Vector2f point) override;
-    bool CollisionCheck(Collider* collider) override;
+    bool ToBox(BoxCollider* box) noexcept override;
+    bool ToCircle(CircleCollider* circle) noexcept override;
+    bool ToPoint(Vector2f point) noexcept override;
+    bool CollisionCheck(Collider* collider) noexcept override;
 
-    Vector2f ClosestSurfacePoint(Vector2f point);
+    Vector2f ClosestSurfacePoint(Vector2f point) noexcept;
 
-    void Resolution(Collider* collider) override;
+    void Resolution(Collider* collider) noexcept override;
 };
 
 #endif

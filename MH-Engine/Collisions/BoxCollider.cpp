@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BoxCollider.h"
 
-Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition)
+Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition) noexcept
 {
     Vector2f closestPoint;
     float halfHeight = (m_w / 2);
@@ -12,7 +12,7 @@ Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition)
     return closestPoint;
 }
 
-bool BoxCollider::ToBox(BoxCollider* box)
+bool BoxCollider::ToBox(BoxCollider* box) noexcept
 {
     float box1HalfWidth = (m_w / 2);
     float box1HalfHeight = (m_h / 2);
@@ -31,16 +31,12 @@ bool BoxCollider::ToBox(BoxCollider* box)
         box1Max.x > box2Min.x &&
         box1Min.y < box2Max.y &&
         box1Max.y > box2Min.y)
-    {
         return true;
-    }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
-bool BoxCollider::ToCircle(CircleCollider* circle)
+bool BoxCollider::ToCircle(CircleCollider* circle) noexcept
 {
     Vector2f circlePos = circle->GetTransform()->GetPosition();
     Vector2f closestPoint = ClosestPoint(circlePos);
@@ -48,16 +44,12 @@ bool BoxCollider::ToCircle(CircleCollider* circle)
     int distance = (circlePos - closestPoint).Magnitude();
 
     if (distance < circle->GetRadius())
-    {
         return true;
-    }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
-bool BoxCollider::ToPoint(Vector2f point)
+bool BoxCollider::ToPoint(Vector2f point) noexcept
 {
     float boxHalfWidth = (m_w / 2);
     float boxHalfHeight = (m_h / 2);
@@ -69,16 +61,12 @@ bool BoxCollider::ToPoint(Vector2f point)
         point.x > boxMin.x &&
         point.y < boxMax.y &&
         point.y >boxMin.y)
-    {
         return true;
-    }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
-Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point)
+Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point) noexcept
 {
     Vector2f position = m_tf->GetPosition();
 
@@ -100,18 +88,17 @@ Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point)
     Vector2f surfacePoint = Vector2f(surfacePointx, surfacePointy);
     return surfacePoint;
 }
-void BoxCollider::Resolution(Collider*  collider)
+
+void BoxCollider::Resolution(Collider*  collider) noexcept
 {
-    if (m_isTrigger == true)
-    {
+    if (m_isTrigger)
         return;
-    }
 
     Vector2f newPos = m_tf->GetPosition();
-    
+
     bool changeXValue = false;
     bool changeYValue = false;
-   Vector2f lastValidPos = m_lastValidPosition;
+    Vector2f lastValidPos = m_lastValidPosition;
 
     Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
     switch (collider->GetColliderType())
@@ -135,18 +122,15 @@ void BoxCollider::Resolution(Collider*  collider)
     }
     case ColliderType::Circle:
     {
-
-
         //Change the position on the x or y axis or both to move collider out of the other
 
         changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
         changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
 
-
         break;
     }
     }
-    
+
     //change gameobjects position on either the x or y axis
     if (changeXValue)
     {
@@ -165,16 +149,14 @@ void BoxCollider::Resolution(Collider*  collider)
 
 
 }
-bool BoxCollider::CollisionCheck(Collider* collider)
+bool BoxCollider::CollisionCheck(Collider* collider) noexcept
 {
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
         return ToBox((BoxCollider*)collider);
-        break;
     case ColliderType::Circle:
         return ToCircle((CircleCollider*)collider);
-        break;
     }
 
     return false;

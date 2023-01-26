@@ -45,47 +45,42 @@ protected:
     std::vector<std::function<void(Collider&)>> m_onEnterCallbacks;
     std::vector<std::function<void(Collider&)>> m_onExitCallbacks;
 
-
 public:
     inline const ColliderType GetColliderType() { return m_type; }
 
-    inline bool GetIsTrigger() { return m_isTrigger; };
-    inline void SetIsTrigger(bool trigger) { m_isTrigger = trigger; }
+    inline bool GetIsTrigger() noexcept { return m_isTrigger; };
+    inline void SetIsTrigger(bool trigger) noexcept { m_isTrigger = trigger; }
 
-    void SetLayer(LayerNo layer) { m_layer = layer; };
-    void SetCollisionMask(LayerMask collisionMask) { m_collisionMask = collisionMask; m_collisionMask = collisionMask; }
-    LayerNo GetLayer() { return m_layer; };
-    LayerMask GetLayerMask() { return m_collisionMask; };
+    inline void SetLayer(LayerNo layer) { m_layer = layer; };
+    inline void SetCollisionMask(LayerMask collisionMask) noexcept { m_collisionMask = collisionMask; m_collisionMask = collisionMask; }
+    inline LayerNo GetLayer() const noexcept { return m_layer; };
+    inline LayerMask GetLayerMask() noexcept { return m_collisionMask; };
+    inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_tf; }
 
-    std::shared_ptr<Transform> GetTransform() { return m_tf; }
-
-    inline Vector2f GetLastValidPosition() { return m_lastValidPosition; }
-    inline void UpdateLastValidPosition() { m_lastValidPosition = m_tf->GetPosition(); }
-
-
-    void LogCollision(std::shared_ptr<Collider>& col) { m_curintersections.push_back(col); }
+    inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
+    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_tf->GetPosition(); }
+    inline void LogCollision(std::shared_ptr<Collider>& col) { m_curintersections.push_back(col); }
 
     float Clamp(float min, float max, float value);
-
-    virtual Vector2f ClosestPoint(Vector2f position) { return Vector2f(); }
+    virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
 
     //Collision Checks
-    virtual bool ToBox(BoxCollider* box) { return false; }
-    virtual bool ToCircle(CircleCollider* circle) { return false; }
-    virtual bool ToPoint(Vector2f point) { return false; }
-    virtual bool CollisionCheck(Collider* collider) { return false; }
+    virtual bool ToBox(BoxCollider* box) noexcept { return false; }
+    virtual bool ToCircle(CircleCollider* circle) noexcept { return false; }
+    virtual bool ToPoint(Vector2f point) noexcept { return false; }
+    virtual bool CollisionCheck(Collider* collider) noexcept { return false; }
 
     //Resolution
-    virtual void Resolution(Collider* collider) {}
+    virtual void Resolution(Collider* collider) noexcept {}
 
-    void AddOnEnterCallback(std::function<void(Collider&)> callback) { m_onEnterCallbacks.push_back(callback); };
-    void AddOnExitCallback(std::function<void(Collider&)> callback) { m_onExitCallbacks.push_back(callback); };
-    void ClearOnEnterCallbacks() { m_onEnterCallbacks.clear(); };
-    void ClearOnExitCallbacks() { m_onExitCallbacks.clear(); };
+    inline void AddOnEnterCallback(std::function<void(Collider&)> callback) { m_onEnterCallbacks.push_back(callback); };
+    inline void AddOnExitCallback(std::function<void(Collider&)> callback) { m_onExitCallbacks.push_back(callback); };
+    inline void ClearOnEnterCallbacks() { m_onEnterCallbacks.clear(); };
+    inline void ClearOnExitCallbacks() { m_onExitCallbacks.clear(); };
 
     void ManageIntersections();
     template <typename T>
-    std::vector <T> RemoveDuplicateEntries(std::vector<T> vec);
+    void RemoveDuplicateEntries(std::vector<T>& vec);
     void Process();
     void Update();
 

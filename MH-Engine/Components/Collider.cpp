@@ -16,37 +16,27 @@ Collider::Collider(Collider& col)
 float Collider::Clamp(float min, float max, float value)
 {
     if (value > max)
-    {
         return max;
-    }
     else if (value < min)
-    {
         return min;
-    }
     else
-    {
         return value;
-    }
 }
 
 void Collider::OnEnter(Collider& col)
 {
     for (auto& callback : m_onEnterCallbacks)
-    {
         callback(col);
-    }
 }
 
 void Collider::OnExit(Collider& col)
 {
     for (auto& callback : m_onExitCallbacks)
-    {
         callback(col);
-    }
 }
 
 template <typename T>
-std::vector <T> Collider::RemoveDuplicateEntries(std::vector<T> vec)
+void Collider::RemoveDuplicateEntries(std::vector<T>& vec)
 {
     std::vector<int> duplicateIndices;
     //remove duplicates
@@ -55,13 +45,11 @@ std::vector <T> Collider::RemoveDuplicateEntries(std::vector<T> vec)
         //find duplicates
         for (int n = 0; n < vec.size(); n++)
         {
-            if (i == n) {
+            if (i == n)
                 continue;
-            }
+
             if (vec[i] == vec[n])
-            {
                 duplicateIndices.push_back(n);
-            }
         }
 
         //remove
@@ -71,8 +59,8 @@ std::vector <T> Collider::RemoveDuplicateEntries(std::vector<T> vec)
         }
         duplicateIndices.clear();
     }
-    return vec;
 }
+
 void Collider::ManageIntersections()
 {
     //check if entering or leaving
@@ -94,7 +82,8 @@ void Collider::ManageIntersections()
                 }
             }
         }
-        if (left == true)
+
+        if (left)
         {
             value = CollisionState::Leaving;
         }
@@ -108,6 +97,7 @@ void Collider::ManageIntersections()
     }
     m_curintersections.clear();
 }
+
 void Collider::Process()
 {
     if ( m_intersections.size() < 1 )
@@ -131,16 +121,14 @@ void Collider::Process()
             }
         }
     }
-};
+}
+
 void Collider::Update()
 {
     if (m_curintersections.size() == 0 && m_intersections.size() == 0)
-    {
         return;
-    }
 
-    m_curintersections = RemoveDuplicateEntries<std::shared_ptr<Collider>>(m_curintersections);
-
+    RemoveDuplicateEntries<std::shared_ptr<Collider>>(m_curintersections);
     ManageIntersections();
     Process();
-};
+}
