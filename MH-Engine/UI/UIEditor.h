@@ -15,6 +15,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIScreenData, name, file )
 
 struct UIWidgetData
 {
+	bool hide;
 	int zindex;
 	std::string name;
 	std::string type;
@@ -22,7 +23,7 @@ struct UIWidgetData
 	std::vector<float> position;
 	std::vector<float> scale;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIWidgetData, zindex, name, type, action, position, scale )
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( UIWidgetData, hide, zindex, name, type, action, position, scale )
 
 class UIEditor
 {

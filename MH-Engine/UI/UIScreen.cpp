@@ -256,9 +256,12 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vButtons[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vButtons[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vButtons[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-				Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				if ( !m_vButtons[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vButtons[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vButtons[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
 				break;
 			}
 		}
@@ -267,8 +270,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vColourBlocks[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vColourBlocks[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vColourBlocks[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				if ( !m_vColourBlocks[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vColourBlocks[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vColourBlocks[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
 				break;
 			}
 		}
@@ -277,8 +283,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vDataSliders[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vDataSliders[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vDataSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				if ( !m_vDataSliders[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vDataSliders[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vDataSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
 				break;
 			}
 		}
@@ -287,9 +296,12 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vDropDowns[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vDropDowns[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vDropDowns[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
-				Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				if ( !m_vDropDowns[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vDropDowns[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vDropDowns[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
 				break;
 			}
 		}
@@ -298,8 +310,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vEnergyBars[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vEnergyBars[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vEnergyBars[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				if ( !m_vEnergyBars[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vEnergyBars[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vEnergyBars[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
 				break;
 			}
 		}
@@ -308,8 +323,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vImages[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vImages[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				if ( !m_vImages[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vImages[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
 				break;
 			}
 		}
@@ -318,9 +336,12 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vInputs[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vInputs[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vInputs[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-				Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				if ( !m_vInputs[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vInputs[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vInputs[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
 				break;
 			}
 		}
@@ -329,8 +350,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 		{
 			if ( m_vPageSliders[j].GetZIndex() == i )
 			{
-				RENDER_IF_IN_BOX( m_vPageSliders[j].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-					m_vPageSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				if ( !m_vPageSliders[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vPageSliders[j].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vPageSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
 				break;
 			}
 		}
