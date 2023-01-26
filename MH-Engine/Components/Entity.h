@@ -7,7 +7,7 @@ class Graphics;
 #include "Physics.h"
 #include "EventSystem.h"
 #include "ProjectileManager.h"
-#include "Collider.h"
+#include "CircleCollider.h"
 #include "Agent.h"
 #include "Player.h"
 
