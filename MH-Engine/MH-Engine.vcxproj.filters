@@ -236,7 +236,8 @@
     </ClCompile>
     <ClCompile Include="CollisionMatrix.cpp">
       <Filter>Source Files</Filter>
-    <ClCompile Include="TileMap\TileMapLoader.cpp">
+    </ClCompile>
+	<ClCompile Include="TileMap\TileMapLoader.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Helper\FileHandler.cpp">
@@ -555,7 +556,8 @@
     </ClInclude>
     <ClInclude Include="CollisionMatrix.h">
       <Filter>Header Files\Collisions</Filter>
-    <ClInclude Include="TileMap\TileMapLoader.h">
+    </ClInclude>
+	<ClInclude Include="TileMap\TileMapLoader.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\FileHandler.h">

@@ -17,8 +17,8 @@ const enum class ColliderType
 enum class CollisionState
 {
     Entering,
-        Staying,
-        Leaving
+    Staying,
+    Leaving
 };
 
 class BoxCollider;
@@ -40,7 +40,7 @@ protected:
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
     std::vector<std::shared_ptr<Collider>> m_curintersections;
-    std::vector<std::pair<std::shared_ptr<Collider>, CollisionState>> m_intersections;
+    std::map<std::shared_ptr<Collider>, CollisionState> m_intersections;
 
     std::vector<std::function<void(Collider&)>> m_onEnterCallbacks;
     std::vector<std::function<void(Collider&)>> m_onExitCallbacks;

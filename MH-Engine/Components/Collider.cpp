@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Collider.h"
 
-
-
 Collider::Collider(Collider& col)
 {
     m_collisionMask = col.m_collisionMask;
@@ -79,51 +77,58 @@ void Collider::ManageIntersections()
 {
     //check if entering or leaving
     std::vector<int> curintersectmatchesCount(m_curintersections.size());
-    for (int i = 0; i < m_intersections.size(); i++)
+    for ( auto& [key, value] : m_intersections )
     {
         bool left = true;
 
         for (int n = 0; n < m_curintersections.size(); n++)
         {
-            //auto pastintersection = m_curintersections[n]; 
-            if (m_curintersections[n] == m_intersections[i].first)
+            //auto pastintersection = m_curintersections[n];
+            if (m_curintersections[n] == key)
             {
                 left = false;
                 curintersectmatchesCount[n]++;
-                if (m_intersections[i].second == CollisionState::Entering || m_intersections[i].second == CollisionState::Leaving)
+                if (value == CollisionState::Entering || value == CollisionState::Leaving)
                 {
-                    m_intersections[i].second = CollisionState::Staying;
+                    value = CollisionState::Staying;
                 }
             }
         }
         if (left == true)
         {
-            m_intersections[i].second = CollisionState::Leaving;
+            value = CollisionState::Leaving;
         }
     }
     for (int i = 0; i < m_curintersections.size(); i++)
     {
         if (curintersectmatchesCount[i] == 0)
         {
-            m_intersections.push_back(std::pair<std::shared_ptr<Collider>, CollisionState>(m_curintersections[i], CollisionState::Entering));
+            m_intersections.emplace(m_curintersections[i], CollisionState::Entering);
         }
     }
     m_curintersections.clear();
 }
 void Collider::Process()
 {
+    if ( m_intersections.size() < 1 )
+        return;
+
     //Run functions
-    for (int i = 0; i < m_intersections.size(); i++)
+    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_intersections.begin(); itr != m_intersections.end(); )
     {
-        switch (m_intersections[i].second)
+        if ( itr->first )
         {
-        case CollisionState::Entering:
-            OnEnter(*m_intersections[i].first);
-            break;
-        case CollisionState::Leaving:
-            OnExit(*m_intersections[i].first);
-            m_intersections.erase(m_intersections.begin() + i);
-            break;
+            switch ( itr->second )
+            {
+            case CollisionState::Entering:
+                OnEnter(*itr->first);
+                ++itr;
+                break;
+            case CollisionState::Leaving:
+                OnExit(*itr->first);
+                itr = m_intersections.erase( itr );
+                break;
+            }
         }
     }
 };
