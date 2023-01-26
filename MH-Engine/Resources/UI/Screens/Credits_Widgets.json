@@ -10,7 +10,8 @@
             64.0
         ],
         "type": "Image",
-		"action": ""
+		"action": "",
+		"zindex": 0
     },
     {
         "name": "GitHub Link",
@@ -23,7 +24,8 @@
             64.0
         ],
         "type": "Button",
-		"action": "Close"
+		"action": "Close",
+		"zindex": 1
     },
     {
         "name": "Start Game",
@@ -36,7 +38,8 @@
             64.0
         ],
         "type": "Button",
-		"action": "Start"
+		"action": "Start",
+		"zindex": 2
     },
     {
         "name": "Settings",
@@ -49,7 +52,8 @@
             64.0
         ],
         "type": "Button",
-		"action": ""
+		"action": "",
+		"zindex": 3
     },
     {
         "name": "Quit Game",
@@ -62,6 +66,7 @@
             64.0
         ],
         "type": "Button",
-		"action": "Close"
+		"action": "Close",
+		"zindex": 4
     }
 ]

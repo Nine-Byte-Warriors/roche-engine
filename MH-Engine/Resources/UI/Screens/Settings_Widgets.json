@@ -10,7 +10,8 @@
             64.0,
             64.0
         ],
-        "type": "Image"
+        "type": "Image",
+		"zindex": 0
     },
     {
         "action": "Link",
@@ -23,7 +24,8 @@
             64.0,
             64.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 1
     },
     {
         "action": "Start",
@@ -36,7 +38,8 @@
             64.0,
             64.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 2
     },
     {
         "action": "",
@@ -49,7 +52,8 @@
             64.0,
             64.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 3
     },
     {
         "action": "Close",
@@ -62,6 +66,7 @@
             64.0,
             64.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 4
     }
 ]
