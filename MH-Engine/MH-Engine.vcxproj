@@ -80,8 +80,8 @@
     <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)Audio;$(ProjectDir)Collisions;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Components;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Utility/Errors;$(ProjectDir)Utility/Helper;$(ProjectDir)Utility/Rendering;$(ProjectDir)Window;$(IncludePath)</IncludePath>
     <MultiProcFXC>true</MultiProcFXC>
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <OutDir>$(SolutionDir)\$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>$(ProjectName) Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)Audio;$(ProjectDir)Collisions;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Graphics;$(ProjectDir)Input;$(ProjectDir)Objects;$(ProjectDir)Resources;$(ProjectDir)Components;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Utility/Errors;$(ProjectDir)Utility/Helper;$(ProjectDir)Utility/Rendering;$(ProjectDir)Window;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
@@ -94,8 +94,8 @@
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <LinkIncremental>true</LinkIncremental>
     <MultiProcFXC>true</MultiProcFXC>
-    <OutDir>$(SolutionDir)\$(Configuration)\$(Platform)\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>$(ProjectName) Release</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
