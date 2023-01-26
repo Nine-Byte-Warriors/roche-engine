@@ -4,18 +4,39 @@
 
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
+	m_vPosition = new Vector2f();
+
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
 	UpdateType();
 
-	m_vPosition = new Vector2f();
-	m_sprite = std::make_shared<Sprite>();
-	m_transform = std::make_shared<Transform>(m_sprite);
-	m_physics = std::make_shared<Physics>(m_transform);
-	m_agent = std::make_shared<Agent>(m_physics);
-	m_collider = std::make_shared<CircleCollider>(m_transform, 32);
-	//UpdateColliderShape(); //TODO
-	m_projectileManager = std::make_shared<ProjectileManager>();
+	if (m_entityController->HasSprite(m_iEntityNum))
+	{
+		m_sprite = std::make_shared<Sprite>();
+		m_transform = std::make_shared<Transform>(m_sprite);
+	}
+	if (m_entityController->HasPhysics(m_iEntityNum))
+	{
+		m_physics = std::make_shared<Physics>(m_transform);
+	}
+	if (m_entityController->HasAI(m_iEntityNum))
+	{
+		m_agent = std::make_shared<Agent>(m_physics);
+	}
+	if (m_entityController->HasProjectileSystem(m_iEntityNum))
+	{
+		m_projectileManager = std::make_shared<ProjectileManager>();;
+	}
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
+	}
+	else
+	{
+		m_colliderCircle = nullptr;
+		m_colliderBox = nullptr;
+	}
 }
 
 Entity::~Entity()
@@ -41,23 +62,50 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	SetScaleInit();
 	UpdateFrame();
 	UpdateBehaviour();
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		UpdateColliderRadius();
+	}
+	//AddToEvent();
 }
 
 void Entity::Update(const float dt)
 {
+	if (m_entityController->HasSprite(m_iEntityNum))
+	{
+		m_sprite->Update(dt);
+		m_transform->Update();
+	}
+	else
+	{
+		m_sprite == nullptr;
+	}
+	if (m_entityController->HasPhysics(m_iEntityNum))
+	{
+		m_physics->Update(dt);
+	}
+	if (m_entityController->HasAI(m_iEntityNum))
+	{
+		m_agent->Update(dt);
+	}
+	if (m_entityController->HasProjectileSystem(m_iEntityNum))
+	{
+		m_projectileManager->Update(dt);
+	}
+
 	if (m_entityType == EntityType::Player)
 	{
-		UpdatePlayer(dt);
+		//UpdatePlayer(dt);
 		AddToEvent();
 	}
-	else if (m_entityType == EntityType::Enemy)
-	{
-		UpdateEnemy(dt);
-	}
-	else if (m_entityType == EntityType::Projectile)
-	{
-		UpdateProjectile(dt);
-	}
+	//else if (m_entityType == EntityType::Enemy)
+	//{
+	//	UpdateEnemy(dt);
+	//}
+	//else if (m_entityType == EntityType::Projectile)
+	//{
+	//	UpdateProjectile(dt);
+	//}
 }
 
 void Entity::UpdatePlayer(const float dt)
@@ -126,6 +174,10 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateSpeed();
 	UpdateProjectilePattern();
 	UpdateTexture();
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		UpdateColliderRadius();
+	}
 }
 
 EntityType Entity::GetEntityType()
@@ -319,17 +371,33 @@ void Entity::UpdateProjectilePattern() //TODO
 	//}
 }
 
-void Entity::UpdateColliderShape()
-{
-	m_sColliderShape = m_entityController->GetColliderShape(m_iEntityNum);
-	//TODO add logic to change the shape
-}
-
 void Entity::UpdateColliderRadius()
 {
-	m_fColliderRadiusX = m_entityController->GetColliderRadius(m_iEntityNum)[0];
-	m_fColliderRadiusY = m_entityController->GetColliderRadius(m_iEntityNum)[1];
+	if (m_entityController->HasCollider(m_iEntityNum) && m_colliderCircle != nullptr)
+	{/*
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);*/
 
-	m_collider->SetRadius(m_fColliderRadiusX);
-	//m_collider->SetRadius(m_fColliderRadiusX, m_fColliderRadiusY); //Box
+		m_fColliderRadiusX = m_entityController->GetColliderRadius(m_iEntityNum)[0];
+		m_fColliderRadiusY = m_entityController->GetColliderRadius(m_iEntityNum)[1];
+
+		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
+		{
+			m_colliderCircle->SetRadius(m_fColliderRadiusX);
+			m_colliderBox->SetWidth(0);
+			m_colliderBox->SetHeight(0);
+		}
+		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
+		{
+			m_colliderBox->SetWidth(m_fColliderRadiusX);
+			m_colliderBox->SetHeight(m_fColliderRadiusY);
+			m_colliderCircle->SetRadius(0);
+		}
+	}
+	else
+	{
+		m_colliderCircle->SetRadius(0);
+		m_colliderBox->SetWidth(0);
+		m_colliderBox->SetHeight(0);
+	}
 }

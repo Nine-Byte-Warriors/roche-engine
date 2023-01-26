@@ -6,12 +6,14 @@
 EntityController::EntityController()
 {
 	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
+	m_entityDataCopy = m_entityData;
 }
 
 void EntityController::SetJsonFile( const std::string& name )
 {
 	JsonFile = name;
 	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
+	m_entityDataCopy = m_entityData;
 }
 
 EntityController::~EntityController()
@@ -77,14 +79,55 @@ EntityData* EntityController::GetProjectileBullet(int num)
 {
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
-		if (m_entityData[i].name != m_entityData[num].projectileBullet)
+		if (m_entityData[i].name == m_entityData[num].projectileBullet)
 		{
 			return &m_entityData[i];
 		}
 	}
+
+	return &m_entityData[num];
 }
 
 void EntityController::SetEntityData(std::vector<EntityData> entityData)
 {
 	m_entityData = entityData;
 }
+
+bool EntityController::HasSprite(int num)
+{
+	return m_entityData[num].sprite;
+}
+
+bool EntityController::HasPhysics(int num)
+{
+	return m_entityData[num].physics;
+}
+
+bool EntityController::HasAI(int num)
+{
+	return m_entityData[num].AI;
+}
+
+bool EntityController::HasProjectileSystem(int num)
+{
+	return m_entityData[num].projectileSystem;
+}
+
+bool EntityController::HasCollider(int num)
+{
+	return m_entityData[num].collider;
+}
+
+bool EntityController::HasComponentUpdated()
+{
+	for (int i = 0; i < m_entityData.size(); i++)
+	{
+		if (m_entityDataCopy[i].collider != m_entityData[i].collider)
+		{
+			m_entityDataCopy = m_entityData;
+			return true;
+		}
+	}
+	return false;
+}
+

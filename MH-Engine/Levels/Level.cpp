@@ -46,7 +46,12 @@ void Level::CreateEntity()
 
     m_collisionHandler.RemoveAllColliders();
     for (int i = 0; i < m_iEntityAmount; i++)
-        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+    {
+        if (m_entityController.HasCollider(i))
+        {
+            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        }
+    }
 }
 
 void Level::CreateUI()
@@ -309,14 +314,22 @@ void Level::UpdateEntityFromEditor(const float dt)
 {
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 
-    if (m_iEntityAmount < m_entityController.GetSize())
+    if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
     {
-        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+        m_entity.clear();
+        m_collisionHandler.RemoveAllColliders();
+
+        for (int i = 0; i < m_entityController.GetSize(); i++)
         {
             Entity* entityPop = new Entity(m_entityController, i);
             m_entity.push_back(*entityPop);
             m_entity[i].Initialize(*m_gfx, m_cbMatrices);
             delete entityPop;
+
+            if (m_entityController.HasCollider(i))
+            {
+                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+            }
 
             m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
             m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());

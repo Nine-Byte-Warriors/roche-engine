@@ -35,8 +35,12 @@ public:
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager;	}
-	inline std::shared_ptr<Collider> GetCollider() const noexcept { return m_collider; };
-	//inline std::shared_ptr<BoxCollider> GetCollider() const noexcept { return m_boxCollider; };
+	inline std::shared_ptr<Collider> GetCollider() const noexcept {
+		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
+			return m_colliderCircle;
+		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
+			return m_colliderBox;		
+	};
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -60,7 +64,6 @@ private:
 
 	void UpdateProjectilePattern();
 
-	void UpdateColliderShape();
 	void UpdateColliderRadius();
 
 	void UpdatePlayer(const float dt);
@@ -103,7 +106,8 @@ private:
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<ProjectileManager> m_projectileManager;
-	std::shared_ptr<CircleCollider> m_collider;
+	std::shared_ptr<CircleCollider> m_colliderCircle;
+	std::shared_ptr<BoxCollider> m_colliderBox;
 
 	EntityController* m_entityController;
 };

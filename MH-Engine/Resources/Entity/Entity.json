@@ -1,6 +1,8 @@
 [
     {
+        "AI": true,
         "behaviour": "Patrol",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -13,22 +15,27 @@
             2
         ],
         "name": "PotatoMan",
+        "physics": true,
         "position": [
             73.0,
             80.0
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
         "type": "Enemy"
     },
     {
+        "AI": true,
         "behaviour": "Seek",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -41,27 +48,32 @@
             2
         ],
         "name": "Bean",
+        "physics": true,
         "position": [
             2.0,
             588.0
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             128.0,
             128.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png",
         "type": "Enemy"
     },
     {
+        "AI": false,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
-            64.0,
-            64.0
+            124.0,
+            124.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "identifier": 2,
         "mass": 21.200000762939453,
         "maxFrame": [
@@ -69,22 +81,27 @@
             2
         ],
         "name": "Player",
+        "physics": true,
         "position": [
             1099.0,
             45.0
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             124.0,
             124.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
         "type": "Player"
     },
     {
+        "AI": true,
         "behaviour": "Follow",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -97,22 +114,27 @@
             2
         ],
         "name": "Onion",
+        "physics": true,
         "position": [
             1010.0,
             571.0
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
         "type": "Enemy"
     },
     {
+        "AI": true,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -125,22 +147,27 @@
             3
         ],
         "name": "Tomato",
+        "physics": true,
         "position": [
             358.0,
             500.0
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
         "type": "Enemy"
     },
     {
+        "AI": true,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
             32.0,
             32.0
@@ -153,17 +180,20 @@
             1
         ],
         "name": "Projectile1",
+        "physics": true,
         "position": [
             436.0,
             103.0
         ],
-        "projectileBullet": "None",
+        "projectileBullet": "Projectile1",
         "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
+        "projectileSystem": true,
         "scale": [
             32.0,
             32.0
         ],
         "speed": 10.0,
+        "sprite": true,
         "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"
     }
