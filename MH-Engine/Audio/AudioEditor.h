@@ -24,7 +24,10 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	//void SaveToFileSoundBankFiles();
-	void SetJsonFile( const std::string& name );
+	void SpawnSoundBankWindow(AudioType audioType);
+
+	
+	void SetJsonFile( const std::string& name ); // Will load default sound bank (used by level editor)
 
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);
@@ -38,6 +41,9 @@ private:
 	std::string m_sSoundBankFile = "!SoundBankList.json";
 
 	std::vector<std::string> m_vSoundTypes = { "SFX", "MUSIC" };
+
+	std::string m_sActiveSoundBankList;
+	std::string m_sActiveSoundBankPath;
 
 	std::vector<SoundBanksList> m_vSoundBanksList; // list of Sound Bank Lists
 	std::vector<JSONSoundFile> m_vSoundFileInfo;
