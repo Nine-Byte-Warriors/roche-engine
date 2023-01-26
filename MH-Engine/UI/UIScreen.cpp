@@ -245,46 +245,120 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
-	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
+	unsigned int widgetAmount =
+		m_vButtons.size() + m_vColourBlocks.size() +
+		m_vDataSliders.size() + m_vDropDowns.size() +
+		m_vEnergyBars.size() + m_vImages.size() + m_vPageSliders.size();
+
+	for ( unsigned int i = 0; i < widgetAmount; i++ )
 	{
-		RENDER_IF_IN_BOX( m_vButtons[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vButtons[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+		for ( unsigned int j = 0; j < m_vButtons.size(); j++ )
+		{
+			if ( m_vButtons[j].GetZIndex() == i )
+			{
+				if ( !m_vButtons[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vButtons[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vButtons[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vColourBlocks.size(); j++ )
+		{
+			if ( m_vColourBlocks[j].GetZIndex() == i )
+			{
+				if ( !m_vColourBlocks[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vColourBlocks[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vColourBlocks[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vDataSliders.size(); j++ )
+		{
+			if ( m_vDataSliders[j].GetZIndex() == i )
+			{
+				if ( !m_vDataSliders[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vDataSliders[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vDataSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vDropDowns.size(); j++ )
+		{
+			if ( m_vDropDowns[j].GetZIndex() == i )
+			{
+				if ( !m_vDropDowns[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vDropDowns[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vDropDowns[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vEnergyBars.size(); j++ )
+		{
+			if ( m_vEnergyBars[j].GetZIndex() == i )
+			{
+				if ( !m_vEnergyBars[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vEnergyBars[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vEnergyBars[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vImages.size(); j++ )
+		{
+			if ( m_vImages[j].GetZIndex() == i )
+			{
+				if ( !m_vImages[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vImages[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vInputs.size(); j++ )
+		{
+			if ( m_vInputs[j].GetZIndex() == i )
+			{
+				if ( !m_vInputs[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vInputs[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vInputs[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+				}
+				break;
+			}
+		}
+
+		for ( unsigned int j = 0; j < m_vPageSliders.size(); j++ )
+		{
+			if ( m_vPageSliders[j].GetZIndex() == i )
+			{
+				if ( !m_vPageSliders[j].GetIsHidden() )
+				{
+					RENDER_IF_IN_BOX( m_vPageSliders[j].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vPageSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+				}
+				break;
+			}
+		}
 	}
-
-	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
-		RENDER_IF_IN_BOX( m_vColourBlocks[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vColourBlocks[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-
-	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
-		RENDER_IF_IN_BOX( m_vDataSliders[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vDataSliders[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-
-	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
-	{
-		RENDER_IF_IN_BOX( m_vDropDowns[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vDropDowns[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
-		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-	}
-
-	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
-		RENDER_IF_IN_BOX( m_vEnergyBars[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vEnergyBars[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-
-	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
-		RENDER_IF_IN_BOX( m_vImages[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vImages[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-
-	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
-	{
-		RENDER_IF_IN_BOX( m_vInputs[i].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vInputs[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-		Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-	}
-
-	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
-		RENDER_IF_IN_BOX( m_vPageSliders[i].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-			m_vPageSliders[i].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 }
 
 void UIScreen::AddToEvent() noexcept
