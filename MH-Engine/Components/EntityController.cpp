@@ -35,6 +35,11 @@ std::vector<float> EntityController::GetPosition(int num)
 	return m_entityData[num].position;
 }
 
+std::string EntityController::GetName(int num)
+{
+	return m_entityData[num].name;
+}
+
 std::string EntityController::GetType(int num)
 {
 	return m_entityData[num].type;
@@ -93,16 +98,6 @@ void EntityController::SetEntityData(std::vector<EntityData> entityData)
 	m_entityData = entityData;
 }
 
-bool EntityController::HasSprite(int num)
-{
-	return m_entityData[num].sprite;
-}
-
-bool EntityController::HasPhysics(int num)
-{
-	return m_entityData[num].physics;
-}
-
 bool EntityController::HasAI(int num)
 {
 	return m_entityData[num].AI;
@@ -118,11 +113,26 @@ bool EntityController::HasCollider(int num)
 	return m_entityData[num].collider;
 }
 
+bool EntityController::HasProjectileButtet(int num)
+{
+	return m_entityData[num].bProjectileBullet;
+}
+
+bool EntityController::HasProjectilePattern(int num)
+{
+	return m_entityData[num].bProjectilePattern;
+}
+
 bool EntityController::HasComponentUpdated()
 {
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
-		if (m_entityDataCopy[i].collider != m_entityData[i].collider)
+		bool componentUpdated =
+			m_entityDataCopy[i].collider != m_entityData[i].collider ||
+			m_entityDataCopy[i].AI != m_entityData[i].AI ||
+			m_entityDataCopy[i].projectileSystem != m_entityData[i].projectileSystem;
+
+		if (componentUpdated)
 		{
 			m_entityDataCopy = m_entityData;
 			return true;
@@ -131,3 +141,7 @@ bool EntityController::HasComponentUpdated()
 	return false;
 }
 
+void EntityController::UpdateCopy()
+{
+	m_entityDataCopy = m_entityData;
+}

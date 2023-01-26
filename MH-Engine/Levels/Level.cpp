@@ -166,7 +166,7 @@ void Level::RenderFrameEntity()
         m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
         m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
 
-        if (m_entity[i].GetEntityType() == EntityType::Player)
+        if (m_entityController.HasProjectileButtet(i))
         {
             m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
@@ -314,7 +314,33 @@ void Level::UpdateEntityFromEditor(const float dt)
 {
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 
-    if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
+    if (m_iEntityAmount < m_entityController.GetSize())
+    {
+        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+        {
+            Entity* entityPop = new Entity(m_entityController, i);
+            m_entity.push_back(*entityPop);
+            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+            delete entityPop;
+
+            if (m_entityController.HasCollider(i))
+            {
+                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+            }
+
+            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+
+            if (m_entityController.HasProjectileSystem(i))
+            {
+                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            }
+        }
+        m_iEntityAmount = m_entityEditor.GetEntityData().size();
+
+        m_entityController.UpdateCopy();
+    }
+    else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
     {
         m_entity.clear();
         m_collisionHandler.RemoveAllColliders();
@@ -333,9 +359,15 @@ void Level::UpdateEntityFromEditor(const float dt)
 
             m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
             m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+
+            if (m_entityController.HasProjectileSystem(i))
+            {
+                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            }
         }
         m_iEntityAmount = m_entityEditor.GetEntityData().size();
+
+        m_entityController.UpdateCopy();
     }
 
     for (int i = 0; i < m_iEntityAmount; i++)

@@ -57,6 +57,7 @@ bool EntityEditor::IsPositionLocked()
 void EntityEditor::EntityWidget()
 {
 #if _DEBUG
+	SetType();
 	SpriteWidget();
 	PhysicsWidget();
 	AIWidget();
@@ -137,11 +138,11 @@ void EntityEditor::AddNewEntity()
 		entityData->colliderRadius.push_back(64.0f);
 		entityData->projectilePattern = "None";
 		entityData->projectileBullet = "None";
-		entityData->sprite = true;
-		entityData->physics = true;
 		entityData->AI = true;
 		entityData->projectileSystem = true;
 		entityData->collider = true;
+		entityData->bProjectilePattern = true;
+		entityData->bProjectileBullet = true;
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -167,28 +168,21 @@ void EntityEditor::SpriteWidget()
 {
 #if _DEBUG
 	ImGui::NewLine();
-	ImGui::Checkbox("Sprite", &m_vEntityDataCopy[m_iIdentifier].sprite);
-	if (m_vEntityDataCopy[m_iIdentifier].sprite)
+
+	if (ImGui::TreeNode("Sprite"))
 	{
-		ImGui::SameLine();
-		if (ImGui::TreeNode("##Sprite"))
-		{
-			ImGui::NewLine();
-			SetName();
-			ImGui::NewLine();
-			SetType();
-			ImGui::NewLine();
-			SetTexture();
-			ImGui::NewLine();
-			SetPosition();
-			ImGui::NewLine();
-			SetScale();
-			ImGui::NewLine();
-			SetMaxFrame();
+		ImGui::NewLine();
+		SetName();
+		ImGui::NewLine();
+		SetTexture();
+		ImGui::NewLine();
+		SetPosition();
+		ImGui::NewLine();
+		SetScale();
+		ImGui::NewLine();
+		SetMaxFrame();
 
-			ImGui::TreePop();
-		}
-
+		ImGui::TreePop();
 	}
 #endif
 }
@@ -196,20 +190,16 @@ void EntityEditor::SpriteWidget()
 void EntityEditor::PhysicsWidget()
 {
 #if _DEBUG
-	ImGui::NewLine();	
-	ImGui::Checkbox("Physics", &m_vEntityDataCopy[m_iIdentifier].physics);
-	if (m_vEntityDataCopy[m_iIdentifier].physics)
-	{
-		ImGui::SameLine();
-		if (ImGui::TreeNode("##Physics"))
-		{
-			ImGui::NewLine();
-			SetMass();
-			ImGui::NewLine();
-			SetSpeed();
+	ImGui::NewLine();
 
-			ImGui::TreePop();
-		}
+	if (ImGui::TreeNode("Physics"))
+	{
+		ImGui::NewLine();
+		SetMass();
+		ImGui::NewLine();
+		SetSpeed();
+
+		ImGui::TreePop();
 	}
 #endif
 }
@@ -243,10 +233,7 @@ void EntityEditor::ProjectileSystemWidget()
 		ImGui::SameLine();
 		if (ImGui::TreeNode("##ProjectileSystem"))
 		{
-			ImGui::NewLine();
-			SetProjectilePattern();
-	
-			ImGui::NewLine();
+			SetProjectilePattern();	
 			SetProjectileBullet();
 			
 			ImGui::TreePop();
@@ -298,6 +285,8 @@ void EntityEditor::SetName()
 void EntityEditor::SetType()
 {
 #if _DEBUG
+	ImGui::NewLine();
+
 	std::string displayText = "Type";
 	ImGui::Text(displayText.c_str());
 
@@ -499,57 +488,64 @@ void EntityEditor::SetBehaviour()
 void EntityEditor::SetProjectilePattern()
 {
 #if _DEBUG
-	ImGui::Text("Pattern");
-	bool tmep;
-	ImGui::Checkbox("Pattern", &tmep);
+	ImGui::NewLine();
+	ImGui::Checkbox("Pattern", &m_vEntityDataCopy[m_iIdentifier].bProjectilePattern);
 
-	m_sSelectedFileProjectile = m_vEntityDataCopy[m_iIdentifier].projectilePattern;
-	if (ImGui::Button("Load Pattern"))
+	if (m_vEntityDataCopy[m_iIdentifier].bProjectilePattern)
 	{
-		if (FileLoading::OpenFileExplorer(m_sSelectedFileProjectile, m_sFilePathProjectile))
+		m_sSelectedFileProjectile = m_vEntityDataCopy[m_iIdentifier].projectilePattern;
+		if (ImGui::Button("Load Pattern"))
 		{
-			m_sSelectedFileProjectile = m_sFilePathProjectile.substr(m_sFilePathProjectile.find("Resources\\Patterns\\"));
-			m_vEntityDataCopy[m_iIdentifier].projectilePattern = m_sSelectedFileProjectile;
-			m_bValidProjectile = true;
+			if (FileLoading::OpenFileExplorer(m_sSelectedFileProjectile, m_sFilePathProjectile))
+			{
+				m_sSelectedFileProjectile = m_sFilePathProjectile.substr(m_sFilePathProjectile.find("Resources\\Patterns\\"));
+				m_vEntityDataCopy[m_iIdentifier].projectilePattern = m_sSelectedFileProjectile;
+				m_bValidProjectile = true;
+			}
+			else
+			{
+				m_sSelectedFileProjectile = "Open File Failed";
+				m_bValidProjectile = false;
+			}
 		}
-		else
-		{
-			m_sSelectedFileProjectile = "Open File Failed";
-			m_bValidProjectile = false;
-		}
+		ImGui::Text(m_sSelectedFileProjectile.c_str());
 	}
-	ImGui::Text(m_sSelectedFileProjectile.c_str());
 #endif
 }
 
 void EntityEditor::SetProjectileBullet()
 {
 #if _DEBUG
-	PopulateProjectileList();
+	ImGui::NewLine();
+	ImGui::Checkbox("Bullet", &m_vEntityDataCopy[m_iIdentifier].bProjectileBullet);
 
-	std::string displayText = "Bullet";
-	ImGui::Text(displayText.c_str());
-
-	static int activeProjectorBullet = 0;
-	std::string previewEntityProjectileButtlet = m_vEntityDataCopy[m_iIdentifier].projectileBullet;
-
-	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
-
-	if (ImGui::BeginCombo(lable.c_str(), previewEntityProjectileButtlet.c_str()))
+	if (m_vEntityDataCopy[m_iIdentifier].bProjectileBullet)
 	{
-		for (int i = 0; i < m_projectileList.size(); i++)
+		PopulateProjectileList();
+
+		std::string displayText = "Bullet";
+
+		static int activeProjectorBullet = 0;
+		std::string previewEntityProjectileButtlet = m_vEntityDataCopy[m_iIdentifier].projectileBullet;
+
+		std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+		if (ImGui::BeginCombo(lable.c_str(), previewEntityProjectileButtlet.c_str()))
 		{
-			const bool isSelected = i == activeProjectorBullet;
-			if (ImGui::Selectable(m_projectileList[i].c_str(), isSelected))
+			for (int i = 0; i < m_projectileList.size(); i++)
 			{
-				activeProjectorBullet = i;
-				previewEntityProjectileButtlet = m_projectileList[i];
+				const bool isSelected = i == activeProjectorBullet;
+				if (ImGui::Selectable(m_projectileList[i].c_str(), isSelected))
+				{
+					activeProjectorBullet = i;
+					previewEntityProjectileButtlet = m_projectileList[i];
+				}
 			}
+
+			ImGui::EndCombo();
+
+			m_vEntityDataCopy[m_iIdentifier].projectileBullet = m_projectileList[activeProjectorBullet];
 		}
-
-		ImGui::EndCombo();
-
-		m_vEntityDataCopy[m_iIdentifier].projectileBullet = m_projectileList[activeProjectorBullet];
 	}
 #endif
 }

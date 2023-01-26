@@ -11,13 +11,6 @@ class Graphics;
 #include "Agent.h"
 #include "Player.h"
 
-enum class EntityType
-{
-	Player,
-	Enemy,
-	Projectile
-};
-
 class Entity : public Listener
 {
 public:
@@ -27,8 +20,6 @@ public:
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
-
-	EntityType GetEntityType();
 
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
@@ -51,6 +42,8 @@ private:
 	void SetPositionInit();
 	void SetScaleInit();
 
+	void SetComponents();
+
 	void UpdatePosition();
 	void UpdateScale();
 	void UpdateFrame();
@@ -59,19 +52,13 @@ private:
 	void UpdateMass();
 	void UpdateSpeed();
 
-	void UpdateType();
 	void UpdateBehaviour();
 
 	void UpdateProjectilePattern();
 
 	void UpdateColliderRadius();
 
-	void UpdatePlayer(const float dt);
-	void UpdateEnemy(const float dt);
-	void UpdateProjectile(const float dt);
-
 	int m_iEntityNum;
-	EntityType m_entityType;
 
 	ID3D11Device* m_device;
 

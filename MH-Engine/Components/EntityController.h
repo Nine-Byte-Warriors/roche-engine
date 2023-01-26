@@ -21,15 +21,15 @@ struct EntityData
 	std::vector<float> colliderRadius;
 	std::string projectilePattern;
 	std::string projectileBullet;
-	bool sprite;
-	bool physics;
 	bool AI;
 	bool projectileSystem;
 	bool collider;
+	bool bProjectilePattern;
+	bool bProjectileBullet;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier,
 	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet,
-	sprite, physics, AI, projectileSystem, collider)
+	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet)
 
 class EntityController
 {
@@ -40,6 +40,7 @@ public:
 	void SetJsonFile( const std::string& name );
 	int GetSize();
 
+	std::string GetName(int num);
 	std::string GetType(int num);
 	std::string GetTexture(int num);
 	std::vector<float> GetPosition(int num);
@@ -58,13 +59,16 @@ public:
 
 	void SetEntityData(std::vector<EntityData> entityData);
 
-	bool HasSprite(int num);
-	bool HasPhysics(int num);
 	bool HasAI(int num);
 	bool HasProjectileSystem(int num);
 	bool HasCollider(int num);
 
+	bool HasProjectileButtet(int num);
+	bool HasProjectilePattern(int num);
+
 	bool HasComponentUpdated();
+
+	void UpdateCopy();
 
 private:
 	std::string JsonFile = "Entity.json";
