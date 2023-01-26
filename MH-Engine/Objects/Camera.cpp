@@ -9,12 +9,8 @@
 
 void Camera::SetProjectionValues( float width, float height, float nearZ, float farZ )
 {
-	if ( m_bFirstLoad )
-	{
-		m_bFirstLoad = false;
-		m_vSizeOfScreen = { width, height };
-		m_vPosition = { m_vSizeOfScreen.x / 2.0f, m_vSizeOfScreen.y / 2.0f };
-	}
+	m_vSizeOfScreen = { width, height };
+	m_vPosition = { m_vSizeOfScreen.x / 2.0f, m_vSizeOfScreen.y / 2.0f };
 	m_mOrthoMatrix = XMMatrixOrthographicOffCenterLH( 0.0f, width, height, 0.0f, nearZ, farZ );
 }
 
@@ -23,17 +19,9 @@ void Camera::SpawnControlWindow()
 #if _DEBUG
 	if ( ImGui::Begin( "Camera Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
-		float max = ( m_vSizeOfScreen.x > m_vSizeOfScreen.y ? m_vSizeOfScreen.x : m_vSizeOfScreen.y );
-		float viewSize[2] = { m_vSizeOfScreen.x, m_vSizeOfScreen.y };
-		ImGui::Text( "View Size" );
-		if ( ImGui::SliderFloat2( "##View Size", viewSize, 1.0f, max, "%1.f" ) )
-			SetProjectionValues( viewSize[0], viewSize[1], 0.0f, 1.0f );
-		ImGui::NewLine();
-
 		ImGui::Text( "Move Speed" );
 		ImGui::SliderFloat( "##Move Speed", &m_fSpeed, 1.0f, 10.0f, "%.1f" );
 		ImGui::NewLine();
-
 		ImGui::Checkbox( "Lock To Player?", &m_bLockedToPlayer );
 	}
 	ImGui::End();

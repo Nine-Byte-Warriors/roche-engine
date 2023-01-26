@@ -30,7 +30,6 @@ private:
 	void HandleEvent( Event* event ) override;
 
 	float m_fSpeed = 5.0f;
-	bool m_bFirstLoad = true;
 	bool m_bLockedToPlayer = false;
 	XMFLOAT2 m_vSizeOfScreen, m_vPosition;
 	XMMATRIX m_mOrthoMatrix, m_mWorldMatrix;
