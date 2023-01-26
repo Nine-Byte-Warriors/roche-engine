@@ -39,6 +39,7 @@ enum class EVENTID
 	PlayerFire,
 	TargetPosition,
 	UpdateInventory,
+	ChangeSeed,
 	
 	// Utility
 	WindowSizeChangeEvent,

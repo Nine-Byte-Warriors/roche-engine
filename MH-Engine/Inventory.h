@@ -21,12 +21,18 @@ public :
 	~Inventory();
 
 	void UpdateInventoryCount(string seedName, int seedChange);
-private:
+	void UpdateCurrentSeedCount(int seedChange);
+	void IncrementCurrentSeed();
+	string GetCurrentSeed();
 
+private:
 	bool SeedCountCheck(int seedIndex);
 
 	string m_currentSeed;
-	vector<InventoryStruct> m_seedInventory ;
+	int m_currentSeedIndex;
+	string m_seedOptions[2];
+	vector<InventoryStruct> m_seedInventory{};
+	
 
 };
 

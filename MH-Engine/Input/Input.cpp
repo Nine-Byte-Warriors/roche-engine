@@ -66,8 +66,12 @@ void Input::UpdateKeyboard( const float dt )
 
 		if ( m_keyboard.KeyIsPressed( 'Q' ) )
 			*m_fPlayerHealth = 100.0f;
-		if (m_keyboard.KeyIsPressed('I'))
+
+		if (m_keyboard.KeyIsPressed('T'))
 			EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory);
+
+		if (m_keyboard.KeyIsPressed('P'))
+			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
 
         // Close game
         if ( keycode == VK_ESCAPE )
