@@ -10,7 +10,8 @@
             500.0,
             100.0
         ],
-        "type": "Energy Bar"
+        "type": "Energy Bar",
+		"zindex": 0
     },
     {
         "action": "",
@@ -23,6 +24,7 @@
             100.0,
             100.0
         ],
-        "type": "Image"
+        "type": "Image",
+		"zindex": 1
     }
 ]
