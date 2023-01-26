@@ -10,7 +10,9 @@
             128.0,
             72.0
         ],
-        "type": "Image"
+        "type": "Image",
+		"zindex": 0,
+		"hide": false
     },
     {
         "action": "Link",
@@ -23,7 +25,9 @@
             128.0,
             72.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 1,
+		"hide": false
     },
     {
         "action": "Close",
@@ -36,6 +40,8 @@
             128.0,
             72.0
         ],
-        "type": "Button"
+        "type": "Button",
+		"zindex": 2,
+		"hide": false
     }
 ]
