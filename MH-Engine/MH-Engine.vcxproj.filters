@@ -234,14 +234,17 @@
     <ClCompile Include="Collisions\CircleCollider.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionMatrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-	<ClCompile Include="TileMap\TileMapLoader.cpp">
+    <ClCompile Include="TileMap\TileMapLoader.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Helper\FileHandler.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CollisionMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,13 +554,7 @@
     <ClInclude Include="Collisions\Collision.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="LayerMask.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionMatrix.h">
-      <Filter>Header Files\Collisions</Filter>
-    </ClInclude>
-	<ClInclude Include="TileMap\TileMapLoader.h">
+    <ClInclude Include="TileMap\TileMapLoader.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\FileHandler.h">
@@ -565,6 +562,18 @@
     </ClInclude>
     <ClInclude Include="Utility\Rendering\ProjectileData.h">
       <Filter>Header Files\Utility\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CollisionMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\LayerMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels\Level1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
