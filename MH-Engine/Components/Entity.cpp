@@ -17,6 +17,7 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	//UpdateColliderShape(); //TODO
 	m_projectileManager = std::make_shared<ProjectileManager>();
 }
+
 Entity::~Entity()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerUp, this);

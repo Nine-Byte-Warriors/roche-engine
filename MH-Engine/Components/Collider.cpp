@@ -100,7 +100,7 @@ void Collider::ManageIntersections()
 
 void Collider::Process()
 {
-    if ( m_intersections.size() < 1 )
+    if ( m_intersections.size() == 0 )
         return;
 
     //Run functions
@@ -116,6 +116,8 @@ void Collider::Process()
                 break;
             case CollisionState::Leaving:
                 OnExit(*itr->first);
+                if ( m_intersections.size() == 1 )
+                    return;
                 itr = m_intersections.erase( itr );
                 break;
             }
