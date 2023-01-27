@@ -12,10 +12,13 @@ public:
     Input_Widget( const std::string& texture );
     ~Input_Widget();
 
-    void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
+    void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index );
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
-    void Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData );
+    void Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index );
+
+    inline bool GetSelected() const noexcept { return m_bSelected; }
+    inline void SetSelected( bool selected ) noexcept { m_bSelected = selected; }
 
     void SetCurrentText( std::string text ) noexcept { m_sCurrText = text; }
     std::string GetCurrentText() const noexcept { return m_sCurrText; }
@@ -25,7 +28,8 @@ public:
 
 private:
     std::string m_sCurrText;
-    static bool m_bSelected;
+    int m_iIdentifier;
+    bool m_bSelected;
 
     XMVECTORF32 m_textColour;
     std::string m_buttonTexture;
