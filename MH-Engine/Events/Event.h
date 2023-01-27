@@ -38,7 +38,8 @@ enum class EVENTID
 	PlayerRight,
 	PlayerFire,
 	TargetPosition,
-	UpdateInventory,
+	PlantSeed,
+	BuySeed,
 	ChangeSeed,
 	
 	// Utility

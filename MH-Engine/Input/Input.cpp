@@ -70,11 +70,14 @@ void Input::UpdateKeyboard( const float dt )
 	
 
 		if (m_keyboard.KeyIsPressed('T'))
-			EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory);
-	
+			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
 
-		if (m_keyboard.KeyIsPressed('P'))
+		if (m_keyboard.KeyIsPressed('Y'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+
+		if (m_keyboard.KeyIsPressed('U'))
 			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
+
 	
 
         // Close game

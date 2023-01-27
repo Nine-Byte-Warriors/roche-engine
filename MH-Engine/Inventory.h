@@ -27,7 +27,7 @@ public :
 	string GetCurrentSeed();
 
 private:
-	bool SeedCountCheck(int seedIndex);	
+	bool SeedCountCheck(int seedIndex, int amountToChange);
 
 public:
 	void AddToEvent() noexcept;

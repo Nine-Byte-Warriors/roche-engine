@@ -16,10 +16,7 @@ Inventory::Inventory()
 	{
 		m_seedInventory.push_back({m_seedOptions[i],0});
 	}
-				//Debug use only//
-	m_seedInventory[1].m_iSeedCount = 5;
-	m_seedInventory[5].m_iSeedCount = 2;
-	//									//
+
 	m_numOfSeedOptions = m_seedInventory.size();
 	m_currentSeedIndex = 0;
 	m_currentSeed = m_seedOptions[m_currentSeedIndex];
@@ -27,7 +24,8 @@ Inventory::Inventory()
 }
 Inventory::~Inventory()
 {
-	EventSystem::Instance()->RemoveClient(EVENTID::UpdateInventory, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlantSeed, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BuySeed, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ChangeSeed, this);
 }
 
@@ -37,7 +35,7 @@ void Inventory::UpdateInventoryCount(string seedName, int amountToChange)
 	{
 		if (seedName == m_seedInventory[i].m_sSeedName)
 		{
-			if(SeedCountCheck(i))
+			if(SeedCountCheck(i,amountToChange))
 				m_seedInventory[i].m_iSeedCount += amountToChange;
 		}
 	}
@@ -65,9 +63,9 @@ string Inventory::GetCurrentSeed()
 	return m_currentSeed;
 }
 
-bool Inventory::SeedCountCheck(int seedIndex)
+bool Inventory::SeedCountCheck(int seedIndex, int amountToChange)
 {
-	if (m_seedInventory[seedIndex].m_iSeedCount >= 1)
+	if (m_seedInventory[seedIndex].m_iSeedCount + amountToChange >= 0)
 	{
 		return true;
 	}
@@ -77,7 +75,8 @@ bool Inventory::SeedCountCheck(int seedIndex)
 
 void Inventory::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient(EVENTID::UpdateInventory, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlantSeed, this);
+	EventSystem::Instance()->AddClient(EVENTID::BuySeed, this);
 	EventSystem::Instance()->AddClient(EVENTID::ChangeSeed, this);
 }
 
@@ -85,7 +84,8 @@ void Inventory::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	case EVENTID::UpdateInventory: UpdateCurrentSeedCount(-1); break;
+	case EVENTID::PlantSeed: UpdateCurrentSeedCount(-1); break;
+	case EVENTID::BuySeed: UpdateCurrentSeedCount(1); break;
 	case EVENTID::ChangeSeed: IncrementCurrentSeed(); break;
 	default: break;
 	}
