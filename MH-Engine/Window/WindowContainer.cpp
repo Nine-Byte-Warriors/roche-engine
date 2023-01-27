@@ -132,9 +132,24 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-			Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vImGuiMousePos );
-            return 0;
+			//Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+
+   //         Vector2f windowPos = Vector2f(imio.DisplaySize.x, imio.DisplaySize.y);
+   //         ImVec2 gameSize = ImVec2(m_windowSize.x, m_windowSize.y);
+   //         Vector2f* vFakedPos = new Vector2f
+   //         (
+   //             MouseCapture::GetGamePos
+   //             (
+   //                 imio.MousePos,
+   //                 windowPos,
+   //                 ImGui::GetWindowContentRegionMax(),
+   //                 gameSize
+   //             )
+   //         );
+
+   //         //Vector2f vImGuiMousePos = MouseCapture::GetGamePos(ImGui::GetMousePos(), ImGui::GetWindowPos(),)
+   //         EventSystem::Instance()->AddEvent( EVENTID::MousePosition, vFakedPos);
+   //         return 0;
         }
 #endif
 
@@ -281,6 +296,7 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 #if _DEBUG
         if ( imio.WantCaptureMouse )
         {
+            //m_mouse.
             Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
             EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, &vImGuiMousePos );
 			return 0;
@@ -392,6 +408,31 @@ void WindowContainer::DisableCursor() noexcept
 	DisableImGuiMouse();
 #endif
 	ConfineCursor();
+}
+
+void WindowContainer::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient(EVENTID::ImGuiMousePosition, this);
+}
+
+void WindowContainer::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient(EVENTID::MousePosition, this);
+}
+
+void WindowContainer::HandleEvent(Event* event)
+{
+    Vector2f* mousePos;
+    switch (event->GetEventID())
+    {
+    case EVENTID::ImGuiMousePosition:
+		mousePos = static_cast<Vector2f*>(event->GetData());
+        mousePos->y = +8.0f;
+        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, mousePos); 
+        break;
+    default:
+        break;
+    }
 }
 
 void WindowContainer::ConfineCursor() noexcept
