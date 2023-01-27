@@ -12,12 +12,12 @@ Inventory::Inventory()
 	m_seedOptions[4] = { "Potato" };
 	m_seedOptions[5] = { "Tomato" };
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < ARRAYSIZE(m_seedOptions); i++)
 	{
 		m_seedInventory.push_back({m_seedOptions[i],0});
 	}
 
-	m_numOfSeedOptions = m_seedInventory.size();
+	m_numOfSeedOptions = ARRAYSIZE(m_seedOptions);
 	m_currentSeedIndex = 0;
 	m_currentSeed = m_seedOptions[m_currentSeedIndex];
 	

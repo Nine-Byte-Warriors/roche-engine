@@ -194,10 +194,17 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		}
 	}
 
-	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
+	for (unsigned int i = 0; i < m_vImages.size(); i++)
 	{
-		m_vImages[i].Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
-		m_vImages[i].Update( dt );
+		if (m_vImages[i].GetAction() == "Carrot Seed Packet")
+		{
+
+		}
+		else
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Board\\Board.png");
+			m_vImages[i].Update(dt);
+		}
 	}
 
 	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
