@@ -16,6 +16,7 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_collider = std::make_shared<CircleCollider>(m_transform, 1, 1, 32);
 	//UpdateColliderShape(); //TODO
 	m_projectileManager = std::make_shared<ProjectileManager>();
+	
 }
 Entity::~Entity()
 {
@@ -23,6 +24,7 @@ Entity::~Entity()
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerLeft, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDown, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerRight, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::TomatoKamikaze, this);
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -97,6 +99,8 @@ void Entity::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
+
+	EventSystem::Instance()->AddClient(EVENTID::TomatoKamikaze, this);
 }
 
 void Entity::HandleEvent(Event* event)
@@ -107,9 +111,15 @@ void Entity::HandleEvent(Event* event)
 	case EVENTID::PlayerLeft: m_physics->AddForce({ -m_fSpeed, 0.0f }); break;
 	case EVENTID::PlayerDown: m_physics->AddForce({ 0.0f, m_fSpeed }); break;
 	case EVENTID::PlayerRight: m_physics->AddForce({ m_fSpeed, 0.0f }); break;
+	//case EVENTID::TomatoKamikaze: 
 	default: break;
 	}
 }
+
+//void Entity::Kamikaze()
+//{
+//
+//}
 
 void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 {
@@ -332,3 +342,12 @@ void Entity::UpdateColliderRadius()
 	m_collider->SetRadius(m_fColliderRadiusX);
 	//m_collider->SetRadius(m_fColliderRadiusX, m_fColliderRadiusY); //Box
 }
+
+void Entity::CheckAliveStatus()
+{
+	//For loop to go through entity array checking status of health/hp
+	//	if(m_bEntityIsAlive = false) //Checks if their state has been set to false (will need to change this in future)
+	//		Find and destroy this entity
+
+}
+

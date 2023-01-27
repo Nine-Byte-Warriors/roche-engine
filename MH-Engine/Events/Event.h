@@ -39,6 +39,9 @@ enum class EVENTID
 	PlayerFire,
 	TargetPosition,
 	
+	// Enemy Events
+	TomatoKamikaze,
+	
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,

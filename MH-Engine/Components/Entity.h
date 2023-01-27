@@ -43,6 +43,9 @@ public:
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
+	void CheckAliveStatus();
+	//void Kamikaze();
+
 private:
 	void SetPositionInit();
 	void SetScaleInit();
@@ -69,6 +72,8 @@ private:
 
 	int m_iEntityNum;
 	EntityType m_entityType;
+
+	bool m_bEntityIsAlive;
 
 	ID3D11Device* m_device;
 

@@ -67,6 +67,9 @@ void Input::UpdateKeyboard( const float dt )
 		if ( m_keyboard.KeyIsPressed( 'Q' ) )
 			*m_fPlayerHealth = 100.0f;
 
+		if (m_keyboard.KeyIsPressed('K'))
+			EventSystem::Instance()->AddEvent(EVENTID::TomatoKamikaze);
+
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
