@@ -108,7 +108,10 @@ public:
 	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
-	inline void SetDefaultVolume(SoundBankFile* soundBank, float defaultVolume) { soundBank->volume = defaultVolume; };
+	inline void SetDefaultVolume(SoundBankFile* soundBank, float newVolume) { soundBank->volume = newVolume; };
+	inline void SetRandomPitch(SoundBankFile* soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
+	inline void SetPitchMin(SoundBankFile* soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
+	inline void SetPitchMax(SoundBankFile* soundBank, float newPitchMax) { soundBank->pitchMax = newPitchMax; };
 
 	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 

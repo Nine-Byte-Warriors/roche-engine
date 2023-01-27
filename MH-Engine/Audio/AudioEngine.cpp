@@ -182,7 +182,7 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 	for (int i = 0; soundBank->size() > i; i++) {
 		if (fileName == soundBank->at(i)->fileName) {
 
-			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank->at(i)->sourceFormat, 0, XAUDIO2_MAX_FREQ_RATIO,
+			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank->at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
 				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
 				return hr;
@@ -199,9 +199,9 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume;
 				pVoice->SetVolume(finalVolume);
 				if (soundBank->at(i)->randomPitch) {
-					//pVoice->GetFrequencyRatio(&sourceRate);
-					//frequencyRatio = sourceRate / 2.0f;
-					pVoice->SetFrequencyRatio(RND::Getf(soundBank->at(i)->pitchMin, soundBank->at(i)->pitchMax)); // TODO: Random between min and max
+					pVoice->GetFrequencyRatio(&sourceRate);
+					frequencyRatio = sourceRate / RND::Getf(soundBank->at(i)->pitchMin, soundBank->at(i)->pitchMax);
+					pVoice->SetFrequencyRatio(frequencyRatio); // TODO: Random between min and max
 				}
 				m_vSFXSourceVoiceList->push_back(pVoice);
 				break;

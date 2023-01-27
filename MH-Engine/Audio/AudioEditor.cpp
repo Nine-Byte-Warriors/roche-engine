@@ -70,15 +70,19 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 					if (audioType == SFX) {
 						if (ImGui::Checkbox(std::string("Random Pitch##").append(std::to_string(i)).append("random pitch").c_str(), &randomPitchEnabled)) {
 							m_vSoundFileInfo[i].randomPitch = !m_vSoundFileInfo[i].randomPitch;
+							AudioEngine::GetInstance()->SetRandomPitch(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType));
+
 						}
 
 						if (m_vSoundFileInfo[i].randomPitch) {
 							if (ImGui::SliderFloat(std::string("Minimum Pitch##").append(std::to_string(i)).append("minimum pitch").c_str(), &pitchMinValue, 0.5f, 1.5f)) {
 								m_vSoundFileInfo[i].pitchMin = pitchMinValue;
+								AudioEngine::GetInstance()->SetPitchMin(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMinValue);
 							}
 
 							if (ImGui::SliderFloat(std::string("Maximum Pitch##").append(std::to_string(i)).append("maximum pitch").c_str(), &pitchMaxValue, 0.5f, 1.5f)) {
 								m_vSoundFileInfo[i].pitchMax = pitchMaxValue;
+								AudioEngine::GetInstance()->SetPitchMax(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMaxValue);
 							}
 						}
 					}
