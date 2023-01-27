@@ -551,7 +551,7 @@
     <ClInclude Include="Utility\Rendering\ProjectileData.h">
       <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Levels\Level1.h">
+    <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collisions\LayerMask.h">
