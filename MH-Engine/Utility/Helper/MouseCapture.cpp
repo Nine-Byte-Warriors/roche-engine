@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "MouseCapture.h"
 
+MouseCaptureData MouseCapture::m_data = { Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f) };
+
 Vector2f MouseCapture::GetGamePos(ImVec2 ivMousetPos, Vector2f vEditorPos, ImVec2 ivEditorSize, ImVec2 ivSceneSize)
 {
 	Vector2f vMousePos = { ivMousetPos.x, ivMousetPos.y };
