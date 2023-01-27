@@ -93,6 +93,7 @@ private:
 	bool m_bLockPosition;
 	bool m_bLockToScale;
 
+	int m_iSelectedIndex = 0;
 	std::vector<std::string> m_projectileList;
 };
 
