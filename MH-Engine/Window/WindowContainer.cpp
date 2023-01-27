@@ -137,13 +137,24 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-            Vector2f vGamePos = MouseCapture::GetGamePos(
-                ImGui::GetMousePos(),
-                m_vImguiPos,
-                ImGui::GetWindowContentRegionMax(),
-                imio.DisplaySize
+			//if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))
+			//	return 0;
+   //         
+			//if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+			//	return 0;
+   //         
+   //         Vector2f vGamePos = MouseCapture::GetGamePos(
+   //             ImGui::GetMousePos(),
+   //             m_vImguiPos,
+   //             ImGui::GetWindowContentRegionMax(),
+   //             imio.DisplaySize
+   //         );
+
+			Vector2f vImGuiMousePos = Vector2f(
+                ImGui::GetMousePos().x,
+                ImGui::GetMousePos().y
             );
-            EventSystem::Instance()->AddEvent(EVENTID::MousePosition, &vGamePos);
+            EventSystem::Instance()->AddEvent(EVENTID::MousePosition, &vImGuiMousePos);
             return 0;
             
             /*mousePos = new Vector2f(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
