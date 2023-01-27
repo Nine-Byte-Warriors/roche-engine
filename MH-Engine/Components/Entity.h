@@ -10,6 +10,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "Player.h"
+#include "EntityAnimation.h"
 
 class Entity
 {
@@ -45,8 +46,9 @@ private:
 
 	void UpdatePosition();
 	void UpdateScale();
-	void UpdateFrame();
+	void UpdateAnimation();
 	void UpdateTexture();
+	void SetAnimation();
 
 	void UpdateMass();
 	void UpdateSpeed();
@@ -56,6 +58,7 @@ private:
 	void UpdateProjectilePattern();
 
 	void UpdateColliderRadius();
+
 
 	int m_iEntityNum;
 
@@ -96,6 +99,8 @@ private:
 	std::shared_ptr<BoxCollider> m_colliderBox;
 
 	EntityController* m_entityController;
+
+	EntityAnimation m_animation;
 };
 
 #endif

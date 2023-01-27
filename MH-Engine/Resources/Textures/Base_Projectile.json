@@ -1,0 +1,24 @@
+{
+    "frameCount": [
+        1
+    ],
+    "name": "Onion",
+    "type": [
+        {
+            "alias": "Onion Running",          
+            "frameTiming": 1.0,
+            "name": "Walk"
+        },
+        {
+            "alias": " Onion getting hit",
+            "frameTiming": 1.0,
+            "name": "Hit"
+        },
+        {
+            "alias": " Onion Death",
+            "frameTiming": 1.0,
+            "name": "Death"
+        }
+    ]
+  }
+  

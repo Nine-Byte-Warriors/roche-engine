@@ -1,55 +1,25 @@
 {
-  "Filepath": "../Textures/Tomato.png",
-  "Frame Counts": [
-    3,
-    1,
-    1
+  "frameCount": [
+      3,
+      1,
+      1
   ],
-  "Frame Size": [
-    64,
-    64
-  ],
-  "Walk": [
-    {
-      "Alias": "Tomato Running",
-      "Frame Order": [
-        2,
-        3,
-        2,
-        1
-      ],
-      "Frame Timings": [
-        1.0,
-        1.0,
-        1.0
-      ]
-    }
-  ],
-  "Hit": [
-    {
-      "Alias": "Tomato getting hit",
-      "Frame Order": [
-        0
-      ],
-      "Frame Timings": [
-        1.0,
-        1.0,
-        1.0
-      ]
-    }
-  ],
-  "Death": [
-    {
-      "Alias": "Tomato Death",
-      "Frame Order": [
-        0
-      ],
-      "Frame Timings": [
-        1.0,
-        1.0,
-        1.0
-      ]
-    }
-  ],
-  "Version": "1.5"
+  "name": "Onion",
+  "type": [
+      {
+          "alias": "Onion Running",          
+          "frameTiming": 1.0,
+          "name": "Walk"
+      },
+      {
+          "alias": " Onion getting hit",
+          "frameTiming": 1.0,
+          "name": "Hit"
+      },
+      {
+          "alias": " Onion Death",
+          "frameTiming": 1.0,
+          "name": "Death"
+      }
+  ]
 }

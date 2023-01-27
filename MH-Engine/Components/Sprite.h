@@ -59,6 +59,8 @@ public:
 
 	inline void UpdateTex( ID3D11Device* device, std::string tex ) { texture->UpdateTexture( device, tex ); }
 	inline void UpdateTex( ID3D11Device* device, Colour tex ) { texture->UpdateTexture( device, tex ); }
+
+	inline void UpdateFrameTime(float frameTime) noexcept { m_fHoldTime = frameTime; }
 private:
 	bool InitializeInternal( ID3D11Device* device, ID3D11DeviceContext* context,
 		ConstantBuffer<Matrices>& mat, float width, float height );

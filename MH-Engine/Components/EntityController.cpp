@@ -55,6 +55,16 @@ std::vector<int> EntityController::GetMaxFrame(int num)
 	return m_entityData[num].maxFrame;
 }
 
+std::string EntityController::GetAnimationFile(int num)
+{
+	return m_entityData[num].animationPath;
+}
+
+std::string EntityController::GetAnimationType(int num)
+{
+	return m_entityData[num].animationType;
+}
+
 float EntityController::GetMass(int num)
 {
 	return m_entityData[num].mass;
@@ -113,6 +123,11 @@ bool EntityController::HasCollider(int num)
 	return m_entityData[num].collider;
 }
 
+bool EntityController::HasAnimation(int num)
+{
+	return m_entityData[num].animation;
+}
+
 bool EntityController::HasProjectileBullet(int num)
 {
 	return m_entityData[num].bProjectileBullet;
@@ -132,6 +147,7 @@ bool EntityController::HasComponentUpdated()
 			m_entityDataCopy[i].AI != m_entityData[i].AI ||
 			m_entityDataCopy[i].projectileSystem != m_entityData[i].projectileSystem ||
 			m_entityDataCopy[i].bProjectilePattern != m_entityData[i].bProjectilePattern ||
+			m_entityDataCopy[i].animation != m_entityData[i].animation ||
 			m_entityDataCopy[i].bProjectileBullet != m_entityData[i].bProjectileBullet;
 
 		if (componentUpdated)
@@ -147,3 +163,4 @@ void EntityController::UpdateCopy()
 {
 	m_entityDataCopy = m_entityData;
 }
+
