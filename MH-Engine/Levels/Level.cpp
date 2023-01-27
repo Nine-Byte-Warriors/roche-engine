@@ -166,7 +166,7 @@ void Level::RenderFrameEntity()
         m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
         m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
 
-        if (m_entityController.HasProjectileButtet(i))
+        if (m_entityController.HasProjectileBullet(i))
         {
             m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }

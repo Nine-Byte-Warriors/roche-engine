@@ -11,7 +11,7 @@ class Graphics;
 #include "Agent.h"
 #include "Player.h"
 
-class Entity : public Listener
+class Entity
 {
 public:
 	Entity(EntityController& entityController, int EntityNum);
@@ -35,8 +35,7 @@ public:
 
 	Vector2f GetPos() { return *m_vPosition; }
 
-	void AddToEvent() noexcept;
-	void HandleEvent(Event* event) override;
+	std::string GetType();
 
 private:
 	void SetPositionInit();

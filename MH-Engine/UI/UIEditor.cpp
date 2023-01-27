@@ -175,6 +175,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 		}
 		ImGui::NewLine();
 
+		static int widgetIdx = 0;
 		if ( ImGui::CollapsingHeader( "Screens", ImGuiTreeNodeFlags_DefaultOpen ) )
 		{
 			// Show all screens at once?
@@ -197,7 +198,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 
 					if ( isSelected )
 						ImGui::SetItemDefaultFocus();
-				
+
 					index++;
 				}
 				ImGui::EndListBox();
@@ -236,12 +237,12 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 						->UseOpenDialog()
 						->ShowDialog()
 						->StoreDialogResult();
-					
+
 					if (foLoad->HasPath())
 					{
 						m_vUIScreenData[m_iCurrentScreenIdx].file = foLoad->GetFilePath();
 						m_vUIScreenData[m_iCurrentScreenIdx].name = foLoad->m_sFile;
-						
+
 						SortScreens();
 						m_vUIScreens.clear();
 						for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
@@ -261,7 +262,14 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					static int screenIdx = 0;
 					std::string screenName = "Blank Screen " + std::to_string( screenIdx );
 					m_vUIScreenData.push_back( UIScreenData( { screenName, std::string( screenName ).append( ".json" ) } ) );
-					m_iCurrentScreenIdx -= m_vUIScreenData.size() - 1;
+					SortScreens();
+
+					std::vector<UIWidgetData> widgetData;
+					widgetData.push_back( UIWidgetData( { false, 0, "Blank Widget " + std::to_string( widgetIdx ), "Image", "", { 0.0f, 0.0f }, { 64.0f, 64.0f } } ) );
+					m_vUIWidgetData.emplace( screenName, widgetData );
+					widgetIdx++;
+
+					m_iCurrentScreenIdx = m_vUIScreenData.size() - 1;
 				}
 				ImGui::SameLine();
 				if ( ImGui::Button( "Remove Current Screen" ) )
@@ -276,7 +284,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 			}
 		}
 		ImGui::NewLine();
-		
+
 		if ( m_iCurrentScreenIdx > -1 )
 		{
 			if ( ImGui::CollapsingHeader( "Widgets", ImGuiTreeNodeFlags_DefaultOpen ) )
@@ -393,10 +401,10 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					{
 						if ( key == screenName )
 						{
-							static int widgetIdx = 0;
 							value.push_back( UIWidgetData( false, value.size(),
 								"Blank Widget " + std::to_string( widgetIdx ),
 								"Image", "", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+							widgetIdx++;
 						}
 					}
 				}
