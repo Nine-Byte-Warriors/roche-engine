@@ -9,7 +9,6 @@
 
 WindowContainer::WindowContainer()
 {
-    AddToEvent();
 	static bool rawInputInitialized = false;
 	if ( !rawInputInitialized )
 	{
@@ -29,10 +28,7 @@ WindowContainer::WindowContainer()
 	}
 }
 
-WindowContainer::~WindowContainer()
-{
-    RemoveFromEvent();
-}
+WindowContainer::~WindowContainer() { }
 
 #if _DEBUG
 extern LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
@@ -121,7 +117,6 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     {
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-		Vector2f* mousePos = new Vector2f( x, y );
 
 		if ( !m_bCursorEnabled )
 		{
@@ -137,37 +132,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-			//if (!ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))
-			//	return 0;
-   //         
-			//if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
-			//	return 0;
-   //         
-   //         Vector2f vGamePos = MouseCapture::GetGamePos(
-   //             ImGui::GetMousePos(),
-   //             m_vImguiPos,
-   //             ImGui::GetWindowContentRegionMax(),
-   //             imio.DisplaySize
-   //         );
-
-			Vector2f vImGuiMousePos = Vector2f(
-                ImGui::GetMousePos().x,
-                ImGui::GetMousePos().y
-            );
-            EventSystem::Instance()->AddEvent(EVENTID::MousePosition, &vImGuiMousePos);
+			Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vImGuiMousePos );
             return 0;
-            
-            /*mousePos = new Vector2f(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
-            Vector2f vSceneSize(imio.DisplaySize.x, imio.DisplaySize.y);
-			if (MouseCapture::IsInScene(*mousePos, m_vImguiPos, vSceneSize))
-			{
-				Vector2f vGamePos = MouseCapture::EditorPosToGamePos(*mousePos, m_vImguiPos, vSceneSize);
-                EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vGamePos);
-				return 0;
-			}*/
         }
 #endif
 
+        Vector2f* mousePos = new Vector2f( x, y );
 		if ( mousePos->x >= 0 && mousePos->x < m_windowSize.x && mousePos->y >= 0 && mousePos->y < m_windowSize.y )
 		{
             m_mouse.OnMouseMove( x, y );
@@ -200,19 +171,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnLeftPressed( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, mousePos );
 
 		if ( !m_bCursorEnabled )
@@ -229,19 +199,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
 		if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnLeftReleased( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, mousePos );
 
 		if ( mousePos->x < 0 || mousePos->x >= m_windowSize.x || mousePos->y < 0 || mousePos->y >= m_windowSize.y )
@@ -258,19 +227,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
         if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnRightPressed( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, mousePos );
 
         return 0;
@@ -281,19 +249,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
         if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnRightReleased( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, mousePos );
 
 		if ( mousePos->x < 0 || mousePos->x >= m_windowSize.x || mousePos->y < 0 || mousePos->y >= m_windowSize.y )
@@ -310,19 +277,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
         if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnMiddlePressed( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, mousePos );
 
         return 0;
@@ -333,19 +299,18 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
-        Vector2f* mousePos = new Vector2f( x, y );
 
 #if _DEBUG
         if ( imio.WantCaptureMouse )
         {
-            mousePos->x = imio.MousePos.x - m_vImguiPos.x;
-            mousePos->y = imio.MousePos.y - m_vImguiPos.y;
-            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, mousePos );
+            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, &vImGuiMousePos );
 			return 0;
         }
 #endif
 
         m_mouse.OnMiddleReleased( x, y );
+        Vector2f* mousePos = new Vector2f( x, y );
         EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, mousePos );
 
         return 0;
@@ -463,23 +428,3 @@ void WindowContainer::DisableImGuiMouse() noexcept
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
 }
 #endif
-
-void WindowContainer::AddToEvent() noexcept
-{
-    EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
-}
-
-void WindowContainer::RemoveFromEvent() noexcept
-{
-    EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
-}
-
-void WindowContainer::HandleEvent( Event* event )
-{
-    switch ( event->GetEventID() )
-    {
-    case EVENTID::ImGuiMousePosition:
-        m_vImguiPos = *(Vector2f*)event->GetData();
-       break;
-    }
-}

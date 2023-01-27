@@ -74,7 +74,6 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mDa
 	m_spriteBar->SetWidth( m_vSize.x );
 	m_spriteBar->SetHeight( m_vSize.y + 85.0f );
 
-#if !_DEBUG // not updated for imgui mouse positions
 	// Slider collision
 	if (
 		mData.Pos.x >= m_vPosition.x &&
@@ -89,7 +88,6 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mDa
 			m_fPY = mData.Pos.y - ( m_vPosition.y );
 		}
 	}
-#endif
 
 	m_fPagePos = m_fPageSize * ( m_fPY / m_vSize.y );
 }

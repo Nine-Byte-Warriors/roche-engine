@@ -66,7 +66,6 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
     m_sprite->SetWidth( m_vSize.x );
     m_sprite->SetHeight( m_vSize.y );
 	
-#if !_DEBUG  // not updated for imgui mouse positions
 	// Button collison
 	if (
 		mData.Pos.x >= m_vPosition.x &&
@@ -90,7 +89,6 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 		if ( mData.LPress )
 			m_bSelected = false;
 	}
-#endif
 
 	if ( m_bSelected )
 		m_sCurrText = keys;

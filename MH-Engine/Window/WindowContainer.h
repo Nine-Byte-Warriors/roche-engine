@@ -5,10 +5,9 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 #include "Vector2f.h"
-#include "EventSystem.h"
 #include "RenderWindow.h"
 
-class WindowContainer : public Listener
+class WindowContainer
 {
 public:
 	WindowContainer();
@@ -18,10 +17,6 @@ public:
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
 	inline bool IsCursorEnabled() const noexcept { return m_bCursorEnabled; }
-
-	void AddToEvent() noexcept;
-	void RemoveFromEvent() noexcept;
-	void HandleEvent( Event* event ) override;
 
 protected:
 	void ConfineCursor() noexcept;
@@ -33,7 +28,6 @@ protected:
 	void DisableImGuiMouse() noexcept;
 #endif
 
-	Vector2f m_vImguiPos = { 0.0f, 0.0f };
 	bool m_bCursorEnabled = true;
 	XMFLOAT2 m_windowSize;
 

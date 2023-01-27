@@ -364,7 +364,11 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 void UIScreen::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
+#if _DEBUG
+	EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
+#else
 	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
+#endif
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseClick, this );
@@ -378,7 +382,11 @@ void UIScreen::AddToEvent() noexcept
 void UIScreen::RemoveFromEvent() noexcept
 {
 	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
+#if _DEBUG
+	EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
+#else
 	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
+#endif
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseClick, this );
@@ -394,7 +402,6 @@ void UIScreen::HandleEvent( Event* event )
 	switch ( event->GetEventID() )
 	{
 	case EVENTID::KeyInput:	{ m_sKeys = *(std::string*)event->GetData(); } break;
-	case EVENTID::MousePosition:{ m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick:{ m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease:{ m_mouseData.LPress = false; } break;
 	case EVENTID::RightMouseClick:{ m_mouseData.RPress = true; } break;
@@ -402,6 +409,20 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
 	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
+#if _DEBUG
+	case EVENTID::ImGuiMousePosition:
+	{
+		Vector2f mousePos = *(Vector2f*)event->GetData();
+		m_mouseData.Pos = XMFLOAT2( mousePos.x, mousePos.y );
+	}
+	break;
+#else
+	case EVENTID::MousePosition:
+	{
+		m_mouseData.Pos = *(XMFLOAT2*)event->GetData();
+	}
+	break;
+#endif
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
