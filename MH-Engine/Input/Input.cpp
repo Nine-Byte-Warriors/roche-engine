@@ -62,21 +62,20 @@ void Input::UpdateKeyboard( const float dt )
 
 		// Update player health
 		if (m_keyboard.KeyIsPressed('E'))
-		{*m_fPlayerHealth -= 10.0f; OutputDebugStringA("e");
-	}
+			*m_fPlayerHealth -= 10.0f; 
+	
 
 		if (m_keyboard.KeyIsPressed('Q'))
-		{*m_fPlayerHealth = 100.0f; OutputDebugStringA("q");
-	}
+			*m_fPlayerHealth = 100.0f;
+	
 
 		if (m_keyboard.KeyIsPressed('T'))
-		{EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory); OutputDebugStringA("t");
-	}
+			EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory);
+	
 
 		if (m_keyboard.KeyIsPressed('P'))
-		{		EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
-		OutputDebugStringA("P");
-	}
+			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
+	
 
         // Close game
         if ( keycode == VK_ESCAPE )

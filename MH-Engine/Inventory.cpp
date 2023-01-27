@@ -77,6 +77,6 @@ bool Inventory::SeedCountCheck(int seedIndex)
 	{
 		return true;
 	}
-	OutputDebugStringA("No Seeds");
+	OutputDebugStringA("No seed",m_currentSeed);
 	return false;
 }
