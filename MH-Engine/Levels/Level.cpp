@@ -205,12 +205,32 @@ void Level::EndFrame_Start()
         ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
         ImVec2 vImageMax = ImVec2(
             vRegionMax.x + ImGui::GetWindowPos().x,
-            vRegionMax.y + ImGui::GetWindowPos().y );
+            vRegionMax.y + ImGui::GetWindowPos().x);
 
         ImVec2 pos = ImGui::GetCursorScreenPos();
+
+        ImVec2 vRatio =
+        {
+            m_gfx->GetWidth() / ImGui::GetWindowSize().x,
+            m_gfx->GetHeight() / ImGui::GetWindowSize().y
+        };
+
+        bool bIsFitToWidth = vRatio.x < vRatio.y ? true : false;
+        ImVec2 ivMax =
+        {
+            bIsFitToWidth ? m_gfx->GetWidth() / vRatio.y : vRegionMax.x,
+            bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
+        };
+
+        ImVec2 ivMaxPos = 
+        {
+             ivMax.x + ImGui::GetWindowPos().x,
+            ivMax.y + ImGui::GetWindowPos().y 
+        };
+
         ImGui::GetWindowDrawList()->AddImage(
             (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, vImageMax );
+            pos, ivMaxPos);
 
         if ( ImGui::IsWindowHovered() )
         {
