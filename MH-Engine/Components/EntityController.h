@@ -63,7 +63,7 @@ public:
 	bool HasProjectileSystem(int num);
 	bool HasCollider(int num);
 
-	bool HasProjectileButtet(int num);
+	bool HasProjectileBullet(int num);
 	bool HasProjectilePattern(int num);
 
 	bool HasComponentUpdated();

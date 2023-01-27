@@ -113,7 +113,7 @@ bool EntityController::HasCollider(int num)
 	return m_entityData[num].collider;
 }
 
-bool EntityController::HasProjectileButtet(int num)
+bool EntityController::HasProjectileBullet(int num)
 {
 	return m_entityData[num].bProjectileBullet;
 }
@@ -130,7 +130,9 @@ bool EntityController::HasComponentUpdated()
 		bool componentUpdated =
 			m_entityDataCopy[i].collider != m_entityData[i].collider ||
 			m_entityDataCopy[i].AI != m_entityData[i].AI ||
-			m_entityDataCopy[i].projectileSystem != m_entityData[i].projectileSystem;
+			m_entityDataCopy[i].projectileSystem != m_entityData[i].projectileSystem ||
+			m_entityDataCopy[i].bProjectilePattern != m_entityData[i].bProjectilePattern ||
+			m_entityDataCopy[i].bProjectileBullet != m_entityData[i].bProjectileBullet;
 
 		if (componentUpdated)
 		{

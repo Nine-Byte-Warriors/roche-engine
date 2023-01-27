@@ -2,9 +2,10 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "Listener.h"
 #include "WindowContainer.h"
 
-class Input : public WindowContainer
+class Input : public WindowContainer, public Listener
 {
 public:
 	~Input() { RemoveFromEvent(); }
