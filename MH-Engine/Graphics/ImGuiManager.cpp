@@ -45,50 +45,6 @@ void ImGuiManager::EndRender() const noexcept
     ImGui_ImplDX11_RenderDrawData( ImGui::GetDrawData() );
 }
 
-void ImGuiManager::SpawnInstructionWindow() const noexcept
-{
-	if ( ImGui::Begin( "Scene Information", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
-	{
-		ImGui::Text( "Camera Controls" );
-        ImGui::NewLine();
-		ImGui::Text( "W         Up" );
-		ImGui::Text( "A         Left" );
-		ImGui::Text( "S         Down" );
-		ImGui::Text( "D         Right" );
-
-        ImGui::NewLine();
-        ImGui::Separator();
-        ImGui::NewLine();
-
-		ImGui::Text( "Miscellaneous Controls" );
-        ImGui::NewLine();
-		ImGui::Text( "HOME      Enable Mouse" );
-		ImGui::Text( "END       Disable Mouse" );
-		ImGui::Text( "ESCAPE    Close Game" );
-
-        ImGui::NewLine();
-        ImGui::Separator();
-        ImGui::NewLine();
-
-        // Get current fps
-        ImGuiIO& io = ImGui::GetIO();
-        float fps = 1.0f / io.DeltaTime;
-
-        // Only update every few frames
-        static float originalTime = 10.0f;
-        static float countdown = 0.0f;
-        static float fpsSpaced = fps; // Updates when countdown ends
-        if ( countdown < 0.0f )
-        {
-            fpsSpaced = fps;
-            countdown = originalTime;
-        }
-        countdown--;
-        ImGui::Text( std::string( "FPS: " ).append( std::to_string( fpsSpaced ) ).c_str() );
-	}
-    ImGui::End();
-}
-
 void ImGuiManager::SetBlackGoldStyle()
 {
     ImGuiStyle* style = &ImGui::GetStyle();

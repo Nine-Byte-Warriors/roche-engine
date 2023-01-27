@@ -228,11 +228,20 @@
     <ClCompile Include="UI\UIEditor.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Collisions\BoxCollider.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CircleCollider.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
     <ClCompile Include="TileMap\TileMapLoader.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Helper\FileHandler.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\CollisionMatrix.cpp">
+      <Filter>Source Files\Collisions</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files</Filter>
@@ -536,6 +545,15 @@
     <ClInclude Include="UI\UIEditor.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Collisions\BoxCollider.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CircleCollider.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\Collision.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
     <ClInclude Include="TileMap\TileMapLoader.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
@@ -547,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\LayerMask.h">
+      <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\CollisionMatrix.h">
+      <Filter>Header Files\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

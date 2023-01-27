@@ -64,7 +64,8 @@ void UIEditor::LoadFromFile_Widgets()
 		m_vUIWidgets.push_back( {} );
 		for ( unsigned int j = 0; j < it->second.size(); j++ ) // widget struct
 		{
-			m_vUIWidgets[index].push_back( { it->second[j].name, it->second[j].type, it->second[j].action,
+			m_vUIWidgets[index].push_back( { it->second[j].hide, it->second[j].zindex,
+				it->second[j].name, it->second[j].type, it->second[j].action,
 				XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
 				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) } );
 		}
@@ -125,6 +126,8 @@ void UIEditor::Update( const float dt )
 		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 		{
 			m_vUIWidgets[index].push_back( {} );
+			m_vUIWidgets[index][i].SetIsHidden( value[i].hide );
+			m_vUIWidgets[index][i].SetZIndex( value[i].zindex );
 			m_vUIWidgets[index][i].SetName( value[i].name );
 			m_vUIWidgets[index][i].SetType( value[i].type );
 			m_vUIWidgets[index][i].SetAction( value[i].action );
@@ -289,7 +292,9 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 					{
 						ImGui::PushID( i );
-						if ( ImGui::TreeNode( std::string( value[i].name ).append( " (" + value[i].type + ")" ).c_str() ) )
+						if ( ImGui::TreeNode( std::string( value[i].name )
+							.append( " (" + value[i].type + ")" )
+							.append( " (" + std::to_string( value[i].zindex ) + ")" ).c_str() ) )
 						{
 							ImGui::NewLine();
 
@@ -357,6 +362,15 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							value[i].scale = { scale[0], scale[1] };
 							ImGui::NewLine();
 
+							ImGui::Text( "Z Index" );
+							ImGui::InputInt( std::string( "##Z Index" ).append( key ).append( value[i].name ).c_str(), &value[i].zindex );
+							ImGui::NewLine();
+
+							ImGui::Text( "Hide Widget?" );
+							ImGui::SameLine();
+							ImGui::Checkbox( std::string( "##Hide Widget?" ).append( key ).append( value[i].name ).c_str(), &value[i].hide );
+							ImGui::NewLine();
+
 							// Remove the current widget?
 							if ( ImGui::Button( "Remove Widget" ) )
 							{
@@ -380,7 +394,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 						if ( key == screenName )
 						{
 							static int widgetIdx = 0;
-							value.push_back( UIWidgetData( "Blank Widget " + std::to_string( widgetIdx ),
+							value.push_back( UIWidgetData( false, value.size(),
+								"Blank Widget " + std::to_string( widgetIdx ),
 								"Image", "", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
 						}
 					}

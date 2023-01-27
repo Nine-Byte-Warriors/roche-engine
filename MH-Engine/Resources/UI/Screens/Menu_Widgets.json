@@ -10,7 +10,9 @@
             720.0
         ],
         "type": "Image",
-		"action": ""
+		"action": "",
+		"zindex": 0,
+		"hide": false
     },
     {
         "name": "Title Card",
@@ -23,7 +25,9 @@
             64.0
         ],
         "type": "Image",
-		"action": ""
+		"action": "",
+		"zindex": 1,
+		"hide": false
     },
     {
         "name": "GitHub Link",
@@ -36,7 +40,9 @@
             64.0
         ],
         "type": "Button",
-		"action": "Link"
+		"action": "Link",
+		"zindex": 2,
+		"hide": false
     },
     {
         "name": "Start Game",
@@ -49,7 +55,9 @@
             64.0
         ],
         "type": "Button",
-		"action": "Start"
+		"action": "Start",
+		"zindex": 3,
+		"hide": false
     },
     {
         "name": "Settings",
@@ -62,7 +70,9 @@
             64.0
         ],
         "type": "Button",
-		"action": ""
+		"action": "",
+		"zindex": 4,
+		"hide": false
     },
     {
         "name": "Quit Game",
@@ -75,6 +85,8 @@
             64.0
         ],
         "type": "Button",
-		"action": "Close"
+		"action": "Close",
+		"zindex": 5,
+		"hide": false
     }
 ]

@@ -1,6 +1,8 @@
 [
     {
+        "AI": true,
         "behaviour": "Patrol",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -19,16 +21,21 @@
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
-        "type": "Enemy"
+        "type": "Enemy",
+        "bProjectilePattern": false,
+        "bProjectileBullet": false
     },
     {
+        "AI": true,
         "behaviour": "Seek",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -47,21 +54,26 @@
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             128.0,
             128.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png",
-        "type": "Enemy"
+        "type": "Enemy",
+        "bProjectilePattern": false,
+        "bProjectileBullet": false
     },
     {
+        "AI": false,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
-            64.0,
-            64.0
+            124.0,
+            124.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "identifier": 2,
         "mass": 21.200000762939453,
         "maxFrame": [
@@ -75,16 +87,21 @@
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             124.0,
             124.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
-        "type": "Player"
+        "type": "Player",
+        "bProjectilePattern": false,
+        "bProjectileBullet": true
     },
     {
+        "AI": true,
         "behaviour": "Follow",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -103,16 +120,21 @@
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
-        "type": "Enemy"
+        "type": "Enemy",
+        "bProjectilePattern": false,
+        "bProjectileBullet": false
     },
     {
+        "AI": true,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
             64.0,
             64.0
@@ -131,16 +153,21 @@
         ],
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
+        "projectileSystem": true,
         "scale": [
             64.0,
             64.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
-        "type": "Enemy"
+        "type": "Enemy",
+        "bProjectilePattern": false,
+        "bProjectileBullet": false
     },
     {
+        "AI": true,
         "behaviour": "None",
+        "collider": true,
         "colliderRadius": [
             32.0,
             32.0
@@ -157,14 +184,17 @@
             436.0,
             103.0
         ],
-        "projectileBullet": "None",
+        "projectileBullet": "Projectile1",
         "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
+        "projectileSystem": true,
         "scale": [
             32.0,
             32.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Base_Projectile.png",
-        "type": "Projectile"
+        "type": "Projectile",
+        "bProjectilePattern": true,
+        "bProjectileBullet": false
     }
 ]

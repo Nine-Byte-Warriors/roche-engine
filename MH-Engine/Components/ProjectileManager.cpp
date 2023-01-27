@@ -20,6 +20,7 @@ ProjectileManager::ProjectileManager()
 
 ProjectileManager::~ProjectileManager()
 {
+	m_vecProjectilePool.clear();
 	RemoveFromEvent();
 }
 

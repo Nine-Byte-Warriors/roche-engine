@@ -2,7 +2,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Transform.h"
 #include "EventSystem.h"
 
 /// <summary>
@@ -12,21 +11,28 @@
 class Camera : public Listener
 {
 public:
-	Camera();
-	~Camera();
+	Camera() { AddToEvent(); }
+	~Camera() { RemoveFromEvent(); }
+	
 	void SetProjectionValues( float width, float height, float nearZ, float farZ );
-	const XMMATRIX& GetOrthoMatrix() const noexcept;
-	const XMMATRIX& GetWorldOrthoMatrix() const noexcept;
-	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+	inline const XMMATRIX& GetWorldMatrix() const noexcept { return m_mWorldMatrix; }
+	inline const XMMATRIX& GetOrthoMatrix() const noexcept { return m_mOrthoMatrix; }
+	inline const XMMATRIX& GetWorldOrthoMatrix() const noexcept { return m_mWorldMatrix * m_mOrthoMatrix; }
 
+	inline bool GetIsLockedToPlayer() const noexcept { return m_bLockedToPlayer; }
+	inline bool SetIsLockedToPlayer( bool locked ) noexcept { m_bLockedToPlayer = locked; }
+
+	void Update( const float dt );
+	void SpawnControlWindow();
+private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
-private:
-	void UpdateMatrix();
-	XMMATRIX orthoMatrix;
-	XMFLOAT4X4 WorldOrthoMatrix;
-	std::shared_ptr<Transform> m_transform;
+
+	float m_fSpeed = 5.0f;
+	bool m_bLockedToPlayer = false;
+	XMFLOAT2 m_vSizeOfScreen, m_vPosition;
+	XMMATRIX m_mOrthoMatrix, m_mWorldMatrix;
 };
 
 #endif

@@ -80,6 +80,8 @@
     <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)Audio;$(ProjectDir)Collisions;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Objects;$(ProjectDir)Input;$(ProjectDir)Graphics;$(ProjectDir)Resources;$(ProjectDir)Components;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Utility/Errors;$(ProjectDir)Utility/Helper;$(ProjectDir)Utility/Rendering;$(ProjectDir)Window;$(IncludePath)</IncludePath>
     <MultiProcFXC>true</MultiProcFXC>
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>$(ProjectName) Debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir);$(SolutionDir)External;$(ProjectDir);$(ProjectDir)AI;$(ProjectDir)Audio;$(ProjectDir)Collisions;$(ProjectDir)TileMap;$(ProjectDir)Events;$(ProjectDir)Levels;$(ProjectDir)Graphics;$(ProjectDir)Input;$(ProjectDir)Objects;$(ProjectDir)Resources;$(ProjectDir)Components;$(ProjectDir)UI;$(ProjectDir)Utility;$(ProjectDir)Utility/Errors;$(ProjectDir)Utility/Helper;$(ProjectDir)Utility/Rendering;$(ProjectDir)Window;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
@@ -92,6 +94,8 @@
     <LibraryPath>$(SolutionDir)External\lib;$(SolutionDir)External\lib\_x64\_Release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <LinkIncremental>true</LinkIncremental>
     <MultiProcFXC>true</MultiProcFXC>
+    <OutDir>$(ProjectDir)</OutDir>
+    <TargetName>$(ProjectName) Release</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -278,7 +282,10 @@
     <ClCompile Include="Audio\AudioEditor.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Audio\VoiceCallback.cpp" />
+    <ClCompile Include="Collisions\BoxCollider.cpp" />
+    <ClCompile Include="Collisions\CircleCollider.cpp" />
     <ClCompile Include="Collisions\CollisionHandler.cpp" />
+    <ClCompile Include="Collisions\CollisionMatrix.cpp" />
     <ClCompile Include="Components\Agent.cpp" />
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
@@ -417,7 +424,12 @@
     <ClInclude Include="Audio\AudioEditor.h" />
     <ClInclude Include="Audio\AudioEngine.h" />
     <ClInclude Include="Audio\VoiceCallback.h" />
+    <ClInclude Include="Collisions\BoxCollider.h" />
+    <ClInclude Include="Collisions\CircleCollider.h" />
+    <ClInclude Include="Collisions\Collision.h" />
     <ClInclude Include="Collisions\CollisionHandler.h" />
+    <ClInclude Include="Collisions\CollisionMatrix.h" />
+    <ClInclude Include="Collisions\LayerMask.h" />
     <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Components\Agent.h" />
     <ClInclude Include="Components\Collider.h" />
