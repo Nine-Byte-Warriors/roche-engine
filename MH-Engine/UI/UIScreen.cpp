@@ -363,7 +363,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 void UIScreen::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::CharInput, this );
 	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
@@ -377,7 +377,7 @@ void UIScreen::AddToEvent() noexcept
 
 void UIScreen::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CharInput, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
@@ -393,7 +393,7 @@ void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::KeyInput:	{ m_sKeys = *(std::string*)event->GetData(); } break;
+	case EVENTID::CharInput: { m_sKeys = *(std::string*)event->GetData(); } break;
 	case EVENTID::MousePosition:{ m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick:{ m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease:{ m_mouseData.LPress = false; } break;

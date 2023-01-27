@@ -16,7 +16,7 @@ public:
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
     void Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData );
-    
+
     void SetCurrentText( std::string text ) noexcept { m_sCurrText = text; }
     std::string GetCurrentText() const noexcept { return m_sCurrText; }
 
@@ -25,7 +25,7 @@ public:
 
 private:
     std::string m_sCurrText;
-    bool m_bSelected = false;
+    static bool m_bSelected;
 
     XMVECTORF32 m_textColour;
     std::string m_buttonTexture;

@@ -59,7 +59,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
-            level->SetEntityJson( m_vLevelData[i].entity );            
+            level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
             level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
             level->SetUIJson( m_vLevelData[i].ui );
