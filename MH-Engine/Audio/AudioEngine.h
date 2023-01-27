@@ -38,6 +38,9 @@ struct SoundBankFile
 	WAVEFORMATEX* sourceFormat;
 	//VoiceCallback* voiceCallback;
 	float volume;
+	bool randomPitch = false;
+	float pitchMin = 1.0f;
+	float pitchMax = 1.0f;
 };
 
 struct JSONSoundFile {
@@ -45,8 +48,11 @@ struct JSONSoundFile {
 	std::string filePath;
 	float volume;
 	int audioType;
+	bool randomPitch;
+	float pitchMin;
+	float pitchMax;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, name, filePath, volume, audioType);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, name, filePath, volume, audioType, randomPitch, pitchMin, pitchMax);
 
 enum AudioType
 {
@@ -71,7 +77,7 @@ public:
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
 	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName); // JSON Save Function
 
-	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType); // supports *.wav format only
+	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
 	HRESULT PauseMusic(); // Pauses ALL music
@@ -83,7 +89,7 @@ public:
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
-	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume);
+	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
 	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
 	std::wstring GetFileName(std::wstring filePath);
 	std::wstring GetFileName(std::string filePath); //overload for string
