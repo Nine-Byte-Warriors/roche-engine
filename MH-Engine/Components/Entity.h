@@ -9,7 +9,6 @@ class Graphics;
 #include "ProjectileManager.h"
 #include "CircleCollider.h"
 #include "Agent.h"
-#include "Player.h"
 
 class Entity
 {

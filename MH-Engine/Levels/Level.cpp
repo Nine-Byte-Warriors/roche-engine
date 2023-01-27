@@ -229,10 +229,6 @@ void Level::EndFrame_Start()
     ImGui::End();
     ImGui::PopStyleVar();
 
-    Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
-    Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
-    m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
-
     m_gfx->SpawnControlWindow();
     m_uiEditor.SpawnControlWindow( *m_gfx );
     m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
@@ -240,7 +236,6 @@ void Level::EndFrame_Start()
     m_tileMapEditor.SpawnControlWindow();
     m_audioEditor.SpawnControlWindow();
     m_camera.SpawnControlWindow();
-    m_player.SpawnControlWindow();
 #endif
 }
 

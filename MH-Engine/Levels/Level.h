@@ -6,9 +6,7 @@
 #include "EntityEditor.h"
 #include "EntityController.h"
 
-#include "Enemy.h"
 #include "Camera.h"
-#include "Player.h"
 #include "UIEditor.h"
 #include "TileMapDraw.h"
 #include "TextRenderer.h"
@@ -73,9 +71,7 @@ private:
 	void RenderFrameTileMap();
 
 	// Objects
-	Enemy m_enemy;
 	Camera m_camera;
-	Player m_player;
 	UIEditor m_uiEditor;
 	std::vector<Entity> m_entity;
 

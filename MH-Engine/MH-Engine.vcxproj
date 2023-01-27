@@ -309,8 +309,6 @@
     <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
-    <ClCompile Include="Objects\Enemy.cpp" />
-    <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
@@ -465,8 +463,6 @@
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />
     <ClInclude Include="Objects\Camera.h" />
-    <ClInclude Include="Objects\Enemy.h" />
-    <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
     <ClInclude Include="TileMap\TileMapLoader.h" />
