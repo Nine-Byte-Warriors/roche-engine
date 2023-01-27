@@ -26,18 +26,19 @@ public :
 	void IncrementCurrentSeed();
 	string GetCurrentSeed();
 
+private:
+	bool SeedCountCheck(int seedIndex);	
+
+public:
 	void AddToEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
 private:
-	bool SeedCountCheck(int seedIndex);
-
+	int m_numOfSeedOptions;
 	string m_currentSeed;
 	int m_currentSeedIndex;
-	string m_seedOptions[2];
+	string m_seedOptions[6];
 	vector<InventoryStruct> m_seedInventory{};
-	
-
 };
 
 #endif

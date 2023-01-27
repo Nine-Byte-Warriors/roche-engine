@@ -244,7 +244,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -573,7 +573,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Inventory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
