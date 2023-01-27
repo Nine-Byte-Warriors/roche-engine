@@ -231,16 +231,25 @@ void Level::EndFrame_Start()
             pos, vImageMax
         );
 
-        if (bTest)
+        if(ImGui::IsWindowHovered())
+
+        //if (bTest)
         {
             ImGui::Text("On Screen");
 
-			/*Vector2f vFakedPos = MouseCapture::EditorPosToGamePos(vMousePos, vScenePos, vGameSize);
+			Vector2f vFakedPos =
+                //MouseCapture::EditorPosToGamePos(vMousePos, vScenePos, vGameSize, vre);
+            MouseCapture::GetGamePos(
+                ImGui::GetMousePos(), 
+                vScenePos,
+                vImageMax, 
+                vRegionMax
+            );
 
             std::string sFakedMouseText = "Faked Mouse Pos: "
                 " X: " + std::to_string(vFakedPos.x) +
                 " Y: " + std::to_string(vFakedPos.y);
-            ImGui::Text(sFakedMouseText.c_str());*/
+            ImGui::Text(sFakedMouseText.c_str());
         }
 
         auto mouseData = MouseCapture::GetOverlayData();

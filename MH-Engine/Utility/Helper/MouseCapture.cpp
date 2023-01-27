@@ -1,7 +1,13 @@
 #include "stdafx.h"
 #include "MouseCapture.h"
 
-MouseCaptureData MouseCapture::m_data = { Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f), Vector2f(0.0f, 0.0f) };
+MouseCaptureData MouseCapture::m_data = 
+{
+	new Vector2f(0.0f, 0.0f), 
+	new Vector2f(0.0f, 0.0f), 
+	new Vector2f(0.0f, 0.0f), 
+	new Vector2f(0.0f, 0.0f) 
+};
 
 Vector2f MouseCapture::GetGamePos(ImVec2 ivMousetPos, Vector2f vEditorPos, ImVec2 ivEditorSize, ImVec2 ivSceneSize)
 {
@@ -10,10 +16,10 @@ Vector2f MouseCapture::GetGamePos(ImVec2 ivMousetPos, Vector2f vEditorPos, ImVec
 	Vector2f vEditorSize = { ivEditorSize.x, ivEditorSize.y };
 	Vector2f vSceneSize = { ivSceneSize.x, ivSceneSize.y };
 	
-	m_data.vMousePos = vMousePos;
-	m_data.vEditorPos = vEditorPos;
-	m_data.vEditorSize = vEditorSize;	
-	m_data.vSceneSize = vSceneSize;
+	m_data.vMousePos = &vMousePos;
+	m_data.vEditorPos = &vEditorPos;
+	m_data.vEditorSize = &vEditorSize;	
+	m_data.vSceneSize = &vSceneSize;
 	
 	if (MouseCapture::IsInScene(vMousePos, vEditorPos, vSceneSize))
 		return EditorPosToGamePos(vMousePos, vEditorPos, vEditorSize, vSceneSize);
