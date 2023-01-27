@@ -14,7 +14,8 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_agent = std::make_shared<Agent>(m_physics);
 	m_collider = std::make_shared<CircleCollider>(m_transform, 32);
-	m_inventory = std::make_shared<Inventory>();
+	if (m_entityType == EntityType::Player)
+		m_inventory = std::make_shared<Inventory>();
 	//UpdateColliderShape(); //TODO
 	m_projectileManager = std::make_shared<ProjectileManager>();
 }
