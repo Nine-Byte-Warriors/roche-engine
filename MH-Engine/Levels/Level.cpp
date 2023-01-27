@@ -222,15 +222,18 @@ void Level::EndFrame_Start()
             bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
         };
 
+        Vector2f half = { (ivMax.x - vRegionMax.x) / 2, (ivMax.y - vRegionMax.y) / 2 };
+        ImVec2 vHalfPos = { pos.x - half.x, pos.y - half.y };
+
         ImVec2 ivMaxPos = 
         {
-             ivMax.x + ImGui::GetWindowPos().x,
-            ivMax.y + ImGui::GetWindowPos().y 
+			 ivMax.x + ImGui::GetWindowPos().x + half.x,
+			ivMax.y + ImGui::GetWindowPos().y + half.y
         };
 
         ImGui::GetWindowDrawList()->AddImage(
             (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, ivMaxPos);
+            vHalfPos, ivMaxPos);
 
         if ( ImGui::IsWindowHovered() )
         {

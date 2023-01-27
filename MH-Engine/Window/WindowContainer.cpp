@@ -427,7 +427,7 @@ void WindowContainer::HandleEvent(Event* event)
     {
     case EVENTID::ImGuiMousePosition:
 		mousePos = static_cast<Vector2f*>(event->GetData());
-        mousePos->y = +8.0f;
+        mousePos->y = +30.0f;
         EventSystem::Instance()->AddEvent(EVENTID::MousePosition, mousePos); 
         break;
     default:
