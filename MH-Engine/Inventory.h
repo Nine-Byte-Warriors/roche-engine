@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include "EventSystem.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ struct InventoryStruct
 	int m_iSeedCount;
 };
 
-class Inventory
+class Inventory : public Listener
 {
 
 public :
@@ -24,6 +25,9 @@ public :
 	void UpdateCurrentSeedCount(int seedChange);
 	void IncrementCurrentSeed();
 	string GetCurrentSeed();
+
+	void AddToEvent() noexcept;
+	void HandleEvent(Event* event) override;
 
 private:
 	bool SeedCountCheck(int seedIndex);

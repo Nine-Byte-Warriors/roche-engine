@@ -25,8 +25,7 @@ Entity::~Entity()
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerLeft, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDown, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerRight, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::UpdateInventory, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::ChangeSeed, this);
+
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -101,8 +100,6 @@ void Entity::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
-	EventSystem::Instance()->AddClient(EVENTID::UpdateInventory, this);
-	EventSystem::Instance()->AddClient(EVENTID::ChangeSeed, this);
 }
 
 void Entity::HandleEvent(Event* event)
@@ -113,8 +110,6 @@ void Entity::HandleEvent(Event* event)
 	case EVENTID::PlayerLeft: m_physics->AddForce({ -m_fSpeed, 0.0f }); break;
 	case EVENTID::PlayerDown: m_physics->AddForce({ 0.0f, m_fSpeed }); break;
 	case EVENTID::PlayerRight: m_physics->AddForce({ m_fSpeed, 0.0f }); break;
-	case EVENTID::UpdateInventory: m_inventory->UpdateCurrentSeedCount(-1); break;
-	case EVENTID::ChangeSeed: m_inventory->IncrementCurrentSeed(); break;
 	default: break;
 	}
 }

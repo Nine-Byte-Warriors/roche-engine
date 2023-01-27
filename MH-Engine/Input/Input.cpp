@@ -49,29 +49,34 @@ void Input::UpdateMouse( const float dt )
 void Input::UpdateKeyboard( const float dt )
 {
     // Handle input for single key presses
-	while ( !m_keyboard.KeyBufferIsEmpty() )
+	while (!m_keyboard.KeyBufferIsEmpty())
 	{
 		Keyboard::KeyboardEvent kbe = m_keyboard.ReadKey();
 		unsigned char keycode = kbe.GetKeyCode();
 
 		// Set cursor enabled/disabled
-		if ( keycode == VK_HOME )
+		if (keycode == VK_HOME)
 			EnableCursor();
-		else if ( keycode == VK_END )
+		else if (keycode == VK_END)
 			DisableCursor();
 
 		// Update player health
-		if ( m_keyboard.KeyIsPressed( 'E' ) )
-			*m_fPlayerHealth -= 10.0f;
+		if (m_keyboard.KeyIsPressed('E'))
+		{*m_fPlayerHealth -= 10.0f; OutputDebugStringA("e");
+	}
 
-		if ( m_keyboard.KeyIsPressed( 'Q' ) )
-			*m_fPlayerHealth = 100.0f;
+		if (m_keyboard.KeyIsPressed('Q'))
+		{*m_fPlayerHealth = 100.0f; OutputDebugStringA("q");
+	}
 
 		if (m_keyboard.KeyIsPressed('T'))
-			EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory);
+		{EventSystem::Instance()->AddEvent(EVENTID::UpdateInventory); OutputDebugStringA("t");
+	}
 
 		if (m_keyboard.KeyIsPressed('P'))
-			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
+		{		EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
+		OutputDebugStringA("P");
+	}
 
         // Close game
         if ( keycode == VK_ESCAPE )
@@ -85,7 +90,7 @@ void Input::UpdateKeyboard( const float dt )
 		EventSystem::Instance()->AddEvent( EVENTID::KeyInput, &m_sKeys );
 	}
 
-    // Handle continuous key presses
+     //Handle continuous key presses
     if ( m_keyboard.KeyIsPressed( 'W' ) )
         EventSystem::Instance()->AddEvent( EVENTID::PlayerUp );
 
