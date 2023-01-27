@@ -13,10 +13,6 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 
 Entity::~Entity()
 {
-	EventSystem::Instance()->RemoveClient(EVENTID::PlayerUp, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::PlayerLeft, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDown, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::PlayerRight, this);
 }
 
 void Entity::SetComponents()
@@ -57,7 +53,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	m_device = gfx.GetDevice();
 
-	if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
@@ -85,33 +81,11 @@ void Entity::Update(const float dt)
 	{
 		m_projectileManager->Update(dt);
 	}
-
-	//static bool firstTime = true;
-	//if (m_entityType == EntityType::Player && firstTime)
-	//{
-	//	AddToEvent();
-	//	firstTime != firstTime;
-	//}
 }
 
-void Entity::AddToEvent() noexcept
+std::string Entity::GetType()
 {
-	EventSystem::Instance()->AddClient(EVENTID::PlayerUp, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
-}
-
-void Entity::HandleEvent(Event* event)
-{
-	switch (event->GetEventID())
-	{
-	case EVENTID::PlayerUp: m_physics->AddForce({ 0.0f, -m_fSpeed }); break;
-	case EVENTID::PlayerLeft: m_physics->AddForce({ -m_fSpeed, 0.0f }); break;
-	case EVENTID::PlayerDown: m_physics->AddForce({ 0.0f, m_fSpeed }); break;
-	case EVENTID::PlayerRight: m_physics->AddForce({ m_fSpeed, 0.0f }); break;
-	default: break;
-	}
+	return m_entityController->GetType(m_iEntityNum);
 }
 
 void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
@@ -144,7 +118,7 @@ void Entity::SetScaleInit()
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
 	m_transform->SetScaleInit(m_fScaleX, m_fScaleY);
 
-	if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
@@ -168,7 +142,7 @@ void Entity::UpdateScale()
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
 	m_transform->SetScale(m_fScaleX, m_fScaleY);
 
-	if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
@@ -185,7 +159,7 @@ void Entity::UpdateFrame()
 	m_iMaxFrameY = m_entityController->GetMaxFrame(m_iEntityNum)[1];
 	m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
 
-	if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
 		m_iBulletMaxFrameX = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[0];
 		m_iBulletMaxFrameY = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[1];
@@ -201,7 +175,7 @@ void Entity::UpdateTexture()
 	m_sTex = m_entityController->GetTexture(m_iEntityNum);
 	m_sprite->UpdateTex(m_device, m_sTex);
 
-	if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
 		m_sBulletTex = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
@@ -218,7 +192,7 @@ void Entity::UpdateMass()
 		m_fMass = m_entityController->GetMass(m_iEntityNum);
 		m_physics->SetMass(m_fMass);
 
-		if (m_entityController->HasProjectileButtet(m_iEntityNum) && m_projectileManager != nullptr)
+		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 		{
 			m_fBulletMass = m_entityController->GetProjectileBullet(m_iEntityNum)->mass;
 			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
