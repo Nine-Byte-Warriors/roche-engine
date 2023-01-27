@@ -59,7 +59,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
-            level->SetEntityJson( m_vLevelData[i].entity );            
+            level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
             level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
             level->SetUIJson( m_vLevelData[i].ui );
@@ -180,6 +180,22 @@ void Application::Render()
         ImGui::SameLine();
         ImGui::TextColored( ImVec4( 1.0f, 0.0f, 0.0f, 1.0f ), m_stateMachine.GetCurrentLevel()->GetLevelName().c_str() );
 
+        static char buf[32] = "";
+        static bool modifiedName = false;
+        if ( ImGui::InputText( std::string( "##" ).append( m_stateMachine.GetCurrentLevel()->GetLevelName().c_str() ).c_str(), buf, IM_ARRAYSIZE( buf ) ) )
+			modifiedName = true;
+		if ( modifiedName )
+		{
+			if ( ImGui::Button( std::string( "Save Name##" ).append( m_stateMachine.GetCurrentLevel()->GetLevelName().c_str() ).c_str() ) )
+			{
+				m_stateMachine.GetCurrentLevel()->SetLevelName( buf );
+                m_pLevels[m_iActiveLevelIdx]->SetLevelName( buf );
+				m_vLevelData[m_iActiveLevelIdx].name = buf;
+				modifiedName = false;
+			}
+		}
+        ImGui::NewLine();
+
         // Handle level switching
         if ( ImGui::Button( "Switch To" ) && shouldSwitchLevel )
         {
@@ -194,11 +210,7 @@ void Application::Render()
 		    static int levelIdx = 0;
 		    std::string levelName = "New Level " + std::to_string( levelIdx );
 		    m_pLevels.push_back( std::make_shared<Level>( levelName, m_iCurrLevelId ) );
-#if _DEBUG
             m_pLevels[m_iCurrLevelId]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
-#else
-            m_pLevel[m_iCurrLevelId]->Initialize( &m_graphics, &m_uiManager );
-#endif
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_iCurrLevelId] ) );
 	    }
         ImGui::SameLine();
