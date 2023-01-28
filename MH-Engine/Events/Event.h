@@ -11,6 +11,7 @@ enum class EVENTID
 	ClearCharBuffer,
 	MousePosition,
 	ImGuiMousePosition,
+	KeyInput,
 
 	LeftMouseClick,
 	LeftMouseRelease,
