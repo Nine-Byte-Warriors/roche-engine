@@ -190,7 +190,7 @@ void Level::EndFrame_Start()
     // Render ui
     m_ui->Draw(
         m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
-        m_camera.GetWorldOrthoMatrix(), &m_textRenderer );
+        m_camera.GetOrthoMatrix(), &m_textRenderer );
 
     // Render scene to texture
     m_gfx->RenderSceneToTexture();
