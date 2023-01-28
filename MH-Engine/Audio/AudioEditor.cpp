@@ -15,7 +15,6 @@
 #define SOUND_FILES_PATH  "Resources\\Audio\\"
 
 #if _DEBUG
-
 AudioEditor::AudioEditor()
 {
 	//LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
@@ -147,7 +146,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 
 					if (!duplicateFound) {
 						m_vSoundFileInfo.emplace_back(newSound);
-						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType, 
+						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType,
 																	newSound.randomPitch, newSound.pitchMin, newSound.pitchMax);
 					}
 				}
