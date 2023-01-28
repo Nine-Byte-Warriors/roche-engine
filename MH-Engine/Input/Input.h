@@ -23,6 +23,8 @@ private:
 	void AddToEvent() noexcept;
 
 	std::string m_sKeys;
+
+	bool m_bReadCharInput;
 };
 
 #endif
