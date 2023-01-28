@@ -22,6 +22,8 @@ public:
 	inline bool GetIsLockedToPlayer() const noexcept { return m_bLockedToPlayer; }
 	inline bool SetIsLockedToPlayer( bool locked ) noexcept { m_bLockedToPlayer = locked; }
 
+	inline XMFLOAT2 GetPosition() noexcept { return m_vPosition; }
+
 	void Update( const float dt );
 	void SpawnControlWindow();
 private:

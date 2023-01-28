@@ -101,6 +101,8 @@ private:
 	bool m_bMapUpdate = true;
 
 	std::vector<int> m_entitiesDeleted;
+
+	Vector2f* m_vFakedPos;
 };
 
 #endif
