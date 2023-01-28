@@ -17,6 +17,7 @@ public:
 	~Entity();
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	void SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
 

@@ -53,11 +53,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	m_device = gfx.GetDevice();
 
-	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
-	{
-		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
-		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
-	}
+	SetProjectileManagerInit(gfx, mat);
 	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), m_entityController->GetTexture(m_iEntityNum), mat);
 
 	SetPositionInit();
@@ -65,6 +61,15 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	UpdateFrame();
 	UpdateBehaviour();
 	UpdateColliderRadius();
+}
+
+void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
+{
+	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
+	{
+		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
+		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
+	}
 }
 
 void Entity::Update(const float dt)

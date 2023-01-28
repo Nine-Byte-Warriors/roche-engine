@@ -379,6 +379,7 @@ void Level::RemoveEntities()
     for (int i = 0; i < m_entity.size(); i++)
     {
         m_entity[i].UpdateEntityNum(i);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
