@@ -3,6 +3,9 @@
 #include "Graphics.h"
 #include <shellapi.h>
 
+#if _DEBUG
+extern bool g_bDebug;
+#endif
 #define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
 
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets )
@@ -207,9 +210,10 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else
 		{
 			// Default
+			static float health = 100.0f;
 			std::string temp = m_textures[2];
 			m_textures[2] = "";
-			m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
+			m_vEnergyBars[i].Resolve( m_textures, health );
 			m_textures[2] = temp;
 			m_vEnergyBars[i].Update( dt );
 		}
@@ -387,16 +391,14 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
 #if _DEBUG
 	EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
-#else
-	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 #endif
+	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->AddClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -405,16 +407,14 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
 #if _DEBUG
 	EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
-#else
-	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 #endif
+	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -429,21 +429,23 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::RightMouseRelease:{ m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
-	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
 #if _DEBUG
 	case EVENTID::ImGuiMousePosition:
 	{
+		if ( !g_bDebug ) return;
 		Vector2f mousePos = *(Vector2f*)event->GetData();
 		m_mouseData.Pos = XMFLOAT2( mousePos.x, mousePos.y );
 	}
 	break;
-#else
+#endif
 	case EVENTID::MousePosition:
 	{
+#if _DEBUG
+		if ( g_bDebug ) return;
+#endif
 		m_mouseData.Pos = *(XMFLOAT2*)event->GetData();
 	}
 	break;
-#endif
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );

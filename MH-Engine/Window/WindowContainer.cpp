@@ -4,6 +4,7 @@
 #include "MouseCapture.h"
 
 #if _DEBUG
+extern bool g_bDebug;
 #include <imgui/imgui.h>
 #endif
 
@@ -36,8 +37,9 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler( HWND hWnd, UINT uMsg, WPARAM wPar
 LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 #if _DEBUG
-    if ( ImGui_ImplWin32_WndProcHandler( hWnd, uMsg, wParam, lParam ) )
-        return true;
+    if ( g_bDebug )
+        if ( ImGui_ImplWin32_WndProcHandler( hWnd, uMsg, wParam, lParam ) )
+            return true;
     const auto& imio = ImGui::GetIO();
 #endif
 
@@ -62,8 +64,9 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_SYSKEYDOWN:
     {
 #if _DEBUG
-        if ( imio.WantCaptureKeyboard )
-			return 0;
+        if ( g_bDebug )
+            if ( imio.WantCaptureKeyboard )
+			    return 0;
 #endif
         unsigned char keycode = static_cast<unsigned char>( wParam );
         if ( m_keyboard.IsKeysAutoRepeat() )
@@ -87,8 +90,9 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_SYSKEYUP:
     {
 #if _DEBUG
-        if ( imio.WantCaptureKeyboard )
-			return 0;
+        if ( g_bDebug )
+            if ( imio.WantCaptureKeyboard )
+			    return 0;
 #endif
         unsigned char keycode = static_cast<unsigned char>( wParam );
         m_keyboard.OnKeyReleased( keycode );
@@ -97,8 +101,9 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_CHAR:
     {
 #if _DEBUG
-        if ( imio.WantCaptureKeyboard )
-			return 0;
+        if ( g_bDebug )
+            if ( imio.WantCaptureKeyboard )
+			    return 0;
 #endif
         unsigned char ch = static_cast<unsigned char>( wParam );
         if ( m_keyboard.IsCharsAutoRepeat() )
@@ -130,11 +135,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		}
 
 #if _DEBUG
-		if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-			Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vImGuiMousePos );
-            return 0;
+		    if ( imio.WantCaptureMouse )
+            {
+			    Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::MousePosition, &vImGuiMousePos );
+                return 0;
+            }
         }
 #endif
 
@@ -173,11 +181,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-		if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, &vImGuiMousePos );
-			return 0;
+		    if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::LeftMouseClick, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -201,11 +212,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-		if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, &vImGuiMousePos );
-			return 0;
+		    if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::LeftMouseRelease, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -229,11 +243,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-        if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, &vImGuiMousePos );
-			return 0;
+            if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::RightMouseClick, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -251,11 +268,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-        if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, &vImGuiMousePos );
-			return 0;
+            if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::RightMouseRelease, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -279,11 +299,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-        if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, &vImGuiMousePos );
-			return 0;
+            if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseClick, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -301,11 +324,14 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
 		int y = HIWORD( lParam );
 
 #if _DEBUG
-        if ( imio.WantCaptureMouse )
+        if ( g_bDebug )
         {
-            Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, &vImGuiMousePos );
-			return 0;
+            if ( imio.WantCaptureMouse )
+            {
+                Vector2f vImGuiMousePos = Vector2f( ImGui::GetMousePos().x, ImGui::GetMousePos().y );
+                EventSystem::Instance()->AddEvent( EVENTID::MiddleMouseRelease, &vImGuiMousePos );
+			    return 0;
+            }
         }
 #endif
 
@@ -318,8 +344,9 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_MOUSEWHEEL:
     {
 #if _DEBUG
-        if ( imio.WantCaptureMouse )
-			return 0;
+        if ( g_bDebug )
+            if ( imio.WantCaptureMouse )
+			    return 0;
 #endif
         int x = LOWORD( lParam );
         int y = HIWORD( lParam );
