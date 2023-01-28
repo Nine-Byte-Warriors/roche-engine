@@ -3,6 +3,9 @@
 #include "Graphics.h"
 #include <shellapi.h>
 
+#if _DEBUG
+extern bool g_bDebug;
+#endif
 #define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
 
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets )
@@ -385,7 +388,10 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 void UIScreen::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::CharInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
+#if _DEBUG
+	EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
+#endif
 	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
@@ -398,7 +404,10 @@ void UIScreen::AddToEvent() noexcept
 
 void UIScreen::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::CharInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
+#if _DEBUG
+	EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
+#endif
 	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
@@ -413,14 +422,30 @@ void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::CharInput: { m_sKeys = *(std::string*)event->GetData(); } break;
-	case EVENTID::MousePosition:{ m_mouseData.Pos = *(XMFLOAT2*)event->GetData(); } break;
+	case EVENTID::KeyInput:	{ m_sKeys = *(std::string*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick:{ m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease:{ m_mouseData.LPress = false; } break;
 	case EVENTID::RightMouseClick:{ m_mouseData.RPress = true; } break;
 	case EVENTID::RightMouseRelease:{ m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
+#if _DEBUG
+	case EVENTID::ImGuiMousePosition:
+	{
+		if ( !g_bDebug ) return;
+		Vector2f mousePos = *(Vector2f*)event->GetData();
+		m_mouseData.Pos = XMFLOAT2( mousePos.x, mousePos.y );
+	}
+	break;
+#endif
+	case EVENTID::MousePosition:
+	{
+#if _DEBUG
+		if ( g_bDebug ) return;
+#endif
+		m_mouseData.Pos = *(XMFLOAT2*)event->GetData();
+	}
+	break;
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );

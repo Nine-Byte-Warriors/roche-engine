@@ -88,24 +88,15 @@ void Input::UpdateKeyboard( const float dt )
 	}
 
     // Handle continuous key presses
-    if ( m_keyboard.KeyIsPressed( 'W' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::PlayerUp );
-    if ( m_keyboard.KeyIsPressed( 'A' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::PlayerLeft );
-    if ( m_keyboard.KeyIsPressed( 'S' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::PlayerDown );
-    if ( m_keyboard.KeyIsPressed( 'D' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::PlayerRight );
-
 #if _DEBUG
-	if ( m_keyboard.KeyIsPressed( VK_UP ) )
-		EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
-	if ( m_keyboard.KeyIsPressed( VK_LEFT ) )
-		EventSystem::Instance()->AddEvent( EVENTID::CameraLeft );
-	if ( m_keyboard.KeyIsPressed( VK_DOWN ) )
-		EventSystem::Instance()->AddEvent( EVENTID::CameraDown );
-	if ( m_keyboard.KeyIsPressed( VK_RIGHT ) )
-		EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
+    if ( m_keyboard.KeyIsPressed( 'W' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
+    if ( m_keyboard.KeyIsPressed( 'A' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::CameraLeft );
+    if ( m_keyboard.KeyIsPressed( 'S' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::CameraDown );
+    if ( m_keyboard.KeyIsPressed( 'D' ) )
+        EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
 #endif
 }
 

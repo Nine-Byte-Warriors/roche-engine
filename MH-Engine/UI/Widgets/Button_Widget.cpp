@@ -66,7 +66,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     m_sprite->SetHeight( m_vSize.y );
 
     m_buttonState = ButtonState::Default;
-#if !_DEBUG // not updated for imgui mouse positions
+
     // Button collison
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
@@ -80,7 +80,6 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     	else 
             m_buttonState = ButtonState::Hover;
     }
-#endif
 
     // Button state
     switch ( m_buttonState )

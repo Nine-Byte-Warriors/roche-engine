@@ -11,6 +11,7 @@ enum class EVENTID
 	ClearCharBuffer,
 	MousePosition,
 	ImGuiMousePosition,
+	KeyInput,
 
 	LeftMouseClick,
 	LeftMouseRelease,
@@ -40,10 +41,6 @@ enum class EVENTID
 	// Player Actions
 	PlayerHealth,
 	PlayerPosition,
-	PlayerUp,
-	PlayerLeft,
-	PlayerDown,
-	PlayerRight,
 	PlayerFire,
 	TargetPosition,
 

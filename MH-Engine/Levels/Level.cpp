@@ -5,6 +5,7 @@
 #if _DEBUG
 extern bool g_bDebug;
 #include <imgui/imgui.h>
+#include "MouseCapture.h"
 #endif
 
 void Level::OnCreate()
@@ -204,27 +205,33 @@ void Level::EndFrame_Start()
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
         if ( ImGui::Begin( "Scene Window", FALSE ) )
         {
+            ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
+            ImVec2 vImageMax = ImVec2(
+                vRegionMax.x + ImGui::GetWindowPos().x,
+                vRegionMax.y + ImGui::GetWindowPos().y );
+
             ImVec2 pos = ImGui::GetCursorScreenPos();
-            ImVec2 vMax = ImGui::GetWindowContentRegionMax();
-
-            // Update imgui mouse position for scene render window
-            Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
-            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
-
-            vMax.x += ImGui::GetWindowPos().x;
-            vMax.y += ImGui::GetWindowPos().y;
-
             ImGui::GetWindowDrawList()->AddImage(
                 (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-                pos, ImVec2( vMax.x, vMax.y )
-            );
+                pos, vImageMax );
+
+            if ( ImGui::IsWindowHovered() )
+            {
+                ImGuiIO& io = ImGui::GetIO();
+                Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
+                ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
+			    Vector2f* vFakedPos = new Vector2f( MouseCapture::GetGamePos( io.MousePos, windowPos, vRegionMax, gameSize ) );
+                EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
+
+                ImGui::Text("On Screen");
+                std::string sFakedMouseText = "Faked Mouse Pos: "
+                    " X: " + std::to_string(vFakedPos->x) +
+                    " Y: " + std::to_string(vFakedPos->y);
+                ImGui::Text(sFakedMouseText.c_str());
+            }
         }
         ImGui::End();
         ImGui::PopStyleVar();
-
-        Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
-        Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
-        m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
 
         m_gfx->SpawnControlWindow();
         m_uiEditor.SpawnControlWindow( *m_gfx );
@@ -233,7 +240,6 @@ void Level::EndFrame_Start()
         m_tileMapEditor.SpawnControlWindow();
         m_audioEditor.SpawnControlWindow();
         m_camera.SpawnControlWindow();
-        m_player.SpawnControlWindow();
     }
 #endif
 }
