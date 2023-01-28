@@ -65,6 +65,16 @@ std::string EntityController::GetAnimationType(int num)
 	return m_entityData[num].animationType;
 }
 
+int EntityController::GetRows(int num)
+{
+	return m_entityData[num].rows;
+}
+
+int EntityController::GetColumns(int num)
+{
+	return m_entityData[num].columns;
+}
+
 float EntityController::GetMass(int num)
 {
 	return m_entityData[num].mass;

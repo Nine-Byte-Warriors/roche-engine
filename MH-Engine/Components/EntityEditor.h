@@ -46,6 +46,7 @@ private:
 	void SetAnimation();
 	void SetAnimationType();
 	void SetScale();
+	void SetRowsColumns();
 
 	//Physics
 	void SetMass();

@@ -66,6 +66,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	UpdateBehaviour();
 	UpdateColliderRadius();
 	SetAnimation();
+	UpdateRowsColumns();
 }
 
 void Entity::Update(const float dt)
@@ -103,6 +104,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateTexture();
 	UpdateColliderRadius();
 	UpdateAnimation();
+	UpdateRowsColumns();
 }
 
 void Entity::SetPositionInit()
@@ -128,6 +130,14 @@ void Entity::SetScaleInit()
 			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 		}
 	}
+}
+
+void Entity::UpdateRowsColumns()
+{
+	m_iRows = m_entityController->GetRows(m_iEntityNum);
+	m_iColumns = m_entityController->GetColumns(m_iEntityNum);
+	m_sprite->SetRows(m_iRows);
+	m_sprite->SetColumns(m_iColumns);
 }
 
 void Entity::UpdatePosition()
@@ -158,19 +168,18 @@ void Entity::UpdateAnimation()
 {
 	if (m_entityController->HasAnimation(m_iEntityNum))
 	{
-		m_iMaxFrameX = m_animation.GetFrameCount().size();
-		m_iMaxFrameY = 1;
-
 		for (int i = 0; i < m_animation.GetAnimationTypeSize(); i++)
 		{
 			if (m_animation.GetAnimationTypeName(i) == m_entityController->GetAnimationType(m_iEntityNum))
 			{
-				m_iMaxFrameY = m_animation.GetFrameCount()[i];
+				m_iMaxFrameX = m_animation.GetFrameCount()[i];
+				m_iCurFrameY = i;
 				m_sprite->UpdateFrameTime(m_animation.GetFrameTiming(i));
 			}
 		}
 
 		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
+		m_sprite->SetCurFrameY(m_iCurFrameY);
 
 		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 		{
@@ -311,6 +320,7 @@ void Entity::SetAnimation()
 	if (m_entityController->GetAnimationFile(m_iEntityNum) != "None" && m_entityController->HasAnimation(m_iEntityNum))
 	{
 		m_animation.LoadEntityAnimation(m_entityController->GetAnimationFile(m_iEntityNum));
+		m_iMaxFrameY = m_animation.GetFrameCount().size();
 		UpdateAnimation();
 	}
 }

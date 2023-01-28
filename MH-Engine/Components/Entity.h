@@ -49,6 +49,7 @@ private:
 	void UpdateAnimation();
 	void UpdateTexture();
 	void SetAnimation();
+	void UpdateRowsColumns();
 
 	void UpdateMass();
 	void UpdateSpeed();
@@ -69,7 +70,11 @@ private:
 	float m_fScaleY;
 	int m_iMaxFrameX;
 	int m_iMaxFrameY;
+	int m_iCurFrameX;
+	int m_iCurFrameY;
 	std::string m_sTex;
+	int m_iRows;
+	int m_iColumns;
 
 	std::string m_sBulletTex;
 	float m_fBulletScaleX;

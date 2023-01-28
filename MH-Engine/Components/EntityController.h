@@ -30,11 +30,13 @@ struct EntityData
 	bool animation;
 	std::string animationPath;
 	std::string animationType;
+	int rows;
+	int columns;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier,
 	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet,
 	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
-	animation)
+	animation, rows, columns)
 
 class EntityController
 {
@@ -53,6 +55,9 @@ public:
 	std::vector<int> GetMaxFrame(int num);
 	std::string GetAnimationFile(int num);
 	std::string GetAnimationType(int num);
+
+	int GetRows(int num);
+	int GetColumns(int num);
 
 	float GetMass(int num);
 	float GetSpeed(int num);

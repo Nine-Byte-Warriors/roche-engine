@@ -55,7 +55,14 @@ public:
 	inline float GetHeight() const noexcept { return m_fHeight; }
 	inline void SetHeight( float height ) noexcept { m_fHeight = height; }
 
+	inline float GetRows() const noexcept { return m_iRows; }
+	inline void SetRows( float rows ) noexcept { m_iRows = rows; }
+
+	inline float GetColumns() const noexcept { return m_iColumns; }
+	inline void SetColumns( float columns ) noexcept { m_iColumns = columns; }
+
 	inline void SetMaxFrame(int maxFrameX, int maxFrameY) noexcept { m_iMaxFrameX = maxFrameX; m_iMaxFrameY = maxFrameY; }
+	inline void SetCurFrameY(int curFrameY) noexcept { m_iCurFrameY = curFrameY; }
 
 	inline void UpdateTex( ID3D11Device* device, std::string tex ) { texture->UpdateTexture( device, tex ); }
 	inline void UpdateTex( ID3D11Device* device, Colour tex ) { texture->UpdateTexture( device, tex ); }
@@ -67,6 +74,9 @@ private:
 
 	float m_fWidth;
 	float m_fHeight;
+
+	int m_iRows = 1;
+	int m_iColumns = 1;
 
 	int m_iCurFrameX = 0;
 	int m_iMaxFrameX = 1;

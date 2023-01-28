@@ -147,6 +147,8 @@ void EntityEditor::AddNewEntity()
 		entityData->animationPath = "None";
 		entityData->animationType = "Walk";
 		entityData->animation = true;
+		entityData->rows = 1;
+		entityData->columns = 1;
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -183,6 +185,8 @@ void EntityEditor::SpriteWidget()
 		SetPosition();
 		ImGui::NewLine();
 		SetScale();
+		ImGui::NewLine();
+		SetRowsColumns();
 
 		ImGui::TreePop();
 	}
@@ -465,6 +469,24 @@ void EntityEditor::SetScale()
 
 	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].scale[1], 0.2f, 0.0f, maxSize, "%.1f");
+#endif
+}
+
+void EntityEditor::SetRowsColumns()
+{
+#if _DEBUG
+	ImGui::PushItemWidth(100.0f);
+
+	std::string displayText = "Rows/ Columns";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + "rows" + std::to_string(m_iIdentifier);
+	ImGui::SliderInt(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].rows, 1, 10);
+
+	ImGui::SameLine();
+
+	lable = "##Entity" + displayText + "columns" + std::to_string(m_iIdentifier);
+	ImGui::SliderInt(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].columns, 1, 10);
 #endif
 }
 

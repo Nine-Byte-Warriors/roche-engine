@@ -1,23 +1,23 @@
 {
   "frameCount": [
-      3,
+      2,
       1,
       1
   ],
-  "name": "Onion",
+  "name": "Cauliflower",
   "type": [
       {
-          "alias": "Onion Running",          
+          "alias": "Cauliflower Running",          
           "frameTiming": 1.0,
           "name": "Walk"
       },
       {
-          "alias": " Onion getting hit",
+          "alias": " Cauliflower getting hit",
           "frameTiming": 1.0,
           "name": "Hit"
       },
       {
-          "alias": " Onion Death",
+          "alias": " Cauliflower Death",
           "frameTiming": 1.0,
           "name": "Death"
       }

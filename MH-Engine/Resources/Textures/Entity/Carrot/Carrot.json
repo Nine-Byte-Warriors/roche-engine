@@ -4,20 +4,20 @@
       1,
       1
   ],
-  "name": "Onion",
+  "name": "Carrot",
   "type": [
       {
-          "alias": "Onion Running",          
+          "alias": "Carrot Running",          
           "frameTiming": 1.0,
           "name": "Walk"
       },
       {
-          "alias": " Onion getting hit",
+          "alias": " Carrot getting hit",
           "frameTiming": 1.0,
           "name": "Hit"
       },
       {
-          "alias": " Onion Death",
+          "alias": " Carrot Death",
           "frameTiming": 1.0,
           "name": "Death"
       }
