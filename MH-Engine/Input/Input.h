@@ -13,14 +13,15 @@ public:
 
 	inline Mouse& GetMouse() noexcept { return m_mouse; }
 	inline Keyboard& GetKeyboard() noexcept { return m_keyboard; }
-	void HandleEvent( Event* event ) override;
 
 private:
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
+
+	void HandleEvent( Event* event ) override;
 	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
-	float* m_fPlayerHealth;
+
 	std::string m_sKeys;
 };
 

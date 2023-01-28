@@ -186,9 +186,10 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else
 		{
 			// Default
+			static float health = 100.0f;
 			std::string temp = m_textures[2];
 			m_textures[2] = "";
-			m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
+			m_vEnergyBars[i].Resolve( m_textures, health );
 			m_textures[2] = temp;
 			m_vEnergyBars[i].Update( dt );
 		}
@@ -371,7 +372,6 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->AddClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -385,7 +385,6 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -401,7 +400,6 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::RightMouseRelease:{ m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
-	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );

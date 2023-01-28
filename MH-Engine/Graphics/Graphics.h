@@ -43,14 +43,15 @@ public:
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
 	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }
 
-	void AddToEvent() noexcept;
-	void RemoveFromEvent() noexcept;
-	void HandleEvent( Event* event ) override;
 
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );
 	bool InitializeShaders();
 	bool InitializeRTT();
+
+	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
+	void HandleEvent( Event* event ) override;
 
 	// Window data
 	Quad m_quad;

@@ -2,6 +2,7 @@
 #include "Graphics.h"
 
 #if _DEBUG
+extern bool g_bDebug;
 #include <imgui/imgui.h>
 #endif
 
@@ -150,6 +151,18 @@ void Graphics::RenderSceneToTexture()
 	m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
 
 	Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
+#else
+	if ( !g_bDebug )
+	{
+		// 4. Render only the scene to the back buffer
+		Shaders::BindShaders( m_pContext.Get(), m_vertexShaderPP, m_pixelShaderPP );
+		m_quad.SetupBuffers( m_pContext.Get() );
+
+		m_pContext->PSSetConstantBuffers( 0u, 1u, m_cbPostProcessing.GetAddressOf() );
+		m_pContext->PSSetShaderResources( 0u, 1u, m_pRenderTarget->GetShaderResourceViewPtr() );
+
+		Bind::Rasterizer::DrawSolid( m_pContext.Get(), m_quad.GetIndexBuffer().IndexCount() ); // always draw as solid
+	}
 #endif
 }
 
