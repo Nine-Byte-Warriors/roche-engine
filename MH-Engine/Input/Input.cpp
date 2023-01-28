@@ -5,6 +5,7 @@ void Input::Initialize( RenderWindow& window )
 {
 	AddToEvent();
     m_renderWindow = window;
+	m_bReadCharInput = false;
 	m_fPlayerHealth = new float( 100.0f );
 
     // Update keyboard processing
@@ -48,6 +49,18 @@ void Input::UpdateMouse( const float dt )
 
 void Input::UpdateKeyboard( const float dt )
 {
+	// Read character input
+	if ( m_bReadCharInput )
+	{
+		while ( !m_keyboard.CharBufferIsEmpty() )
+		{
+			unsigned char keycode = m_keyboard.ReadChar();
+			m_sKeys += keycode;
+			EventSystem::Instance()->AddEvent( EVENTID::CharInput, &m_sKeys );
+		}
+		return;
+	}
+
     // Handle input for single key presses
 	while ( !m_keyboard.KeyBufferIsEmpty() )
 	{
@@ -72,13 +85,6 @@ void Input::UpdateKeyboard( const float dt )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 	}
 
-	while ( !m_keyboard.CharBufferIsEmpty() )
-	{
-		unsigned char keycode = m_keyboard.ReadChar();
-		m_sKeys += keycode;
-		EventSystem::Instance()->AddEvent( EVENTID::KeyInput, &m_sKeys );
-	}
-
     // Handle continuous key presses
     if ( m_keyboard.KeyIsPressed( 'W' ) )
         EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
@@ -97,6 +103,7 @@ void Input::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::ShowCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
+	EventSystem::Instance()->AddClient( EVENTID::ReadCharInput, this );
 }
 
 void Input::RemoveFromEvent() noexcept
@@ -104,6 +111,7 @@ void Input::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::ShowCursorEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ClearCharBuffer, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::ReadCharInput, this );
 }
 
 void Input::HandleEvent( Event* event )
@@ -123,6 +131,11 @@ void Input::HandleEvent( Event* event )
 	case EVENTID::ClearCharBuffer:
 	{
 		m_sKeys.clear();
+	}
+	break;
+	case EVENTID::ReadCharInput:
+	{
+		m_bReadCharInput = static_cast<bool>( event->GetData() );
 	}
 	break;
 	}

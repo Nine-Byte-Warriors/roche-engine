@@ -24,6 +24,7 @@ private:
 	void AddToEvent() noexcept;
 
 	float* m_fPlayerHealth;
+	bool m_bReadCharInput;
 	std::string m_sKeys;
 };
 

@@ -16,6 +16,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 
 void UIScreen::UpdateWidgets()
 {
+	int inputIndex = 0;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
 		if ( m_vWidgets[i].GetType() == "Button" )
@@ -63,9 +64,10 @@ void UIScreen::UpdateWidgets()
 		else if ( m_vWidgets[i].GetType() == "Input" )
 		{
 			Input_Widget input;
-			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, inputIndex );
 			input.IntializeWidget( m_vWidgets[i] );
 			m_vInputs.push_back( std::move( input ) );
+			inputIndex++;
 		}
 		else if ( m_vWidgets[i].GetType() == "Page Slider" )
 		{
@@ -87,9 +89,28 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 	m_vDropDowns.clear();
 	m_vEnergyBars.clear();
 	m_vImages.clear();
+
+	// Save input widget data before clearing
+	std::vector<bool> inputSelections;
+	std::vector<std::string> inputStrings;
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		inputSelections.push_back( m_vInputs[i].GetSelected() );
+		inputStrings.push_back( m_vInputs[i].GetCurrentText() );
+	}
 	m_vInputs.clear();
+
 	m_vPageSliders.clear();
 	UpdateWidgets();
+
+	// Re-add input widget data
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		if ( inputSelections.size() == i ) inputSelections.push_back( false );
+		if ( inputStrings.size() == i ) inputStrings.push_back( "" );
+		m_vInputs[i].SetCurrentText( inputStrings[i] );
+		m_vInputs[i].SetSelected( inputSelections[i] );
+	}
 
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
@@ -209,7 +230,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else
 		{
 			// Default
-			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData );
+			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, m_iInputIndex );
 			m_vInputs[i].Update( dt );
 		}
 	}
@@ -247,7 +268,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 {
 	unsigned int widgetAmount =
 		m_vButtons.size() + m_vColourBlocks.size() +
-		m_vDataSliders.size() + m_vDropDowns.size() +
+		m_vDataSliders.size() + m_vDropDowns.size() + m_vInputs.size() +
 		m_vEnergyBars.size() + m_vImages.size() + m_vPageSliders.size();
 
 	for ( unsigned int i = 0; i < widgetAmount; i++ )

@@ -7,10 +7,12 @@ Input_Widget::Input_Widget()
 	m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
+	int index = 0;
 	std::string keys = "";
+	MouseData mouseData = MouseData();
 	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
 	std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( keys, Colors::White, buttonTextures, {} );
+    Resolve( keys, Colors::White, buttonTextures, mouseData, index );
 }
 
 Input_Widget::Input_Widget( const std::string& texture )
@@ -18,16 +20,18 @@ Input_Widget::Input_Widget( const std::string& texture )
 	m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
+	int index = 0;
 	std::string keys = "";
+	MouseData mouseData = MouseData();
 	std::vector<std::string> buttonTextures = { texture, texture, texture };
-	Resolve( keys, Colors::White, buttonTextures, {} );
+	Resolve( keys, Colors::White, buttonTextures, mouseData, index );
 }
 
 Input_Widget::~Input_Widget() { }
 
-void Input_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
+void Input_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index )
 {
-	m_bSelected = false;
+	m_iIdentifier = index;
 	m_sprite->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
     m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
@@ -55,7 +59,7 @@ void Input_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMM
 	textRenderer->RenderString( m_sCurrText, textpos, m_textColour, false );
 }
 
-void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData mData )
+void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index )
 {
 	m_textColour = textColour;
 	m_buttonTexture = textures[0];
@@ -65,7 +69,7 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 
     m_sprite->SetWidth( m_vSize.x );
     m_sprite->SetHeight( m_vSize.y );
-	
+
 	// Button collison
 	if (
 		mData.Pos.x >= m_vPosition.x &&
@@ -78,6 +82,7 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 		if ( mData.LPress && !mData.Locked )
 		{
 			EventSystem::Instance()->AddEvent( EVENTID::ClearCharBuffer, this );
+			index = m_iIdentifier;
 			mData.Locked = true;
 			m_bSelected = true;
 			m_sCurrText = "";
@@ -87,9 +92,15 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 	else
 	{
 		if ( mData.LPress )
+		{
+			EventSystem::Instance()->AddEvent( EVENTID::ReadCharInput, (bool*)false );
 			m_bSelected = false;
+		}
 	}
 
-	if ( m_bSelected )
+	if ( m_bSelected && m_iIdentifier == index )
+	{
+		EventSystem::Instance()->AddEvent( EVENTID::ReadCharInput, (bool*)true );
 		m_sCurrText = keys;
+	}
 }
