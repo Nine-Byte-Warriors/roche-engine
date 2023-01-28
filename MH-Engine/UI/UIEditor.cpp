@@ -371,7 +371,28 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::NewLine();
 
 							ImGui::Text( "Z Index" );
-							ImGui::InputInt( std::string( "##Z Index" ).append( key ).append( value[i].name ).c_str(), &value[i].zindex );
+							int prevZIndex = value[i].zindex;
+							if ( ImGui::InputInt( std::string( "##Z Index" ).append( key ).append( value[i].name ).c_str(), &value[i].zindex ) )
+							{
+								// Prevent z index from going out of bounds
+								if ( value[i].zindex > value.size() - 1 )
+									value[i].zindex = value.size() - 1;
+
+								if ( value[i].zindex < 0 )
+									value[i].zindex = 0;
+
+								// Update z values of all other widgets
+								for ( unsigned int j = 0; j < value.size(); j++ )
+								{
+									if ( j != i && value[j].zindex == value[i].zindex )
+									{
+										int tempZIndex = value[j].zindex;
+										value[j].zindex = prevZIndex;
+										value[i].zindex = tempZIndex;
+										break;
+									}
+								}
+							}
 							ImGui::NewLine();
 
 							ImGui::Text( "Hide Widget?" );
