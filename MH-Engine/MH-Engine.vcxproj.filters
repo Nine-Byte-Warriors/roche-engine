@@ -237,6 +237,9 @@
     <ClCompile Include="Collisions\CollisionMatrix.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="Components\EntityAnimation.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="Collisions\CollisionMatrix.h">
       <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\EntityAnimation.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

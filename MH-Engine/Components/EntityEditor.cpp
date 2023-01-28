@@ -60,6 +60,7 @@ void EntityEditor::EntityWidget()
 	SetType();
 	SpriteWidget();
 	PhysicsWidget();
+	AnimationWidget();
 	AIWidget();
 	ProjectileSystemWidget();
 	ColliderWidget();
@@ -140,6 +141,11 @@ void EntityEditor::AddNewEntity()
 		entityData->collider = true;
 		entityData->bProjectilePattern = true;
 		entityData->bProjectileBullet = true;
+		entityData->animationPath = "None";
+		entityData->animationType = "Walk";
+		entityData->animation = true;
+		entityData->rows = 1;
+		entityData->columns = 1;
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -177,9 +183,30 @@ void EntityEditor::SpriteWidget()
 		ImGui::NewLine();
 		SetScale();
 		ImGui::NewLine();
-		SetMaxFrame();
+		SetRowsColumns();
 
 		ImGui::TreePop();
+	}
+#endif
+}
+
+void EntityEditor::AnimationWidget()
+{
+#if _DEBUG
+	ImGui::NewLine();
+	ImGui::Checkbox("Animation", &m_vEntityDataCopy[m_iIdentifier].animation);
+	if (m_vEntityDataCopy[m_iIdentifier].animation)
+	{
+		ImGui::SameLine();
+		if (ImGui::TreeNode("##Animation"))
+		{
+			ImGui::NewLine();
+			SetAnimation();
+			ImGui::NewLine();
+			SetAnimationType();
+
+			ImGui::TreePop();
+		}
 	}
 #endif
 }
@@ -341,6 +368,67 @@ void EntityEditor::SetTexture()
 #endif
 }
 
+void EntityEditor::SetAnimation()
+{
+#if _DEBUG
+	ImGui::Text("Animation");
+	m_sSelectedFileTex = m_vEntityDataCopy[m_iIdentifier].animationPath;
+	if (ImGui::Button("Load Animation"))
+	{
+		std::shared_ptr<FileHandler::FileObject> foLoad = FileHandler::CreateFileObject(m_sSelectedFileTex);
+		
+		foLoad = FileHandler::FileDialog(foLoad)
+			->UseOpenDialog()
+			->ShowDialog()
+			->StoreDialogResult();
+		
+		if (foLoad->HasPath())
+		{
+			std::string sFullPath = foLoad->GetFullPath();
+			m_sSelectedFileTex = sFullPath.substr(sFullPath.find("Resources\\Textures\\"));
+			m_vEntityDataCopy[m_iIdentifier].animationPath = m_sSelectedFileTex;
+			m_bValidTex = true;
+		}
+		else
+		{
+			m_sSelectedFileTex = "Open File Failed";
+			m_bValidTex = false;
+		}
+	}
+	ImGui::Text(m_sSelectedFileTex.c_str());
+#endif
+}
+
+void EntityEditor::SetAnimationType()
+{
+#if _DEBUG
+	std::string displayText = "Type";
+	ImGui::Text(displayText.c_str());
+
+	static int activeAnimationType = 0;
+	std::string previewEntityAnimationType = m_vEntityDataCopy[m_iIdentifier].animationType;
+	const char* animationTypeList[]{ "Walk", "Hit", "Death" };
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(lable.c_str(), previewEntityAnimationType.c_str()))
+	{
+		for (int i = 0; i < IM_ARRAYSIZE(animationTypeList); i++)
+		{
+			const bool isSelected = i == activeAnimationType;
+			if (ImGui::Selectable(animationTypeList[i], isSelected))
+			{
+				activeAnimationType = i;
+				previewEntityAnimationType = animationTypeList[i];
+			}
+		}
+
+		ImGui::EndCombo();
+
+		m_vEntityDataCopy[m_iIdentifier].animationType = animationTypeList[activeAnimationType];
+	}
+#endif
+}
+
 void EntityEditor::SetPosition()
 {
 #if _DEBUG
@@ -381,46 +469,21 @@ void EntityEditor::SetScale()
 #endif
 }
 
-void EntityEditor::SetMaxFrame()
+void EntityEditor::SetRowsColumns()
 {
 #if _DEBUG
-	std::string frameX = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[0]);
-	std::string frameY = std::to_string(m_vEntityDataCopy[m_iIdentifier].maxFrame[1]);
+	ImGui::PushItemWidth(100.0f);
 
-	std::string displayText = "Max Frame";
-	std::string lable = "##Entity" + displayText + "x" + std::to_string(m_iIdentifier);
-	std::string hint = frameX;
+	std::string displayText = "Rows/ Columns";
 	ImGui::Text(displayText.c_str());
 
-	static char entityMaxFrameX[128] = "";
-	strcpy_s(entityMaxFrameX, frameX.c_str());
-
-	ImGui::PushItemWidth(100.0f);
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityMaxFrameX, IM_ARRAYSIZE(entityMaxFrameX));
+	std::string lable = "##Entity" + displayText + "rows" + std::to_string(m_iIdentifier);
+	ImGui::SliderInt(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].rows, 1, 10);
 
 	ImGui::SameLine();
 
-	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
-	hint = frameY;
-
-	static char entityMaxFrameY[128] = "";
-	strcpy_s(entityMaxFrameY, frameY.c_str());
-
-	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityMaxFrameY, IM_ARRAYSIZE(entityMaxFrameY));
-
-	try
-	{
-		std::string x(entityMaxFrameX);
-		m_vEntityDataCopy[m_iIdentifier].maxFrame[0] = std::stof(x);
-		std::string y(entityMaxFrameY);
-		m_vEntityDataCopy[m_iIdentifier].maxFrame[1] = std::stof(y);
-		m_bValidFrame = true;
-	}
-	catch (const std::exception&)
-	{
-		ImGui::Text("Not an int");
-		m_bValidFrame = false;
-	}
+	lable = "##Entity" + displayText + "columns" + std::to_string(m_iIdentifier);
+	ImGui::SliderInt(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].columns, 1, 10);
 #endif
 }
 

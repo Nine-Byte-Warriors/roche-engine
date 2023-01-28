@@ -288,6 +288,7 @@
     <ClCompile Include="Collisions\CollisionMatrix.cpp" />
     <ClCompile Include="Components\Agent.cpp" />
     <ClCompile Include="Components\Collider.cpp" />
+    <ClCompile Include="Components\EntityAnimation.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\ProjectileEditor.cpp" />
@@ -431,6 +432,7 @@
     <ClInclude Include="Collisions\Rect2f.h" />
     <ClInclude Include="Components\Agent.h" />
     <ClInclude Include="Components\Collider.h" />
+    <ClInclude Include="Components\EntityAnimation.h" />
     <ClInclude Include="Components\EntityController.h" />
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\ProjectileEditor.h" />
