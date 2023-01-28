@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Application.h"
 
+#if _DEBUG
+bool g_bDebug = true;
+#endif
+
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
     UNREFERENCED_PARAMETER( hPrevInstance );

@@ -3,6 +3,7 @@
 #include "ProjectileEditor.h"
 
 #if _DEBUG
+extern bool g_bDebug;
 #include <imgui/imgui.h>
 #endif
 
@@ -196,48 +197,52 @@ void Level::EndFrame_Start()
     m_gfx->RenderSceneToTexture();
 
 #if _DEBUG
-    // Render imgui windows
-    m_imgui->BeginRender();
-    ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
-    if ( ImGui::Begin( "Scene Window", FALSE ) )
+    if ( g_bDebug )
     {
-        ImVec2 pos = ImGui::GetCursorScreenPos();
-        ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+        // Render imgui windows
+        m_imgui->BeginRender();
+        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
+        if ( ImGui::Begin( "Scene Window", FALSE ) )
+        {
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            ImVec2 vMax = ImGui::GetWindowContentRegionMax();
 
-        // Update imgui mouse position for scene render window
-        Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
-        EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
+            // Update imgui mouse position for scene render window
+            Vector2f* mousePos = new Vector2f( ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y );
+            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, mousePos );
 
-        vMax.x += ImGui::GetWindowPos().x;
-        vMax.y += ImGui::GetWindowPos().y;
+            vMax.x += ImGui::GetWindowPos().x;
+            vMax.y += ImGui::GetWindowPos().y;
 
-        ImGui::GetWindowDrawList()->AddImage(
-            (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            pos, ImVec2( vMax.x, vMax.y )
-        );
+            ImGui::GetWindowDrawList()->AddImage(
+                (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
+                pos, ImVec2( vMax.x, vMax.y )
+            );
+        }
+        ImGui::End();
+        ImGui::PopStyleVar();
+
+        Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
+        Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
+        m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
+
+        m_gfx->SpawnControlWindow();
+        m_uiEditor.SpawnControlWindow( *m_gfx );
+        m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
+        m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
+        m_tileMapEditor.SpawnControlWindow();
+        m_audioEditor.SpawnControlWindow();
+        m_camera.SpawnControlWindow();
+        m_player.SpawnControlWindow();
     }
-    ImGui::End();
-    ImGui::PopStyleVar();
-
-    Vector2f GOpos = m_enemy.GetTransform()->GetPosition();
-    Vector2f Tpos = m_enemy.GetAI()->GetTargetPosition();
-    m_enemy.GetAI()->SpawnControlWindow(GOpos, Tpos);
-
-    m_gfx->SpawnControlWindow();
-    m_uiEditor.SpawnControlWindow( *m_gfx );
-    m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
-    m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
-    m_tileMapEditor.SpawnControlWindow();
-    m_audioEditor.SpawnControlWindow();
-    m_camera.SpawnControlWindow();
-    m_player.SpawnControlWindow();
 #endif
 }
 
 void Level::EndFrame_End()
 {
 #if _DEBUG
-    m_imgui->EndRender();
+    if ( g_bDebug )
+        m_imgui->EndRender();
 #endif
 
     // Present Frame
