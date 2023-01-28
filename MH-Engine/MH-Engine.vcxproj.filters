@@ -84,17 +84,11 @@
     <ClCompile Include="Objects\Quad.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Player.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="TileMap\TileMapEditor.cpp">
       <Filter>Source Files\TileMap</Filter>
     </ClCompile>
     <ClCompile Include="TileMap\TileMap.cpp">
       <Filter>Source Files\TileMap</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Enemy.cpp">
-      <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="TileMap\TileMapDraw.cpp">
       <Filter>Source Files\TileMap</Filter>
@@ -246,6 +240,9 @@
     <ClCompile Include="Components\EntityAnimation.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Helper\MouseCapture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -359,17 +356,11 @@
     <ClInclude Include="Objects\Quad.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Player.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="TileMap\TileMap.h">
       <Filter>Header Files\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="TileMap\TileMapEditor.h">
       <Filter>Header Files\TileMap</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Enemy.h">
-      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="TileMap\TileMapDraw.h">
       <Filter>Header Files\TileMap</Filter>
@@ -562,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="Utility\Rendering\ProjectileData.h">
       <Filter>Header Files\Utility\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Helper\MouseCapture.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Collisions\LayerMask.h">
       <Filter>Header Files\Collisions</Filter>

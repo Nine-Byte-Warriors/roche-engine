@@ -310,8 +310,6 @@
     <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
-    <ClCompile Include="Objects\Enemy.cpp" />
-    <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
@@ -386,6 +384,7 @@
     <ClCompile Include="Utility\Errors\ErrorLogger.cpp" />
     <ClCompile Include="Utility\Helper\FileHandler.cpp" />
     <ClCompile Include="Utility\Helper\FileLoading.cpp" />
+    <ClCompile Include="Utility\Helper\MouseCapture.cpp" />
     <ClCompile Include="Utility\Helper\StringHelper.cpp" />
     <ClCompile Include="Utility\Helper\TextRenderer.cpp" />
     <ClCompile Include="Utility\Helper\ThreadManager.cpp" />
@@ -461,12 +460,11 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
     <ClInclude Include="Levels\LevelStateMachine.h" />
     <ClInclude Include="Objects\Camera.h" />
-    <ClInclude Include="Objects\Enemy.h" />
-    <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Quad.h" />
     <ClInclude Include="Objects\Projectile.h" />
     <ClInclude Include="TileMap\TileMapLoader.h" />

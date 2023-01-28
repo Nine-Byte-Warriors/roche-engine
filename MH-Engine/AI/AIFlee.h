@@ -3,7 +3,7 @@
 #define AIFLEE_H
 
 #include "AIState.h"
-#include "Player.h"
+#include "Entity.h"
 #include "Agent.h"
 
 namespace AILogic
@@ -19,10 +19,10 @@ namespace AILogic
         virtual void Exit() override {};
 
         //virtual float CalculateActivation() override {};
-        inline virtual void SetTarget(Player* pTarget) { m_pTarget = pTarget; }
+        inline virtual void SetTarget(Entity* pTarget) { m_pTarget = pTarget; }
         
     private:
-		Player* m_pTarget;
+        Entity* m_pTarget;
     };
 }
 

@@ -2,9 +2,10 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "Listener.h"
 #include "WindowContainer.h"
 
-class Input : public WindowContainer
+class Input : public WindowContainer, public Listener
 {
 public:
 	~Input() { RemoveFromEvent(); }
@@ -13,11 +14,12 @@ public:
 
 	inline Mouse& GetMouse() noexcept { return m_mouse; }
 	inline Keyboard& GetKeyboard() noexcept { return m_keyboard; }
-	void HandleEvent( Event* event ) override;
 
 private:
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
+
+	void HandleEvent( Event* event ) override;
 	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
 

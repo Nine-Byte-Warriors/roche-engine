@@ -92,20 +92,17 @@ void EntityEditor::EntityListBox()
 #if _DEBUG
 	if (ImGui::BeginListBox("##Entity List", ImVec2(-FLT_MIN, m_vEntityData.size() * ImGui::GetTextLineHeightWithSpacing() * 1.1f)))
 	{
-		int index = 0;
 		for (int i = 0; i < m_vEntityData.size(); i++)
 		{
-			const bool isSelected = (i == index);
+			const bool isSelected = (i == m_iSelectedIndex);
 			if (ImGui::Selectable(m_vEntityData[i].name.c_str(), isSelected))
 			{
-				i = index;
+				m_iSelectedIndex = i;
 				m_iIdentifier = i;
 			}
 
 			if (isSelected)
 				ImGui::SetItemDefaultFocus();
-
-			index++;
 		}
 
 		ImGui::EndListBox();
