@@ -239,7 +239,7 @@ void Level::EndFrame_Start()
             ImGuiIO& io = ImGui::GetIO();
             Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
             ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
-			Vector2f* vFakedPos = new Vector2f( MouseCapture::GetGamePos( io.MousePos, windowPos, vRegionMax, gameSize ) );
+			Vector2f* vFakedPos = new Vector2f( MouseCapture::GetGamePos( io.MousePos, Vector2f( vHalfPos.x, vHalfPos.y ), ivMax, gameSize ) );
             EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
 
             ImGui::Text("On Screen");
