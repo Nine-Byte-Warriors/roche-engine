@@ -6,10 +6,12 @@
 enum class EVENTID
 {
 	// User Inputs
-	KeyInput,
+	CharInput,
+	ReadCharInput,
 	ClearCharBuffer,
 	MousePosition,
 	ImGuiMousePosition,
+	KeyInput,
 
 	LeftMouseClick,
 	LeftMouseRelease,
@@ -41,7 +43,7 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	TargetPosition,
-	
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,

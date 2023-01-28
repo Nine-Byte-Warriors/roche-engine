@@ -3,6 +3,9 @@
 #include "Graphics.h"
 #include <shellapi.h>
 
+#if _DEBUG
+extern bool g_bDebug;
+#endif
 #define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
 
 void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets )
@@ -16,6 +19,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 
 void UIScreen::UpdateWidgets()
 {
+	int inputIndex = 0;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
 		if ( m_vWidgets[i].GetType() == "Button" )
@@ -63,9 +67,10 @@ void UIScreen::UpdateWidgets()
 		else if ( m_vWidgets[i].GetType() == "Input" )
 		{
 			Input_Widget input;
-			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, inputIndex );
 			input.IntializeWidget( m_vWidgets[i] );
 			m_vInputs.push_back( std::move( input ) );
+			inputIndex++;
 		}
 		else if ( m_vWidgets[i].GetType() == "Page Slider" )
 		{
@@ -87,9 +92,28 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 	m_vDropDowns.clear();
 	m_vEnergyBars.clear();
 	m_vImages.clear();
+
+	// Save input widget data before clearing
+	std::vector<bool> inputSelections;
+	std::vector<std::string> inputStrings;
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		inputSelections.push_back( m_vInputs[i].GetSelected() );
+		inputStrings.push_back( m_vInputs[i].GetCurrentText() );
+	}
 	m_vInputs.clear();
+
 	m_vPageSliders.clear();
 	UpdateWidgets();
+
+	// Re-add input widget data
+	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
+	{
+		if ( inputSelections.size() == i ) inputSelections.push_back( false );
+		if ( inputStrings.size() == i ) inputStrings.push_back( "" );
+		m_vInputs[i].SetCurrentText( inputStrings[i] );
+		m_vInputs[i].SetSelected( inputSelections[i] );
+	}
 
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
@@ -186,9 +210,10 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else
 		{
 			// Default
+			static float health = 100.0f;
 			std::string temp = m_textures[2];
 			m_textures[2] = "";
-			m_vEnergyBars[i].Resolve( m_textures, m_fPlayerHealth );
+			m_vEnergyBars[i].Resolve( m_textures, health );
 			m_textures[2] = temp;
 			m_vEnergyBars[i].Update( dt );
 		}
@@ -209,7 +234,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else
 		{
 			// Default
-			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData );
+			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, m_iInputIndex );
 			m_vInputs[i].Update( dt );
 		}
 	}
@@ -247,7 +272,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 {
 	unsigned int widgetAmount =
 		m_vButtons.size() + m_vColourBlocks.size() +
-		m_vDataSliders.size() + m_vDropDowns.size() +
+		m_vDataSliders.size() + m_vDropDowns.size() + m_vInputs.size() +
 		m_vEnergyBars.size() + m_vImages.size() + m_vPageSliders.size();
 
 	for ( unsigned int i = 0; i < widgetAmount; i++ )
@@ -366,16 +391,14 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
 #if _DEBUG
 	EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
-#else
-	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 #endif
+	EventSystem::Instance()->AddClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->AddClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -384,16 +407,14 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
 #if _DEBUG
 	EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
-#else
-	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 #endif
+	EventSystem::Instance()->RemoveClient( EVENTID::MousePosition, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::LeftMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RightMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHealth, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 }
 
@@ -408,21 +429,23 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::RightMouseRelease:{ m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
-	case EVENTID::PlayerHealth: { m_fPlayerHealth = *static_cast<float*>( event->GetData() ); } break;
 #if _DEBUG
 	case EVENTID::ImGuiMousePosition:
 	{
+		if ( !g_bDebug ) return;
 		Vector2f mousePos = *(Vector2f*)event->GetData();
 		m_mouseData.Pos = XMFLOAT2( mousePos.x, mousePos.y );
 	}
 	break;
-#else
+#endif
 	case EVENTID::MousePosition:
 	{
+#if _DEBUG
+		if ( g_bDebug ) return;
+#endif
 		m_mouseData.Pos = *(XMFLOAT2*)event->GetData();
 	}
 	break;
-#endif
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );

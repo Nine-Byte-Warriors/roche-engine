@@ -3,6 +3,7 @@
 #include "ProjectileEditor.h"
 
 #if _DEBUG
+extern bool g_bDebug;
 #include <imgui/imgui.h>
 #include "MouseCapture.h"
 #endif
@@ -191,21 +192,23 @@ void Level::EndFrame_Start()
     // Render ui
     m_ui->Draw(
         m_gfx->GetShaderVtx(), m_gfx->GetShaderPix(),
-        m_camera.GetWorldOrthoMatrix(), &m_textRenderer );
+        m_camera.GetOrthoMatrix(), &m_textRenderer );
 
     // Render scene to texture
     m_gfx->RenderSceneToTexture();
 
 #if _DEBUG
-    // Render imgui windows
-    m_imgui->BeginRender();
-    ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
-    if ( ImGui::Begin( "Scene Window", FALSE ) )
+    if ( g_bDebug )
     {
-        ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
-        ImVec2 vImageMax = ImVec2(
-            vRegionMax.x + ImGui::GetWindowPos().x,
-            vRegionMax.y + ImGui::GetWindowPos().y );
+        // Render imgui windows
+        m_imgui->BeginRender();
+        ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
+        if ( ImGui::Begin( "Scene Window", FALSE ) )
+        {
+            ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
+            ImVec2 vImageMax = ImVec2(
+                vRegionMax.x + ImGui::GetWindowPos().x,
+                vRegionMax.y + ImGui::GetWindowPos().y );
 
         ImVec2 vRatio =
         {
@@ -245,30 +248,32 @@ void Level::EndFrame_Start()
                     { ivMax.x, ivMax.y - 20.0f }, gameSize ) );
             EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
 
-            ImGui::Text("On Screen");
-            std::string sFakedMouseText = "Faked Mouse Pos: "
-                " X: " + std::to_string(vFakedPos->x) +
-                " Y: " + std::to_string(vFakedPos->y);
-            ImGui::Text(sFakedMouseText.c_str());
+                ImGui::Text("On Screen");
+                std::string sFakedMouseText = "Faked Mouse Pos: "
+                    " X: " + std::to_string(vFakedPos->x) +
+                    " Y: " + std::to_string(vFakedPos->y);
+                ImGui::Text(sFakedMouseText.c_str());
+            }
         }
-    }
-    ImGui::End();
-    ImGui::PopStyleVar();
+        ImGui::End();
+        ImGui::PopStyleVar();
 
-    m_gfx->SpawnControlWindow();
-    m_uiEditor.SpawnControlWindow( *m_gfx );
-    m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
-    m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
-    m_tileMapEditor.SpawnControlWindow();
-    m_audioEditor.SpawnControlWindow();
-    m_camera.SpawnControlWindow();
+        m_gfx->SpawnControlWindow();
+        m_uiEditor.SpawnControlWindow( *m_gfx );
+        m_projectileEditor->SpawnEditorWindow(*m_gfx, m_cbMatrices);
+        m_entityEditor.SpawnControlWindow(m_gfx->GetWidth(), m_gfx->GetHeight());
+        m_tileMapEditor.SpawnControlWindow();
+        m_audioEditor.SpawnControlWindow();
+        m_camera.SpawnControlWindow();
+    }
 #endif
 }
 
 void Level::EndFrame_End()
 {
 #if _DEBUG
-    m_imgui->EndRender();
+    if ( g_bDebug )
+        m_imgui->EndRender();
 #endif
 
     // Present Frame

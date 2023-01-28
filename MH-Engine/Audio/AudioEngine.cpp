@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "AudioEngine.h"
+#include <RND.h>
 
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
@@ -70,7 +71,8 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 	JsonLoading::LoadJson(soundFileListToLoad, loadFilePath);
 	// Load audio into Sound Banks
 	for (int i = 0; soundFileListToLoad.size() > i; i++) {
-		LoadAudio(StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType);
+		LoadAudio(StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType, 
+									soundFileListToLoad.at(i).randomPitch, soundFileListToLoad.at(i).pitchMin, soundFileListToLoad.at(i).pitchMax);
 	}
 }
 
@@ -81,18 +83,20 @@ void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std
 
 	for (int i = 0; sfxSoundList->size() > i; i++) {
 		name = StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->volume, 0 });
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->volume, 0, 
+			sfxSoundList->at(i)->randomPitch, sfxSoundList->at(i)->pitchMin, sfxSoundList->at(i)->pitchMax });
 	}
 
 	for (int i = 0; musicSoundList->size() > i; i++) {
 		name = StringHelper::StringToNarrow(musicSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->volume, 1 });
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->volume, 1, 
+			musicSoundList->at(i)->randomPitch, musicSoundList->at(i)->pitchMin, musicSoundList->at(i)->pitchMax });
 	}
 
 	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
 }
 
-HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType)
+HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
 {
 	HRESULT hr = S_OK;
 
@@ -152,7 +156,7 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType au
 	buffer->pAudioData = pDataBuffer;  // buffer containing audio data
 	buffer->Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
 
-	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)wfx, volume), GetSoundBank(audioType));
+	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)wfx, volume, randomPitchEnabled, pitchMinimum, pitchMaximum), GetSoundBank(audioType));
 
 	return hr;
 }
@@ -161,6 +165,8 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
 	float finalVolume;
+	float frequencyRatio;
+	float sourceRate;
 
 	if (audioType == SFX && m_vSFXSourceVoiceList->size() >= m_iMaxSFXSourceVoicesLimit) {
 		return S_FALSE;
@@ -192,6 +198,11 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 			case SFX:
 				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume;
 				pVoice->SetVolume(finalVolume);
+				if (soundBank->at(i)->randomPitch) {
+					pVoice->GetFrequencyRatio(&sourceRate);
+					frequencyRatio = sourceRate / RND::Getf(soundBank->at(i)->pitchMin, soundBank->at(i)->pitchMax);
+					pVoice->SetFrequencyRatio(frequencyRatio); // TODO: Random between min and max
+				}
 				m_vSFXSourceVoiceList->push_back(pVoice);
 				break;
 			case MUSIC:
@@ -208,6 +219,8 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
 				return hr;
 			}
+
+
 			
 			//pVoice->SetFrequencyRatio(12000);
 			//
@@ -386,7 +399,7 @@ HRESULT AudioEngine::ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize,
 	return hr;
 }
 
-SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume)
+SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
 {
 	SoundBankFile* soundBankFile = new SoundBankFile();
 	soundBankFile->fileName = GetFileName(filePath);
@@ -395,6 +408,9 @@ SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_B
 	//soundBankFile->voiceCallback = new VoiceCallback();
 	//soundBankFile->voiceCallback->OnBufferEnd(buffer);
 	soundBankFile->volume = volume;
+	soundBankFile->randomPitch = randomPitchEnabled;
+	soundBankFile->pitchMin = pitchMinimum;
+	soundBankFile->pitchMax = pitchMaximum;
 
 	return soundBankFile;
 }

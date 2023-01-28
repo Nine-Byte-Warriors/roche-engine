@@ -58,13 +58,15 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
 	}
+
 	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), m_entityController->GetTexture(m_iEntityNum), mat);
 
 	SetPositionInit();
 	SetScaleInit();
-	UpdateFrame();
 	UpdateBehaviour();
 	UpdateColliderRadius();
+	SetAnimation();
+	UpdateRowsColumns();
 }
 
 void Entity::Update(const float dt)
@@ -95,13 +97,14 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 		UpdatePosition();
 	}
 	UpdateScale();
-	UpdateFrame();
 	UpdateMass();
 	UpdateBehaviour();
 	UpdateSpeed();
 	UpdateProjectilePattern();
 	UpdateTexture();
 	UpdateColliderRadius();
+	UpdateAnimation();
+	UpdateRowsColumns();
 }
 
 void Entity::SetPositionInit()
@@ -129,6 +132,14 @@ void Entity::SetScaleInit()
 	}
 }
 
+void Entity::UpdateRowsColumns()
+{
+	m_iRows = m_entityController->GetRows(m_iEntityNum);
+	m_iColumns = m_entityController->GetColumns(m_iEntityNum);
+	m_sprite->SetRows(m_iRows);
+	m_sprite->SetColumns(m_iColumns);
+}
+
 void Entity::UpdatePosition()
 {
 	m_vPosition->x = m_entityController->GetPosition(m_iEntityNum)[0];
@@ -153,19 +164,31 @@ void Entity::UpdateScale()
 	}
 }
 
-void Entity::UpdateFrame()
+void Entity::UpdateAnimation()
 {
-	m_iMaxFrameX = m_entityController->GetMaxFrame(m_iEntityNum)[0];
-	m_iMaxFrameY = m_entityController->GetMaxFrame(m_iEntityNum)[1];
-	m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
-
-	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasAnimation(m_iEntityNum))
 	{
-		m_iBulletMaxFrameX = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[0];
-		m_iBulletMaxFrameY = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[1];
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+		for (int i = 0; i < m_animation.GetAnimationTypeSize(); i++)
 		{
-			m_projectileManager->GetProjector()[i]->GetSprite()->SetMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);
+			if (m_animation.GetAnimationTypeName(i) == m_entityController->GetAnimationType(m_iEntityNum))
+			{
+				m_iMaxFrameX = m_animation.GetFrameCount()[i];
+				m_iCurFrameY = i;
+				m_sprite->UpdateFrameTime(m_animation.GetFrameTiming(i));
+			}
+		}
+
+		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
+		m_sprite->SetCurFrameY(m_iCurFrameY);
+
+		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+		{
+			m_iBulletMaxFrameX = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[0];
+			m_iBulletMaxFrameY = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[1];
+			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+			{
+				m_projectileManager->GetProjector()[i]->GetSprite()->SetMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);
+			}
 		}
 	}
 }
@@ -289,5 +312,15 @@ void Entity::UpdateColliderRadius()
 			m_colliderBox->SetHeight(m_fColliderRadiusY);
 			m_colliderCircle->SetRadius(0);
 		}
+	}
+}
+
+void Entity::SetAnimation()
+{
+	if (m_entityController->GetAnimationFile(m_iEntityNum) != "None" && m_entityController->HasAnimation(m_iEntityNum))
+	{
+		m_animation.LoadEntityAnimation(m_entityController->GetAnimationFile(m_iEntityNum));
+		m_iMaxFrameY = m_animation.GetFrameCount().size();
+		UpdateAnimation();
 	}
 }

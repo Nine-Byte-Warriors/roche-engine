@@ -15,7 +15,6 @@
 #define SOUND_FILES_PATH  "Resources\\Audio\\"
 
 #if _DEBUG
-
 AudioEditor::AudioEditor()
 {
 	//LoadSoundFileInfoFromJSON("Resources\\Audio\\Sound Banks\\soundFiles.json"); // test remove later
@@ -57,14 +56,40 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 			if (m_vSoundFileInfo[i].audioType == audioType) {
 				if (ImGui::TreeNode(m_vSoundFileInfo[i].filePath.c_str())) {
 					float defaultVolume = m_vSoundFileInfo[i].volume;
+					bool randomPitchEnabled = m_vSoundFileInfo[i].randomPitch;
+					float pitchMinValue = m_vSoundFileInfo[i].pitchMin;
+					float pitchMaxValue = m_vSoundFileInfo[i].pitchMax;
+
+
 					if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
 						m_vSoundFileInfo[i].volume = defaultVolume;
 						AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), defaultVolume);
 					}
 
+					if (audioType == SFX) {
+						if (ImGui::Checkbox(std::string("Random Pitch##").append(std::to_string(i)).append("random pitch").c_str(), &randomPitchEnabled)) {
+							m_vSoundFileInfo[i].randomPitch = !m_vSoundFileInfo[i].randomPitch;
+							AudioEngine::GetInstance()->SetRandomPitch(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType));
+
+						}
+
+						if (m_vSoundFileInfo[i].randomPitch) {
+							if (ImGui::SliderFloat(std::string("Minimum Pitch##").append(std::to_string(i)).append("minimum pitch").c_str(), &pitchMinValue, 0.5f, 1.5f)) {
+								m_vSoundFileInfo[i].pitchMin = pitchMinValue;
+								AudioEngine::GetInstance()->SetPitchMin(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMinValue);
+							}
+
+							if (ImGui::SliderFloat(std::string("Maximum Pitch##").append(std::to_string(i)).append("maximum pitch").c_str(), &pitchMaxValue, 0.5f, 1.5f)) {
+								m_vSoundFileInfo[i].pitchMax = pitchMaxValue;
+								AudioEngine::GetInstance()->SetPitchMax(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMaxValue);
+							}
+						}
+					}
+
 					if (ImGui::Button(std::string("Play##").append(std::to_string(i)).append("play").c_str())) {
 						AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType);
 					}
+
 					ImGui::SameLine();
 					if (audioType == MUSIC) { // If its MUSIC, then spawn these additional buttons
 						if (ImGui::Button(std::string("Unpause##").append(std::to_string(i)).append("unpause").c_str())) {
@@ -108,6 +133,9 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 					newSound.name = foLoad->m_sFile;
 					newSound.filePath =  SOUND_FILES_PATH + foLoad->GetFilePath();
 					newSound.volume = 1.0f;
+					newSound.randomPitch = false;
+					newSound.pitchMin = 1.0f;
+					newSound.pitchMax = 1.0f;
 					newSound.audioType = audioType;
 
 					for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
@@ -118,7 +146,8 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 
 					if (!duplicateFound) {
 						m_vSoundFileInfo.emplace_back(newSound);
-						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType);
+						AudioEngine::GetInstance()->LoadAudio(StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType,
+																	newSound.randomPitch, newSound.pitchMin, newSound.pitchMax);
 					}
 				}
 				else {

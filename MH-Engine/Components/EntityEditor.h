@@ -32,6 +32,7 @@ private:
 	void LockPositon();
 
 	void SpriteWidget();
+	void AnimationWidget();
 	void PhysicsWidget();
 	void AIWidget();
 	void ProjectileSystemWidget();
@@ -42,8 +43,10 @@ private:
 	void SetType();
 	void SetPosition();
 	void SetTexture();
+	void SetAnimation();
+	void SetAnimationType();
 	void SetScale();
-	void SetMaxFrame();
+	void SetRowsColumns();
 
 	//Physics
 	void SetMass();

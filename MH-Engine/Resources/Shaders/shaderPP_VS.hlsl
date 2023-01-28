@@ -11,7 +11,7 @@ struct VS_OUTPUT
 };
 
 VS_OUTPUT VS( VS_INPUT input )
-{   
+{
     VS_OUTPUT output;
     output.Position = float4( input.Position, 0.0f, 1.0f );
     output.TexCoord = float2( ( input.Position.x + 1 ) / 2.0f, -( input.Position.y - 1 ) / 2.0f );
