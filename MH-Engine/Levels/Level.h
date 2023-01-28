@@ -60,7 +60,8 @@ private:
 	void RenderFrameEntity();
 	void UpdateUI( const float dt );
 	void UpdateEntity(const float dt);
-	void UpdateEntityFromEditor(const float dt);
+	void AddNewEntity();
+	void RemoveEntities();
 
 	// Tile Map
 	void CreateTileMapDraw();
@@ -98,6 +99,8 @@ private:
 	const int m_iTileMapLayers = 2;
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;
+
+	std::vector<int> m_entitiesDeleted;
 };
 
 #endif

@@ -261,18 +261,6 @@ void Level::Update( const float dt )
     m_camera.Update( dt );
 }
 
-void Level::UpdateEntity(const float dt)
-{
-#if _DEBUG
-    UpdateEntityFromEditor(dt);
-#endif
-
-    for (int i = 0; i < m_iEntityAmount; i++)
-    {
-        m_entity[i].Update(dt);
-    }
-}
-
 void Level::UpdateUI( const float dt )
 {
 #if _DEBUG
@@ -315,70 +303,92 @@ void Level::UpdateUI( const float dt )
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }
 
-void Level::UpdateEntityFromEditor(const float dt)
+void Level::UpdateEntity(const float dt)
 {
+#if _DEBUG
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+#endif
 
     if (m_iEntityAmount < m_entityController.GetSize())
     {
-        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
-        {
-            Entity* entityPop = new Entity(m_entityController, i);
-            m_entity.push_back(*entityPop);
-            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-            delete entityPop;
-
-            if (m_entityController.HasCollider(i))
-            {
-                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-            }
-
-            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-
-            if (m_entityController.HasProjectileSystem(i))
-            {
-                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
-            }
-        }
-        m_iEntityAmount = m_entityEditor.GetEntityData().size();
-
-        m_entityController.UpdateCopy();
-    }
+        AddNewEntity();        
+    }    
     else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
     {
-        m_entity.clear();
-        m_collisionHandler.RemoveAllColliders();
-
-        for (int i = 0; i < m_entityController.GetSize(); i++)
-        {
-            Entity* entityPop = new Entity(m_entityController, i);
-            m_entity.push_back(*entityPop);
-            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-            delete entityPop;
-
-            if (m_entityController.HasCollider(i))
-            {
-                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-            }
-
-            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-
-            if (m_entityController.HasProjectileSystem(i))
-            {
-                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
-            }
-        }
-        m_iEntityAmount = m_entityEditor.GetEntityData().size();
-
-        m_entityController.UpdateCopy();
+        RemoveEntities();
     }
 
+#if _DEBUG
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].UpdateFromEntityData(dt, m_entityEditor.IsPositionLocked());
     }
+#endif
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].Update(dt);
+    }
+}
+
+void Level::AddNewEntity()
+{
+    for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+    {
+        Entity* entityPop = new Entity(m_entityController, i);
+        m_entity.push_back(*entityPop);
+        m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        delete entityPop;
+
+        if (m_entityController.HasCollider(i))
+        {
+            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        }
+
+        m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+        m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+
+        if (m_entityController.HasProjectileSystem(i))
+        {
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
+    }
+
+#if _DEBUG
+    m_iEntityAmount = m_entityEditor.GetEntityData().size();
+#else
+    m_iEntityAmount = m_entityController.GetSize();
+#endif
+    m_entityController.UpdateCopy();
+}
+
+void Level::RemoveEntities()
+{
+#if _DEBUG
+    m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
+#endif
+
+    for (int i = 0; i < m_entitiesDeleted.size(); i++)
+    {
+        m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
+    }
+
+    m_collisionHandler.RemoveAllColliders();
+    m_entitiesDeleted.clear();
+
+    for (int i = 0; i < m_entity.size(); i++)
+    {
+        m_entity[i].UpdateEntityNum(i);
+        if (m_entityController.HasCollider(i))
+        {
+            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        }
+    }
+
+#if _DEBUG
+    m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    m_entityEditor.ClearEntitiesDeleted();
+#endif
 }
 
 void Level::UpdateTileMap(const float dt)

@@ -35,6 +35,7 @@ public:
 	Vector2f GetPos() { return *m_vPosition; }
 
 	std::string GetType();
+	void UpdateEntityNum(int num);
 
 private:
 	void SetPositionInit();

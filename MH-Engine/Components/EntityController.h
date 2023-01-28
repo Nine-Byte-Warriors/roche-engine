@@ -3,7 +3,6 @@
 #define ENTITYCONTROLLER_H
 
 #include "JsonLoading.h"
-#include "EventSystem.h"
 
 struct EntityData
 {

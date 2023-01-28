@@ -291,3 +291,8 @@ void Entity::UpdateColliderRadius()
 		}
 	}
 }
+
+void Entity::UpdateEntityNum(int num)
+{
+	m_iEntityNum = num;
+}

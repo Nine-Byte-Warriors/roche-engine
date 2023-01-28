@@ -12,7 +12,7 @@ EntityController::EntityController()
 void EntityController::SetJsonFile( const std::string& name )
 {
 	JsonFile = name;
-	JsonLoading::LoadJson( m_entityData, FOLDER_PATH + JsonFile );
+	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
 	m_entityDataCopy = m_entityData;
 }
 
