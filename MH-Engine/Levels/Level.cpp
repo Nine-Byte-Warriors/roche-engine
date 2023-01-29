@@ -213,54 +213,56 @@ void Level::EndFrame_Start()
                 vRegionMax.x + ImGui::GetWindowPos().x,
                 vRegionMax.y + ImGui::GetWindowPos().y );
 
-        ImVec2 vRatio =
-        {
-            m_gfx->GetWidth() / ImGui::GetWindowSize().x,
-            m_gfx->GetHeight() / ImGui::GetWindowSize().y
-        };
+            ImVec2 vRatio =
+            {
+                m_gfx->GetWidth() / ImGui::GetWindowSize().x,
+                m_gfx->GetHeight() / ImGui::GetWindowSize().y
+            };
 
-        bool bIsFitToWidth = vRatio.x < vRatio.y ? true : false;
-        ImVec2 ivMax =
-        {
-            bIsFitToWidth ? m_gfx->GetWidth() / vRatio.y : vRegionMax.x,
-            bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
-        };
+            bool bIsFitToWidth = vRatio.x < vRatio.y ? true : false;
+            ImVec2 ivMax =
+            {
+                bIsFitToWidth ? m_gfx->GetWidth() / vRatio.y : vRegionMax.x,
+                bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
+            };
 
-        ImVec2 pos = ImGui::GetCursorScreenPos();
-        Vector2f half = { ( ivMax.x - vRegionMax.x ) / 2, ( ivMax.y - vRegionMax.y ) / 2 };
-        ImVec2 vHalfPos = { pos.x - half.x, pos.y - half.y };
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            Vector2f half = { ( ivMax.x - vRegionMax.x ) / 2, ( ivMax.y - vRegionMax.y ) / 2 };
+            ImVec2 vHalfPos = { pos.x - half.x, pos.y - half.y };
 
-        ImVec2 ivMaxPos =
-        {
-            ivMax.x + ImGui::GetWindowPos().x - half.x,
-			ivMax.y + ImGui::GetWindowPos().y - half.y
-        };
+            ImVec2 ivMaxPos =
+            {
+                ivMax.x + ImGui::GetWindowPos().x - half.x,
+			    ivMax.y + ImGui::GetWindowPos().y - half.y
+            };
 
-        ImGui::GetWindowDrawList()->AddImage(
-            (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            vHalfPos, ivMaxPos );
+            ImGui::GetWindowDrawList()->AddImage(
+                (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
+                vHalfPos, ivMaxPos );
 
-        if ( ImGui::IsWindowHovered() )
-        {
-            ImGuiIO& io = ImGui::GetIO();
-            Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
-            ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
-			Vector2f* vFakedPos = new Vector2f(
-                MouseCapture::GetGamePos( io.MousePos,
-                    Vector2f( vHalfPos.x, vHalfPos.y ),
-                    { ivMax.x, ivMax.y - 20.0f }, gameSize ) );
-            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
+            if ( ImGui::IsWindowHovered() )
+            {
+                ImGuiIO& io = ImGui::GetIO();
+                Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
+                ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
+			    Vector2f* vFakedPos = new Vector2f(
+                    MouseCapture::GetGamePos( io.MousePos,
+                        Vector2f( vHalfPos.x, vHalfPos.y ),
+                        { ivMax.x, ivMax.y - 20.0f }, gameSize ) );
+                EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
 
                 ImGui::Text("On Screen");
-                std::string sFakedMouseText = "Faked Mouse Pos: "
+                ImGui::SameLine();
+                std::string sFakedMouseText =
                     " X: " + std::to_string(vFakedPos->x) +
                     " Y: " + std::to_string(vFakedPos->y);
                 ImGui::Text(sFakedMouseText.c_str());
-        }            
-        else
-        {
-          m_bIsWindowHovered = false;
-        }
+                m_bIsWindowHovered = true;
+            }
+            else
+            {
+                m_bIsWindowHovered = false;
+            }
         }
         ImGui::End();
         ImGui::PopStyleVar();
@@ -348,8 +350,8 @@ void Level::UpdateEntity(const float dt)
 
     if (m_iEntityAmount < m_entityController.GetSize())
     {
-        AddNewEntity();        
-    }    
+        AddNewEntity();
+    }
     else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
     {
         RemoveEntities();

@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "TileMapPaintOnMap.h"
 
-#define FOLDER_PATH "Resources\\\TileMaps\\"
+#define FOLDER_PATH "Resources\\TileMaps\\"
 
 TileMapPaintOnMap::TileMapPaintOnMap()
 {
 	JsonLoading::LoadJson(m_tileMapPaint, FOLDER_PATH + JsonFile);
 
-	m_bLeftMouseDown = false;	
+	m_bLeftMouseDown = false;
 
 	AddToEvent();
 }
