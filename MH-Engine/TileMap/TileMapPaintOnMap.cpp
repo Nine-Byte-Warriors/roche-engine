@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "TileMapPaintOnMap.h"
 
+#define FOLDER_PATH "Resources\\\TileMaps\\"
+
 TileMapPaintOnMap::TileMapPaintOnMap()
 {
-	m_iBoarderTilesRows = 10;
-	m_iBoarderTilesCols = 20;
-	  
-	m_iStartingPosX = -100;
-	m_iStartingPosY = -100;
+	JsonLoading::LoadJson(m_tileMapPaint, FOLDER_PATH + JsonFile);
 
 	m_bLeftMouseDown = false;	
 
@@ -30,22 +28,22 @@ void TileMapPaintOnMap::Initialize(Camera& camera, int rows, int cols)
 
 int TileMapPaintOnMap::GetBoarderTilesRows()
 {
-	return m_iBoarderTilesRows;
+	return m_tileMapPaint.boarderTilesRows;
 }
 
 int TileMapPaintOnMap::GetBoarderTilesCols()
 {
-	return m_iBoarderTilesCols;
+	return m_tileMapPaint.boarderTilesCols;
 }
 
 int TileMapPaintOnMap::GetStartingPosX()
 {
-	return m_iStartingPosX;
+	return m_tileMapPaint.startingPosX;
 }
 
 int TileMapPaintOnMap::GetStartingPosY()
 {
-	return m_iStartingPosY;
+	return m_tileMapPaint.startingPosY;
 }
 
 int TileMapPaintOnMap::GetTileMapPos()
@@ -83,13 +81,13 @@ void TileMapPaintOnMap::HandleEvent(Event* event)
 	{
 	case EVENTID::ImGuiMousePosition:
 	{
-		m_fCameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x - m_iStartingPosX;
-		m_fCameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y - m_iStartingPosY;
+		m_fCameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x - m_tileMapPaint.startingPosX;
+		m_fCameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y - m_tileMapPaint.startingPosY;
 
 		Vector2f mousePos = *static_cast<Vector2f*>(event->GetData());
 		m_iTileX = (mousePos.x + m_fCameraX) / 32;
 		m_iTileY = (mousePos.y + m_fCameraY) / 32;
-		m_iPos = m_iTileX + m_iTileY * (m_iBoarderTilesCols + 40);
+		m_iPos = m_iTileX + m_iTileY * (m_tileMapPaint.boarderTilesCols + 40);
 	}
 	break;
 	case EVENTID::LeftMouseClick:

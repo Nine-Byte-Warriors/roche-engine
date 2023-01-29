@@ -26,12 +26,10 @@ public:
 	void SpawnControlWindow();
 #endif
 
-	bool IsDrawOnceAvalible();
 	bool IsDrawContinuousAvalible();
 	bool IsLayerSwitched();
 	bool IsLoadedFile();
 
-	void SetDrawOnceDone();
 	void SetMapDrawnDone();
 	void SetLayerSwitchedDone();
 	void SetLoadedFileDone();

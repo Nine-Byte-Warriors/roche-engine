@@ -4,7 +4,18 @@
 
 #include "EventSystem.h"
 #include "Camera.h"
+#include "JsonLoading.h"
 #include <Vector2f.h>
+
+struct TileMapPaint
+{
+	int boarderTilesRows;
+	int boarderTilesCols;
+
+	int startingPosX;
+	int startingPosY;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileMapPaint, boarderTilesRows, boarderTilesCols, startingPosX, startingPosY)
 
 class TileMapPaintOnMap : public Listener
 {
@@ -28,12 +39,6 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-	int m_iBoarderTilesRows;
-	int m_iBoarderTilesCols;
-
-	int m_iStartingPosX;
-	int m_iStartingPosY;
-
 	float m_fCameraX;
 	float m_fCameraY;
 	int m_iTileX;
@@ -47,6 +52,9 @@ private:
 	int m_iSize;
 	int m_iRows;
 	int m_iCols;
+
+	std::string JsonFile = "TileMapPaint.json";
+	TileMapPaint m_tileMapPaint;
 };
 
 #endif
