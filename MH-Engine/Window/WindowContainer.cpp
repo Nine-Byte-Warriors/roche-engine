@@ -421,6 +421,31 @@ void WindowContainer::DisableCursor() noexcept
 	ConfineCursor();
 }
 
+void WindowContainer::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient(EVENTID::ImGuiMousePosition, this);
+}
+
+void WindowContainer::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient(EVENTID::MousePosition, this);
+}
+
+void WindowContainer::HandleEvent(Event* event)
+{
+    Vector2f* mousePos;
+    switch (event->GetEventID())
+    {
+    case EVENTID::ImGuiMousePosition:
+		mousePos = static_cast<Vector2f*>(event->GetData());
+        mousePos->y = +30.0f;
+        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, mousePos);
+        break;
+    default:
+        break;
+    }
+}
+
 void WindowContainer::ConfineCursor() noexcept
 {
 	RECT rect;
