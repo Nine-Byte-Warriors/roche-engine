@@ -16,7 +16,7 @@ void Camera::SetProjectionValues( float width, float height, float nearZ, float 
 	static bool firstTime = true;
 	if (firstTime)
 	{
-		m_vInitPosition = m_vPosition; 
+		m_vInitPosition = m_vPosition;
 		firstTime = false;
 	}
 }
@@ -27,7 +27,7 @@ void Camera::SpawnControlWindow()
 	if ( ImGui::Begin( "Camera Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
 	{
 		ImGui::Text( "Move Speed" );
-		ImGui::SliderFloat( "##Move Speed", &m_fSpeed, 1.0f, 10.0f, "%.1f" );
+		ImGui::SliderFloat( "##Move Speed", &m_fSpeed, 1.0f, 20.0f, "%.1f" );
 		ImGui::NewLine();
 		ImGui::Checkbox( "Lock To Player?", &m_bLockedToPlayer );
 	}
