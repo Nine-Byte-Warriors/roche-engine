@@ -19,20 +19,11 @@ void TileMapEditor::Initialize(int rows, int columns)
 	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();
 	m_iSizeOfTileTypeData = m_sTileTypeData.size();
 
-#if _DEBUG
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
-		ImColor color = m_tileMapBackground->GetColorFromType(0);
-		m_TileMapPreviewImageButtonColor.push_back(color);
-	}
-#endif
-
 	m_iCurrentSelectedTileType = 0;
 	m_sCurrentSelectedTileType = "Current Tile Type: ";
 	m_sCurrentSelectedTileType += m_sTileTypeData[0].name;
 
-	m_bDrawOnce = true;
-	m_bDrawContinuous = false;
+	m_bDrawContinuous = true;
 	m_bLayerSwitched = true;
 
 	m_tileMapLayer = TileMapLayer::Background;
@@ -58,21 +49,10 @@ void TileMapEditor::SpawnControlWindow()
 
 		TileMapSelectionButtons();
 		TileMapSelectedText();
-		TileMapGridPreview();
 	}
 	ImGui::End();
 }
 #endif
-
-bool TileMapEditor::IsDrawOnceAvalible()
-{
-	return m_bDrawOnce;
-}
-
-void TileMapEditor::SetDrawOnceDone()
-{
-	m_bDrawOnce = false;
-}
 
 void TileMapEditor::SetMapDrawnDone()
 {
@@ -130,11 +110,6 @@ void TileMapEditor::DrawButton()
 {
 #if _DEBUG
 	ImGui::NewLine();
-	m_bDrawButton = ImGui::Button("Draw Once");
-	if (m_bDrawButton)
-	{
-		m_bDrawOnce = true;
-	}
 	ImGui::Checkbox("Draw Continuously", &m_bDrawContinuous);
 #endif
 }
@@ -177,7 +152,7 @@ void TileMapEditor::Load()
 bool TileMapEditor::LoadProcessFile()
 {
 	std::vector<std::string> tileTypeName;
-	JsonLoading::LoadJson(tileTypeName, FOLDER_PATH + m_sFilePath);
+	JsonLoading::LoadJson(tileTypeName, m_sFilePath);
 
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
@@ -189,10 +164,6 @@ bool TileMapEditor::LoadProcessFile()
 		{
 			m_tileMapForeground->UpdateTileFromName(i, tileTypeName[i]);
 		}
-#if _DEBUG
-		ImColor color = m_tileMapBackground->GetColorFromPosition(i);
-		m_TileMapPreviewImageButtonColor[i] = color;
-#endif
 	}
 
 	tileTypeName.clear();
@@ -351,104 +322,30 @@ void TileMapEditor::TileMapSelectedText()
 
 #if _DEBUG
 	ImGui::Text(m_sCurrentSelectedTileType.c_str());
-	ImGui::Text("Left click to single edit; hold right click to multi edit");
 #endif
 }
 
-void TileMapEditor::TileMapGridInit()
-{
-#if _DEBUG
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
-		std::string gridLable = "Grid" + std::to_string(i);
-		m_bTileMapPreviewImageButton.push_back(ImGui::ImageButtonNoTexture(gridLable.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_TileMapPreviewImageButtonColor[i]));
-	}
-#endif
-}
-
-void TileMapEditor::TileMapGridPreview()
-{
-#if _DEBUG
-	ImGui::NewLine();
-	if (!m_bInitTileGrid)
-	{
-		TileMapGridInit();
-		m_bInitTileGrid = true;
-	}
-
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
-		std::string gridLable = "Grid" + std::to_string(i);
-		m_bTileMapPreviewImageButton[i] = ImGui::ImageButtonNoTexture(gridLable.c_str(), m_vImageButtonSize, m_vImageButtonFrame0, m_vImageButtonFrame1, m_iImageButtonPadding, m_TileMapPreviewImageButtonColor[i]);
-		if ((i % m_iColumns) - (m_iColumns - 1) != 0)
-		{
-			ImGui::SameLine();
-		}
-	}
-#endif
-
-	UpdateSingleTileMapGridPreview();
-}
-
-void TileMapEditor::UpdateSingleTileMapGridPreview()
+void TileMapEditor::UpdateTileMap(int pos)
 {
 	if (m_tileMapLayer != TileMapLayer::Both)
 	{
-		for (int i = 0; i < m_iRows * m_iColumns; i++)
-		{
-			if (m_bTileMapPreviewImageButton[i])
-			{
-				m_bMapUpdated = true;
-				m_iUpdatedTileMapTiles.push_back(i);
-				for (int j = 0; j < m_iSizeOfTileTypeData; j++)
-				{
-					if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
-					{
-#if _DEBUG
-						ImColor color = m_tileMapBackground->GetColorFromType(j);
-						m_TileMapPreviewImageButtonColor[i] = color;
-#endif
-						if (m_tileMapLayer == TileMapLayer::Background)
-						{
-							m_tileMapBackground->UpdateTileFromType(i, m_tileMapBackground->GetTileTypeData()[j].type);
-						}
-						else if (m_tileMapLayer == TileMapLayer::Foreground)
-						{
-							m_tileMapForeground->UpdateTileFromType(i, m_tileMapBackground->GetTileTypeData()[j].type);
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-void TileMapEditor::UpdateWholeTileMapGridPreview()
-{
-#if _DEBUG
-	for (int i = 0; i < m_iRows * m_iColumns; i++)
-	{
+		m_bMapUpdated = true;
+		m_iUpdatedTileMapTiles.push_back(pos);
 		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 		{
-			if (m_tileMapLayer == TileMapLayer::Background)
+			if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
 			{
-				if (m_tileMapBackground->GetTileType(i) == m_tileMapBackground->GetTileTypeData()[j].type)
+				if (m_tileMapLayer == TileMapLayer::Background)
 				{
-					ImColor color = m_tileMapBackground->GetColorFromType(j);
-					m_TileMapPreviewImageButtonColor[i] = color;
+					m_tileMapBackground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
 				}
-			}
-			else if (m_tileMapLayer == TileMapLayer::Foreground)
-			{
-				if (m_tileMapForeground->GetTileType(i) == m_tileMapForeground->GetTileTypeData()[j].type)
+				else if (m_tileMapLayer == TileMapLayer::Foreground)
 				{
-					ImColor color = m_tileMapForeground->GetColorFromType(j);
-					m_TileMapPreviewImageButtonColor[i] = color;
+					m_tileMapForeground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
 				}
 			}
 		}
 	}
-#endif
 }
 
 void TileMapEditor::SelectTileMapLayer()
@@ -473,12 +370,10 @@ void TileMapEditor::SelectTileMapLayer()
 		if (m_iTileMapLayer == 0)
 		{
 			m_tileMapLayer = TileMapLayer::Background;
-			UpdateWholeTileMapGridPreview();
 		}
 		else if (m_iTileMapLayer == 1)
 		{
 			m_tileMapLayer = TileMapLayer::Foreground;
-			UpdateWholeTileMapGridPreview();
 		}
 		else
 		{
@@ -519,4 +414,10 @@ int TileMapEditor::GetTileMapOtherLayerInt()
 		return 0;
 	}
 	return 2;
+}
+
+std::string TileMapEditor::GetTexture()
+{
+	m_sTexture = "Resources\\Textures\\Tiles\\" + m_sTileTypeData[m_iCurrentSelectedTileType].name + ".png";
+	return m_sTexture;
 }

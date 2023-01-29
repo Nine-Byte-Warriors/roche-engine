@@ -12,6 +12,13 @@ void Camera::SetProjectionValues( float width, float height, float nearZ, float 
 	m_vSizeOfScreen = { width, height };
 	m_vPosition = { m_vSizeOfScreen.x / 2.0f, m_vSizeOfScreen.y / 2.0f };
 	m_mOrthoMatrix = XMMatrixOrthographicOffCenterLH( 0.0f, width, height, 0.0f, nearZ, farZ );
+
+	static bool firstTime = true;
+	if (firstTime)
+	{
+		m_vInitPosition = m_vPosition; 
+		firstTime = false;
+	}
 }
 
 void Camera::SpawnControlWindow()

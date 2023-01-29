@@ -240,6 +240,9 @@
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TileMap\TileMapPaintOnMap.cpp">
+      <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="Collisions\CollisionMatrix.h">
       <Filter>Header Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap\TileMapPaintOnMap.h">
+      <Filter>Header Files\TileMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

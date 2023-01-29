@@ -72,8 +72,9 @@ void Level::CreateUI()
 
 void Level::CreateTileMap()
 {
-    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1 + 10;
-    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize + 10;
+    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1 + m_tileMapPaintOnMap.GetBoarderTilesRows();
+    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize + m_tileMapPaintOnMap.GetBoarderTilesCols();
+    m_tileMapPaintOnMap.Initialize(m_camera, m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
 #ifdef _DEBUG
@@ -88,8 +89,8 @@ void Level::CreateTileMap()
 
 void Level::CreateTileMapDraw()
 {
-    const int startingPosX = -100;
-    const int startingPosY = -100;
+    const int startingPosX = m_tileMapPaintOnMap.GetStartingPosX();
+    const int startingPosY = m_tileMapPaintOnMap.GetStartingPosY();
     const int gapBetweenTiles = 0;
     int colPositionTotalTileLength = startingPosX;
     int rowPositionTotalTileLength = startingPosY;
@@ -216,24 +217,23 @@ void Level::EndFrame_Start()
 
         if ( ImGui::IsWindowHovered() )
         {
+            m_bIsWindowHovered = true;
+
             ImGuiIO& io = ImGui::GetIO();
             Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
             ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
-            m_vFakedPos = new Vector2f( MouseCapture::GetGamePos( io.MousePos, windowPos, vRegionMax, gameSize ) );
-            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, m_vFakedPos);
+            Vector2f* vFakedPos = new Vector2f( MouseCapture::GetGamePos( io.MousePos, windowPos, vRegionMax, gameSize ) );
+            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos);
 
             ImGui::Text("On Screen");
             std::string sFakedMouseText = "Faked Mouse Pos: "
-                " X: " + std::to_string(m_vFakedPos->x) +
-                " Y: " + std::to_string(m_vFakedPos->y);
+                " X: " + std::to_string(vFakedPos->x) +
+                " Y: " + std::to_string(vFakedPos->y);
             ImGui::Text(sFakedMouseText.c_str());
-
-            ImGui::NewLine();
-            float cameraX = m_camera.GetPosition().x;
-            float cameraY = m_camera.GetPosition().y;
-            std::string cameraPos = "X: " + std::to_string(cameraX) +
-                " Y: " + std::to_string(cameraY);
-            ImGui::Text(cameraPos.c_str());
+        }
+        else
+        {
+            m_bIsWindowHovered = false;
         }
     }
     ImGui::End();
@@ -404,38 +404,33 @@ void Level::RemoveEntities()
 void Level::UpdateTileMap(const float dt)
 {
 #if _DEBUG
-    if (m_tileMapEditor.IsDrawOnceAvalible() || m_tileMapEditor.IsDrawContinuousAvalible())
+    if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
     {
-        if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
-        {
-            UpdateTileMapTexture(dt);
-            UpdateTileMapEmpty(dt);
-        }
-        else
-        {
-            UpdateBothTileMaps(dt);
-        }
-
-        m_tileMapEditor.SetDrawOnceDone();
+        UpdateTileMapTexture(dt);
+        UpdateTileMapEmpty(dt);
+    }
+    else
+    {
+        UpdateBothTileMaps(dt);
     }
 
-    static float firstTime = 0;
-
-    if (firstTime >= 3)
+    bool isDrawOnMapAvalible = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered && m_tileMapEditor.IsDrawContinuousAvalible();
+    if (isDrawOnMapAvalible)
     {
-        float cameraX = m_camera.GetPosition().x - 540;
-        float cameraY = m_camera.GetPosition().y - 260;
+        std::string texture = m_tileMapEditor.GetTexture();
+        int pos = m_tileMapPaintOnMap.GetTileMapPos();
 
-        int TileX = (m_vFakedPos->x + cameraX) / 32;
-        int TileY = (m_vFakedPos->y + cameraY - (17 * 2)) / 31.3;
-        int pos = TileX + TileY * 50;
+        m_tileMapEditor.UpdateTileMap(pos);
 
-        std::string texture = "Resources\\Textures\\Tiles\\LILLY.png";
-        m_tileMapDrawLayers[0][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
-        m_tileMapDrawLayers[1][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+        {
+            m_tileMapDrawLayers[0][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
+        else if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+        {
+            m_tileMapDrawLayers[1][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
     }
-    firstTime += dt;
-
 
 #else
     if (m_bMapUpdate)

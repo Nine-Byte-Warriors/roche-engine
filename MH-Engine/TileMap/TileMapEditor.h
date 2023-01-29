@@ -44,6 +44,10 @@ public:
 	TileMapLayer GetTileMapLayer();
 	int GetTileMapLayerInt();
 	int GetTileMapOtherLayerInt();
+
+	std::string GetTexture();
+
+	void UpdateTileMap(int pos);
 private:
 	void Load();
 	bool LoadProcessFile();
@@ -53,10 +57,6 @@ private:
 
 	void TileMapSelectionButtons();
 	void TileMapSelectedText();
-	void TileMapGridPreview();
-	void TileMapGridInit();
-	void UpdateSingleTileMapGridPreview();
-	void UpdateWholeTileMapGridPreview();
   
 	void DrawButton();
 
@@ -81,13 +81,10 @@ private:
 	bool m_bSaveNewButton;
 
 	bool m_bDrawButton;
-	bool m_bDrawOnce;
 	bool m_bDrawContinuous;
 	bool m_bMapUpdated;
 	bool m_bLayerSwitched;
 	bool m_bLoadedFile;
-
-	std::vector<bool> m_bTileMapPreviewImageButton;
 
 	int m_iRows;
 	int m_iColumns;
@@ -95,8 +92,6 @@ private:
 	std::vector<int> m_iUpdatedTileMapTiles;
 
 #if _DEBUG
-	std::vector<ImColor> m_TileMapPreviewImageButtonColor;
-
 	const ImVec2 m_vImageButtonSize = ImVec2(5, 10);
 	const ImVec2 m_vImageButtonFrame0 = ImVec2(5, 5);
 	const ImVec2 m_vImageButtonFrame1 = ImVec2(5, 5);
@@ -107,6 +102,8 @@ private:
 	int m_iSizeOfTileTypeData;
 
 	TileMapLayer m_tileMapLayer;
+
+	std::string m_sTexture;
 };
 
 #endif

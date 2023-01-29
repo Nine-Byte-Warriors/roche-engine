@@ -61,7 +61,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #endif
             level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
-            //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
+            //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront ); //Leave un-commented until you have a map json for the map size you want
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
