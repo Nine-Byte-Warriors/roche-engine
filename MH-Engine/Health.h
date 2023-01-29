@@ -5,7 +5,7 @@
 #include "EventSystem.h"
 
 
-class Health 
+class Health : public Listener
 {
 public:
 	float m_fEnemyCurrentHealth;
@@ -18,13 +18,15 @@ public:
 
 	Health();
 	
+
 	void Initialize();
 
 	void PlayerDamage(float DamageAmount);
-	void EnemyDamage(float DamageAmount);
+	void EnemyDamage(float EnemyHealth, float DamageAmount);
 	void Heal(float HealAmount);
 
-
+	void AddToEvent() noexcept;
+	void HandleEvent(Event* event) override;
 
 };
 

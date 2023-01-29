@@ -2,7 +2,12 @@
 #include "Health.h"
 
 
-Health::Health(){}
+Health::Health()
+{
+	AddToEvent();
+}
+
+
 
 void Health::Initialize()
 {
@@ -27,12 +32,9 @@ void Health::PlayerDamage(float DamageAmount)
 	} //{ Lose Condition }
 	else
 		OutputDebugStringA("Alive");
-	
-	
-	
 }
 
-void Health::EnemyDamage(float DamageAmount)
+void Health::EnemyDamage(float EnemyHealth, float DamageAmount)
 {
 	m_fEnemyCurrentHealth -= DamageAmount;
 
@@ -52,6 +54,24 @@ void Health::Heal(float HealAmount)
 
 	if (m_fPlayerCurrentHealth >= m_fPlayerMaxHealth) m_fPlayerCurrentHealth = m_fPlayerMaxHealth;
 
+}
+
+void Health::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient(EVENTID::PlayerDamage, this);
+	EventSystem::Instance()->AddClient(EVENTID::EnemeyDamage, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayerHeal, this);
+}
+
+void Health::HandleEvent(Event* event)
+{
+	switch (event->GetEventID())
+	{
+	case EVENTID::PlayerDamage: PlayerDamage(1); break;
+	case EVENTID::EnemeyDamage: EnemyDamage(3, 1); break;
+	case EVENTID::PlayerHeal: Heal(1); break;
+	default: break;
+	}
 }
 
 
