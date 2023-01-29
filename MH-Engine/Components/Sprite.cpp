@@ -106,8 +106,8 @@ void Sprite::UpdateBuffers( ID3D11DeviceContext* context )
 {
 	m_cbAnimation.data.Width = m_fWidth;
 	m_cbAnimation.data.Height = m_fHeight;
-	m_cbAnimation.data.Rows = m_iMaxFrameX;
-	m_cbAnimation.data.Columns = m_iMaxFrameY;
+	m_cbAnimation.data.Rows = m_iRows;
+	m_cbAnimation.data.Columns = m_iColumns;
 	m_cbAnimation.data.FrameX = m_iCurFrameX;
 	m_cbAnimation.data.FrameY = m_iCurFrameY;
 	if ( !m_cbAnimation.ApplyChanges() ) return;
@@ -120,7 +120,7 @@ void Sprite::Update( const float dt )
 	while ( m_fCurFrameTime >= m_fHoldTime )
 	{
 		m_iCurFrameX++;
-		if ( m_iCurFrameX >= m_iMaxFrameY )
+		if ( m_iCurFrameX >= m_iMaxFrameX)
 			m_iCurFrameX = 0;
 		m_fCurFrameTime -= m_fHoldTime;
 	}

@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Input.h"
 
+#if _DEBUG
+extern bool g_bDebug;
+#endif
+
 void Input::Initialize( RenderWindow& window )
 {
 	AddToEvent();
     m_renderWindow = window;
-	m_bReadCharInput = false;
-	m_fPlayerHealth = new float( 100.0f );
 
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();
@@ -73,12 +75,12 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_END )
 			DisableCursor();
 
-		// Update player health
-		if ( m_keyboard.KeyIsPressed( 'E' ) )
-			*m_fPlayerHealth -= 10.0f;
-
-		if ( m_keyboard.KeyIsPressed( 'Q' ) )
-			*m_fPlayerHealth = 100.0f;
+#if _DEBUG
+		if ( keycode == VK_F1 )
+			g_bDebug = true;
+		else if ( keycode == VK_F2 )
+			g_bDebug = false;
+#endif
 
         // Close game
         if ( keycode == VK_ESCAPE )
@@ -86,6 +88,7 @@ void Input::UpdateKeyboard( const float dt )
 	}
 
     // Handle continuous key presses
+#if _DEBUG
     if ( m_keyboard.KeyIsPressed( 'W' ) )
         EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
     if ( m_keyboard.KeyIsPressed( 'A' ) )
@@ -94,8 +97,7 @@ void Input::UpdateKeyboard( const float dt )
         EventSystem::Instance()->AddEvent( EVENTID::CameraDown );
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
-
-	EventSystem::Instance()->AddEvent( EVENTID::PlayerHealth, m_fPlayerHealth );
+#endif
 }
 
 void Input::AddToEvent() noexcept

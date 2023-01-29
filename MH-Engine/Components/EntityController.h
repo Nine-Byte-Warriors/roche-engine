@@ -3,6 +3,7 @@
 #define ENTITYCONTROLLER_H
 
 #include "JsonLoading.h"
+#include "EntityAnimation.h"
 
 struct EntityData
 {
@@ -25,10 +26,16 @@ struct EntityData
 	bool collider;
 	bool bProjectilePattern;
 	bool bProjectileBullet;
+	bool animation;
+	std::string animationPath;
+	std::string animationType;
+	int rows;
+	int columns;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, identifier,
 	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet,
-	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet)
+	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
+	animation, rows, columns)
 
 class EntityController
 {
@@ -45,6 +52,11 @@ public:
 	std::vector<float> GetPosition(int num);
 	std::vector<float> GetScale(int num);
 	std::vector<int> GetMaxFrame(int num);
+	std::string GetAnimationFile(int num);
+	std::string GetAnimationType(int num);
+
+	int GetRows(int num);
+	int GetColumns(int num);
 
 	float GetMass(int num);
 	float GetSpeed(int num);
@@ -61,6 +73,7 @@ public:
 	bool HasAI(int num);
 	bool HasProjectileSystem(int num);
 	bool HasCollider(int num);
+	bool HasAnimation(int num);
 
 	bool HasProjectileBullet(int num);
 	bool HasProjectilePattern(int num);

@@ -9,6 +9,7 @@ class Graphics;
 #include "ProjectileManager.h"
 #include "CircleCollider.h"
 #include "Agent.h"
+#include "EntityAnimation.h"
 
 class Entity
 {
@@ -46,8 +47,10 @@ private:
 
 	void UpdatePosition();
 	void UpdateScale();
-	void UpdateFrame();
+	void UpdateAnimation();
 	void UpdateTexture();
+	void SetAnimation();
+	void UpdateRowsColumns();
 
 	void UpdateMass();
 	void UpdateSpeed();
@@ -58,6 +61,7 @@ private:
 
 	void UpdateColliderRadius();
 
+
 	int m_iEntityNum;
 
 	ID3D11Device* m_device;
@@ -67,7 +71,11 @@ private:
 	float m_fScaleY;
 	int m_iMaxFrameX;
 	int m_iMaxFrameY;
+	int m_iCurFrameX;
+	int m_iCurFrameY;
 	std::string m_sTex;
+	int m_iRows;
+	int m_iColumns;
 
 	std::string m_sBulletTex;
 	float m_fBulletScaleX;
@@ -97,6 +105,8 @@ private:
 	std::shared_ptr<BoxCollider> m_colliderBox;
 
 	EntityController* m_entityController;
+
+	EntityAnimation m_animation;
 };
 
 #endif

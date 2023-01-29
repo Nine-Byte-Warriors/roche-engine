@@ -20,7 +20,7 @@ public:
 
 	inline void SetWidgets( const std::vector<Widget>& widgets ) noexcept { m_vWidgets = widgets; }
 	inline void SetScreenSize( XMFLOAT2 size ) noexcept { m_vScreenSize = size; }
-	
+
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
@@ -47,7 +47,7 @@ private:
 	ConstantBuffer<Matrices>* m_cbMatrices;
 	Microsoft::WRL::ComPtr<ID3D11Device> m_pDevice;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_pContext;
-	
+
 	// GitHub link
 	bool m_bOpen = true;
 	bool m_bOpenLink = false;
@@ -62,7 +62,6 @@ private:
 	int m_iSliderStart = 50;
 	int m_iInputIndex = 0;
 	UINT32 m_uLevelTo = 0;
-	float m_fPlayerHealth;
 
 	// Button state textures
 	std::vector<std::string> m_textures =

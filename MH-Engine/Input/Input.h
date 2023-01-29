@@ -23,9 +23,9 @@ private:
 	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
 
-	float* m_fPlayerHealth;
-	bool m_bReadCharInput;
 	std::string m_sKeys;
+
+	bool m_bReadCharInput;
 };
 
 #endif
