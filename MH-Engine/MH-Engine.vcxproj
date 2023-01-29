@@ -316,6 +316,7 @@
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
     <ClCompile Include="TileMap\TileMapLoader.cpp" />
+    <ClCompile Include="TileMap\TileMapPaintOnMap.cpp" />
     <ClCompile Include="UI\UIEditor.cpp" />
     <ClCompile Include="UI\UIScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -460,6 +461,7 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />

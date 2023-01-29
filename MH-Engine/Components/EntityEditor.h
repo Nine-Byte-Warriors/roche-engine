@@ -23,6 +23,9 @@ public:
 	void SetJsonFile( const std::string& name );
 	bool IsPositionLocked();
 
+	std::vector<int> GetEntitiesDeleted();
+	void ClearEntitiesDeleted();
+
 private:
 	void EntityListBox();
 	void EntityWidget();
@@ -98,6 +101,8 @@ private:
 
 	int m_iSelectedIndex = 0;
 	std::vector<std::string> m_projectileList;
+
+	std::vector<int> m_entitiesDeleted;
 };
 
 #endif

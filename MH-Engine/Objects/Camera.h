@@ -22,6 +22,9 @@ public:
 	inline bool GetIsLockedToPlayer() const noexcept { return m_bLockedToPlayer; }
 	inline bool SetIsLockedToPlayer( bool locked ) noexcept { m_bLockedToPlayer = locked; }
 
+	inline XMFLOAT2 GetPosition() noexcept { return m_vPosition; }
+	inline XMFLOAT2 GetInitPosition() noexcept { return m_vInitPosition; }
+
 	void Update( const float dt );
 	void SpawnControlWindow();
 private:
@@ -31,7 +34,7 @@ private:
 
 	float m_fSpeed = 5.0f;
 	bool m_bLockedToPlayer = false;
-	XMFLOAT2 m_vSizeOfScreen, m_vPosition;
+	XMFLOAT2 m_vSizeOfScreen, m_vPosition, m_vInitPosition;
 	XMMATRIX m_mOrthoMatrix, m_mWorldMatrix;
 };
 

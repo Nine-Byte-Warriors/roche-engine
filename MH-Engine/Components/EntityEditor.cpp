@@ -117,8 +117,9 @@ void EntityEditor::AddNewEntity()
 	{
 		EntityData* entityData;
 		entityData = new EntityData();
+		static int nameNum = m_vEntityData.size();
 
-		entityData->name = "Name" + std::to_string(m_vEntityData.size());
+		entityData->name = "Name" + std::to_string(nameNum);
 		entityData->position.push_back(500.0f);
 		entityData->position.push_back(500.0f);
 		entityData->scale.push_back(64.0f);
@@ -138,7 +139,7 @@ void EntityEditor::AddNewEntity()
 		entityData->projectileBullet = "None";
 		entityData->AI = true;
 		entityData->projectileSystem = true;
-		entityData->collider = true;
+		entityData->collider = false;
 		entityData->bProjectilePattern = true;
 		entityData->bProjectileBullet = true;
 		entityData->animationPath = "None";
@@ -149,6 +150,7 @@ void EntityEditor::AddNewEntity()
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
+		nameNum++;
 
 		delete entityData;
 	}
@@ -160,10 +162,32 @@ void EntityEditor::RemoveEntity()
 #if _DEBUG
 	if (ImGui::Button("Remove Entity"))
 	{
+		m_entitiesDeleted.push_back(m_iIdentifier);
 		m_vEntityDataCopy.erase(m_vEntityDataCopy.begin() + m_iIdentifier);
 		m_vEntityData.erase(m_vEntityData.begin() + m_iIdentifier);
+
+		for (int i = 0; i < m_vEntityData.size(); i++)
+		{
+			m_vEntityData[i].identifier = i;
+			m_vEntityDataCopy[i].identifier = i;
+		}
+
 		m_iIdentifier = 0;
 	}
+#endif
+}
+
+void EntityEditor::ClearEntitiesDeleted()
+{
+#if _DEBUG
+	m_entitiesDeleted.clear();
+#endif
+}
+
+std::vector<int> EntityEditor::GetEntitiesDeleted()
+{
+#if _DEBUG
+	return m_entitiesDeleted;
 #endif
 }
 

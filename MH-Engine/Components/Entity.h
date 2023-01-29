@@ -18,6 +18,7 @@ public:
 	~Entity();
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	void SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
 
@@ -36,6 +37,7 @@ public:
 	Vector2f GetPos() { return *m_vPosition; }
 
 	std::string GetType();
+	void UpdateEntityNum(int num);
 
 private:
 	void SetPositionInit();

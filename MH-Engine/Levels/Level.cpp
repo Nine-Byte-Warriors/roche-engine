@@ -73,15 +73,16 @@ void Level::CreateUI()
 
 void Level::CreateTileMap()
 {
-    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1;
-    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize;
+    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1 + m_tileMapPaintOnMap.GetBoarderTilesRows();
+    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize + m_tileMapPaintOnMap.GetBoarderTilesCols();
+    m_tileMapPaintOnMap.Initialize(m_camera, m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
 #ifdef _DEBUG
     m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
-    m_tileMapLoader.LoadLevel("blue.json", "blue.json");
+    m_tileMapLoader.LoadLevel("newFile.json", "newFile.json");
 #endif
 
     CreateTileMapDraw();
@@ -89,9 +90,11 @@ void Level::CreateTileMap()
 
 void Level::CreateTileMapDraw()
 {
-    int colPositionTotalTileLength = 0;
-    int rowPositionTotalTileLength = 0;
+    const int startingPosX = m_tileMapPaintOnMap.GetStartingPosX();
+    const int startingPosY = m_tileMapPaintOnMap.GetStartingPosY();
     const int gapBetweenTiles = 0;
+    int colPositionTotalTileLength = startingPosX;
+    int rowPositionTotalTileLength = startingPosY;
 
     for (int i = 0; i < m_iTileMapLayers; i++)
     {
@@ -111,7 +114,7 @@ void Level::CreateTileMapDraw()
             if (endOfRow)
             {
                 rowPositionTotalTileLength += m_iTileSize + gapBetweenTiles;
-                colPositionTotalTileLength = 0;
+                colPositionTotalTileLength = startingPosX;
             }
 
             float positionWidth = colPositionTotalTileLength;
@@ -125,8 +128,8 @@ void Level::CreateTileMapDraw()
         tileMapDraw->clear();
         delete tileMapDraw;
 
-        colPositionTotalTileLength = 0;
-        rowPositionTotalTileLength = 0;
+        colPositionTotalTileLength = startingPosX;
+        rowPositionTotalTileLength = startingPosY;
     }
 }
 
@@ -210,49 +213,55 @@ void Level::EndFrame_Start()
                 vRegionMax.x + ImGui::GetWindowPos().x,
                 vRegionMax.y + ImGui::GetWindowPos().y );
 
-        ImVec2 vRatio =
-        {
-            m_gfx->GetWidth() / ImGui::GetWindowSize().x,
-            m_gfx->GetHeight() / ImGui::GetWindowSize().y
-        };
+            ImVec2 vRatio =
+            {
+                m_gfx->GetWidth() / ImGui::GetWindowSize().x,
+                m_gfx->GetHeight() / ImGui::GetWindowSize().y
+            };
 
-        bool bIsFitToWidth = vRatio.x < vRatio.y ? true : false;
-        ImVec2 ivMax =
-        {
-            bIsFitToWidth ? m_gfx->GetWidth() / vRatio.y : vRegionMax.x,
-            bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
-        };
+            bool bIsFitToWidth = vRatio.x < vRatio.y ? true : false;
+            ImVec2 ivMax =
+            {
+                bIsFitToWidth ? m_gfx->GetWidth() / vRatio.y : vRegionMax.x,
+                bIsFitToWidth ? vRegionMax.y : m_gfx->GetHeight() / vRatio.x
+            };
 
-        ImVec2 pos = ImGui::GetCursorScreenPos();
-        Vector2f half = { ( ivMax.x - vRegionMax.x ) / 2, ( ivMax.y - vRegionMax.y ) / 2 };
-        ImVec2 vHalfPos = { pos.x - half.x, pos.y - half.y };
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            Vector2f half = { ( ivMax.x - vRegionMax.x ) / 2, ( ivMax.y - vRegionMax.y ) / 2 };
+            ImVec2 vHalfPos = { pos.x - half.x, pos.y - half.y };
 
-        ImVec2 ivMaxPos =
-        {
-            ivMax.x + ImGui::GetWindowPos().x - half.x,
-			ivMax.y + ImGui::GetWindowPos().y - half.y
-        };
+            ImVec2 ivMaxPos =
+            {
+                ivMax.x + ImGui::GetWindowPos().x - half.x,
+			    ivMax.y + ImGui::GetWindowPos().y - half.y
+            };
 
-        ImGui::GetWindowDrawList()->AddImage(
-            (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
-            vHalfPos, ivMaxPos );
+            ImGui::GetWindowDrawList()->AddImage(
+                (void*)m_gfx->GetRenderTargetPP()->GetShaderResourceView(),
+                vHalfPos, ivMaxPos );
 
-        if ( ImGui::IsWindowHovered() )
-        {
-            ImGuiIO& io = ImGui::GetIO();
-            Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
-            ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
-			Vector2f* vFakedPos = new Vector2f(
-                MouseCapture::GetGamePos( io.MousePos,
-                    Vector2f( vHalfPos.x, vHalfPos.y ),
-                    { ivMax.x, ivMax.y - 20.0f }, gameSize ) );
-            EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
+            if ( ImGui::IsWindowHovered() )
+            {
+                ImGuiIO& io = ImGui::GetIO();
+                Vector2f windowPos = Vector2f( ImGui::GetWindowPos().x, ImGui::GetWindowPos().y );
+                ImVec2 gameSize = ImVec2( m_gfx->GetWidth(), m_gfx->GetHeight() );
+			    Vector2f* vFakedPos = new Vector2f(
+                    MouseCapture::GetGamePos( io.MousePos,
+                        Vector2f( vHalfPos.x, vHalfPos.y ),
+                        { ivMax.x, ivMax.y - 20.0f }, gameSize ) );
+                EventSystem::Instance()->AddEvent( EVENTID::ImGuiMousePosition, vFakedPos );
 
                 ImGui::Text("On Screen");
-                std::string sFakedMouseText = "Faked Mouse Pos: "
+                ImGui::SameLine();
+                std::string sFakedMouseText =
                     " X: " + std::to_string(vFakedPos->x) +
                     " Y: " + std::to_string(vFakedPos->y);
                 ImGui::Text(sFakedMouseText.c_str());
+                m_bIsWindowHovered = true;
+            }
+            else
+            {
+                m_bIsWindowHovered = false;
             }
         }
         ImGui::End();
@@ -289,18 +298,6 @@ void Level::Update( const float dt )
 	m_projectileEditor->Update( dt );
     m_collisionHandler.Update();
     m_camera.Update( dt );
-}
-
-void Level::UpdateEntity(const float dt)
-{
-#if _DEBUG
-    UpdateEntityFromEditor(dt);
-#endif
-
-    for (int i = 0; i < m_iEntityAmount; i++)
-    {
-        m_entity[i].Update(dt);
-    }
 }
 
 void Level::UpdateUI( const float dt )
@@ -345,88 +342,124 @@ void Level::UpdateUI( const float dt )
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }
 
-void Level::UpdateEntityFromEditor(const float dt)
+void Level::UpdateEntity(const float dt)
 {
+#if _DEBUG
     m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+#endif
 
     if (m_iEntityAmount < m_entityController.GetSize())
     {
-        for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
-        {
-            Entity* entityPop = new Entity(m_entityController, i);
-            m_entity.push_back(*entityPop);
-            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-            delete entityPop;
-
-            if (m_entityController.HasCollider(i))
-            {
-                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-            }
-
-            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-
-            if (m_entityController.HasProjectileSystem(i))
-            {
-                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
-            }
-        }
-        m_iEntityAmount = m_entityEditor.GetEntityData().size();
-
-        m_entityController.UpdateCopy();
+        AddNewEntity();
     }
     else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
     {
-        m_entity.clear();
-        m_collisionHandler.RemoveAllColliders();
-
-        for (int i = 0; i < m_entityController.GetSize(); i++)
-        {
-            Entity* entityPop = new Entity(m_entityController, i);
-            m_entity.push_back(*entityPop);
-            m_entity[i].Initialize(*m_gfx, m_cbMatrices);
-            delete entityPop;
-
-            if (m_entityController.HasCollider(i))
-            {
-                m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-            }
-
-            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-
-            if (m_entityController.HasProjectileSystem(i))
-            {
-                m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
-            }
-        }
-        m_iEntityAmount = m_entityEditor.GetEntityData().size();
-
-        m_entityController.UpdateCopy();
+        RemoveEntities();
     }
 
+#if _DEBUG
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].UpdateFromEntityData(dt, m_entityEditor.IsPositionLocked());
     }
+#endif
+
+    for (int i = 0; i < m_iEntityAmount; i++)
+    {
+        m_entity[i].Update(dt);
+    }
+}
+
+void Level::AddNewEntity()
+{
+    for (int i = m_iEntityAmount; i < m_entityController.GetSize(); i++)
+    {
+        Entity* entityPop = new Entity(m_entityController, i);
+        m_entity.push_back(*entityPop);
+        m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        delete entityPop;
+
+        if (m_entityController.HasCollider(i))
+        {
+            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        }
+
+        m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+        m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+
+        if (m_entityController.HasProjectileSystem(i))
+        {
+            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+        }
+    }
+
+#if _DEBUG
+    m_iEntityAmount = m_entityEditor.GetEntityData().size();
+#else
+    m_iEntityAmount = m_entityController.GetSize();
+#endif
+    m_entityController.UpdateCopy();
+}
+
+void Level::RemoveEntities()
+{
+#if _DEBUG
+    m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
+#endif
+
+    for (int i = 0; i < m_entitiesDeleted.size(); i++)
+    {
+        m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
+    }
+
+    m_collisionHandler.RemoveAllColliders();
+    m_entitiesDeleted.clear();
+
+    for (int i = 0; i < m_entity.size(); i++)
+    {
+        m_entity[i].UpdateEntityNum(i);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
+        if (m_entityController.HasCollider(i))
+        {
+            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        }
+    }
+
+#if _DEBUG
+    m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    m_entityEditor.ClearEntitiesDeleted();
+#endif
 }
 
 void Level::UpdateTileMap(const float dt)
 {
 #if _DEBUG
-    if (m_tileMapEditor.IsDrawOnceAvalible() || m_tileMapEditor.IsDrawContinuousAvalible())
+    if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
     {
-        if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
-        {
-            UpdateTileMapTexture(dt);
-            UpdateTileMapEmpty(dt);
-        }
-        else
-        {
-            UpdateBothTileMaps(dt);
-        }
+        UpdateTileMapTexture(dt);
+        UpdateTileMapEmpty(dt);
+    }
+    else
+    {
+        UpdateBothTileMaps(dt);
+    }
 
-        m_tileMapEditor.SetDrawOnceDone();
+    bool isDrawOnMapAvalible = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered && m_tileMapEditor.IsDrawContinuousAvalible();
+    if (isDrawOnMapAvalible)
+    {
+        std::string texture = m_tileMapEditor.GetTexture();
+        int pos = m_tileMapPaintOnMap.GetTileMapPos();
+
+        m_tileMapEditor.UpdateTileMap(pos);
+
+        if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+        {
+            m_tileMapDrawLayers[0][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
+        else if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+        {
+            m_tileMapDrawLayers[1][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
     }
 
 #else

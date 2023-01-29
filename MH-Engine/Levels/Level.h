@@ -12,6 +12,7 @@
 #include "TextRenderer.h"
 #include "TileMapEditor.h"
 #include "TileMapLoader.h"
+#include "TileMapPaintOnMap.h"
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
@@ -60,7 +61,8 @@ private:
 	void RenderFrameEntity();
 	void UpdateUI( const float dt );
 	void UpdateEntity(const float dt);
-	void UpdateEntityFromEditor(const float dt);
+	void AddNewEntity();
+	void RemoveEntities();
 
 	// Tile Map
 	void CreateTileMapDraw();
@@ -93,11 +95,18 @@ private:
 	TextRenderer m_textRenderer;
 	TileMapEditor m_tileMapEditor;
 	TileMapLoader m_tileMapLoader;
+	TileMapPaintOnMap m_tileMapPaintOnMap;
 	std::vector<std::vector<TileMapDraw>> m_tileMapDrawLayers;
 	int m_iFirstTimeTileMapDrawBothLayers;
 	const int m_iTileMapLayers = 2;
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;
+
+	std::vector<int> m_entitiesDeleted;
+
+	Vector2f* m_vFakedPos;
+
+	bool m_bIsWindowHovered = false;
 };
 
 #endif
