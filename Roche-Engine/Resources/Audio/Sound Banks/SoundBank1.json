@@ -2,64 +2,41 @@
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
-        "name": "bulletttest",
-        "pitchMax": 1.0989999771118164,
-        "pitchMin": 0.9010000228881836,
-        "randomPitch": true,
-        "volume": 1.0
-    },
-    {
-        "audioType": 0,
-        "filePath": "Resources\\Audio\\quietlaugh.wav",
-        "name": "quietlaugh",
-        "pitchMax": 0.5,
+        "name": "bullettest",
+        "pitchMax": 1.5,
         "pitchMin": 0.5,
         "randomPitch": true,
-        "volume": 1.0
-    },
-    {
-        "audioType": 1,
-        "filePath": "Resources\\Audio\\partymusic.wav",
-        "name": "partymusic",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
+        "tagName": "bulletshot",
         "volume": 1.0
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\pcm-32bit-44khz-mono.wav",
         "name": "pcm-32bit-44khz-mono",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
-        "volume": 1.0
+        "pitchMax": 1.5,
+        "pitchMin": 1.4429999589920044,
+        "randomPitch": true,
+        "tagName": "monosomething",
+        "volume": 0.3230000138282776
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\pcm-32bit-44khz-stereo.wav",
         "name": "pcm-32bit-44khz-stereo",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
+        "pitchMax": 1.5,
+        "pitchMin": 1.4739999771118164,
         "randomPitch": false,
-        "volume": 1.0
+        "tagName": "stereosomething",
+        "volume": 0.1720000058412552
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\piano2.wav",
         "name": "piano2",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
-        "volume": 1.0
-    },
-    {
-        "audioType": 1,
-        "filePath": "Resources\\Audio\\creepymusic.wav",
-        "name": "creepymusic",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
+        "pitchMax": 1.5,
+        "pitchMin": 1.2660000324249268,
+        "randomPitch": true,
+        "tagName": "piano",
         "volume": 1.0
     }
 ]

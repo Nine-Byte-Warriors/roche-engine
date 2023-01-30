@@ -40,6 +40,7 @@ private:
 	void AIWidget();
 	void ProjectileSystemWidget();
 	void ColliderWidget();
+	void AudioWidget();
 
 	//Sprite
 	void SetName();
@@ -65,6 +66,9 @@ private:
 	//Collider
 	void SetColliderShape();
 	void SetColliderSize();
+
+	//Audio
+	void SetSoundBank();
 
 	void SaveButton();
 	void SaveEntity();

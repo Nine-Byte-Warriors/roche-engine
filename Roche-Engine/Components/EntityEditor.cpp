@@ -311,6 +311,25 @@ void EntityEditor::ColliderWidget()
 #endif
 }
 
+//void EntityEditor::AudioWidget()
+//{
+//#if _DEBUG
+//	ImGui::NewLine();
+//	ImGui::Checkbox("Audio", &m_vEntityDataCopy[m_iIdentifier].audio);
+//	if (m_vEntityDataCopy[m_iIdentifier].audio)
+//	{
+//		ImGui::SameLine();
+//		if (ImGui::TreeNode("##Audio"))
+//		{
+//			ImGui::NewLine();
+//			SetSoundBank();
+//
+//			ImGui::TreePop();
+//		}
+//	}
+//#endif
+//}
+
 void EntityEditor::SetName()
 {
 #if _DEBUG
@@ -700,6 +719,18 @@ void EntityEditor::SetColliderSize()
 		lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 	}
+#endif
+}
+
+void EntityEditor::SetSoundBank()
+{
+#if _DEBUG
+	ImGui::Text("Audio");
+
+		// TO DO
+		// Give a listbox with sound banks based on sound bank list loaded in level editor
+
+	ImGui::Text(m_sSelectedFileTex.c_str());
 #endif
 }
 

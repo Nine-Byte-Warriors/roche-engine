@@ -6,13 +6,6 @@
 
 #include "JsonLoading.h"
 
-struct SoundBanksList // these are the lists to hold file paths to different sound bank jsons
-{
-	std::string name;
-	std::string filePath;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
-
 class AudioEditor
 {
 public:

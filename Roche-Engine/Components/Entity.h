@@ -61,6 +61,13 @@ private:
 
 	void UpdateColliderRadius();
 
+	// WIP
+	void UpdateAudio();
+
+
+
+	//
+
 
 	int m_iEntityNum;
 

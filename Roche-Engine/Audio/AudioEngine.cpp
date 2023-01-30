@@ -15,6 +15,11 @@ AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vSF
 	m_vSFXSourceVoiceList = new std::vector<IXAudio2SourceVoice*>;
 }
 
+AudioEngine::~AudioEngine()
+{
+
+}
+
 AudioEngine* AudioEngine::GetInstance()
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
@@ -45,10 +50,6 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 
 	m_iMaxSFXSourceVoicesLimit = maxSFXSourceVoices;
 	m_iMaxMusicSourceVoicesLimit = maxMusicSourceVoices;
-
-	//LoadAudioFromJSON("Resources\\Audio\\Sound Banks\\soundFileList.json");
-	//SaveAudioToJSON(m_vSFXSoundBank, m_vMusicSoundBank, "soundFiles");
-
 }
 
 void AudioEngine::Update()
@@ -69,9 +70,10 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 	// Load Json File from given file path
 	std::vector<JSONSoundFile> soundFileListToLoad;
 	JsonLoading::LoadJson(soundFileListToLoad, loadFilePath);
+
 	// Load audio into Sound Banks
 	for (int i = 0; soundFileListToLoad.size() > i; i++) {
-		LoadAudio(StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType, 
+		LoadAudio(GetFileNameString(loadFilePath), StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType, 
 									soundFileListToLoad.at(i).randomPitch, soundFileListToLoad.at(i).pitchMin, soundFileListToLoad.at(i).pitchMax);
 	}
 }
@@ -83,20 +85,29 @@ void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std
 
 	for (int i = 0; sfxSoundList->size() > i; i++) {
 		name = StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->volume, 0, 
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->tagName, sfxSoundList->at(i)->volume, 0,
 			sfxSoundList->at(i)->randomPitch, sfxSoundList->at(i)->pitchMin, sfxSoundList->at(i)->pitchMax });
 	}
 
 	for (int i = 0; musicSoundList->size() > i; i++) {
 		name = StringHelper::StringToNarrow(musicSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->volume, 1, 
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->tagName, musicSoundList->at(i)->volume, 1,
 			musicSoundList->at(i)->randomPitch, musicSoundList->at(i)->pitchMin, musicSoundList->at(i)->pitchMax });
 	}
 
 	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
 }
 
-HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
+void AudioEngine::LoadSoundBanksList(std::string loadFilePath)
+{
+	std::vector<SoundBanksList> soundBanksList;
+	JsonLoading::LoadJson(soundBanksList, loadFilePath);
+	for (int i = 0; soundBanksList.size() > i; i++) {
+		LoadAudioFromJSON(soundBanksList.at(i).filePath);
+	}
+}
+
+HRESULT AudioEngine::LoadAudio(std::string soundBankName, std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
 {
 	HRESULT hr = S_OK;
 
@@ -156,9 +167,14 @@ HRESULT AudioEngine::LoadAudio(std::wstring filePath, float volume, AudioType au
 	buffer->pAudioData = pDataBuffer;  // buffer containing audio data
 	buffer->Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
 
-	AddToSoundBank(CreateSoundBankFile(filePath, buffer, (WAVEFORMATEX*)wfx, volume, randomPitchEnabled, pitchMinimum, pitchMaximum), GetSoundBank(audioType));
+	AddToSoundBank(CreateSoundBankFile(soundBankName, filePath, buffer, (WAVEFORMATEX*)wfx, volume, randomPitchEnabled, pitchMinimum, pitchMaximum), GetSoundBank(audioType));
 
 	return hr;
+}
+
+HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName)
+{
+	return E_NOTIMPL;
 }
 
 HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
@@ -283,39 +299,47 @@ HRESULT AudioEngine::StopMusic()
 HRESULT AudioEngine::UnloadAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
-
 	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
 
 	for (int i = 0; soundBank->size() > i; i++) {
 		if (fileName == soundBank->at(i)->fileName) {
-			// change this later on change from raw pointers to smart pointers
-			delete soundBank->at(i)->buffer->pAudioData;
-			delete soundBank->at(i)->buffer->pContext;
-			delete soundBank->at(i)->buffer;
-			soundBank->at(i)->buffer = nullptr;
-			delete soundBank->at(i)->sourceFormat;
-			soundBank->at(i)->sourceFormat = nullptr;
-			delete soundBank->at(i);
-			soundBank->at(i) = nullptr;
+			DeleteAudioData(soundBank->at(i));
 			soundBank->erase(soundBank->begin() + i);
 
 			return hr;
 		}
 	}
 
+	hr = S_FALSE;
+	ErrorLogger::Log(hr, "AudioEngine::UnloadAudio: Unsuccessful unload of the audio data");
 	return hr;
+}
+
+void AudioEngine::UnloadAllAudio()
+{
+	StopAllAudio();
+
+	while (m_vMusicSoundBank->size() > 0) {
+		DeleteAudioData(m_vMusicSoundBank->at(0));
+		m_vMusicSoundBank->erase(m_vMusicSoundBank->begin());
+	}
+
+	while (m_vSFXSoundBank->size() > 0) {
+		DeleteAudioData(m_vSFXSoundBank->at(0));
+		m_vSFXSoundBank->erase(m_vSFXSoundBank->begin());
+	}
 }
 
 void AudioEngine::StopAllAudio()
 {
-	for (int i = 0; m_vSFXSourceVoiceList->size() > i; i++) {
+	for (int i = m_vSFXSourceVoiceList->size(); m_vSFXSourceVoiceList->size() < i; i--) {
 		m_vSFXSourceVoiceList->at(i)->DestroyVoice();
 		m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i);
 	}
 
-	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
+	for (int i = m_vSFXSourceVoiceList->size(); m_vMusicSourceVoiceList->size() < i; i--) {
 		m_vMusicSourceVoiceList->at(i)->DestroyVoice();
-		m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->begin() + i);
+		m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->end());
 	}
 }
 
@@ -399,9 +423,22 @@ HRESULT AudioEngine::ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize,
 	return hr;
 }
 
-SoundBankFile* AudioEngine::CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
+void AudioEngine::DeleteAudioData(SoundBankFile* soundBankFile)
+{
+	delete soundBankFile->buffer->pAudioData;
+	delete soundBankFile->buffer->pContext;
+	delete soundBankFile->buffer;
+	soundBankFile->buffer = nullptr;
+	delete soundBankFile->sourceFormat;
+	soundBankFile->sourceFormat = nullptr;
+	delete soundBankFile;
+	soundBankFile = nullptr;
+}
+
+SoundBankFile* AudioEngine::CreateSoundBankFile(std::string soundBankName, std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum)
 {
 	SoundBankFile* soundBankFile = new SoundBankFile();
+	soundBankFile->soundBankName = soundBankName;
 	soundBankFile->fileName = GetFileName(filePath);
 	soundBankFile->buffer = buffer;
 	soundBankFile->sourceFormat = waveformatex;
@@ -434,6 +471,22 @@ std::wstring AudioEngine::GetFileName(std::string filePath)
 	std::filesystem::path fileName(StringHelper::StringToWide(filePath));
 
 	return fileName.stem();
+}
+
+std::string AudioEngine::GetFileNameString(std::wstring filePath)
+{
+	std::filesystem::path fileName(filePath);
+	std::string fileNameString = StringHelper::StringToNarrow(fileName.stem());
+
+	return fileNameString;
+}
+
+std::string AudioEngine::GetFileNameString(std::string filePath)
+{
+	std::filesystem::path fileName(StringHelper::StringToWide(filePath));
+	std::string fileNameString = StringHelper::StringToNarrow(fileName.stem());
+
+	return fileNameString;
 }
 
 std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {

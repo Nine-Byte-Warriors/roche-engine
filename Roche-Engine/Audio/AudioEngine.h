@@ -33,7 +33,9 @@ class VoiceCallback;
 
 struct SoundBankFile
 {
+	std::string soundBankName;
 	std::wstring fileName;
+	std::string tagName;
 	XAUDIO2_BUFFER* buffer;
 	WAVEFORMATEX* sourceFormat;
 	//VoiceCallback* voiceCallback;
@@ -46,13 +48,21 @@ struct SoundBankFile
 struct JSONSoundFile {
 	std::string name;
 	std::string filePath;
+	std::string tagName;
 	float volume;
 	int audioType;
 	bool randomPitch;
 	float pitchMin;
 	float pitchMax;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, name, filePath, volume, audioType, randomPitch, pitchMin, pitchMax);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(JSONSoundFile, name, filePath, tagName, volume, audioType, randomPitch, pitchMin, pitchMax);
+
+struct SoundBanksList // these are the lists to hold file paths to different sound bank jsons
+{
+	std::string name;
+	std::string filePath;
+};
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SoundBanksList, name, filePath)
 
 enum AudioType
 {
@@ -64,6 +74,7 @@ class AudioEngine
 {
 public:
 	AudioEngine();
+	~AudioEngine();
 
 	AudioEngine(AudioEngine& otherEngine) = delete;
 	void operator=(const AudioEngine&) = delete;
@@ -71,31 +82,38 @@ public:
 	static AudioEngine* GetInstance();
 
 	void Initialize(float masterVolume, float musicVolume, float sfxVolume, int maxMusicSourceVoices, int maxSFXSourceVoices);
-	void Update(); // keep it on separate thread
-
+	void Update(); // keep it on separate thread ideally
 
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
 	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName); // JSON Save Function
 
-	HRESULT LoadAudio(std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
+	void LoadSoundBanksList(std::string loadFilePath);
+	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
+	HRESULT PlayAudio(std::string soundBankName, std::string tagName);
 	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
 	HRESULT PauseMusic(); // Pauses ALL music
 	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
 	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType); // Unloading audio from sound bank list
+	void UnloadAllAudio();
 	void StopAllAudio();
 
-	//// Loading Audio stuff
+	// Loading Audio stuff
 	HRESULT FindChunk(HANDLE hFile, DWORD fourcc, DWORD& dwChunkSize, DWORD& dwChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
-	SoundBankFile* CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
+	// Deleting Audio
+	void DeleteAudioData(SoundBankFile* soundBankFile);
+
+	SoundBankFile* CreateSoundBankFile(std::string soundBankName, std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
 	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
 	std::wstring GetFileName(std::wstring filePath);
-	std::wstring GetFileName(std::string filePath); //overload for string
+	std::wstring GetFileName(std::string filePath);
+	std::string GetFileNameString(std::wstring filePath);
+	std::string GetFileNameString(std::string filePath);
 
 	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
-	
+	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
@@ -113,8 +131,6 @@ public:
 	inline void SetPitchMin(SoundBankFile* soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
 	inline void SetPitchMax(SoundBankFile* soundBank, float newPitchMax) { soundBank->pitchMax = newPitchMax; };
 
-	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
-
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;
@@ -126,8 +142,6 @@ private:
 	//TEST
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
-
-	
 
 	std::vector<SoundBankFile*>* m_vMusicSoundBank; // Music Sound Bank
 	std::vector<SoundBankFile*>* m_vSFXSoundBank; // SFX Sound Bank
