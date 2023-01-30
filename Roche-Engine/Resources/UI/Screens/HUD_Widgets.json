@@ -1,6 +1,7 @@
 [
     {
         "action": "Boss Health",
+        "hide": false,
         "name": "Boss Health",
         "position": [
             394.0,
@@ -11,11 +12,11 @@
             106.0
         ],
         "type": "Energy Bar",
-		"zindex": 0,
-		"hide": false
+        "zindex": 0
     },
     {
         "action": "",
+        "hide": false,
         "name": "Boss Icon",
         "position": [
             275.0,
@@ -26,7 +27,96 @@
             100.0
         ],
         "type": "Image",
-		"zindex": 1,
-		"hide": false
+        "zindex": 1
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Carrot Seed Packet",
+        "position": [
+            28.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 2
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Bean Seed Packet",
+        "position": [
+            145.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 3
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Onion Seed Packet",
+        "position": [
+            264.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Cauliflower Seed Packet",
+        "position": [
+            384.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 5
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Potato Seed Packet",
+        "position": [
+            507.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Tomato Seed Packet",
+        "position": [
+            626.0,
+            950.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 7
     }
 ]
