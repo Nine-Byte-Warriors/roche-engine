@@ -1,4 +1,4 @@
-# Roche -Engine- :sunny: :star:
+# Roche Engine :sunny: :star:
 
 This is the repository for the Roche engine that was used to develop Midnight Harvest. Roche is being continually improved and modified to support the creation of more complex games. If you have any suggestions for features or improvements, feel free to reach out to a member of Nine Byte Warriors.
 
