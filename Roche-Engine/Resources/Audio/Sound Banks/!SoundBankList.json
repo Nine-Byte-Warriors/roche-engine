@@ -1,0 +1,18 @@
+[
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\SoundBank1.json",
+        "name": "SoundBank1"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\SoundBank2.json",
+        "name": "SoundBank2"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\SoundBank3.json",
+        "name": "SoundBank3"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\SoundBank4.json",
+        "name": "SoundBank4"
+    }
+]

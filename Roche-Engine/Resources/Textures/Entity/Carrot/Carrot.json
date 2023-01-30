@@ -1,0 +1,25 @@
+{
+  "frameCount": [
+      2,
+      1,
+      1
+  ],
+  "name": "Carrot",
+  "type": [
+      {
+          "alias": "Carrot Running",          
+          "frameTiming": 1.0,
+          "name": "Walk"
+      },
+      {
+          "alias": " Carrot getting hit",
+          "frameTiming": 1.0,
+          "name": "Hit"
+      },
+      {
+          "alias": " Carrot Death",
+          "frameTiming": 1.0,
+          "name": "Death"
+      }
+  ]
+}
