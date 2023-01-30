@@ -1,0 +1,25 @@
+{
+  "frameCount": [
+      2,
+      1,
+      1
+  ],
+  "name": "Cauliflower",
+  "type": [
+      {
+          "alias": "Cauliflower Running",          
+          "frameTiming": 1.0,
+          "name": "Walk"
+      },
+      {
+          "alias": " Cauliflower getting hit",
+          "frameTiming": 1.0,
+          "name": "Hit"
+      },
+      {
+          "alias": " Cauliflower Death",
+          "frameTiming": 1.0,
+          "name": "Death"
+      }
+  ]
+}

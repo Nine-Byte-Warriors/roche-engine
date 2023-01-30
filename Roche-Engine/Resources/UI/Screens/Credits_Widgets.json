@@ -1,0 +1,92 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Title Card",
+        "position": [
+            675.0,
+            293.0
+        ],
+        "scale": [
+            247.0,
+            137.0
+        ],
+        "type": "Input",
+        "zindex": 0
+    },
+    {
+        "action": "Close",
+        "hide": false,
+        "name": "GitHub Link",
+        "position": [
+            500.0,
+            500.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Button",
+        "zindex": 1
+    },
+    {
+        "action": "Start",
+        "hide": false,
+        "name": "Start Game",
+        "position": [
+            500.0,
+            500.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Settings",
+        "position": [
+            500.0,
+            500.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Close",
+        "hide": false,
+        "name": "Quit Game",
+        "position": [
+            600.0,
+            600.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Blank Widget 0",
+        "position": [
+            685.0,
+            152.0
+        ],
+        "scale": [
+            228.0,
+            105.0
+        ],
+        "type": "Input",
+        "zindex": 5
+    }
+]

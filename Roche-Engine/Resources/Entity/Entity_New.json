@@ -1,0 +1,58 @@
+[
+    {
+        "behaviour": "None",
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "identifier": 2,
+        "mass": 21.200000762939453,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "Player",
+        "position": [
+            1099.0,
+            45.0
+        ],
+        "projectileBullet": "Projectile1",
+        "projectilePattern": "None",
+        "scale": [
+            124.0,
+            124.0
+        ],
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "type": "Player"
+    },
+	{
+        "behaviour": "Patrol",
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "identifier": 0,
+        "mass": 10.0,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "PotatoMan",
+        "position": [
+            73.0,
+            80.0
+        ],
+        "projectileBullet": "Projectile1",
+        "projectilePattern": "None",
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
+        "type": "Enemy"
+    }
+]
