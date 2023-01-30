@@ -46,6 +46,15 @@ void Input::UpdateMouse( const float dt )
 				// Left mouse button released
 			}
 		}
+
+		if ( me.GetType() == Mouse::MouseEvent::EventType::WheelUp )
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::IncrementSeedPacket);
+		}
+		else if (me.GetType() == Mouse::MouseEvent::EventType::WheelDown)
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::DecrementSeedPacket);
+		}
     }
 }
 

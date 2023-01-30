@@ -2,43 +2,35 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <iostream>
-#include <string>
 #include "EventSystem.h"
 
-using namespace std;
-
-struct InventoryStruct
+struct UILinker
 {
-	string m_sSeedName;
-	int m_iSeedCount;
+	int m_iSeedIndex;
+	EVENTID m_event;
 };
 
 class Inventory : public Listener
 {
-
 public :
 	Inventory();
 	~Inventory();
 
-	void UpdateInventoryCount(string seedName, int seedChange);
+	void UpdateInventoryCount(std::string seedName, int seedChange);
 	void UpdateCurrentSeedCount(int seedChange);
-	void IncrementCurrentSeed();
-	string GetCurrentSeed();
+	void SetActiveSeedPacket(int index);
 
 private:
 	bool SeedCountCheck(int seedIndex);
 
-public:
 	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-private:
-	int m_numOfSeedOptions;
-	string m_currentSeed;
-	int m_currentSeedIndex;
-	vector<string> m_seedOptions{};
-	vector<InventoryStruct> m_seedInventory{};
+	int m_iCurrentSeed;
+	std::vector<UILinker> m_UISeeds;
+	// seed packet name, seed count per packet
+	std::map<std::string, int> m_seedOptions;
 };
 
 #endif

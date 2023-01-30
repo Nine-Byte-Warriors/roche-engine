@@ -120,13 +120,31 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
-		if ( m_vButtons[i].GetAction() == "Link" )
+		static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
+		for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 		{
-			// GitHub Link
+			if (m_vButtons[i].GetAction() == (SeedStrings[j] + " Background"))
+			{
+				if (m_vButtons[i].Resolve(" ", Colors::White, m_textures, m_mouseData, m_vSelectedSeeds[i]))
+				{
+					m_iCurrentSeed = j;
+					std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
+					m_vSelectedSeeds[m_iCurrentSeed] = true;
+					EventSystem::Instance()->AddEvent(EVENTID::SetActiveSeedPacket, &m_iCurrentSeed);
+				}
+			}
+		}
+
+		if ( m_vButtons[i].GetAction() == "Close" )
+		{
+			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
+				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+		}
+		else if ( m_vButtons[i].GetAction() == "Link" )
+		{
 			if ( m_vButtons[i].Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
 				if ( !m_bOpenLink && m_bOpen )
 					m_bOpenLink = true;
-			m_vButtons[i].Update( dt );
 			if ( !m_vButtons[i].GetIsPressed() )
 				m_bOpen = true;
 			if ( m_bOpenLink )
@@ -136,19 +154,11 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 				m_bOpen = false;
 			}
 		}
-		else if ( m_vButtons[i].GetAction() == "Close" )
-		{
-			// Quit Game
-			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
-				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-			m_vButtons[i].Update( dt );
-		}
 		else
 		{
-			// Default
-			m_vButtons[i].Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
-			m_vButtons[i].Update( dt );
+			m_vButtons[i].Resolve( "", Colors::White, m_textures, m_mouseData );
 		}
+		m_vButtons[i].Update(dt);
 	}
 
 	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
@@ -244,6 +254,18 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else if (m_vImages[i].GetAction() == "Tomato Seed Packet")
 		{
 			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Tomato Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_1")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-1.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_2")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-2.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_3")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-3.png");
 		}
 		else
 		{
@@ -477,6 +499,20 @@ void UIScreen::HandleEvent( Event* event )
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
 		m_bUpdateSlider = true;
+	}
+	break;
+	case EVENTID::IncrementSeedPacket:
+	{
+		m_iCurrentSeed++;
+		std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
+		m_vSelectedSeeds[m_iCurrentSeed] = true;
+	}
+	break;
+	case EVENTID::DecrementSeedPacket:
+	{
+		m_iCurrentSeed--;
+		std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
+		m_vSelectedSeeds[m_iCurrentSeed] = true;
 	}
 	break;
 	}

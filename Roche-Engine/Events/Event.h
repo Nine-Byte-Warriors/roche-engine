@@ -47,6 +47,11 @@ enum class EVENTID
 	BuySeed,
 	ChangeSeed,
 
+	// Inventory
+	SetActiveSeedPacket,
+	IncrementSeedPacket,
+	DecrementSeedPacket,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,

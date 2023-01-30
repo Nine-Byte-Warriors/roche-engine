@@ -54,7 +54,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected )
 {
     m_sText = text;
     m_vTextColor = textColour;
@@ -82,6 +82,12 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     }
 
     // Button state
+	if ( keepSelected )
+	{
+		m_buttonTexture = textures[2];
+		return false;
+	}
+
     switch ( m_buttonState )
     {
     case ButtonState::Default:

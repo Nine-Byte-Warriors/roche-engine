@@ -1,35 +1,5 @@
 [
     {
-        "action": "Boss Health",
-        "hide": false,
-        "name": "Boss Health",
-        "position": [
-            394.0,
-            6.0
-        ],
-        "scale": [
-            420.0,
-            106.0
-        ],
-        "type": "Energy Bar",
-        "zindex": 0
-    },
-    {
-        "action": "",
-        "hide": false,
-        "name": "Boss Icon",
-        "position": [
-            275.0,
-            10.0
-        ],
-        "scale": [
-            100.0,
-            100.0
-        ],
-        "type": "Image",
-        "zindex": 1
-    },
-    {
         "action": "Carrot Seed Packet",
         "hide": false,
         "name": "Carrot Seed Packet",
@@ -42,7 +12,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 2
+        "zindex": 8
     },
     {
         "action": "Bean Seed Packet",
@@ -57,7 +27,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 3
+        "zindex": 10
     },
     {
         "action": "Onion Seed Packet",
@@ -72,7 +42,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 4
+        "zindex": 11
     },
     {
         "action": "Cauliflower Seed Packet",
@@ -87,7 +57,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 5
+        "zindex": 12
     },
     {
         "action": "Potato Seed Packet",
@@ -102,7 +72,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 6
+        "zindex": 13
     },
     {
         "action": "Tomato Seed Packet",
@@ -117,6 +87,141 @@
             100.0
         ],
         "type": "Image",
+        "zindex": 14
+    },
+    {
+        "action": "Heart_1",
+        "hide": false,
+        "name": "Heart_1",
+        "position": [
+            16.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Heart_2",
+        "hide": false,
+        "name": "Heart_2",
+        "position": [
+            96.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
         "zindex": 7
+    },
+    {
+        "action": "Heart_3",
+        "hide": false,
+        "name": "Heart_3",
+        "position": [
+            180.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 9
+    },
+    {
+        "action": "Carrot Background",
+        "hide": false,
+        "name": "Carrot Background",
+        "position": [
+            23.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Bean Background",
+        "hide": false,
+        "name": "Bean Background",
+        "position": [
+            140.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Onion Background",
+        "hide": false,
+        "name": "Onion Background",
+        "position": [
+            261.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "Cauliflower Background",
+        "hide": false,
+        "name": "Cauliflower Background",
+        "position": [
+            379.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 5
+    },
+    {
+        "action": "Potato Background",
+        "hide": false,
+        "name": "Potato Background",
+        "position": [
+            501.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 0
+    },
+    {
+        "action": "Tomato Background",
+        "hide": false,
+        "name": "Tomato Background",
+        "position": [
+            618.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 1
     }
 ]

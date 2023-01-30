@@ -58,6 +58,11 @@ private:
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY, m_fCurrentPY;
 
+	// Inventory data
+	int m_iCurrentSeed = 0;
+	std::vector<bool> m_vSelectedSeeds =
+	{ false, false, false, false, false, false };
+
 	// Widget data
 	int m_iSliderStart = 50;
 	int m_iInputIndex = 0;
