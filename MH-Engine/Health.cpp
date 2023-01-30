@@ -11,7 +11,6 @@ Health::Health()
 
 void Health::Initialize()
 {
-	
 	m_fPlayerMaxHealth = 3;
 	m_fEnemyMaxHealth = 3;
 	m_fPlayerCurrentHealth = m_fPlayerMaxHealth;

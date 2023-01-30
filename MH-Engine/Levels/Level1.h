@@ -20,6 +20,7 @@
 #include "LevelStateMachine.h"
 #include "CollisionHandler.h"
 
+#include "Health.h"
 
 /// <summary>
 /// The first level of the game.
@@ -58,6 +59,8 @@ private:
 	Player m_player;
 	UIEditor m_uiEditor;
 
+	Health m_Health;
+
 	CollisionHandler m_collisionHandler;
 	ConstantBuffer<Matrices> m_cbMatrices;
 #if _DEBUG
@@ -74,6 +77,8 @@ private:
 	std::vector<TileMapDraw> m_tileMapDrawBackground;
 	std::vector<TileMapDraw> m_tileMapDrawForeground;
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
+
+	
 };
 
 #endif

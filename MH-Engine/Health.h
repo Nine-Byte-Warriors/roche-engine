@@ -14,10 +14,7 @@ public:
 	float m_fPlayerMaxHealth;
 	float m_fEnemyMaxHealth;
 
-
-
 	Health();
-	
 
 	void Initialize();
 

@@ -28,8 +28,7 @@ public:
 	inline std::shared_ptr<BoxCollider> GetCollider() const noexcept { return m_collider; };
 	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_pProjectileManager; }
 
-	//test
-	inline std::shared_ptr<Health> GetHealth() const noexcept { return m_Health; };
+
 private:
 	std::shared_ptr <Vector2f> m_vPlayerPos;
 	std::shared_ptr<Sprite> m_sprite;
@@ -38,8 +37,7 @@ private:
 	std::shared_ptr<BoxCollider> m_collider;
 	std::shared_ptr<ProjectileManager> m_pProjectileManager;
 
-	//test 
-	std::shared_ptr<Health> m_Health;
+	
 };
 
 #endif
