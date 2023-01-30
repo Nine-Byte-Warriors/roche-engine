@@ -4,7 +4,7 @@ This is the repository for the Roche engine that was used to develop Midnight Ha
 
 ## Getting Started
 
-Please refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche/wiki) and technical documentation on the various uses of the engine.
+Please refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche-engine/wiki) and technical documentation on the various uses of the engine.
 
 ### Dependencies
 
@@ -32,7 +32,7 @@ Running the application in "Debug" mode will enable the ImGui windows for develo
 
 ## Help
 
-Refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche/wiki), and technical documentation for info regarding the uses of the engine.
+Refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche-engine/wiki), and technical documentation for info regarding the uses of the engine.
 
 If you are experiencing issues with the engine on your feature branch, or fork, be sure to update from the master branch to see if this resolve the issue. Assuming your branch is titled "feat/mybranch," use the following commands to merge the changes from the master branch.
 
