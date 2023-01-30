@@ -73,16 +73,16 @@ void Level::CreateUI()
 
 void Level::CreateTileMap()
 {
-    m_iTileMapRows = (m_gfx->GetHeight() / m_iTileSize) + 1 + m_tileMapPaintOnMap.GetBoarderTilesRows();
-    m_iTileMapColumns = m_gfx->GetWidth() / m_iTileSize + m_tileMapPaintOnMap.GetBoarderTilesCols();
-    m_tileMapPaintOnMap.Initialize(m_camera, m_iTileMapRows, m_iTileMapColumns);
+    m_iTileMapRows =  2 * m_gfx->GetHeight() / m_iTileSize;
+    m_iTileMapColumns = 2 * m_gfx->GetWidth() / m_iTileSize;
+    m_tileMapPaintOnMap.Initialize(m_camera, m_iTileMapRows, m_iTileMapColumns, m_gfx->GetHeight() / 2, m_gfx->GetWidth() / 2);
     m_tileMapLoader.Initialize(m_iTileMapRows, m_iTileMapColumns);
 
 #ifdef _DEBUG
     m_tileMapEditor.Initialize(m_iTileMapRows, m_iTileMapColumns);
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
-    m_tileMapLoader.LoadLevel("newFile.json", "newFile.json");
+    m_tileMapLoader.LoadLevel("67x120file.json", "67x120file.json");
 #endif
 
     CreateTileMapDraw();
@@ -90,8 +90,8 @@ void Level::CreateTileMap()
 
 void Level::CreateTileMapDraw()
 {
-    const int startingPosX = m_tileMapPaintOnMap.GetStartingPosX();
-    const int startingPosY = m_tileMapPaintOnMap.GetStartingPosY();
+    const int startingPosX = 0 - m_gfx->GetWidth() / 2;
+    const int startingPosY = 0 - m_gfx->GetHeight() / 2;
     const int gapBetweenTiles = 0;
     int colPositionTotalTileLength = startingPosX;
     int rowPositionTotalTileLength = startingPosY;
@@ -178,7 +178,7 @@ void Level::RenderFrameEntity()
     }
 }
 
-void Level::RenderFrameTileMap()
+void Level::RenderFrameTileMap() //TODO: make this more efficient, seems to be fine in release
 {
     for (int i = 0; i < m_tileMapDrawLayers.size(); i++)
     {
@@ -437,7 +437,7 @@ void Level::RemoveEntities()
 void Level::UpdateTileMap(const float dt)
 {
 #if _DEBUG
-    if (m_tileMapEditor.GetTileMapLayer() != TileMapLayer::Both)
+    if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
     {
         UpdateTileMapTexture(dt);
         UpdateTileMapEmpty(dt);
@@ -459,7 +459,7 @@ void Level::UpdateTileMap(const float dt)
         {
             m_tileMapDrawLayers[0][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
         }
-        else if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+        else if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Foreground)
         {
             m_tileMapDrawLayers[1][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
         }

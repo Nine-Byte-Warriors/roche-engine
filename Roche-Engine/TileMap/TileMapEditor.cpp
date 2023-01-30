@@ -47,8 +47,8 @@ void TileMapEditor::SpawnControlWindow()
 		SelectTileMapLayer();
 		DrawButton();
 
-		TileMapSelectionButtons();
 		TileMapSelectedText();
+		TileMapSelectionButtons();
 	}
 	ImGui::End();
 }
@@ -123,28 +123,21 @@ void TileMapEditor::Load()
 
 	if (m_bSaveButton)
 	{
-		if (m_tileMapLayer != TileMapLayer::Both)
+		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 		{
-			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+			if (LoadProcessFile())
 			{
-				if (LoadProcessFile())
-				{
-					m_bLoadedFile = true;
-				}
-				else
-				{
-					m_sSelectedFile = "Load Process Failed";
-				}
+				m_bLoadedFile = true;
 			}
 			else
 			{
-				m_sFilePath = m_sSelectedFile;
-				m_sSelectedFile = "Open File Failed";
+				m_sSelectedFile = "Load Process Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Can't Load Both";
+			m_sFilePath = m_sSelectedFile;
+			m_sSelectedFile = "Open File Failed";
 		}
 	}
 }
@@ -180,30 +173,22 @@ void TileMapEditor::SaveToExistingFile()
 
 	if (m_bSaveButton)
 	{
-		if (m_tileMapLayer != TileMapLayer::Both)
+		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 		{
-			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+			if (SaveWriteFile())
 			{
-				if (SaveWriteFile())
-				{
-					m_sSelectedFile += " Save Successful";
-				}
-				else
-				{
-					m_sFilePath = m_sSelectedFile;
-					m_sSelectedFile = "Save Write Failed";
-				}
+				m_sSelectedFile += " Save Successful";
 			}
 			else
 			{
-				m_sSelectedFile = "Open File Failed";
+				m_sFilePath = m_sSelectedFile;
+				m_sSelectedFile = "Save Write Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Can't Save Both";
+			m_sSelectedFile = "Open File Failed";
 		}
-
 	}
 }
 
@@ -216,33 +201,25 @@ void TileMapEditor::SaveToNewFile()
 
 	if (m_bSaveNewButton)
 	{
-		if (m_tileMapLayer != TileMapLayer::Both)
+		if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
 		{
-			if (FileLoading::OpenFileExplorer(m_sSelectedFile, m_sFilePath))
+			const size_t slash = m_sFilePath.find_last_of("/\\");
+			m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + m_cSaveFileName + ".json";
+			if (SaveWriteFile())
 			{
-				const size_t slash = m_sFilePath.find_last_of("/\\");
-				m_sFilePath = m_sFilePath.substr(0, slash) + "\\" + m_cSaveFileName + ".json";
-				if (SaveWriteFile())
-				{
-					m_sSelectedFile = m_cSaveFileName;
-					m_sSelectedFile += ".json";
-					m_sSelectedFile += " Save Successful";
-				}
-				else
-				{
-					m_sSelectedFile = "Save Write Failed";
-				}
+				m_sSelectedFile = m_cSaveFileName;
+				m_sSelectedFile += ".json";
+				m_sSelectedFile += " Save Successful";
 			}
 			else
 			{
-				m_sSelectedFile = "Open File Failed";
+				m_sSelectedFile = "Save Write Failed";
 			}
 		}
 		else
 		{
-			m_sSelectedFile = "Can't Save Both";
+			m_sSelectedFile = "Open File Failed";
 		}
-
 	}
 }
 
@@ -289,7 +266,7 @@ void TileMapEditor::TileMapSelectionButtons()
 
 		ImGui::SameLine();
 		ImGui::Text(m_sTileTypeData[i].name.c_str());
-		if ((i + 1) % (m_iColumns / 2) != 0)
+		if ((i + 1) % 4 != 0)
 		{
 			ImGui::SameLine();
 		}
@@ -327,22 +304,19 @@ void TileMapEditor::TileMapSelectedText()
 
 void TileMapEditor::UpdateTileMap(int pos)
 {
-	if (m_tileMapLayer != TileMapLayer::Both)
+	m_bMapUpdated = true;
+	m_iUpdatedTileMapTiles.push_back(pos);
+	for (int j = 0; j < m_iSizeOfTileTypeData; j++)
 	{
-		m_bMapUpdated = true;
-		m_iUpdatedTileMapTiles.push_back(pos);
-		for (int j = 0; j < m_iSizeOfTileTypeData; j++)
+		if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
 		{
-			if (m_iCurrentSelectedTileType == m_tileMapBackground->GetTileTypeData()[j].type)
+			if (m_tileMapLayer == TileMapLayer::Background)
 			{
-				if (m_tileMapLayer == TileMapLayer::Background)
-				{
-					m_tileMapBackground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
-				}
-				else if (m_tileMapLayer == TileMapLayer::Foreground)
-				{
-					m_tileMapForeground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
-				}
+				m_tileMapBackground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
+			}
+			else if (m_tileMapLayer == TileMapLayer::Foreground)
+			{
+				m_tileMapForeground->UpdateTileFromType(pos, m_tileMapBackground->GetTileTypeData()[j].type);
 			}
 		}
 	}
@@ -353,7 +327,7 @@ void TileMapEditor::SelectTileMapLayer()
 #if _DEBUG
 	ImGui::NewLine();
 	ImGui::Text("Select Tile Map Layer");
-	const char* tileMapLayers[]{ "Background", "Foreground", "Both - Editor Locked" };
+	const char* tileMapLayers[]{ "Background", "Foreground" };
 	if (ImGui::BeginCombo("##SelectTileMapLayer", m_sPreviewMapLayer.c_str()))
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(tileMapLayers); i++)
@@ -374,10 +348,6 @@ void TileMapEditor::SelectTileMapLayer()
 		else if (m_iTileMapLayer == 1)
 		{
 			m_tileMapLayer = TileMapLayer::Foreground;
-		}
-		else
-		{
-			m_tileMapLayer = TileMapLayer::Both;
 		}
 		m_bMapUpdated = true;
 		m_bLayerSwitched = true;

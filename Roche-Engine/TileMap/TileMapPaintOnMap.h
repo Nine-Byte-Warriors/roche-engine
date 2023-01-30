@@ -22,7 +22,7 @@ class TileMapPaintOnMap : public Listener
 public:
 	TileMapPaintOnMap();
 	~TileMapPaintOnMap();
-	void Initialize(Camera& camera, int rows, int cols);
+	void Initialize(Camera& camera, int rows, int cols, int startingPosX, int startingPosY);
 
 	int GetBoarderTilesRows();
 	int GetBoarderTilesCols();
@@ -44,6 +44,9 @@ private:
 	int m_iTileX;
 	int m_iTileY;
 	int m_iPos;
+	
+	int m_iStartingPosX;
+	int m_iStartingPosY;
 
 	bool m_bLeftMouseDown;
 

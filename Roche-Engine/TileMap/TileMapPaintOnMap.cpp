@@ -17,11 +17,14 @@ TileMapPaintOnMap::~TileMapPaintOnMap()
 	RemoveFromEvent();
 }
 
-void TileMapPaintOnMap::Initialize(Camera& camera, int rows, int cols)
+void TileMapPaintOnMap::Initialize(Camera& camera, int rows, int cols, int startingPosY, int startingPosX)
 {
 	m_camera = &camera;
 	m_iRows = rows;
 	m_iCols = cols;
+
+	m_iStartingPosX = startingPosX;
+	m_iStartingPosY = startingPosY;
 
 	m_iSize = m_iRows * m_iCols;
 }
@@ -81,8 +84,8 @@ void TileMapPaintOnMap::HandleEvent(Event* event)
 	{
 	case EVENTID::ImGuiMousePosition:
 	{
-		m_fCameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x - m_tileMapPaint.startingPosX;
-		m_fCameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y - m_tileMapPaint.startingPosY;
+		m_fCameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_iStartingPosX;
+		m_fCameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_iStartingPosY;
 
 		Vector2f mousePos = *static_cast<Vector2f*>(event->GetData());
 		m_iTileX = (mousePos.x + m_fCameraX) / 32;
