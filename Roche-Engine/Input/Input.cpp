@@ -98,6 +98,15 @@ void Input::UpdateKeyboard( const float dt )
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
 #endif
+
+	if (m_keyboard.KeyIsPressed('W'))
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerUp);
+	if (m_keyboard.KeyIsPressed('A'))
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerLeft);
+	if (m_keyboard.KeyIsPressed('S'))
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerDown);
+	if (m_keyboard.KeyIsPressed('D'))
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerRight);
 }
 
 void Input::AddToEvent() noexcept

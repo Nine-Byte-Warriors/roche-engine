@@ -43,6 +43,11 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	TargetPosition,
+	PlayerUp,
+	PlayerDown,
+	PlayerLeft,
+	PlayerRight,
+	PlayerDash,
 
 	// Utility
 	WindowSizeChangeEvent,

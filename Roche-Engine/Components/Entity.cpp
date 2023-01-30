@@ -47,6 +47,9 @@ void Entity::SetComponents()
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
 	}
+
+	if (GetType() == "Player")
+		m_playerMovement = std::make_shared<PlayerMovement>(m_physics.get(), m_fSpeed);
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -239,6 +242,9 @@ void Entity::UpdateSpeed()
 	{
 		m_agent->SetSpeed(m_fSpeed);
 	}
+
+	if(m_playerMovement)
+		m_playerMovement->SetSpeed(m_fSpeed);
 }
 
 void Entity::UpdateBehaviour()
