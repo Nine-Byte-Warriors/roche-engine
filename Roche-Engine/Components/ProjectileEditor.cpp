@@ -72,8 +72,15 @@ void ProjectileEditor::LoadPattern()
 		->StoreDialogResult();	// Store the result.
 
 	// Check if the file object has a file path/name.
-	if (foLoad->HasPath()) 
+	if (foLoad->HasPath())
+	{
 		JsonLoading::LoadJson(m_vecManagers, foLoad->GetFullPath());
+		if (m_vecManagers.size() == 0)
+		{
+			m_sSelectedFile = "Open File Failed";
+			return;
+		}
+	}
 	else
 		m_sSelectedFile = "Open File Failed";
 
