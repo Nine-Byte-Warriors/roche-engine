@@ -1,0 +1,14 @@
+{
+    "frameCount": [
+        1
+    ],
+    "name": "Base Projectile",
+    "type": [
+        {
+            "alias": "Base Projectile walking",          
+            "frameTiming": 1.0,
+            "name": "Walk"
+        }
+    ]
+  }
+  

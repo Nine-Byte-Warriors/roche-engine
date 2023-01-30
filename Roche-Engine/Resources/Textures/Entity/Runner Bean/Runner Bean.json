@@ -1,0 +1,26 @@
+{
+    "frameCount": [
+        2,
+        1,
+        1
+    ],
+    "name": "Runner Bean",
+    "type": [
+        {
+            "alias": "Runner Bean Running",          
+            "frameTiming": 1.0,
+            "name": "Walk"
+        },
+        {
+            "alias": " Runner Bean getting hit",
+            "frameTiming": 1.0,
+            "name": "Hit"
+        },
+        {
+            "alias": " Runner Bean Death",
+            "frameTiming": 1.0,
+            "name": "Death"
+        }
+    ]
+  }
+  

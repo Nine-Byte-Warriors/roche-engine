@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Menu",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "newfile2.json",
+		"tmFront": "newfile2.json",
+		"ui": "Menu.json"
+	},
+	{
+		"name": "Game",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "newfile2.json",
+		"tmFront": "newfile2.json",
+		"ui": "Game.json"
+	},
+	{
+		"name": "Credits",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "newfile2.json",
+		"tmFront": "newfile2.json",
+		"ui": "Credits.json"
+	}
+]
