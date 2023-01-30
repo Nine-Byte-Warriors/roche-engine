@@ -34,7 +34,8 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 	windowRect.top = centerScreenY;
 	windowRect.right = windowRect.left + width;
 	windowRect.bottom = windowRect.top + height;
-	AdjustWindowRect( &windowRect, WS_OVERLAPPEDWINDOW, FALSE);
+	DWORD style = WS_POPUP;//WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME;
+	AdjustWindowRect( &windowRect, style, FALSE );
 
 	// create window
 	m_hWnd = CreateWindow(

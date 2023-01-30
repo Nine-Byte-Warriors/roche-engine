@@ -240,11 +240,11 @@
     <ClCompile Include="Components\EntityAnimation.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Helper\MouseCapture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileMap\TileMapPaintOnMap.cpp">
       <Filter>Source Files\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Helper\MouseCapture.cpp">
+      <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,9 +557,6 @@
     <ClInclude Include="Utility\Rendering\ProjectileData.h">
       <Filter>Header Files\Utility\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\Helper\MouseCapture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Collisions\LayerMask.h">
       <Filter>Header Files\Collisions</Filter>
     </ClInclude>
@@ -574,6 +571,9 @@
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Helper\MouseCapture.h">
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
