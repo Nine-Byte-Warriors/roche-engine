@@ -47,6 +47,10 @@ void Entity::SetComponents()
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
 	}
+	if (m_entityController->GetType(m_iEntityNum) == "Player")
+	{
+		m_inventory = std::make_shared<Inventory>();
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)

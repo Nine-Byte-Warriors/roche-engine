@@ -81,7 +81,12 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
-
+		if (m_keyboard.KeyIsPressed('T'))
+			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
+		if (m_keyboard.KeyIsPressed('Y'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+		if (m_keyboard.KeyIsPressed('U'))
+			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );

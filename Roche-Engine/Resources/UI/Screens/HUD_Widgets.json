@@ -30,7 +30,7 @@
         "zindex": 1
     },
     {
-        "action": "",
+        "action": "Carrot Seed Packet",
         "hide": false,
         "name": "Carrot Seed Packet",
         "position": [
@@ -45,7 +45,7 @@
         "zindex": 2
     },
     {
-        "action": "",
+        "action": "Bean Seed Packet",
         "hide": false,
         "name": "Bean Seed Packet",
         "position": [
@@ -60,7 +60,7 @@
         "zindex": 3
     },
     {
-        "action": "",
+        "action": "Onion Seed Packet",
         "hide": false,
         "name": "Onion Seed Packet",
         "position": [
@@ -75,7 +75,7 @@
         "zindex": 4
     },
     {
-        "action": "",
+        "action": "Cauliflower Seed Packet",
         "hide": false,
         "name": "Cauliflower Seed Packet",
         "position": [
@@ -90,7 +90,7 @@
         "zindex": 5
     },
     {
-        "action": "",
+        "action": "Potato Seed Packet",
         "hide": false,
         "name": "Potato Seed Packet",
         "position": [
@@ -105,7 +105,7 @@
         "zindex": 6
     },
     {
-        "action": "",
+        "action": "Tomato Seed Packet",
         "hide": false,
         "name": "Tomato Seed Packet",
         "position": [
