@@ -205,9 +205,12 @@ void Level::EndFrame_Start()
     {
         // Render imgui windows
         m_imgui->BeginRender();
+        m_imgui->SpawnMenuBar();
+
         ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding, ImVec2( 0.0f, 0.0f ) );
         if ( ImGui::Begin( "Scene Window", FALSE ) )
         {
+
             ImVec2 vRegionMax = ImGui::GetWindowContentRegionMax();
             ImVec2 vImageMax = ImVec2(
                 vRegionMax.x + ImGui::GetWindowPos().x,

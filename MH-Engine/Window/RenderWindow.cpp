@@ -26,21 +26,23 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 
 	RegisterWindowClass();
 
-	int centerScreenX = GetSystemMetrics( SM_CXSCREEN ) / 2 - width / 2;
-	int centerScreenY = GetSystemMetrics( SM_CYSCREEN ) / 2 - height / 2;
+	int centerScreenX = ( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - ( width / 2 );
+	int centerScreenY = ( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - ( height / 2 );
 
 	RECT windowRect;
 	windowRect.left = centerScreenX;
 	windowRect.top = centerScreenY;
 	windowRect.right = windowRect.left + width;
 	windowRect.bottom = windowRect.top + height;
-	AdjustWindowRect( &windowRect, WS_OVERLAPPEDWINDOW, FALSE);
+	//DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME;
+	DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	AdjustWindowRect( &windowRect, style, FALSE );
 
 	// create window
 	m_hWnd = CreateWindow(
 		m_wsWindowClass.c_str(),
 		m_wsWindowTitle.c_str(),
-		WS_OVERLAPPEDWINDOW,
+		style,
 		windowRect.left,
 		windowRect.top,
 		windowRect.right - windowRect.left,
