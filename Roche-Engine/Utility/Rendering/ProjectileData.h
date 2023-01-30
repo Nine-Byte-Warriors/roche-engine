@@ -26,6 +26,8 @@ namespace ProjectileData {
 		float m_fHeight;
 		float m_fDelay;
 		int m_iCount;
+		bool m_bUseGlobalSpeed;
+		float m_fGlobalSpeed;
 		bool m_bLoop;
 		//shapeIdentifier/formation/pattern
 

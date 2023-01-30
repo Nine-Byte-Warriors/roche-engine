@@ -165,6 +165,21 @@ void ProjectileEditor::ShowPattern()
 					.append(std::to_string(iManIndex))
 					.c_str(),
 				&m_vecManagers[iManIndex].m_fHeight, 0.1f, 256.0f);
+
+			ImGui::Checkbox(
+				std::string("Use Global Speed##Man")
+					.append(std::to_string(iManIndex))
+					.c_str(),
+				&m_vecManagers[iManIndex].m_bUseGlobalSpeed);
+
+			if (m_vecManagers[iManIndex].m_bUseGlobalSpeed == true)
+			{
+				ImGui::SliderFloat(
+					std::string("Global Speed##Man")
+						.append(std::to_string(iManIndex))
+						.c_str(),
+					&m_vecManagers[iManIndex].m_fGlobalSpeed, -100.0f, 100.0f);
+			}
 			
 			ImGui::Text(std::string("Count: ").append(std::to_string(m_vecManagers[iManIndex].m_vecProjectiles.size())).c_str());
 			
@@ -298,7 +313,12 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	{
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
 		pManager->SetDelay(m_vecManagers[i].m_fDelay);
-		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
+		pManager->SetProjectilePool(CreateProjectilePool(
+				m_vecManagers[i].m_vecProjectiles, 
+				m_vecManagers[i].m_fGlobalSpeed, 
+				m_vecManagers[i].m_bUseGlobalSpeed)
+		);
+
 		Vector2f vSize = Vector2f(m_vecManagers[i].m_fWidth, m_vecManagers[i].m_fHeight);
 		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath, vSize);
 
@@ -308,13 +328,18 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	SpawnPattern();
 }
 
-std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
 {
 	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
 
 	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
 	{
-		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(
+			bUseGlobalSpeed == true
+			? fGlobalSpeed
+			: pJson.m_fSpeed,
+			pJson.m_fLifeTime
+		);
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
@@ -348,6 +373,8 @@ ProjectileData::ManagerJSON ProjectileEditor::CreateDefaultManager()
 	manager.m_fDelay = 0.0f;
 	manager.m_iCount = 1;
 	manager.m_bLoop = false;
+	manager.m_bUseGlobalSpeed = false;
+	manager.m_fGlobalSpeed = 0.0f;
 
 	manager.m_vecProjectiles.push_back(CreateDefaultProjectile());
 	

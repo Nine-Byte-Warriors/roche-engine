@@ -10,6 +10,7 @@
         "m_sName": "Default Pattern",
         "m_vecProjectiles": [
             {
+				"m_fAccel": 0.0,
                 "m_fAmplitude": 0.0,
                 "m_fAngle": 0.0,
                 "m_fDelay": 0.0,
