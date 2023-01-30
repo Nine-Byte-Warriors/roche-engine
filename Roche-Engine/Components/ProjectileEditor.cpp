@@ -130,7 +130,7 @@ void ProjectileEditor::ShowPattern()
 	if (m_vecManagers.size() < 1)
 		m_vecManagers.push_back(CreateDefaultManager());
 	
-	if(ImGui::Button("Add Pattern"))
+	if(ImGui::Button("Add Manager"))
 		m_vecManagers.push_back(CreateDefaultManager());
 
 	for (int iManIndex = 0; iManIndex < m_vecManagers.size(); iManIndex++)
@@ -138,6 +138,13 @@ void ProjectileEditor::ShowPattern()
 		std::string sManagerTitle = std::string("Manager #").append(std::to_string(iManIndex));
 		if(ImGui::CollapsingHeader(sManagerTitle.c_str()))
 		{
+			msg = "Del Manager #" + std::to_string(iManIndex) + " ##Man" + std::to_string(iManIndex);
+			if (ImGui::Button(msg.c_str()))
+			{
+				m_vecManagers.erase(m_vecManagers.begin() + iManIndex);
+				break;
+			}
+
 			msg = "Pattern " + m_vecManagers[iManIndex].m_sName;
 			ImGui::Text(msg.c_str());
 
