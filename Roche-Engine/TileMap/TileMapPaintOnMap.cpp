@@ -87,7 +87,7 @@ void TileMapPaintOnMap::HandleEvent(Event* event)
 		Vector2f mousePos = *static_cast<Vector2f*>(event->GetData());
 		m_iTileX = (mousePos.x + m_fCameraX) / 32;
 		m_iTileY = (mousePos.y + m_fCameraY) / 32;
-		m_iPos = m_iTileX + m_iTileY * (m_tileMapPaint.boarderTilesCols + 40);
+		m_iPos = m_iTileX + m_iTileY * m_iCols;
 	}
 	break;
 	case EVENTID::LeftMouseClick:

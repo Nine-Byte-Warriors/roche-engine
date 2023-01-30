@@ -19,7 +19,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     }
 
     Application theApp;
-    if ( theApp.Initialize( hInstance, 1280, 720 ) ) // 1760 990
+    if ( theApp.Initialize( hInstance, 1920, 1080 ) ) // 1760 990
     {
         while ( theApp.ProcessMessages() == true )
         {
