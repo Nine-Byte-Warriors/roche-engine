@@ -49,10 +49,7 @@ void Entity::SetComponents()
 	}
 
 	if (GetType() == "Player")
-	{
-		m_playerMovement = std::make_shared<PlayerMovement>(m_physics.get(), m_entityController->GetSpeed(m_iEntityNum));
 		m_playerController = std::make_shared<PlayerController>(this);
-	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -94,6 +91,9 @@ void Entity::Update(const float dt)
 	{
 		m_projectileManager->Update(dt);
 	}
+
+	if (m_playerController)
+		m_playerController->Update(dt);
 }
 
 std::string Entity::GetType()
@@ -245,9 +245,6 @@ void Entity::UpdateSpeed()
 	{
 		m_agent->SetSpeed(m_fSpeed);
 	}
-
-	if(m_playerMovement)
-		m_playerMovement->SetSpeed(m_fSpeed);
 }
 
 void Entity::UpdateBehaviour()

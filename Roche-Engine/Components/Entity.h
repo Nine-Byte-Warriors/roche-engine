@@ -10,8 +10,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "EntityAnimation.h"
-#include <Roche-Engine/PlayerMovement.h>
-#include <Roche-Engine/PlayerController.h>
+#include "PlayerController.h"
 
 class Entity
 {
@@ -105,7 +104,6 @@ private:
 	std::shared_ptr<ProjectileManager> m_projectileManager;
 	std::shared_ptr<CircleCollider> m_colliderCircle;
 	std::shared_ptr<BoxCollider> m_colliderBox;
-	std::shared_ptr<PlayerMovement> m_playerMovement;
 	std::shared_ptr<PlayerController> m_playerController;
 
 	EntityController* m_entityController;
