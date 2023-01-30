@@ -3,12 +3,12 @@
         "action": "Boss Health",
         "name": "Boss Health",
         "position": [
-            400.0,
-            50.0
+            394.0,
+            6.0
         ],
         "scale": [
-            500.0,
-            100.0
+            420.0,
+            106.0
         ],
         "type": "Energy Bar"
     },
@@ -16,8 +16,86 @@
         "action": "",
         "name": "Boss Icon",
         "position": [
-            250.0,
+            275.0,
             10.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Carrot Seed Packet",
+        "name": "Carrot Seed Packet",
+        "position": [
+            68.0,
+            600.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Cauliflower Seed Packet",
+        "name": "Cauliflower Seed Packet",
+        "position": [
+            160.0,
+            600.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Bean Seed Packet",
+        "name": "Bean Seed Packet",
+        "position": [
+            253.0,
+            600.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Onion Seed Packet",
+        "name": "Onion Seed Packet",
+        "position": [
+            346.0,
+            600.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Potato Seed Packet",
+        "name": "Potato Seed Packet",
+        "position": [
+            439.0,
+            600.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image"
+    },
+    {
+        "action": "Tomato Seed Packet",
+        "name": "Tomato Seed Packet",
+        "position": [
+            528.0,
+            600.0
         ],
         "scale": [
             100.0,

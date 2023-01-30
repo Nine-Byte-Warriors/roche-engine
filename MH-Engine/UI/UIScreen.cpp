@@ -198,7 +198,33 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 	{
 		if (m_vImages[i].GetAction() == "Carrot Seed Packet")
 		{
-
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png");
+			m_vImages[i].Update(dt);
+		}
+		else if (m_vImages[i].GetAction() == "Cauliflower Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Cauliflower Seeds.png");
+			m_vImages[i].Update(dt);
+		}
+		else if (m_vImages[i].GetAction() == "Bean Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Bean Seeds.png");
+			m_vImages[i].Update(dt);
+		}
+		else if (m_vImages[i].GetAction() == "Onion Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Onion Seeds.png");
+			m_vImages[i].Update(dt);
+		}
+		else if (m_vImages[i].GetAction() == "Potato Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Potato Seeds.png");
+			m_vImages[i].Update(dt);
+		}
+		else if (m_vImages[i].GetAction() == "Tomato Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Tomato Seeds.png");
+			m_vImages[i].Update(dt);
 		}
 		else
 		{
