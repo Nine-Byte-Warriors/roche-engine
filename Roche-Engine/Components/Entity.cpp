@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "Graphics.h"
 
+#define PI 3.1415
+
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
 	m_vPosition = new Vector2f();
@@ -62,6 +64,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 
 	SetPositionInit();
 	SetScaleInit();
+	UpdateRotation();
 	UpdateBehaviour();
 	UpdateColliderRadius();
 	SetAnimation();
@@ -108,6 +111,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 		UpdatePosition();
 	}
 	UpdateScale();
+	UpdateRotation();
 	UpdateMass();
 	UpdateBehaviour();
 	UpdateSpeed();
@@ -141,6 +145,11 @@ void Entity::SetScaleInit()
 			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 		}
 	}
+}
+
+void Entity::SetHealthInit()
+{
+	m_fHealth = m_entityController->GetHealth(m_iEntityNum);
 }
 
 void Entity::UpdateRowsColumns()
@@ -202,6 +211,12 @@ void Entity::UpdateAnimation()
 			}
 		}
 	}
+}
+
+void Entity::UpdateRotation()
+{
+	m_fRotation = m_entityController->GetRotation(m_iEntityNum) * PI / 4;
+	m_transform->SetRotation(m_fRotation);
 }
 
 void Entity::UpdateTexture()
