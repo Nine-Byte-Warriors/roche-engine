@@ -19,7 +19,7 @@ void Level1::OnCreate()
         m_player.GetTransform()->SetPositionInit( m_gfx->GetWidth() * 0.55f, m_gfx->GetHeight() / 2 );
         m_player.GetTransform()->SetScaleInit( m_player.GetSprite()->GetWidth(), m_player.GetSprite()->GetHeight() );
 
-        m_Health.Initialize();
+        
       
         OnCreateEntity();
 
