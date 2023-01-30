@@ -27,7 +27,7 @@ public :
 	string GetCurrentSeed();
 
 private:
-	bool SeedCountCheck(int seedIndex, int amountToChange);
+	bool SeedCountCheck(int seedIndex);
 
 public:
 	void AddToEvent() noexcept;
@@ -37,7 +37,7 @@ private:
 	int m_numOfSeedOptions;
 	string m_currentSeed;
 	int m_currentSeedIndex;
-	string m_seedOptions[6];
+	vector<string> m_seedOptions{};
 	vector<InventoryStruct> m_seedInventory{};
 };
 

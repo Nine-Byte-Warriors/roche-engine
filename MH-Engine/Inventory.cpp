@@ -4,23 +4,21 @@
 Inventory::Inventory()
 {
 	AddToEvent();
-	
-	m_seedOptions[0] = {"Bean"};
-	m_seedOptions[1] = { "Carrot" };
-	m_seedOptions[2] = { "Cauliflower" };
-	m_seedOptions[3] = { "Onion" };
-	m_seedOptions[4] = { "Potato" };
-	m_seedOptions[5] = { "Tomato" };
+	m_seedOptions.push_back("Bean");
+	m_seedOptions.push_back("Carrot");
+	m_seedOptions.push_back("Cauliflower");
+	m_seedOptions.push_back("Onion");
+	m_seedOptions.push_back("Potato");
+	m_seedOptions.push_back("Tomato");
 
-	for (int i = 0; i < ARRAYSIZE(m_seedOptions); i++)
-	{
-		m_seedInventory.push_back({m_seedOptions[i],0});
-	}
-
-	m_numOfSeedOptions = ARRAYSIZE(m_seedOptions);
+	m_numOfSeedOptions = m_seedOptions.size();
 	m_currentSeedIndex = 0;
 	m_currentSeed = m_seedOptions[m_currentSeedIndex];
-	
+
+	for (int i = 0; i < m_numOfSeedOptions; i++)
+	{
+		m_seedInventory.push_back({ m_seedOptions[i],0 });
+	}
 }
 Inventory::~Inventory()
 {
@@ -35,8 +33,16 @@ void Inventory::UpdateInventoryCount(string seedName, int amountToChange)
 	{
 		if (seedName == m_seedInventory[i].m_sSeedName)
 		{
-			if(SeedCountCheck(i,amountToChange))
+			if (amountToChange > 0)
+			{
 				m_seedInventory[i].m_iSeedCount += amountToChange;
+				OutputDebugStringA("Seed Added ");
+			}
+			else if(SeedCountCheck(i))
+			{
+				m_seedInventory[i].m_iSeedCount += amountToChange;
+				OutputDebugStringA("Seed removed ");
+			}
 		}
 	}
 }
@@ -53,7 +59,7 @@ void Inventory::IncrementCurrentSeed()
 		m_currentSeedIndex = 0;
 
 	m_currentSeed = m_seedOptions[m_currentSeedIndex];
-	OutputDebugStringA("Change seed");
+	OutputDebugStringA("Change seed\n");
 	//apply change to ui
 
 }
@@ -63,13 +69,13 @@ string Inventory::GetCurrentSeed()
 	return m_currentSeed;
 }
 
-bool Inventory::SeedCountCheck(int seedIndex, int amountToChange)
+bool Inventory::SeedCountCheck(int seedIndex)
 {
-	if (m_seedInventory[seedIndex].m_iSeedCount + amountToChange >= 0)
+	if (m_seedInventory[seedIndex].m_iSeedCount> 0)
 	{
 		return true;
 	}
-	OutputDebugStringA("No seed");
+	OutputDebugStringA("No seed ");
 	return false;
 }
 
