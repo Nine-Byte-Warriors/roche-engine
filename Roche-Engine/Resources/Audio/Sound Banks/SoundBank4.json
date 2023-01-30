@@ -1,0 +1,29 @@
+[
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\bullettest.wav",
+        "name": "bulletttest",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": true,
+        "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\quietlaugh.wav",
+        "name": "quietlaugh",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": true,
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\partymusic.wav",
+        "name": "partymusic",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "volume": 1.0
+    }
+]

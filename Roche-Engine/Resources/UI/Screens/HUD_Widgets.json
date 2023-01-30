@@ -1,0 +1,32 @@
+[
+    {
+        "action": "Boss Health",
+        "name": "Boss Health",
+        "position": [
+            400.0,
+            50.0
+        ],
+        "scale": [
+            500.0,
+            100.0
+        ],
+        "type": "Energy Bar",
+		"zindex": 0,
+		"hide": false
+    },
+    {
+        "action": "",
+        "name": "Boss Icon",
+        "position": [
+            250.0,
+            10.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+		"zindex": 1,
+		"hide": false
+    }
+]

@@ -1,0 +1,47 @@
+[
+    {
+        "action": "",
+        "name": "Background",
+        "position": [
+            600.0,
+            200.0
+        ],
+        "scale": [
+            128.0,
+            72.0
+        ],
+        "type": "Image",
+		"zindex": 0,
+		"hide": false
+    },
+    {
+        "action": "Link",
+        "name": "GitHub Link",
+        "position": [
+            600.0,
+            400.0
+        ],
+        "scale": [
+            128.0,
+            72.0
+        ],
+        "type": "Button",
+		"zindex": 1,
+		"hide": false
+    },
+    {
+        "action": "Close",
+        "name": "Quit Game",
+        "position": [
+            600.0,
+            600.0
+        ],
+        "scale": [
+            128.0,
+            72.0
+        ],
+        "type": "Button",
+		"zindex": 2,
+		"hide": false
+    }
+]
