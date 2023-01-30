@@ -3,11 +3,11 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
         "name": "bullettest",
-        "pitchMax": 1.5,
-        "pitchMin": 0.5,
+        "pitchMax": 1.25,
+        "pitchMin": 0.75,
         "randomPitch": true,
         "tagName": "bulletshot",
-        "volume": 1.0
+        "volume": 0.8799999952316284
     },
     {
         "audioType": 0,
