@@ -49,7 +49,10 @@ void Entity::SetComponents()
 	}
 
 	if (GetType() == "Player")
+	{
 		m_playerMovement = std::make_shared<PlayerMovement>(m_physics.get(), m_entityController->GetSpeed(m_iEntityNum));
+		m_playerController = std::make_shared<PlayerController>(this);
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
