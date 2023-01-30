@@ -17,13 +17,17 @@ public:
 	~ImGuiManager();
 	void Initialize( HWND hWnd, ID3D11Device* device, ID3D11DeviceContext* context ) const noexcept;
 	void BeginRender() const noexcept;
+	void SpawnMenuBar() noexcept;
 	void EndRender() const noexcept;
 
-	bool IsPressedInsideSceneWindow(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
-	Vector2f SceneWindowToGameWindowPositionConversion(int inputX, int inputY, int viewX, int viewY, int viewWidth, int viewHeight, int gameWidth, int gameHeight);
-
 private:
-	void SetBlackGoldStyle();
+	void SpawnInfoWindow() noexcept;
+	void SpawnControlsWindow() noexcept;
+
+	void SetBlackGoldStyle() noexcept;
+	void SetFuturisticStyle() noexcept;
+	void SetDraculaStyle() noexcept;
+
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
