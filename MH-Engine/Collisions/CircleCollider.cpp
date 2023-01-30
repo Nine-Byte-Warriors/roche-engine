@@ -20,12 +20,12 @@ Vector2f CircleCollider::ClosestSurfacePoint(Vector2f point)
     return result;
 }
 
-bool CircleCollider::ToBox(BoxCollider* box) noexcept
+bool CircleCollider::ToBox(BoxCollider& box) noexcept
 {
     Vector2f circlePos = m_transform->GetPosition();
-    Vector2f closestPoint = box->ClosestPoint(circlePos);
+    Vector2f closestPoint = box.ClosestPoint(circlePos);
 
-    int distance = (circlePos - closestPoint).Magnitude();
+    float distance = (circlePos - closestPoint).Magnitude();
 
     if (distance < m_radius)
         return true;
@@ -33,11 +33,11 @@ bool CircleCollider::ToBox(BoxCollider* box) noexcept
     return false;
 }
 
-bool CircleCollider::ToCircle(CircleCollider* circle) noexcept
+bool CircleCollider::ToCircle(CircleCollider& circle) noexcept
 {
-    int radiusSum = m_radius + circle->GetRadius();
-    int distance = Vector2f(m_transform->GetPosition().x - circle->GetTransform()->GetPosition().x,
-                            m_transform->GetPosition().y - circle->GetTransform()->GetPosition().y).Magnitude();
+    float radiusSum = m_radius + circle.GetRadius();
+    float distance = Vector2f(m_transform->GetPosition().x - circle.GetTransform()->GetPosition().x,
+                            m_transform->GetPosition().y - circle.GetTransform()->GetPosition().y).Magnitude();
 
     if (distance < radiusSum)
         return true;
@@ -49,7 +49,7 @@ bool CircleCollider::ToPoint(Vector2f point) noexcept
 {
     Vector2f circlePos = m_transform->GetPosition();
 
-    int distance = (circlePos - point).Magnitude();
+    float distance = (circlePos - point).Magnitude();
 
     if (distance < m_radius)
         return true;
@@ -57,66 +57,55 @@ bool CircleCollider::ToPoint(Vector2f point) noexcept
     return false;
 }
 
-void CircleCollider::Resolution(Collider* collider) noexcept
+void CircleCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 {
     if (m_isTrigger)
         return;
 
-    Vector2f newPos = m_transform->GetPosition();
-    Vector2f lastValidPos = m_lastValidPosition;
-    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
 
-    bool changeXValue = false;
-    bool changeYValue = false;
+    Vector2f position = m_transform->GetPosition();
+    Vector2f newPos = position;
 
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
     {
-        //Change the position on the x or y axis or both to move collider out of the other
+        Vector2f closestPoint = ClosestSurfacePoint(collider->GetTransform()->GetPosition());
+        bool changeXValue = false;
+        bool changeYValue = false;
 
-        changeXValue = !collider->ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
-        changeYValue = !collider->ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+        auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
+        BoxCollider box = *boxPtr;
+
+        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+        changeXValue = !box.ToPoint(shiftedY);
+        changeYValue = !box.ToPoint(shiftedX);
 
         //change gameobjects position on either the x or y axis
         if (changeXValue)
         {
-            newPos.x = lastValidPos.x;
+            newPos.x = m_lastValidPosition.x;
         }
         //if changing the x works
         else if (changeYValue)
         {
-            newPos.y = lastValidPos.y;
+            newPos.y = m_lastValidPosition.y;
         }
         else if (changeXValue && changeYValue)
         {
-            newPos = lastValidPos;
+            newPos = m_lastValidPosition;
         }
 
         break;
     }
     case ColliderType::Circle:
     {
+        auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+        CircleCollider circle = *circlePtr;
+        circle.SetRadius(circle.GetRadius() + m_radius);
 
-        //Change the position on the x or y axis or both to move collider out of the other
-        changeXValue = !collider->ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
-        changeYValue = !collider->ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
-
-        //change gameobjects position on either the x or y axis
-        if (changeXValue)
-        {
-            newPos.x = lastValidPos.x;
-        }
-        //if changing the x works
-         else if (changeYValue)
-        {
-            newPos.y = lastValidPos.y;
-        }
-        else if (changeXValue && changeYValue)
-        {
-            newPos = lastValidPos;
-        }
-
+        newPos = circle.ClosestPoint(m_transform->GetPosition());
         break;
     }
     }
@@ -124,14 +113,19 @@ void CircleCollider::Resolution(Collider* collider) noexcept
     m_transform->SetPosition(newPos);
 }
 
-bool CircleCollider::CollisionCheck(Collider* collider) noexcept
+bool CircleCollider::CollisionCheck(std::shared_ptr<Collider> collider) noexcept
 {
+    if (CheckBlackList(collider) == true)
+    {
+        return false;
+    }
+
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
-        return ToBox((BoxCollider*)collider);
+        return ToBox(*std::dynamic_pointer_cast<BoxCollider>(collider));
     case ColliderType::Circle:
-        return ToCircle((CircleCollider*)collider);
+        return ToCircle(*std::dynamic_pointer_cast<CircleCollider>(collider));
     }
 
     return false;

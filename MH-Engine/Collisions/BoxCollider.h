@@ -9,7 +9,7 @@ class BoxCollider : public Collider
 {
 public:
     BoxCollider() { m_type = ColliderType::Box; };
-    BoxCollider(std::shared_ptr<Transform> transform, int width, int height) : m_width(width), m_height(height) { m_transform = transform;/*m_tf->SetPosition(Vector2f(x, y));*/ m_type = ColliderType::Box; }
+    BoxCollider(std::shared_ptr<Transform> transform, float width, float height) : m_width(width), m_height(height) { m_transform = transform; m_type = ColliderType::Box; }
 
 private:
     //position is from the center
@@ -26,13 +26,13 @@ public:
 
 
     //Collision Checks
-    bool ToBox(BoxCollider* box) noexcept override;
-    bool ToCircle(CircleCollider* circle) noexcept override;
+    bool ToBox(BoxCollider& box) noexcept override;
+    bool ToCircle(CircleCollider& circle) noexcept override;
     bool ToPoint(Vector2f point) noexcept override;
-    bool CollisionCheck(Collider* collider) noexcept override;
+    bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept override;
 
 
-    void Resolution(Collider* collider) noexcept override;
+    void Resolution(std::shared_ptr<Collider> collider) noexcept override;
 };
 
 #endif

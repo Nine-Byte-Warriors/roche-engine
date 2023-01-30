@@ -45,6 +45,8 @@ protected:
     std::vector<std::function<void(Collider&)>> m_onEnterCallbacks;
     std::vector<std::function<void(Collider&)>> m_onLeaveCallbacks;
 
+    std::vector<std::shared_ptr<Collider>> m_blackList;
+
 public:
     //Helpers
     float Clamp(float min, float max, float value);
@@ -76,13 +78,13 @@ public:
     virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
 
     //Collision Checks
-    virtual bool ToBox(BoxCollider* box) noexcept { return false; }
-    virtual bool ToCircle(CircleCollider* circle) noexcept { return false; }
+    virtual bool ToBox(BoxCollider& box) noexcept { return false; }
+    virtual bool ToCircle(CircleCollider& circle) noexcept { return false; }
     virtual bool ToPoint(Vector2f point) noexcept { return false; }
-    virtual bool CollisionCheck(Collider* collider) noexcept { return false; }
+    virtual bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept { return false; }
 
     //Collision Resolution
-    virtual void Resolution(Collider* collider) noexcept {}
+    virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {}
 
     //Events
     //example of use td::function<void(Collider&)> f = std::bind(&Player::foo, this, std::placeholders::_1);
@@ -101,6 +103,12 @@ public:
 
     void Update();
 
+    //Blacklist ignore specific colliders
+    inline void AddToBlackList(std::shared_ptr<Collider> collider) { m_blackList.push_back(collider); };
+    inline std::vector<std::shared_ptr<Collider>> GetBlackList() { return m_blackList; };
+    inline void RemoveBlackListEntry(int element) { m_blackList.erase(m_blackList.begin() + element); }
+    inline void ClearBlackList() { m_blackList.clear(); };
+    bool CheckBlackList(std::shared_ptr<Collider> collider);
 
 };
 

@@ -21,12 +21,12 @@ public:
     Vector2f ClosestSurfacePoint(Vector2f point) ;
 
     //Collision Checks
-    bool ToBox(BoxCollider* box) noexcept override;
-    bool ToCircle(CircleCollider* circle) noexcept override;
+    bool ToBox(BoxCollider& box) noexcept override;
+    bool ToCircle(CircleCollider& circle) noexcept override;
     bool ToPoint(Vector2f point) noexcept override;
-    bool CollisionCheck(Collider* collider) noexcept override;
+    bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept override;
 
     //Resolution
-    void Resolution(Collider* collider) noexcept override;
+    void Resolution(std::shared_ptr<Collider> collider) noexcept override;
 };
 #endif

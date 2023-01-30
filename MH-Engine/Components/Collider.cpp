@@ -11,6 +11,7 @@ Collider::Collider(Collider& col)
     m_layer = col.m_layer;
     m_transform = col.m_transform;
     m_type = col.m_type;
+    m_blackList = col.m_blackList;
 }
 
 float Collider::Clamp(float min, float max, float value)
@@ -133,4 +134,21 @@ void Collider::Update()
     RemoveDuplicateElements<std::shared_ptr<Collider>>(m_curCollisions);
     ManageCollisions();
     ProcessCollisions();
+}
+
+bool Collider::CheckBlackList(std::shared_ptr<Collider> collider)
+{
+    if (m_blackList.size() == 0)
+    {
+        return false;
+    }
+
+    for (int i = 0; i < m_blackList.size(); i++)
+    {
+        if (m_blackList[i].get() == collider.get())
+        {
+            return true;
+        }
+    }
+    return false;
 }

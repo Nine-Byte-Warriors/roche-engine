@@ -14,40 +14,37 @@ Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition) noexcept
 Vector2f BoxCollider::ClosestSurfacePoint(Vector2f point) noexcept
 {
     Vector2f position = m_transform->GetPosition();
+    float halfWidth = (m_width / 2);
+    float halfHeight = (m_height / 2);
+    float scalar = Vector2f(halfWidth, halfHeight).Length();
 
-    Vector2f direction = (point - position).Normalised();
-    Vector2f projectedVector;
 
-    if (m_width > m_height)
-    {
-        projectedVector = position + direction.Multiply(m_width);
-    }
-    else
-    {
-        projectedVector = position + direction.Multiply(m_height);
-    }
+    Vector2f distance = point - position;
+    Vector2f direction = distance.Normalised();
+    Vector2f scaledVector = position + direction.Multiply(scalar);
 
-    float surfacePointx = Clamp((position.x - m_width), (position.x + m_width), projectedVector.x);
-    float surfacePointy = Clamp((position.y - m_height), (position.x + m_height), projectedVector.y);
+    Vector2f surfacePoint;
+    surfacePoint.x = Clamp((position.x - halfWidth), (position.x + halfWidth), scaledVector.x);
+    surfacePoint.y = Clamp((position.y - halfHeight), (position.y + halfHeight), scaledVector.y);
 
-    Vector2f surfacePoint = Vector2f(surfacePointx, surfacePointy);
+
     return surfacePoint;
 }
 
-bool BoxCollider::ToBox(BoxCollider* box) noexcept
+bool BoxCollider::ToBox(BoxCollider& box) noexcept
 {
     float box1HalfWidth = (m_width / 2);
     float box1HalfHeight = (m_height / 2);
-
+    
     float box2HalfWidth = (m_width / 2);
     float box2HalfHeight = (m_height / 2);
-    Transform& box2Tf = *box->GetTransform();
+    Vector2f box2Pos = box.GetTransform()->GetPosition();
 
     Vector2f box1Min(m_transform->GetPosition().x - box1HalfWidth, m_transform->GetPosition().y - box1HalfHeight);
     Vector2f box1Max(m_transform->GetPosition().x + box1HalfWidth, m_transform->GetPosition().y + box1HalfHeight);
 
-    Vector2f box2Min(box2Tf.GetPosition().x - box1HalfWidth, box2Tf.GetPosition().y - box2HalfHeight);
-    Vector2f box2Max(box2Tf.GetPosition().x + box1HalfWidth, box2Tf.GetPosition().y + box2HalfHeight);
+    Vector2f box2Min(box2Pos.x - box1HalfWidth, box2Pos.y - box2HalfHeight);
+    Vector2f box2Max(box2Pos.x + box1HalfWidth, box2Pos.y + box2HalfHeight);
 
     if (box1Min.x < box2Max.x &&
         box1Max.x > box2Min.x &&
@@ -58,14 +55,14 @@ bool BoxCollider::ToBox(BoxCollider* box) noexcept
     return false;
 }
 
-bool BoxCollider::ToCircle(CircleCollider* circle) noexcept
+bool BoxCollider::ToCircle(CircleCollider& circle) noexcept
 {
-    Vector2f circlePos = circle->GetTransform()->GetPosition();
+    Vector2f circlePos = circle.GetTransform()->GetPosition();
     Vector2f closestPoint = ClosestPoint(circlePos);
 
-    int distance = (circlePos - closestPoint).Magnitude();
+    float distance = (circlePos - closestPoint).Magnitude();
 
-    if (distance < circle->GetRadius())
+    if (distance < circle.GetRadius())
         return true;
 
     return false;
@@ -89,74 +86,68 @@ bool BoxCollider::ToPoint(Vector2f point) noexcept
 }
 
 
-void BoxCollider::Resolution(Collider*  collider) noexcept
+void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 {
     if (m_isTrigger)
         return;
 
-    Vector2f newPos = m_transform->GetPosition();
+    Vector2f position = m_transform->GetPosition();
+    Vector2f newPos = position;
+    Vector2f closestPoint = ClosestSurfacePoint(collider->GetTransform()->GetPosition());
 
     bool changeXValue = false;
     bool changeYValue = false;
-    Vector2f lastValidPos = m_lastValidPosition;
 
-    Vector2f closestPoint = ClosestPoint(collider->GetTransform()->GetPosition());
+
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
     {
-        BoxCollider* box = (BoxCollider*)collider;
-        BoxCollider temp = *box;
-        float width = temp.GetWidth();
-        float height = temp.GetHeight();
-
-        temp.SetHeight(height + (m_height/2));
-        temp.SetWidth(width + (m_width / 2));
-        Vector2f position = m_transform->GetPosition();
-
-        newPos = ClosestSurfacePoint(m_transform->GetPosition());//
-
-        changeXValue = !ToPoint(Vector2f(lastValidPos.x, m_transform->GetPosition().x));
-        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
+        auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
+        BoxCollider box = *boxPtr;
+        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+        changeXValue = !box.ToPoint(shiftedY);
+        changeYValue = !box.ToPoint(shiftedX);
         break;
     }
     case ColliderType::Circle:
     {
-        //Change the position on the x or y axis or both to move collider out of the other
-
-        changeXValue = !ToPoint(Vector2f(lastValidPos.x, closestPoint.y));
-        changeYValue = !ToPoint(Vector2f(closestPoint.x, lastValidPos.y));
-
+        auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+        CircleCollider circle = *circlePtr;
+        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+        changeXValue = !circle.ToPoint(shiftedY);
+        changeYValue = !circle.ToPoint(shiftedX);
         break;
     }
     }
-
+    
     //change gameobjects position on either the x or y axis
     if (changeXValue)
     {
-        newPos.x = lastValidPos.x;
+        newPos.x = m_lastValidPosition.x;
     }
     //if changing the x works
     else if (changeYValue)
     {
-        newPos.y = lastValidPos.y;
+        newPos.y = m_lastValidPosition.y;
     }
-    else if (changeXValue && changeYValue)
+    else if(changeXValue && changeYValue)
     {
-        newPos = lastValidPos;
+        newPos = m_lastValidPosition;
     }
+
     m_transform->SetPosition(newPos);
-
-
 }
-bool BoxCollider::CollisionCheck(Collider* collider) noexcept
+bool BoxCollider::CollisionCheck(std::shared_ptr<Collider> collider) noexcept
 {
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
-        return ToBox((BoxCollider*)collider);
+        return ToBox(*std::dynamic_pointer_cast<BoxCollider>(collider));
     case ColliderType::Circle:
-        return ToCircle((CircleCollider*)collider);
+        return ToCircle(*std::dynamic_pointer_cast<CircleCollider>(collider));
     }
 
     return false;
