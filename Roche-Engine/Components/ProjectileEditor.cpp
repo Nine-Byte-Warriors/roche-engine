@@ -168,8 +168,7 @@ void ProjectileEditor::ShowPattern()
 				0, 100
 			);
 
-			std::vector <ProjectileData::ProjectileJSON> vecProjectiles = m_vecManagers[iManIndex].m_vecProjectiles;
-			for (int iProIndex = 0; iProIndex < vecProjectiles.size(); iProIndex++)
+			for (int iProIndex = 0; iProIndex < m_vecManagers[iManIndex].m_vecProjectiles.size(); iProIndex++)
 			{
 				std::string sProjTitle = "Projectile #";
 				sProjTitle
@@ -265,6 +264,10 @@ void ProjectileEditor::ShowPattern()
 
 					ImGui::TreePop();
 				}
+			
+				msg = "Del Projectile #" + std::to_string(iProIndex) + " ##Man" + std::to_string(iManIndex) + "Pro" + std::to_string(iProIndex);
+				if (ImGui::Button(msg.c_str()))
+					m_vecManagers[iManIndex].m_vecProjectiles.erase(m_vecManagers[iManIndex].m_vecProjectiles.begin() + iProIndex);
 			}
 
 			if (ImGui::Button("Add Projectile"))
@@ -276,6 +279,8 @@ void ProjectileEditor::ShowPattern()
 void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	bool bFire = ImGui::Button("Test Fire");
+	bool bLoop = ImGui::Button("Test Loop");
+	// TODO: once all projectiles have been spawned, reset and respawn
 
 	if (!bFire)
 		return;

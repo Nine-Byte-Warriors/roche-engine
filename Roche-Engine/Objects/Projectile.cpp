@@ -56,6 +56,8 @@ void Projectile::Update(const float dt)
 	if (m_fDelay > 0.0f)
 		return;
 
+	m_fLifeTime -= dt;
+
 	if (m_fAmplitude == 0.0f || m_fFrequency == 0.0f)
 		m_physics->AddForce(m_vDirection.Multiply(m_fSpeed));
 	else
