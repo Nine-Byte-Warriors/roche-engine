@@ -57,6 +57,7 @@ public:
 	void CreateTileMap();
 	void CreateUI();
 
+	std::vector<int> m_entitiesDeleted;
 private:
 	void RenderFrameEntity();
 	void UpdateUI( const float dt );
@@ -102,7 +103,6 @@ private:
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;
 
-	std::vector<int> m_entitiesDeleted;
 
 	Vector2f* m_vFakedPos;
 

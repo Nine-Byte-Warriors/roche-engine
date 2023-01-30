@@ -334,3 +334,11 @@ void Entity::SetAnimation()
 		UpdateAnimation();
 	}
 }
+
+void Entity::CheckAliveStatus()
+{
+	if (m_fEntityHealth <= 0.0)
+	{
+		Level::m_entitiesDeleted.insert(m_iEntityNum, Level::m_entitiesDeleted.begin(), Level::m_entitiesDeleted.end());
+	}
+}

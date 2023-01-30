@@ -10,6 +10,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "EntityAnimation.h"
+#include "Level.h"
 
 class Entity
 {
@@ -68,6 +69,7 @@ private:
 	int m_iEntityNum;
 
 	bool m_bEntityIsAlive;
+	float m_fEntityHealth = 100.0;
 
 	ID3D11Device* m_device;
 
