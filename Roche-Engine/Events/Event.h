@@ -43,6 +43,7 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	TargetPosition,
+	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
 	ChangeSeed,
