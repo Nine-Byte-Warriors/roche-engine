@@ -137,7 +137,7 @@ void ProjectileEditor::ShowPattern()
 	if (m_vecManagers.size() < 1)
 		m_vecManagers.push_back(CreateDefaultManager());
 	
-	if(ImGui::Button("Add Pattern"))
+	if(ImGui::Button("Add Manager"))
 		m_vecManagers.push_back(CreateDefaultManager());
 
 	for (int iManIndex = 0; iManIndex < m_vecManagers.size(); iManIndex++)
@@ -145,33 +145,68 @@ void ProjectileEditor::ShowPattern()
 		std::string sManagerTitle = std::string("Manager #").append(std::to_string(iManIndex));
 		if(ImGui::CollapsingHeader(sManagerTitle.c_str()))
 		{
+			msg = "Del Manager #" + std::to_string(iManIndex) + " ##Man" + std::to_string(iManIndex);
+			if (ImGui::Button(msg.c_str()))
+			{
+				m_vecManagers.erase(m_vecManagers.begin() + iManIndex);
+				break;
+			}
+
 			msg = "Pattern " + m_vecManagers[iManIndex].m_sName;
 			ImGui::Text(msg.c_str());
 
 			msg = "ID: " + m_vecManagers[iManIndex].m_sID;
 			ImGui::Text(msg.c_str());
 
+			ImGui::Text("Projectile Size: ");
+			static float fSize[2];
+			fSize[0] = m_vecManagers[iManIndex].m_fWidth;
+			fSize[1] = m_vecManagers[iManIndex].m_fHeight;
+			ImGui::SliderFloat(
+				std::string("Width##Man")
+					.append(std::to_string(iManIndex))
+					.c_str(),
+				&m_vecManagers[iManIndex].m_fWidth, 0.1f, 256.0f);
+			ImGui::SliderFloat(
+				std::string("Height##Man")
+					.append(std::to_string(iManIndex))
+					.c_str(),
+				&m_vecManagers[iManIndex].m_fHeight, 0.1f, 256.0f);
+
+			ImGui::Checkbox(
+				std::string("Use Global Speed##Man")
+					.append(std::to_string(iManIndex))
+					.c_str(),
+				&m_vecManagers[iManIndex].m_bUseGlobalSpeed);
+
+			if (m_vecManagers[iManIndex].m_bUseGlobalSpeed == true)
+			{
+				ImGui::SliderFloat(
+					std::string("Global Speed##Man")
+						.append(std::to_string(iManIndex))
+						.c_str(),
+					&m_vecManagers[iManIndex].m_fGlobalSpeed, -100.0f, 100.0f);
+			}
+			
 			ImGui::Text(std::string("Count: ").append(std::to_string(m_vecManagers[iManIndex].m_vecProjectiles.size())).c_str());
 			
 			ImGui::Text(std::string("Delay: ").append(std::to_string(m_vecManagers[iManIndex].m_fDelay)).c_str());
 			ImGui::SliderFloat(
 				std::string("Delay##").append(std::to_string(iManIndex)).c_str(),
 				&m_vecManagers[iManIndex].m_fDelay,
-				0,
-				100
+				0, 100
 			);
 
-			std::vector <ProjectileData::ProjectileJSON> vecProjectiles = m_vecManagers[iManIndex].m_vecProjectiles;
-			for (int iProIndex = 0; iProIndex < vecProjectiles.size(); iProIndex++)
+			for (int iProIndex = 0; iProIndex < m_vecManagers[iManIndex].m_vecProjectiles.size(); iProIndex++)
 			{
-				std::string sProjTitle = "Projectile";
+				std::string sProjTitle = "Projectile #";
 				sProjTitle
 					.append(std::to_string(iProIndex))
 					.append("##Man")
 					.append(std::to_string(iManIndex));
 				if (ImGui::TreeNode(sProjTitle.c_str()))
 				{
-					ImGui::Text("Spawn Position");
+					ImGui::Text("Spawn Offset");
 					ImGui::SliderFloat(
 						std::string("X##Man")
 							.append(std::to_string(iManIndex))
@@ -190,6 +225,17 @@ void ProjectileEditor::ShowPattern()
 						-100.0f, 100.0f);
 
 					ImGui::Separator();
+
+					msg = "Delay: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fDelay);
+					ImGui::Text(msg.c_str()); 
+					ImGui::SliderFloat(
+						std::string("Delay##Man")
+							.append(std::to_string(iManIndex))
+							.append("Pro")
+							.append(std::to_string(iProIndex))
+							.c_str(),
+						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fDelay,
+						-100, 100, "%0.2f");
 
 					msg = "LifeTime: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fLifeTime);
 					ImGui::Text(msg.c_str());
@@ -221,7 +267,7 @@ void ProjectileEditor::ShowPattern()
 							.append("Pro")
 							.append(std::to_string(iProIndex))
 							.c_str(),
-						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle);
+						&m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAngle,-360.0f,360.0f,"%.2f deg");
 					
 					msg = "Amplitude: " + std::to_string(m_vecManagers[iManIndex].m_vecProjectiles[iProIndex].m_fAmplitude);
 					ImGui::Text(msg.c_str());
@@ -247,9 +293,13 @@ void ProjectileEditor::ShowPattern()
 
 					ImGui::TreePop();
 				}
+			
+				msg = "Del Projectile #" + std::to_string(iProIndex) + " ##Man" + std::to_string(iManIndex) + "Pro" + std::to_string(iProIndex);
+				if (ImGui::Button(msg.c_str()))
+					m_vecManagers[iManIndex].m_vecProjectiles.erase(m_vecManagers[iManIndex].m_vecProjectiles.begin() + iProIndex);
 			}
 
-			if (ImGui::Button("Add Projectile"))
+			if (ImGui::Button(std::string("Add Projectile##Man").append(std::to_string(iManIndex)).c_str()))
 				m_vecManagers[iManIndex].m_vecProjectiles.push_back(CreateDefaultProjectile());
 		}
 	}
@@ -258,6 +308,8 @@ void ProjectileEditor::ShowPattern()
 void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	bool bFire = ImGui::Button("Test Fire");
+	bool bLoop = ImGui::Button("Test Loop");
+	// TODO: once all projectiles have been spawned, reset and respawn
 
 	if (!bFire)
 		return;
@@ -268,8 +320,14 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	{
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
 		pManager->SetDelay(m_vecManagers[i].m_fDelay);
-		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
-		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
+		pManager->SetProjectilePool(CreateProjectilePool(
+				m_vecManagers[i].m_vecProjectiles, 
+				m_vecManagers[i].m_fGlobalSpeed, 
+				m_vecManagers[i].m_bUseGlobalSpeed)
+		);
+
+		Vector2f vSize = Vector2f(m_vecManagers[i].m_fWidth, m_vecManagers[i].m_fHeight);
+		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath, vSize);
 
 		m_vecProjectileManager.push_back(std::move(pManager)); 
 	}	
@@ -277,16 +335,22 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	SpawnPattern();
 }
 
-std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
 {
 	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
 
 	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
 	{
-		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(
+			bUseGlobalSpeed == true
+			? fGlobalSpeed
+			: pJson.m_fSpeed,
+			pJson.m_fLifeTime
+		);
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
+		pProjectile->SetDelay(pJson.m_fDelay);
 
 		vecProjectilePool.push_back(std::move(pProjectile));
 	}
@@ -311,8 +375,13 @@ ProjectileData::ManagerJSON ProjectileEditor::CreateDefaultManager()
 	manager.m_sID = "ID";
 	manager.m_sName = "Default Pattern";
 	manager.m_sImagePath = "Resources\\Textures\\Base_Projectile.png";
+	manager.m_fWidth = 0.0f;
+	manager.m_fHeight = 0.0f;
 	manager.m_fDelay = 0.0f;
 	manager.m_iCount = 1;
+	manager.m_bLoop = false;
+	manager.m_bUseGlobalSpeed = false;
+	manager.m_fGlobalSpeed = 0.0f;
 
 	manager.m_vecProjectiles.push_back(CreateDefaultProjectile());
 	
@@ -325,9 +394,10 @@ ProjectileData::ProjectileJSON ProjectileEditor::CreateDefaultProjectile()
 
 	blankProjectile.m_fSpeed = 10.0f;
 	blankProjectile.m_fLifeTime = 100;
-	blankProjectile.m_fAngle = 0.0f;
 	blankProjectile.m_fX = 0.0f;
 	blankProjectile.m_fY = 0.0f;
+	blankProjectile.m_fDelay = 0.0f;
+	blankProjectile.m_fAngle = 0.0f;
 	blankProjectile.m_fAmplitude = 0.0f;
 	blankProjectile.m_fFrequency = 0.0f;
 	
