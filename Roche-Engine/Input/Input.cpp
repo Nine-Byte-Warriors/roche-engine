@@ -94,24 +94,21 @@ void Input::UpdateKeyboard( const float dt )
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
 		if (m_keyboard.KeyIsPressed('Y'))
 			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
-		if (m_keyboard.KeyIsPressed('U'))
-			EventSystem::Instance()->AddEvent(EVENTID::ChangeSeed);
+
         // Close game
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 	}
 
     // Handle continuous key presses
-#if _DEBUG
     if ( m_keyboard.KeyIsPressed( 'W' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveUp );
     if ( m_keyboard.KeyIsPressed( 'A' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraLeft );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveLeft );
     if ( m_keyboard.KeyIsPressed( 'S' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraDown );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveDown );
     if ( m_keyboard.KeyIsPressed( 'D' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
-#endif
+        EventSystem::Instance()->AddEvent( EVENTID::MoveRight );
 }
 
 void Input::AddToEvent() noexcept
