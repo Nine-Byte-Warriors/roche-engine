@@ -49,12 +49,12 @@
         "hide": false,
         "name": "Start Game",
         "position": [
-            404.0,
+            416.0,
             600.0
         ],
         "scale": [
-            300.0,
-            300.0
+            250.0,
+            250.0
         ],
         "type": "Button",
         "zindex": 3
@@ -64,12 +64,12 @@
         "hide": false,
         "name": "Settings",
         "position": [
-            805.0,
+            687.0,
             600.0
         ],
         "scale": [
-            300.0,
-            300.0
+            250.0,
+            250.0
         ],
         "type": "Button",
         "zindex": 4
@@ -79,14 +79,29 @@
         "hide": false,
         "name": "Quit Game",
         "position": [
-            1200.0,
+            1223.0,
             597.0
         ],
         "scale": [
-            300.0,
-            300.0
+            250.0,
+            250.0
         ],
         "type": "Button",
         "zindex": 5
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Credits",
+        "position": [
+            955.0,
+            597.0
+        ],
+        "scale": [
+            250.0,
+            250.0
+        ],
+        "type": "Button",
+        "zindex": 6
     }
 ]

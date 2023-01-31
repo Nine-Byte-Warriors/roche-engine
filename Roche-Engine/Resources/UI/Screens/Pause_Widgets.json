@@ -15,7 +15,7 @@
         "zindex": 0
     },
     {
-        "action": "",
+        "action": "Resume",
         "hide": false,
         "name": "Resume",
         "position": [
@@ -30,7 +30,7 @@
         "zindex": 1
     },
     {
-        "action": "",
+        "action": "Settings",
         "hide": false,
         "name": "Settings",
         "position": [
@@ -45,7 +45,7 @@
         "zindex": 2
     },
     {
-        "action": "",
+        "action": "Close",
         "hide": false,
         "name": "Quit",
         "position": [

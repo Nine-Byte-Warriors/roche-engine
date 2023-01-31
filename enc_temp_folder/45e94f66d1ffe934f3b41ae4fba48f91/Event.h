@@ -44,16 +44,6 @@ enum class EVENTID
 	PlayerFire,
 	TargetPosition,
 
-	//UI
-	StartGame,
-	OpenSettings,
-	ResumeGame,
-	Back,
-	GeneralTab,
-	GrahpicsTab,
-	MusicTab,
-	ControlTab,
-
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
