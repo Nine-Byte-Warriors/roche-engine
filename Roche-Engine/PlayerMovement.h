@@ -1,13 +1,17 @@
 #pragma once
+#ifndef PLAYERMOVEMENT_H
+#define PLAYERMOVEMENT_H
+
 #include "Physics.h"
 #include "Events/EventSystem.h"
 
 class PlayerMovement : Listener
 {
 public:
-	PlayerMovement(Physics* physics, float speed);
+	PlayerMovement(std::shared_ptr<Physics> physics, float speed);
+	~PlayerMovement();
 
-	void Move(Vector2f direction);
+	void Update(const float dt);
 	void SetSpeed(float speed);
 	void Dash();
 
@@ -16,11 +20,13 @@ public:
 	void AddToEvent() noexcept;
 
 private:
-	Physics* m_physics;
+	std::shared_ptr<Physics> m_physics;
 	float m_speed;
 	float m_currentSpeed;
 	float m_dashSpeed;
 	bool m_bDash;
-
+	bool m_bshouldMove;
 
 };
+
+#endif

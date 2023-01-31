@@ -1,4 +1,6 @@
 #pragma once
+#ifndef PLAYERCONTROLLER_H
+#define PLAYERCONTROLLER_H
 
 class Entity;
 #include "PlayerMovement.h"
@@ -14,3 +16,5 @@ private:
 	Entity* m_Entity;
 	std::shared_ptr<PlayerMovement> m_playerMovement;
 };
+
+#endif 

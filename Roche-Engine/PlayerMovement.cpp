@@ -1,26 +1,41 @@
 #include "stdafx.h"
 #include "PlayerMovement.h"
 
-PlayerMovement::PlayerMovement(Physics* physics, float speed)
+PlayerMovement::PlayerMovement(std::shared_ptr<Physics> physics, float speed)
 {
 	m_physics = physics;
 	m_speed = speed;
 	m_currentSpeed = m_speed;
 	m_bDash = false;
 
+#if _DEBUG
+	m_bshouldMove = false;
+#else
+	m_bshouldMove = true;
+#endif
+
 	AddToEvent();
 }
 
-void PlayerMovement::Move(Vector2f direction)
+PlayerMovement::~PlayerMovement()
 {
-	if (m_bDash)
-	{
-		m_physics->AddForce(direction * m_speed * 20);
-		m_bDash = false;
-		return;
-	}
+	EventSystem::Instance()->RemoveClient(EVENTID::MoveUp, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::MoveLeft, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::MoveDown, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::MoveRight, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDash, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::TogglePlayerMovement, this);
+}
 
-	m_physics->AddForce(direction * m_speed);
+void PlayerMovement::Update(const float dt)
+{
+	Vector2f* pos = new Vector2f(m_physics->GetTransform()->GetPosition());
+	std::pair<Sprite*, Vector2f*>* charSpriteandPos = new std::pair<Sprite*, Vector2f*>();
+
+	charSpriteandPos->first = m_physics->GetTransform()->GetSprite().get();
+	charSpriteandPos->second = pos;
+
+	EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, charSpriteandPos);
 }
 
 void PlayerMovement::SetSpeed(float speed)
@@ -37,15 +52,18 @@ void PlayerMovement::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	case EVENTID::PlayerUp: Move(Vector2f::Down());
+	case EVENTID::MoveUp: if(m_bshouldMove) m_physics->AddForce({ 0, -10 });
 		break;
-	case EVENTID::PlayerLeft: Move(Vector2f::Left());
+	case EVENTID::MoveLeft: if (m_bshouldMove) m_physics->AddForce({ -10,0 });
 		break;
-	case EVENTID::PlayerDown: Move(Vector2f::Up());
+	case EVENTID::MoveDown: if (m_bshouldMove) m_physics->AddForce({ 0, 10 });
 		break;
-	case EVENTID::PlayerRight: Move(Vector2f::Right());
+	case EVENTID::MoveRight: if (m_bshouldMove) m_physics->AddForce({ 10,0 });
 		break;
 	case EVENTID::PlayerDash: Dash();
+		break;
+	case EVENTID::TogglePlayerMovement:
+		m_bshouldMove = !m_bshouldMove;
 		break;
 	default: break;
 	}
@@ -53,9 +71,10 @@ void PlayerMovement::HandleEvent(Event* event)
 
 void PlayerMovement::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient(EVENTID::PlayerUp, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerLeft, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerDown, this);
-	EventSystem::Instance()->AddClient(EVENTID::PlayerRight, this);
+	EventSystem::Instance()->AddClient(EVENTID::MoveUp, this);
+	EventSystem::Instance()->AddClient(EVENTID::MoveLeft, this);
+	EventSystem::Instance()->AddClient(EVENTID::MoveDown, this);
+	EventSystem::Instance()->AddClient(EVENTID::MoveRight, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerDash, this);
+	EventSystem::Instance()->AddClient(EVENTID::TogglePlayerMovement, this);
 }
