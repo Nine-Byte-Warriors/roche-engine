@@ -107,13 +107,17 @@ void Inventory::HandleEvent( Event* event )
 		UpdateActiveSeedPacket( m_iCurrentSeed );
 		break;
 	case EVENTID::PlantSeedAttempt:
+	{
 		std::pair<std::string, int>* seedsPlanted = static_cast<std::pair<std::string, int>*>( event->GetData() );
 		PlantSeedFromPacket( seedsPlanted->first, seedsPlanted->second );
-		break;
+	}
+	break;
 	case EVENTID::BuySeed:
+	{
 		std::pair<std::string, int>* seedsBought = static_cast<std::pair<std::string, int>*>( event->GetData() );
 		BuySeedPacket( seedsBought->first, seedsBought->second );
-		break;
+	}
+	break;
 	default: break;
 	}
 }
