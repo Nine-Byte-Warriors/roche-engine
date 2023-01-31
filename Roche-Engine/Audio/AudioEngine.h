@@ -33,7 +33,6 @@ class VoiceCallback;
 
 struct SoundBankFile
 {
-	std::string soundBankName;
 	std::wstring fileName;
 	std::string tagName;
 	XAUDIO2_BUFFER* buffer;
@@ -85,7 +84,7 @@ public:
 	void Update(); // keep it on separate thread ideally
 
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
-	void SaveAudioToJSON(std::vector<SoundBankFile*>& sfxSoundList, std::vector<SoundBankFile*>& musicSoundList, std::string fileName); // JSON Save Function
+	void SaveAudioToJSON(std::vector<std::shared_ptr<SoundBankFile>>& sfxSoundList, std::vector<std::shared_ptr<SoundBankFile>>& musicSoundList, std::string fileName); // JSON Save Function
 
 	void LoadSoundBanksList(std::string loadFilePath);
 	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
@@ -103,17 +102,18 @@ public:
 	HRESULT ReadChunkData(HANDLE hFile, void* buffer, DWORD buffersize, DWORD bufferoffset);
 
 	// Deleting Audio
-	void DeleteAudioData(SoundBankFile* soundBankFile);
+	void DeleteAudioData(std::shared_ptr<SoundBankFile> soundBankFile);
 
-	SoundBankFile* CreateSoundBankFile(std::string soundBankName, std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
-	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>& soundBank);
+	std::shared_ptr<SoundBankFile> CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
+	void AddToSoundBank(std::shared_ptr<SoundBankFile> soundBankFile, std::vector<std::shared_ptr<SoundBankFile>>& soundBank);
+	void CheckSoundBankExistence(std::string soundBankName);
+	std::vector<std::shared_ptr<SoundBankFile>> GetSoundBank(std::string soundBankName, AudioType audioType);
+	std::shared_ptr<SoundBankFile> FindSoundBankFile(std::wstring fileName, AudioType audioType);
+
 	std::wstring GetFileName(std::wstring filePath);
 	std::wstring GetFileName(std::string filePath);
 	std::string GetFileNameString(std::wstring filePath);
 	std::string GetFileNameString(std::string filePath);
-
-	std::vector<SoundBankFile*>& GetSoundBank(AudioType audioType);
-	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
@@ -126,10 +126,10 @@ public:
 	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
 	inline float GetSFXVolume() { return m_fSFXVolume; }
 	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
-	inline void SetDefaultVolume(SoundBankFile* soundBank, float newVolume) { soundBank->volume = newVolume; };
-	inline void SetRandomPitch(SoundBankFile* soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
-	inline void SetPitchMin(SoundBankFile* soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
-	inline void SetPitchMax(SoundBankFile* soundBank, float newPitchMax) { soundBank->pitchMax = newPitchMax; };
+	inline void SetDefaultVolume(std::shared_ptr<SoundBankFile> soundBank, float newVolume) { soundBank->volume = newVolume; };
+	inline void SetRandomPitch(std::shared_ptr<SoundBankFile> soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
+	inline void SetPitchMin(std::shared_ptr<SoundBankFile> soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
+	inline void SetPitchMax(std::shared_ptr<SoundBankFile> soundBank, float newPitchMax) { soundBank->pitchMax = newPitchMax; };
 
 private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
@@ -142,15 +142,15 @@ private:
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
 
-	std::vector<SoundBankFile*> m_vMusicSoundBank; // Music Sound Bank
-	std::vector<SoundBankFile*> m_vSFXSoundBank; // SFX Sound Bank
+	std::vector<std::shared_ptr<SoundBankFile>> m_vMusicSoundBank; // Music Sound Bank
+	std::vector<std::shared_ptr<SoundBankFile>> m_vSFXSoundBank; // SFX Sound Bank
 
 	std::vector<IXAudio2SourceVoice*> m_vMusicSourceVoiceList;
 	std::vector<IXAudio2SourceVoice*> m_vSFXSourceVoiceList;
 
 	// NEW
-	std::map<std::string, std::vector<SoundBankFile*>> m_vSFXSoundBankMap;
-	
+	std::map<std::string, std::vector<std::shared_ptr<SoundBankFile>>> m_SFXSoundBankMap;
+	std::map<std::string, std::vector<std::shared_ptr<SoundBankFile>>> m_MusicSoundBankMap;
 
 	// 
 
