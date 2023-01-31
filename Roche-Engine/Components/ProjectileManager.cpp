@@ -36,6 +36,12 @@ void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<M
 		pProjectile->Initialize(gfx, mat, filename);
 }
 
+void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename, Vector2f size)
+{
+	for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+		pProjectile->Initialize(gfx, mat, filename, size);
+}
+
 void ProjectileManager::Update( const float dt )
 {
 	if (m_fCounter >= 0.0f)

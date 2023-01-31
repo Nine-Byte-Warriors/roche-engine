@@ -147,6 +147,11 @@ bool TileMapEditor::LoadProcessFile()
 	std::vector<std::string> tileTypeName;
 	JsonLoading::LoadJson(tileTypeName, m_sFilePath);
 
+	if (tileTypeName.size() != m_iRows * m_iColumns)
+	{
+		return false;
+	}
+
 	for (int i = 0; i < m_iRows * m_iColumns; i++)
 	{
 		if (m_tileMapLayer == TileMapLayer::Background)

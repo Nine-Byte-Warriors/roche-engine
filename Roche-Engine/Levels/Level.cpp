@@ -83,6 +83,7 @@ void Level::CreateTileMap()
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
     m_tileMapLoader.LoadLevel("67x120file.json", "67x120file.json");
+
 #endif
 
     CreateTileMapDraw();
