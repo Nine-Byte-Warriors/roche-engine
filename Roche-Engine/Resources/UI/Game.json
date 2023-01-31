@@ -1,13 +1,13 @@
 [
     {
         "file": "HUD_Widgets.json",
-        "name": "HUD"
+        "name": "HUD_Day"
     },
     {
         "file": "Pause_Widgets.json",
         "name": "Pause"
     },
-	{
+    {
         "file": "Settings_Widgets.json",
         "name": "Settings"
     }

@@ -11,6 +11,7 @@ class Graphics;
 #include "Agent.h"
 #include "EntityAnimation.h"
 #include "PlayerController.h"
+#include "Inventory.h"
 
 class Entity
 {
@@ -110,6 +111,7 @@ private:
 	std::shared_ptr<CircleCollider> m_colliderCircle;
 	std::shared_ptr<BoxCollider> m_colliderBox;
 	std::shared_ptr<PlayerController> m_playerController;
+	std::shared_ptr<Inventory>m_inventory;
 
 	EntityController* m_entityController;
 

@@ -85,6 +85,7 @@ void UIScreen::UpdateWidgets()
 
 void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 {
+#pragma region WIDGET_SETUP
 	m_vWidgets = widgets;
 	m_vButtons.clear();
 	m_vColourBlocks.clear();
@@ -117,16 +118,41 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
+#pragma endregion
 
+#pragma region BUTTONS
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
-		if ( m_vButtons[i].GetAction() == "Link" )
+		bool isSeedPacket = false;
+		static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
+		for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 		{
-			// GitHub Link
+			if (m_vButtons[i].GetAction() == (SeedStrings[j] + " Background"))
+			{
+				isSeedPacket = true;
+				m_vButtons[i].SetTextOffset( XMFLOAT2( 40.0f, 30.0f ) );
+				if ( m_vButtons[i].Resolve(
+					 std::to_string( m_inventory.GetActiveSeedPacketCount( SeedStrings[j] ) ),
+					 Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket( i ) ) )
+				{
+					m_inventory.SetActiveSeedPacket( j );
+				}
+			}
+		}
+		if ( isSeedPacket )
+		{
+			// Don't run other button actions if is seed packet
+		}
+		else if ( m_vButtons[i].GetAction() == "Close" )
+		{
+			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
+				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+		}
+		else if ( m_vButtons[i].GetAction() == "Link" )
+		{
 			if ( m_vButtons[i].Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
 				if ( !m_bOpenLink && m_bOpen )
 					m_bOpenLink = true;
-			m_vButtons[i].Update( dt );
 			if ( !m_vButtons[i].GetIsPressed() )
 				m_bOpen = true;
 			if ( m_bOpenLink )
@@ -136,28 +162,24 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 				m_bOpen = false;
 			}
 		}
-		else if ( m_vButtons[i].GetAction() == "Close" )
-		{
-			// Quit Game
-			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
-				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-			m_vButtons[i].Update( dt );
-		}
 		else
 		{
-			// Default
-			m_vButtons[i].Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
-			m_vButtons[i].Update( dt );
+			m_vButtons[i].Resolve( "", Colors::White, m_textures, m_mouseData );
 		}
+		m_vButtons[i].Update(dt);
 	}
+#pragma endregion
 
+#pragma region COLOUR_BLOCKS
 	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
 	{
 		// Doesn't need actions
 		m_vColourBlocks[i].Resolve( { 210, 210, 150 } );
 		m_vColourBlocks[i].Update( dt );
 	}
+#pragma endregion
 
+#pragma region DATA_SLIDERS
 	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
 	{
 		if ( m_vDataSliders[i].GetAction() == "Master Volume" )
@@ -176,7 +198,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vDataSliders[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region DROP_DOWNS
 	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
 	{
 		if ( m_vDropDowns[i].GetAction() == "Resolution" )
@@ -196,7 +220,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vDropDowns[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region ENERGY_BARS
 	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
 	{
 		if ( m_vEnergyBars[i].GetAction() == "Player Health" )
@@ -218,13 +244,56 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vEnergyBars[i].Update( dt );
 		}
 	}
+#pragma endregion
 
-	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
+#pragma region IMAGES
+	for (unsigned int i = 0; i < m_vImages.size(); i++)
 	{
-		m_vImages[i].Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
-		m_vImages[i].Update( dt );
+		if (m_vImages[i].GetAction() == "Carrot Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Cauliflower Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Cauliflower Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Bean Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Bean Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Onion Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Onion Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Potato Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Potato Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Tomato Seed Packet")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Seeds\\Tomato Seeds.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_1")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-1.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_2")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-2.png");
+		}
+		else if (m_vImages[i].GetAction() == "Heart_3")
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Hearts\\Heart-3.png");
+		}
+		else
+		{
+			m_vImages[i].Resolve("Resources\\Textures\\UI\\Board\\Board.png");
+		}
+		m_vImages[i].Update(dt);
 	}
+#pragma endregion
 
+#pragma region INPUTS
 	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
 	{
 		if ( m_vInputs[i].GetAction() == "Player Name" )
@@ -238,7 +307,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vInputs[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region PAGE_SLIDERS
 	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
 	{
 		m_vPageSliders[i].Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
@@ -254,7 +325,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		if ( m_bUpdateSlider )
 			m_vPageSliders[i].SetPageSize( m_vScreenSize.y );
 	}
+#pragma endregion
 
+#pragma region RENDER_BOX
 	// Update render box
 	if ( m_vPageSliders.size() > 0 )
 	{
@@ -266,6 +339,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		m_fBoxPos = { 0.0f, 0.0f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
 	}
+#pragma endregion
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -277,6 +351,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 	for ( unsigned int i = 0; i < widgetAmount; i++ )
 	{
+#pragma region BUTTONS
 		for ( unsigned int j = 0; j < m_vButtons.size(); j++ )
 		{
 			if ( m_vButtons[j].GetZIndex() == i )
@@ -290,7 +365,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region COLOUR_BLOCKS
 		for ( unsigned int j = 0; j < m_vColourBlocks.size(); j++ )
 		{
 			if ( m_vColourBlocks[j].GetZIndex() == i )
@@ -303,7 +380,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region DATA_SLIDERS
 		for ( unsigned int j = 0; j < m_vDataSliders.size(); j++ )
 		{
 			if ( m_vDataSliders[j].GetZIndex() == i )
@@ -316,7 +395,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region DROP_DOWNS
 		for ( unsigned int j = 0; j < m_vDropDowns.size(); j++ )
 		{
 			if ( m_vDropDowns[j].GetZIndex() == i )
@@ -330,7 +411,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region ENERGY_BARS
 		for ( unsigned int j = 0; j < m_vEnergyBars.size(); j++ )
 		{
 			if ( m_vEnergyBars[j].GetZIndex() == i )
@@ -343,7 +426,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region IMAGES
 		for ( unsigned int j = 0; j < m_vImages.size(); j++ )
 		{
 			if ( m_vImages[j].GetZIndex() == i )
@@ -356,7 +441,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region INPUTS
 		for ( unsigned int j = 0; j < m_vInputs.size(); j++ )
 		{
 			if ( m_vInputs[j].GetZIndex() == i )
@@ -370,7 +457,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region PAGE_SLIDERS
 		for ( unsigned int j = 0; j < m_vPageSliders.size(); j++ )
 		{
 			if ( m_vPageSliders[j].GetZIndex() == i )
@@ -383,6 +472,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 	}
 }
 

@@ -5,6 +5,7 @@
 class Graphics;
 #include "Shaders.h"
 #include "Listener.h"
+#include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
 
@@ -57,6 +58,9 @@ private:
 	bool m_bUpdateSlider = false;
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY, m_fCurrentPY;
+
+	// Inventory data
+	Inventory m_inventory;
 
 	// Widget data
 	int m_iSliderStart = 50;

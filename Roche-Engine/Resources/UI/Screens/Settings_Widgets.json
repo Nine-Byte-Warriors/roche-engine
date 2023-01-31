@@ -1,6 +1,7 @@
 [
     {
         "action": "",
+        "hide": false,
         "name": "Title Card",
         "position": [
             700.0,
@@ -11,11 +12,11 @@
             64.0
         ],
         "type": "Image",
-		"zindex": 0,
-		"hide": false
+        "zindex": 0
     },
     {
         "action": "Link",
+        "hide": false,
         "name": "GitHub Link",
         "position": [
             500.0,
@@ -26,11 +27,11 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 1,
-		"hide": false
+        "zindex": 1
     },
     {
         "action": "Start",
+        "hide": false,
         "name": "Start Game",
         "position": [
             500.0,
@@ -41,11 +42,11 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 2,
-		"hide": false
+        "zindex": 2
     },
     {
         "action": "",
+        "hide": false,
         "name": "Settings",
         "position": [
             500.0,
@@ -56,11 +57,11 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 3,
-		"hide": false
+        "zindex": 3
     },
     {
         "action": "Close",
+        "hide": false,
         "name": "Quit Game",
         "position": [
             600.0,
@@ -71,7 +72,6 @@
             64.0
         ],
         "type": "Button",
-		"zindex": 4,
-		"hide": false
+        "zindex": 4
     }
 ]

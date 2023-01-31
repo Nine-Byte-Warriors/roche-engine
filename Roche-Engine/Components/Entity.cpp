@@ -51,7 +51,10 @@ void Entity::SetComponents()
 	}
 
 	if (GetType() == "Player")
+	{
 		m_playerController = std::make_shared<PlayerController>(this);
+		m_inventory = std::make_shared<Inventory>();
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
