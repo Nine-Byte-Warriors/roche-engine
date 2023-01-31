@@ -312,6 +312,8 @@
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
@@ -461,6 +463,8 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
