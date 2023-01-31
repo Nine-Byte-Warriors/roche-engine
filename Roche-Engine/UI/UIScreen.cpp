@@ -143,6 +143,48 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			m_vButtons[i].Update( dt );
 		}
+		else if (m_vButtons[i].GetAction() == "Start")
+		{
+			if (m_vButtons[i].Resolve("Start Game", Colors::White, m_textures, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "Settings")
+		{
+			if (m_vButtons[i].Resolve("Settings", Colors::White, m_textures, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "Back")
+		{
+			if (m_vButtons[i].Resolve("Back", Colors::White, m_textures, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "General")
+		{
+			if (m_vButtons[i].Resolve("", Colors::White, m_texturesGeneralTabs, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "Graphics")
+		{
+			if (m_vButtons[i].Resolve("", Colors::White, m_texturesGraphicsTabs, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "Music")
+		{
+			if (m_vButtons[i].Resolve("", Colors::White, m_texturesMusicTabs, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
+		else if (m_vButtons[i].GetAction() == "Control")
+		{
+			if (m_vButtons[i].Resolve("", Colors::White, m_texturesControlTabs, m_mouseData))
+				EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			m_vButtons[i].Update(dt);
+		}
 		else
 		{
 			// Default

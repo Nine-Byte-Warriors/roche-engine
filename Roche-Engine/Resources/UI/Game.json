@@ -4,10 +4,14 @@
         "name": "HUD"
     },
     {
+        "file": "Blank Screen 0.json",
+        "name": "HUD_Night"
+    },
+    {
         "file": "Pause_Widgets.json",
         "name": "Pause"
     },
-	{
+    {
         "file": "Settings_Widgets.json",
         "name": "Settings"
     }

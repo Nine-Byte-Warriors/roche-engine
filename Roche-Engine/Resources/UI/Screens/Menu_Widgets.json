@@ -1,92 +1,92 @@
 [
     {
+        "action": "",
+        "hide": false,
         "name": "Background",
         "position": [
-            0.0,
-            0.0
+            350.0,
+            218.0
         ],
         "scale": [
-            1280.0,
-            720.0
+            1200.0,
+            860.0
         ],
         "type": "Image",
-		"action": "",
-		"zindex": 0,
-		"hide": false
+        "zindex": 0
     },
     {
+        "action": "",
+        "hide": false,
         "name": "Title Card",
         "position": [
-            700.0,
-            700.0
+            743.0,
+            50.0
         ],
         "scale": [
-            64.0,
-            64.0
+            400.0,
+            400.0
         ],
         "type": "Image",
-		"action": "",
-		"zindex": 1,
-		"hide": false
+        "zindex": 1
     },
     {
+        "action": "Link",
+        "hide": false,
         "name": "GitHub Link",
         "position": [
-            500.0,
-            500.0
+            1432.0,
+            889.0
         ],
         "scale": [
             64.0,
             64.0
         ],
         "type": "Button",
-		"action": "Link",
-		"zindex": 2,
-		"hide": false
+        "zindex": 2
     },
     {
+        "action": "Start",
+        "hide": false,
         "name": "Start Game",
         "position": [
-            500.0,
-            500.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Button",
-		"action": "Start",
-		"zindex": 3,
-		"hide": false
-    },
-    {
-        "name": "Settings",
-        "position": [
-            500.0,
-            500.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Button",
-		"action": "",
-		"zindex": 4,
-		"hide": false
-    },
-    {
-        "name": "Quit Game",
-        "position": [
-            600.0,
+            404.0,
             600.0
         ],
         "scale": [
-            64.0,
-            64.0
+            300.0,
+            300.0
         ],
         "type": "Button",
-		"action": "Close",
-		"zindex": 5,
-		"hide": false
+        "zindex": 3
+    },
+    {
+        "action": "Settings",
+        "hide": false,
+        "name": "Settings",
+        "position": [
+            805.0,
+            600.0
+        ],
+        "scale": [
+            300.0,
+            300.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "Close",
+        "hide": false,
+        "name": "Quit Game",
+        "position": [
+            1200.0,
+            597.0
+        ],
+        "scale": [
+            300.0,
+            300.0
+        ],
+        "type": "Button",
+        "zindex": 5
     }
 ]

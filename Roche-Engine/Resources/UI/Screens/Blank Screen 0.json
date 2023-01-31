@@ -2,91 +2,91 @@
     {
         "action": "",
         "hide": false,
-        "name": "Title Card",
+        "name": "Heart_1",
         "position": [
-            201.0,
-            160.0
+            0.0,
+            0.0
         ],
         "scale": [
-            1479.0,
-            920.0
+            64.0,
+            64.0
         ],
         "type": "Image",
         "zindex": 0
     },
     {
-        "action": "General",
+        "action": "",
         "hide": false,
-        "name": "General Tab",
+        "name": "Heart_2",
         "position": [
-            283.0,
+            110.0,
             0.0
         ],
         "scale": [
-            150.0,
-            160.0
+            64.0,
+            64.0
         ],
-        "type": "Button",
+        "type": "Image",
         "zindex": 1
     },
     {
-        "action": "Control",
+        "action": "",
         "hide": false,
-        "name": "Control Tab",
+        "name": "Heart_3",
         "position": [
-            433.0,
+            216.0,
             0.0
         ],
         "scale": [
-            150.0,
-            160.0
+            64.0,
+            64.0
         ],
-        "type": "Button",
+        "type": "Image",
         "zindex": 2
     },
     {
-        "action": "Music",
+        "action": "",
         "hide": false,
-        "name": "Music Tab",
+        "name": "Score placeholder",
         "position": [
-            583.0,
+            1600.0,
             0.0
         ],
         "scale": [
-            150.0,
-            160.0
+            318.0,
+            116.0
         ],
-        "type": "Button",
+        "type": "Image",
         "zindex": 3
     },
     {
-        "action": "Graphics",
+        "action": "",
         "hide": false,
-        "name": "Graphics Tab",
+        "name": "Coins placeholder",
         "position": [
-            732.0,
-            0.0
+            1600.0,
+            124.0
         ],
         "scale": [
-            150.0,
-            160.0
+            318.0,
+            116.0
         ],
-        "type": "Button",
+        "type": "Image",
         "zindex": 4
     },
     {
         "action": "",
         "hide": false,
-        "name": "Blank Widget 0",
+        "name": "Weapon placeholder",
         "position": [
-            721.0,
-            416.0
+            12.0,
+            951.0
         ],
         "scale": [
-            433.0,
-            64.0
+            164.0,
+            129.0
         ],
-        "type": "Data Slider",
+        "type": "Image",
         "zindex": 5
     }
 ]
