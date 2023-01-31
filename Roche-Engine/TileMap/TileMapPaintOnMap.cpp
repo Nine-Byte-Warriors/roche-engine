@@ -47,7 +47,7 @@ int TileMapPaintOnMap::GetPositionAtCoordinates(int x, int y)
 	float cameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_iStartingPosX;
 	float cameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_iStartingPosY;
 	int tileX = (cameraX + x) / 32;
-	int tileY = (cameraY + y) / 32;
+	int tileY = ceilf((cameraY + y) / 32);
 	int pos = tileX + tileY * m_iCols;
 
 	if (pos >= m_iCols * m_iRows)

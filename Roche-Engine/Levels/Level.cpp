@@ -196,7 +196,7 @@ void Level::RenderFrameTileMap()
     {
         for (int k = 0; k <= (m_gfx->GetHeight() / m_iTileSize) + 1; k++)
         {
-            int height = k * ((m_gfx->GetHeight() / m_iTileSize) - 1);
+            int height = (k - 1) * ((m_gfx->GetHeight() / m_iTileSize) - 1);
             int topLeftPos = m_tileMapPaintOnMap.GetPositionAtCoordinates(0, height);
             int topRightPos = m_tileMapPaintOnMap.GetPositionAtCoordinates(m_gfx->GetWidth() + m_iTileSize, height);
 
