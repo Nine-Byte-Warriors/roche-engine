@@ -120,6 +120,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
+
 		if ( m_vButtons[i].GetAction() == "Link" )
 		{
 			// GitHub Link
@@ -157,6 +158,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		}
 		else if (m_vButtons[i].GetAction() == "Resume")
 		{
+			
 			if (m_vButtons[i].Resolve("Resume", Colors::White, m_textures, m_mouseData))
 				EventSystem::Instance()->AddEvent(EVENTID::ResumeGame);
 			m_vButtons[i].Update(dt);
@@ -170,7 +172,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		else if (m_vButtons[i].GetAction() == "General")
 		{
 			if (m_vButtons[i].Resolve("", Colors::White, m_texturesGeneralTabs, m_mouseData))
+			{
 				EventSystem::Instance()->AddEvent(EVENTID::GeneralTab);
+			}
 			m_vButtons[i].Update(dt);
 		}
 		else if (m_vButtons[i].GetAction() == "Graphics")
@@ -208,21 +212,21 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
 	{
-		if ( m_vDataSliders[i].GetAction() == "Master Volume" )
+		if ( m_vDataSliders[i].GetAction() == "Master Volume???" )
 		{
-			// Create a slider that syncs with master volume
+			// Create a slider that syncs with master volume`
 		}
-		else  if ( m_vDataSliders[i].GetAction() == "Music Volume" )
-		{
-			// Create a slider that syncs with musics volume
-		}
+		//else  if ( m_vDataSliders[i].GetAction() == "Music Volume" )
+		//{
+		//	// Create a slider that syncs with musics volume
+		//}
 		else
 		{
 			// Default
 			m_vDataSliders[i].Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
-				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-			m_vDataSliders[i].Update( dt );
+				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );;
 		}
+		m_vDataSliders[i].Update(dt);
 	}
 
 	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
@@ -269,8 +273,93 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
 	{
-		m_vImages[i].Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
-		m_vImages[i].Update( dt );
+		if (m_vImages[i].GetAction() == "Master volume label")
+		{
+			m_vImages[i].Resolve("Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Music volume label")
+		{
+			m_vImages[i].Resolve("Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Coins")
+		{
+			m_vImages[i].Resolve("0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Score")
+		{
+			m_vImages[i].Resolve("0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+
+		else if (m_vImages[i].GetAction() == "Up Control")
+		{
+			m_vImages[i].Resolve("Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Left Control")
+		{
+			m_vImages[i].Resolve("Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Down Control")
+		{
+			m_vImages[i].Resolve("Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Right Control")
+		{
+			m_vImages[i].Resolve("Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Shoot Control")
+		{
+			m_vImages[i].Resolve("Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+
+		else if (m_vImages[i].GetAction() == "CreditTitle")
+		{
+			m_vImages[i].Resolve("CREDITS", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit1")
+		{
+			m_vImages[i].Resolve("Kyle Robinson", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit2")
+		{
+			m_vImages[i].Resolve("Jukiusz Jaczmarek", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit3")
+		{
+			m_vImages[i].Resolve("Rece Thompson-Hamilton", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit4")
+		{
+			m_vImages[i].Resolve("Charlie Morris", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit5")
+		{
+			m_vImages[i].Resolve("Alvin Aggrey", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit6")
+		{
+			m_vImages[i].Resolve("Will Bennett", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit7")
+		{
+			m_vImages[i].Resolve("James Barber", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit8")
+		{
+			m_vImages[i].Resolve("Said Mozamil Sadat", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit9")
+		{
+			m_vImages[i].Resolve("Glen Nelson", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else if (m_vImages[i].GetAction() == "Credit10")
+		{
+			m_vImages[i].Resolve("Eleftherios Karakyritsis", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+		}
+		else
+		{
+			m_vImages[i].Resolve("",Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png");
+		}
+		m_vImages[i].Update(dt);
 	}
 
 	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
@@ -314,6 +403,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		m_fBoxPos = { 0.0f, 0.0f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
 	}
+
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -399,7 +489,8 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				if ( !m_vImages[j].GetIsHidden() )
 				{
 					RENDER_IF_IN_BOX( m_vImages[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					Shaders::BindShaders(m_pContext.Get(), vtx, pix);
 				}
 				break;
 			}

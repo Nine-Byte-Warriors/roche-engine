@@ -1,10 +1,10 @@
 [
     {
-        "action": "",
+        "action": "CreditTitle",
         "hide": false,
-        "name": "Title Card",
+        "name": "Credits Title",
         "position": [
-            735.0,
+            734.0,
             43.0
         ],
         "scale": [
@@ -58,5 +58,155 @@
         ],
         "type": "Button",
         "zindex": 3
+    },
+    {
+        "action": "Credit1",
+        "hide": false,
+        "name": "Credit1",
+        "position": [
+            930.0,
+            355.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    },
+    {
+        "action": "Credit2",
+        "hide": false,
+        "name": "Credit2",
+        "position": [
+            930.0,
+            406.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 5
+    },
+    {
+        "action": "Credit3",
+        "hide": false,
+        "name": "Credit3",
+        "position": [
+            930.0,
+            470.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Credit4",
+        "hide": false,
+        "name": "Credit4",
+        "position": [
+            930.0,
+            530.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 7
+    },
+    {
+        "action": "Credit5",
+        "hide": false,
+        "name": "Credit5",
+        "position": [
+            930.0,
+            585.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 8
+    },
+    {
+        "action": "Credit6",
+        "hide": false,
+        "name": "Credit6",
+        "position": [
+            930.0,
+            647.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 9
+    },
+    {
+        "action": "Credit7",
+        "hide": false,
+        "name": "Credit7",
+        "position": [
+            930.0,
+            695.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 10
+    },
+    {
+        "action": "Credit8",
+        "hide": false,
+        "name": "Credit8",
+        "position": [
+            930.0,
+            751.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 11
+    },
+    {
+        "action": "Credit9",
+        "hide": false,
+        "name": "Credit9",
+        "position": [
+            930.0,
+            806.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 12
+    },
+    {
+        "action": "Credit10",
+        "hide": false,
+        "name": "Credit10",
+        "position": [
+            930.0,
+            853.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 13
     }
 ]
