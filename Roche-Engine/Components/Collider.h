@@ -39,6 +39,9 @@ protected:
     std::shared_ptr<Transform> m_transform;
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
+
+    const int m_maxCollisions = 50;
+    int m_collisionCount = 0;
     std::vector<std::shared_ptr<Collider>> m_curCollisions;
     std::map<std::shared_ptr<Collider>, CollisionState> m_collisions;
 
@@ -72,7 +75,7 @@ public:
 
 
 
-    inline void LogCollision(std::shared_ptr<Collider>& col) { m_curCollisions.push_back(col); }
+    void LogCollision(std::shared_ptr<Collider>& col);
 
 
     virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
@@ -84,7 +87,8 @@ public:
     virtual bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept { return false; }
 
     //Collision Resolution
-    virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {}
+    virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {};
+    virtual void Resolve(){};
 
     //Events
     //example of use td::function<void(Collider&)> f = std::bind(&Player::foo, this, std::placeholders::_1);
@@ -101,7 +105,7 @@ public:
     void ManageCollisions();
     void ProcessCollisions();
 
-    void Update();
+    virtual void Update();
 
     //Blacklist ignore specific colliders
     inline void AddToBlackList(std::shared_ptr<Collider> collider) { m_blackList.push_back(collider); };

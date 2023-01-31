@@ -50,6 +50,15 @@ void Collider::RemoveDuplicateElements(std::vector<T>& vec)
 }
 
 
+void Collider::LogCollision(std::shared_ptr<Collider>& col)
+{
+    if (m_collisionCount < m_maxCollisions)
+    {
+         m_curCollisions.push_back(col);
+         m_collisionCount++;
+    }
+}
+
 void Collider::OnEnter(Collider& col)
 {
     for (auto& callback : m_onEnterCallbacks)
@@ -104,25 +113,57 @@ void Collider::ProcessCollisions()
     if ( m_collisions.size() == 0 )
         return;
 
-    //Run functions
-    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_collisions.begin(); itr != m_collisions.end(); )
+    ////Run functions
+    //for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_collisions.begin(); itr != m_collisions.end(); ++itr)
+    //{
+    //    if ( itr->first )
+    //    {
+    //        switch ( itr->second )
+    //        {
+    //        case CollisionState::Entering:
+    //            OnEnter(*itr->first);
+    //            ++itr;
+    //            break;
+    //        case CollisionState::Leaving:
+    //            OnLeave(*itr->first);
+    //            if ( m_collisions.size() == 1 )
+    //                return;
+    //            itr = m_collisions.erase( itr ); 
+    //            break;
+    //        }
+    //    }
+    //}
+    std::map<std::shared_ptr<Collider>, CollisionState>::iterator it;
+    std::vector<  std::map<std::shared_ptr<Collider>, CollisionState>::iterator  > leavingColliders;
+    //Fire Events and remove objects not in collider
+    for (  it = m_collisions.begin(); it != m_collisions.end(); ++it)
     {
-        if ( itr->first )
+        if (it->first )
         {
-            switch ( itr->second )
+            switch (it->second )
             {
             case CollisionState::Entering:
-                OnEnter(*itr->first);
-                ++itr;
-                break;
-            case CollisionState::Leaving:
-                OnLeave(*itr->first);
-                if ( m_collisions.size() == 1 )
-                    return;
-                itr = m_collisions.erase( itr );
+            {
+                OnEnter(*it->first);
                 break;
             }
+            case CollisionState::Staying:
+                break;
+            case CollisionState::Leaving:
+            {
+                OnLeave(*it->first);
+                //if ( m_collisions.size() == 1 )
+                //    return;
+                leavingColliders.push_back(it);
+                break;
+            }
+            }
         }
+    }
+    for (auto element: leavingColliders)
+    {
+        m_collisions.erase( element ); 
+        m_collisionCount--;
     }
 }
 
