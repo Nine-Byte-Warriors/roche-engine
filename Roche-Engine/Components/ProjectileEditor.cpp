@@ -299,7 +299,7 @@ void ProjectileEditor::ShowPattern()
 					m_vecManagers[iManIndex].m_vecProjectiles.erase(m_vecManagers[iManIndex].m_vecProjectiles.begin() + iProIndex);
 			}
 
-			if (ImGui::Button("Add Projectile"))
+			if (ImGui::Button(std::string("Add Projectile##Man").append(std::to_string(iManIndex)))
 				m_vecManagers[iManIndex].m_vecProjectiles.push_back(CreateDefaultProjectile());
 		}
 	}
