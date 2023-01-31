@@ -33,6 +33,9 @@ class VoiceCallback;
 
 struct SoundBankFile
 {
+	std::vector<std::shared_ptr<SoundBankFile>>* soundBankAddress;
+	//std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> soundBankAddress;
+	std::string soundBankName;
 	std::wstring fileName;
 	std::string tagName;
 	XAUDIO2_BUFFER* buffer;
@@ -87,13 +90,13 @@ public:
 	void SaveAudioToJSON(std::vector<std::shared_ptr<SoundBankFile>>& sfxSoundList, std::vector<std::shared_ptr<SoundBankFile>>& musicSoundList, std::string fileName); // JSON Save Function
 
 	void LoadSoundBanksList(std::string loadFilePath);
-	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
-	HRESULT PlayAudio(std::string soundBankName, std::string tagName);
-	HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
+	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, std::string tagName, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
+	HRESULT PlayAudio(std::string soundBankName, std::string tagName, AudioType audioType);
+	//HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
 	HRESULT PauseMusic(); // Pauses ALL music
 	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
-	HRESULT UnloadAudio(std::wstring fileName, AudioType audioType); // Unloading audio from sound bank list
+	HRESULT UnloadAudio(std::wstring fileName, std::string soundBankName, AudioType audioType); // Unloading audio from sound bank list
 	void UnloadAllAudio();
 	void StopAllAudio();
 
@@ -104,11 +107,11 @@ public:
 	// Deleting Audio
 	void DeleteAudioData(std::shared_ptr<SoundBankFile> soundBankFile);
 
-	std::shared_ptr<SoundBankFile> CreateSoundBankFile(std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
+	std::shared_ptr<SoundBankFile> CreateSoundBankFile(std::wstring filePath, std::string tagName, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
 	void AddToSoundBank(std::shared_ptr<SoundBankFile> soundBankFile, std::vector<std::shared_ptr<SoundBankFile>>& soundBank);
-	void CheckSoundBankExistence(std::string soundBankName);
-	std::vector<std::shared_ptr<SoundBankFile>> GetSoundBank(std::string soundBankName, AudioType audioType);
-	std::shared_ptr<SoundBankFile> FindSoundBankFile(std::wstring fileName, AudioType audioType);
+	void CheckSoundBankExistence(std::string soundBankName, AudioType audioType);
+	std::vector<std::shared_ptr<SoundBankFile>>& GetSoundBank(std::string soundBankName, AudioType audioType);
+	std::shared_ptr<SoundBankFile> FindSoundBankFile(std::wstring fileName, std::string soundBankName, AudioType audioType);
 
 	std::wstring GetFileName(std::wstring filePath);
 	std::wstring GetFileName(std::string filePath);
@@ -142,8 +145,8 @@ private:
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
 
-	std::vector<std::shared_ptr<SoundBankFile>> m_vMusicSoundBank; // Music Sound Bank
-	std::vector<std::shared_ptr<SoundBankFile>> m_vSFXSoundBank; // SFX Sound Bank
+	//std::vector<std::shared_ptr<SoundBankFile>> m_vMusicSoundBank; // Music Sound Bank
+	//std::vector<std::shared_ptr<SoundBankFile>> m_vSFXSoundBank; // SFX Sound Bank
 
 	std::vector<IXAudio2SourceVoice*> m_vMusicSourceVoiceList;
 	std::vector<IXAudio2SourceVoice*> m_vSFXSourceVoiceList;

@@ -47,6 +47,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 		audioTypeString = "Unknown Type";
 		break;
 	}
+
 	if (ImGui::CollapsingHeader((audioTypeString + " List").c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 		for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
 			if (m_vSoundFileInfo[i].audioType == audioType) {
@@ -61,25 +62,25 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 
 					if (ImGui::SliderFloat(std::string("Default Volume##").append(std::to_string(i)).append("default volume").c_str(), &defaultVolume, 0.0f, 1.0f)) {
 						m_vSoundFileInfo[i].volume = defaultVolume;
-						AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), defaultVolume);
+						AudioEngine::GetInstance()->SetDefaultVolume(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, audioType), defaultVolume);
 					}
 
 					if (audioType == SFX) {
 						if (ImGui::Checkbox(std::string("Random Pitch##").append(std::to_string(i)).append("random pitch").c_str(), &randomPitchEnabled)) {
 							m_vSoundFileInfo[i].randomPitch = !m_vSoundFileInfo[i].randomPitch;
-							AudioEngine::GetInstance()->SetRandomPitch(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType));
+							AudioEngine::GetInstance()->SetRandomPitch(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, audioType));
 
 						}
 
 						if (m_vSoundFileInfo[i].randomPitch) {
 							if (ImGui::SliderFloat(std::string("Minimum Pitch##").append(std::to_string(i)).append("minimum pitch").c_str(), &pitchMinValue, 0.5f, 1.5f)) {
 								m_vSoundFileInfo[i].pitchMin = pitchMinValue;
-								AudioEngine::GetInstance()->SetPitchMin(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMinValue);
+								AudioEngine::GetInstance()->SetPitchMin(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, audioType), pitchMinValue);
 							}
 
 							if (ImGui::SliderFloat(std::string("Maximum Pitch##").append(std::to_string(i)).append("maximum pitch").c_str(), &pitchMaxValue, 0.5f, 1.5f)) {
 								m_vSoundFileInfo[i].pitchMax = pitchMaxValue;
-								AudioEngine::GetInstance()->SetPitchMax(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType), pitchMaxValue);
+								AudioEngine::GetInstance()->SetPitchMax(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, audioType), pitchMaxValue);
 							}
 						}
 					}
@@ -120,7 +121,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 
 
 					if (ImGui::Button(std::string("Play##").append(std::to_string(i)).append("play").c_str())) {
-						AudioEngine::GetInstance()->PlayAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), audioType);
+						AudioEngine::GetInstance()->PlayAudio(m_sActiveSoundBankName, m_vSoundFileInfo[i].tagName, audioType);
 					}
 
 					ImGui::SameLine();
@@ -139,7 +140,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 						ImGui::SameLine();
 					}
 					if (ImGui::Button(std::string("Delete##").append(std::to_string(i)).append("delete").c_str())) {
-						AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
+						AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, (AudioType)m_vSoundFileInfo[i].audioType);
 						m_vSoundFileInfo.erase(m_vSoundFileInfo.begin() + i);
 					}
 					ImGui::TreePop();
@@ -181,7 +182,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 					if (!duplicateFound) {
 						m_vSoundFileInfo.emplace_back(newSound);
 						std::string soundBankName = AudioEngine::GetInstance()->GetFileNameString(m_sActiveSoundBankPath);
-						AudioEngine::GetInstance()->LoadAudio(soundBankName, StringHelper::StringToWide(newSound.filePath), newSound.volume, (AudioType)newSound.audioType,
+						AudioEngine::GetInstance()->LoadAudio(soundBankName, StringHelper::StringToWide(newSound.filePath), newSound.tagName, newSound.volume, (AudioType)newSound.audioType,
 																	newSound.randomPitch, newSound.pitchMin, newSound.pitchMax);
 					}
 				}
@@ -395,12 +396,13 @@ void AudioEditor::SpawnControlWindow()
 					AudioEngine::GetInstance()->StopAllAudio();
 					if (previousSoundBankFileIdx > -1) {
 						for (unsigned int i = 0; i < m_vSoundFileInfo.size(); i++) {
-							AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), (AudioType)m_vSoundFileInfo[i].audioType);
+							AudioEngine::GetInstance()->UnloadAudio(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, (AudioType)m_vSoundFileInfo[i].audioType);
 						}
 					}
 					LoadSoundFileInfoFromJSON(m_vSoundBanksList[currentSoundBankFileIdx].filePath);
 					// Load audio to audio engine
 					AudioEngine::GetInstance()->LoadAudioFromJSON(m_vSoundBanksList[currentSoundBankFileIdx].filePath);
+					m_sActiveSoundBankName = m_vSoundBanksList[currentSoundBankFileIdx].name;
 					soundBankToLoad = false;
 				}
 
