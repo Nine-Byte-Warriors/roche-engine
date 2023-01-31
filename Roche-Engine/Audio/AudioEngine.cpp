@@ -5,14 +5,8 @@
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
-AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_vSFXSoundBank(nullptr), m_vMusicSourceVoiceList(nullptr), m_vSFXSourceVoiceList(nullptr) {
-	// Create sound banks
-	m_vMusicSoundBank = new std::vector<SoundBankFile*>();
-	m_vSFXSoundBank = new std::vector<SoundBankFile*>();
+AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr) {
 
-	// Create sound lists
-	m_vMusicSourceVoiceList = new std::vector<IXAudio2SourceVoice*>;
-	m_vSFXSourceVoiceList = new std::vector<IXAudio2SourceVoice*>;
 }
 
 AudioEngine::~AudioEngine()
@@ -56,11 +50,11 @@ void AudioEngine::Update()
 {
 	XAUDIO2_VOICE_STATE state;
 
-	for (int i = 0; m_vSFXSourceVoiceList->size() > i; i++) {
-		if (m_vSFXSourceVoiceList->at(i)->GetState(&state), state.BuffersQueued <= 0)
+	for (int i = 0; m_vSFXSourceVoiceList.size() > i; i++) {
+		if (m_vSFXSourceVoiceList.at(i)->GetState(&state), state.BuffersQueued <= 0)
 		{
-			m_vSFXSourceVoiceList->at(i)->DestroyVoice();
-			m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i	);
+			m_vSFXSourceVoiceList.at(i)->DestroyVoice();
+			m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i	);
 		}
 	}
 }
@@ -78,21 +72,21 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 	}
 }
 
-void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName)
+void AudioEngine::SaveAudioToJSON(std::vector<SoundBankFile*>& sfxSoundList, std::vector<SoundBankFile*>& musicSoundList, std::string fileName)
 {
 	std::vector<JSONSoundFile> soundFileList;
 	std::string name;
 
-	for (int i = 0; sfxSoundList->size() > i; i++) {
-		name = StringHelper::StringToNarrow(sfxSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList->at(i)->tagName, sfxSoundList->at(i)->volume, 0,
-			sfxSoundList->at(i)->randomPitch, sfxSoundList->at(i)->pitchMin, sfxSoundList->at(i)->pitchMax });
+	for (int i = 0; sfxSoundList.size() > i; i++) {
+		name = StringHelper::StringToNarrow(sfxSoundList.at(i)->fileName);
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", sfxSoundList.at(i)->tagName, sfxSoundList.at(i)->volume, 0,
+			sfxSoundList.at(i)->randomPitch, sfxSoundList.at(i)->pitchMin, sfxSoundList.at(i)->pitchMax });
 	}
 
-	for (int i = 0; musicSoundList->size() > i; i++) {
-		name = StringHelper::StringToNarrow(musicSoundList->at(i)->fileName);
-		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList->at(i)->tagName, musicSoundList->at(i)->volume, 1,
-			musicSoundList->at(i)->randomPitch, musicSoundList->at(i)->pitchMin, musicSoundList->at(i)->pitchMax });
+	for (int i = 0; musicSoundList.size() > i; i++) {
+		name = StringHelper::StringToNarrow(musicSoundList.at(i)->fileName);
+		soundFileList.push_back({ name, "Resources\\Audio\\" + name + ".wav", musicSoundList.at(i)->tagName, musicSoundList.at(i)->volume, 1,
+			musicSoundList.at(i)->randomPitch, musicSoundList.at(i)->pitchMin, musicSoundList.at(i)->pitchMax });
 	}
 
 	JsonLoading::SaveJson(soundFileList, "Resources\\Audio\\Sound Banks\\" + fileName + ".json");
@@ -184,27 +178,27 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 	float frequencyRatio;
 	float sourceRate;
 
-	if (audioType == SFX && m_vSFXSourceVoiceList->size() >= m_iMaxSFXSourceVoicesLimit) {
+	if (audioType == SFX && m_vSFXSourceVoiceList.size() >= m_iMaxSFXSourceVoicesLimit) {
 		return S_FALSE;
 	}
-	else if (audioType == MUSIC && m_vMusicSourceVoiceList->size() >= m_iMaxMusicSourceVoicesLimit) {
+	else if (audioType == MUSIC && m_vMusicSourceVoiceList.size() >= m_iMaxMusicSourceVoicesLimit) {
 		return S_FALSE;
 	}
 
 	IXAudio2SourceVoice* pVoice = nullptr;
-	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
+	std::vector<SoundBankFile*>& soundBank = GetSoundBank(audioType);
 
 	// Check with the file name exists, if so, grab a buffer from it
-	for (int i = 0; soundBank->size() > i; i++) {
-		if (fileName == soundBank->at(i)->fileName) {
+	for (int i = 0; soundBank.size() > i; i++) {
+		if (fileName == soundBank.at(i)->fileName) {
 
-			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank->at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
 				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
 				return hr;
 			}
 
-			if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank->at(i)->buffer))) {
+			if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
 				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
 				return hr;
 			}
@@ -212,19 +206,19 @@ HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
 			switch (audioType)
 			{
 			case SFX:
-				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank->at(i)->volume;
+				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank.at(i)->volume;
 				pVoice->SetVolume(finalVolume);
-				if (soundBank->at(i)->randomPitch) {
+				if (soundBank.at(i)->randomPitch) {
 					pVoice->GetFrequencyRatio(&sourceRate);
-					frequencyRatio = sourceRate / RND::Getf(soundBank->at(i)->pitchMin, soundBank->at(i)->pitchMax);
+					frequencyRatio = sourceRate / RND::Getf(soundBank.at(i)->pitchMin, soundBank.at(i)->pitchMax);
 					pVoice->SetFrequencyRatio(frequencyRatio); // TODO: Random between min and max
 				}
-				m_vSFXSourceVoiceList->push_back(pVoice);
+				m_vSFXSourceVoiceList.push_back(pVoice);
 				break;
 			case MUSIC:
-				finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank->at(i)->volume;
+				finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank.at(i)->volume;
 				pVoice->SetVolume(finalVolume);
-				m_vMusicSourceVoiceList->push_back(pVoice);
+				m_vMusicSourceVoiceList.push_back(pVoice);
 				break;
 			default:
 				ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
@@ -252,8 +246,8 @@ HRESULT AudioEngine::UnpauseMusic()
 	HRESULT hr = S_OK;
 	
 	if (m_bIsMusicPaused) {
-		for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
-			m_vMusicSourceVoiceList->at(i)->Start(0);
+		for (int i = 0; m_vMusicSourceVoiceList.size() > i; i++) {
+			m_vMusicSourceVoiceList.at(i)->Start(0);
 		}
 
 		m_bIsMusicPaused = false;
@@ -266,8 +260,8 @@ HRESULT AudioEngine::PauseMusic()
 {
 	HRESULT hr = S_OK;
 
-	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
-		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop(0))) {
+	for (int i = 0; m_vMusicSourceVoiceList.size() > i; i++) {
+		if (FAILED(hr = m_vMusicSourceVoiceList.at(i)->Stop(0))) {
 			ErrorLogger::Log(hr, "AudioEngine::PauseMusic: Failed to Stop music");
 			return hr;
 		}
@@ -282,14 +276,14 @@ HRESULT AudioEngine::StopMusic()
 {
 	HRESULT hr = S_OK;
 
-	for (int i = 0; m_vMusicSourceVoiceList->size() > i; i++) {
-		if (FAILED(hr = m_vMusicSourceVoiceList->at(i)->Stop(0))) {
+	for (int i = 0; m_vMusicSourceVoiceList.size() > i; i++) {
+		if (FAILED(hr = m_vMusicSourceVoiceList.at(i)->Stop(0))) {
 			ErrorLogger::Log(hr, "AudioEngine::StopMusic: Failed to Stop music");
 			return hr;
 		}
 		else {
-			m_vMusicSourceVoiceList->at(i)->DestroyVoice();
-			m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->begin() + i);
+			m_vMusicSourceVoiceList.at(i)->DestroyVoice();
+			m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.begin() + i);
 		}
 	}
 
@@ -299,12 +293,12 @@ HRESULT AudioEngine::StopMusic()
 HRESULT AudioEngine::UnloadAudio(std::wstring fileName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
-	std::vector<SoundBankFile*>* soundBank = GetSoundBank(audioType);
+	std::vector<SoundBankFile*>& soundBank = GetSoundBank(audioType);
 
-	for (int i = 0; soundBank->size() > i; i++) {
-		if (fileName == soundBank->at(i)->fileName) {
-			DeleteAudioData(soundBank->at(i));
-			soundBank->erase(soundBank->begin() + i);
+	for (int i = 0; soundBank.size() > i; i++) {
+		if (fileName == soundBank.at(i)->fileName) {
+			DeleteAudioData(soundBank.at(i));
+			soundBank.erase(soundBank.begin() + i);
 
 			return hr;
 		}
@@ -319,27 +313,27 @@ void AudioEngine::UnloadAllAudio()
 {
 	StopAllAudio();
 
-	while (m_vMusicSoundBank->size() > 0) {
-		DeleteAudioData(m_vMusicSoundBank->at(0));
-		m_vMusicSoundBank->erase(m_vMusicSoundBank->begin());
+	while (m_vMusicSoundBank.size() > 0) {
+		DeleteAudioData(m_vMusicSoundBank.at(0));
+		m_vMusicSoundBank.erase(m_vMusicSoundBank.begin());
 	}
 
-	while (m_vSFXSoundBank->size() > 0) {
-		DeleteAudioData(m_vSFXSoundBank->at(0));
-		m_vSFXSoundBank->erase(m_vSFXSoundBank->begin());
+	while (m_vSFXSoundBank.size() > 0) {
+		DeleteAudioData(m_vSFXSoundBank.at(0));
+		m_vSFXSoundBank.erase(m_vSFXSoundBank.begin());
 	}
 }
 
 void AudioEngine::StopAllAudio()
 {
-	for (int i = m_vSFXSourceVoiceList->size(); m_vSFXSourceVoiceList->size() < i; i--) {
-		m_vSFXSourceVoiceList->at(i)->DestroyVoice();
-		m_vSFXSourceVoiceList->erase(m_vSFXSourceVoiceList->begin() + i);
+	for (int i = m_vSFXSourceVoiceList.size(); m_vSFXSourceVoiceList.size() < i; i--) {
+		m_vSFXSourceVoiceList.at(i)->DestroyVoice();
+		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i);
 	}
 
-	for (int i = m_vSFXSourceVoiceList->size(); m_vMusicSourceVoiceList->size() < i; i--) {
-		m_vMusicSourceVoiceList->at(i)->DestroyVoice();
-		m_vMusicSourceVoiceList->erase(m_vMusicSourceVoiceList->end());
+	for (int i = m_vSFXSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
+		m_vMusicSourceVoiceList.at(i)->DestroyVoice();
+		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.end());
 	}
 }
 
@@ -452,11 +446,11 @@ SoundBankFile* AudioEngine::CreateSoundBankFile(std::string soundBankName, std::
 	return soundBankFile;
 }
 
-void AudioEngine::AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank)
+void AudioEngine::AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>& soundBank)
 {
 	// Optionally TODO:
 	// Check whether the same file name in SoundBankFile is being used in other SoundBankFile, if so resolve it
-	soundBank->push_back(soundBankFile);
+	soundBank.push_back(soundBankFile);
 }
 
 std::wstring AudioEngine::GetFileName(std::wstring filePath)
@@ -489,7 +483,7 @@ std::string AudioEngine::GetFileNameString(std::string filePath)
 	return fileNameString;
 }
 
-std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {
+std::vector<SoundBankFile*>& AudioEngine::GetSoundBank(AudioType audioType) {
 	switch (audioType)
 	{
 	case SFX:
@@ -506,9 +500,9 @@ std::vector<SoundBankFile*>* AudioEngine::GetSoundBank(AudioType audioType) {
 
 SoundBankFile* AudioEngine::FindSoundBankFile(std::wstring fileName, AudioType audioType)
 {
-	for (int i = 0; GetSoundBank(audioType)->size() > i; i++) {
-		if (fileName == GetSoundBank(audioType)->at(i)->fileName) {
-			return GetSoundBank(audioType)->at(i);
+	for (int i = 0; GetSoundBank(audioType).size() > i; i++) {
+		if (fileName == GetSoundBank(audioType).at(i)->fileName) {
+			return GetSoundBank(audioType).at(i);
 		}
 	}
 

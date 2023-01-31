@@ -38,5 +38,25 @@
         "randomPitch": true,
         "tagName": "piano",
         "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\creepymusic.wav",
+        "name": "creepymusic",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "creepymusic",
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\partymusic.wav",
+        "name": "partymusic",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "partymusic",
+        "volume": 1.0
     }
 ]

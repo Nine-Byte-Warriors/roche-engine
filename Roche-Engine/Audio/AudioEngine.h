@@ -85,7 +85,7 @@ public:
 	void Update(); // keep it on separate thread ideally
 
 	void LoadAudioFromJSON(std::string loadFilePath); //JSON Pre-loading Function
-	void SaveAudioToJSON(std::vector<SoundBankFile*>* sfxSoundList, std::vector<SoundBankFile*>* musicSoundList, std::string fileName); // JSON Save Function
+	void SaveAudioToJSON(std::vector<SoundBankFile*>& sfxSoundList, std::vector<SoundBankFile*>& musicSoundList, std::string fileName); // JSON Save Function
 
 	void LoadSoundBanksList(std::string loadFilePath);
 	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
@@ -106,13 +106,13 @@ public:
 	void DeleteAudioData(SoundBankFile* soundBankFile);
 
 	SoundBankFile* CreateSoundBankFile(std::string soundBankName, std::wstring filePath, XAUDIO2_BUFFER* buffer, WAVEFORMATEX* waveformatex, float volume, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum);
-	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>* soundBank);
+	void AddToSoundBank(SoundBankFile* soundBankFile, std::vector<SoundBankFile*>& soundBank);
 	std::wstring GetFileName(std::wstring filePath);
 	std::wstring GetFileName(std::string filePath);
 	std::string GetFileNameString(std::wstring filePath);
 	std::string GetFileNameString(std::string filePath);
 
-	std::vector<SoundBankFile*>* GetSoundBank(AudioType audioType);
+	std::vector<SoundBankFile*>& GetSoundBank(AudioType audioType);
 	SoundBankFile* FindSoundBankFile(std::wstring fileName, AudioType audioType);
 
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
@@ -139,28 +139,30 @@ private:
 	static AudioEngine* m_pAudioEngineInstance;
 	static std::mutex m_mutex;
 
-	//TEST
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
 
-	std::vector<SoundBankFile*>* m_vMusicSoundBank; // Music Sound Bank
-	std::vector<SoundBankFile*>* m_vSFXSoundBank; // SFX Sound Bank
+	std::vector<SoundBankFile*> m_vMusicSoundBank; // Music Sound Bank
+	std::vector<SoundBankFile*> m_vSFXSoundBank; // SFX Sound Bank
 
-	std::vector<IXAudio2SourceVoice*>* m_vMusicSourceVoiceList;
-	std::vector<IXAudio2SourceVoice*>* m_vSFXSourceVoiceList;
+	std::vector<IXAudio2SourceVoice*> m_vMusicSourceVoiceList;
+	std::vector<IXAudio2SourceVoice*> m_vSFXSourceVoiceList;
+
+	// NEW
+	std::map<std::string, std::vector<SoundBankFile*>> m_vSFXSoundBankMap;
+	
+
+	// 
+
 
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;
-
-	//int m_iSFXSourceVoicesPlaying;
-	//int m_iMusicSourceVoicesPlaying;
 
 	float m_fMasterVolume;
 	float m_fMusicVolume;
 	float m_fSFXVolume;
 
 	bool m_bIsMusicPaused;
-
 
 };
 
