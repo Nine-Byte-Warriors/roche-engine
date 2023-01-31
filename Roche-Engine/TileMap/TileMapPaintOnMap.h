@@ -4,18 +4,7 @@
 
 #include "EventSystem.h"
 #include "Camera.h"
-#include "JsonLoading.h"
 #include <Vector2f.h>
-
-struct TileMapPaint
-{
-	int boarderTilesRows;
-	int boarderTilesCols;
-
-	int startingPosX;
-	int startingPosY;
-};
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TileMapPaint, boarderTilesRows, boarderTilesCols, startingPosX, startingPosY)
 
 class TileMapPaintOnMap : public Listener
 {
@@ -24,15 +13,11 @@ public:
 	~TileMapPaintOnMap();
 	void Initialize(Camera& camera, int rows, int cols, int startingPosX, int startingPosY);
 
-	int GetBoarderTilesRows();
-	int GetBoarderTilesCols();
-
-	int GetStartingPosX();
-	int GetStartingPosY();
-
 	int GetTileMapPos();
 
 	bool IsLeftMouseDown();
+
+	int GetPositionAtCoordinates(int x, int y);
 
 private:
 	void AddToEvent() noexcept;
@@ -55,9 +40,6 @@ private:
 	int m_iSize;
 	int m_iRows;
 	int m_iCols;
-
-	std::string JsonFile = "TileMapPaint.json";
-	TileMapPaint m_tileMapPaint;
 };
 
 #endif

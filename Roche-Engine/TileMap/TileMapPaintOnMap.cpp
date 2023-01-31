@@ -5,8 +5,6 @@
 
 TileMapPaintOnMap::TileMapPaintOnMap()
 {
-	JsonLoading::LoadJson(m_tileMapPaint, FOLDER_PATH + JsonFile);
-
 	m_bLeftMouseDown = false;
 
 	AddToEvent();
@@ -29,26 +27,6 @@ void TileMapPaintOnMap::Initialize(Camera& camera, int rows, int cols, int start
 	m_iSize = m_iRows * m_iCols;
 }
 
-int TileMapPaintOnMap::GetBoarderTilesRows()
-{
-	return m_tileMapPaint.boarderTilesRows;
-}
-
-int TileMapPaintOnMap::GetBoarderTilesCols()
-{
-	return m_tileMapPaint.boarderTilesCols;
-}
-
-int TileMapPaintOnMap::GetStartingPosX()
-{
-	return m_tileMapPaint.startingPosX;
-}
-
-int TileMapPaintOnMap::GetStartingPosY()
-{
-	return m_tileMapPaint.startingPosY;
-}
-
 int TileMapPaintOnMap::GetTileMapPos()
 {
 	return m_iPos;
@@ -56,12 +34,32 @@ int TileMapPaintOnMap::GetTileMapPos()
 
 bool TileMapPaintOnMap::IsLeftMouseDown()
 {
-	bool isMouseInPlayerArea = m_iTileX >= 0 && m_iTileX < m_iCols&& m_iTileY >= 0 && m_iTileY < m_iRows;
+	bool isMouseInPlayerArea = m_iTileX >= 0 && m_iTileX < m_iCols && m_iTileY >= 0 && m_iTileY < m_iRows;
 	if (isMouseInPlayerArea)
 	{
 		return m_bLeftMouseDown;
 	}
 	return false;
+}
+
+int TileMapPaintOnMap::GetPositionAtCoordinates(int x, int y)
+{
+	float cameraX = m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_iStartingPosX;
+	float cameraY = m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_iStartingPosY;
+	int tileX = (cameraX + x) / 32;
+	int tileY = (cameraY + y) / 32;
+	int pos = tileX + tileY * m_iCols;
+
+	if (pos >= m_iCols * m_iRows)
+	{
+		pos = m_iCols * m_iRows;
+	}
+	if (pos < 0)
+	{
+		pos = 0;
+	}
+
+	return pos;
 }
 
 void TileMapPaintOnMap::AddToEvent() noexcept

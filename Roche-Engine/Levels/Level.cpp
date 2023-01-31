@@ -178,14 +178,33 @@ void Level::RenderFrameEntity()
     }
 }
 
-void Level::RenderFrameTileMap() //TODO: make this more efficient, seems to be fine in release
+void Level::RenderFrameTileMap()
 {
-    for (int i = 0; i < m_tileMapDrawLayers.size(); i++)
+    int layerSize = m_tileMapDrawLayers.size();
+#if _DEBUG
+    if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Foreground)
     {
-        for (unsigned j = 0; j < m_iTileMapRows * m_iTileMapColumns; j++)
+        layerSize = 2;
+    }
+    else if (m_tileMapEditor.GetTileMapLayer() == TileMapLayer::Background)
+    {
+        layerSize = 1;
+    }
+#endif
+
+    for (int i = 0; i < layerSize; i++)
+    {
+        for (int k = 0; k <= (m_gfx->GetHeight() / m_iTileSize) + 1; k++)
         {
-            m_tileMapDrawLayers[i][j].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-            m_tileMapDrawLayers[i][j].GetSprite()->Draw(m_tileMapDrawLayers[i][j].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+            int height = k * ((m_gfx->GetHeight() / m_iTileSize) - 1);
+            int topLeftPos = m_tileMapPaintOnMap.GetPositionAtCoordinates(0, height);
+            int topRightPos = m_tileMapPaintOnMap.GetPositionAtCoordinates(m_gfx->GetWidth() + m_iTileSize, height);
+
+            for (unsigned j = topLeftPos; j < topRightPos; j++)
+            {
+                m_tileMapDrawLayers[i][j].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+                m_tileMapDrawLayers[i][j].GetSprite()->Draw(m_tileMapDrawLayers[i][j].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+            }
         }
     }
 }
