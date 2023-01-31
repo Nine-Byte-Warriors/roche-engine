@@ -10,7 +10,6 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "EntityAnimation.h"
-#include "Level.h"
 
 class Entity
 {

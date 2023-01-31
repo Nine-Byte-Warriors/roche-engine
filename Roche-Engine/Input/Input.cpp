@@ -81,9 +81,9 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
-
+		
 		if (m_keyboard.KeyIsPressed('K'))
-			EventSystem::Instance()->AddEvent(EVENTID::TomatoKamikaze);
+			EventSystem::Instance()->AddEvent(EVENTID::RemoveHealth);
 
         // Close game
         if ( keycode == VK_ESCAPE )

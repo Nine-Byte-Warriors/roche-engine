@@ -57,7 +57,6 @@ public:
 	void CreateTileMap();
 	void CreateUI();
 
-	std::vector<int> m_entitiesDeleted;
 private:
 	void RenderFrameEntity();
 	void UpdateUI( const float dt );
@@ -104,6 +103,7 @@ private:
 	bool m_bMapUpdate = true;
 
 
+	std::vector<int> m_entitiesDeleted;
 	Vector2f* m_vFakedPos;
 
 	bool m_bIsWindowHovered = false;

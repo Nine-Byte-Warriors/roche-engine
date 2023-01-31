@@ -44,6 +44,9 @@ enum class EVENTID
 	PlayerFire,
 	TargetPosition,
 
+	//DEBUG
+	RemoveHealth,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
