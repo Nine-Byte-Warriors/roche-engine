@@ -16,8 +16,7 @@ using json = nlohmann::json;
 enum class TileMapLayer
 {
 	Background,
-	Foreground,
-	Both
+	Foreground
 };
 
 struct TileTypeData
