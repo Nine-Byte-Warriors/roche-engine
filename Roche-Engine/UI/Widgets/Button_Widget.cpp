@@ -26,6 +26,7 @@ Button_Widget::~Button_Widget() { }
 
 void Button_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
 {
+    m_vTextOffset = { 0.0f, 0.0f };
 	m_sprite->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
     m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
@@ -46,12 +47,14 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
 
     // Button text
     XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
-    XMFLOAT2 textpos =
+    XMFLOAT2 textPos =
     {
         m_transform->GetPosition().x + ( m_transform->GetScale().x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
         m_transform->GetPosition().y + ( m_transform->GetScale().y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
     };
-    textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
+    textPos.x += m_vTextOffset.x;
+    textPos.y += m_vTextOffset.y;
+    textRenderer->RenderString( m_sText, textPos, m_vTextColor, false );
 }
 
 bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected )
@@ -82,7 +85,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     }
 
     // Button state
-	if ( keepSelected )
+    if ( keepSelected )
 	{
 		m_buttonTexture = textures[2];
 		return false;

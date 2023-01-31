@@ -85,6 +85,7 @@ void UIScreen::UpdateWidgets()
 
 void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 {
+#pragma region WIDGET_SETUP
 	m_vWidgets = widgets;
 	m_vButtons.clear();
 	m_vColourBlocks.clear();
@@ -117,7 +118,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
+#pragma endregion
 
+#pragma region BUTTONS
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
 		bool isSeedPacket = false;
@@ -127,7 +130,10 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			if (m_vButtons[i].GetAction() == (SeedStrings[j] + " Background"))
 			{
 				isSeedPacket = true;
-				if (m_vButtons[i].Resolve(" ", Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket(i)))
+				m_vButtons[i].SetTextOffset( XMFLOAT2( 40.0f, 30.0f ) );
+				if ( m_vButtons[i].Resolve(
+					 std::to_string( m_inventory.GetActiveSeedPacketCount( SeedStrings[j] ) ),
+					 Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket( i ) ) )
 				{
 					m_inventory.SetActiveSeedPacket( j );
 				}
@@ -162,14 +168,18 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		}
 		m_vButtons[i].Update(dt);
 	}
+#pragma endregion
 
+#pragma region COLOUR_BLOCKS
 	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
 	{
 		// Doesn't need actions
 		m_vColourBlocks[i].Resolve( { 210, 210, 150 } );
 		m_vColourBlocks[i].Update( dt );
 	}
+#pragma endregion
 
+#pragma region DATA_SLIDERS
 	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
 	{
 		if ( m_vDataSliders[i].GetAction() == "Master Volume" )
@@ -188,7 +198,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vDataSliders[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region DROP_DOWNS
 	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
 	{
 		if ( m_vDropDowns[i].GetAction() == "Resolution" )
@@ -208,7 +220,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vDropDowns[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region ENERGY_BARS
 	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
 	{
 		if ( m_vEnergyBars[i].GetAction() == "Player Health" )
@@ -230,7 +244,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vEnergyBars[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region IMAGES
 	for (unsigned int i = 0; i < m_vImages.size(); i++)
 	{
 		if (m_vImages[i].GetAction() == "Carrot Seed Packet")
@@ -275,7 +291,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		}
 		m_vImages[i].Update(dt);
 	}
+#pragma endregion
 
+#pragma region INPUTS
 	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
 	{
 		if ( m_vInputs[i].GetAction() == "Player Name" )
@@ -289,7 +307,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 			m_vInputs[i].Update( dt );
 		}
 	}
+#pragma endregion
 
+#pragma region PAGE_SLIDERS
 	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
 	{
 		m_vPageSliders[i].Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
@@ -305,7 +325,9 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		if ( m_bUpdateSlider )
 			m_vPageSliders[i].SetPageSize( m_vScreenSize.y );
 	}
+#pragma endregion
 
+#pragma region RENDER_BOX
 	// Update render box
 	if ( m_vPageSliders.size() > 0 )
 	{
@@ -317,6 +339,7 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 		m_fBoxPos = { 0.0f, 0.0f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
 	}
+#pragma endregion
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -328,6 +351,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 	for ( unsigned int i = 0; i < widgetAmount; i++ )
 	{
+#pragma region BUTTONS
 		for ( unsigned int j = 0; j < m_vButtons.size(); j++ )
 		{
 			if ( m_vButtons[j].GetZIndex() == i )
@@ -341,7 +365,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region COLOUR_BLOCKS
 		for ( unsigned int j = 0; j < m_vColourBlocks.size(); j++ )
 		{
 			if ( m_vColourBlocks[j].GetZIndex() == i )
@@ -354,7 +380,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region DATA_SLIDERS
 		for ( unsigned int j = 0; j < m_vDataSliders.size(); j++ )
 		{
 			if ( m_vDataSliders[j].GetZIndex() == i )
@@ -367,7 +395,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region DROP_DOWNS
 		for ( unsigned int j = 0; j < m_vDropDowns.size(); j++ )
 		{
 			if ( m_vDropDowns[j].GetZIndex() == i )
@@ -381,7 +411,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region ENERGY_BARS
 		for ( unsigned int j = 0; j < m_vEnergyBars.size(); j++ )
 		{
 			if ( m_vEnergyBars[j].GetZIndex() == i )
@@ -394,7 +426,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region IMAGES
 		for ( unsigned int j = 0; j < m_vImages.size(); j++ )
 		{
 			if ( m_vImages[j].GetZIndex() == i )
@@ -407,7 +441,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region INPUTS
 		for ( unsigned int j = 0; j < m_vInputs.size(); j++ )
 		{
 			if ( m_vInputs[j].GetZIndex() == i )
@@ -421,7 +457,9 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 
+#pragma region PAGE_SLIDERS
 		for ( unsigned int j = 0; j < m_vPageSliders.size(); j++ )
 		{
 			if ( m_vPageSliders[j].GetZIndex() == i )
@@ -434,6 +472,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				break;
 			}
 		}
+#pragma endregion
 	}
 }
 

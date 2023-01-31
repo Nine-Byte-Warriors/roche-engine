@@ -17,13 +17,16 @@ public :
 	~Inventory();
 
 	inline bool IsActiveSeedPacket( int index ) const noexcept { return m_vSelectedSeeds[index]; }
+	inline int GetActiveSeedPacketCount( std::string name ) const noexcept { return m_vSeedOptions.at(name); }
 	inline int GetActiveSeedPacket() const noexcept { return m_iCurrentSeed; }
-	void SetActiveSeedPacket( int currSeed ) noexcept;
+	
+	void SetActiveSeedPacket( int currSeed );
 	//void UpdateInventoryCount(std::string seedName, int seedChange);
 	//void UpdateCurrentSeedCount(int seedChange);
 	//void SetActiveSeedPacket(int index);
 
 private:
+	void UpdateActiveSeedPacket( int currSeed );
 	//bool SeedCountCheck(int seedIndex);
 
 	void AddToEvent() noexcept;

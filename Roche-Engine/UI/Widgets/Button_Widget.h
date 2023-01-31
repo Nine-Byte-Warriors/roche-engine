@@ -25,10 +25,13 @@ public:
     bool Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected = false );
     
     inline bool GetIsPressed() const noexcept { return m_bIsPressed; }
+    inline void SetTextOffset( XMFLOAT2 pos ) noexcept { m_vTextOffset = pos; }
+
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 private:
     std::string m_sText;
+    XMFLOAT2 m_vTextOffset;
     XMVECTORF32 m_vTextColor;
     bool m_bIsPressed = false;
 

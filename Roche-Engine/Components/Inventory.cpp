@@ -15,7 +15,7 @@ Inventory::Inventory()
 
 Inventory::~Inventory() { RemoveFromEvent(); }
 
-void Inventory::SetActiveSeedPacket( int currSeed ) noexcept
+void Inventory::SetActiveSeedPacket( int currSeed )
 {
 	m_iCurrentSeed = currSeed;
 	std::fill( m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false );
@@ -47,13 +47,14 @@ void Inventory::SetActiveSeedPacket( int currSeed ) noexcept
 //	UpdateInventoryCount(it->first,amountToChange);
 //}
 
-//void Inventory::SetActiveSeedPacket( int index )
-//{
-//	if (index >= m_seedOptions.size())
-//		m_iCurrentSeed = 0;
-//	else if (index < 0)
-//		m_iCurrentSeed = m_seedOptions.size();
-//}
+void Inventory::UpdateActiveSeedPacket( int currSeed )
+{
+	if ( currSeed > m_vSeedOptions.size() - 1 )
+		m_iCurrentSeed = 0;
+	if ( currSeed < 0 )
+		m_iCurrentSeed = m_vSeedOptions.size() - 1;
+	SetActiveSeedPacket( m_iCurrentSeed );
+}
 
 //bool Inventory::SeedCountCheck(int seedIndex)
 //{
@@ -66,22 +67,18 @@ void Inventory::SetActiveSeedPacket( int currSeed ) noexcept
 
 void Inventory::AddToEvent() noexcept
 {
-	//EventSystem::Instance()->AddClient(EVENTID::SetActiveSeedPacket, this);
 	EventSystem::Instance()->AddClient(EVENTID::IncrementSeedPacket, this);
 	EventSystem::Instance()->AddClient(EVENTID::DecrementSeedPacket, this);
 	//EventSystem::Instance()->AddClient(EVENTID::PlantSeed, this);
 	//EventSystem::Instance()->AddClient(EVENTID::BuySeed, this);
-	//EventSystem::Instance()->AddClient(EVENTID::ChangeSeed, this);
 }
 
 void Inventory::RemoveFromEvent() noexcept
 {
-	//EventSystem::Instance()->RemoveClient(EVENTID::SetActiveSeedPacket, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::IncrementSeedPacket, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::DecrementSeedPacket, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::PlantSeed, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::BuySeed, this);
-	//EventSystem::Instance()->RemoveClient(EVENTID::ChangeSeed, this);
 }
 
 void Inventory::HandleEvent(Event* event)
@@ -89,17 +86,15 @@ void Inventory::HandleEvent(Event* event)
 	switch (event->GetEventID())
 	{
 	case EVENTID::IncrementSeedPacket:
-		SetActiveSeedPacket(m_iCurrentSeed++);
+		m_iCurrentSeed++;
+		UpdateActiveSeedPacket( m_iCurrentSeed );
 		break;
 	case EVENTID::DecrementSeedPacket:
-		SetActiveSeedPacket(m_iCurrentSeed--);
+		m_iCurrentSeed--;
+		UpdateActiveSeedPacket( m_iCurrentSeed );
 		break;
-	//case EVENTID::SetActiveSeedPacket:
-	//	m_iCurrentSeed = *static_cast<int*>( event->GetData() );
-	//	break;
 	//case EVENTID::PlantSeed: UpdateCurrentSeedCount(-1); break;
 	//case EVENTID::BuySeed: UpdateCurrentSeedCount(1); break;
-	//case EVENTID::ChangeSeed: IncrementCurrentSeed(); break;
 	default: break;
 	}
 }
