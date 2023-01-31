@@ -120,22 +120,24 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
 	{
+		bool isSeedPacket = false;
 		static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
 		for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 		{
 			if (m_vButtons[i].GetAction() == (SeedStrings[j] + " Background"))
 			{
-				if (m_vButtons[i].Resolve(" ", Colors::White, m_textures, m_mouseData, m_vSelectedSeeds[i]))
+				isSeedPacket = true;
+				if (m_vButtons[i].Resolve(" ", Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket(i)))
 				{
-					m_iCurrentSeed = j;
-					std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
-					m_vSelectedSeeds[m_iCurrentSeed] = true;
-					EventSystem::Instance()->AddEvent(EVENTID::SetActiveSeedPacket, &m_iCurrentSeed);
+					m_inventory.SetActiveSeedPacket( j );
 				}
 			}
 		}
-
-		if ( m_vButtons[i].GetAction() == "Close" )
+		if ( isSeedPacket )
+		{
+			// Don't run other button actions if is seed packet
+		}
+		else if ( m_vButtons[i].GetAction() == "Close" )
 		{
 			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
 				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
@@ -499,20 +501,6 @@ void UIScreen::HandleEvent( Event* event )
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
 		m_bUpdateSlider = true;
-	}
-	break;
-	case EVENTID::IncrementSeedPacket:
-	{
-		m_iCurrentSeed++;
-		std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
-		m_vSelectedSeeds[m_iCurrentSeed] = true;
-	}
-	break;
-	case EVENTID::DecrementSeedPacket:
-	{
-		m_iCurrentSeed--;
-		std::fill(m_vSelectedSeeds.begin(), m_vSelectedSeeds.end(), false);
-		m_vSelectedSeeds[m_iCurrentSeed] = true;
 	}
 	break;
 	}

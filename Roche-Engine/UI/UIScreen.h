@@ -5,6 +5,7 @@
 class Graphics;
 #include "Shaders.h"
 #include "Listener.h"
+#include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
 
@@ -59,9 +60,7 @@ private:
 	float m_fCurrentY, m_fCurrentPY;
 
 	// Inventory data
-	int m_iCurrentSeed = 0;
-	std::vector<bool> m_vSelectedSeeds =
-	{ false, false, false, false, false, false };
+	Inventory m_inventory;
 
 	// Widget data
 	int m_iSliderStart = 50;
