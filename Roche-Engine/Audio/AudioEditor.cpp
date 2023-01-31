@@ -237,6 +237,10 @@ void AudioEditor::LoadFromFileSoundBankLists()
 		if (foLoad->GetFullPath().find(SOUND_BANK_LISTS_PATH) != std::string::npos) {
 			// Load UI screens
 			JsonLoading::LoadJson(m_vSoundBanksList, SOUND_BANK_LISTS_PATH + foLoad->GetFilePath());
+			if (m_vSoundBanksList.size() == 0)
+			{
+				return;
+			}
 			m_sActiveSoundBankList = foLoad->GetFilePath();
 			SortScreens();
 		}
@@ -358,8 +362,11 @@ void AudioEditor::SpawnControlWindow()
 					if (!duplicateFound) {
 						std::vector<JSONSoundFile> soundFileInfo;
 						JsonLoading::LoadJson(soundFileInfo, foLoad->GetJsonPath());
-						m_vSoundBanksList.push_back(SoundBanksList({ foLoad->m_sFile, SOUND_BANK_PATH + foLoad->GetFilePath() }));
-						currentSoundBankFileIdx -= m_vSoundBanksList.size() - 1;
+						if (soundFileInfo.size() != 0)
+						{
+							m_vSoundBanksList.push_back(SoundBanksList({ foLoad->m_sFile, SOUND_BANK_PATH + foLoad->GetFilePath() }));
+							currentSoundBankFileIdx -= m_vSoundBanksList.size() - 1;
+						}
 					}
 
 				}
