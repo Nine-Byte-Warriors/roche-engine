@@ -81,13 +81,13 @@ void Camera::HandleEvent( Event* event )
 	{
 		if ( m_bLockedToPlayer )
 		{
-			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>( event->GetData() );
-			m_vPosition = XMFLOAT2( charSpriteandPos->second->x, charSpriteandPos->second->y );
+			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>(event->GetData());
 			Sprite* charSprite = charSpriteandPos->first;
+			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth(), charSpriteandPos->second->y + charSprite->GetHeight());
 
 			m_mWorldMatrix = XMMatrixTranslation(
-				-( m_vPosition.x - m_vSizeOfScreen.x / 2.0f + charSprite->GetWidth() ),
-				-( m_vPosition.y - m_vSizeOfScreen.y / 2.0f + charSprite->GetHeight() ), 0.0f );
+				-(m_vPosition.x - m_vSizeOfScreen.x / 2.0f),
+				-(m_vPosition.y - m_vSizeOfScreen.y / 2.0f), 0.0f);
 		}
 	}
 	break;
