@@ -4,12 +4,12 @@
         "hide": false,
         "name": "Carrot Seed Packet",
         "position": [
-            28.0,
-            962.0
+            624.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 8
@@ -19,12 +19,12 @@
         "hide": false,
         "name": "Bean Seed Packet",
         "position": [
-            145.0,
-            962.0
+            747.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 10
@@ -34,12 +34,12 @@
         "hide": false,
         "name": "Onion Seed Packet",
         "position": [
-            264.0,
-            962.0
+            873.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 11
@@ -49,12 +49,12 @@
         "hide": false,
         "name": "Cauliflower Seed Packet",
         "position": [
-            384.0,
-            962.0
+            997.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 12
@@ -64,12 +64,12 @@
         "hide": false,
         "name": "Potato Seed Packet",
         "position": [
-            507.0,
-            962.0
+            1120.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 13
@@ -79,67 +79,22 @@
         "hide": false,
         "name": "Tomato Seed Packet",
         "position": [
-            626.0,
-            962.0
+            1243.0,
+            954.0
         ],
         "scale": [
             100.0,
-            65.0
+            78.0
         ],
         "type": "Image",
         "zindex": 14
-    },
-    {
-        "action": "Heart_1",
-        "hide": false,
-        "name": "Heart_1",
-        "position": [
-            16.0,
-            28.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Image",
-        "zindex": 6
-    },
-    {
-        "action": "Heart_2",
-        "hide": false,
-        "name": "Heart_2",
-        "position": [
-            96.0,
-            28.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Image",
-        "zindex": 7
-    },
-    {
-        "action": "Heart_3",
-        "hide": false,
-        "name": "Heart_3",
-        "position": [
-            180.0,
-            28.0
-        ],
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "type": "Image",
-        "zindex": 9
     },
     {
         "action": "Carrot Background",
         "hide": false,
         "name": "Carrot Background",
         "position": [
-            23.0,
+            620.0,
             928.0
         ],
         "scale": [
@@ -154,7 +109,7 @@
         "hide": false,
         "name": "Bean Background",
         "position": [
-            140.0,
+            745.0,
             928.0
         ],
         "scale": [
@@ -169,7 +124,7 @@
         "hide": false,
         "name": "Onion Background",
         "position": [
-            261.0,
+            871.0,
             928.0
         ],
         "scale": [
@@ -184,7 +139,7 @@
         "hide": false,
         "name": "Cauliflower Background",
         "position": [
-            379.0,
+            994.0,
             928.0
         ],
         "scale": [
@@ -199,7 +154,7 @@
         "hide": false,
         "name": "Potato Background",
         "position": [
-            501.0,
+            1117.0,
             928.0
         ],
         "scale": [
@@ -214,7 +169,7 @@
         "hide": false,
         "name": "Tomato Background",
         "position": [
-            618.0,
+            1239.0,
             928.0
         ],
         "scale": [
@@ -223,5 +178,110 @@
         ],
         "type": "Button",
         "zindex": 1
+    },
+    {
+        "action": "Score Label",
+        "hide": false,
+        "name": "Score Label",
+        "position": [
+            1601.0,
+            23.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Coin Icon",
+        "hide": false,
+        "name": "Coin Label",
+        "position": [
+            1611.0,
+            109.0
+        ],
+        "scale": [
+            48.0,
+            54.0
+        ],
+        "type": "Image",
+        "zindex": 7
+    },
+    {
+        "action": "Score",
+        "hide": false,
+        "name": "Score Text",
+        "position": [
+            1600.0,
+            0.0
+        ],
+        "scale": [
+            318.0,
+            116.0
+        ],
+        "type": "Image",
+        "zindex": 3
+    },
+    {
+        "action": "Coins",
+        "hide": false,
+        "name": "Coins text",
+        "position": [
+            1600.0,
+            76.0
+        ],
+        "scale": [
+            318.0,
+            116.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    },
+    {
+        "action": "Heart_1",
+        "hide": false,
+        "name": "Heart_1",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "Heart_2",
+        "hide": false,
+        "name": "Heart_2",
+        "position": [
+            70.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 1
+    },
+    {
+        "action": "Heart_3",
+        "hide": false,
+        "name": "Heart_3",
+        "position": [
+            140.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 2
     }
 ]

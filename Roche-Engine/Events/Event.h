@@ -52,6 +52,17 @@ enum class EVENTID
 	PlantSeed,
 	BuySeed,
 
+	//UI
+	StartGame,
+	OpenSettings,
+	ResumeGame,
+	Back,
+	GeneralTab,
+	GrahpicsTab,
+	MusicTab,
+	ControlTab,
+	OpenCredits,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,

@@ -4,44 +4,74 @@
         "hide": false,
         "name": "Background",
         "position": [
-            600.0,
-            200.0
+            178.0,
+            0.0
         ],
         "scale": [
-            128.0,
-            72.0
+            1611.0,
+            1080.0
         ],
         "type": "Image",
         "zindex": 0
     },
     {
-        "action": "Link",
+        "action": "Resume",
         "hide": false,
-        "name": "GitHub Link",
+        "name": "Resume",
         "position": [
-            600.0,
-            400.0
+            325.0,
+            530.0
         ],
         "scale": [
-            128.0,
-            72.0
+            300.0,
+            300.0
         ],
         "type": "Button",
         "zindex": 1
     },
     {
-        "action": "Close",
+        "action": "Settings",
         "hide": false,
-        "name": "Quit Game",
+        "name": "Settings",
         "position": [
-            600.0,
-            600.0
+            830.0,
+            530.0
         ],
         "scale": [
-            128.0,
-            72.0
+            300.0,
+            300.0
         ],
         "type": "Button",
         "zindex": 2
+    },
+    {
+        "action": "Close",
+        "hide": false,
+        "name": "Quit",
+        "position": [
+            1337.0,
+            530.0
+        ],
+        "scale": [
+            300.0,
+            300.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Pause Title",
+        "hide": false,
+        "name": "Pause Title",
+        "position": [
+            832.0,
+            94.0
+        ],
+        "scale": [
+            300.0,
+            300.0
+        ],
+        "type": "Image",
+        "zindex": 4
     }
 ]
