@@ -13,6 +13,7 @@ public:
 	
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& sSpritePath);
+	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& sSpritePath, Vector2f vSize);
 	void Update(const float dt);
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 
@@ -27,6 +28,7 @@ public:
 	inline void SetWave(const float vAngle, const float fAmp, const float fFreq) noexcept 
 		{ m_bFixedDirection = false; m_fAngle = vAngle; m_fAmplitude = fAmp; m_fFrequency = fFreq; }
 	inline bool IsAlive() const noexcept { return m_fLifeTime > 0.0f; }
+	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 	
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
@@ -39,6 +41,7 @@ private:
 	std::shared_ptr<Transform> m_transform;
 	
 	float m_fSpeed;
+	float m_fDelay;
 	float m_fLifeTime;
 	float m_fMaxLifeTime;
 	Vector2f m_vSpawnPosition;

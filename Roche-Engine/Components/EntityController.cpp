@@ -35,6 +35,16 @@ std::vector<float> EntityController::GetPosition(int num)
 	return m_entityData[num].position;
 }
 
+float EntityController::GetRotation(int num)
+{
+	return m_entityData[num].rotation;
+}
+
+float EntityController::GetHealth(int num)
+{
+	return m_entityData[num].health;
+}
+
 std::string EntityController::GetName(int num)
 {
 	return m_entityData[num].name;

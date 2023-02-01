@@ -12,6 +12,7 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_fSpeed = fSpeed;
 	m_fLifeTime = 0.0f;
 	m_fMaxLifeTime = fLifeTime;
+	m_fDelay = 0.0f;
 
 	m_bFixedDirection = true;
 	m_fAmplitude = 0.0f;
@@ -36,11 +37,25 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
+void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& sSpritePath, Vector2f vSize)
+{
+	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), sSpritePath, mat);
+	m_transform->SetPositionInit(0.0f, 0.0f);
+
+	float fWidth = vSize.x == 0.0f ? m_sprite->GetWidth() : vSize.x;
+	float fHeight = vSize.y == 0.0f ? m_sprite->GetHeight() : vSize.y;
+	m_transform->SetScaleInit(fWidth, fHeight);
+}
+
 void Projectile::Update(const float dt)
 {
 	if (!IsAlive())
 		return;
 	
+	m_fDelay -= dt;
+	if (m_fDelay > 0.0f)
+		return;
+
 	m_fLifeTime -= dt;
 
 	if (m_fAmplitude == 0.0f || m_fFrequency == 0.0f)
@@ -56,6 +71,9 @@ void Projectile::Update(const float dt)
 void Projectile::Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)
 {
 	if (!IsAlive())
+		return;
+
+	if (m_fDelay > 0.0f)
 		return;
 	
 	m_sprite->UpdateBuffers(context);
