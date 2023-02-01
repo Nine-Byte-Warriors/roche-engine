@@ -8,11 +8,14 @@
 class Health : public Listener
 {
 public:
+	//Temperay (for testing)
 	float m_fEnemyCurrentHealth;
 	float m_fPlayerCurrentHealth;
 
 	float m_fPlayerMaxHealth;
 	float m_fEnemyMaxHealth;
+	
+
 
 	Health();
 
