@@ -82,9 +82,10 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
 	m_wButtonDrop.SetPosition( { m_vPosition.x + m_vSize.x, m_vPosition.y } );
 	m_wButtonDrop.SetSize( { m_vSize.y, m_vSize.y } );
+	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
+
 	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
 		if ( currData == m_vListData[i] )
 			m_iSelected = i;
@@ -97,8 +98,8 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
 		float PosY = m_vPosition.y + m_vSize.y;
 		for ( unsigned int i = 0; i < ddList.size(); i++ )
 		{
-			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
 			m_wListButtons[i].SetPosition( { m_vPosition.x, PosY } );
+			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
 			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData ) )
 			{
 				m_eDropState = DropState::Up;
