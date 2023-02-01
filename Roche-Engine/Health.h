@@ -17,9 +17,7 @@ public:
 	Health();
 
 	void Initialize();
-
-	void PlayerDamage(float DamageAmount);
-	void EnemyDamage(float EnemyHealth, float DamageAmount);
+	void Damage(float EnityHealth, float DamageAmount);
 	void Heal(float HealAmount);
 
 	void AddToEvent() noexcept;
