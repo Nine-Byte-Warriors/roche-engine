@@ -7,26 +7,33 @@ Health::Health()
 	AddToEvent();
 }
 
-void Health::Initialize()
+Health::~Health()
 {
-	//Temperay (for testing)
-	m_fPlayerMaxHealth = 3;
-	m_fEnemyMaxHealth = 3;
-	m_fPlayerCurrentHealth = m_fPlayerMaxHealth;
-	m_fEnemyCurrentHealth = m_fEnemyMaxHealth;
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDamage, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDeath, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::EnemeyDamage, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::EnemeyDeath, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerHeal, this);
 }
 
-
-void Health::Damage(float EnityHealth, float DamageAmount)
+void Health::PlayerDamage(float PlayerHealth, float DamageAmount)
 {
-	EnityHealth -= DamageAmount;
+	PlayerHealth -= DamageAmount;
 	if (m_fEnemyCurrentHealth <= 0)
 	{
 		OutputDebugStringA("dead");
-		//{ kill enemy }
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerDeath, this);
 	}
-	else
-		OutputDebugStringA("Alive");
+}
+
+void Health::EnemeyDamage(float EnemyHealth, float DamageAmount)
+{
+	EnemyHealth -= DamageAmount;
+	if (m_fEnemyCurrentHealth <= 0)
+	{
+		OutputDebugStringA("dead");
+		EventSystem::Instance()->AddEvent(EVENTID::EnemeyDeath, this);
+	}
 }
 
 void Health::Heal(float HealAmount)
@@ -48,8 +55,12 @@ void Health::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	case EVENTID::PlayerDamage: Damage(m_fPlayerCurrentHealth, 1); break;
-	case EVENTID::EnemeyDamage: Damage(m_fEnemyMaxHealth, 1); break;
+	case EVENTID::PlayerDamage: 
+		m_fPlayerCurrentHealth = *static_cast<float*>(event->GetData());
+		PlayerDamage(m_fPlayerCurrentHealth, 1); break;
+	case EVENTID::EnemeyDamage: 
+		m_fEnemyCurrentHealth = *static_cast<float*>(event->GetData());
+		EnemeyDamage(m_fEnemyCurrentHealth, 1); break;
 	case EVENTID::PlayerHeal: Heal(1); break;
 	default: break;
 	}

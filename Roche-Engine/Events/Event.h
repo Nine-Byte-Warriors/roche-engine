@@ -64,6 +64,8 @@ enum class EVENTID
 	PlayerDamage,
 	EnemeyDamage,
 	PlayerHeal,
+	PlayerDeath,
+	EnemeyDeath,
 };
 
 /// <summary>

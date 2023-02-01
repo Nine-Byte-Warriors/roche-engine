@@ -7,20 +7,19 @@
 
 class Health : public Listener
 {
-public:
-	//Temperay (for testing)
+private:
 	float m_fEnemyCurrentHealth;
 	float m_fPlayerCurrentHealth;
-
 	float m_fPlayerMaxHealth;
-	float m_fEnemyMaxHealth;
+
+public:
 	
-
-
 	Health();
-
-	void Initialize();
-	void Damage(float EnityHealth, float DamageAmount);
+	~Health();
+	
+	
+	void PlayerDamage(float PlayerHealth, float DamageAmount);
+	void EnemeyDamage(float EnemyHealth, float DamageAmount);
 	void Heal(float HealAmount);
 
 	void AddToEvent() noexcept;
