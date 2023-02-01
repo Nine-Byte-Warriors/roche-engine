@@ -22,32 +22,48 @@ public:
 template<typename t>
 static void JsonLoading::LoadJson(std::vector<t>& structData, std::string inputfile)
 {
-	std::ifstream jsonFile(inputfile);
-	json jsonData = json::parse(jsonFile);
-	structData = jsonData;
+	try
+	{
+		std::ifstream jsonFile(inputfile);
+		json jsonData = json::parse(jsonFile);
+		structData = jsonData;
+	}
+	catch (const std::exception) {}
 }
 
 template<typename t>
 static void JsonLoading::SaveJson(std::vector<t> structData, std::string inputfile)
 {
-	json jsonData = structData;
-	std::ofstream o(inputfile);
-	o << std::setw(4) << jsonData << std::endl;
+	try
+	{
+		json jsonData = structData;
+		std::ofstream o(inputfile);
+		o << std::setw(4) << jsonData << std::endl;
+	}
+	catch (const std::exception) {}
 }
 
 template<typename t>
 static void JsonLoading::LoadJson(t& structData, std::string inputfile)
 {
-	std::ifstream jsonFile(inputfile);
-	json jsonData = json::parse(jsonFile);
-	structData = jsonData;
+	try
+	{
+		std::ifstream jsonFile(inputfile);
+		json jsonData = json::parse(jsonFile);
+		structData = jsonData;
+	}
+	catch (const std::exception) {}
 }
 
 template<typename t>
 static void JsonLoading::SaveJson(t structData, std::string inputfile)
 {
-	json jsonData = structData;
-	std::ofstream o(inputfile);
-	o << std::setw(4) << jsonData << std::endl;
+	try
+	{
+		json jsonData = structData;
+		std::ofstream o(inputfile);
+		o << std::setw(4) << jsonData << std::endl;
+	}
+	catch (const std::exception) {}
 }
 #endif

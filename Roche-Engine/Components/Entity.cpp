@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "Graphics.h"
 
+#define PI 3.1415
+
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
 	m_vPosition = new Vector2f();
@@ -47,6 +49,12 @@ void Entity::SetComponents()
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
 	}
+
+	if (GetType() == "Player")
+	{
+		m_playerController = std::make_shared<PlayerController>(this);
+		m_inventory = std::make_shared<Inventory>();
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -59,6 +67,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 
 	SetPositionInit();
 	SetScaleInit();
+	UpdateRotation();
 	UpdateBehaviour();
 	UpdateColliderRadius();
 	SetAnimation();
@@ -88,6 +97,9 @@ void Entity::Update(const float dt)
 	{
 		m_projectileManager->Update(dt);
 	}
+
+	if (m_playerController)
+		m_playerController->Update(dt);
 }
 
 std::string Entity::GetType()
@@ -102,6 +114,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 		UpdatePosition();
 	}
 	UpdateScale();
+	UpdateRotation();
 	UpdateMass();
 	UpdateBehaviour();
 	UpdateSpeed();
@@ -135,6 +148,11 @@ void Entity::SetScaleInit()
 			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 		}
 	}
+}
+
+void Entity::SetHealthInit()
+{
+	m_fHealth = m_entityController->GetHealth(m_iEntityNum);
 }
 
 void Entity::UpdateRowsColumns()
@@ -196,6 +214,12 @@ void Entity::UpdateAnimation()
 			}
 		}
 	}
+}
+
+void Entity::UpdateRotation()
+{
+	m_fRotation = m_entityController->GetRotation(m_iEntityNum) * PI / 4;
+	m_transform->SetRotation(m_fRotation);
 }
 
 void Entity::UpdateTexture()

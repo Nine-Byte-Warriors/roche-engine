@@ -12,6 +12,7 @@
                 "m_fFrequency": 5.0,
                 "m_fLifeTime": 100.0,
                 "m_fSpeed": 5.0,
+				"m_fDelay": 0.0,
                 "m_fX": 0.0,
                 "m_fY": 0.0
             },
@@ -21,6 +22,7 @@
                 "m_fFrequency": 0.0,
                 "m_fLifeTime": 100.0,
                 "m_fSpeed": 10.0,
+				"m_fDelay": 0.0,
                 "m_fX": 0.0,
                 "m_fY": 0.0
             }

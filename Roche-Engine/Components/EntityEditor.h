@@ -45,11 +45,13 @@ private:
 	void SetName();
 	void SetType();
 	void SetPosition();
+	void SetRotation();
 	void SetTexture();
 	void SetAnimation();
 	void SetAnimationType();
 	void SetScale();
 	void SetRowsColumns();
+	void SetHealth();
 
 	//Physics
 	void SetMass();
@@ -98,6 +100,11 @@ private:
 	bool m_bIsUpdated;
 	bool m_bLockPosition;
 	bool m_bLockToScale;
+
+	float m_fPushItemWidthFull = 210.0f;
+	float m_fPushItemWidthHalf = 100.0f;
+
+	int m_iRotation;
 
 	int m_iSelectedIndex = 0;
 	std::vector<std::string> m_projectileList;

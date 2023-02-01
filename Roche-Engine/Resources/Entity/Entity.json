@@ -14,6 +14,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 47.0,
         "identifier": 0,
         "mass": 10.0,
         "maxFrame": [
@@ -28,6 +29,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 4.0,
         "rows": 3,
         "scale": [
             64.0,
@@ -52,6 +54,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 100.0,
         "identifier": 1,
         "mass": 10.0,
         "maxFrame": [
@@ -66,6 +69,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             128.0,
@@ -90,6 +94,7 @@
         ],
         "colliderShape": "Box",
         "columns": 2,
+        "health": 100.0,
         "identifier": 2,
         "mass": 21.200000762939453,
         "maxFrame": [
@@ -104,6 +109,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             124.0,
@@ -128,6 +134,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 100.0,
         "identifier": 3,
         "mass": 10.0,
         "maxFrame": [
@@ -142,6 +149,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             64.0,
@@ -166,6 +174,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 3,
+        "health": 100.0,
         "identifier": 4,
         "mass": 1.0,
         "maxFrame": [
@@ -180,6 +189,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             64.0,
@@ -204,6 +214,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 1,
+        "health": 100.0,
         "identifier": 5,
         "mass": 1.0,
         "maxFrame": [
@@ -218,6 +229,7 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 1,
         "scale": [
             32.0,

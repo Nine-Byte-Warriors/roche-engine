@@ -10,6 +10,8 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Agent.h"
 #include "EntityAnimation.h"
+#include "PlayerController.h"
+#include "Inventory.h"
 
 class Entity
 {
@@ -42,12 +44,14 @@ public:
 private:
 	void SetPositionInit();
 	void SetScaleInit();
+	void SetHealthInit();
 
 	void SetComponents();
 
 	void UpdatePosition();
 	void UpdateScale();
 	void UpdateAnimation();
+	void UpdateRotation();
 	void UpdateTexture();
 	void SetAnimation();
 	void UpdateRowsColumns();
@@ -69,6 +73,9 @@ private:
 	Vector2f* m_vPosition;
 	float m_fScaleX;
 	float m_fScaleY;
+	float m_fRotation;
+	float m_fHealth;
+
 	int m_iMaxFrameX;
 	int m_iMaxFrameY;
 	int m_iCurFrameX;
@@ -103,6 +110,8 @@ private:
 	std::shared_ptr<ProjectileManager> m_projectileManager;
 	std::shared_ptr<CircleCollider> m_colliderCircle;
 	std::shared_ptr<BoxCollider> m_colliderBox;
+	std::shared_ptr<PlayerController> m_playerController;
+	std::shared_ptr<Inventory>m_inventory;
 
 	EntityController* m_entityController;
 
