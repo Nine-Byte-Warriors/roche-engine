@@ -10,6 +10,9 @@ ProjectileManager::ProjectileManager()
 	float fSpeed = 50.0f;
 	m_fDelay = 0.0f;
 	m_fCounter = 0.0f;
+	m_fTotalDuration = 0.0f;
+
+	m_bWillRepeat = false;
 
 	m_vecProjectilePool = std::vector<std::shared_ptr<Projectile>>();
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
@@ -44,6 +47,20 @@ void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<M
 
 void ProjectileManager::Update( const float dt )
 {
+	if (!IsFinished())
+		m_fDuration -= dt;
+	else
+	{
+		// TODO : add call to spawn projectiles when duration counter is reset.
+		if (m_bWillRepeat)
+		{
+			m_fDuration = m_fTotalDuration;
+			SpawnProjectiles(m_vSpawnPosition);
+		}
+		else
+			m_fDuration = 0.0f;
+	}
+	
 	if (m_fCounter >= 0.0f)
 	{
 		m_fCounter -= dt;
@@ -60,9 +77,19 @@ void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix
 		pProjectile->Draw(context, orthoMatrix);
 }
 
+void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool) 
+{
+	m_fTotalDuration = m_fDelay;
+	m_vecProjectilePool = vecProjectilePool; 
+	
+	for (std::shared_ptr<Projectile> pProjectile : vecProjectilePool)
+		m_fTotalDuration += pProjectile->GetDelay() + pProjectile->GetMaxLifeTime();
+}
+
 void ProjectileManager::SpawnProjectile()
 {
 	m_fCounter = m_fDelay;
+	m_fDuration = m_fTotalDuration;
 
 	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
 
@@ -101,6 +128,7 @@ void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::Project
 void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
 	m_fCounter = m_fDelay;
+	m_fDuration = m_fTotalDuration;
 
 	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
 
@@ -111,6 +139,8 @@ void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime
 void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 {
 	m_fCounter = m_fDelay;
+	m_fDuration = m_fTotalDuration;
+	m_vSpawnPosition = vSpawnPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
