@@ -113,6 +113,13 @@ EntityData* EntityController::GetProjectileBullet(int num)
 	return &m_entityData[num];
 }
 
+std::string EntityController::GetSoundBankName(int num)
+{
+	return m_entityData[num].soundBankName;
+}
+
+
+
 void EntityController::SetEntityData(std::vector<EntityData> entityData)
 {
 	m_entityData = entityData;
@@ -148,6 +155,13 @@ bool EntityController::HasProjectilePattern(int num)
 	return m_entityData[num].bProjectilePattern;
 }
 
+bool EntityController::HasAudio(int num)
+{
+	return m_entityData[num].audio;
+}
+
+
+
 bool EntityController::HasComponentUpdated()
 {
 	for (int i = 0; i < m_entityData.size(); i++)
@@ -159,6 +173,7 @@ bool EntityController::HasComponentUpdated()
 			m_entityDataCopy[i].bProjectilePattern != m_entityData[i].bProjectilePattern ||
 			m_entityDataCopy[i].animation != m_entityData[i].animation ||
 			m_entityDataCopy[i].bProjectileBullet != m_entityData[i].bProjectileBullet;
+			m_entityDataCopy[i].audio != m_entityData[i].audio;
 
 		if (componentUpdated)
 		{

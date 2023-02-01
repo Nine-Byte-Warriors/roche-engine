@@ -17,6 +17,8 @@ void EntityEditor::SpawnControlWindow(float width, float height)
 	m_fWidth = width;
 	m_fHeight = height;
 
+	m_vSoundBankNamesList = AudioEngine::GetInstance()->GetSoundBankNamesList();
+
 	if (ImGui::Begin("Entity Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
 		AddNewEntity();
@@ -64,6 +66,7 @@ void EntityEditor::EntityWidget()
 	AIWidget();
 	ProjectileSystemWidget();
 	ColliderWidget();
+	AudioWidget();
 #endif
 }
 
@@ -147,6 +150,8 @@ void EntityEditor::AddNewEntity()
 		entityData->animation = true;
 		entityData->rows = 1;
 		entityData->columns = 1;
+		entityData->audio = false;
+		entityData->soundBankName = "";
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -311,24 +316,24 @@ void EntityEditor::ColliderWidget()
 #endif
 }
 
-//void EntityEditor::AudioWidget()
-//{
-//#if _DEBUG
-//	ImGui::NewLine();
-//	ImGui::Checkbox("Audio", &m_vEntityDataCopy[m_iIdentifier].audio);
-//	if (m_vEntityDataCopy[m_iIdentifier].audio)
-//	{
-//		ImGui::SameLine();
-//		if (ImGui::TreeNode("##Audio"))
-//		{
-//			ImGui::NewLine();
-//			SetSoundBank();
-//
-//			ImGui::TreePop();
-//		}
-//	}
-//#endif
-//}
+void EntityEditor::AudioWidget()
+{
+#if _DEBUG
+	ImGui::NewLine();
+	ImGui::Checkbox("Audio", &m_vEntityDataCopy[m_iIdentifier].audio);
+	if (m_vEntityDataCopy[m_iIdentifier].audio)
+	{
+		ImGui::SameLine();
+		if (ImGui::TreeNode("##Audio"))
+		{
+			ImGui::NewLine();
+			SetSoundBank();
+
+			ImGui::TreePop();
+		}
+	}
+#endif
+}
 
 void EntityEditor::SetName()
 {
@@ -725,12 +730,29 @@ void EntityEditor::SetColliderSize()
 void EntityEditor::SetSoundBank()
 {
 #if _DEBUG
-	ImGui::Text("Audio");
+	ImGui::Text("Sound Bank name:");
+	static int activeSoundBankType = 0;
+	std::string previewEntitySoundBank = m_vEntityDataCopy[m_iIdentifier].soundBankName;
+	
+	std::string label = "##Entity Sound Bank" + std::to_string(m_iIdentifier);
 
-		// TO DO
-		// Give a listbox with sound banks based on sound bank list loaded in level editor
+	if (ImGui::BeginCombo(label.c_str(), previewEntitySoundBank.c_str()))
+	{
+		for (int i = 0; i < m_vSoundBankNamesList.size(); i++)
+		{
+			const bool isSelected = i == activeSoundBankType;
+			if (ImGui::Selectable(m_vSoundBankNamesList[i].c_str(), isSelected))
+			{
+				activeSoundBankType = i;
+				previewEntitySoundBank = m_vSoundBankNamesList[i];
+			}
+		}
 
-	ImGui::Text(m_sSelectedFileTex.c_str());
+		ImGui::EndCombo();
+
+		m_vEntityDataCopy[m_iIdentifier].soundBankName = m_vSoundBankNamesList[activeSoundBankType];
+	}
+
 #endif
 }
 

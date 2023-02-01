@@ -35,7 +35,9 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
-        "type": "Enemy"
+        "type": "Enemy",
+		"audio": false,
+		"soundBankName": ""
     },
     {
         "AI": true,
@@ -73,7 +75,9 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png",
-        "type": "Enemy"
+        "type": "Enemy",
+		"audio": false,
+		"soundBankName": ""
     },
     {
         "AI": false,
@@ -111,7 +115,9 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
-        "type": "Player"
+        "type": "Player",
+		"audio": false,
+		"soundBankName": ""
     },
     {
         "AI": true,
@@ -149,7 +155,9 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
-        "type": "Enemy"
+        "type": "Enemy",
+		"audio": false,
+		"soundBankName": ""
     },
     {
         "AI": true,
@@ -187,7 +195,9 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
-        "type": "Enemy"
+        "type": "Enemy",
+		"audio": false,
+		"soundBankName": ""
     },
     {
         "AI": true,
@@ -225,6 +235,8 @@
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Base_Projectile.png",
-        "type": "Projectile"
+        "type": "Projectile",
+		"audio": false,
+		"soundBankName": ""
     }
 ]

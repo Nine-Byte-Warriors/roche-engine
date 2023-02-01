@@ -6,7 +6,10 @@ AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
 AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr) {
-
+	// REMOVE WHEN WE WILL ACTUALLY HANDLE IT FROM THE LEVEL EDITOR SIDE
+	m_vSoundBankNamesList.push_back("SoundBankTest1");
+	m_vSoundBankNamesList.push_back("SoundBankTest2");
+	m_vSoundBankNamesList.push_back("SoundBankTest3");
 }
 
 AudioEngine::~AudioEngine()
@@ -94,10 +97,12 @@ void AudioEngine::SaveAudioToJSON(std::vector<std::shared_ptr<SoundBankFile>>& s
 
 void AudioEngine::LoadSoundBanksList(std::string loadFilePath)
 {
+	m_vSoundBankNamesList.clear();
 	std::vector<SoundBanksList> soundBanksList;
 	JsonLoading::LoadJson(soundBanksList, loadFilePath);
 	for (int i = 0; soundBanksList.size() > i; i++) {
 		LoadAudioFromJSON(soundBanksList.at(i).filePath);
+		m_vSoundBankNamesList.push_back(soundBanksList.at(i).name);
 	}
 }
 
@@ -110,7 +115,6 @@ HRESULT AudioEngine::LoadAudio(std::string soundBankName, std::wstring filePath,
 	XAUDIO2_BUFFER* buffer = new XAUDIO2_BUFFER();
 
 	//// Open audio with CreateFile
-	//WCHAR* strFileName = (WCHAR*)TEXT("TestAudioFiles\\pcm-32bit-44khz-mono.wav");
 	const wchar_t* strFileName = filePath.c_str();
 
 	// Open file
@@ -160,11 +164,6 @@ HRESULT AudioEngine::LoadAudio(std::string soundBankName, std::wstring filePath,
 	buffer->AudioBytes = dwChunkSize;  // size of the audio buffer in bytes
 	buffer->pAudioData = pDataBuffer;  // buffer containing audio data
 	buffer->Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
-
-	// TO DO:
-	// Check whether specific sound bank name exists in map
-	// If not, add it to the map
-	// Insert the sound bank to specific vector matching map key (sound bank name)
 
 	CheckSoundBankExistence(soundBankName, audioType);
 
@@ -239,76 +238,6 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 
 	return hr;
 }
-
-//HRESULT AudioEngine::PlayAudio(std::wstring fileName, AudioType audioType)
-//{
-//	HRESULT hr = S_OK;
-//	float finalVolume;
-//	float frequencyRatio;
-//	float sourceRate;
-//
-//	if (audioType == SFX && m_vSFXSourceVoiceList.size() >= m_iMaxSFXSourceVoicesLimit) {
-//		return S_FALSE;
-//	}
-//	else if (audioType == MUSIC && m_vMusicSourceVoiceList.size() >= m_iMaxMusicSourceVoicesLimit) {
-//		return S_FALSE;
-//	}
-//
-//	IXAudio2SourceVoice* pVoice = nullptr;
-//	std::vector<std::shared_ptr<SoundBankFile>> soundBank = GetSoundBank(soundBankName, audioType);
-//
-//	// Check with the file name exists, if so, grab a buffer from it
-//	for (int i = 0; soundBank.size() > i; i++) {
-//		if (fileName == soundBank.at(i)->fileName) {
-//
-//			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
-//				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
-//				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
-//				return hr;
-//			}
-//
-//			if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
-//				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
-//				return hr;
-//			}
-//
-//			switch (audioType)
-//			{
-//			case SFX:
-//				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank.at(i)->volume;
-//				pVoice->SetVolume(finalVolume);
-//				if (soundBank.at(i)->randomPitch) {
-//					pVoice->GetFrequencyRatio(&sourceRate);
-//					frequencyRatio = sourceRate / RND::Getf(soundBank.at(i)->pitchMin, soundBank.at(i)->pitchMax);
-//					pVoice->SetFrequencyRatio(frequencyRatio); // TODO: Random between min and max
-//				}
-//				m_vSFXSourceVoiceList.push_back(pVoice);
-//				break;
-//			case MUSIC:
-//				finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank.at(i)->volume;
-//				pVoice->SetVolume(finalVolume);
-//				m_vMusicSourceVoiceList.push_back(pVoice);
-//				break;
-//			default:
-//				ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
-//				break;
-//			}
-//
-//			if (FAILED(hr = pVoice->Start(0))) {
-//				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
-//				return hr;
-//			}
-//
-//
-//			
-//			//pVoice->SetFrequencyRatio(12000);
-//			//
-//			//WaitForSingleObjectEx(m_vSFXSoundBank->at(i)->voiceCallback->hBufferEndEvent, INFINITE, TRUE);
-//		}
-//	} 
-//
-//	return hr;
-//}
 
 HRESULT AudioEngine::UnpauseMusic()
 {
@@ -512,8 +441,6 @@ std::shared_ptr<SoundBankFile> AudioEngine::CreateSoundBankFile(std::wstring fil
 	soundBankFile->tagName = tagName;
 	soundBankFile->buffer = buffer;
 	soundBankFile->sourceFormat = waveformatex;
-	//soundBankFile->voiceCallback = new VoiceCallback();
-	//soundBankFile->voiceCallback->OnBufferEnd(buffer);
 	soundBankFile->volume = volume;
 	soundBankFile->randomPitch = randomPitchEnabled;
 	soundBankFile->pitchMin = pitchMinimum;
@@ -524,10 +451,7 @@ std::shared_ptr<SoundBankFile> AudioEngine::CreateSoundBankFile(std::wstring fil
 
 void AudioEngine::AddToSoundBank(std::shared_ptr<SoundBankFile> soundBankFile, std::vector<std::shared_ptr<SoundBankFile>>& soundBank)
 {
-	// Optionally TODO:
-	// Check whether the same file name in SoundBankFile is being used in other SoundBankFile, if so resolve it
 	soundBankFile->soundBankAddress = &soundBank;
-	//soundBankFile->soundBankAddress = soundBank;
 	soundBank.push_back(soundBankFile);
 }
 
@@ -617,3 +541,4 @@ std::shared_ptr<SoundBankFile> AudioEngine::FindSoundBankFile(std::wstring fileN
 	ErrorLogger::Log("AudioEngine::FindSoundBankFile: Sound Bank File not found");
 	return nullptr;
 }
+

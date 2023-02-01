@@ -246,9 +246,6 @@
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="AudioComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -577,9 +574,6 @@
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files\Utility\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

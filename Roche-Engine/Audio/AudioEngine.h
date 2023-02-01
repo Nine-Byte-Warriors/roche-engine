@@ -118,6 +118,8 @@ public:
 	std::string GetFileNameString(std::wstring filePath);
 	std::string GetFileNameString(std::string filePath);
 
+	inline std::vector<std::string> GetSoundBankNamesList() { return m_vSoundBankNamesList; };
+
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
 	inline float GetMasterVolume() { return m_fMasterVolume; }
@@ -145,18 +147,13 @@ private:
 	IXAudio2SourceVoice* pSourceVoice;
 	IXAudio2SourceVoice* pSourceVoice2;
 
-	//std::vector<std::shared_ptr<SoundBankFile>> m_vMusicSoundBank; // Music Sound Bank
-	//std::vector<std::shared_ptr<SoundBankFile>> m_vSFXSoundBank; // SFX Sound Bank
+	std::vector<std::string> m_vSoundBankNamesList;
 
-	std::vector<IXAudio2SourceVoice*> m_vMusicSourceVoiceList;
-	std::vector<IXAudio2SourceVoice*> m_vSFXSourceVoiceList;
-
-	// NEW
 	std::map<std::string, std::vector<std::shared_ptr<SoundBankFile>>> m_SFXSoundBankMap;
 	std::map<std::string, std::vector<std::shared_ptr<SoundBankFile>>> m_MusicSoundBankMap;
 
-	// 
-
+	std::vector<IXAudio2SourceVoice*> m_vMusicSourceVoiceList;
+	std::vector<IXAudio2SourceVoice*> m_vSFXSourceVoiceList;
 
 	int m_iMaxSFXSourceVoicesLimit;
 	int m_iMaxMusicSourceVoicesLimit;

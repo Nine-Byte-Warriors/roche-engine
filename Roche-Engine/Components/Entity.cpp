@@ -110,6 +110,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateColliderRadius();
 	UpdateAnimation();
 	UpdateRowsColumns();
+	UpdateAudio();
 }
 
 void Entity::SetPositionInit()
@@ -318,6 +319,12 @@ void Entity::UpdateColliderRadius()
 			m_colliderCircle->SetRadius(0);
 		}
 	}
+}
+
+void Entity::UpdateAudio()
+{
+	if(m_entityController->HasAudio(m_iEntityNum))
+		m_sSoundBankName = m_entityController->GetSoundBankName(m_iEntityNum);
 }
 
 void Entity::UpdateEntityNum(int num)
