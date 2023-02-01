@@ -3,10 +3,15 @@
 
 Vector2f CircleCollider::ClosestPoint(Vector2f point) noexcept
 {
-    Vector2f direction = point - m_transform->GetPosition();
+    Vector2f direction = point - GetCenter();
     Vector2f unit = direction.Divide(direction.Magnitude());
 
-    Vector2f closestPoint = m_transform->GetPosition() + unit.Multiply(m_radius);
+    Vector2f closestPoint = GetCenter() + unit.Multiply(m_radius);
+    //------------------------------- WAY IT WAS BEFORE ----------------------
+    //Vector2f direction = point - m_transform->GetPosition();
+    //Vector2f unit = direction.Divide(direction.Magnitude());
+
+    //Vector2f closestPoint = m_transform->GetPosition() + unit.Multiply(m_radius);
 
     return closestPoint;
 }
@@ -141,11 +146,15 @@ void CircleCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
         //newPos = circle.ClosestPoint(m_transform->GetPosition());
         //break;
         */
-
-        //------------------------------- WAY IT WAS BEFORE ----------------------
         auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
         CircleCollider circle = *circlePtr;
         circle.SetRadius(circle.GetRadius() + m_radius);
+        //newPos = circle.ClosestPoint(GetCenter());
+
+        //------------------------------- WAY IT WAS BEFORE ----------------------
+        //auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+        //CircleCollider circle = *circlePtr;
+        //circle.SetRadius(circle.GetRadius() + m_radius);
         newPos = circle.ClosestPoint(m_transform->GetPosition());
         break;
     }

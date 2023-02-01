@@ -71,6 +71,13 @@ public:
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
     inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
 
+    inline Vector2f GetCenter() 
+    { 
+        Vector2f position = m_transform->GetPosition();
+        Vector2f center = Vector2f(position.x + m_transform->GetSprite()->GetWidth()/2.0f, position.y + m_transform->GetSprite()->GetHeight()/2.0f);
+        return center;
+    };
+
     inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
     inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_transform->GetPosition(); }//
 
