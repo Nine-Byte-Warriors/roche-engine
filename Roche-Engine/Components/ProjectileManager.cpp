@@ -55,7 +55,7 @@ void ProjectileManager::Update( const float dt )
 		if (m_bWillRepeat)
 		{
 			m_fDuration = m_fTotalDuration;
-			SpawnProjectile();
+			SpawnProjectiles(m_vSpawnPosition);
 		}
 		else
 			m_fDuration = 0.0f;
@@ -140,6 +140,7 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 {
 	m_fCounter = m_fDelay;
 	m_fDuration = m_fTotalDuration;
+	m_vSpawnPosition = vSpawnPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
