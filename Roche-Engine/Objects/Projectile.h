@@ -20,6 +20,8 @@ public:
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+	inline float GetMaxLifeTime() const noexcept { return m_fMaxLifeTime; }
+	inline float GetDelay() const noexcept { return m_fDelay; }
 	
 	inline void SetSpeed(const float fSpeed) noexcept { m_fSpeed = fSpeed; }
 	inline void SetLifeTime(const float fLifeTime) noexcept { m_fLifeTime = fLifeTime; }
