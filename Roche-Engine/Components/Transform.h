@@ -23,7 +23,7 @@ public:
 
 	inline void SetPosition( const Vector2f& pos ) noexcept { m_vPosition = pos; }
 	inline void SetPosition( float xPos, float yPos ) noexcept { m_vPosition = { xPos, yPos }; }
-	inline const Vector2f& GetPosition() const noexcept { return m_vPosition; }
+	inline Vector2f GetPosition() const noexcept { return m_vPosition; }
 
 	void AdjustPosition( const Vector2f& pos ) noexcept { m_vPosition += pos; }
 	void AdjustPosition( float xPos, float yPos ) noexcept{ m_vPosition += { xPos, yPos }; }

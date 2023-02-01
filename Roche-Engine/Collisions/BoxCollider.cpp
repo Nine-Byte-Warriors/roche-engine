@@ -85,7 +85,6 @@ bool BoxCollider::ToPoint(Vector2f point) noexcept
     return false;
 }
 
-
 void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 {
     if (m_isTrigger)
@@ -98,29 +97,28 @@ void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
     bool changeXValue = false;
     bool changeYValue = false;
 
-
     switch (collider->GetColliderType())
     {
-    case ColliderType::Box:
-    {
-        auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
-        BoxCollider box = *boxPtr;
-        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
-        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
-        changeXValue = !box.ToPoint(shiftedY);
-        changeYValue = !box.ToPoint(shiftedX);
-        break;
-    }
-    case ColliderType::Circle:
-    {
-        auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
-        CircleCollider circle = *circlePtr;
-        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
-        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
-        changeXValue = !circle.ToPoint(shiftedY);
-        changeYValue = !circle.ToPoint(shiftedX);
-        break;
-    }
+        case ColliderType::Box:
+        {
+            auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
+            BoxCollider box = *boxPtr;
+            Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+            Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+            changeXValue = !box.ToPoint(shiftedY);
+            changeYValue = !box.ToPoint(shiftedX);
+            break;
+        }
+        case ColliderType::Circle:
+        {
+            auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+            CircleCollider circle = *circlePtr;
+            Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+            Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+            changeXValue = !circle.ToPoint(shiftedY);
+            changeYValue = !circle.ToPoint(shiftedX);
+            break;
+        }
     }
     
     //change gameobjects position on either the x or y axis
@@ -129,13 +127,9 @@ void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
         newPos.x = m_lastValidPosition.x;
     }
     //if changing the x works
-    else if (changeYValue)
+    if (changeYValue)
     {
         newPos.y = m_lastValidPosition.y;
-    }
-    else if(changeXValue && changeYValue)
-    {
-        newPos = m_lastValidPosition;
     }
 
     m_transform->SetPosition(newPos);

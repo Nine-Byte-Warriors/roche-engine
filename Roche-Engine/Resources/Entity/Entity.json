@@ -92,7 +92,7 @@
             124.0,
             124.0
         ],
-        "colliderShape": "Box",
+        "colliderShape": "Circle",
         "columns": 2,
         "health": 100.0,
         "identifier": 2,
