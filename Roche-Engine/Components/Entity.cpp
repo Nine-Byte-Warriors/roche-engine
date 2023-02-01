@@ -49,6 +49,12 @@ void Entity::SetComponents()
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
 	}
+
+	if (GetType() == "Player")
+	{
+		m_playerController = std::make_shared<PlayerController>(this);
+		m_inventory = std::make_shared<Inventory>();
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -91,6 +97,9 @@ void Entity::Update(const float dt)
 	{
 		m_projectileManager->Update(dt);
 	}
+
+	if (m_playerController)
+		m_playerController->Update(dt);
 }
 
 std::string Entity::GetType()

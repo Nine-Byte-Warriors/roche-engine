@@ -1,32 +1,227 @@
 [
     {
-        "action": "Boss Health",
+        "action": "Carrot Seed Packet",
         "hide": false,
-        "name": "Boss Health",
+        "name": "Carrot Seed Packet",
         "position": [
-            400.0,
-            50.0
-        ],
-        "scale": [
-            500.0,
-            100.0
-        ],
-        "type": "Energy Bar",
-        "zindex": 0
-    },
-    {
-        "action": "",
-        "hide": false,
-        "name": "Boss Icon",
-        "position": [
-            250.0,
-            10.0
+            28.0,
+            962.0
         ],
         "scale": [
             100.0,
-            100.0
+            65.0
         ],
         "type": "Image",
+        "zindex": 8
+    },
+    {
+        "action": "Bean Seed Packet",
+        "hide": false,
+        "name": "Bean Seed Packet",
+        "position": [
+            145.0,
+            962.0
+        ],
+        "scale": [
+            100.0,
+            65.0
+        ],
+        "type": "Image",
+        "zindex": 10
+    },
+    {
+        "action": "Onion Seed Packet",
+        "hide": false,
+        "name": "Onion Seed Packet",
+        "position": [
+            264.0,
+            962.0
+        ],
+        "scale": [
+            100.0,
+            65.0
+        ],
+        "type": "Image",
+        "zindex": 11
+    },
+    {
+        "action": "Cauliflower Seed Packet",
+        "hide": false,
+        "name": "Cauliflower Seed Packet",
+        "position": [
+            384.0,
+            962.0
+        ],
+        "scale": [
+            100.0,
+            65.0
+        ],
+        "type": "Image",
+        "zindex": 12
+    },
+    {
+        "action": "Potato Seed Packet",
+        "hide": false,
+        "name": "Potato Seed Packet",
+        "position": [
+            507.0,
+            962.0
+        ],
+        "scale": [
+            100.0,
+            65.0
+        ],
+        "type": "Image",
+        "zindex": 13
+    },
+    {
+        "action": "Tomato Seed Packet",
+        "hide": false,
+        "name": "Tomato Seed Packet",
+        "position": [
+            626.0,
+            962.0
+        ],
+        "scale": [
+            100.0,
+            65.0
+        ],
+        "type": "Image",
+        "zindex": 14
+    },
+    {
+        "action": "Heart_1",
+        "hide": false,
+        "name": "Heart_1",
+        "position": [
+            16.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Heart_2",
+        "hide": false,
+        "name": "Heart_2",
+        "position": [
+            96.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 7
+    },
+    {
+        "action": "Heart_3",
+        "hide": false,
+        "name": "Heart_3",
+        "position": [
+            180.0,
+            28.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 9
+    },
+    {
+        "action": "Carrot Background",
+        "hide": false,
+        "name": "Carrot Background",
+        "position": [
+            23.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Bean Background",
+        "hide": false,
+        "name": "Bean Background",
+        "position": [
+            140.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Onion Background",
+        "hide": false,
+        "name": "Onion Background",
+        "position": [
+            261.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "Cauliflower Background",
+        "hide": false,
+        "name": "Cauliflower Background",
+        "position": [
+            379.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 5
+    },
+    {
+        "action": "Potato Background",
+        "hide": false,
+        "name": "Potato Background",
+        "position": [
+            501.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
+        "zindex": 0
+    },
+    {
+        "action": "Tomato Background",
+        "hide": false,
+        "name": "Tomato Background",
+        "position": [
+            618.0,
+            928.0
+        ],
+        "scale": [
+            110.0,
+            130.0
+        ],
+        "type": "Button",
         "zindex": 1
     }
 ]

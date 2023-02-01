@@ -1,7 +1,7 @@
 [
     {
         "file": "HUD_Widgets.json",
-        "name": "HUD"
+        "name": "HUD_Day"
     },
     {
         "file": "HUD_Night.json",

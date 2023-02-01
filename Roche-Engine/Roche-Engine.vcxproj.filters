@@ -246,6 +246,15 @@
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Inventory.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -570,10 +579,19 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Inventory.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
