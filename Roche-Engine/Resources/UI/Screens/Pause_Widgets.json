@@ -60,9 +60,9 @@
         "zindex": 3
     },
     {
-        "action": "",
+        "action": "Pause Title",
         "hide": false,
-        "name": "Settings title",
+        "name": "Pause Title",
         "position": [
             832.0,
             94.0

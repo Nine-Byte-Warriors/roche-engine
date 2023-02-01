@@ -136,7 +136,7 @@
     },
     {
         "action": "Up Control",
-        "hide": false,
+        "hide": true,
         "name": "Up Control Label",
         "position": [
             550.0,
@@ -151,7 +151,7 @@
     },
     {
         "action": "Left Control",
-        "hide": false,
+        "hide": true,
         "name": "Left Control Label",
         "position": [
             550.0,
@@ -166,7 +166,7 @@
     },
     {
         "action": "Down Control",
-        "hide": false,
+        "hide": true,
         "name": "Down Control Label",
         "position": [
             550.0,
@@ -181,7 +181,7 @@
     },
     {
         "action": "Right Control",
-        "hide": false,
+        "hide": true,
         "name": "Right Control Label",
         "position": [
             550.0,
@@ -196,7 +196,7 @@
     },
     {
         "action": "Shoot Control",
-        "hide": false,
+        "hide": true,
         "name": "Shoot Control Label",
         "position": [
             550.0,
@@ -208,5 +208,140 @@
         ],
         "type": "Image",
         "zindex": 13
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Up Control Input",
+        "position": [
+            750.0,
+            339.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 14
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Left Control Input",
+        "position": [
+            750.0,
+            421.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 15
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Down Control Input",
+        "position": [
+            750.0,
+            509.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 16
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Right Control Input",
+        "position": [
+            750.0,
+            604.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 17
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Shoot Control Input",
+        "position": [
+            750.0,
+            704.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 18
+    },
+    {
+        "action": "Language DD Label",
+        "hide": false,
+        "name": "Language setting Label",
+        "position": [
+            484.0,
+            616.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 19
+    },
+    {
+        "action": "Language",
+        "hide": false,
+        "name": "Language Drop Down",
+        "position": [
+            893.0,
+            611.0
+        ],
+        "scale": [
+            148.0,
+            97.0
+        ],
+        "type": "Drop Down",
+        "zindex": 20
+    },
+    {
+        "action": "Screen Shake Slider Label",
+        "hide": false,
+        "name": "Screen Shake amount Label",
+        "position": [
+            481.0,
+            383.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 21
+    },
+    {
+        "action": "Screen Shake",
+        "hide": false,
+        "name": "Screen Shake Slider",
+        "position": [
+            929.0,
+            379.0
+        ],
+        "scale": [
+            164.0,
+            88.0
+        ],
+        "type": "Data Slider",
+        "zindex": 22
     }
 ]

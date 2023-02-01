@@ -70,7 +70,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
 
     m_buttonState = ButtonState::Default;
 
-    // Button collison
+    // Button collision
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&

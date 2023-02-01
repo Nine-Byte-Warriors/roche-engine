@@ -61,6 +61,7 @@ enum class EVENTID
 	GrahpicsTab,
 	MusicTab,
 	ControlTab,
+	OpenCredits,
 
 	// Utility
 	WindowSizeChangeEvent,
