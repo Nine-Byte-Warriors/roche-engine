@@ -45,7 +45,6 @@ public:
 	void UpdateEntityNum(int num);
 
 	void CheckAliveStatus();
-	//void Kamikaze();
 
 private:
 	void SetPositionInit();
@@ -73,6 +72,8 @@ private:
 
 	void UpdateAudio();
 
+	void TomatoKamikaze();
+	void EnemyCollisions();
 
 	int m_iEntityNum;
 

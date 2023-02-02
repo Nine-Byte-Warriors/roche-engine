@@ -372,3 +372,20 @@ void Entity::CheckAliveStatus()
 		m_entityController->SetDead(m_iEntityNum);
 	}
 }
+
+void Entity::TomatoKamikaze()
+{
+	if (GetType() == "Tomato") //Gets the type that is tomato
+	{
+		//Code will be here to check IF they have collided with player specifically, Alvin is currently working on this
+		//m_fEntityHealth -= 50.0f;
+	}
+}
+
+void Entity::EnemyCollisions()
+{
+	//This function will handlle the other collisions made, once it works will work on optimisation
+}
+
+
+
