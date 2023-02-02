@@ -206,10 +206,10 @@ void Entity::UpdateTexture()
 	{
 		m_sBulletTex = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 		m_projectileManager->UpdateProjectileTexture(m_device, m_sBulletTex);
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-		{
-			m_projectileManager->GetProjector()[i]->GetSprite()->UpdateTex(m_device, m_sBulletTex);
-		}
+		//for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+		//{
+		//	m_projectileManager->GetProjector()[i]->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+		//}
 	}
 }
 
@@ -224,10 +224,10 @@ void Entity::UpdateMass()
 		{
 			m_fBulletMass = m_entityController->GetProjectileBullet(m_iEntityNum)->mass;
 			m_projectileManager->UpdateProjectileMass(m_fBulletMass);
-			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-			{
-				m_projectileManager->GetProjector()[i]->GetPhysics()->SetMass(m_fBulletMass);
-			}
+			//for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+			//{
+			//	m_projectileManager->GetProjector()[i]->GetPhysics()->SetMass(m_fBulletMass);
+			//}
 		}
 	}
 }

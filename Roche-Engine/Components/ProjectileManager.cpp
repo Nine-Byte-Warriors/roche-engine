@@ -92,7 +92,7 @@ void ProjectileManager::UpdatePattern(std::string filepath)
 	for (int i = 0; i < m_vecManagers.size(); i++)
 	{
 		m_fDelay = m_vecManagers[i].m_fDelay;
-		UpdateProjectilePayLoad(m_vecManagers[i].m_vecProjectiles);
+		SetPayLoadPool(m_vecManagers[i].m_vecProjectiles);
 	}
 }
 
@@ -113,7 +113,7 @@ std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool
 	return vecProjectilePool;
 }
 
-void  ProjectileManager::UpdateProjectilePayLoad(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+void  ProjectileManager::SetPayLoadPool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
 {
 	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecProjectilePayLoads)
 		pPayLoad->m_vecProjectilePool.clear();
@@ -122,8 +122,10 @@ void  ProjectileManager::UpdateProjectilePayLoad(std::vector<ProjectileData::Pro
 
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
 	{
-		m_vecProjectilePayLoads[i] = std::make_shared<ProjectilePayLoad>();
-		m_vecProjectilePayLoads[i]->m_vecProjectilePool = CreateProjectilePool(vecProjectileJsons);
+		std::unique_ptr< ProjectilePayLoad> pPayLoad = std::make_unique<ProjectilePayLoad>();
+		pPayLoad->m_bActive = false;
+		pPayLoad->m_vecProjectilePool = CreateProjectilePool(vecProjectileJsons);
+		m_vecProjectilePayLoads.push_back(std::move(pPayLoad));
 	}
 }
 
@@ -152,14 +154,16 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
 {
+	// TODO : Remove calls to this method and replace with calls to GetProjectilePayLoad().
+	
 	//for (std::pair<std::shared_ptr<Projectile>, bool> vecPayLoad : m_mapProjectilePool)
 	//	for (std::shared_ptr<Projectile> pProjectile : vecPayLoad)
 	//		if (!pProjectile->IsAlive())
 	//			return pProjectile;
 	
-	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	/*for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		if (!pProjectile->IsAlive())
-			return pProjectile;
+			return pProjectile;*/
 
 	return nullptr;
 }
@@ -178,7 +182,6 @@ void ProjectileManager::SetProjectileScaleInit(const float fScaleX, const float 
 	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
 		for (std::shared_ptr<Projectile> pProjectile : pProjectilePayLoad->m_vecProjectilePool)
 			pProjectile->GetTransform()->SetScaleInit(fScaleX, fScaleY);
-
 }
 
 void ProjectileManager::SetProjectileMaxFrame(const float fFrameX, const float fFrameY)

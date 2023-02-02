@@ -22,9 +22,10 @@ public:
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename);
 	void Update(const float dt);
-	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
+	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
 
-	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool) { m_vecProjectilePool = vecProjectilePool; }
+	//void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool) { m_vecProjectilePool = vecProjectilePool; }
+	void SetPayLoadPool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 
 	void UpdatePattern(std::string filepath);
@@ -32,7 +33,7 @@ public:
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	void SpawnProjectiles(Vector2f vSpawnPosition);
 
-	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
+	//inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
 	void SetProjectileScaleInit(const float fScaleX, const float fScaleY);
 	void SetProjectileMaxFrame(const float fFrameX, const float fFrameY);
 	void UpdateProjectileTexture(ID3D11Device* pDevice, std::string sTexture);
@@ -48,7 +49,6 @@ private:
 	std::shared_ptr<ProjectilePayLoad> GetProjectilePayLoad();
 
 	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
-	void UpdateProjectilePayLoad(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 
 	float m_fLifeTime;
 	float m_fDelay;
