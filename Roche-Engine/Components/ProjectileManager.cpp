@@ -21,19 +21,38 @@ ProjectileManager::ProjectileManager()
 ProjectileManager::~ProjectileManager()
 {
 	m_vecProjectilePool.clear();
+	
+	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
+		pProjectilePayLoad->m_vecProjectilePool.clear();
+	
 	RemoveFromEvent();
 }
 
 void ProjectileManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
-	for(std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
-		pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
+	for (std::shared_ptr<ProjectilePayLoad> vecPayLoad : m_vecProjectilePayLoads)
+	{
+		for (std::shared_ptr<Projectile>& pProjectile : vecPayLoad->m_vecProjectilePool)
+			pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
+	}
+	
+	//for(std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
+	//	pProjectile->Initialize(gfx, mat, Sprite::Type::Projectile);
 }
 
 void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename)
 {
 	for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
 		pProjectile->Initialize(gfx, mat, filename);
+	
+	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
+	{
+		if (!pProjectilePayLoad->IsActive())
+			continue;
+
+		for (std::shared_ptr<Projectile> pProjectile : pProjectilePayLoad->m_vecProjectilePool)
+			pProjectile->Initialize(gfx, mat, filename);
+	}
 }
 
 void ProjectileManager::Update( const float dt )
@@ -46,12 +65,30 @@ void ProjectileManager::Update( const float dt )
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->Update(dt);
+
+	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
+	{
+		if (!pProjectilePayLoad->IsActive())
+			continue;
+
+		for (std::shared_ptr<Projectile> pProjectile : pProjectilePayLoad->m_vecProjectilePool)
+			pProjectile->Update(dt);
+	}
 }
 
 void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix )
 {
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		pProjectile->Draw(context, orthoMatrix);
+	
+	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
+	{
+		if (!pProjectilePayLoad->IsActive())
+			continue;
+		
+		for (std::shared_ptr<Projectile> pProjectile : pProjectilePayLoad->m_vecProjectilePool)
+			pProjectile->Draw(context, orthoMatrix);
+	}
 }
 
 void ProjectileManager::SpawnProjectile()
@@ -75,6 +112,23 @@ void ProjectileManager::UpdatePattern(std::string filepath)
 	}
 }
 
+std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+{
+	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
+
+	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
+	{
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
+		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
+
+		vecProjectilePool.push_back(std::move(pProjectile));
+	}
+
+	return vecProjectilePool;
+}
+
 void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
 {
 	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
@@ -92,6 +146,20 @@ void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::Project
 	m_vecProjectilePool = vecProjectilePool;
 }
 
+void  ProjectileManager::UpdateProjectilePayLoad(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
+{
+	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecProjectilePayLoads)
+		pPayLoad->m_vecProjectilePool.clear();
+
+	m_vecProjectilePayLoads.clear();
+
+	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
+	{
+		m_vecProjectilePayLoads[i] = std::make_shared<ProjectilePayLoad>();
+		m_vecProjectilePayLoads[i]->m_vecProjectilePool = CreateProjectilePool(vecProjectileJsons);
+	}
+}
+
 void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
 	m_fCounter = m_fDelay;
@@ -106,15 +174,37 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 {
 	m_fCounter = m_fDelay;
 
-	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	//for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	//	pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
+	
+	std::shared_ptr<ProjectilePayLoad> pProjectilePayLoads = GetProjectilePayLoad();
+	
+	if (pProjectilePayLoads != nullptr)
+		return;
+	
+	for (std::shared_ptr<Projectile> pProjectile : pProjectilePayLoads->m_vecProjectilePool)
 		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
 {
+	//for (std::pair<std::shared_ptr<Projectile>, bool> vecPayLoad : m_mapProjectilePool)
+	//	for (std::shared_ptr<Projectile> pProjectile : vecPayLoad)
+	//		if (!pProjectile->IsAlive())
+	//			return pProjectile;
+	
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 		if (!pProjectile->IsAlive())
 			return pProjectile;
+
+	return nullptr;
+}
+
+std::shared_ptr<ProjectilePayLoad> ProjectileManager::GetProjectilePayLoad()
+{
+	for (std::shared_ptr<ProjectilePayLoad> pProjectilePayLoad : m_vecProjectilePayLoads)
+		if (!pProjectilePayLoad->IsActive())
+			return pProjectilePayLoad;
 
 	return nullptr;
 }

@@ -6,6 +6,13 @@
 #include "EventSystem.h"
 #include "ProjectileData.h"
 
+struct ProjectilePayLoad
+{
+	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
+	bool m_bActive;
+	inline bool IsActive() { return m_bActive == true; }
+};
+
 class ProjectileManager : public Listener
 {
 public:
@@ -34,8 +41,11 @@ public:
 private:
 	void SpawnProjectile();
 	std::shared_ptr<Projectile> GetFreeProjectile();
+	std::shared_ptr<ProjectilePayLoad> GetProjectilePayLoad();
 
+	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 	void UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
+	void UpdateProjectilePayLoad(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 
 	float m_fLifeTime;
 	float m_fDelay;
@@ -43,6 +53,9 @@ private:
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
+	std::vector<std::pair<Projectile, bool>> m_vecProjectilePool2;
+	std::map<std::shared_ptr<Projectile>, bool> m_mapProjectilePool;
+	std::vector<std::shared_ptr<ProjectilePayLoad>> m_vecProjectilePayLoads;
 
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 };
