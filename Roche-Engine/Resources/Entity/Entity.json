@@ -12,7 +12,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 47.0,
         "identifier": 0,
@@ -52,7 +52,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 1,
@@ -89,10 +89,10 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            124.0,
-            124.0
+            32.0,
+            32.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 2,
@@ -112,8 +112,8 @@
         "rotation": 0.0,
         "rows": 3,
         "scale": [
-            124.0,
-            124.0
+            64.0,
+            64.0
         ],
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
@@ -132,7 +132,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 3,
@@ -169,10 +169,10 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            64.0,
-            64.0
+            32.0,
+            32.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 3,
         "health": 100.0,
         "identifier": 4,
@@ -212,7 +212,7 @@
             32.0,
             32.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 1,
         "health": 100.0,
         "identifier": 5,

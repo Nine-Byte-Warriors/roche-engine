@@ -76,7 +76,7 @@ public:
     void SetTransformPosition(Vector2f position);
 
     inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
-    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_transform->GetPosition(); }//
+    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = GetCenterPosition(); }//m_transform->GetPosition();} }//
 
 
 

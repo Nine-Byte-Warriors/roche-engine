@@ -3,10 +3,16 @@
 
 Vector2f CircleCollider::ClosestPoint(Vector2f point) noexcept
 {
+    Vector2f closestPoint = point;
     Vector2f direction = point - GetCenterPosition();
-    Vector2f unit = direction.Divide(direction.Magnitude());
+    float distance = (point - GetCenterPosition()).Magnitude();
 
-    Vector2f closestPoint = GetCenterPosition() + unit.Multiply(m_radius);
+    if (distance > m_radius)
+    {
+        Vector2f unit = direction.Normalised();
+        closestPoint = GetCenterPosition() + unit.Multiply(m_radius);
+    }
+
     //------------------------------- WAY IT WAS BEFORE ----------------------
     //Vector2f direction = point - m_transform->GetPosition();
     //Vector2f unit = direction.Divide(direction.Magnitude());
@@ -18,11 +24,12 @@ Vector2f CircleCollider::ClosestPoint(Vector2f point) noexcept
 
 Vector2f CircleCollider::ClosestSurfacePoint(Vector2f point)
 {
-    Vector2f pos = m_transform->GetPosition();
-    Vector2f direction = pos.DirectionTo(point);
-    Vector2f result = direction.Multiply(m_radius);
+    Vector2f direction = point - GetCenterPosition();
+    Vector2f unit = direction.Divide(direction.Magnitude());
 
-    return result;
+    Vector2f closestSurfacePoint = GetCenterPosition() + unit.Multiply(m_radius);
+
+    return closestSurfacePoint;
 }
 
 bool CircleCollider::ToBox(BoxCollider& box) noexcept
@@ -31,7 +38,7 @@ bool CircleCollider::ToBox(BoxCollider& box) noexcept
     Vector2f closestPoint = box.ClosestPoint(circlePos);
 
     float distance = (circlePos - closestPoint).Magnitude();
-
+    
     if (distance < m_radius)
         return true;
 
@@ -83,71 +90,51 @@ void CircleCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
     switch (collider->GetColliderType())
     {
     case ColliderType::Box:
-    {
-        Vector2f closestPoint = ClosestPoint(GetCenterPosition());
-        bool changeXValue = false;
-        bool changeYValue = false;
-
-        auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
-        BoxCollider box = *boxPtr;
-
-        Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
-        Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
-        changeXValue = !box.ToPoint(shiftedY);
-        changeYValue = !box.ToPoint(shiftedX);
-
-        //change gameobjects position on either the x or y axis
-        if (changeXValue)
         {
-            newPos.x = m_lastValidPosition.x;
-        }
-        //if changing the x works
-        if (changeYValue)
-        {
-            newPos.y = m_lastValidPosition.y;
-        }
+            //Vector2f closestPoint = ClosestPoint(GetCenterPosition());
+            //bool changeXValue = false;
+            //bool changeYValue = false;
 
-        break;
-    }
+            auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
+            BoxCollider box = *boxPtr;
+        
+            box.SetHeight(box.GetHeight() + (m_radius * 2) );
+            box.SetWidth(box.GetWidth() + (m_radius * 2) );
+
+            newPos = box.ClosestSurfacePoint(GetCenterPosition());
+
+            //Vector2f shiftedY = Vector2f(m_lastValidPosition.x, closestPoint.y);
+            //Vector2f shiftedX = Vector2f(closestPoint.x, m_lastValidPosition.y);
+            //changeXValue = !box.ToPoint(shiftedY);
+            //changeYValue = !box.ToPoint(shiftedX);
+
+            ////change gameobjects position on either the x or y axis
+            //if (changeXValue)
+            //{
+            //    newPos.x = m_lastValidPosition.x;
+            //}
+            ////if changing the x works
+            //if (changeYValue)
+            //{
+            //    newPos.y = m_lastValidPosition.y;
+            //}
+
+            break;
+        }
     case ColliderType::Circle:
-    {
-        /*
-        //auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
-        //CircleCollider circle = *circlePtr;
+        {
+            auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+            CircleCollider circle = *circlePtr;
+            circle.SetRadius(circle.GetRadius() + m_radius);
+            newPos = circle.ClosestSurfacePoint(GetCenterPosition());
 
-        //Vector2f circlePosition = circle.m_transform->GetPosition();
-        //Vector2f cp = Vector2f(
-        //    circlePosition.x + circle.GetTransform()->GetSprite()->GetWidth() / 2.0f,
-        //    circlePosition.y + circle.GetTransform()->GetSprite()->GetHeight() / 2.0f);
-        //Transform tf = *circle.GetTransform();
-        //circle.SetTransform(std::make_shared<Transform>(tf));
-        //circle.GetTransform()->SetPosition(cp);
-
-        //circle.SetRadius(circle.GetRadius() + m_radius);
-
-        //Vector2f position = m_transform->GetPosition();
-        //Vector2f sp = Vector2f(
-        //    position.x + m_transform->GetSprite()->GetWidth() / 2.0f,
-        //    position.y + m_transform->GetSprite()->GetHeight() / 2.0f );
-
-        //circle.m_transform->SetPosition(circle.GetTransform()->GetPosition() + circle.GetTransform()->GetScale());
-        //newPos = circle.ClosestPoint(m_transform->GetPosition());
-        //break;
-        */
-        auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
-        CircleCollider circle = *circlePtr;
-        circle.SetRadius(circle.GetRadius() + m_radius);
-        newPos = circle.ClosestPoint(GetCenterPosition());
-        //newPos -= m_transform->GetScale()/2;//+offset;
-        //Vector2f offset(m_transform->GetScale());
-        //newPos += newPos;
-        //------------------------------- WAY IT WAS BEFORE ----------------------
-        //auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
-        //CircleCollider circle = *circlePtr;
-        //circle.SetRadius(circle.GetRadius() + m_radius);
-        //newPos = circle.ClosestPoint(m_transform->GetPosition());
-        break;
-    }
+            //------------------------------- WAY IT WAS BEFORE ----------------------
+            //auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+            //CircleCollider circle = *circlePtr;
+            //circle.SetRadius(circle.GetRadius() + m_radius);
+            //newPos = circle.ClosestPoint(m_transform->GetPosition());
+            break;
+        }
     }
 
     SetTransformPosition(newPos);
