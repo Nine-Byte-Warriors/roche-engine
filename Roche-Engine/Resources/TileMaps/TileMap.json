@@ -1,10 +1,10 @@
 [
     {
-      "name": "EMPTY",
+      "name": "TRANSPARENT",
       "colorR": 0,
       "colorG": 0,
       "colorB": 0,
-      "colorA": 2555,
+      "colorA": 255,
       "type": 0,
       "button": false
     },
@@ -18,7 +18,7 @@
       "button": false
     },
     {
-      "name": "WALL",
+      "name": "WATER",
       "colorR": 40,
       "colorG": 204,
       "colorB": 223,
@@ -28,9 +28,9 @@
     },
     {
       "name": "GRASS",
-      "colorR": 20,
-      "colorG": 255,
-      "colorB": 20,
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
       "colorA": 255,
       "type": 3,
       "button": false
@@ -43,5 +43,338 @@
       "colorA": 255,
       "type": 4,
       "button": false
-    }
+    },
+	{
+      "name": "EmptyPlot",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 5,
+      "button": false
+    },
+	{
+      "name": "FullBean",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 6,
+      "button": false
+    },
+	{
+      "name": "FullCarrot",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 7,
+      "button": false
+    },
+	{
+      "name": "FullCauliflower",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 8,
+      "button": false
+    },
+	{
+      "name": "FullOnion",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 9,
+      "button": false
+    },
+	{
+      "name": "FullPotato",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 10,
+      "button": false
+    },
+	{
+      "name": "FullTomato",
+      "colorR": 120,
+      "colorG": 155,
+      "colorB": 120,
+      "colorA": 255,
+      "type": 11,
+      "button": false
+    },
+	{
+	  "name": "S_OverCircle",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 12,
+      "button": false	
+	},
+	{
+	  "name": "S_OverC",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 13,
+      "button": false	
+	},
+	{
+	  "name": "S_OverRC",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 14,
+      "button": false	
+	},
+	{
+	  "name": "S_OverU",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 15,
+      "button": false	
+	},
+	{
+	  "name": "S_OverN",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 16,
+      "button": false	
+	},
+	{
+	  "name": "S_OverLeft",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 17,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTop",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 18,
+      "button": false	
+	},
+	{
+	  "name": "S_OverBelow",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 19,
+      "button": false	
+	},
+	{
+	  "name": "S_OverRight",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 20,
+      "button": false	
+	},
+	{
+	  "name": "S_OverR",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 21,
+      "button": false	
+	},
+	{
+	  "name": "S_OverRR",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 22,
+      "button": false	
+	},
+	{
+	  "name": "S_OverL",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 23,
+      "button": false	
+	},
+	{
+	  "name": "S_OverLR",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 24,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTube1",    
+	  "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 25,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTube2",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 26,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTurn1",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 27,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTurn2",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 28,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTurn3",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 29,
+      "button": false	
+	},
+	{
+	  "name": "S_OverTurn4",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 30,
+      "button": false	
+	},
+	{
+	  "name": "S_OverT1",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 31,
+      "button": false	
+	},
+	{
+	  "name": "S_OverT2",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 32,
+      "button": false	
+	},
+	{
+	  "name": "S_OverT3",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 33,
+      "button": false	
+	},
+	{
+	  "name": "S_OverT4",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 34,
+      "button": false	
+	},
+	{
+	  "name": "S_Over4Corner",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 35,
+      "button": false	
+	},
+	{
+	  "name": "S_OverCorner1",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 36,
+      "button": false	
+	},
+	{
+	  "name": "S_OverCorner2",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 37,
+      "button": false	
+	},
+	{
+	  "name": "S_OverCorner3",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 38,
+      "button": false	
+	},
+	{
+	  "name": "S_OverCorner4",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 39,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-1",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 40,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-2",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 41,
+      "button": false
+	}
 ]
