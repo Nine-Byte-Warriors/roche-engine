@@ -379,7 +379,7 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 
 		else if (m_vImages[i].GetAction() == "Pause Title")
 		{
-			m_vImages[i].Resolve("PAUSED", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			m_vImages[i].Resolve("PAUSED", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::INSANE);
 		}
 		else if (m_vImages[i].GetAction() == "Up Control")
 		{

@@ -30,6 +30,11 @@ enum class EVENTID
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
+	ChangePhase,
+	NextDay,
+	CurrentState,
+	CurrentPhase,
+	CurrentDay,
 
 	// Camera Actions
 	MoveUp,

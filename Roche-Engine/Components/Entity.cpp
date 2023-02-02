@@ -198,7 +198,7 @@ void Entity::UpdateAnimation()
 		}
 
 		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
-		m_sprite->SetCurFrameY(m_iCurFrameY);
+		//m_sprite->SetCurFrameY(m_iCurFrameY);
 
 		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 		{
