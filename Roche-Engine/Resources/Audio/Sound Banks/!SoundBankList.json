@@ -2,5 +2,9 @@
     {
         "filePath": "Resources\\Audio\\Sound Banks\\SoundBank1.json",
         "name": "SoundBank1"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\UI.json",
+        "name": "UI"
     }
 ]

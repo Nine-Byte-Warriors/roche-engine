@@ -99,7 +99,7 @@ void AudioEngine::LoadSoundBanksList(std::string loadFilePath)
 {
 	m_vSoundBankNamesList.clear();
 	std::vector<SoundBanksList> soundBanksList;
-	JsonLoading::LoadJson(soundBanksList, loadFilePath);
+	JsonLoading::LoadJson(soundBanksList, "Resources\\Audio\\Sound Banks\\" + loadFilePath);
 	for (int i = 0; soundBanksList.size() > i; i++) {
 		LoadAudioFromJSON(soundBanksList.at(i).filePath);
 		m_vSoundBankNamesList.push_back(soundBanksList.at(i).name);
@@ -318,6 +318,7 @@ void AudioEngine::UnloadAllAudio()
 				m_SFXSoundBankMap[key].erase(m_SFXSoundBankMap[key].begin());
 			}
 		}
+		m_SFXSoundBankMap.clear();
 	}
 
 	while (m_MusicSoundBankMap.size() > 0) {
@@ -327,6 +328,7 @@ void AudioEngine::UnloadAllAudio()
 				m_MusicSoundBankMap[key].erase(m_MusicSoundBankMap[key].begin());
 			}
 		}
+		m_MusicSoundBankMap.clear();
 	}
 }
 
@@ -337,7 +339,7 @@ void AudioEngine::StopAllAudio()
 		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i);
 	}
 
-	for (int i = m_vSFXSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
+	for (int i = m_vMusicSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
 		m_vMusicSourceVoiceList.at(i)->DestroyVoice();
 		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.end());
 	}
