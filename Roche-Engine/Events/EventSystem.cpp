@@ -11,8 +11,8 @@ void EventSystem::AddClient( EVENTID eventid, Listener* client )
 	// If the client event pair doenst exist
 	if ( !IsRegistered( eventid, client ) )
 		clients.insert( std::make_pair( eventid, client ) );
-	else // Outputs that there is a duplicate and doesnt add it to the list of clients since it has no value to have 2
-		OutputDebugStringA( "Duplicate client eventID combo\n" );
+	//else // Outputs that there is a duplicate and doesnt add it to the list of clients since it has no value to have 2
+		//OutputDebugStringA( "Duplicate client eventID combo\n" );
 }
 
 bool EventSystem::IsRegistered( EVENTID eventid, Listener* client )

@@ -32,17 +32,36 @@ enum class EVENTID
 	GameEndLevelEvent,
 
 	// Camera Actions
-	CameraUp,
-	CameraLeft,
-	CameraDown,
-	CameraRight,
-	LockCameraToPlayer,
+	MoveUp,
+	MoveLeft,
+	MoveDown,
+	MoveRight,
 
 	// Player Actions
 	PlayerHealth,
 	PlayerPosition,
 	PlayerFire,
+	PlayerDash,
 	TargetPosition,
+	TogglePlayerMovement,
+
+	// Inventory
+	IncrementSeedPacket,
+	DecrementSeedPacket,
+	PlantSeedAttempt,
+	PlantSeed,
+	BuySeed,
+
+	//UI
+	StartGame,
+	OpenSettings,
+	ResumeGame,
+	Back,
+	GeneralTab,
+	GrahpicsTab,
+	MusicTab,
+	ControlTab,
+	OpenCredits,
 
 	// Utility
 	WindowSizeChangeEvent,
@@ -50,7 +69,11 @@ enum class EVENTID
 	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
-	QuitGameEvent
+	QuitGameEvent,
+
+	//Healthcomp
+	PlayerDeath,
+	EnemyDeath
 };
 
 /// <summary>

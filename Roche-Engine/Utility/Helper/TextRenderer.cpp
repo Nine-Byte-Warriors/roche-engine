@@ -1,47 +1,46 @@
 #include "stdafx.h"
 #include "TextRenderer.h"
 
-void TextRenderer::Initialize( const std::string& font, ID3D11Device* device, ID3D11DeviceContext* context )
+void TextRenderer::Initialize( ID3D11Device* device, ID3D11DeviceContext* context )
 {
-	m_sFileName = std::wstring( font.begin(), font.end() );
 	m_spriteBatch = std::make_unique<SpriteBatch>( context );
-	m_spriteFont = std::make_unique<SpriteFont>( device, std::wstring( L"Resources\\Fonts\\" ).append( m_sFileName ).c_str() );
+	std::vector<std::wstring> fontSizes = { L"16", L"20", L"24", L"36", L"72" };
+	for ( unsigned int i = 0; i < fontSizes.size(); i++ )
+		m_spriteFonts.emplace( (FontSize)i,
+			std::make_unique<SpriteFont>(
+				device, std::wstring( L"Resources\\Fonts\\midnight_chalker_" ).append( fontSizes.at( i ) ).append( L".spritefont" ).c_str()
+			)
+		);
 }
 
-void TextRenderer::DrawString( const std::wstring& text, XMFLOAT2 position, XMVECTORF32 color, bool outline )
+void TextRenderer::DrawString( const std::wstring& text, XMFLOAT2 position, XMVECTORF32 color, FontSize size, bool outline )
 {
 	m_spriteBatch->Begin();
-	XMFLOAT2 originF1 = XMFLOAT2( 0.0f, 0.0f );
+	XMFLOAT2 origin = XMFLOAT2( 0.0f, 0.0f );
 	if ( outline )
 	{
-		std::function<XMFLOAT2( const wchar_t* )> DrawOutline = [&]( const wchar_t* text ) mutable -> XMFLOAT2
+		std::function<void( const wchar_t* )> DrawOutline = [&]( const wchar_t* text ) mutable -> void
 		{
-			XMFLOAT2 originF2 = XMFLOAT2( 1.0f, 1.0f );
-			XMVECTOR origin = m_spriteFont->MeasureString( text ) / 2.0f;
-			XMStoreFloat2( &originF2, origin );
-
 			// Draw outline
-			m_spriteFont->DrawString( m_spriteBatch.get(), text,
-				XMFLOAT2( position.x + 1.0f, position.y + 1.0f ), Colors::Black, 0.0f, originF2 );
-			m_spriteFont->DrawString( m_spriteBatch.get(), text,
-				XMFLOAT2( position.x - 1.0f, position.y + 1.0f ), Colors::Black, 0.0f, originF2 );
-			m_spriteFont->DrawString( m_spriteBatch.get(), text,
-				XMFLOAT2( position.x - 1.0f, position.y - 1.0f ), Colors::Black, 0.0f, originF2 );
-			m_spriteFont->DrawString( m_spriteBatch.get(), text,
-				XMFLOAT2( position.x + 1.0f, position.y - 1.0f ), Colors::Black, 0.0f, originF2 );
-
-			return originF2;
+			m_spriteFonts[size]->DrawString( m_spriteBatch.get(), text,
+				XMFLOAT2( position.x + 1.0f, position.y + 1.0f ), Colors::Black, 0.0f, origin );
+			m_spriteFonts[size]->DrawString( m_spriteBatch.get(), text,
+				XMFLOAT2( position.x - 1.0f, position.y + 1.0f ), Colors::Black, 0.0f, origin );
+			m_spriteFonts[size]->DrawString( m_spriteBatch.get(), text,
+				XMFLOAT2( position.x - 1.0f, position.y - 1.0f ), Colors::Black, 0.0f, origin );
+			m_spriteFonts[size]->DrawString( m_spriteBatch.get(), text,
+				XMFLOAT2( position.x + 1.0f, position.y - 1.0f ), Colors::Black, 0.0f, origin );
 		};
-		originF1 = DrawOutline( text.c_str() );
+		DrawOutline( text.c_str() );
 	}
-    m_spriteFont->DrawString( m_spriteBatch.get(), text.c_str(), position, color, 0.0f, originF1, m_vScale );
+    m_spriteFonts[size]->DrawString( m_spriteBatch.get(), text.c_str(), position, color, 0.0f, origin, m_vScale );
     m_spriteBatch->End();
 }
 
-void TextRenderer::RenderString( const std::string& text, XMFLOAT2 position, XMVECTORF32 color, bool outline )
+void TextRenderer::RenderString( const std::string& text, XMFLOAT2 position, XMVECTORF32 color, FontSize size, bool outline )
 {
 	std::wstring stringWide = std::wstring( text.begin(), text.end() );
-	DrawString( stringWide, position, color, outline );
+	DrawString( stringWide, position, color, size, outline );
 }
 
 // Update viewport when screen size changes
