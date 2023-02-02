@@ -15,7 +15,7 @@
         "zindex": 0
     },
     {
-        "action": "",
+        "action": "TitleCard",
         "hide": false,
         "name": "Title Card",
         "position": [

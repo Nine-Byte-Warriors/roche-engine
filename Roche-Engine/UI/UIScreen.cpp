@@ -488,6 +488,10 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 			{
 				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Coin\\Coin.png");
 			}
+			else if (m_vImages[i].GetAction() == "TitleCard")
+			{
+				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Title\\Title.png");
+			}
 			else
 			{
 				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png");
