@@ -46,6 +46,15 @@ void Input::UpdateMouse( const float dt )
 				// Left mouse button released
 			}
 		}
+
+		if ( me.GetType() == Mouse::MouseEvent::EventType::WheelUp )
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::IncrementSeedPacket);
+		}
+		else if (me.GetType() == Mouse::MouseEvent::EventType::WheelDown)
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::DecrementSeedPacket);
+		}
     }
 }
 
@@ -64,15 +73,15 @@ void Input::UpdateKeyboard( const float dt )
 	}
 
     // Handle input for single key presses
-	while ( !m_keyboard.KeyBufferIsEmpty() )
+	while (!m_keyboard.KeyBufferIsEmpty())
 	{
 		Keyboard::KeyboardEvent kbe = m_keyboard.ReadKey();
 		unsigned char keycode = kbe.GetKeyCode();
 
 		// Set cursor enabled/disabled
-		if ( keycode == VK_HOME )
+		if (keycode == VK_HOME)
 			EnableCursor();
-		else if ( keycode == VK_END )
+		else if (keycode == VK_END)
 			DisableCursor();
 
 #if _DEBUG
@@ -81,6 +90,10 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
+		if (m_keyboard.KeyIsPressed('T'))
+			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
+		if (m_keyboard.KeyIsPressed('Y'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
 
         // Close game
         if ( keycode == VK_ESCAPE )

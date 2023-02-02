@@ -1,0 +1,122 @@
+[
+    {
+        "action": "Heart_1",
+        "hide": false,
+        "name": "Heart_1",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "Heart_2",
+        "hide": false,
+        "name": "Heart_2",
+        "position": [
+            70.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 1
+    },
+    {
+        "action": "Heart_3",
+        "hide": false,
+        "name": "Heart_3",
+        "position": [
+            140.0,
+            0.0
+        ],
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "type": "Image",
+        "zindex": 2
+    },
+    {
+        "action": "Score",
+        "hide": false,
+        "name": "Score Text",
+        "position": [
+            1600.0,
+            0.0
+        ],
+        "scale": [
+            318.0,
+            116.0
+        ],
+        "type": "Image",
+        "zindex": 3
+    },
+    {
+        "action": "Coins",
+        "hide": false,
+        "name": "Coins text",
+        "position": [
+            1600.0,
+            76.0
+        ],
+        "scale": [
+            318.0,
+            116.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    },
+    {
+        "action": "",
+        "hide": false,
+        "name": "Weapon placeholder",
+        "position": [
+            1739.0,
+            941.0
+        ],
+        "scale": [
+            164.0,
+            129.0
+        ],
+        "type": "Image",
+        "zindex": 5
+    },
+    {
+        "action": "Score Label",
+        "hide": false,
+        "name": "Score Label",
+        "position": [
+            1601.0,
+            23.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Coin Icon",
+        "hide": false,
+        "name": "Coin Label",
+        "position": [
+            1611.0,
+            109.0
+        ],
+        "scale": [
+            48.0,
+            54.0
+        ],
+        "type": "Image",
+        "zindex": 7
+    }
+]

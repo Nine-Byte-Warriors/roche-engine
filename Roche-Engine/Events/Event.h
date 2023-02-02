@@ -41,9 +41,27 @@ enum class EVENTID
 	PlayerHealth,
 	PlayerPosition,
 	PlayerFire,
-	TargetPosition,
 	PlayerDash,
+	TargetPosition,
 	TogglePlayerMovement,
+
+	// Inventory
+	IncrementSeedPacket,
+	DecrementSeedPacket,
+	PlantSeedAttempt,
+	PlantSeed,
+	BuySeed,
+
+	//UI
+	StartGame,
+	OpenSettings,
+	ResumeGame,
+	Back,
+	GeneralTab,
+	GrahpicsTab,
+	MusicTab,
+	ControlTab,
+	OpenCredits,
 
 	// Utility
 	WindowSizeChangeEvent,

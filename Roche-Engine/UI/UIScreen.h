@@ -5,6 +5,7 @@
 class Graphics;
 #include "Shaders.h"
 #include "Listener.h"
+#include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
 
@@ -58,6 +59,9 @@ private:
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY, m_fCurrentPY;
 
+	// Inventory data
+	Inventory m_inventory;
+
 	// Widget data
 	int m_iSliderStart = 50;
 	int m_iInputIndex = 0;
@@ -85,6 +89,38 @@ private:
 		"Resources\\Textures\\UI\\Drop-Down\\DropDownButtonHover.png"
 	};
 
+	std::vector<std::string> m_texturesGeneralTabs =
+	{
+		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabIdle.png",
+		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabActive.png",
+		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabActive.png"
+
+	};
+
+	std::vector<std::string> m_texturesGraphicsTabs =
+	{
+		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabIdle.png",
+		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabActive.png",
+		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabActive.png"
+
+	};
+
+	std::vector<std::string> m_texturesMusicTabs =
+	{
+		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabIdle.png",
+		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabActive.png",
+		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabActive.png"
+
+	};
+
+	std::vector<std::string> m_texturesControlTabs =
+	{
+		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabIdle.png",
+		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabActive.png",
+		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabActive.png"
+
+	};
+
 	// Logo from https://www.flaticon.com/free-icon/github_5968896
 	std::vector<std::string> m_texturesGithub =
 	{
@@ -92,6 +128,7 @@ private:
 		"Resources\\Textures\\github_logo.png",
 		"Resources\\Textures\\github_logo.png"
 	};
+
 };
 
 #endif
