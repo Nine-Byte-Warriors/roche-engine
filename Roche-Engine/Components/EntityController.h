@@ -77,6 +77,7 @@ public:
 	std::string GetSoundBankName(int num);
 
 	void SetEntityData(std::vector<EntityData> entityData);
+	void AddEntityData(std::vector<EntityData> entityData);
 
 	bool HasAI(int num);
 	bool HasProjectileSystem(int num);

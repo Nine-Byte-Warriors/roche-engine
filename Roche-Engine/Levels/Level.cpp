@@ -368,7 +368,7 @@ void Level::UpdateUI( const float dt )
 void Level::UpdateEntity(const float dt)
 {
 #if _DEBUG
-    m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+    //m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 #endif
 
     if (m_iEntityAmount < m_entityController.GetSize())
@@ -492,6 +492,43 @@ void Level::UpdateTileMap(const float dt)
         m_bMapUpdate = false;
     }
 #endif
+
+    bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered && !m_tileMapEditor.IsDrawContinuousAvalible();
+    if (isDrawOnMapAvalibleForPlayer)
+    {
+        int seed = 1;//m_entity[2].GetInventory()->GetActiveSeedPacket();
+        bool isPlayerNearTheMouse = m_tileMapPaintOnMap.IsNearTheMouse(m_entity[2].GetTransform()->GetPosition(), m_entity[2].GetTransform()->GetScale() / 2, 200.0f);
+        
+        if (isPlayerNearTheMouse)
+        {
+            std::string texture = m_tileMapEditor.GetTexture();
+            int pos = m_tileMapPaintOnMap.GetTileMapPos();
+            static int posT = -1;
+
+            if (pos != posT)
+            {
+                posT = pos;
+
+                m_tileMapDrawLayers[1][pos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+
+                int spawnPos = m_tileMapPaintOnMap.GetTileMapPos();
+                m_entitySpawner.AddEntityToSpawn(seed, spawnPos);
+
+                //for (int i = 0; i < m_entity.size(); i++)
+                //{
+                //    if (m_entity[i].GetType() != "Player")
+                //    {
+                //        m_entitiesDeleted.push_back(i);
+                //    }
+                //    
+                //}
+
+                m_entitySpawner.SpawnEntities();
+                m_entityController.AddEntityData(m_entitySpawner.GetEntityData());
+                m_entitySpawner.EntitiesAdded();
+            }
+        }
+    }
 }
 
 void Level::UpdateBothTileMaps(const float dt)

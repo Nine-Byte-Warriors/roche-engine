@@ -16,6 +16,7 @@ public:
 	int GetTileMapPos();
 
 	bool IsLeftMouseDown();
+	bool IsNearTheMouse(Vector2f pos, Vector2f offSet, float radius);
 
 	int GetPositionAtCoordinates(int x, int y);
 
@@ -34,6 +35,8 @@ private:
 	int m_iStartingPosY;
 
 	bool m_bLeftMouseDown;
+
+	Vector2f m_fMousePos;
 
 	Camera* m_camera;
 

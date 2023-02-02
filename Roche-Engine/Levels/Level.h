@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "EntityEditor.h"
 #include "EntityController.h"
+#include "EntitySpawner.h"
 
 #include "Camera.h"
 #include "UIEditor.h"
@@ -90,6 +91,7 @@ private:
 	int m_iTileMapColumns;
 	EntityEditor m_entityEditor;
 	EntityController m_entityController;
+	EntitySpawner m_entitySpawner;
 	std::shared_ptr<ProjectileEditor> m_projectileEditor;
 
 	TextRenderer m_textRenderer;
