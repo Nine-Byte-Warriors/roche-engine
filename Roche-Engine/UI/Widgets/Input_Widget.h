@@ -15,7 +15,7 @@ public:
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index );
     void Update( const float dt );
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
-    void Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index );
+    void Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index, FontSize size = FontSize::MEDIUM );
 
     inline bool GetSelected() const noexcept { return m_bSelected; }
     inline void SetSelected( bool selected ) noexcept { m_bSelected = selected; }
@@ -27,6 +27,7 @@ public:
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 
 private:
+    FontSize m_eFontSize;
     std::string m_sCurrText;
     int m_iIdentifier;
     bool m_bSelected;
