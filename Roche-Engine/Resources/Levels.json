@@ -1,26 +1,26 @@
 [
-    {
-        "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
-        "name": "Shop",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
-        "ui": "Credits.json"
-    },
-    {
-        "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
-        "name": "Menu",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
-        "ui": "Menu.json"
-    },
-    {
-        "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
-        "name": "Game",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
-        "ui": "Game.json"
-    }
+	{
+		"name": "Menu",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
+		"ui": "Menu.json"
+	},
+	{
+		"name": "Game",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
+		"ui": "Game.json"
+	},
+	{
+		"name": "Credits",
+		"audio": "!SoundBankList.json",
+		"entity": "Entity.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
+		"ui": "Credits.json"
+	}
 ]
