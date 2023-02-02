@@ -98,7 +98,7 @@
             124.0
         ],
         "colliderShape": "Box",
-        "columns": 2,
+        "columns": 3,
         "health": 100.0,
         "identifier": 2,
         "mass": 21.200000762939453,
@@ -115,14 +115,14 @@
         "projectilePattern": "None",
         "projectileSystem": true,
         "rotation": 0.0,
-        "rows": 3,
+        "rows": 4,
         "scale": [
             124.0,
             124.0
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "texture": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.png",
         "type": "Player"
     },
     {
