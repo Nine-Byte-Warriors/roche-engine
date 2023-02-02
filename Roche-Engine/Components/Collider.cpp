@@ -50,6 +50,22 @@ void Collider::RemoveDuplicateElements(std::vector<T>& vec)
 }
 
 
+Vector2f Collider::Offset()
+{
+    return m_transform->GetScale() / 2.0f;
+}
+
+Vector2f Collider::GetCenterPosition()
+{
+    Vector2f center = m_transform->GetPosition() + Offset();
+    return center;
+};
+
+void Collider::SetTransformPosition(Vector2f position)
+{
+    m_transform->SetPosition(position - Offset()); 
+}
+
 void Collider::LogCollision(std::shared_ptr<Collider>& col)
 {
     if (m_collisionCount < m_maxCollisions)
