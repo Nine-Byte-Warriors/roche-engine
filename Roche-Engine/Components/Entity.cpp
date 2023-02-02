@@ -130,10 +130,7 @@ void Entity::SetScaleInit()
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+		m_projectileManager->SetProjectileScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 	}
 }
 
@@ -162,10 +159,11 @@ void Entity::UpdateScale()
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+		m_projectileManager->SetProjectileScaleInit(m_fBulletScaleX, m_fBulletScaleY);
+		//for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+		//{
+		//	m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
+		//}
 	}
 }
 
@@ -190,6 +188,7 @@ void Entity::UpdateAnimation()
 		{
 			m_iBulletMaxFrameX = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[0];
 			m_iBulletMaxFrameY = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[1];
+			m_projectileManager->SetProjectileMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);
 			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
 			{
 				m_projectileManager->GetProjector()[i]->GetSprite()->SetMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);

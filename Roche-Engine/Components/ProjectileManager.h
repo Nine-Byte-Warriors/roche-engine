@@ -32,19 +32,20 @@ public:
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	void SpawnProjectiles(Vector2f vSpawnPosition);
 
+	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
+	void SetProjectileScaleInit(const float fScaleX, const float fScaleY);
+	void SetProjectileMaxFrame(const float fFrameX, const float fFrameY);
+	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
-	
 private:
 	void SpawnProjectile();
 	std::shared_ptr<Projectile> GetFreeProjectile();
 	std::shared_ptr<ProjectilePayLoad> GetProjectilePayLoad();
 
 	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
-	void UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 	void UpdateProjectilePayLoad(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 
 	float m_fLifeTime;
@@ -52,9 +53,6 @@ private:
 	float m_fCounter;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
-	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
-	std::vector<std::pair<Projectile, bool>> m_vecProjectilePool2;
-	std::map<std::shared_ptr<Projectile>, bool> m_mapProjectilePool;
 	std::vector<std::shared_ptr<ProjectilePayLoad>> m_vecProjectilePayLoads;
 
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
