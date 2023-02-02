@@ -3,24 +3,24 @@
 		"name": "Menu",
 		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
-		"tmBack": "newfile2.json",
-		"tmFront": "newfile2.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
 		"ui": "Menu.json"
 	},
 	{
 		"name": "Game",
 		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
-		"tmBack": "newfile2.json",
-		"tmFront": "newfile2.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
 		"ui": "Game.json"
 	},
 	{
 		"name": "Credits",
 		"audio": "!SoundBankList.json",
 		"entity": "Entity.json",
-		"tmBack": "newfile2.json",
-		"tmFront": "newfile2.json",
+		"tmBack": "67x120file.json",
+		"tmFront": "67x120file.json",
 		"ui": "Credits.json"
 	}
 ]
