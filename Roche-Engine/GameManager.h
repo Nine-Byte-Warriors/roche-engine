@@ -1,27 +1,43 @@
 #pragma once
-class GameManager
+#ifndef GAMEMANAGER_H
+#define GAMEMANAGER_H
+
+#include "EventSystem.h"
+
+enum class GameState
+{
+	Win,
+	Loss,
+	Paused,
+	Unpaused
+};
+
+enum class Phase
+{
+	DayPhase,
+	NightPhase
+};
+
+class GameManager : public Listener
 {
 public:
-	enum GameState
-	{
-		DayPhase,
-		NightPhase,
-		Win,
-		Loss,
-		Paused,
-		Quit
-	};
-	
-	static GameManager* GetInstance();
+	void Initialize();
 
 	void SetCurrentState(GameState state);
-	GameState GetCurrentState();
+	void SetNextDay();
+	void SetPhase(Phase phase);
 
 private:
-	static GameManager* m_instance;
-
 	GameState m_currentState;
+	Phase m_currentPhase;
+	int m_currentDay;
 	
 	GameManager();
 	~GameManager();
+
+	// Inherited via Listener
+	virtual void HandleEvent(Event* event) override;
+	void AddToEvent() noexcept;
 };
+
+#endif // !GAMEMANAGER_H
