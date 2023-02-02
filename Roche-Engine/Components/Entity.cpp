@@ -6,6 +6,7 @@
 
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
+	m_emitter = nullptr;
 	m_vPosition = new Vector2f();
 
 	m_entityController = &entityController;
@@ -36,6 +37,7 @@ void Entity::SetComponents()
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		m_projectileManager = std::make_shared<ProjectileManager>();
+		m_emitter = std::make_shared<Emitter>(m_projectileManager);
 	}
 	else
 	{
@@ -96,7 +98,10 @@ void Entity::Update(const float dt)
 		m_agent->Update(dt);
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
+	{
 		m_projectileManager->Update(dt);
+		m_emitter->Update(dt);
+	}
 
 	if (m_playerController)
 		m_playerController->Update(dt);

@@ -301,6 +301,7 @@
     <ClCompile Include="Components\Transform.cpp" />
     <ClCompile Include="Components\Entity.cpp" />
     <ClCompile Include="Components\EntityEditor.cpp" />
+    <ClCompile Include="Components\Emitter.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -451,6 +452,7 @@
     <ClInclude Include="Components\Transform.h" />
     <ClInclude Include="Components\Entity.h" />
     <ClInclude Include="Components\EntityEditor.h" />
+    <ClInclude Include="Components\Emitter.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />

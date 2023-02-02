@@ -20,6 +20,8 @@ public:
 
 	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
+	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept 
+		{ m_vTargetPosition = vTargetPosition; }
 
 	void UpdatePattern(std::string filepath);
 

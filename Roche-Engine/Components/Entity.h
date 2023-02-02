@@ -13,6 +13,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Inventory.h"
 #include "Health.h"
+#include "Emitter.h"
 
 class Entity
 {
@@ -38,6 +39,7 @@ public:
 			return m_colliderBox;
 	};
 	inline std::string GetSoundBankName() const noexcept { return m_sSoundBankName; };
+	inline std::shared_ptr<Emitter> GetEmitter() const noexcept { return m_emitter; }
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -117,6 +119,7 @@ private:
 	std::shared_ptr<ProjectileManager> m_projectileManager;
 	std::shared_ptr<PlayerController> m_playerController;
 	std::shared_ptr<Inventory>m_inventory;
+	std::shared_ptr<Emitter> m_emitter;
 
 	EntityController* m_entityController;
 
