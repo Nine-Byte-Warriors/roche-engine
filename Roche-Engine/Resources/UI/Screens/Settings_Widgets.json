@@ -1,77 +1,347 @@
 [
     {
         "action": "",
+        "hide": false,
         "name": "Title Card",
         "position": [
-            700.0,
-            700.0
+            201.0,
+            160.0
+        ],
+        "scale": [
+            1479.0,
+            920.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "General",
+        "hide": false,
+        "name": "General Tab",
+        "position": [
+            283.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 1
+    },
+    {
+        "action": "Control",
+        "hide": false,
+        "name": "Control Tab",
+        "position": [
+            433.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Music",
+        "hide": false,
+        "name": "Music Tab",
+        "position": [
+            583.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Graphics",
+        "hide": false,
+        "name": "Graphics Tab",
+        "position": [
+            732.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "Master Volume",
+        "hide": true,
+        "name": "Master Volume Slider",
+        "position": [
+            721.0,
+            416.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 5
+    },
+    {
+        "action": "Master volume label",
+        "hide": true,
+        "name": "Master volume label",
+        "position": [
+            383.0,
+            378.0
+        ],
+        "scale": [
+            319.0,
+            151.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Music Volume",
+        "hide": true,
+        "name": "Music Volume Silder",
+        "position": [
+            721.0,
+            544.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 7
+    },
+    {
+        "action": "Music volume label",
+        "hide": true,
+        "name": "Music Volume Label",
+        "position": [
+            383.0,
+            497.0
+        ],
+        "scale": [
+            319.0,
+            151.0
+        ],
+        "type": "Image",
+        "zindex": 8
+    },
+    {
+        "action": "Up Control",
+        "hide": true,
+        "name": "Up Control Label",
+        "position": [
+            550.0,
+            339.0
         ],
         "scale": [
             64.0,
             64.0
         ],
         "type": "Image",
-		"zindex": 0,
-		"hide": false
+        "zindex": 9
     },
     {
-        "action": "Link",
-        "name": "GitHub Link",
+        "action": "Left Control",
+        "hide": true,
+        "name": "Left Control Label",
         "position": [
-            500.0,
-            500.0
+            550.0,
+            421.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "type": "Button",
-		"zindex": 1,
-		"hide": false
+        "type": "Image",
+        "zindex": 10
     },
     {
-        "action": "Start",
-        "name": "Start Game",
+        "action": "Down Control",
+        "hide": true,
+        "name": "Down Control Label",
         "position": [
-            500.0,
-            500.0
+            550.0,
+            509.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "type": "Button",
-		"zindex": 2,
-		"hide": false
+        "type": "Image",
+        "zindex": 11
+    },
+    {
+        "action": "Right Control",
+        "hide": true,
+        "name": "Right Control Label",
+        "position": [
+            550.0,
+            604.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 12
+    },
+    {
+        "action": "Shoot Control",
+        "hide": true,
+        "name": "Shoot Control Label",
+        "position": [
+            550.0,
+            704.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 13
     },
     {
         "action": "",
-        "name": "Settings",
+        "hide": true,
+        "name": "Up Control Input",
         "position": [
-            500.0,
-            500.0
+            750.0,
+            339.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "type": "Button",
-		"zindex": 3,
-		"hide": false
+        "type": "Input",
+        "zindex": 14
     },
     {
-        "action": "Close",
-        "name": "Quit Game",
+        "action": "",
+        "hide": true,
+        "name": "Left Control Input",
         "position": [
-            600.0,
-            600.0
+            750.0,
+            421.0
         ],
         "scale": [
             64.0,
             64.0
         ],
-        "type": "Button",
-		"zindex": 4,
-		"hide": false
+        "type": "Input",
+        "zindex": 15
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Down Control Input",
+        "position": [
+            750.0,
+            509.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 16
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Right Control Input",
+        "position": [
+            750.0,
+            604.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 17
+    },
+    {
+        "action": "",
+        "hide": true,
+        "name": "Shoot Control Input",
+        "position": [
+            750.0,
+            704.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Input",
+        "zindex": 18
+    },
+    {
+        "action": "Language DD Label",
+        "hide": false,
+        "name": "Language setting Label",
+        "position": [
+            484.0,
+            616.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 19
+    },
+    {
+        "action": "Language",
+        "hide": false,
+        "name": "Language Drop Down",
+        "position": [
+            893.0,
+            611.0
+        ],
+        "scale": [
+            148.0,
+            97.0
+        ],
+        "type": "Drop Down",
+        "zindex": 20
+    },
+    {
+        "action": "Screen Shake Slider Label",
+        "hide": false,
+        "name": "Screen Shake amount Label",
+        "position": [
+            481.0,
+            383.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 21
+    },
+    {
+        "action": "Screen Shake",
+        "hide": false,
+        "name": "Screen Shake Slider",
+        "position": [
+            929.0,
+            379.0
+        ],
+        "scale": [
+            164.0,
+            88.0
+        ],
+        "type": "Data Slider",
+        "zindex": 22
     }
 ]

@@ -22,7 +22,19 @@ public:
 	inline int GetIntSelcted() const noexcept { return m_iSelected; }
     inline std::string GetSelected() const noexcept { return m_sDataSelected; }
 	inline void SetCurrent( int selected ) noexcept { m_iSelected = selected; }
-	inline bool GetIsDown() noexcept { if ( m_eDropState == DropState::Down ) { return true; } return false; }
+	
+	inline bool GetIsDown() const noexcept
+	{
+		if ( m_eDropState == DropState::Down )
+			return true;
+		return false;
+	}
+	inline void SetIsDown( bool isDown ) noexcept
+	{
+		isDown ?
+			m_eDropState = DropState::Down :
+			m_eDropState = DropState::Up;
+	}
 
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_spriteBack; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transformBack; }

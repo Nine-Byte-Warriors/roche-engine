@@ -46,6 +46,15 @@ void Input::UpdateMouse( const float dt )
 				// Left mouse button released
 			}
 		}
+
+		if ( me.GetType() == Mouse::MouseEvent::EventType::WheelUp )
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::IncrementSeedPacket);
+		}
+		else if (me.GetType() == Mouse::MouseEvent::EventType::WheelDown)
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::DecrementSeedPacket);
+		}
     }
 }
 
@@ -64,15 +73,15 @@ void Input::UpdateKeyboard( const float dt )
 	}
 
     // Handle input for single key presses
-	while ( !m_keyboard.KeyBufferIsEmpty() )
+	while (!m_keyboard.KeyBufferIsEmpty())
 	{
 		Keyboard::KeyboardEvent kbe = m_keyboard.ReadKey();
 		unsigned char keycode = kbe.GetKeyCode();
 
 		// Set cursor enabled/disabled
-		if ( keycode == VK_HOME )
+		if (keycode == VK_HOME)
 			EnableCursor();
-		else if ( keycode == VK_END )
+		else if (keycode == VK_END)
 			DisableCursor();
 
 #if _DEBUG
@@ -84,6 +93,10 @@ void Input::UpdateKeyboard( const float dt )
 		
 		if (m_keyboard.KeyIsPressed('K'))
 			EventSystem::Instance()->AddEvent(EVENTID::RemoveHealth);
+		if (m_keyboard.KeyIsPressed('T'))
+			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
+		if (m_keyboard.KeyIsPressed('Y'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
 
         // Close game
         if ( keycode == VK_ESCAPE )
@@ -91,16 +104,14 @@ void Input::UpdateKeyboard( const float dt )
 	}
 
     // Handle continuous key presses
-#if _DEBUG
     if ( m_keyboard.KeyIsPressed( 'W' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraUp );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveUp );
     if ( m_keyboard.KeyIsPressed( 'A' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraLeft );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveLeft );
     if ( m_keyboard.KeyIsPressed( 'S' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraDown );
+        EventSystem::Instance()->AddEvent( EVENTID::MoveDown );
     if ( m_keyboard.KeyIsPressed( 'D' ) )
-        EventSystem::Instance()->AddEvent( EVENTID::CameraRight );
-#endif
+        EventSystem::Instance()->AddEvent( EVENTID::MoveRight );
 }
 
 void Input::AddToEvent() noexcept

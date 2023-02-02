@@ -13,12 +13,11 @@ void Camera::SetProjectionValues( float width, float height, float nearZ, float 
 	m_vPosition = { m_vSizeOfScreen.x / 2.0f, m_vSizeOfScreen.y / 2.0f };
 	m_mOrthoMatrix = XMMatrixOrthographicOffCenterLH( 0.0f, width, height, 0.0f, nearZ, farZ );
 
-	static bool firstTime = true;
-	if (firstTime)
-	{
+#if !_DEBUG
+		m_bLockedToPlayer = true;
+#endif
+
 		m_vInitPosition = m_vPosition;
-		firstTime = false;
-	}
 }
 
 void Camera::SpawnControlWindow()
@@ -29,7 +28,10 @@ void Camera::SpawnControlWindow()
 		ImGui::Text( "Move Speed" );
 		ImGui::SliderFloat( "##Move Speed", &m_fSpeed, 1.0f, 20.0f, "%.1f" );
 		ImGui::NewLine();
-		ImGui::Checkbox( "Lock To Player?", &m_bLockedToPlayer );
+		if (ImGui::Checkbox("Lock To Player?", &m_bLockedToPlayer))
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::TogglePlayerMovement, this);
+		}
 	}
 	ImGui::End();
 #endif
@@ -48,21 +50,21 @@ void Camera::Update( const float dt )
 void Camera::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
-	EventSystem::Instance()->AddClient( EVENTID::CameraUp, this );
-	EventSystem::Instance()->AddClient( EVENTID::CameraLeft, this );
-	EventSystem::Instance()->AddClient( EVENTID::CameraDown, this );
-	EventSystem::Instance()->AddClient( EVENTID::CameraRight, this );
-	EventSystem::Instance()->AddClient( EVENTID::LockCameraToPlayer, this );
+	EventSystem::Instance()->AddClient( EVENTID::MoveUp, this );
+	EventSystem::Instance()->AddClient( EVENTID::MoveLeft, this );
+	EventSystem::Instance()->AddClient( EVENTID::MoveDown, this );
+	EventSystem::Instance()->AddClient( EVENTID::MoveRight, this );
+	EventSystem::Instance()->AddClient( EVENTID::PlayerPosition, this );
 }
 
 void Camera::RemoveFromEvent() noexcept
 {
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::CameraUp, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::CameraLeft, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::CameraDown, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::CameraRight, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::LockCameraToPlayer, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::MoveUp, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::MoveLeft, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::MoveDown, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::MoveRight, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerPosition, this );
 }
 
 void Camera::HandleEvent( Event* event )
@@ -77,23 +79,23 @@ void Camera::HandleEvent( Event* event )
 		SetProjectionValues( m_vSizeOfScreen.x, m_vSizeOfScreen.y, 0.0f, 1.0f );
 	}
 	break;
-	case EVENTID::LockCameraToPlayer:
+	case EVENTID::PlayerPosition:
 	{
 		if ( m_bLockedToPlayer )
 		{
-			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>( event->GetData() );
-			m_vPosition = XMFLOAT2( charSpriteandPos->second->x, charSpriteandPos->second->y );
+			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>(event->GetData());
 			Sprite* charSprite = charSpriteandPos->first;
+			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth(), charSpriteandPos->second->y + charSprite->GetHeight());
 
 			m_mWorldMatrix = XMMatrixTranslation(
-				-( m_vPosition.x - m_vSizeOfScreen.x / 2.0f + charSprite->GetWidth() ),
-				-( m_vPosition.y - m_vSizeOfScreen.y / 2.0f + charSprite->GetHeight() ), 0.0f );
+				-(m_vPosition.x - m_vSizeOfScreen.x / 2.0f),
+				-(m_vPosition.y - m_vSizeOfScreen.y / 2.0f), 0.0f);
 		}
 	}
 	break;
-	case EVENTID::CameraUp: if ( !m_bLockedToPlayer ) { m_vPosition.y -= m_fSpeed; } break;
-	case EVENTID::CameraDown: if ( !m_bLockedToPlayer ) { m_vPosition.y += m_fSpeed; } break;
-	case EVENTID::CameraRight: if ( !m_bLockedToPlayer ) { m_vPosition.x += m_fSpeed; } break;
-	case EVENTID::CameraLeft: if ( !m_bLockedToPlayer ) { m_vPosition.x -= m_fSpeed; } break;
+	case EVENTID::MoveUp: if ( !m_bLockedToPlayer ) { m_vPosition.y -= m_fSpeed; } break;
+	case EVENTID::MoveDown: if ( !m_bLockedToPlayer ) { m_vPosition.y += m_fSpeed; } break;
+	case EVENTID::MoveRight: if ( !m_bLockedToPlayer ) { m_vPosition.x += m_fSpeed; } break;
+	case EVENTID::MoveLeft: if ( !m_bLockedToPlayer ) { m_vPosition.x -= m_fSpeed; } break;
 	}
 }

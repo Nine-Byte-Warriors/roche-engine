@@ -2,6 +2,8 @@
 #include "Entity.h"
 #include "Graphics.h"
 
+#define PI 3.1415
+
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
 	m_vPosition = new Vector2f();
@@ -20,6 +22,7 @@ void Entity::SetComponents()
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
 	m_physics = std::make_shared<Physics>(m_transform);
+	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
 
 	if (m_entityController->HasAI(m_iEntityNum))
 	{
@@ -29,6 +32,7 @@ void Entity::SetComponents()
 	{
 		m_agent = nullptr;
 	}
+
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		m_projectileManager = std::make_shared<ProjectileManager>();
@@ -37,6 +41,7 @@ void Entity::SetComponents()
 	{
 		m_projectileManager = nullptr;
 	}
+
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
 		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
@@ -46,6 +51,12 @@ void Entity::SetComponents()
 	{
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
+	}
+
+	if (GetType() == "Player")
+	{
+		m_playerController = std::make_shared<PlayerController>(this);
+		m_inventory = std::make_shared<Inventory>();
 	}
 }
 
@@ -59,6 +70,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 
 	SetPositionInit();
 	SetScaleInit();
+	UpdateRotation();
 	UpdateBehaviour();
 	UpdateColliderRadius();
 	SetAnimation();
@@ -81,13 +93,13 @@ void Entity::Update(const float dt)
 	m_physics->Update(dt);
 
 	if (m_entityController->HasAI(m_iEntityNum))
-	{
 		m_agent->Update(dt);
-	}
+
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
-	{
 		m_projectileManager->Update(dt);
-	}
+
+	if (m_playerController)
+		m_playerController->Update(dt);
 }
 
 std::string Entity::GetType()
@@ -98,10 +110,10 @@ std::string Entity::GetType()
 void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 {
 	if (positionLocked)
-	{
 		UpdatePosition();
-	}
+
 	UpdateScale();
+	UpdateRotation();
 	UpdateMass();
 	UpdateBehaviour();
 	UpdateSpeed();
@@ -110,6 +122,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateColliderRadius();
 	UpdateAnimation();
 	UpdateRowsColumns();
+	UpdateAudio();
 }
 
 void Entity::SetPositionInit()
@@ -135,6 +148,11 @@ void Entity::SetScaleInit()
 			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 		}
 	}
+}
+
+void Entity::SetHealthInit()
+{
+	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
 }
 
 void Entity::UpdateRowsColumns()
@@ -196,6 +214,12 @@ void Entity::UpdateAnimation()
 			}
 		}
 	}
+}
+
+void Entity::UpdateRotation()
+{
+	m_fRotation = m_entityController->GetRotation(m_iEntityNum) * PI / 4;
+	m_transform->SetRotation(m_fRotation);
 }
 
 void Entity::UpdateTexture()
@@ -318,6 +342,12 @@ void Entity::UpdateColliderRadius()
 			m_colliderCircle->SetRadius(0);
 		}
 	}
+}
+
+void Entity::UpdateAudio()
+{
+	if(m_entityController->HasAudio(m_iEntityNum))
+		m_sSoundBankName = m_entityController->GetSoundBankName(m_iEntityNum);
 }
 
 void Entity::UpdateEntityNum(int num)

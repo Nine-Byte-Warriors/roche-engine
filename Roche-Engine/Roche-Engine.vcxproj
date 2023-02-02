@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -290,7 +290,11 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\EntityAnimation.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
+    <ClCompile Include="Components\Health.cpp" />
+    <ClCompile Include="Components\Inventory.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
+    <ClCompile Include="Components\PlayerController.cpp" />
+    <ClCompile Include="Components\PlayerMovement.cpp" />
     <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
@@ -435,7 +439,11 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\EntityAnimation.h" />
     <ClInclude Include="Components\EntityController.h" />
+    <ClInclude Include="Components\Health.h" />
+    <ClInclude Include="Components\Inventory.h" />
     <ClInclude Include="Components\Physics.h" />
+    <ClInclude Include="Components\PlayerController.h" />
+    <ClInclude Include="Components\PlayerMovement.h" />
     <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
@@ -570,6 +578,11 @@
     <None Include="Resources\Cursors\cur222.cur" />
     <None Include="Resources\Cursors\cur223.cur" />
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_16.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_20.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />

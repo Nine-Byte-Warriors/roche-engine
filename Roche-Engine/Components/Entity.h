@@ -3,13 +3,16 @@
 #define ENTITY_H
 
 class Graphics;
-#include "EntityController.h"
+#include "Agent.h"
 #include "Physics.h"
 #include "EventSystem.h"
+#include "EntityController.h"
 #include "ProjectileManager.h"
-#include "CircleCollider.h"
-#include "Agent.h"
+#include "PlayerController.h"
 #include "EntityAnimation.h"
+#include "CircleCollider.h"
+#include "Inventory.h"
+#include "Health.h"
 
 class Entity
 {
@@ -23,16 +26,18 @@ public:
 	void UpdateFromEntityData(const float dt, bool positionLocked);
 
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
+	inline std::shared_ptr<Health> GetHealth() const noexcept { return m_health; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
-	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager;	}
+	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager; }
 	inline std::shared_ptr<Collider> GetCollider() const noexcept {
 		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
 			return m_colliderCircle;
 		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
-			return m_colliderBox;		
+			return m_colliderBox;
 	};
+	inline std::string GetSoundBankName() const noexcept { return m_sSoundBankName; };
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -45,12 +50,14 @@ public:
 private:
 	void SetPositionInit();
 	void SetScaleInit();
+	void SetHealthInit();
 
 	void SetComponents();
 
 	void UpdatePosition();
 	void UpdateScale();
 	void UpdateAnimation();
+	void UpdateRotation();
 	void UpdateTexture();
 	void SetAnimation();
 	void UpdateRowsColumns();
@@ -64,6 +71,8 @@ private:
 
 	void UpdateColliderRadius();
 
+	void UpdateAudio();
+
 
 	int m_iEntityNum;
 
@@ -75,6 +84,8 @@ private:
 	Vector2f* m_vPosition;
 	float m_fScaleX;
 	float m_fScaleY;
+	float m_fRotation;
+
 	int m_iMaxFrameX;
 	int m_iMaxFrameY;
 	int m_iCurFrameX;
@@ -103,16 +114,22 @@ private:
 	float m_fColliderRadiusY;
 
 	std::shared_ptr<Agent> m_agent;
+	std::shared_ptr<Health> m_health;
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
-	std::shared_ptr<ProjectileManager> m_projectileManager;
-	std::shared_ptr<CircleCollider> m_colliderCircle;
 	std::shared_ptr<BoxCollider> m_colliderBox;
+	std::shared_ptr<CircleCollider> m_colliderCircle;
+	std::shared_ptr<ProjectileManager> m_projectileManager;
+	std::shared_ptr<PlayerController> m_playerController;
+	std::shared_ptr<Inventory>m_inventory;
 
 	EntityController* m_entityController;
 
 	EntityAnimation m_animation;
+
+	bool m_bAudio;
+	std::string m_sSoundBankName;
 };
 
 #endif

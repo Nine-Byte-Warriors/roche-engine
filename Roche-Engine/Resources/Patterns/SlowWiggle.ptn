@@ -1,6 +1,9 @@
 [
     {
+		"m_bLoop": true,
         "m_fDelay": 0.0,
+		"m_fHeight": 0.0,
+        "m_fWidth": 0.0,
         "m_iCount": 1,
         "m_sID": "ID",
         "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
@@ -9,19 +12,21 @@
             {
                 "m_fAmplitude": 10.0,
                 "m_fAngle": 0.0,
+				"m_fDelay": 0.0,
                 "m_fFrequency": 5.0,
-                "m_fLifeTime": 100.0,
+                "m_fLifeTime": 10.0,
                 "m_fSpeed": 5.0,
-                "m_fX": 0.0,
+				"m_fX": 0.0,
                 "m_fY": 0.0
             },
             {
                 "m_fAmplitude": 0.0,
                 "m_fAngle": 0.0,
+				"m_fDelay": 0.0,
                 "m_fFrequency": 0.0,
-                "m_fLifeTime": 100.0,
+                "m_fLifeTime": 10.0,
                 "m_fSpeed": 10.0,
-                "m_fX": 0.0,
+				"m_fX": 0.0,
                 "m_fY": 0.0
             }
         ]
