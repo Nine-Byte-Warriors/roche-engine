@@ -21,7 +21,7 @@ void Level::OnCreate()
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
-        m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
+        m_textRenderer.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 
 		// Initialise Projectile Editor
         m_projectileEditor = ProjectileEditor::CreateEditor();

@@ -576,6 +576,11 @@
     <None Include="Resources\Cursors\cur222.cur" />
     <None Include="Resources\Cursors\cur223.cur" />
     <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_16.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_20.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16.spritefont" />
     <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
