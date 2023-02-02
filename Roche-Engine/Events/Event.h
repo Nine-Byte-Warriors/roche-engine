@@ -69,7 +69,11 @@ enum class EVENTID
 	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
-	QuitGameEvent
+	QuitGameEvent,
+
+	//Healthcomp
+	PlayerDeath,
+	EnemyDeath
 };
 
 /// <summary>
