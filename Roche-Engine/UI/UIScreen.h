@@ -3,6 +3,7 @@
 #define MAINMENU_UI
 
 class Graphics;
+#include "Health.h"
 #include "Shaders.h"
 #include "Listener.h"
 #include "Inventory.h"
@@ -15,7 +16,7 @@ public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
 
-	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets );
+	void Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets, Health& health );
 	void Update( const float dt, const std::vector<Widget>& widgets );
 	void Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
@@ -61,6 +62,7 @@ private:
 
 	// Inventory data
 	Inventory m_inventory;
+	Health* m_pPlayerHealth;
 
 	// Widget data
 	int m_iSliderStart = 50;
@@ -94,7 +96,6 @@ private:
 		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabIdle.png",
 		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabActive.png",
 		"Resources\\Textures\\UI\\Tabs\\Gear\\GearTabActive.png"
-
 	};
 
 	std::vector<std::string> m_texturesGraphicsTabs =
@@ -102,7 +103,6 @@ private:
 		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabIdle.png",
 		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabActive.png",
 		"Resources\\Textures\\UI\\Tabs\\Graphics\\GraphicsTabActive.png"
-
 	};
 
 	std::vector<std::string> m_texturesMusicTabs =
@@ -110,7 +110,6 @@ private:
 		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabIdle.png",
 		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabActive.png",
 		"Resources\\Textures\\UI\\Tabs\\Music\\MusicTabActive.png"
-
 	};
 
 	std::vector<std::string> m_texturesControlTabs =
@@ -118,7 +117,13 @@ private:
 		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabIdle.png",
 		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabActive.png",
 		"Resources\\Textures\\UI\\Tabs\\Control\\ControlTabActive.png"
+	};
 
+	std::vector<std::string> m_texturesHearts =
+	{
+		"Resources\\Textures\\UI\\Hearts\\Heart-1.png",
+		"Resources\\Textures\\UI\\Hearts\\Heart-2.png",
+		"Resources\\Textures\\UI\\Hearts\\Heart-3.png"
 	};
 
 	// Logo from https://www.flaticon.com/free-icon/github_5968896
