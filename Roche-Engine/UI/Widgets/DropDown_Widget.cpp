@@ -62,14 +62,14 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 			Shaders::BindShaders( context, vert, pix );
 		}
 	}
-	
-	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_vListData[m_iSelected].c_str() );
+
+	XMVECTOR textsize = textRenderer->GetSpriteFont( FontSize::MEDIUM )->MeasureString( m_vListData[m_iSelected].c_str() );
 	XMFLOAT2 textpos =
 	{
 		m_vPosition.x + ( m_vSize.x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
 		m_vPosition.y + ( m_vSize.y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
 	};
-	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, false );
+	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, FontSize::MEDIUM, true );
 }
 
 void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
