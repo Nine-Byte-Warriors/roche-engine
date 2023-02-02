@@ -376,5 +376,86 @@
       "colorA": 255,
       "type": 41,
       "button": false
+	},
+	{
+	  "name": "GrassDeco-3",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 42,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-4",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 43,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-5",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 44,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-6",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 45,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-7",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 46,
+      "button": false
+	},
+	{
+	  "name": "GrassDeco-8",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 47,
+      "button": false
+	},
+	{
+	  "name": "Concrete-1",    
+      "colorR": 80,
+      "colorG": 80,
+      "colorB": 80,
+      "colorA": 255,
+      "type": 48,
+      "button": false
+	},
+		{
+	  "name": "Concrete-2",    
+      "colorR": 80,
+      "colorG": 97,
+      "colorB": 80,
+      "colorA": 255,
+      "type": 49,
+      "button": false
+	},
+	{
+	  "name": "Concrete-3",    
+      "colorR": 80,
+      "colorG": 120,
+      "colorB": 80,
+      "colorA": 255,
+      "type": 50,
+      "button": false
 	}
 ]
