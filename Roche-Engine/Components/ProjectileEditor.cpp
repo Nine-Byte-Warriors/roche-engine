@@ -261,7 +261,8 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	{
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
 		pManager->SetDelay(m_vecManagers[i].m_fDelay);
-		pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
+		//pManager->SetProjectilePool(CreateProjectilePool(m_vecManagers[i].m_vecProjectiles));
+		pManager->SetPayLoadPool(m_vecManagers[i].m_vecProjectiles);
 		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath);
 
 		m_vecProjectileManager.push_back(std::move(pManager)); 
