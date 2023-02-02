@@ -166,18 +166,28 @@ void ProjectileEditor::ShowPattern()
 				std::string("Width##Man")
 					.append(std::to_string(iManIndex))
 					.c_str(),
-				&m_vecManagers[iManIndex].m_fWidth, 0.1f, 256.0f);
+				&m_vecManagers[iManIndex].m_fWidth, 0.1f, 256.0f
+			);
 			ImGui::SliderFloat(
 				std::string("Height##Man")
 					.append(std::to_string(iManIndex))
 					.c_str(),
-				&m_vecManagers[iManIndex].m_fHeight, 0.1f, 256.0f);
+				&m_vecManagers[iManIndex].m_fHeight, 0.1f, 256.0f
+			);
 
+			ImGui::Checkbox(
+				std::string("Enable Looping##Man")
+					.append(std::to_string(iManIndex))
+					.c_str(),
+				&m_vecManagers[iManIndex].m_bLoop
+			);
+			
 			ImGui::Checkbox(
 				std::string("Use Global Speed##Man")
 					.append(std::to_string(iManIndex))
 					.c_str(),
-				&m_vecManagers[iManIndex].m_bUseGlobalSpeed);
+				&m_vecManagers[iManIndex].m_bUseGlobalSpeed
+			);
 
 			if (m_vecManagers[iManIndex].m_bUseGlobalSpeed == true)
 			{
@@ -316,21 +326,19 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 
 	m_vecProjectileManager.clear();
 
-	for (int i = 0; i < m_vecManagers.size(); i++)
+	for (ProjectileData::ManagerJSON jMan : m_vecManagers)
 	{
-		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(); 
-		pManager->SetDelay(m_vecManagers[i].m_fDelay);
-		pManager->SetProjectilePool(CreateProjectilePool(
-				m_vecManagers[i].m_vecProjectiles, 
-				m_vecManagers[i].m_fGlobalSpeed, 
-				m_vecManagers[i].m_bUseGlobalSpeed)
-		);
+		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
+		
+		pManager->SetDelay(jMan.m_fDelay);
+		pManager->SetProjectilePool(CreateProjectilePool(jMan.m_vecProjectiles, jMan.m_fGlobalSpeed, jMan.m_bUseGlobalSpeed));
+		pManager->InitialiseFromFile(gfx, mat, jMan.m_sImagePath, Vector2f(jMan.m_fWidth, jMan.m_fHeight));
+		
+		if (bLoop || jMan.m_bLoop)
+			pManager->EnableRepeat();
 
-		Vector2f vSize = Vector2f(m_vecManagers[i].m_fWidth, m_vecManagers[i].m_fHeight);
-		pManager->InitialiseFromFile(gfx, mat, m_vecManagers[i].m_sImagePath, vSize);
-
-		m_vecProjectileManager.push_back(std::move(pManager)); 
-	}	
+		m_vecProjectileManager.push_back(std::move(pManager));
+	}
 
 	SpawnPattern();
 }

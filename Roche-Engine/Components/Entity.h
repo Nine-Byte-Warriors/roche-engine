@@ -35,6 +35,7 @@ public:
 		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
 			return m_colliderBox;		
 	};
+	inline std::string GetSoundBankName() const noexcept { return m_sSoundBankName; };
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -64,6 +65,8 @@ private:
 	void UpdateProjectilePattern();
 
 	void UpdateColliderRadius();
+
+	void UpdateAudio();
 
 
 	int m_iEntityNum;
@@ -116,6 +119,9 @@ private:
 	EntityController* m_entityController;
 
 	EntityAnimation m_animation;
+
+	bool m_bAudio;
+	std::string m_sSoundBankName;
 };
 
 #endif
