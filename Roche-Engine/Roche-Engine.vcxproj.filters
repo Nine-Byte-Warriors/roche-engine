@@ -246,13 +246,16 @@
     <ClCompile Include="Utility\Helper\MouseCapture.cpp">
       <Filter>Source Files\Utility\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMovement.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerController.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Inventory.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PlayerMovement.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Health.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\PlayerController.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
@@ -584,16 +587,19 @@
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMovement.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerController.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Components\Inventory.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlayerMovement.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Health.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\PlayerController.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
@@ -640,12 +646,6 @@
     <None Include="Resources\Tutorial01.aps">
       <Filter>Resource Files\General</Filter>
     </None>
-    <None Include="Resources\Fonts\open_sans_ms_16.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\open_sans_ms_16_bold.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
     <None Include="Resources\Cursors\cur116.cur">
       <Filter>Resource Files\Cursors</Filter>
     </None>
@@ -673,9 +673,6 @@
     <None Include="cpp.hint">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\Fonts\beth_ellen_ms_16_bold.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
     <None Include="Resources\Patterns\DefaultProjectile2.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
@@ -684,6 +681,30 @@
     </None>
     <None Include="Resources\Patterns\SlowWiggle.ptn">
       <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_128.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_160.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_200.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_72.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_16.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_20.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_24.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_36.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
