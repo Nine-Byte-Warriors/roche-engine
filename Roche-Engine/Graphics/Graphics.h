@@ -43,7 +43,6 @@ public:
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
 	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }
 
-
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );
 	bool InitializeShaders();

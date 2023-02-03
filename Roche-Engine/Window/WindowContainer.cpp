@@ -60,32 +60,6 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
         break;
 
     // Keyboard Events
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
-    {
-#if _DEBUG
-        if ( g_bDebug )
-            if ( imio.WantCaptureKeyboard )
-			    return 0;
-#endif
-        unsigned char keycode = static_cast<unsigned char>( wParam );
-        if ( m_keyboard.IsKeysAutoRepeat() )
-            m_keyboard.OnKeyPressed( keycode );
-        else
-        {
-            const bool wasPressed = lParam & 0x40000000;
-            if ( !wasPressed )
-                m_keyboard.OnKeyPressed( keycode );
-        }
-        switch ( wParam )
-        {
-        case VK_ESCAPE:
-            DestroyWindow( m_renderWindow.GetHWND() );
-            PostQuitMessage( 0 );
-            return 0;
-        }
-        return 0;
-    }
     case WM_KEYUP:
     case WM_SYSKEYUP:
     {
@@ -113,6 +87,32 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
             const bool wasPressed = lParam & 0x40000000;
             if ( !wasPressed )
                 m_keyboard.OnChar( ch );
+        }
+        return 0;
+    }
+    case WM_KEYDOWN:
+    case WM_SYSKEYDOWN:
+    {
+#if _DEBUG
+        if ( g_bDebug )
+            if ( imio.WantCaptureKeyboard )
+			    return 0;
+#endif
+        unsigned char keycode = static_cast<unsigned char>( wParam );
+        if ( m_keyboard.IsKeysAutoRepeat() )
+            m_keyboard.OnKeyPressed( keycode );
+        else
+        {
+            const bool wasPressed = lParam & 0x40000000;
+            if ( !wasPressed )
+                m_keyboard.OnKeyPressed( keycode );
+        }
+        switch ( wParam )
+        {
+        case VK_ESCAPE:
+            DestroyWindow( m_renderWindow.GetHWND() );
+            PostQuitMessage( 0 );
+            return 0;
         }
         return 0;
     }

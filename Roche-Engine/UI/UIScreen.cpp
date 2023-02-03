@@ -8,10 +8,11 @@ extern bool g_bDebug;
 #endif
 #define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
 
-void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets )
+void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets, Health& health )
 {
 	m_cbMatrices = mat;
 	m_vWidgets = widgets;
+	m_pPlayerHealth = &health;
 	m_pDevice = gfx.GetDevice();
 	m_pContext = gfx.GetContext();
 	UpdateWidgets();
@@ -447,6 +448,10 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 		}
 		else
 		{
+			std::string currTexture = m_texturesHearts[0];
+			float currHealth = m_pPlayerHealth->GetCurrentHealth();
+			float maxHealth = m_pPlayerHealth->GetMaxHealth();
+
 			m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png");
 			if (m_vImages[i].GetAction() == "Carrot Seed Packet")
 			{
@@ -474,15 +479,33 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 			}
 			else if (m_vImages[i].GetAction() == "Heart_1")
 			{
-				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Hearts\\Heart-1.png");
+				switch ( (int)currHealth )
+				{
+				case 0: currTexture = m_texturesHearts[2]; break;
+				case 1: currTexture = m_texturesHearts[1]; break;
+				case 2: case 3: case 4: case 5: case 6: currTexture = m_texturesHearts[0]; break;
+				}
+				m_vImages[i].Resolve("", Colors::AntiqueWhite, currTexture);
 			}
 			else if (m_vImages[i].GetAction() == "Heart_2")
 			{
-				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Hearts\\Heart-2.png");
+				switch ( (int)currHealth )
+				{
+				case 0: case 1: case 2: currTexture = m_texturesHearts[2]; break;
+				case 3: currTexture = m_texturesHearts[1]; break;
+				case 4: case 5: case 6: currTexture = m_texturesHearts[0]; break;
+				}
+				m_vImages[i].Resolve("", Colors::AntiqueWhite, currTexture);
 			}
 			else if (m_vImages[i].GetAction() == "Heart_3")
 			{
-				m_vImages[i].Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Hearts\\Heart-3.png");
+				switch ( (int)currHealth )
+				{
+				case 0: case 1: case 2: case 3: case 4: currTexture = m_texturesHearts[2]; break;
+				case 5: currTexture = m_texturesHearts[1]; break;
+				case 6: currTexture = m_texturesHearts[0]; break;
+				}
+				m_vImages[i].Resolve("", Colors::AntiqueWhite, currTexture);
 			}
 			else if (m_vImages[i].GetAction() == "Coin Icon")
 			{
@@ -750,5 +773,4 @@ void UIScreen::HandleEvent(Event* event)
 	}
 	break;
 	}
-
 }

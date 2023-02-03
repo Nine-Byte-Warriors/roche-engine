@@ -1,0 +1,12 @@
+[
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\bullettest.wav",
+        "name": "bullettest",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "ButtonPress",
+        "volume": 1.0
+    }
+]
