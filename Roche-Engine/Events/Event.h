@@ -77,6 +77,8 @@ enum class EVENTID
 	QuitGameEvent,
 
 	//Healthcomp
+	PlayerDamage,
+	PlayerHeal,
 	PlayerDeath,
 	EnemyDeath
 };

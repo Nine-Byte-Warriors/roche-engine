@@ -15,7 +15,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
-        "health": 47.0,
+        "health": 15.0,
         "identifier": 0,
         "mass": 10.0,
         "maxFrame": [
@@ -57,7 +57,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
-        "health": 100.0,
+        "health": 5.0,
         "identifier": 1,
         "mass": 10.0,
         "maxFrame": [
@@ -98,8 +98,8 @@
             124.0
         ],
         "colliderShape": "Box",
-        "columns": 3,
-        "health": 100.0,
+        "columns": 2,
+        "health": 6.0,
         "identifier": 2,
         "mass": 21.200000762939453,
         "maxFrame": [
@@ -115,14 +115,14 @@
         "projectilePattern": "None",
         "projectileSystem": true,
         "rotation": 0.0,
-        "rows": 4,
+        "rows": 3,
         "scale": [
             124.0,
             124.0
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.png",
+        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
         "type": "Player"
     },
     {
@@ -141,7 +141,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
-        "health": 100.0,
+        "health": 10.0,
         "identifier": 3,
         "mass": 10.0,
         "maxFrame": [
@@ -183,7 +183,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 3,
-        "health": 100.0,
+        "health": 7.0,
         "identifier": 4,
         "mass": 1.0,
         "maxFrame": [
@@ -225,7 +225,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 1,
-        "health": 100.0,
+        "health": 1.0,
         "identifier": 5,
         "mass": 1.0,
         "maxFrame": [
