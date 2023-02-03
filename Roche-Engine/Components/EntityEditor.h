@@ -6,6 +6,7 @@
 #include "JsonLoading.h"
 #include "Entity.h"
 #include "AIStateMachine.h"
+#include "AudioEngine.h"
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
@@ -40,16 +41,19 @@ private:
 	void AIWidget();
 	void ProjectileSystemWidget();
 	void ColliderWidget();
+	void AudioWidget();
 
 	//Sprite
 	void SetName();
 	void SetType();
 	void SetPosition();
+	void SetRotation();
 	void SetTexture();
 	void SetAnimation();
 	void SetAnimationType();
 	void SetScale();
 	void SetRowsColumns();
+	void SetHealth();
 
 	//Physics
 	void SetMass();
@@ -65,6 +69,9 @@ private:
 	//Collider
 	void SetColliderShape();
 	void SetColliderSize();
+
+	//Audio
+	void SetSoundBank();
 
 	void SaveButton();
 	void SaveEntity();
@@ -99,8 +106,15 @@ private:
 	bool m_bLockPosition;
 	bool m_bLockToScale;
 
+	float m_fPushItemWidthFull = 210.0f;
+	float m_fPushItemWidthHalf = 100.0f;
+
+	int m_iRotation;
+
 	int m_iSelectedIndex = 0;
 	std::vector<std::string> m_projectileList;
+
+	std::vector<std::string> m_vSoundBankNamesList;
 
 	std::vector<int> m_entitiesDeleted;
 };

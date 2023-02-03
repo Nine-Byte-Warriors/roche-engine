@@ -3,6 +3,7 @@
 #include <FileHandler.h>
 
 #define FOLDER_PATH "Resources\\Entity\\"
+#define PI 3.1415
 
 EntityEditor::EntityEditor()
 {
@@ -16,6 +17,8 @@ void EntityEditor::SpawnControlWindow(float width, float height)
 {
 	m_fWidth = width;
 	m_fHeight = height;
+
+	m_vSoundBankNamesList = AudioEngine::GetInstance()->GetSoundBankNamesList();
 
 	if (ImGui::Begin("Entity Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize + ImGuiWindowFlags_HorizontalScrollbar))
 	{
@@ -64,6 +67,7 @@ void EntityEditor::EntityWidget()
 	AIWidget();
 	ProjectileSystemWidget();
 	ColliderWidget();
+	AudioWidget();
 #endif
 }
 
@@ -122,6 +126,8 @@ void EntityEditor::AddNewEntity()
 		entityData->name = "Name" + std::to_string(nameNum);
 		entityData->position.push_back(500.0f);
 		entityData->position.push_back(500.0f);
+		entityData->rotation = 0;
+		entityData->health = 100;
 		entityData->scale.push_back(64.0f);
 		entityData->scale.push_back(64.0f);
 		entityData->texture = "None";
@@ -147,6 +153,8 @@ void EntityEditor::AddNewEntity()
 		entityData->animation = true;
 		entityData->rows = 1;
 		entityData->columns = 1;
+		entityData->audio = false;
+		entityData->soundBankName = "";
 
 		m_vEntityData.push_back(*entityData);
 		m_vEntityDataCopy.push_back(*entityData);
@@ -207,7 +215,11 @@ void EntityEditor::SpriteWidget()
 		ImGui::NewLine();
 		SetScale();
 		ImGui::NewLine();
+		SetRotation();
+		ImGui::NewLine();
 		SetRowsColumns();
+		ImGui::NewLine();
+		SetHealth();
 
 		ImGui::TreePop();
 	}
@@ -311,6 +323,25 @@ void EntityEditor::ColliderWidget()
 #endif
 }
 
+void EntityEditor::AudioWidget()
+{
+#if _DEBUG
+	ImGui::NewLine();
+	ImGui::Checkbox("Audio", &m_vEntityDataCopy[m_iIdentifier].audio);
+	if (m_vEntityDataCopy[m_iIdentifier].audio)
+	{
+		ImGui::SameLine();
+		if (ImGui::TreeNode("##Audio"))
+		{
+			ImGui::NewLine();
+			SetSoundBank();
+
+			ImGui::TreePop();
+		}
+	}
+#endif
+}
+
 void EntityEditor::SetName()
 {
 #if _DEBUG
@@ -323,7 +354,7 @@ void EntityEditor::SetName()
 	static char entityName[128] = "";
 	strcpy_s(entityName, name.c_str());
 
-	ImGui::PushItemWidth(200.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthFull);
 	ImGui::InputTextWithHint(lable.c_str(), hint.c_str(), entityName, IM_ARRAYSIZE(entityName));
 
 	m_vEntityDataCopy[m_iIdentifier].name = entityName;
@@ -456,7 +487,7 @@ void EntityEditor::SetAnimationType()
 void EntityEditor::SetPosition()
 {
 #if _DEBUG
-	ImGui::PushItemWidth(100.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthHalf);
 
 	std::string displayText = "Position";
 	ImGui::Text(displayText.c_str());
@@ -468,8 +499,22 @@ void EntityEditor::SetPosition()
 
 	lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 	ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].position[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
+#endif
+}
 
-	ImGui::SameLine();
+void EntityEditor::SetRotation()
+{
+#if _DEBUG
+	m_iRotation = m_vEntityDataCopy[m_iIdentifier].rotation;
+	ImGui::PushItemWidth(m_fPushItemWidthFull);
+
+	std::string displayText = "Rotation";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	ImGui::SliderInt(lable.c_str(), &m_iRotation, 0, 7);
+
+	m_vEntityDataCopy[m_iIdentifier].rotation = m_iRotation;
 #endif
 }
 
@@ -478,7 +523,7 @@ void EntityEditor::SetScale()
 #if _DEBUG
 	int maxSize = 10000;
 
-	ImGui::PushItemWidth(100.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthHalf);
 
 	std::string displayText = "Scale";
 	ImGui::Text(displayText.c_str());
@@ -496,7 +541,7 @@ void EntityEditor::SetScale()
 void EntityEditor::SetRowsColumns()
 {
 #if _DEBUG
-	ImGui::PushItemWidth(100.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthHalf);
 
 	std::string displayText = "Rows/ Columns";
 	ImGui::Text(displayText.c_str());
@@ -511,11 +556,24 @@ void EntityEditor::SetRowsColumns()
 #endif
 }
 
+void EntityEditor::SetHealth()
+{
+#if _DEBUG
+	ImGui::PushItemWidth(m_fPushItemWidthFull);
+
+	std::string displayText = "Health";
+	ImGui::Text(displayText.c_str());
+
+	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
+	ImGui::SliderFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].health, 0, 100, "%.0f % ");
+#endif
+}
+
 void EntityEditor::SetMass()
 {
 #if _DEBUG
 	int maxMass = 1000;
-	ImGui::PushItemWidth(200.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthFull);
 
 	std::string displayText = "Mass";
 	ImGui::Text(displayText.c_str());
@@ -529,7 +587,7 @@ void EntityEditor::SetSpeed()
 {
 #if _DEBUG
 	int maxSpeed = 100;
-	ImGui::PushItemWidth(200.0f);
+	ImGui::PushItemWidth(m_fPushItemWidthFull);
 
 	std::string displayText = "Speed";
 	ImGui::Text(displayText.c_str());
@@ -677,7 +735,7 @@ void EntityEditor::SetColliderSize()
 
 	if (m_vEntityDataCopy[m_iIdentifier].colliderShape == "Circle")
 	{
-		ImGui::PushItemWidth(200.0f);
+		ImGui::PushItemWidth(m_fPushItemWidthFull);
 
 		std::string displayText = "Radius";
 		ImGui::Text(displayText.c_str());
@@ -687,7 +745,7 @@ void EntityEditor::SetColliderSize()
 	}
 	else if (m_vEntityDataCopy[m_iIdentifier].colliderShape == "Box")
 	{
-		ImGui::PushItemWidth(100.0f);
+		ImGui::PushItemWidth(m_fPushItemWidthHalf);
 
 		std::string displayText = "Radius";
 		ImGui::Text(displayText.c_str());
@@ -700,6 +758,35 @@ void EntityEditor::SetColliderSize()
 		lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 	}
+#endif
+}
+
+void EntityEditor::SetSoundBank()
+{
+#if _DEBUG
+	ImGui::Text("Sound Bank name:");
+	static int activeSoundBankType = 0;
+	std::string previewEntitySoundBank = m_vEntityDataCopy[m_iIdentifier].soundBankName;
+	
+	std::string label = "##Entity Sound Bank" + std::to_string(m_iIdentifier);
+
+	if (ImGui::BeginCombo(label.c_str(), previewEntitySoundBank.c_str()))
+	{
+		for (int i = 0; i < m_vSoundBankNamesList.size(); i++)
+		{
+			const bool isSelected = i == activeSoundBankType;
+			if (ImGui::Selectable(m_vSoundBankNamesList[i].c_str(), isSelected))
+			{
+				activeSoundBankType = i;
+				previewEntitySoundBank = m_vSoundBankNamesList[i];
+			}
+		}
+
+		ImGui::EndCombo();
+
+		m_vEntityDataCopy[m_iIdentifier].soundBankName = m_vSoundBankNamesList[activeSoundBankType];
+	}
+
 #endif
 }
 

@@ -4,6 +4,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Potato\\Potato.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
         "behaviour": "Patrol",
@@ -14,6 +15,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 47.0,
         "identifier": 0,
         "mass": 10.0,
         "maxFrame": [
@@ -28,11 +30,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 4.0,
         "rows": 3,
         "scale": [
             64.0,
             64.0
         ],
+        "soundBankName": "SoundBankTest1",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
         "type": "Enemy"
@@ -42,6 +46,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
         "behaviour": "Seek",
@@ -52,6 +57,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 100.0,
         "identifier": 1,
         "mass": 10.0,
         "maxFrame": [
@@ -66,11 +72,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             128.0,
             128.0
         ],
+        "soundBankName": "SoundBankTest1",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.png",
         "type": "Enemy"
@@ -80,6 +88,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
@@ -90,6 +99,7 @@
         ],
         "colliderShape": "Box",
         "columns": 2,
+        "health": 100.0,
         "identifier": 2,
         "mass": 21.200000762939453,
         "maxFrame": [
@@ -104,11 +114,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             124.0,
             124.0
         ],
+        "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
         "type": "Player"
@@ -118,6 +130,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Onion\\Onion.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
         "behaviour": "Follow",
@@ -128,6 +141,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 2,
+        "health": 100.0,
         "identifier": 3,
         "mass": 10.0,
         "maxFrame": [
@@ -142,11 +156,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             64.0,
             64.0
         ],
+        "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
         "type": "Enemy"
@@ -156,6 +172,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Tomato\\Tomato.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
         "behaviour": "None",
@@ -166,6 +183,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 3,
+        "health": 100.0,
         "identifier": 4,
         "mass": 1.0,
         "maxFrame": [
@@ -180,11 +198,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "None",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 3,
         "scale": [
             64.0,
             64.0
         ],
+        "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Tomato\\Tomato.png",
         "type": "Enemy"
@@ -194,6 +214,7 @@
         "animation": true,
         "animationPath": "Resources\\Textures\\Base_Projectile.json",
         "animationType": "Walk",
+        "audio": false,
         "bProjectileBullet": false,
         "bProjectilePattern": true,
         "behaviour": "None",
@@ -204,6 +225,7 @@
         ],
         "colliderShape": "Circle",
         "columns": 1,
+        "health": 100.0,
         "identifier": 5,
         "mass": 1.0,
         "maxFrame": [
@@ -218,11 +240,13 @@
         "projectileBullet": "Projectile1",
         "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "projectileSystem": true,
+        "rotation": 0.0,
         "rows": 1,
         "scale": [
             32.0,
             32.0
         ],
+        "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"

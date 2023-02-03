@@ -33,6 +33,7 @@ public:
 		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
 			return m_colliderBox;		
 	};
+	inline std::string GetSoundBankName() const noexcept { return m_sSoundBankName; };
 
 	Vector2f GetPos() { return *m_vPosition; }
 
@@ -42,12 +43,14 @@ public:
 private:
 	void SetPositionInit();
 	void SetScaleInit();
+	void SetHealthInit();
 
 	void SetComponents();
 
 	void UpdatePosition();
 	void UpdateScale();
 	void UpdateAnimation();
+	void UpdateRotation();
 	void UpdateTexture();
 	void SetAnimation();
 	void UpdateRowsColumns();
@@ -61,6 +64,8 @@ private:
 
 	void UpdateColliderRadius();
 
+	void UpdateAudio();
+
 
 	int m_iEntityNum;
 
@@ -69,6 +74,9 @@ private:
 	Vector2f* m_vPosition;
 	float m_fScaleX;
 	float m_fScaleY;
+	float m_fRotation;
+	float m_fHealth;
+
 	int m_iMaxFrameX;
 	int m_iMaxFrameY;
 	int m_iCurFrameX;
@@ -107,6 +115,9 @@ private:
 	EntityController* m_entityController;
 
 	EntityAnimation m_animation;
+
+	bool m_bAudio;
+	std::string m_sSoundBankName;
 };
 
 #endif
