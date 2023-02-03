@@ -143,13 +143,13 @@ void UIScreen::Update( const float dt )
 				// Default
 				std::vector<std::string> vValues = { "True", "False" };
 				static std::string sValue = vValues[0];
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-				if ( m_vWidgets[i]->GetDataSliderWidget()->GetSelected() == "False" )
+				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+				if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "False" )
 					sValue = "False";
 				else
 					sValue = "True";
-				m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 			}
+			m_vWidgets[i]->GetDropDownWidget()->Update( dt );
 		}
 		/*else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
@@ -257,38 +257,16 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 						m_vWidgets[i]->GetDataSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 					continue;
 				}
-			}
-		}
-		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
-		{
-			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
-			dataSliderPtr = std::make_shared<DataSlider_Widget>();
-			if ( dataSliderPtr->GetZIndex() == i )
-			{
-				if ( !dataSliderPtr->GetIsHidden() )
+				else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 				{
-					RENDER_IF_IN_BOX( dataSliderPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						dataSliderPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-				}
-				break;
-			}
-		}
-		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
-		{
-			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
-			dropDownPtr = std::make_shared<DropDown_Widget>();
-			if ( dropDownPtr->GetZIndex() == i )
-			{
-				if ( !dropDownPtr->GetIsHidden() )
-				{
-					RENDER_IF_IN_BOX( dropDownPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						dropDownPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetDropDownWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetDropDownWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+					continue;
 				}
-				break;
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
+		/*else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
 			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
 			energyBarPtr = std::make_shared<EnergyBar_Widget>();
