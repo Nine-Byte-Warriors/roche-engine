@@ -30,21 +30,24 @@ enum class EVENTID
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
+	ChangePhase,
+	NextDay,
+	CurrentState,
+	CurrentPhase,
+	CurrentDay,
 
 	// Camera Actions
-	CameraUp,
-	CameraLeft,
-	CameraDown,
-	CameraRight,
-	LockCameraToPlayer,
+	MoveUp,
+	MoveLeft,
+	MoveDown,
+	MoveRight,
 
 	// Player Actions
 	PlayerHealth,
 	PlayerPosition,
 	PlayerFire,
+	PlayerDash,
 	TargetPosition,
-<<<<<<< Updated upstream
-=======
 	TogglePlayerMovement,
 
 	// Inventory
@@ -65,7 +68,6 @@ enum class EVENTID
 	PauseGame, // new
 	ResumeGame,
 	Back, // ??
->>>>>>> Stashed changes
 
 	// Utility
 	WindowSizeChangeEvent,
@@ -73,7 +75,13 @@ enum class EVENTID
 	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
-	QuitGameEvent
+	QuitGameEvent,
+
+	//Healthcomp
+	PlayerDamage,
+	PlayerHeal,
+	PlayerDeath,
+	EnemyDeath
 };
 
 /// <summary>

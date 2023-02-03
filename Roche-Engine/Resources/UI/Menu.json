@@ -1,6 +1,14 @@
 [
     {
+        "file": "Credits_Widgets.json",
+        "name": "Credits_Widgets"
+    },
+    {
         "file": "Menu_Widgets.json",
-        "name": "Menu"
+        "name": "Menu_Widgets"
+    },
+    {
+        "file": "Settings_Widgets.json",
+        "name": "Settings_Widgets"
     }
 ]

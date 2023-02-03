@@ -1,10 +1,10 @@
-# Roche Engine :sunny: :star:
+# Midnight Harvest :moon: :tomato: :corn:
 
-This is the repository for the Roche engine that was used to develop Midnight Harvest. Roche is being continually improved and modified to support the creation of more complex games. If you have any suggestions for features or improvements, feel free to reach out to a member of Nine Byte Warriors.
+This is the repository of the game, Midnight Harvest. This repository is cloned from the Roche engine branch and continually receives updates to improve the use of the editor and to ensure tools are easier to use, and bugs are fixed.
 
 ## Getting Started
 
-Please refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche-engine/wiki) and technical documentation on the various uses of the engine.
+Please refer to the [wiki](https://github.com/Nine-Byte-Warriors/roche-engine/wiki) and technical documentation on the various uses of the Roche engine.
 
 ### Dependencies
 

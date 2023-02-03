@@ -71,8 +71,9 @@ private:
 	const std::vector<std::string> m_vUITypes =
 	{
 		"Button", "Colour Block",
-		"Data Slider", "Energy Bar",
-		"Image", "Input", "Page Slider"
+		"Data Slider", "Drop Down",
+		"Energy Bar", "Image",
+		"Input", "Page Slider"
 	};
 
 	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen

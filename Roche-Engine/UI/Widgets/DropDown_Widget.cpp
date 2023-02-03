@@ -62,18 +62,19 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 			Shaders::BindShaders( context, vert, pix );
 		}
 	}
-	
-	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_vListData[m_iSelected].c_str() );
+
+	XMVECTOR textsize = textRenderer->GetSpriteFont( m_eFontSize )->MeasureString( m_vListData[m_iSelected].c_str() );
 	XMFLOAT2 textpos =
 	{
 		m_vPosition.x + ( m_vSize.x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
 		m_vPosition.y + ( m_vSize.y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
 	};
-	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, false );
+	textRenderer->RenderString( m_vListData[m_iSelected], textpos, m_vTextColour, m_eFontSize, true );
 }
 
-void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData )
+void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData, FontSize size )
 {
+	m_eFontSize = size;
 	m_vListData = ddList;
 	m_vTextColour = textColour;
 
@@ -82,9 +83,10 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
     m_spriteBack->SetWidth( m_vSize.x );
     m_spriteBack->SetHeight( m_vSize.y );
 
-	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
 	m_wButtonDrop.SetPosition( { m_vPosition.x + m_vSize.x, m_vPosition.y } );
 	m_wButtonDrop.SetSize( { m_vSize.y, m_vSize.y } );
+	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
+
 	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
 		if ( currData == m_vListData[i] )
 			m_iSelected = i;
@@ -97,8 +99,8 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
 		float PosY = m_vPosition.y + m_vSize.y;
 		for ( unsigned int i = 0; i < ddList.size(); i++ )
 		{
-			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
 			m_wListButtons[i].SetPosition( { m_vPosition.x, PosY } );
+			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
 			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData ) )
 			{
 				m_eDropState = DropState::Up;
