@@ -72,9 +72,6 @@ private:
 
 	void UpdateAudio();
 
-	void EnemyCollisions();
-	void EnemyAimedShot();
-
 	int m_iEntityNum;
 
 	float m_fEntityHealth = 100.0;
