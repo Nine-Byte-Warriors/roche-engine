@@ -43,6 +43,29 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	TargetPosition,
+<<<<<<< Updated upstream
+=======
+	TogglePlayerMovement,
+
+	// Inventory
+	IncrementSeedPacket,
+	DecrementSeedPacket,
+	PlantSeedAttempt,
+	PlantSeed,
+	BuySeed,
+
+	//UI
+	StartGame,
+	OpenCredits,
+	OpenSettings,
+	GeneralTab,
+	GraphicsTab,
+	MusicTab,
+	ControlTab,
+	PauseGame, // new
+	ResumeGame,
+	Back, // ??
+>>>>>>> Stashed changes
 
 	// Utility
 	WindowSizeChangeEvent,
