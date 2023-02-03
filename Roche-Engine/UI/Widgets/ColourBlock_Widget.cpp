@@ -43,7 +43,7 @@ void ColourBlock_Widget::Resolve( Colour colour )
 
 	m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
 	m_transform->SetScale( m_vSize.x, m_vSize.y );
-	
+
 	m_sprite->SetWidth( m_vSize.x );
 	m_sprite->SetHeight( m_vSize.y );
 }

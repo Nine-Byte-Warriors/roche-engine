@@ -570,10 +570,13 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utility\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Helper\MouseCapture.h">
       <Filter>Header Files\Utility\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Widgets\MouseData.h">
+      <Filter>Header Files\UI\Widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,255 +8,241 @@ extern bool g_bDebug;
 #endif
 #define RENDER_IF_IN_BOX( x, y, z, code ) if ( x >= y && x <= ( y + z ) ) code
 
-void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<Widget>& widgets )
+void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::shared_ptr<Widget>>& widgets )
 {
 	m_cbMatrices = mat;
 	m_vWidgets = widgets;
 	m_pDevice = gfx.GetDevice();
 	m_pContext = gfx.GetContext();
-	UpdateWidgets();
+	InitializeWidgets();
 }
 
-void UIScreen::UpdateWidgets()
+void UIScreen::InitializeWidgets()
 {
-	int inputIndex = 0;
+	int inputIdx = 0;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( m_vWidgets[i].GetType() == "Button" )
+		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			Button_Widget button;
-			button.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			button.IntializeWidget( m_vWidgets[i] );
-			m_vButtons.push_back( std::move( button ) );
+			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
+			//buttonPtr = std::make_shared<Button_Widget>();
+			m_vWidgets[i]->IntializeWidget( m_vWidgets[i] );
+			m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		}
-		else if ( m_vWidgets[i].GetType() == "Colour Block" )
+		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
 		{
-			ColourBlock_Widget colourBlock;
-			colourBlock.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			colourBlock.IntializeWidget( m_vWidgets[i] );
-			m_vColourBlocks.push_back( std::move( colourBlock ) );
+			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
+			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
+			colourBlockPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			colourBlockPtr->IntializeWidget( m_vWidgets[i] );
 		}
-		else if ( m_vWidgets[i].GetType() == "Data Slider" )
+		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
-			DataSlider_Widget dataSlider;
-			dataSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			dataSlider.IntializeWidget( m_vWidgets[i] );
-			m_vDataSliders.push_back( std::move( dataSlider ) );
+			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
+			dataSliderPtr = std::make_shared<DataSlider_Widget>();
+			dataSliderPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			dataSliderPtr->IntializeWidget( m_vWidgets[i] );
 		}
-		else if ( m_vWidgets[i].GetType() == "Drop Down" )
+		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
-			DropDown_Widget dropDown;
-			dropDown.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			dropDown.IntializeWidget( m_vWidgets[i] );
-			m_vDropDowns.push_back( std::move( dropDown ) );
+			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
+			dropDownPtr = std::make_shared<DropDown_Widget>();
+			dropDownPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			dropDownPtr->IntializeWidget( m_vWidgets[i] );
 		}
-		else if ( m_vWidgets[i].GetType() == "Energy Bar" )
+		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
-			EnergyBar_Widget energyBar;
-			energyBar.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			energyBar.IntializeWidget( m_vWidgets[i] );
-			m_vEnergyBars.push_back( std::move( energyBar ) );
+			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
+			energyBarPtr = std::make_shared<EnergyBar_Widget>();
+			energyBarPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			energyBarPtr->IntializeWidget( m_vWidgets[i] );
 		}
-		else if ( m_vWidgets[i].GetType() == "Image" )
+		else if ( m_vWidgets[i]->GetType() == "Image" )
 		{
-			Image_Widget image;
-			image.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			image.IntializeWidget( m_vWidgets[i] );
-			m_vImages.push_back( std::move( image ) );
+			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
+			imagePtr = std::make_shared<Image_Widget>();
+			imagePtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			imagePtr->IntializeWidget( m_vWidgets[i] );
 		}
-		else if ( m_vWidgets[i].GetType() == "Input" )
+		else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
-			Input_Widget input;
-			input.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, inputIndex );
-			input.IntializeWidget( m_vWidgets[i] );
-			m_vInputs.push_back( std::move( input ) );
-			inputIndex++;
+			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
+			inputPtr = std::make_shared<Input_Widget>();
+			inputPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, inputIdx );
+			inputPtr->IntializeWidget( m_vWidgets[i] );
+			inputIdx++;
 		}
-		else if ( m_vWidgets[i].GetType() == "Page Slider" )
+		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
-			PageSlider_Widget pageSlider;
-			pageSlider.Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			pageSlider.IntializeWidget( m_vWidgets[i] );
-			pageSlider.SetPageSize( m_vScreenSize.y );
-			m_vPageSliders.push_back( std::move( pageSlider ) );
-		}
+			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
+			pageSliderPtr = std::make_shared<PageSlider_Widget>();
+			pageSliderPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+			pageSliderPtr->IntializeWidget( m_vWidgets[i] );
+			pageSliderPtr->SetPageSize( m_vScreenSize.y );
+			m_iPageSliderCount++;
+		}*/
 	}
 }
 
-void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
+void UIScreen::Update( const float dt )
 {
-	m_vWidgets = widgets;
-	m_vButtons.clear();
-	m_vColourBlocks.clear();
-	m_vDataSliders.clear();
-	m_vDropDowns.clear();
-	m_vEnergyBars.clear();
-	m_vImages.clear();
-
-	// Save input widget data before clearing
-	std::vector<bool> inputSelections;
-	std::vector<std::string> inputStrings;
-	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
-	{
-		inputSelections.push_back( m_vInputs[i].GetSelected() );
-		inputStrings.push_back( m_vInputs[i].GetCurrentText() );
-	}
-	m_vInputs.clear();
-
-	m_vPageSliders.clear();
-	UpdateWidgets();
-
-	// Re-add input widget data
-	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
-	{
-		if ( inputSelections.size() == i ) inputSelections.push_back( false );
-		if ( inputStrings.size() == i ) inputStrings.push_back( "" );
-		m_vInputs[i].SetCurrentText( inputStrings[i] );
-		m_vInputs[i].SetSelected( inputSelections[i] );
-	}
-
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
 
-	for ( unsigned int i = 0; i < m_vButtons.size(); i++ )
+	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( m_vButtons[i].GetAction() == "Link" )
+		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			// GitHub Link
-			if ( m_vButtons[i].Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
-				if ( !m_bOpenLink && m_bOpen )
-					m_bOpenLink = true;
-			m_vButtons[i].Update( dt );
-			if ( !m_vButtons[i].GetIsPressed() )
-				m_bOpen = true;
-			if ( m_bOpenLink )
+			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
+			//buttonPtr = std::make_shared<Button_Widget>();
+			if ( m_vWidgets[i]->GetAction() == "Link" )
 			{
-				ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors", 0, 0, SW_SHOW );
-				m_bOpenLink = false;
-				m_bOpen = false;
+				// GitHub Link
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
+					if ( !m_bOpenLink && m_bOpen )
+						m_bOpenLink = true;
+
+				if ( !m_vWidgets[i]->GetButtonWidget()->GetIsPressed() )
+					m_bOpen = true;
+
+				if ( m_bOpenLink )
+				{
+					ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors", 0, 0, SW_SHOW );
+					m_bOpenLink = false;
+					m_bOpen = false;
+				}
+			}
+			else if ( m_vWidgets[i]->GetAction() == "Close" )
+			{
+				// Quit Game
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
+					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+			}
+			else
+			{
+				// Default
+				m_vWidgets[i]->GetButtonWidget()->Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
+			}
+			m_vWidgets[i]->GetButtonWidget()->Update( dt );
+		}
+		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
+		{
+			// Doesn't need actions
+			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
+			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
+			colourBlockPtr->Resolve( { 210, 210, 150 } );
+			colourBlockPtr->Update( dt );
+		}
+		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+		{
+			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
+			dataSliderPtr = std::make_shared<DataSlider_Widget>();
+			if ( dataSliderPtr->GetAction() == "Master Volume" )
+			{
+				// Create a slider that syncs with master volume
+			}
+			else  if ( dataSliderPtr->GetAction() == "Music Volume" )
+			{
+				// Create a slider that syncs with musics volume
+			}
+			else
+			{
+				// Default
+				dataSliderPtr->Resolve( m_iSliderStart,
+					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+			}
+			dataSliderPtr->Update( dt );
+		}
+		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
+		{
+			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
+			dropDownPtr = std::make_shared<DropDown_Widget>();
+			if ( dropDownPtr->GetAction() == "Resolution" )
+			{
+				// Create a drop down that allows user to change resolution
+			}
+			else
+			{
+				// Default
+				std::vector<std::string> vValues = { "True", "False" };
+				static std::string sValue = vValues[0];
+				dropDownPtr->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+				if ( dropDownPtr->GetSelected() == "False" )
+					sValue = "False";
+				else
+					sValue = "True";
+				dropDownPtr->Update( dt );
 			}
 		}
-		else if ( m_vButtons[i].GetAction() == "Close" )
+		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
-			// Quit Game
-			if ( m_vButtons[i].Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
-				EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
-			m_vButtons[i].Update( dt );
-		}
-		else
-		{
-			// Default
-			m_vButtons[i].Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
-			m_vButtons[i].Update( dt );
-		}
-	}
-
-	for ( unsigned int i = 0; i < m_vColourBlocks.size(); i++ )
-	{
-		// Doesn't need actions
-		m_vColourBlocks[i].Resolve( { 210, 210, 150 } );
-		m_vColourBlocks[i].Update( dt );
-	}
-
-	for ( unsigned int i = 0; i < m_vDataSliders.size(); i++ )
-	{
-		if ( m_vDataSliders[i].GetAction() == "Master Volume" )
-		{
-			// Create a slider that syncs with master volume
-		}
-		else  if ( m_vDataSliders[i].GetAction() == "Music Volume" )
-		{
-			// Create a slider that syncs with musics volume
-		}
-		else
-		{
-			// Default
-			m_vDataSliders[i].Resolve( m_iSliderStart, "Resources\\Textures\\UI\\Slider\\Slider Background.png",
-				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-			m_vDataSliders[i].Update( dt );
-		}
-	}
-
-	for ( unsigned int i = 0; i < m_vDropDowns.size(); i++ )
-	{
-		if ( m_vDropDowns[i].GetAction() == "Resolution" )
-		{
-			// Create a drop down that allows user to change resolution
-		}
-		else
-		{
-			// Default
-			std::vector<std::string> vValues = { "True", "False" };
-			static std::string sValue = vValues[0];
-			m_vDropDowns[i].Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-			if ( m_vDropDowns[i].GetSelected() == "False" )
-				sValue = "False";
+			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
+			energyBarPtr = std::make_shared<EnergyBar_Widget>();
+			if ( energyBarPtr->GetAction() == "Player Health" )
+			{
+				// Bar that displays the player's health
+			}
+			else if ( energyBarPtr->GetAction() == "Enemy Health" )
+			{
+				// Bar that displays an enemy's health
+			}
 			else
-				sValue = "True";
-			m_vDropDowns[i].Update( dt );
+			{
+				// Default
+				static float health = 100.0f;
+				std::string temp = m_textures[2];
+				m_textures[2] = "";
+				energyBarPtr->Resolve( m_textures, health );
+				m_textures[2] = temp;
+			}
+			energyBarPtr->Update( dt );
 		}
-	}
+		else if ( m_vWidgets[i]->GetType() == "Image" )
+		{
+			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
+			imagePtr = std::make_shared<Image_Widget>();
+			imagePtr->Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
+			imagePtr->Update( dt );
+		}
+		else if ( m_vWidgets[i]->GetType() == "Input" )
+		{
+			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
+			inputPtr = std::make_shared<Input_Widget>();
+			if ( inputPtr->GetAction() == "Player Name" )
+			{
+				// Input that allows the user to enter their name
+			}
+			else
+			{
+				// Default
+				inputPtr->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, m_iInputIndex );
+			}
+			inputPtr->Update( dt );
+		}
+		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+		{
+			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
+			pageSliderPtr = std::make_shared<PageSlider_Widget>();
+			pageSliderPtr->Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
+			//pageSliderPtr->SetPosition( { m_vScreenSize.x - 30.0f, m_vScreenSize.y * 0.2f } );
+			//pageSliderPtr->SetSize( { 30.0f, m_vScreenSize.y * 0.6f } );
+			pageSliderPtr->Update( dt );
 
-	for ( unsigned int i = 0; i < m_vEnergyBars.size(); i++ )
-	{
-		if ( m_vEnergyBars[i].GetAction() == "Player Health" )
-		{
-			// Bar that displays the player's health
-		}
-		else if ( m_vEnergyBars[i].GetAction() == "Enemy Health" )
-		{
-			// Bar that displays an enemy's health
-		}
-		else
-		{
-			// Default
-			static float health = 100.0f;
-			std::string temp = m_textures[2];
-			m_textures[2] = "";
-			m_vEnergyBars[i].Resolve( m_textures, health );
-			m_textures[2] = temp;
-			m_vEnergyBars[i].Update( dt );
-		}
-	}
+			m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - pageSliderPtr->GetPagePos();
+			if ( m_fCurrentPY != pageSliderPtr->GetPY() )
+			{
+				m_fCurrentPY = pageSliderPtr->GetPY();
+				m_bLoadFlag = true;
+			}
 
-	for ( unsigned int i = 0; i < m_vImages.size(); i++ )
-	{
-		m_vImages[i].Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
-		m_vImages[i].Update( dt );
-	}
-
-	for ( unsigned int i = 0; i < m_vInputs.size(); i++ )
-	{
-		if ( m_vInputs[i].GetAction() == "Player Name" )
-		{
-			// Input that allows the user to enter their name
-		}
-		else
-		{
-			// Default
-			m_vInputs[i].Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, m_iInputIndex );
-			m_vInputs[i].Update( dt );
-		}
-	}
-
-	for ( unsigned int i = 0; i < m_vPageSliders.size(); i++ )
-	{
-		m_vPageSliders[i].Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
-		m_vPageSliders[i].SetPosition( { m_vScreenSize.x - 30.0f, m_vScreenSize.y * 0.2f } );
-		m_vPageSliders[i].SetSize( { 30.0f, m_vScreenSize.y * 0.6f } );
-		m_vPageSliders[i].Update( dt );
-		m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - m_vPageSliders[i].GetPagePos();
-		if ( m_fCurrentPY != m_vPageSliders[i].GetPY() )
-		{
-			m_fCurrentPY = m_vPageSliders[i].GetPY();
-			m_bLoadFlag = true;
-		}
-		if ( m_bUpdateSlider )
-			m_vPageSliders[i].SetPageSize( m_vScreenSize.y );
+			if ( m_bUpdateSlider )
+				pageSliderPtr->SetPageSize( m_vScreenSize.y );
+		}*/
 	}
 
 	// Update render box
-	if ( m_vPageSliders.size() > 0 )
+	if ( m_iPageSliderCount > 0 )
 	{
 		m_fBoxPos = { 0.0f, m_vScreenSize.y * 0.1f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y * 0.6f };
@@ -270,119 +256,123 @@ void UIScreen::Update( const float dt, const std::vector<Widget>& widgets )
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
 {
-	unsigned int widgetAmount =
-		m_vButtons.size() + m_vColourBlocks.size() +
-		m_vDataSliders.size() + m_vDropDowns.size() + m_vInputs.size() +
-		m_vEnergyBars.size() + m_vImages.size() + m_vPageSliders.size();
-
-	for ( unsigned int i = 0; i < widgetAmount; i++ )
+	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		for ( unsigned int j = 0; j < m_vButtons.size(); j++ )
+		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			if ( m_vButtons[j].GetZIndex() == i )
+			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
+			//buttonPtr = std::make_shared<Button_Widget>();
+			if ( m_vWidgets[i]->GetZIndex() == i )
 			{
-				if ( !m_vButtons[j].GetIsHidden() )
+				if ( !m_vWidgets[i]->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vButtons[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vButtons[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetButtonWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetButtonWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vColourBlocks.size(); j++ )
+		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
 		{
-			if ( m_vColourBlocks[j].GetZIndex() == i )
+			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
+			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
+			if ( colourBlockPtr->GetZIndex() == i )
 			{
-				if ( !m_vColourBlocks[j].GetIsHidden() )
+				if ( !colourBlockPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vColourBlocks[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vColourBlocks[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( colourBlockPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						colourBlockPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vDataSliders.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
-			if ( m_vDataSliders[j].GetZIndex() == i )
+			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
+			dataSliderPtr = std::make_shared<DataSlider_Widget>();
+			if ( dataSliderPtr->GetZIndex() == i )
 			{
-				if ( !m_vDataSliders[j].GetIsHidden() )
+				if ( !dataSliderPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vDataSliders[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vDataSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( dataSliderPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						dataSliderPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vDropDowns.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
-			if ( m_vDropDowns[j].GetZIndex() == i )
+			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
+			dropDownPtr = std::make_shared<DropDown_Widget>();
+			if ( dropDownPtr->GetZIndex() == i )
 			{
-				if ( !m_vDropDowns[j].GetIsHidden() )
+				if ( !dropDownPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vDropDowns[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vDropDowns[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+					RENDER_IF_IN_BOX( dropDownPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						dropDownPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vEnergyBars.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
-			if ( m_vEnergyBars[j].GetZIndex() == i )
+			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
+			energyBarPtr = std::make_shared<EnergyBar_Widget>();
+			if ( energyBarPtr->GetZIndex() == i )
 			{
-				if ( !m_vEnergyBars[j].GetIsHidden() )
+				if ( !energyBarPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vEnergyBars[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vEnergyBars[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( energyBarPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						energyBarPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vImages.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Image" )
 		{
-			if ( m_vImages[j].GetZIndex() == i )
+			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
+			imagePtr = std::make_shared<Image_Widget>();
+			if ( imagePtr->GetZIndex() == i )
 			{
-				if ( !m_vImages[j].GetIsHidden() )
+				if ( !imagePtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vImages[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vImages[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( imagePtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						imagePtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vInputs.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
-			if ( m_vInputs[j].GetZIndex() == i )
+			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
+			inputPtr = std::make_shared<Input_Widget>();
+			if ( inputPtr->GetZIndex() == i )
 			{
-				if ( !m_vInputs[j].GetIsHidden() )
+				if ( !inputPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vInputs[j].GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vInputs[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					RENDER_IF_IN_BOX( inputPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						inputPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 				}
 				break;
 			}
 		}
-
-		for ( unsigned int j = 0; j < m_vPageSliders.size(); j++ )
+		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
-			if ( m_vPageSliders[j].GetZIndex() == i )
+			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
+			pageSliderPtr = std::make_shared<PageSlider_Widget>();
+			if ( pageSliderPtr->GetZIndex() == i )
 			{
-				if ( !m_vPageSliders[j].GetIsHidden() )
+				if ( !pageSliderPtr->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vPageSliders[j].GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vPageSliders[j].Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( pageSliderPtr->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						pageSliderPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 				}
 				break;
 			}
-		}
+		}*/
 	}
 }
 

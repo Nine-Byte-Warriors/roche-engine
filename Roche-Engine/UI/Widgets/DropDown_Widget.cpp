@@ -25,9 +25,9 @@ void DropDown_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* con
     m_transformBack->SetPositionInit( m_vPosition.x, m_vPosition.y );
 	m_transformBack->SetScaleInit( m_vSize.x, m_vSize.y );
 
-	m_wButtonDrop.Initialize( device, context, mat );
+	m_wButtonDrop.Initialize( device, context, mat, m_vPosition, m_vSize );
 	for ( unsigned int i = 0; i < ARRAYSIZE( m_wListButtons ); i++ )
-		m_wListButtons[i].Initialize( device, context, mat );
+		m_wListButtons[i].Initialize( device, context, mat, m_vPosition, m_vSize );
 }
 
 void DropDown_Widget::Update( const float dt )
@@ -62,7 +62,7 @@ void DropDown_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, 
 			Shaders::BindShaders( context, vert, pix );
 		}
 	}
-	
+
 	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_vListData[m_iSelected].c_str() );
 	XMFLOAT2 textpos =
 	{
@@ -83,8 +83,8 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
     m_spriteBack->SetHeight( m_vSize.y );
 
 	m_wButtonDrop.Resolve( "", textColour, buttonImg, mData );
-	m_wButtonDrop.SetPosition( { m_vPosition.x + m_vSize.x, m_vPosition.y } );
-	m_wButtonDrop.SetSize( { m_vSize.y, m_vSize.y } );
+	//m_wButtonDrop.SetPosition( { m_vPosition.x + m_vSize.x, m_vPosition.y } );
+	//m_wButtonDrop.SetSize( { m_vSize.y, m_vSize.y } );
 	for ( unsigned int i = 0; i < m_vListData.size(); i++ )
 		if ( currData == m_vListData[i] )
 			m_iSelected = i;
@@ -97,8 +97,8 @@ void DropDown_Widget::Resolve( const std::vector<std::string>& ddList, std::vect
 		float PosY = m_vPosition.y + m_vSize.y;
 		for ( unsigned int i = 0; i < ddList.size(); i++ )
 		{
-			m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
-			m_wListButtons[i].SetPosition( { m_vPosition.x, PosY } );
+			//m_wListButtons[i].SetSize( { m_vSize.x,m_vSize.y } );
+			//m_wListButtons[i].SetPosition( { m_vPosition.x, PosY } );
 			if ( m_wListButtons[i].Resolve( m_vListData[i], textColour, backCol, mData ) )
 			{
 				m_eDropState = DropState::Up;

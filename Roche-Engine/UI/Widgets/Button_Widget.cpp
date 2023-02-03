@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 
-Button_Widget::Button_Widget()
+Button_Widget::Button_Widget( XMFLOAT2& pos, XMFLOAT2& size )
 {
+    m_vSize = size;
+    m_vPosition = pos;
     m_sprite = std::make_shared<Sprite>();
     m_transform = std::make_shared<Transform>( m_sprite );
 
@@ -58,13 +60,6 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
 {
     m_sText = text;
     m_vTextColor = textColour;
-
-    m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
-    m_transform->SetScale( m_vSize.x, m_vSize.y );
-
-    m_sprite->SetWidth( m_vSize.x );
-    m_sprite->SetHeight( m_vSize.y );
-
     m_buttonState = ButtonState::Default;
 
     // Button collison
@@ -77,7 +72,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     {
     	if ( mData.LPress && !mData.Locked )
     		m_buttonState = ButtonState::Pressed;
-    	else 
+    	else
             m_buttonState = ButtonState::Hover;
     }
 

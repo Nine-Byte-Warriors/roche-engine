@@ -362,7 +362,7 @@ void Level::UpdateUI( const float dt )
         m_ui->HideAllUI();
     }
 #endif
-    m_ui->Update( dt, m_uiEditor.GetWidgets() );
+    m_ui->Update( dt );
 }
 
 void Level::UpdateEntity(const float dt)

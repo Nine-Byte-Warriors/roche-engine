@@ -4,23 +4,7 @@
 
 #include "Sprite.h"
 #include "TextRenderer.h"
-
-struct MouseData
-{
-	MouseData() 
-		: Pos( { 0.0f, 0.0f } )
-		, LPress( false )
-		, RPress( false )
-		, MPress( false )
-		, Locked( false )
-	{}
-
-	XMFLOAT2 Pos;
-	bool LPress;
-	bool RPress;
-	bool MPress;
-	bool Locked;
-};
+#include "Button_Widget.h"
 
 class Widget
 {
@@ -33,23 +17,24 @@ public:
 
 	virtual void Resolve() {}
 	virtual void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho ) {}
-	inline void IntializeWidget( Widget widget )
+	inline void IntializeWidget( std::shared_ptr<Widget>& widget )
 	{
-		m_bHidden = widget.GetIsHidden();
-		m_iZIndex = widget.GetZIndex();
-		m_sName = widget.GetName();
-		m_sType = widget.GetType();
-		m_vSize = widget.GetSize();
-		m_sAction = widget.GetAction();
-		m_vPosition = widget.GetPosition();
+		m_bHidden = widget->GetIsHidden();
+		m_iZIndex = widget->GetZIndex();
+		m_sName = widget->GetName();
+		m_sType = widget->GetType();
+		m_vSize = widget->GetSize();
+		m_sAction = widget->GetAction();
+		m_vPosition = widget->GetPosition();
+		m_pButton = std::make_shared<Button_Widget>( m_vPosition, m_vSize );
 	}
 
 	inline int GetZIndex() const noexcept { return m_iZIndex; }
-	inline XMFLOAT2 GetSize() const noexcept { return m_vSize; }
+	inline const XMFLOAT2& GetSize() const noexcept { return m_vSize; }
 	inline std::string GetName() const noexcept { return m_sName; }
 	inline std::string GetType() const noexcept { return m_sType; }
 	inline std::string GetAction() const noexcept { return m_sAction; }
-	inline XMFLOAT2 GetPosition() const noexcept { return m_vPosition; }
+	inline const XMFLOAT2& GetPosition() const noexcept { return m_vPosition; }
 	inline bool GetIsHidden() const noexcept { return m_bHidden; }
 
 	inline void SetZIndex( const int& idx ) noexcept { m_iZIndex = idx; }
@@ -60,11 +45,14 @@ public:
 	inline void SetAction( const std::string& action ) noexcept { m_sAction = action; }
 	inline void SetIsHidden( bool hide ) noexcept { m_bHidden = hide; }
 
+	inline std::shared_ptr<Button_Widget> GetButtonWidget() const noexcept { return m_pButton; }
+
 protected:
 	int m_iZIndex;
 	bool m_bHidden;
 	XMFLOAT2 m_vPosition, m_vSize;
 	std::string m_sName, m_sType, m_sAction;
+	std::shared_ptr<Button_Widget> m_pButton;
 };
 
 #endif

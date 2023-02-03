@@ -55,7 +55,7 @@ public:
 	inline const std::vector<UIScreenData>& GetScreenData() const noexcept { return m_vUIScreenData; }
 	inline const std::map<std::string, std::vector<UIWidgetData>>& GetWidgetData() const noexcept { return m_vUIWidgetData; }
 
-	inline const std::vector<std::vector<Widget>>& GetWidgets() const noexcept { return m_vUIWidgets; }
+	inline const std::vector<std::vector<std::shared_ptr<Widget>>>& GetWidgets() const noexcept { return m_vUIWidgets; }
 	inline const std::vector<std::shared_ptr<UIScreen>>& GetScreens() const noexcept { return m_vUIScreens; }
 
 private:
@@ -71,11 +71,12 @@ private:
 	const std::vector<std::string> m_vUITypes =
 	{
 		"Button", "Colour Block",
-		"Data Slider", "Energy Bar",
-		"Image", "Input", "Page Slider"
+		"Data Slider", "Drop Down",
+		"Energy Bar", "Image",
+		"Input", "Page Slider"
 	};
 
-	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen
+	std::vector<std::vector<std::shared_ptr<Widget>>> m_vUIWidgets; // list of widgets per screen
 	std::vector<std::shared_ptr<UIScreen>> m_vUIScreens; // list of UI screen objects
 
 	std::vector<UIScreenData> m_vUIScreenData; // list of UI screen data

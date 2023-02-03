@@ -64,10 +64,10 @@ void UIEditor::LoadFromFile_Widgets()
 		m_vUIWidgets.push_back( {} );
 		for ( unsigned int j = 0; j < it->second.size(); j++ ) // widget struct
 		{
-			m_vUIWidgets[index].push_back( { it->second[j].hide, it->second[j].zindex,
+			m_vUIWidgets[index].push_back( std::make_shared<Widget>( it->second[j].hide, it->second[j].zindex,
 				it->second[j].name, it->second[j].type, it->second[j].action,
 				XMFLOAT2( it->second[j].position[0], it->second[j].position[1] ),
-				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) } );
+				XMFLOAT2( it->second[j].scale[0], it->second[j].scale[1] ) ) );
 		}
 		index++;
 	}
@@ -125,14 +125,14 @@ void UIEditor::Update( const float dt )
 		m_vUIWidgets.push_back( {} );
 		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 		{
-			m_vUIWidgets[index].push_back( {} );
-			m_vUIWidgets[index][i].SetIsHidden( value[i].hide );
-			m_vUIWidgets[index][i].SetZIndex( value[i].zindex );
-			m_vUIWidgets[index][i].SetName( value[i].name );
-			m_vUIWidgets[index][i].SetType( value[i].type );
-			m_vUIWidgets[index][i].SetAction( value[i].action );
-			m_vUIWidgets[index][i].SetSize( { value[i].scale[0], value[i].scale[1] } );
-			m_vUIWidgets[index][i].SetPosition( { value[i].position[0], value[i].position[1] } );
+			m_vUIWidgets[index].push_back( std::make_shared<Widget>() );
+			m_vUIWidgets[index][i]->SetIsHidden( value[i].hide );
+			m_vUIWidgets[index][i]->SetZIndex( value[i].zindex );
+			m_vUIWidgets[index][i]->SetName( value[i].name );
+			m_vUIWidgets[index][i]->SetType( value[i].type );
+			m_vUIWidgets[index][i]->SetAction( value[i].action );
+			m_vUIWidgets[index][i]->SetSize( { value[i].scale[0], value[i].scale[1] } );
+			m_vUIWidgets[index][i]->SetPosition( { value[i].position[0], value[i].position[1] } );
 		}
 		index++;
 	}
