@@ -2,9 +2,9 @@ name: MSBuild-Debug
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master-engine" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master-engine" ]
 
 env:
   # Path to the solution file relative to the root of the project.
