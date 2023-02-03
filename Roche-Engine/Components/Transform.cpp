@@ -12,12 +12,15 @@ Transform::Transform( const std::shared_ptr<Sprite>& sprite ) : m_sprite( sprite
 {
 	m_vPosition = { 0.0f, 0.0f };
 	m_fRotation = 0.0f;
-	m_vScale = { sprite->GetWidth(), sprite->GetHeight() };
+	m_vScale = { m_sprite->GetWidth(), m_sprite->GetHeight() };
 }
 
 void Transform::Update()
 {
-	worldMatrix = 
+	if ( m_sprite != nullptr )
+		m_vScale = { m_sprite->GetWidth(), m_sprite->GetHeight() };
+
+	worldMatrix =
 		XMMatrixScaling( m_vScale.x, m_vScale.y, 1.0f ) *
 		XMMatrixRotationRollPitchYaw( 0.0f, 0.0f, m_fRotation ) *
 		XMMatrixTranslation(

@@ -122,7 +122,7 @@ void Level::CreateTileMapDraw()
             float positionHeight = rowPositionTotalTileLength;
 
             (*tileMapDraw)[j].GetTransform()->SetPositionInit(positionWidth, positionHeight);
-            (*tileMapDraw)[j].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
+            (*tileMapDraw)[j].GetSprite()->SetWidthHeight( (float)m_iTileSize, (float)m_iTileSize );
         }
 
         m_tileMapDrawLayers.push_back(*tileMapDraw);

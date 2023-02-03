@@ -119,16 +119,11 @@ void UIEditor::SaveToFile_Widgets()
 
 void UIEditor::Update( const float dt )
 {
-	//if ( m_vUIWidgets.size() > 0 )
-	//	m_vUIWidgets.clear();
-
 	int index = 0;
 	for ( auto& [key, value] : m_vUIWidgetData ) // each ui screen
 	{
-		//m_vUIWidgets.push_back( {} );
 		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 		{
-			//m_vUIWidgets[index].push_back( std::make_shared<Widget>() );
 			m_vUIWidgets[index][i]->SetIsHidden( value[i].hide );
 			m_vUIWidgets[index][i]->SetZIndex( value[i].zindex );
 			m_vUIWidgets[index][i]->SetName( value[i].name );
@@ -363,7 +358,7 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							ImGui::Text( "Position" );
 							float max = ( gfx.GetWidth() > gfx.GetHeight() ? gfx.GetWidth() : gfx.GetHeight() );
 							float position[2] = { value[i].position[0], value[i].position[1] };
-							ImGui::DragFloat2( std::string( "##Position" ).append( key ).append( value[i].name ).c_str(), position, 1.0f, 0.0f, max, "%.1f" );
+							ImGui::DragFloat2( std::string( "##Position" ).append( key ).append( value[i].name ).c_str(), position, 1.0f, -max, max * 2.0f, "%.1f" );
 							value[i].position = { position[0], position[1] };
 							ImGui::NewLine();
 

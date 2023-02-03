@@ -36,16 +36,14 @@ public:
 	inline void SetType( const std::string& type ) noexcept { m_sType = type; }
 	inline void SetAction( const std::string& action ) noexcept { m_sAction = action; }
 	inline void SetIsHidden( bool hide ) noexcept { m_bHidden = hide; }
+
 	inline void SetSize( const XMFLOAT2& size ) noexcept
 	{
 		m_vSize = size;
 		if ( m_sType == "Button" )
-		{
-			m_pButton->GetTransform()->SetScale( { m_vSize.x, m_vSize.y } );
-			m_pButton->GetSprite()->SetWidth( m_vSize.x );
-			m_pButton->GetSprite()->SetHeight( m_vSize.y );
-		}
+			m_pButton->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 	}
+
 	inline void SetPosition( const XMFLOAT2& pos ) noexcept
 	{
 		m_vPosition = pos;

@@ -4,12 +4,10 @@
 Button_Widget::Button_Widget( XMFLOAT2 pos, XMFLOAT2 size )
 {
     m_sprite = std::make_shared<Sprite>();
-    m_sprite->SetWidth( size.x );
-    m_sprite->SetHeight( size.y );
+    m_sprite->SetWidthHeight( size.x, size.y );
 
-    m_transform = std::make_shared<Transform>( m_sprite );
+    m_transform = std::make_shared<Transform>();
     m_transform->SetPosition( { pos.x, pos.y } );
-    m_transform->SetScale( { size.x, size.y } );
 
     MouseData mouseData = MouseData();
     std::string texture = "Resources\\Textures\\Tiles\\empty.png";
@@ -36,7 +34,7 @@ void Button_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* conte
 
 void Button_Widget::Update( const float dt )
 {
-    m_sprite->Update( dt );
+    m_transform->UpdateSprite( m_sprite );
 	m_transform->Update();
 }
 
@@ -51,8 +49,8 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
     XMFLOAT2 textpos =
     {
-        m_transform->GetPosition().x + ( m_transform->GetScale().x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
-        m_transform->GetPosition().y + ( m_transform->GetScale().y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
+        m_transform->GetPosition().x + ( m_sprite->GetWidth() / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
+        m_transform->GetPosition().y + ( m_sprite->GetHeight() / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
     };
     textRenderer->RenderString( m_sText, textpos, m_vTextColor, false );
 }
@@ -66,9 +64,9 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     // Button collison
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
-        mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
+        mData.Pos.x <= ( m_transform->GetPosition().x + m_sprite->GetWidth() ) &&
         mData.Pos.y >= m_transform->GetPosition().y &&
-        mData.Pos.y <= ( m_transform->GetPosition().y + ( m_transform->GetScale().y ) )
+        mData.Pos.y <= ( m_transform->GetPosition().y + m_sprite->GetHeight() )
        )
     {
     	if ( mData.LPress && !mData.Locked )

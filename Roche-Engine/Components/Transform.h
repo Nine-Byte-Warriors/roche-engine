@@ -7,14 +7,14 @@
 
 /// <summary>
 /// Container for all game objects.
-/// Provides functions to get/set/update position/rotation/scale data.
+/// Provides functions to get/set/update position/rotation data.
+/// Scaling should be handled on an entity's sprite component.
 /// </summary>
 class Transform
 {
 public:
 	Transform();
 	Transform( const std::shared_ptr<Sprite>& sprite );
-	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 
 	// position
 	void SetPositionInit( const Vector2f& pos ) noexcept { m_vPositionInit = m_vPosition = pos; }
@@ -39,18 +39,8 @@ public:
 	void AdjustRotation( float rot ) noexcept { m_fRotation += rot; }
 	void ResetRotation() noexcept { m_fRotation = m_fRotationInit; }
 
-	// scale
-	void SetScaleInit( const Vector2f& scale ) noexcept { m_vScaleInit = m_vScale = scale; }
-	void SetScaleInit( float xScale, float yScale ) noexcept { m_vScaleInit = m_vScale = { xScale, yScale }; }
-	const Vector2f& GetScaleInit() const noexcept { return m_vScaleInit; }
-
-	inline void SetScale( const Vector2f& scale ) noexcept { m_vScale = scale; }
-	inline void SetScale( float xScale, float yScale ) noexcept { m_vScale = { xScale, yScale }; }
-	inline const Vector2f& GetScale() const noexcept { return m_vScale; }
-
-	void AdjustScale( const Vector2f& scale ) noexcept { m_vScale += scale; }
-	void AdjustScale( float xScale, float yScale ) noexcept{ m_vScale += { xScale, yScale }; }
-	void ResetScale() noexcept { m_vScale = m_vScaleInit; }
+	// scale - only to be used by widgets
+	inline void UpdateSprite( const std::shared_ptr<Sprite>& sprite ) noexcept { m_sprite = sprite; }
 
 	// matrix
 	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
@@ -62,7 +52,7 @@ private:
 	XMMATRIX worldMatrix = XMMatrixIdentity();
 	Vector2f m_vPosition, m_vPositionInit;
 	float m_fRotation, m_fRotationInit;
-	Vector2f m_vScale, m_vScaleInit;
+	Vector2f m_vScale;
 };
 
 #endif
