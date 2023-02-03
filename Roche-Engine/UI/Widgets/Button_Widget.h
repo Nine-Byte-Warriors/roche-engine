@@ -17,7 +17,7 @@ public:
     };
 
     Button_Widget( XMFLOAT2 pos, XMFLOAT2 size );
-    Button_Widget( const std::string& texture );
+    Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
     ~Button_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

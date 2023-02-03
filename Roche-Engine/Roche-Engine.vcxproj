@@ -325,7 +325,8 @@
     <ClCompile Include="UI\UIManager.cpp" />
     <ClCompile Include="UI\Widgets\Button_Widget.cpp" />
     <ClCompile Include="UI\Widgets\ColourBlock_Widget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="UI\Widgets\DataSlider_Widget.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -479,7 +480,8 @@
     <ClInclude Include="UI\WidgetIncludes.h" />
     <ClInclude Include="UI\Widgets\Button_Widget.h" />
     <ClInclude Include="UI\Widgets\ColourBlock_Widget.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="UI\Widgets\DataSlider_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

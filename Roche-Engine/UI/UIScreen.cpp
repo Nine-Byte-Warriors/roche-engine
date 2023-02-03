@@ -22,18 +22,10 @@ void UIScreen::InitializeWidgets()
 	int inputIdx = 0;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( m_vWidgets[i]->GetType() == "Button" )
-		{
-			m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-		}
-		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
-		{
-			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
-			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
-			colourBlockPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			colourBlockPtr->IntializeWidget( m_vWidgets[i] );
-		}
-		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+		m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetColourBlockWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+
+		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
 			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
 			dataSliderPtr = std::make_shared<DataSlider_Widget>();
@@ -120,15 +112,13 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetButtonWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
+		else if ( m_vWidgets[i]->GetType() == "Colour Block" )
 		{
 			// Doesn't need actions
-			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
-			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
-			colourBlockPtr->Resolve( { 210, 210, 150 } );
-			colourBlockPtr->Update( dt );
+			m_vWidgets[i]->GetColourBlockWidget()->Resolve( { 210, 210, 150 } );
+			m_vWidgets[i]->GetColourBlockWidget()->Update( dt );
 		}
-		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
 			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
 			dataSliderPtr = std::make_shared<DataSlider_Widget>();
@@ -253,34 +243,26 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 {
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( m_vWidgets[i]->GetType() == "Button" )
+		if ( m_vWidgets[i]->GetZIndex() == i )
 		{
-			if ( m_vWidgets[i]->GetZIndex() == i )
+			if ( !m_vWidgets[i]->GetIsHidden() )
 			{
-				if ( !m_vWidgets[i]->GetIsHidden() )
+				if ( m_vWidgets[i]->GetType() == "Button" )
 				{
 					RENDER_IF_IN_BOX( m_vWidgets[i]->GetButtonWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
 						m_vWidgets[i]->GetButtonWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+					continue;
 				}
-				break;
-			}
-		}
-		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
-		{
-			std::shared_ptr<ColourBlock_Widget> colourBlockPtr = std::dynamic_pointer_cast<ColourBlock_Widget>( m_vWidgets[i] );
-			colourBlockPtr = std::make_shared<ColourBlock_Widget>();
-			if ( colourBlockPtr->GetZIndex() == i )
-			{
-				if ( !colourBlockPtr->GetIsHidden() )
+				else if ( m_vWidgets[i]->GetType() == "Colour Block" )
 				{
-					RENDER_IF_IN_BOX( colourBlockPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						colourBlockPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetColourBlockWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetColourBlockWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					continue;
 				}
-				break;
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
 			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
 			dataSliderPtr = std::make_shared<DataSlider_Widget>();

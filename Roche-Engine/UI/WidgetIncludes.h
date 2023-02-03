@@ -8,7 +8,7 @@
 // Display
 //#include "Widgets/Image_Widget.h"
 //#include "Widgets/EnergyBar_Widget.h"
-//#include "Widgets/ColourBlock_Widget.h"
+#include "Widgets/ColourBlock_Widget.h"
 
 // Interactable
 #include "Widgets/Button_Widget.h"
