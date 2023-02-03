@@ -376,5 +376,14 @@
       "colorA": 255,
       "type": 41,
       "button": false
+	},
+	{
+	  "name": "EmptyPlot",    
+      "colorR": 50,
+      "colorG": 205,
+      "colorB": 50,
+      "colorA": 255,
+      "type": 42,
+      "button": false
 	}
 ]

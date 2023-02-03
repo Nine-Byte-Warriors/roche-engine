@@ -68,6 +68,7 @@ private:
 	// Tile Map
 	void CreateTileMapDraw();
 	void UpdateTileMap(const float dt);
+	void UpdateTileMapPlanting(const float dt);
 	void UpdateBothTileMaps(const float dt);
 	void UpdateTileMapTexture(const float dt);
 	void UpdateTileMapEmpty(const float dt);

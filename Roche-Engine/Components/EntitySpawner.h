@@ -7,17 +7,23 @@
 struct EntitySpawn
 {
 	int seed;
-	int pos;
+	int tileMapPos;
+	Vector2f mapPos;
 };
 
 class EntitySpawner
 {
 public:
-	void AddEntityToSpawn(int seed, int pos);
+	void AddEntityToSpawn(int seed, int tileMapPos, Vector2f mapPos);
 	void SpawnEntities();
 	std::vector<EntityData> GetEntityData();
 
 	void EntitiesAdded();
+
+	bool IsEntityPosTaken(int pos);
+	int GetSpawnEntitiesSize();
+
+	int GetSpawnEntitiesTileMapPos(int num);
 
 private:
 	std::vector<EntitySpawn> m_entitySpawn;

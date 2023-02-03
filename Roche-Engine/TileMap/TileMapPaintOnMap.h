@@ -17,6 +17,7 @@ public:
 
 	bool IsLeftMouseDown();
 	bool IsNearTheMouse(Vector2f pos, Vector2f offSet, float radius);
+	Vector2f GetMapPos(Vector2f pos, Vector2f offSet);
 
 	int GetPositionAtCoordinates(int x, int y);
 
