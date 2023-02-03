@@ -457,5 +457,41 @@
       "colorA": 255,
       "type": 50,
       "button": false
+	},
+	{
+	  "name": "WoodFloor-1",    
+      "colorR": 64,
+      "colorG": 47,
+      "colorB": 29,
+      "colorA": 255,
+      "type": 51,
+      "button": false
+	},
+	{
+	  "name": "WoodFloor-2",    
+      "colorR": 64,
+      "colorG": 47,
+      "colorB": 29,
+      "colorA": 255,
+      "type": 52,
+      "button": false
+	},
+	{
+	  "name": "WoodFloor-3",    
+      "colorR": 64,
+      "colorG": 47,
+      "colorB": 29,
+      "colorA": 255,
+      "type": 53,
+      "button": false
+	},
+	{
+	  "name": "WoodFloor-4",    
+      "colorR": 64,
+      "colorG": 47,
+      "colorB": 29,
+      "colorA": 255,
+      "type": 54,
+      "button": false
 	}
 ]
