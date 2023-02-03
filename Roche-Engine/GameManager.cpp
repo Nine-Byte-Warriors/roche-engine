@@ -50,8 +50,10 @@ void GameManager::HandleEvent(Event* event)
 		break;
 	case EVENTID::ChangePhase:
 		SetPhase(*static_cast<Phase*>(event->GetData()));
+		break;
 	case EVENTID::NextDay:
 		SetNextDay();
+		break;
 	default:
 		break;
 	}

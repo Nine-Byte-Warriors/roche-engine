@@ -222,7 +222,7 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 		else if (m_vButtons[i].GetAction() == "Graphics")
 		{
 			if (m_vButtons[i].Resolve("", Colors::White, m_texturesGraphicsTabs, m_mouseData))
-				EventSystem::Instance()->AddEvent(EVENTID::GrahpicsTab);
+				EventSystem::Instance()->AddEvent(EVENTID::GraphicsTab);
 			m_vButtons[i].Update(dt);
 		}
 		else if (m_vButtons[i].GetAction() == "Music")
@@ -412,7 +412,7 @@ void UIScreen::Update(const float dt, const std::vector<Widget>& widgets)
 		}
 		else if (m_vImages[i].GetAction() == "Credit2")
 		{
-			m_vImages[i].Resolve("Jukiusz Jaczmarek", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			m_vImages[i].Resolve("Juliusz Kaczmarek", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 		}
 		else if (m_vImages[i].GetAction() == "Credit3")
 		{
@@ -736,6 +736,7 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+
 }
 
 void UIScreen::HandleEvent(Event* event)

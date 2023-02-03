@@ -79,7 +79,7 @@ void Level::CreateUI()
     m_ui->HideAllUI();
 
 #if !_DEBUG
-    m_ui->ShowUI( "Credits" );
+    m_ui->ShowUI( "Menu_Widgets" );
 #endif
 }
 
@@ -353,17 +353,17 @@ void Level::UpdateUI( const float dt )
     }
     else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
-        m_ui->HideAllUI();
+        //m_ui->HideAllUI();
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
-    else
-    {
-        m_ui->HideAllUI();
-    }
-    if ( m_uiEditor.ShouldHideAll() )
-    {
-        m_ui->HideAllUI();
-    }
+    //else
+    //{
+    //    m_ui->HideAllUI();
+    //}
+    //if ( m_uiEditor.ShouldHideAll() )
+    //{
+    //    m_ui->HideAllUI();
+    //}
 #endif
     m_ui->Update( dt, m_uiEditor.GetWidgets() );
 }

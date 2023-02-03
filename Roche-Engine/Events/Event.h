@@ -65,9 +65,10 @@ enum class EVENTID
 	GraphicsTab,
 	MusicTab,
 	ControlTab,
-	PauseGame, // new
+	PauseGame, // need?
 	ResumeGame,
-	Back, // ??
+	Back,
+	CurrentGamePhase, // new
 
 	// Utility
 	WindowSizeChangeEvent,
