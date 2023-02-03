@@ -90,9 +90,6 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
-		
-		//if (m_keyboard.KeyIsPressed('K'))
-		//	EventSystem::Instance()->AddEvent(EVENTID::RemoveHealth);
 
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
@@ -162,10 +159,6 @@ void Input::HandleEvent( Event* event )
 	case EVENTID::ReadCharInput:
 	{
 		m_bReadCharInput = static_cast<bool>( event->GetData() );
-	}
-	case EVENTID::RemoveHealth: if (m_keyboard.KeyIsPressed('K'))
-	{
-		Entity* TomatoKamikaze();
 	}
 	break;
 	}

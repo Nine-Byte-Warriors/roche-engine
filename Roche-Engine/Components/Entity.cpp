@@ -371,14 +371,16 @@ void Entity::CheckAliveStatus()
 
 void Entity::TomatoKamikaze()
 {
-	m_fEntityHealth -= 50.0f;
-	OutputDebugStringA("damage taken");
+
 	
-	//if (GetType() == "Tomato") //Gets the type that is tomato
-	//{
-	//	//Code will be here to check IF they have collided with player specifically, Alvin is currently working on this
-	//	//m_fEntityHealth -= 50.0f;
-	//}
+	if (GetType() == "Tomato") //Gets the type that is tomato
+	{
+		//Code will be here to check IF they have collided with player specifically, Alvin is currently working on this
+
+		//m_health->TakeDamage(1.0f);
+		//m_fEntityHealth = 0.0f;
+	
+	}
 }
 
 void Entity::EnemyAimedShot()

@@ -45,7 +45,6 @@ public:
 	void UpdateEntityNum(int num);
 
 	void CheckAliveStatus();
-	float m_fEntityHealth = 100.0;
 	void TomatoKamikaze();
 
 private:
@@ -78,7 +77,7 @@ private:
 
 	int m_iEntityNum;
 
-	bool m_bEntityIsAlive;
+	float m_fEntityHealth = 100.0;
 
 	ID3D11Device* m_device;
 
