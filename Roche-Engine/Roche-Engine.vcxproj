@@ -295,6 +295,7 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\PlayerMovement.cpp" />
+    <ClCompile Include="Components\PlayerShooting.cpp" />
     <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
@@ -446,6 +447,7 @@
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\PlayerMovement.h" />
+    <ClInclude Include="Components\PlayerShooting.h" />
     <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />

@@ -6,11 +6,22 @@
 
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
+	m_agent = nullptr;
+
+	m_projectileManager = nullptr;
 	m_emitter = nullptr;
+	
+	m_colliderCircle = nullptr;
+	m_colliderBox = nullptr;
+
+	m_playerController = nullptr;
+	m_inventory = nullptr;
+	
 	m_vPosition = new Vector2f();
 
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
+	
 	SetComponents();
 }
 
@@ -29,19 +40,11 @@ void Entity::SetComponents()
 	{
 		m_agent = std::make_shared<Agent>(m_physics);
 	}
-	else
-	{
-		m_agent = nullptr;
-	}
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		m_projectileManager = std::make_shared<ProjectileManager>();
-		m_emitter = std::make_shared<Emitter>(m_projectileManager);
-	}
-	else
-	{
-		m_projectileManager = nullptr;
+		m_emitter = std::make_shared<Emitter>(m_projectileManager, 0.01f);
 	}
 
 	if (m_entityController->HasCollider(m_iEntityNum))
@@ -49,15 +52,10 @@ void Entity::SetComponents()
 		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
 		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
 	}
-	else
-	{
-		m_colliderCircle = nullptr;
-		m_colliderBox = nullptr;
-	}
 
 	if (GetType() == "Player")
 	{
-		m_playerController = std::make_shared<PlayerController>(this);
+		m_playerController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
 	}
 }
