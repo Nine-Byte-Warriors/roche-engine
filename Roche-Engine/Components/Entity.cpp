@@ -376,6 +376,7 @@ void Entity::CheckAliveStatus()
 void Entity::TomatoKamikaze()
 {
 	m_fEntityHealth -= 50.0f;
+	OutputDebugStringA("damage taken");
 	
 	//if (GetType() == "Tomato") //Gets the type that is tomato
 	//{

@@ -91,8 +91,8 @@ void Input::UpdateKeyboard( const float dt )
 			g_bDebug = false;
 #endif
 		
-		if (m_keyboard.KeyIsPressed('K'))
-			EventSystem::Instance()->AddEvent(EVENTID::RemoveHealth);
+		//if (m_keyboard.KeyIsPressed('K'))
+		//	EventSystem::Instance()->AddEvent(EVENTID::RemoveHealth);
 		if (m_keyboard.KeyIsPressed('T'))
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
 		if (m_keyboard.KeyIsPressed('Y'))
@@ -155,7 +155,7 @@ void Input::HandleEvent( Event* event )
 	{
 		m_bReadCharInput = static_cast<bool>( event->GetData() );
 	}
-	case EVENTID::RemoveHealth:
+	case EVENTID::RemoveHealth: if (m_keyboard.KeyIsPressed('K'))
 	{
 		Entity* TomatoKamikaze();
 	}
