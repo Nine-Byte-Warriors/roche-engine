@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Collider.h"
+#include "Entity.h"
 
 Collider::Collider(Collider& col)
 {
@@ -12,6 +13,7 @@ Collider::Collider(Collider& col)
     m_transform = col.m_transform;
     m_type = col.m_type;
     m_blackList = col.m_blackList;
+    m_parent = col.m_parent;
 }
 
 float Collider::Clamp(float min, float max, float value)

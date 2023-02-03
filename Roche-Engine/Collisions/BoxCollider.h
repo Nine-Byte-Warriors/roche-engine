@@ -9,7 +9,7 @@ class BoxCollider : public Collider
 {
 public:
     BoxCollider() { m_type = ColliderType::Box; };
-    BoxCollider(std::shared_ptr<Transform> transform, float width, float height) : m_width(width), m_height(height) { m_transform = transform; m_type = ColliderType::Box; }
+    BoxCollider(std::shared_ptr<Transform> transform, Entity* parent, float width, float height) : m_width(width), m_height(height) { m_transform = transform; m_parent = parent; m_type = ColliderType::Box; }
 
 private:
     //position is from the center

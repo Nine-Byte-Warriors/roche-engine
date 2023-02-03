@@ -39,8 +39,9 @@ void Entity::SetComponents()
 	}
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
-		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
-		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
+		Entity* entity = this;
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, entity, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform,entity, 32, 32);
 	}
 	else
 	{
