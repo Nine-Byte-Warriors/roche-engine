@@ -27,6 +27,11 @@ void TileMapEditor::Initialize(int rows, int columns)
 	m_bLayerSwitched = true;
 
 	m_tileMapLayer = TileMapLayer::Background;
+
+	for (int i = 0; i < m_sTileTypeData.size(); i++)
+	{
+		m_sTileTypeData[i].type = i;
+	}
 }
 
 void TileMapEditor::SetJsonFile( const std::string& name )
