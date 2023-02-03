@@ -1,12 +1,15 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 
-Button_Widget::Button_Widget( XMFLOAT2& pos, XMFLOAT2& size )
+Button_Widget::Button_Widget( XMFLOAT2 pos, XMFLOAT2 size )
 {
-    m_vSize = size;
-    m_vPosition = pos;
     m_sprite = std::make_shared<Sprite>();
+    m_sprite->SetWidth( size.x );
+    m_sprite->SetHeight( size.y );
+
     m_transform = std::make_shared<Transform>( m_sprite );
+    m_transform->SetPosition( { pos.x, pos.y } );
+    m_transform->SetScale( { size.x, size.y } );
 
     MouseData mouseData = MouseData();
     std::string texture = "Resources\\Textures\\Tiles\\empty.png";
@@ -28,9 +31,7 @@ Button_Widget::~Button_Widget() { }
 
 void Button_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
 {
-	m_sprite->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
-    m_transform->SetPositionInit( m_vPosition.x, m_vPosition.y );
-	m_transform->SetScaleInit( m_vSize.x, m_vSize.y );
+	m_sprite->Initialize( device, context, "", mat );
 }
 
 void Button_Widget::Update( const float dt )

@@ -37,7 +37,8 @@ void UIEditor::LoadFromFile_Screens()
 	SortScreens();
 
 	// Create screen objects
-	m_vUIScreens.clear();
+	if ( m_vUIScreens.size() > 0 )
+		m_vUIScreens.clear();
 	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
 	{
 		std::shared_ptr<UIScreen> screen = std::make_shared<UIScreen>();
@@ -48,7 +49,8 @@ void UIEditor::LoadFromFile_Screens()
 void UIEditor::LoadFromFile_Widgets()
 {
 	// Load screen widgets
-	m_vUIWidgetData.clear();
+	if ( m_vUIWidgetData.size() > 0 )
+		m_vUIWidgetData.clear();
 	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
 	{
 		std::vector<UIWidgetData> screenData;
@@ -58,7 +60,8 @@ void UIEditor::LoadFromFile_Widgets()
 
 	// Create widget objects
 	int index = 0;
-	m_vUIWidgets.clear();
+	if ( m_vUIWidgets.size() > 0 )
+		m_vUIWidgets.clear();
 	for ( std::map<std::string, std::vector<UIWidgetData>>::iterator it = m_vUIWidgetData.begin(); it != m_vUIWidgetData.end(); it++ ) // widget struct
 	{
 		m_vUIWidgets.push_back( {} );
@@ -116,16 +119,16 @@ void UIEditor::SaveToFile_Widgets()
 
 void UIEditor::Update( const float dt )
 {
-	if ( m_vUIWidgets.size() > 0 )
-		m_vUIWidgets.clear();
+	//if ( m_vUIWidgets.size() > 0 )
+	//	m_vUIWidgets.clear();
 
 	int index = 0;
 	for ( auto& [key, value] : m_vUIWidgetData ) // each ui screen
 	{
-		m_vUIWidgets.push_back( {} );
+		//m_vUIWidgets.push_back( {} );
 		for ( unsigned int i = 0; i < value.size(); i++ ) // loop ui elements on current screen
 		{
-			m_vUIWidgets[index].push_back( std::make_shared<Widget>() );
+			//m_vUIWidgets[index].push_back( std::make_shared<Widget>() );
 			m_vUIWidgets[index][i]->SetIsHidden( value[i].hide );
 			m_vUIWidgets[index][i]->SetZIndex( value[i].zindex );
 			m_vUIWidgets[index][i]->SetName( value[i].name );

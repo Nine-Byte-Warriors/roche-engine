@@ -16,7 +16,7 @@ public:
         Hover
     };
 
-    Button_Widget( XMFLOAT2& pos, XMFLOAT2& size );
+    Button_Widget( XMFLOAT2 pos, XMFLOAT2 size );
     Button_Widget( const std::string& texture );
     ~Button_Widget();
 
@@ -32,7 +32,6 @@ private:
     std::string m_sText;
     XMVECTORF32 m_vTextColor;
     bool m_bIsPressed = false;
-    XMFLOAT2 m_vPosition, m_vSize;
 
     ButtonState m_buttonState;
     std::string  m_buttonTexture;

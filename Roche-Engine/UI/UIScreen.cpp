@@ -24,9 +24,6 @@ void UIScreen::InitializeWidgets()
 	{
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
-			//buttonPtr = std::make_shared<Button_Widget>();
-			m_vWidgets[i]->IntializeWidget( m_vWidgets[i] );
 			m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		}
 		/*else if ( m_vWidgets[i]->GetType() == "Colour Block" )
@@ -93,8 +90,6 @@ void UIScreen::Update( const float dt )
 	{
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
-			//buttonPtr = std::make_shared<Button_Widget>();
 			if ( m_vWidgets[i]->GetAction() == "Link" )
 			{
 				// GitHub Link
@@ -260,8 +255,6 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 	{
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			//std::shared_ptr<Button_Widget> buttonPtr = std::dynamic_pointer_cast<Button_Widget>( m_vWidgets[i] );
-			//buttonPtr = std::make_shared<Button_Widget>();
 			if ( m_vWidgets[i]->GetZIndex() == i )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
