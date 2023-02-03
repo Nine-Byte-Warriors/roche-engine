@@ -1,16 +1,6 @@
 [
     {
         "audioType": 0,
-        "filePath": "Resources\\Audio\\bullettest.wav",
-        "name": "bullettest",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
-        "tagName": "Shoot",
-        "volume": 1.0
-    },
-    {
-        "audioType": 0,
         "filePath": "Resources\\Audio\\playerhit.wav",
         "name": "playerhit",
         "pitchMax": 1.0,
@@ -28,5 +18,15 @@
         "randomPitch": false,
         "tagName": "playerdeath",
         "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\playershoot.wav",
+        "name": "playershoot",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "Shoot",
+        "volume": 0.0729999989271164
     }
 ]

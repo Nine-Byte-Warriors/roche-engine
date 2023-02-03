@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\bullettest.wav",
+        "name": "bullettest",
+        "pitchMax": 0.6669999957084656,
+        "pitchMin": 0.7710000276565552,
+        "randomPitch": false,
+        "tagName": "Shoot",
+        "volume": 0.5099999904632568
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\tomatodeath.wav",
+        "name": "tomatodeath",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": true,
+        "tagName": "Death",
+        "volume": 0.5260000228881836
+    }
+]

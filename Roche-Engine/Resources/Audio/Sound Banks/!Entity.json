@@ -1,0 +1,18 @@
+[
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\CarrotEnemy.json",
+        "name": "CarrotEnemy"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\Player.json",
+        "name": "Player"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\TomatoEnemy.json",
+        "name": "TomatoEnemy"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\Onion.json",
+        "name": "Onion"
+    }
+]
