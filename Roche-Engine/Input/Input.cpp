@@ -109,6 +109,8 @@ void Input::UpdateKeyboard( const float dt )
         EventSystem::Instance()->AddEvent( EVENTID::MoveDown );
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::MoveRight );
+	if ( m_keyboard.KeyIsPressed( ' ' ) )
+		EventSystem::Instance()->AddEvent( EVENTID::PlayerFire );
 }
 
 void Input::AddToEvent() noexcept
