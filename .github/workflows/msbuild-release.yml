@@ -2,9 +2,9 @@ name: MSBuild-Release
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master-game" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master-game" ]
 
 env:
   # Path to the solution file relative to the root of the project.

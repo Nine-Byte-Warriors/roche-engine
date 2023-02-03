@@ -11,7 +11,10 @@ enum class FontSize
 	SMALL,
 	MEDIUM,
 	LARGE,
-	VERY_LARGE
+	VERY_LARGE,
+	HUGE,
+	VERY_HUGE,
+	INSANE
 };
 
 /// <summary>
