@@ -4,6 +4,7 @@
 
 #include "Button_Widget.h"
 #include "ColourBlock_Widget.h"
+#include "DataSlider_Widget.h"
 
 class Widget
 {
@@ -11,12 +12,14 @@ public:
 	Widget()
 		: m_bHidden( false ), m_iZIndex( 0 ), m_sName( "Empty" ), m_sType( "Empty" ), m_sAction( "" ), m_vPosition( { 0.0f, 0.0f } ), m_vSize( { 0.0f, 0.0f } ),
 		m_pButton( std::make_shared<Button_Widget>( m_vPosition, m_vSize ) ),
-		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) )
+		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) ),
+		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) )
 	{}
 	Widget( bool hide, int zIdx, std::string name, std::string type, std::string action, XMFLOAT2 pos, XMFLOAT2 scale )
 		: m_bHidden( hide ), m_iZIndex( zIdx ), m_sName( name ), m_sType( type ), m_sAction( action ), m_vPosition( pos ), m_vSize( scale ),
 		m_pButton( std::make_shared<Button_Widget>( m_vPosition, m_vSize ) ),
-		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) )
+		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) ),
+		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) )
 	{}
 	~Widget()
 	{}
@@ -45,6 +48,8 @@ public:
 			m_pButton->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 		else if ( m_sType == "Colour Block" )
 			m_pColourBlock->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
+		else if ( m_sType == "Data Slider" )
+			m_pDataSlider->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 	}
 
 	inline void SetPosition( const XMFLOAT2& pos ) noexcept
@@ -54,10 +59,13 @@ public:
 			m_pButton->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 		else if ( m_sType == "Colour Block" )
 			m_pColourBlock->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
+		else if ( m_sType == "Data Slider" )
+			m_pDataSlider->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 	}
 
 	inline std::shared_ptr<Button_Widget> GetButtonWidget() const noexcept { return m_pButton; }
 	inline std::shared_ptr<ColourBlock_Widget> GetColourBlockWidget() const noexcept { return m_pColourBlock; }
+	inline std::shared_ptr<DataSlider_Widget> GetDataSliderWidget() const noexcept { return m_pDataSlider; }
 
 protected:
 	int m_iZIndex;
@@ -66,6 +74,7 @@ protected:
 	std::string m_sName, m_sType, m_sAction;
 	std::shared_ptr<Button_Widget> m_pButton;
 	std::shared_ptr<ColourBlock_Widget> m_pColourBlock;
+	std::shared_ptr<DataSlider_Widget> m_pDataSlider;
 };
 
 #endif

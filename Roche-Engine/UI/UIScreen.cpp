@@ -24,6 +24,7 @@ void UIScreen::InitializeWidgets()
 	{
 		m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetColourBlockWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 
 		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
@@ -118,28 +119,26 @@ void UIScreen::Update( const float dt )
 			m_vWidgets[i]->GetColourBlockWidget()->Resolve( { 210, 210, 150 } );
 			m_vWidgets[i]->GetColourBlockWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
-			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
-			dataSliderPtr = std::make_shared<DataSlider_Widget>();
-			if ( dataSliderPtr->GetAction() == "Master Volume" )
+			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
 			{
 				// Create a slider that syncs with master volume
 			}
-			else  if ( dataSliderPtr->GetAction() == "Music Volume" )
+			else  if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
 				// Create a slider that syncs with musics volume
 			}
 			else
 			{
 				// Default
-				dataSliderPtr->Resolve( m_iSliderStart,
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
 			}
-			dataSliderPtr->Update( dt );
+			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
-		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
+		/*else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
 			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
 			dropDownPtr = std::make_shared<DropDown_Widget>();
@@ -258,6 +257,12 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 				{
 					RENDER_IF_IN_BOX( m_vWidgets[i]->GetColourBlockWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
 						m_vWidgets[i]->GetColourBlockWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					continue;
+				}
+				else if ( m_vWidgets[i]->GetType() == "Data Slider" )
+				{
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetDataSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetDataSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 					continue;
 				}
 			}

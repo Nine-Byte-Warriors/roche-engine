@@ -13,7 +13,6 @@
 class Transform
 {
 public:
-	Transform();
 	Transform( const std::shared_ptr<Sprite>& sprite );
 
 	// position
@@ -39,9 +38,6 @@ public:
 	void AdjustRotation( float rot ) noexcept { m_fRotation += rot; }
 	void ResetRotation() noexcept { m_fRotation = m_fRotationInit; }
 
-	// scale - only to be used by widgets
-	inline void UpdateSprite( const std::shared_ptr<Sprite>& sprite ) noexcept { m_sprite = sprite; }
-
 	// matrix
 	inline XMMATRIX GetWorldMatrix() const noexcept { return worldMatrix; }
 	inline void SetWorldMatrix( XMMATRIX mat ) noexcept { worldMatrix = mat; }
@@ -52,7 +48,6 @@ private:
 	XMMATRIX worldMatrix = XMMatrixIdentity();
 	Vector2f m_vPosition, m_vPositionInit;
 	float m_fRotation, m_fRotationInit;
-	Vector2f m_vScale;
 };
 
 #endif

@@ -6,7 +6,7 @@ Button_Widget::Button_Widget( XMFLOAT2 pos, XMFLOAT2 size )
     m_sprite = std::make_shared<Sprite>();
     m_sprite->SetWidthHeight( size.x, size.y );
 
-    m_transform = std::make_shared<Transform>();
+    m_transform = std::make_shared<Transform>( m_sprite );
     m_transform->SetPosition( { pos.x, pos.y } );
 
     MouseData mouseData = MouseData();
@@ -20,7 +20,7 @@ Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2
 	m_sprite = std::make_shared<Sprite>();
     m_sprite->SetWidthHeight( size.x, size.y );
 
-    m_transform = std::make_shared<Transform>();
+    m_transform = std::make_shared<Transform>( m_sprite );
     m_transform->SetPosition( { pos.x, pos.y } );
 
     MouseData mouseData = MouseData();
@@ -37,7 +37,6 @@ void Button_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* conte
 
 void Button_Widget::Update( const float dt )
 {
-    m_transform->UpdateSprite( m_sprite );
 	m_transform->Update();
 }
 
