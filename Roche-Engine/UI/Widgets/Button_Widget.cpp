@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 
-
 Button_Widget::Button_Widget()
 {
     m_sprite = std::make_shared<Sprite>();
@@ -103,7 +102,6 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         break;
     case ButtonState::Pressed:
         m_buttonTexture = textures[2];
-        AudioEngine::GetInstance()->PlayAudio(SOUND_BANK_NAME, "ButtonPress", SFX);
         m_bIsPressed = true;
         mData.Locked = true;
     	return true;

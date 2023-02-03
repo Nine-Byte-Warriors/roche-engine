@@ -57,7 +57,6 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #if _DEBUG
             level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
             level->SetAudioJson( m_vLevelData[i].audio );
-            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[m_iActiveLevelIdx].audio);
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
@@ -256,8 +255,6 @@ void Application::Render()
                     {
                         m_vLevelData[m_iActiveLevelIdx].audio = m_sAudioFile;
                         m_pLevels[m_iActiveLevelIdx]->SetAudioJson( m_sAudioFile );
-                        AudioEngine::GetInstance()->UnloadAllAudio();
-                        AudioEngine::GetInstance()->LoadSoundBanksList(m_sAudioFile);
                     }
                 }
                 ImGui::NewLine();

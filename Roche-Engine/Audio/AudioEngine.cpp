@@ -99,7 +99,7 @@ void AudioEngine::LoadSoundBanksList(std::string loadFilePath)
 {
 	m_vSoundBankNamesList.clear();
 	std::vector<SoundBanksList> soundBanksList;
-	JsonLoading::LoadJson(soundBanksList, "Resources\\Audio\\Sound Banks\\" + loadFilePath);
+	JsonLoading::LoadJson(soundBanksList, loadFilePath);
 	for (int i = 0; soundBanksList.size() > i; i++) {
 		LoadAudioFromJSON(soundBanksList.at(i).filePath);
 		m_vSoundBankNamesList.push_back(soundBanksList.at(i).name);
@@ -193,54 +193,49 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 	std::vector<std::shared_ptr<SoundBankFile>>& soundBank = GetSoundBank(soundBankName, audioType);
 
 	// Check with the file name exists, if so, grab a buffer from it
-	if (!soundBank.empty()) {
-		for (int i = 0; soundBank.size() > i; i++) {
-			if (tagName == soundBank.at(i)->tagName) {
+	for (int i = 0; soundBank.size() > i; i++) {
+		if (tagName == soundBank.at(i)->tagName) {
 
-				if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
-					NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
-					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
-					return hr;
-				}
+			if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+				NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
+				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
+				return hr;
+			}
 
-				if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
-					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
-					return hr;
-				}
+			if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
+				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
+				return hr;
+			}
 
-				switch (audioType)
-				{
-				case SFX:
-					finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank.at(i)->volume;
-					pVoice->SetVolume(finalVolume);
-					if (soundBank.at(i)->randomPitch) {
-						pVoice->GetFrequencyRatio(&sourceRate);
-						frequencyRatio = sourceRate / RND::Getf(soundBank.at(i)->pitchMin, soundBank.at(i)->pitchMax);
-						pVoice->SetFrequencyRatio(frequencyRatio);
-					}
-					m_vSFXSourceVoiceList.push_back(pVoice);
-					break;
-				case MUSIC:
-					finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank.at(i)->volume;
-					pVoice->SetVolume(finalVolume);
-					m_vMusicSourceVoiceList.push_back(pVoice);
-					break;
-				default:
-					ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
-					break;
+			switch (audioType)
+			{
+			case SFX:
+				finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank.at(i)->volume;
+				pVoice->SetVolume(finalVolume);
+				if (soundBank.at(i)->randomPitch) {
+					pVoice->GetFrequencyRatio(&sourceRate);
+					frequencyRatio = sourceRate / RND::Getf(soundBank.at(i)->pitchMin, soundBank.at(i)->pitchMax);
+					pVoice->SetFrequencyRatio(frequencyRatio);
 				}
+				m_vSFXSourceVoiceList.push_back(pVoice);
+				break;
+			case MUSIC:
+				finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank.at(i)->volume;
+				pVoice->SetVolume(finalVolume);
+				m_vMusicSourceVoiceList.push_back(pVoice);
+				break;
+			default:
+				ErrorLogger::Log("AudioEngine::PlayAudio: Failed to add source voice to the list");
+				break;
+			}
 
-				if (FAILED(hr = pVoice->Start(0))) {
-					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
-					return hr;
-				}
+			if (FAILED(hr = pVoice->Start(0))) {
+				ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to start Source Voice");
+				return hr;
 			}
 		}
-
-		return hr;
 	}
 
-	hr = S_FALSE;
 	return hr;
 }
 
@@ -323,7 +318,6 @@ void AudioEngine::UnloadAllAudio()
 				m_SFXSoundBankMap[key].erase(m_SFXSoundBankMap[key].begin());
 			}
 		}
-		m_SFXSoundBankMap.clear();
 	}
 
 	while (m_MusicSoundBankMap.size() > 0) {
@@ -333,7 +327,6 @@ void AudioEngine::UnloadAllAudio()
 				m_MusicSoundBankMap[key].erase(m_MusicSoundBankMap[key].begin());
 			}
 		}
-		m_MusicSoundBankMap.clear();
 	}
 }
 
@@ -344,7 +337,7 @@ void AudioEngine::StopAllAudio()
 		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i);
 	}
 
-	for (int i = m_vMusicSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
+	for (int i = m_vSFXSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
 		m_vMusicSourceVoiceList.at(i)->DestroyVoice();
 		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.end());
 	}
@@ -522,6 +515,7 @@ std::vector<std::shared_ptr<SoundBankFile>>& AudioEngine::GetSoundBank(std::stri
 				return m_SFXSoundBankMap[key];
 			}
 		}
+		break;
 	case MUSIC:
 		for (const auto& [key, value] : m_MusicSoundBankMap) {
 			if (key == soundBankName) {
@@ -533,8 +527,6 @@ std::vector<std::shared_ptr<SoundBankFile>>& AudioEngine::GetSoundBank(std::stri
 		ErrorLogger::Log("AudioEngine::GetSoundBank: Invalid audio type");
 		break;
 	}
-	static std::vector<std::shared_ptr<SoundBankFile>> empty;
-	return empty;
 }
 
 std::shared_ptr<SoundBankFile> AudioEngine::FindSoundBankFile(std::wstring fileName, std::string soundBankName, AudioType audioType)
