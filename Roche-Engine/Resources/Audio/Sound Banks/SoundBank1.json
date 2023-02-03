@@ -6,7 +6,7 @@
         "pitchMax": 1.25,
         "pitchMin": 0.75,
         "randomPitch": true,
-        "tagName": "bulletshot",
+        "tagName": "ButtonPress",
         "volume": 0.8799999952316284
     },
     {
