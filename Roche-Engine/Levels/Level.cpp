@@ -43,6 +43,7 @@ void Level::CreateEntity()
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
     }
 
@@ -400,6 +401,7 @@ void Level::AddNewEntity()
         Entity* entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
 
         if (m_entityController.HasCollider(i))
@@ -441,7 +443,7 @@ void Level::RemoveEntities()
     for (int i = 0; i < m_entity.size(); i++)
     {
         m_entity[i].UpdateEntityNum(i);
-        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
+        //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
