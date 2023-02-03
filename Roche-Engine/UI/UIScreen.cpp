@@ -25,15 +25,9 @@ void UIScreen::InitializeWidgets()
 		m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetColourBlockWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetDropDownWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 
-		/*else if ( m_vWidgets[i]->GetType() == "Data Slider" )
-		{
-			std::shared_ptr<DataSlider_Widget> dataSliderPtr = std::dynamic_pointer_cast<DataSlider_Widget>( m_vWidgets[i] );
-			dataSliderPtr = std::make_shared<DataSlider_Widget>();
-			dataSliderPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			dataSliderPtr->IntializeWidget( m_vWidgets[i] );
-		}
-		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
+		/*else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
 			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
 			dropDownPtr = std::make_shared<DropDown_Widget>();
@@ -138,11 +132,9 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Drop Down" )
+		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
-			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
-			dropDownPtr = std::make_shared<DropDown_Widget>();
-			if ( dropDownPtr->GetAction() == "Resolution" )
+			if ( m_vWidgets[i]->GetAction() == "Resolution" )
 			{
 				// Create a drop down that allows user to change resolution
 			}
@@ -151,15 +143,15 @@ void UIScreen::Update( const float dt )
 				// Default
 				std::vector<std::string> vValues = { "True", "False" };
 				static std::string sValue = vValues[0];
-				dropDownPtr->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-				if ( dropDownPtr->GetSelected() == "False" )
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+				if ( m_vWidgets[i]->GetDataSliderWidget()->GetSelected() == "False" )
 					sValue = "False";
 				else
 					sValue = "True";
-				dropDownPtr->Update( dt );
+				m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
+		/*else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
 			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
 			energyBarPtr = std::make_shared<EnergyBar_Widget>();

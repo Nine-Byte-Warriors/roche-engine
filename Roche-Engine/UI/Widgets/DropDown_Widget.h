@@ -2,16 +2,15 @@
 #ifndef DROPDOWN_WIDGET_H
 #define DROPDOWN_WIDGET_H
 
-#include "Widget.h"
-#include "Button_Widget.h"
 #include "Shaders.h"
+#include "Button_Widget.h"
 
-class DropDown_Widget : public Widget
+class DropDown_Widget
 {
 public:
 	enum class DropState { Down, Up };
-	DropDown_Widget();
-    DropDown_Widget( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData );
+	DropDown_Widget( XMFLOAT2 pos, XMFLOAT2 size );
+    DropDown_Widget( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size );
 	~DropDown_Widget();
    
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
@@ -30,18 +29,17 @@ public:
 private:
 	int m_iFlag;
 	int m_iFlagMax = 20;
-    
 	int m_iSelected = 0;
+	XMVECTORF32 m_vTextColour;
     std::string m_sDataSelected;
     std::vector<std::string> m_vListData;
+	DropState m_eDropState = DropState::Up;
 
-	XMVECTORF32 m_vTextColour;
     std::shared_ptr<Sprite> m_spriteBack;
     std::shared_ptr<Transform> m_transformBack;
 
-    Button_Widget m_wButtonDrop;
-	Button_Widget m_wListButtons[2];
-	DropState m_eDropState = DropState::Up;
+    std::shared_ptr<Button_Widget> m_wButtonDrop;
+	std::shared_ptr<Button_Widget> m_wListButtons[2];
 };
 
 #endif
