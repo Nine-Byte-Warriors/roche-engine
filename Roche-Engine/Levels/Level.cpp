@@ -63,7 +63,19 @@ void Level::CreateUI()
     m_ui->RemoveAllUI();
     for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+	
+    // find the player in the entity vector
+    int playerIdx = 0;
+    for ( unsigned int i = 0; i < m_entity.size(); i++ )
+    {
+        if ( m_entity[i].GetType() == "Player" )
+        {
+            playerIdx = i;
+            break;
+        }
+    }
+
+    m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets(), *m_entity[playerIdx].GetHealth() );
     m_ui->HideAllUI();
 
 #if !_DEBUG
@@ -328,16 +340,7 @@ void Level::UpdateUI( const float dt )
 #if _DEBUG
     if ( m_uiEditor.GetShouldUpdate() )
     {
-        // Update user interface
-        m_ui->RemoveAllUI();
-        for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	        m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	    m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
-        m_ui->HideAllUI();
-
-#if !_DEBUG
-        m_ui->ShowUI( "Pause" );
-#endif
+        CreateUI();
         m_uiEditor.SetShouldUpdate( false );
     }
 

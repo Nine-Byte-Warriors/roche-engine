@@ -4,7 +4,7 @@
 void TextRenderer::Initialize( ID3D11Device* device, ID3D11DeviceContext* context )
 {
 	m_spriteBatch = std::make_unique<SpriteBatch>( context );
-	std::vector<std::wstring> fontSizes = { L"16", L"20", L"24", L"36", L"72" };
+	std::vector<std::wstring> fontSizes = { L"16", L"20", L"24", L"36", L"72", L"128", L"160", L"200" };
 	for ( unsigned int i = 0; i < fontSizes.size(); i++ )
 		m_spriteFonts.emplace( (FontSize)i,
 			std::make_unique<SpriteFont>(

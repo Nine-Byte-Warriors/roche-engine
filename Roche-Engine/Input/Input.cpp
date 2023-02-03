@@ -90,10 +90,18 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
-		if (m_keyboard.KeyIsPressed('T'))
+
+		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
-		if (m_keyboard.KeyIsPressed('Y'))
+		
+		if ( m_keyboard.KeyIsPressed( 'Y' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+
+		if ( m_keyboard.KeyIsPressed( 'L' ) )
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
+		
+		if ( m_keyboard.KeyIsPressed( 'K' ) )
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
 
         // Close game
         if ( keycode == VK_ESCAPE )

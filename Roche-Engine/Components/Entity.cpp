@@ -23,6 +23,7 @@ void Entity::SetComponents()
 	m_transform = std::make_shared<Transform>(m_sprite);
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
+	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
 
 	if (m_entityController->HasAI(m_iEntityNum))
 	{
@@ -150,11 +151,6 @@ void Entity::SetScaleInit()
 	}
 }
 
-void Entity::SetHealthInit()
-{
-	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
-}
-
 void Entity::UpdateRowsColumns()
 {
 	m_iRows = m_entityController->GetRows(m_iEntityNum);
@@ -202,7 +198,7 @@ void Entity::UpdateAnimation()
 		}
 
 		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
-		m_sprite->SetCurFrameY(m_iCurFrameY);
+		//m_sprite->SetCurFrameY(m_iCurFrameY);
 
 		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 		{

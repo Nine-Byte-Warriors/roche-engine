@@ -8,7 +8,7 @@
 class PlayerMovement : Listener
 {
 public:
-	PlayerMovement(std::shared_ptr<Physics> physics, float speed);
+	PlayerMovement(std::shared_ptr<Physics> physics, std::shared_ptr<Sprite> sprite, float speed);
 	~PlayerMovement();
 
 	void Update(const float dt);
@@ -21,6 +21,7 @@ public:
 
 private:
 	std::shared_ptr<Physics> m_physics;
+	std::shared_ptr<Sprite> m_sprite;
 	float m_speed;
 	float m_currentSpeed;
 	float m_dashSpeed;

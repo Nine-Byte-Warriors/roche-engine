@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "PlayerMovement.h"
 
-PlayerMovement::PlayerMovement(std::shared_ptr<Physics> physics, float speed)
+PlayerMovement::PlayerMovement(std::shared_ptr<Physics> physics, std::shared_ptr<Sprite> sprite, float speed)
 {
 	m_physics = physics;
+	m_sprite = sprite;
 	m_speed = speed;
 	m_currentSpeed = m_speed;
 	m_bDash = false;
@@ -53,12 +54,16 @@ void PlayerMovement::HandleEvent(Event* event)
 	switch (event->GetEventID())
 	{
 	case EVENTID::MoveUp: if(m_bshouldMove) m_physics->AddForce({ 0, -10 });
+		m_sprite->SetCurFrameY(3);
 		break;
 	case EVENTID::MoveLeft: if (m_bshouldMove) m_physics->AddForce({ -10,0 });
+		m_sprite->SetCurFrameY(1);
 		break;
 	case EVENTID::MoveDown: if (m_bshouldMove) m_physics->AddForce({ 0, 10 });
+		m_sprite->SetCurFrameY(0);
 		break;
 	case EVENTID::MoveRight: if (m_bshouldMove) m_physics->AddForce({ 10,0 });
+		m_sprite->SetCurFrameY(2);
 		break;
 	case EVENTID::PlayerDash: Dash();
 		break;

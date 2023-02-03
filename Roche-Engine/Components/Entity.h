@@ -48,7 +48,6 @@ public:
 private:
 	void SetPositionInit();
 	void SetScaleInit();
-	void SetHealthInit();
 
 	void SetComponents();
 
