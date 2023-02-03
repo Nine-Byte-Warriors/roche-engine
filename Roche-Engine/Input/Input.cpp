@@ -120,6 +120,7 @@ void Input::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->AddClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::RemoveFromEvent() noexcept
@@ -128,6 +129,7 @@ void Input::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::HandleEvent( Event* event )
@@ -152,6 +154,10 @@ void Input::HandleEvent( Event* event )
 	case EVENTID::ReadCharInput:
 	{
 		m_bReadCharInput = static_cast<bool>( event->GetData() );
+	}
+	case EVENTID::RemoveHealth:
+	{
+		Entity* TomatoKamikaze();
 	}
 	break;
 	}

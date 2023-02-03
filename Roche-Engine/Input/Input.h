@@ -4,6 +4,7 @@
 
 #include "Listener.h"
 #include "WindowContainer.h"
+#include "Entity.h"
 
 class Input : public WindowContainer, public Listener
 {

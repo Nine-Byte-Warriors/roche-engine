@@ -63,7 +63,7 @@ enum class EVENTID
 	ControlTab,
 	OpenCredits,
 
-	//DEBUG
+	// DEBUG
 	RemoveHealth,
 
 	// Utility

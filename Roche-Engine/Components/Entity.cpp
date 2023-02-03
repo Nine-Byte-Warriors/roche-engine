@@ -375,11 +375,18 @@ void Entity::CheckAliveStatus()
 
 void Entity::TomatoKamikaze()
 {
-	if (GetType() == "Tomato") //Gets the type that is tomato
-	{
-		//Code will be here to check IF they have collided with player specifically, Alvin is currently working on this
-		//m_fEntityHealth -= 50.0f;
-	}
+	m_fEntityHealth -= 50.0f;
+	
+	//if (GetType() == "Tomato") //Gets the type that is tomato
+	//{
+	//	//Code will be here to check IF they have collided with player specifically, Alvin is currently working on this
+	//	//m_fEntityHealth -= 50.0f;
+	//}
+}
+
+void Entity::EnemyAimedShot()
+{
+	// Rece is working on being able to point a target for the patterns, in which case i can bind the target to the player position here
 }
 
 void Entity::EnemyCollisions()
