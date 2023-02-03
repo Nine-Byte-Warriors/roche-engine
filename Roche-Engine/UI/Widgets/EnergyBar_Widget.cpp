@@ -1,16 +1,22 @@
 #include "stdafx.h"
 #include "EnergyBar_Widget.h"
 
-EnergyBar_Widget::EnergyBar_Widget()
+EnergyBar_Widget::EnergyBar_Widget( XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_spriteBack = std::make_shared<Sprite>();
-    m_transformBack = std::make_shared<Transform>( m_spriteBack );
+	m_spriteBack->SetWidthHeight( size.x, size.y );
+	m_transformBack = std::make_shared<Transform>( m_spriteBack );
+	m_transformBack->SetPosition( { pos.x, pos.y } );
 
 	m_spriteBar = std::make_shared<Sprite>();
-    m_transformBar = std::make_shared<Transform>( m_spriteBar );
+	m_spriteBar->SetWidthHeight( size.x, size.y );
+	m_transformBar = std::make_shared<Transform>( m_spriteBar );
+	m_transformBar->SetPosition( { pos.x, pos.y } );
 
 	m_spriteFront = std::make_shared<Sprite>();
-    m_transformFront = std::make_shared<Transform>( m_spriteFront );
+	m_spriteFront->SetWidthHeight( size.x, size.y );
+	m_transformFront = std::make_shared<Transform>( m_spriteFront );
+	m_transformFront->SetPosition( { pos.x, pos.y } );
 
 	std::vector<std::string> textures =
 	{
@@ -21,16 +27,22 @@ EnergyBar_Widget::EnergyBar_Widget()
 	Resolve( textures, 50.0f );
 }
 
-EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, float fraction )
+EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size )
 {
 	m_spriteBack = std::make_shared<Sprite>();
-    m_transformBack = std::make_shared<Transform>( m_spriteBack );
+	m_spriteBack->SetWidthHeight( size.x, size.y );
+	m_transformBack = std::make_shared<Transform>( m_spriteBack );
+	m_transformBack->SetPosition( { pos.x, pos.y } );
 
 	m_spriteBar = std::make_shared<Sprite>();
-    m_transformBar = std::make_shared<Transform>( m_spriteBar );
+	m_spriteBar->SetWidthHeight( size.x, size.y );
+	m_transformBar = std::make_shared<Transform>( m_spriteBar );
+	m_transformBar->SetPosition( { pos.x, pos.y } );
 
 	m_spriteFront = std::make_shared<Sprite>();
-    m_transformFront = std::make_shared<Transform>( m_spriteFront );
+	m_spriteFront->SetWidthHeight( size.x, size.y );
+	m_transformFront = std::make_shared<Transform>( m_spriteFront );
+	m_transformFront->SetPosition( { pos.x, pos.y } );
 
 	Resolve( textures, fraction );
 }
@@ -39,28 +51,15 @@ EnergyBar_Widget::~EnergyBar_Widget() { }
 
 void EnergyBar_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
 {
-	m_spriteBack->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
-    m_transformBack->SetPositionInit( m_vPosition.x, m_vPosition.y );
-	m_transformBack->SetScaleInit( m_vSize.x, m_vSize.y );
-
-	m_spriteBar->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
-    m_transformBar->SetPositionInit( m_vPosition.x, m_vPosition.y );
-	m_transformBar->SetScaleInit( m_vSize.x, m_vSize.y );
-
-	m_spriteFront->Initialize( device, context, "", mat, m_vSize.x, m_vSize.y );
-    m_transformFront->SetPositionInit( m_vPosition.x, m_vPosition.y );
-	m_transformFront->SetScaleInit( m_vSize.x, m_vSize.y );
+	m_spriteBack->Initialize( device, context, "", mat );
+	m_spriteBar->Initialize( device, context, "", mat );
+	m_spriteFront->Initialize( device, context, "", mat );
 }
 
 void EnergyBar_Widget::Update( const float dt )
 {
-	m_spriteBack->Update( dt );
 	m_transformBack->Update();
-
-	m_spriteBar->Update( dt );
 	m_transformBar->Update();
-
-	m_spriteFront->Update( dt );
 	m_transformFront->Update();
 }
 
@@ -88,25 +87,17 @@ void EnergyBar_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context,
 
 void EnergyBar_Widget::Resolve( const std::vector<std::string>& textures, float fraction )
 {
-    m_transformBack->SetPosition( m_vPosition.x, m_vPosition.y );
-    m_transformBack->SetScale( m_vSize.x, m_vSize.y );
-    m_spriteBack->SetWidth( m_vSize.x );
-    m_spriteBack->SetHeight( m_vSize.y );
-
 	const float xPadding = 0.8f;
 	const float yPadding = 0.5f;
 	m_transformBar->SetPosition(
 		m_transformBack->GetPosition().x + ( m_spriteBack->GetWidth() * 0.085f ),
 		m_transformBack->GetPosition().y + ( m_spriteBack->GetHeight() * 0.25f )
 	);
-    m_transformBar->SetScale( m_vSize.x * m_fCurrentFraction * xPadding, m_vSize.y * yPadding );
-    m_spriteBar->SetWidth( m_vSize.x * m_fCurrentFraction * xPadding );
-    m_spriteBar->SetHeight( m_vSize.y * yPadding );
-
-	m_transformFront->SetPosition( m_vPosition.x, m_vPosition.y );
-    m_transformFront->SetScale( m_vSize.x + 13.5f, m_vSize.y );
-    m_spriteFront->SetWidth( m_vSize.x + 13.5f );
-    m_spriteFront->SetHeight( m_vSize.y );
+    m_spriteBar->SetWidthHeight(
+		m_spriteBack->GetWidth() * m_fCurrentFraction * xPadding,
+		m_spriteBack->GetHeight() * yPadding
+	);
+    m_spriteFront->SetWidth( m_spriteBack->GetWidth() + 13.5f );
 
 	// Update textures
 	m_textureBack = textures[0];

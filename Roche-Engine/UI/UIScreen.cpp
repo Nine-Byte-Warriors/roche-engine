@@ -26,22 +26,9 @@ void UIScreen::InitializeWidgets()
 		m_vWidgets[i]->GetColourBlockWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetDropDownWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetEnergyBarWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 
-		/*else if ( m_vWidgets[i]->GetType() == "Drop Down" )
-		{
-			std::shared_ptr<DropDown_Widget> dropDownPtr = std::dynamic_pointer_cast<DropDown_Widget>( m_vWidgets[i] );
-			dropDownPtr = std::make_shared<DropDown_Widget>();
-			dropDownPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			dropDownPtr->IntializeWidget( m_vWidgets[i] );
-		}
-		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
-		{
-			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
-			energyBarPtr = std::make_shared<EnergyBar_Widget>();
-			energyBarPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			energyBarPtr->IntializeWidget( m_vWidgets[i] );
-		}
-		else if ( m_vWidgets[i]->GetType() == "Image" )
+		/*if ( m_vWidgets[i]->GetType() == "Image" )
 		{
 			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
 			imagePtr = std::make_shared<Image_Widget>();
@@ -151,15 +138,13 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetDropDownWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
+		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
-			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
-			energyBarPtr = std::make_shared<EnergyBar_Widget>();
-			if ( energyBarPtr->GetAction() == "Player Health" )
+			if ( m_vWidgets[i]->GetAction() == "Player Health" )
 			{
 				// Bar that displays the player's health
 			}
-			else if ( energyBarPtr->GetAction() == "Enemy Health" )
+			else if ( m_vWidgets[i]->GetAction() == "Enemy Health" )
 			{
 				// Bar that displays an enemy's health
 			}
@@ -169,12 +154,12 @@ void UIScreen::Update( const float dt )
 				static float health = 100.0f;
 				std::string temp = m_textures[2];
 				m_textures[2] = "";
-				energyBarPtr->Resolve( m_textures, health );
+				m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, health );
 				m_textures[2] = temp;
 			}
-			energyBarPtr->Update( dt );
+			m_vWidgets[i]->GetEnergyBarWidget()->Update( dt );
 		}
-		else if ( m_vWidgets[i]->GetType() == "Image" )
+		/*else if ( m_vWidgets[i]->GetType() == "Image" )
 		{
 			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
 			imagePtr = std::make_shared<Image_Widget>();
@@ -264,23 +249,15 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 					continue;
 				}
-			}
-		}
-		/*else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
-		{
-			std::shared_ptr<EnergyBar_Widget> energyBarPtr = std::dynamic_pointer_cast<EnergyBar_Widget>( m_vWidgets[i] );
-			energyBarPtr = std::make_shared<EnergyBar_Widget>();
-			if ( energyBarPtr->GetZIndex() == i )
-			{
-				if ( !energyBarPtr->GetIsHidden() )
+				else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 				{
-					RENDER_IF_IN_BOX( energyBarPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						energyBarPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetEnergyBarWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetEnergyBarWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					continue;
 				}
-				break;
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Image" )
+		/*if ( m_vWidgets[i]->GetType() == "Image" )
 		{
 			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
 			imagePtr = std::make_shared<Image_Widget>();
