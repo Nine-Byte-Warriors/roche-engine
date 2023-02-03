@@ -2,16 +2,13 @@
 #ifndef IMAGE_WIDGET_H
 #define IMAGE_WIDGET_H
 
-#include "Widget.h"
 #include "Transform.h"
 
-class Graphics;
-
-class Image_Widget : public Widget
+class Image_Widget
 {
 public:
-    Image_Widget();
-    Image_Widget( const std::string& texture );
+    Image_Widget( XMFLOAT2 pos, XMFLOAT2 size );
+    Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
     ~Image_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

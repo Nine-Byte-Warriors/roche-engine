@@ -6,7 +6,7 @@
 #include "Widgets/Widget.h"
 
 // Display
-//#include "Widgets/Image_Widget.h"
+#include "Widgets/Image_Widget.h"
 #include "Widgets/EnergyBar_Widget.h"
 #include "Widgets/ColourBlock_Widget.h"
 

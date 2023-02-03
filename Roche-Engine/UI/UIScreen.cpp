@@ -27,6 +27,7 @@ void UIScreen::InitializeWidgets()
 		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetDropDownWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetEnergyBarWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetImageWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 
 		/*if ( m_vWidgets[i]->GetType() == "Image" )
 		{
@@ -159,14 +160,12 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetEnergyBarWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Image" )
+		else if ( m_vWidgets[i]->GetType() == "Image" )
 		{
-			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
-			imagePtr = std::make_shared<Image_Widget>();
-			imagePtr->Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
-			imagePtr->Update( dt );
+			m_vWidgets[i]->GetImageWidget()->Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
+			m_vWidgets[i]->GetImageWidget()->Update( dt );
 		}
-		else if ( m_vWidgets[i]->GetType() == "Input" )
+		/*else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
 			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
 			inputPtr = std::make_shared<Input_Widget>();
@@ -255,23 +254,15 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 						m_vWidgets[i]->GetEnergyBarWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 					continue;
 				}
-			}
-		}
-		/*if ( m_vWidgets[i]->GetType() == "Image" )
-		{
-			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
-			imagePtr = std::make_shared<Image_Widget>();
-			if ( imagePtr->GetZIndex() == i )
-			{
-				if ( !imagePtr->GetIsHidden() )
+				else if ( m_vWidgets[i]->GetType() == "Image" )
 				{
-					RENDER_IF_IN_BOX( imagePtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						imagePtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetImageWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetImageWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					continue;
 				}
-				break;
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Input" )
+		/*if ( m_vWidgets[i]->GetType() == "Input" )
 		{
 			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
 			inputPtr = std::make_shared<Input_Widget>();
