@@ -53,7 +53,7 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 {
 	std::vector<std::shared_ptr<ProjectileManager>> vecManagers;
 	std::vector<ProjectileData::ManagerJSON> vecManagersJson;
-	JsonLoading::LoadJson(vecManagersJson, PATTERN_FOLDER_PATH + filepath);
+	JsonLoading::LoadJson(vecManagersJson, /*PATTERN_FOLDER_PATH + */ filepath);
 
 	for (ProjectileData::ManagerJSON jMan : vecManagersJson)
 	{

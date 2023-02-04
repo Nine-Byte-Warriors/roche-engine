@@ -28,7 +28,7 @@
             80.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "None",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 4.0,
         "rows": 3,
@@ -70,7 +70,7 @@
             588.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "None",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
@@ -112,7 +112,7 @@
             45.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "None",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 4,
@@ -154,7 +154,7 @@
             571.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "None",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
@@ -196,7 +196,7 @@
             500.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "None",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,

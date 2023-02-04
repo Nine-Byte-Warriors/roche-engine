@@ -591,6 +591,7 @@
     <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
+    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
     <None Include="Resources\Patterns\SlowCircle.ptn" />
     <None Include="Resources\Patterns\SlowWiggle.ptn" />

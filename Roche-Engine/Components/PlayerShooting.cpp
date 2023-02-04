@@ -6,7 +6,10 @@ void PlayerShooting::Update(float dt)
 	// handle mouse shooting actions/event
 	if (m_bIsShooting)
 	{
-		//m_pEmitter->EmitProjectile();
+		m_pEmitter->EmitProjectile();
+
+		// TODO : alter disabling of shooting dependant on the type oshooting behaviour required.
+		m_bIsShooting = false;
 	}
 }
 
@@ -32,7 +35,7 @@ void PlayerShooting::HandleEvent(Event* event)
 	{
 		case EVENTID::PlayerFire:
 		{
-			m_pEmitter->EmitProjectile();
+			m_bIsShooting = true;
 			break;
 		}
 		case EVENTID::MousePosition:
@@ -43,7 +46,6 @@ void PlayerShooting::HandleEvent(Event* event)
 		case EVENTID::LeftMouseClick:
 		{
 			m_pEmitter->SetTargetPosition(*static_cast<Vector2f*>(event->GetData()));
-			m_pEmitter->EmitProjectile();
 			m_bIsShooting = true;
 			break;
 		}
