@@ -1,0 +1,22 @@
+[
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\mouseclick.wav",
+        "name": "mouseclick",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "Click",
+        "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\itemequip.wav",
+        "name": "itemequip",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "Equip",
+        "volume": 1.0
+    }
+]
