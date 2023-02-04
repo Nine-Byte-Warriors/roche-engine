@@ -1,6 +1,17 @@
 #include "stdafx.h"
 #include "CircleCollider.h"
 
+CircleCollider::CircleCollider(bool trigger, std::shared_ptr<Transform>& transform, std::shared_ptr<Health>& health, int entityNum, std::string entityType, float radius)
+{
+    m_transform = transform;
+    m_health = health;
+    m_entityNum = entityNum;
+    m_entityType = entityType;
+
+    m_radius = radius;
+    m_type = ColliderType::Circle;
+}
+
 Vector2f CircleCollider::ClosestPoint(Vector2f point) noexcept
 {
     Vector2f closestPoint = point;

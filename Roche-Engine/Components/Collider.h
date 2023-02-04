@@ -23,11 +23,12 @@ enum class CollisionState
 
 class BoxCollider;
 class CircleCollider;
+class Health;
 class Collider
 {
 public:
     Collider() {}
-    Collider(bool trigger, std::shared_ptr<Transform>& transform) : m_isTrigger(trigger), m_transform(transform) {}
+    Collider(bool trigger, std::shared_ptr<Transform>& transform, std::shared_ptr<Health>& health, int entityNum, std::string entityType);
     Collider(Collider& col);
 
 protected:
@@ -37,6 +38,10 @@ protected:
     LayerNo m_layer = LayerNo::Enemy;
 
     std::shared_ptr<Transform> m_transform;
+    std::shared_ptr<Health> m_health;
+    int m_entityNum;
+    std::string m_entityType;
+
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
 
@@ -70,6 +75,10 @@ public:
 
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
     inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
+
+    inline std::shared_ptr<Health> GetHealth() { return m_health; };
+    inline int GetEntityNum() { return m_entityNum; };
+    inline std::string EntityType() { return m_entityType; };
 
     Vector2f Offset();
     Vector2f GetCenterPosition();

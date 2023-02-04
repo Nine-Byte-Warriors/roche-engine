@@ -1,6 +1,15 @@
 #include "stdafx.h"
 #include "Collider.h"
 
+Collider::Collider(bool trigger, std::shared_ptr<Transform>& transform, std::shared_ptr<Health>& health, int entityNum, std::string entityType)
+{
+    trigger;
+    transform;
+    health;
+    entityNum;
+    entityType;
+}
+
 Collider::Collider(Collider& col)
 {
     m_collisionMask = col.m_collisionMask;
@@ -9,7 +18,12 @@ Collider::Collider(Collider& col)
     m_isTrigger = col.m_isTrigger;
     m_lastValidPosition = col.m_lastValidPosition;
     m_layer = col.m_layer;
+
     m_transform = col.m_transform;
+    m_health = col.m_health;
+    m_entityNum = col.m_entityNum;
+    m_entityType = col.m_entityType;
+
     m_type = col.m_type;
     m_blackList = col.m_blackList;
 }

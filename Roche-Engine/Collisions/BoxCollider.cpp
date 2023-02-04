@@ -1,6 +1,17 @@
 #include "stdafx.h"
 #include "BoxCollider.h"
 
+BoxCollider::BoxCollider(bool trigger, std::shared_ptr<Transform>& transform, std::shared_ptr<Health>& health, int entityNum, std::string entityType, float width, float height) : m_width(width), m_height(height)
+{
+    m_transform = transform;
+    m_health = health;
+    m_entityNum = entityNum;
+    m_entityType = entityType;
+    m_width = m_transform->GetSprite()->GetWidth();
+    m_height = m_transform->GetSprite()->GetHeight();
+    m_type = ColliderType::Box;
+}
+
 Vector2f BoxCollider::ClosestPoint(Vector2f targetPosition) noexcept
 {
     Vector2f centerPos = GetCenterPosition();
