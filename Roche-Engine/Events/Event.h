@@ -68,6 +68,9 @@ enum class EVENTID
 	ControlTab,
 	OpenCredits,
 
+	// DEBUG
+	RemoveHealth,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,

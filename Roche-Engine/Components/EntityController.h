@@ -93,6 +93,9 @@ public:
 
 	void UpdateCopy();
 
+	void SetDead(int num);
+	std::vector<int> m_dead;
+
 private:
 	std::string JsonFile = "Entity.json";
 
@@ -100,6 +103,7 @@ private:
 	std::vector<EntityData> m_entityDataCopy;
 
 	bool m_bComponentUpdated = false;
+
 };
 
 #endif

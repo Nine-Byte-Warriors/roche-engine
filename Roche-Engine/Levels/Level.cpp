@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "ProjectileEditor.h"
 
+
 #if _DEBUG
 extern bool g_bDebug;
 #include <imgui/imgui.h>
@@ -430,6 +431,9 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
+
+    m_entitiesDeleted = m_entityController.m_dead;
+
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
 #endif
@@ -456,6 +460,9 @@ void Level::RemoveEntities()
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
 #endif
+
+    m_entityController.m_dead.clear();
+    
 }
 
 void Level::UpdateTileMap(const float dt)

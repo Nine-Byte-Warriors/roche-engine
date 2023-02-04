@@ -105,8 +105,8 @@ private:
 	const int m_iTileSize = 32;
 	bool m_bMapUpdate = true;
 
-	std::vector<int> m_entitiesDeleted;
 
+	std::vector<int> m_entitiesDeleted;
 	Vector2f* m_vFakedPos;
 
 	bool m_bIsWindowHovered = false;

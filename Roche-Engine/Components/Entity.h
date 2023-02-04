@@ -45,6 +45,9 @@ public:
 	std::string GetType();
 	void UpdateEntityNum(int num);
 
+	void CheckAliveStatus();
+	void TomatoKamikaze();
+
 private:
 	void SetPositionInit();
 	void SetScaleInit();
@@ -70,8 +73,9 @@ private:
 
 	void UpdateAudio();
 
-
 	int m_iEntityNum;
+
+	float m_fEntityHealth = 100.0;
 
 	ID3D11Device* m_device;
 
