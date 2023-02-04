@@ -175,7 +175,8 @@ void Level::RenderFrameEntity()
 
         if (m_entityController.HasProjectileBullet(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+                pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 }
@@ -414,7 +415,8 @@ void Level::AddNewEntity()
 
         if (m_entityController.HasProjectileSystem(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 

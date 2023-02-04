@@ -9,12 +9,14 @@
 class Emitter
 {
 public:
-	Emitter(const std::shared_ptr<ProjectileManager>& pProjectileManager, float fDelay = 0.1f);
+	Emitter(const std::vector<std::shared_ptr<ProjectileManager>>& vecProjectileManagers, float fDelay = 0.1f) :
+		m_vecProjectileManagers(vecProjectileManagers),
+		m_fDelay(0.1f), m_fMaxDelay(fDelay)
+	{};
 	~Emitter() {}
 
 	inline void SetSpawnPosition(const Vector2f vSpawnPosition) noexcept { m_vSpawnPosition = vSpawnPosition; }
 	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept { m_vTargetPosition = vTargetPosition; }
-	inline void SetProjectileManager(std::shared_ptr<ProjectileManager>& pProjectileManager) noexcept { m_pProjectileManager = pProjectileManager; }
 	
 	void Update(float dt);
 	void EmitProjectile();
@@ -26,6 +28,6 @@ private:
 	float m_fDelay;
 	float m_fMaxDelay;
 
-	std::shared_ptr<ProjectileManager> m_pProjectileManager;
+	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManagers;
 };
 #endif // !EMITTER_H
