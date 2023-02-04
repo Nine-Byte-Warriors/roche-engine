@@ -34,7 +34,6 @@ public:
 	void SetJsonFile( const std::string& name );
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
-	void SortScreens();
 
 #if _DEBUG
 	void SaveToFile_Screens();
@@ -59,6 +58,10 @@ public:
 	inline const std::vector<std::shared_ptr<UIScreen>>& GetScreens() const noexcept { return m_vUIScreens; }
 
 private:
+	void SortScreens();
+	void CreateScreens();
+	void CreateWidgets();
+
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;

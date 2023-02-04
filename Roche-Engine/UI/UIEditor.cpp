@@ -35,7 +35,32 @@ void UIEditor::LoadFromFile_Screens()
 	m_vUIScreenData.clear();
 	JsonLoading::LoadJson( m_vUIScreenData, FOLDER_PATH + m_sJsonFile );
 	SortScreens();
+	CreateScreens();
+}
 
+void UIEditor::SortScreens()
+{
+	// Sort screens by name for ImGui
+	std::vector<std::string> screenNames;
+	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
+		screenNames.push_back( m_vUIScreenData[i].name );
+	sort( screenNames.begin(), screenNames.end() );
+	std::vector<UIScreenData> tempScreenList;
+	for ( unsigned int i = 0; i < screenNames.size(); i++ )
+	{
+		for ( unsigned int j = 0; j < m_vUIScreenData.size(); j++ )
+		{
+			if ( screenNames[i] == m_vUIScreenData[j].name )
+			{
+				tempScreenList.push_back( m_vUIScreenData[j] );
+			}
+		}
+	}
+	m_vUIScreenData = tempScreenList;
+}
+
+void UIEditor::CreateScreens()
+{
 	// Create screen objects
 	if ( m_vUIScreens.size() > 0 )
 		m_vUIScreens.clear();
@@ -58,6 +83,11 @@ void UIEditor::LoadFromFile_Widgets()
 		m_vUIWidgetData.emplace( m_vUIScreenData[i].name, screenData );
 	}
 
+	CreateWidgets();
+}
+
+void UIEditor::CreateWidgets()
+{
 	// Create widget objects
 	int index = 0;
 	if ( m_vUIWidgets.size() > 0 )
@@ -74,27 +104,6 @@ void UIEditor::LoadFromFile_Widgets()
 		}
 		index++;
 	}
-}
-
-void UIEditor::SortScreens()
-{
-	// Sort screens by name for ImGui
-	std::vector<std::string> screenNames;
-	for ( unsigned int i = 0; i < m_vUIScreenData.size(); i++ )
-		screenNames.push_back( m_vUIScreenData[i].name );
-	sort( screenNames.begin(), screenNames.end() );
-	std::vector<UIScreenData> tempScreenList;
-	for ( unsigned int i = 0; i < screenNames.size(); i++ )
-	{
-		for ( unsigned int j = 0; j < m_vUIScreenData.size(); j++ )
-		{
-			if ( screenNames[i] == m_vUIScreenData[j].name )
-			{
-				tempScreenList.push_back( m_vUIScreenData[j] );
-			}
-		}
-	}
-	m_vUIScreenData = tempScreenList;
 }
 
 #if _DEBUG
@@ -403,6 +412,8 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							{
 								value.erase( value.begin() + i );
 								value.shrink_to_fit();
+								m_bRequiresUpdate = true;
+								CreateWidgets();
 							}
 							ImGui::NewLine();
 
@@ -423,7 +434,10 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 							value.push_back( UIWidgetData( false, value.size(),
 								"Blank Widget " + std::to_string( widgetIdx ),
 								"Image", "", { 0.0f, 0.0f }, { 64.0f, 64.0f } ) );
+							m_bRequiresUpdate = true;
+							CreateWidgets();
 							widgetIdx++;
+							break;
 						}
 					}
 				}
