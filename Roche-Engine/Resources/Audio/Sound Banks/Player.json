@@ -3,30 +3,30 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\playerhit.wav",
         "name": "playerhit",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
+        "pitchMax": 0.9900000095367432,
+        "pitchMin": 0.9950000047683716,
         "randomPitch": false,
         "tagName": "playerhit",
-        "volume": 1.0
+        "volume": 0.49000000953674316
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\playerdeath.wav",
         "name": "playerdeath",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
+        "pitchMax": 0.5,
+        "pitchMin": 0.5,
         "randomPitch": false,
         "tagName": "playerdeath",
-        "volume": 1.0
+        "volume": 0.16699999570846558
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\playershoot.wav",
         "name": "playershoot",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
+        "pitchMax": 0.5,
+        "pitchMin": 0.9789999723434448,
+        "randomPitch": true,
         "tagName": "Shoot",
-        "volume": 0.0729999989271164
+        "volume": 0.04699999839067459
     }
 ]

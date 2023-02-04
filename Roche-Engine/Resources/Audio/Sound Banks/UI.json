@@ -7,7 +7,7 @@
         "pitchMin": 1.0,
         "randomPitch": false,
         "tagName": "Click",
-        "volume": 1.0
+        "volume": 0.18199999630451202
     },
     {
         "audioType": 0,
@@ -17,6 +17,6 @@
         "pitchMin": 1.0,
         "randomPitch": false,
         "tagName": "Equip",
-        "volume": 1.0
+        "volume": 0.6200000047683716
     }
 ]
