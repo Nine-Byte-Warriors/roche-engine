@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "CircleCollider.h"
 
-CircleCollider::CircleCollider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType, float radius)
+CircleCollider::CircleCollider(
+    const std::shared_ptr<Transform>& transform,
+    const std::shared_ptr<Sprite>& sprite,
+    bool trigger, int entityNum, std::string entityType, float radius )
 {
     m_transform = transform;
+    m_sprite = sprite;
     m_isTrigger = trigger;
-    
+
     m_entityNum = entityNum;
     m_entityType = entityType;
 
@@ -50,7 +54,7 @@ bool CircleCollider::ToBox(BoxCollider& box) noexcept
     Vector2f closestPoint = box.ClosestPoint(circlePos);
 
     float distance = (circlePos - closestPoint).Magnitude();
-    
+
     if (distance < m_radius)
         return true;
 
@@ -109,7 +113,7 @@ void CircleCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 
             auto boxPtr = std::dynamic_pointer_cast<BoxCollider>(collider);
             BoxCollider box = *boxPtr;
-        
+
             box.SetHeight(box.GetHeight() + (m_radius * 2) );
             box.SetWidth(box.GetWidth() + (m_radius * 2) );
 

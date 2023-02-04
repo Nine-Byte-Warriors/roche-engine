@@ -23,12 +23,14 @@ enum class CollisionState
 
 class BoxCollider;
 class CircleCollider;
-class Health;
 class Collider
 {
 public:
     Collider() {}
-    Collider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType);
+    Collider(
+        const std::shared_ptr<Transform>& transform,
+        const std::shared_ptr<Sprite>& sprite,
+        bool trigger, int entityNum, std::string entityType );
     Collider(Collider& col);
 
 protected:
@@ -38,12 +40,11 @@ protected:
     LayerNo m_layer = LayerNo::Enemy;
 
     std::shared_ptr<Transform> m_transform;
-    std::shared_ptr<Health> m_health;
+    std::shared_ptr<Sprite> m_sprite;
     int m_entityNum;
     std::string m_entityType;
 
     Vector2f m_lastValidPosition = Vector2f(0, 0);
-
 
     const int m_maxCollisions = 50;
     int m_collisionCount = 0;
@@ -114,7 +115,7 @@ public:
     inline void ClearOnExitCallbacks() { m_onLeaveCallbacks.clear(); };
 
 
-    
+
     //Managing logged collisions against collider
     void ManageCollisions();
     void ProcessCollisions();

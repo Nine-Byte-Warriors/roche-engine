@@ -9,7 +9,10 @@ class BoxCollider : public Collider
 {
 public:
     BoxCollider() { m_type = ColliderType::Box; };
-    BoxCollider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType, float width, float height);
+    BoxCollider(
+        const std::shared_ptr<Transform>& transform,
+        const std::shared_ptr<Sprite>& sprite,
+        bool trigger, int entityNum, std::string entityType, float width, float height );
 
 private:
     //position is from the center
@@ -24,13 +27,11 @@ public:
     Vector2f ClosestPoint(Vector2f position) noexcept override;
     Vector2f ClosestSurfacePoint(Vector2f point) noexcept;
 
-
     //Collision Checks
     bool ToBox(BoxCollider& box) noexcept override;
     bool ToCircle(CircleCollider& circle) noexcept override;
     bool ToPoint(Vector2f point) noexcept override;
     bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept override;
-
 
     void Resolution(std::shared_ptr<Collider> collider) noexcept override;
 };

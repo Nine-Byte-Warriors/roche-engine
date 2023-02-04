@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "Collider.h"
 
-Collider::Collider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType)
+Collider::Collider(
+    const std::shared_ptr<Transform>& transform,
+    const std::shared_ptr<Sprite>& sprite,
+    bool trigger, int entityNum, std::string entityType)
 {
     m_transform = transform;
+    m_sprite = sprite;
     m_isTrigger = trigger;
 
     m_entityNum = entityNum;
@@ -19,6 +23,7 @@ Collider::Collider(Collider& col)
     m_lastValidPosition = col.m_lastValidPosition;
     m_layer = col.m_layer;
     m_transform = col.m_transform;
+    m_sprite = col.m_sprite;
     m_entityNum = col.m_entityNum;
     m_entityType = col.m_entityType;
 
@@ -64,7 +69,7 @@ void Collider::RemoveDuplicateElements(std::vector<T>& vec)
 
 Vector2f Collider::Offset()
 {
-    return m_transform->GetScale() / 2.0f;
+    return m_sprite->GetWidthHeight() / 2.0f;
 }
 
 Vector2f Collider::GetCenterPosition()
@@ -75,7 +80,7 @@ Vector2f Collider::GetCenterPosition()
 
 void Collider::SetTransformPosition(Vector2f position)
 {
-    m_transform->SetPosition(position - Offset()); 
+    m_transform->SetPosition(position - Offset());
 }
 
 void Collider::LogCollision(std::shared_ptr<Collider>& col)
@@ -156,7 +161,7 @@ void Collider::ProcessCollisions()
     //            OnLeave(*itr->first);
     //            if ( m_collisions.size() == 1 )
     //                return;
-    //            itr = m_collisions.erase( itr ); 
+    //            itr = m_collisions.erase( itr );
     //            break;
     //        }
     //    }
@@ -190,7 +195,7 @@ void Collider::ProcessCollisions()
     }
     for (auto element: leavingColliders)
     {
-        m_collisions.erase( element ); 
+        m_collisions.erase( element );
         m_collisionCount--;
     }
 }

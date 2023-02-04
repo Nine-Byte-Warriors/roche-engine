@@ -1,15 +1,19 @@
 #include "stdafx.h"
 #include "BoxCollider.h"
 
-BoxCollider::BoxCollider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType, float width, float height) : m_width(width), m_height(height)
+BoxCollider::BoxCollider(
+    const std::shared_ptr<Transform>& transform,
+    const std::shared_ptr<Sprite>& sprite,
+    bool trigger, int entityNum, std::string entityType, float width, float height) : m_width(width), m_height(height)
 {
     m_transform = transform;
+    m_sprite = sprite;
     m_isTrigger = trigger;
 
     m_entityNum = entityNum;
     m_entityType = entityType;
-    m_width = m_transform->GetSprite()->GetWidth();
-    m_height = m_transform->GetSprite()->GetHeight();
+    m_width = m_sprite->GetWidth();
+    m_height = m_sprite->GetHeight();
     m_type = ColliderType::Box;
 }
 
@@ -48,7 +52,7 @@ bool BoxCollider::ToBox(BoxCollider& box) noexcept
 {
     float box1HalfWidth = (m_width / 2);
     float box1HalfHeight = (m_height / 2);
-    
+
     float box2HalfWidth = (m_width / 2);
     float box2HalfHeight = (m_height / 2);
     Vector2f box1Pos = GetCenterPosition();
@@ -155,7 +159,7 @@ void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
             break;
         }
     }
-    
+
     //change gameobjects position on either the x or y axis
     if (changeXValue)
     {
