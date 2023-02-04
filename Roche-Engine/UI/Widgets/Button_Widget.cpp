@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
+#include "AudioEngine.h"
+
+#define SOUND_BANK_NAME "UI"
 
 Button_Widget::Button_Widget()
 {
@@ -67,6 +70,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         break;
     case ButtonState::Pressed:
         m_buttonTexture = textures[2];
+        AudioEngine::GetInstance()->PlayAudio(SOUND_BANK_NAME, "ButtonPress", SFX);
         m_bIsPressed = true;
         mData.Locked = true;
     	return true;
