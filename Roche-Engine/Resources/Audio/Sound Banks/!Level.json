@@ -16,6 +16,10 @@
         "name": "Player"
     },
     {
+        "filePath": "Resources\\Audio\\Sound Banks\\ShopSounds.json",
+        "name": "ShopSounds"
+    },
+    {
         "filePath": "Resources\\Audio\\Sound Banks\\TomatoEnemy.json",
         "name": "TomatoEnemy"
     },
@@ -24,7 +28,7 @@
         "name": "UI"
     },
     {
-        "filePath": "Resources\\Audio\\Sound Banks\\ShopSounds.json",
-        "name": "ShopSounds"
+        "filePath": "Resources\\Audio\\Sound Banks\\Potato.json",
+        "name": "Potato"
     }
 ]
