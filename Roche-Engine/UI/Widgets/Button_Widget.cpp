@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 
+
 Button_Widget::Button_Widget()
 {
     m_sprite = std::make_shared<Sprite>();
@@ -46,7 +47,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 
     // Button text
-    XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sText.c_str() );
+    XMVECTOR textsize = textRenderer->GetSpriteFont( m_eFontSize )->MeasureString( m_sText.c_str() );
     XMFLOAT2 textPos =
     {
         m_transform->GetPosition().x + ( m_transform->GetScale().x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
@@ -54,12 +55,13 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     };
     textPos.x += m_vTextOffset.x;
     textPos.y += m_vTextOffset.y;
-    textRenderer->RenderString( m_sText, textPos, m_vTextColor, false );
+    textRenderer->RenderString( m_sText, textPos, m_vTextColor, m_eFontSize, true );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected, FontSize size )
 {
     m_sText = text;
+    m_eFontSize = size;
     m_vTextColor = textColour;
 
     m_transform->SetPosition( m_vPosition.x, m_vPosition.y );
@@ -70,7 +72,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
 
     m_buttonState = ButtonState::Default;
 
-    // Button collison
+    // Button collision
     if (
         mData.Pos.x >= m_transform->GetPosition().x &&
         mData.Pos.x <= ( m_transform->GetPosition().x + m_transform->GetScale().x ) &&
@@ -80,7 +82,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     {
     	if ( mData.LPress && !mData.Locked )
     		m_buttonState = ButtonState::Pressed;
-    	else 
+    	else
             m_buttonState = ButtonState::Hover;
     }
 
@@ -101,6 +103,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         break;
     case ButtonState::Pressed:
         m_buttonTexture = textures[2];
+        AudioEngine::GetInstance()->PlayAudio(SOUND_BANK_NAME, "ButtonPress", SFX);
         m_bIsPressed = true;
         mData.Locked = true;
     	return true;

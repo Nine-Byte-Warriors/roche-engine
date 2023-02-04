@@ -30,6 +30,11 @@ enum class EVENTID
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
+	ChangePhase,
+	NextDay,
+	CurrentState,
+	CurrentPhase,
+	CurrentDay,
 
 	// Camera Actions
 	MoveUp,
@@ -52,13 +57,30 @@ enum class EVENTID
 	PlantSeed,
 	BuySeed,
 
+	//UI
+	StartGame,
+	OpenSettings,
+	ResumeGame,
+	Back,
+	GeneralTab,
+	GrahpicsTab,
+	MusicTab,
+	ControlTab,
+	OpenCredits,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
 	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
-	QuitGameEvent
+	QuitGameEvent,
+
+	//Healthcomp
+	PlayerDamage,
+	PlayerHeal,
+	PlayerDeath,
+	EnemyDeath
 };
 
 /// <summary>

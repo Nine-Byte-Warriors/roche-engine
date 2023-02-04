@@ -50,17 +50,18 @@ void Input_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMM
     m_sprite->UpdateBuffers( context );
     m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 
-	XMVECTOR textsize = textRenderer->GetSpriteFont()->MeasureString( m_sCurrText.c_str() );
+	XMVECTOR textsize = textRenderer->GetSpriteFont( m_eFontSize )->MeasureString( m_sCurrText.c_str() );
 	XMFLOAT2 textpos =
 	{
 		m_vPosition.x + ( m_vSize.x / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
 		m_vPosition.y + ( m_vSize.y / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
 	};
-	textRenderer->RenderString( m_sCurrText, textpos, m_textColour, false );
+	textRenderer->RenderString( m_sCurrText, textpos, m_textColour, m_eFontSize, true );
 }
 
-void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index )
+void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int& index, FontSize size )
 {
+	m_eFontSize = size;
 	m_textColour = textColour;
 	m_buttonTexture = textures[0];
 

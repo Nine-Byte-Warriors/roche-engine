@@ -4,6 +4,9 @@
 
 #include "Sprite.h"
 #include "TextRenderer.h"
+#include "AudioEngine.h"
+
+#define SOUND_BANK_NAME "UI"
 
 struct MouseData
 {

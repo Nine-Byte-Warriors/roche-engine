@@ -22,6 +22,8 @@ void Entity::SetComponents()
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>(m_sprite);
 	m_physics = std::make_shared<Physics>(m_transform);
+	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
+	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
 
 	if (m_entityController->HasAI(m_iEntityNum))
 	{
@@ -31,6 +33,7 @@ void Entity::SetComponents()
 	{
 		m_agent = nullptr;
 	}
+
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		m_projectileManager = std::make_shared<ProjectileManager>();
@@ -39,6 +42,7 @@ void Entity::SetComponents()
 	{
 		m_projectileManager = nullptr;
 	}
+
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
 		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
@@ -90,13 +94,10 @@ void Entity::Update(const float dt)
 	m_physics->Update(dt);
 
 	if (m_entityController->HasAI(m_iEntityNum))
-	{
 		m_agent->Update(dt);
-	}
+
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
-	{
 		m_projectileManager->Update(dt);
-	}
 
 	if (m_playerController)
 		m_playerController->Update(dt);
@@ -110,9 +111,8 @@ std::string Entity::GetType()
 void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 {
 	if (positionLocked)
-	{
 		UpdatePosition();
-	}
+
 	UpdateScale();
 	UpdateRotation();
 	UpdateMass();
@@ -123,6 +123,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateColliderRadius();
 	UpdateAnimation();
 	UpdateRowsColumns();
+	UpdateAudio();
 }
 
 void Entity::SetPositionInit()
@@ -148,11 +149,6 @@ void Entity::SetScaleInit()
 			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
 		}
 	}
-}
-
-void Entity::SetHealthInit()
-{
-	m_fHealth = m_entityController->GetHealth(m_iEntityNum);
 }
 
 void Entity::UpdateRowsColumns()
@@ -202,7 +198,7 @@ void Entity::UpdateAnimation()
 		}
 
 		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
-		m_sprite->SetCurFrameY(m_iCurFrameY);
+		//m_sprite->SetCurFrameY(m_iCurFrameY);
 
 		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 		{
@@ -342,6 +338,12 @@ void Entity::UpdateColliderRadius()
 			m_colliderCircle->SetRadius(0);
 		}
 	}
+}
+
+void Entity::UpdateAudio()
+{
+	if(m_entityController->HasAudio(m_iEntityNum))
+		m_sSoundBankName = m_entityController->GetSoundBankName(m_iEntityNum);
 }
 
 void Entity::UpdateEntityNum(int num)
