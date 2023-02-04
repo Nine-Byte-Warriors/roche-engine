@@ -28,19 +28,7 @@ void UIScreen::InitializeWidgets()
 		m_vWidgets[i]->GetEnergyBarWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetImageWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetInputWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, i );
-
-		//if ( m_vWidgets[i]->GetType() == "Input" )
-		//	m_iInputIdx++;
-
-		/*if ( m_vWidgets[i]->GetType() == "Page Slider" )
-		{
-			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
-			pageSliderPtr = std::make_shared<PageSlider_Widget>();
-			pageSliderPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			pageSliderPtr->IntializeWidget( m_vWidgets[i] );
-			pageSliderPtr->SetPageSize( m_vScreenSize.y );
-			m_iPageSliderCount++;
-		}*/
+		m_vWidgets[i]->GetPageSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, m_vScreenSize.x, m_vScreenSize.y );
 	}
 }
 
@@ -49,8 +37,23 @@ void UIScreen::Update( const float dt )
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
 
+	// first, determine if any of the widgets is a page slider
+	m_bUsingPageSlider = false;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
+		if ( m_vWidgets[i]->GetType() == "Page Slider" )
+		{
+			m_bUsingPageSlider = true;
+			break;
+		}
+	}
+
+	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
+	{
+		if ( m_bUsingPageSlider && m_vWidgets[i]->GetType() != "Page Slider" )
+			m_vWidgets[i]->SetPosition( { m_vWidgets[i]->GetPosition().x, m_vWidgets[i]->GetPosition().y + ( ( m_fCurrentY / m_vScreenSize.y ) * 100.0f ) } );
+
+#pragma region BUTTONS
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Link" )
@@ -83,12 +86,16 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetButtonWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region COLOUR_BLOCKS
 		else if ( m_vWidgets[i]->GetType() == "Colour Block" )
 		{
 			// Doesn't need actions
 			m_vWidgets[i]->GetColourBlockWidget()->Resolve( { 210, 210, 150 } );
 			m_vWidgets[i]->GetColourBlockWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region DATA_SLIDERS
 		else if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
@@ -108,6 +115,8 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region DROP_DOWNS
 		else if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Resolution" )
@@ -127,6 +136,8 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetDropDownWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region ENERGY_BARS
 		else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Player Health" )
@@ -148,11 +159,15 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetEnergyBarWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region IMAGES
 		else if ( m_vWidgets[i]->GetType() == "Image" )
 		{
 			m_vWidgets[i]->GetImageWidget()->Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
 			m_vWidgets[i]->GetImageWidget()->Update( dt );
 		}
+#pragma endregion
+#pragma region INPUT
 		else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Player Name" )
@@ -166,29 +181,29 @@ void UIScreen::Update( const float dt )
 			}
 			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+#pragma endregion
+#pragma region PAGE_SLIDERS
+		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
-			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
-			pageSliderPtr = std::make_shared<PageSlider_Widget>();
-			pageSliderPtr->Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
-			//pageSliderPtr->SetPosition( { m_vScreenSize.x - 30.0f, m_vScreenSize.y * 0.2f } );
-			//pageSliderPtr->SetSize( { 30.0f, m_vScreenSize.y * 0.6f } );
-			pageSliderPtr->Update( dt );
+			m_vWidgets[i]->SetPosition( { m_vScreenSize.x - 30.0f, m_vScreenSize.y * 0.2f } );
+			m_vWidgets[i]->SetSize( { 30.0f, m_vScreenSize.y * 0.6f } );
 
-			m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - pageSliderPtr->GetPagePos();
-			if ( m_fCurrentPY != pageSliderPtr->GetPY() )
+			m_vWidgets[i]->GetPageSliderWidget()->Resolve( Colour( 10.0f, 10.0f, 10.0f ), Colour( 60.0f, 60.0f, 60.0f ), m_mouseData );
+			m_vWidgets[i]->GetPageSliderWidget()->Update( dt );
+
+			m_fCurrentY = ( m_vScreenSize.y * 0.2f ) - m_vWidgets[i]->GetPageSliderWidget()->GetPagePos();
+
+			if ( m_bUpdatePageSlider )
 			{
-				m_fCurrentPY = pageSliderPtr->GetPY();
-				m_bLoadFlag = true;
+				m_vWidgets[i]->GetPageSliderWidget()->SetPageSizeY( m_vScreenSize.y );
+				m_bUpdatePageSlider = false;
 			}
-
-			if ( m_bUpdateSlider )
-				pageSliderPtr->SetPageSize( m_vScreenSize.y );
-		}*/
+		}
+#pragma endregion
 	}
 
 	// Update render box
-	if ( m_iPageSliderCount > 0 )
+	if ( m_bUsingPageSlider )
 	{
 		m_fBoxPos = { 0.0f, m_vScreenSize.y * 0.1f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y * 0.6f };
@@ -253,22 +268,14 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
 					continue;
 				}
+				else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+				{
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetPageSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetPageSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+					continue;
+				}
 			}
 		}
-		/*if ( m_vWidgets[i]->GetType() == "Page Slider" )
-		{
-			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
-			pageSliderPtr = std::make_shared<PageSlider_Widget>();
-			if ( pageSliderPtr->GetZIndex() == i )
-			{
-				if ( !pageSliderPtr->GetIsHidden() )
-				{
-					RENDER_IF_IN_BOX( pageSliderPtr->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						pageSliderPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-				}
-				break;
-			}
-		}*/
 	}
 }
 
@@ -335,7 +342,7 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
-		m_bUpdateSlider = true;
+		m_bUpdatePageSlider = true;
 	}
 	break;
 	}

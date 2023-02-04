@@ -1,50 +1,16 @@
 #include "stdafx.h"
 #include "EnergyBar_Widget.h"
 
-EnergyBar_Widget::EnergyBar_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+EnergyBar_Widget::EnergyBar_Widget()
 {
 	m_spriteBack = std::make_shared<Sprite>();
-	m_spriteBack->SetWidthHeight( size.x, size.y );
 	m_transformBack = std::make_shared<Transform>( m_spriteBack );
-	m_transformBack->SetPosition( { pos.x, pos.y } );
 
 	m_spriteBar = std::make_shared<Sprite>();
-	m_spriteBar->SetWidthHeight( size.x, size.y );
 	m_transformBar = std::make_shared<Transform>( m_spriteBar );
-	m_transformBar->SetPosition( { pos.x, pos.y } );
 
 	m_spriteFront = std::make_shared<Sprite>();
-	m_spriteFront->SetWidthHeight( size.x, size.y );
 	m_transformFront = std::make_shared<Transform>( m_spriteFront );
-	m_transformFront->SetPosition( { pos.x, pos.y } );
-
-	std::vector<std::string> textures =
-	{
-		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
-		"Resources\\Textures\\UI\\Button\\ButtonIdle.png",
-		"Resources\\Textures\\UI\\Button\\ButtonIdle.png"
-	};
-	Resolve( textures, 50.0f );
-}
-
-EnergyBar_Widget::EnergyBar_Widget( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_spriteBack = std::make_shared<Sprite>();
-	m_spriteBack->SetWidthHeight( size.x, size.y );
-	m_transformBack = std::make_shared<Transform>( m_spriteBack );
-	m_transformBack->SetPosition( { pos.x, pos.y } );
-
-	m_spriteBar = std::make_shared<Sprite>();
-	m_spriteBar->SetWidthHeight( size.x, size.y );
-	m_transformBar = std::make_shared<Transform>( m_spriteBar );
-	m_transformBar->SetPosition( { pos.x, pos.y } );
-
-	m_spriteFront = std::make_shared<Sprite>();
-	m_spriteFront->SetWidthHeight( size.x, size.y );
-	m_transformFront = std::make_shared<Transform>( m_spriteFront );
-	m_transformFront->SetPosition( { pos.x, pos.y } );
-
-	Resolve( textures, fraction );
 }
 
 EnergyBar_Widget::~EnergyBar_Widget() { }

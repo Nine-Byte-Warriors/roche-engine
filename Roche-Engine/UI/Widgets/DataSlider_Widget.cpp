@@ -1,37 +1,13 @@
 #include "stdafx.h"
 #include "DataSlider_Widget.h"
 
-DataSlider_Widget::DataSlider_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+DataSlider_Widget::DataSlider_Widget()
 {
 	m_spriteBar = std::make_shared<Sprite>();
-    m_spriteBar->SetWidthHeight( size.x, size.y );
     m_transformBar = std::make_shared<Transform>( m_spriteBar );
-    m_transformBar->SetPosition( { pos.x, pos.y } );
 
 	m_spriteSlider = std::make_shared<Sprite>();
-    m_spriteSlider->SetWidthHeight( size.x, size.y );
     m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
-    m_transformSlider->SetPosition( { pos.x, pos.y } );
-
-	int sliderStart = 50;
-	MouseData mouseData = MouseData();
-	std::string texture = "Resources\\Textures\\Tiles\\empty.png";
-	Resolve( sliderStart, texture, texture, mouseData );
-}
-
-DataSlider_Widget::DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_spriteBar = std::make_shared<Sprite>();
-    m_spriteBar->SetWidthHeight( size.x, size.y );
-    m_transformBar = std::make_shared<Transform>( m_spriteBar );
-    m_transformBar->SetPosition( { pos.x, pos.y } );
-
-	m_spriteSlider = std::make_shared<Sprite>();
-    m_spriteSlider->SetWidthHeight( size.x, size.y );
-    m_transformSlider = std::make_shared<Transform>( m_spriteSlider );
-    m_transformSlider->SetPosition( { pos.x, pos.y } );
-
-	Resolve( start, barTex, sliderTex, mData );
 }
 
 DataSlider_Widget::~DataSlider_Widget() { }

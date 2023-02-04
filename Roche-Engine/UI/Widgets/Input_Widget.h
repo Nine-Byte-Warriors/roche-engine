@@ -9,7 +9,7 @@
 class Input_Widget
 {
 public:
-    Input_Widget( XMFLOAT2 pos, XMFLOAT2 size );
+    Input_Widget();
     ~Input_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index );

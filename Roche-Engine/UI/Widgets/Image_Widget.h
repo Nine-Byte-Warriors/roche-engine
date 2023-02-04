@@ -7,8 +7,7 @@
 class Image_Widget
 {
 public:
-    Image_Widget( XMFLOAT2 pos, XMFLOAT2 size );
-    Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size );
+    Image_Widget();
     ~Image_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

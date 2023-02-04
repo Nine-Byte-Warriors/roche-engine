@@ -7,8 +7,7 @@
 class EnergyBar_Widget
 {
 public:
-    EnergyBar_Widget( XMFLOAT2 pos, XMFLOAT2 size );
-    EnergyBar_Widget( const std::vector<std::string>& textures, float fraction, XMFLOAT2 pos, XMFLOAT2 size );
+    EnergyBar_Widget();
     ~EnergyBar_Widget();
 
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

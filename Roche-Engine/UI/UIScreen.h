@@ -43,16 +43,14 @@ private:
 	bool m_bOpenLink = false;
 
 	// Page slider data
-	bool m_bLoadFlag = true;
-	bool m_bUpdateSlider = false;
+	bool m_bUsingPageSlider = false;
+	bool m_bUpdatePageSlider = false;
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
-	float m_fCurrentY, m_fCurrentPY;
-	int m_iPageSliderCount = 0;
+	float m_fCurrentY;
 
 	// Widget data
 	int m_iSliderStart = 50;
 	UINT32 m_uLevelTo = 0;
-	int m_iInputIdx = 0;
 
 	// Button state textures
 	std::vector<std::string> m_textures =

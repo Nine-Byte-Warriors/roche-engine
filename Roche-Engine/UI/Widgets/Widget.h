@@ -9,29 +9,32 @@
 #include "EnergyBar_Widget.h"
 #include "Image_Widget.h"
 #include "Input_Widget.h"
+#include "PageSlider_Widget.h"
 
 class Widget
 {
 public:
 	Widget()
 		: m_bHidden( false ), m_iZIndex( 0 ), m_sName( "Empty" ), m_sType( "Empty" ), m_sAction( "" ), m_vPosition( { 0.0f, 0.0f } ), m_vSize( { 0.0f, 0.0f } ),
-		m_pButton( std::make_shared<Button_Widget>( m_vPosition, m_vSize ) ),
-		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) ),
-		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) ),
-		m_pDropDown( std::make_shared<DropDown_Widget>( m_vPosition, m_vSize ) ),
-		m_pEnergyBar( std::make_shared<EnergyBar_Widget>( m_vPosition, m_vSize ) ),
-		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) ),
-		m_pInput( std::make_shared<Input_Widget>( m_vPosition, m_vSize ) )
+		m_pButton( std::make_shared<Button_Widget>() ),
+		m_pColourBlock( std::make_shared<ColourBlock_Widget>() ),
+		m_pDataSlider( std::make_shared<DataSlider_Widget>() ),
+		m_pDropDown( std::make_shared<DropDown_Widget>() ),
+		m_pEnergyBar( std::make_shared<EnergyBar_Widget>() ),
+		m_pImage( std::make_shared<Image_Widget>() ),
+		m_pInput( std::make_shared<Input_Widget>() ),
+		m_pPageSlider( std::make_shared<PageSlider_Widget>() )
 	{}
 	Widget( bool hide, int zIdx, std::string name, std::string type, std::string action, XMFLOAT2 pos, XMFLOAT2 scale )
 		: m_bHidden( hide ), m_iZIndex( zIdx ), m_sName( name ), m_sType( type ), m_sAction( action ), m_vPosition( pos ), m_vSize( scale ),
-		m_pButton( std::make_shared<Button_Widget>( m_vPosition, m_vSize ) ),
-		m_pColourBlock( std::make_shared<ColourBlock_Widget>( m_vPosition, m_vSize ) ),
-		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) ),
-		m_pDropDown( std::make_shared<DropDown_Widget>( m_vPosition, m_vSize ) ),
-		m_pEnergyBar( std::make_shared<EnergyBar_Widget>( m_vPosition, m_vSize ) ),
-		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) ),
-		m_pInput( std::make_shared<Input_Widget>( m_vPosition, m_vSize ) )
+		m_pButton( std::make_shared<Button_Widget>() ),
+		m_pColourBlock( std::make_shared<ColourBlock_Widget>() ),
+		m_pDataSlider( std::make_shared<DataSlider_Widget>() ),
+		m_pDropDown( std::make_shared<DropDown_Widget>() ),
+		m_pEnergyBar( std::make_shared<EnergyBar_Widget>() ),
+		m_pImage( std::make_shared<Image_Widget>() ),
+		m_pInput( std::make_shared<Input_Widget>() ),
+		m_pPageSlider( std::make_shared<PageSlider_Widget>() )
 	{}
 	~Widget()
 	{}
@@ -70,6 +73,8 @@ public:
 			m_pImage->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 		else if ( m_sType == "Input" )
 			m_pInput->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
+		else if ( m_sType == "Page Slider" )
+			m_pPageSlider->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 	}
 
 	inline void SetPosition( const XMFLOAT2& pos ) noexcept
@@ -89,6 +94,8 @@ public:
 			m_pImage->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 		else if ( m_sType == "Input" )
 			m_pInput->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
+		else if ( m_sType == "Page Slider" )
+			m_pPageSlider->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 	}
 
 	inline std::shared_ptr<Button_Widget> GetButtonWidget() const noexcept { return m_pButton; }
@@ -98,6 +105,7 @@ public:
 	inline std::shared_ptr<EnergyBar_Widget> GetEnergyBarWidget() const noexcept { return m_pEnergyBar; }
 	inline std::shared_ptr<Image_Widget> GetImageWidget() const noexcept { return m_pImage; }
 	inline std::shared_ptr<Input_Widget> GetInputWidget() const noexcept { return m_pInput; }
+	inline std::shared_ptr<PageSlider_Widget> GetPageSliderWidget() const noexcept { return m_pPageSlider; }
 
 protected:
 	int m_iZIndex;
@@ -111,6 +119,7 @@ protected:
 	std::shared_ptr<EnergyBar_Widget> m_pEnergyBar;
 	std::shared_ptr<Image_Widget> m_pImage;
 	std::shared_ptr<Input_Widget> m_pInput;
+	std::shared_ptr<PageSlider_Widget> m_pPageSlider;
 };
 
 #endif

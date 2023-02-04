@@ -2,13 +2,10 @@
 #include "Input_Widget.h"
 #include "EventSystem.h"
 
-Input_Widget::Input_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+Input_Widget::Input_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
-	m_sprite->SetWidthHeight( size.x, size.y );
-
 	m_transform = std::make_shared<Transform>( m_sprite );
-	m_transform->SetPosition( { pos.x, pos.y } );
 }
 
 Input_Widget::~Input_Widget() { }

@@ -1,24 +1,10 @@
 #include "stdafx.h"
 #include "ColourBlock_Widget.h"
 
-ColourBlock_Widget::ColourBlock_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+ColourBlock_Widget::ColourBlock_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
-    m_sprite->SetWidthHeight( size.x, size.y );
-
     m_transform = std::make_shared<Transform>( m_sprite );
-    m_transform->SetPosition( { pos.x, pos.y } );
-	Resolve( { 210, 210, 150 } );
-}
-
-ColourBlock_Widget::ColourBlock_Widget( Colour colour, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_sprite = std::make_shared<Sprite>();
-    m_sprite->SetWidthHeight( size.x, size.y );
-
-    m_transform = std::make_shared<Transform>( m_sprite );
-    m_transform->SetPosition( { pos.x, pos.y } );
-	Resolve( colour );
 }
 
 ColourBlock_Widget::~ColourBlock_Widget() { }

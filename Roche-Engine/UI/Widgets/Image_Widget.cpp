@@ -1,26 +1,10 @@
 #include "stdafx.h"
 #include "Image_Widget.h"
 
-Image_Widget::Image_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+Image_Widget::Image_Widget()
 {
 	m_sprite = std::make_shared<Sprite>();
-	m_sprite->SetWidthHeight( size.x, size.y );
-
 	m_transform = std::make_shared<Transform>( m_sprite );
-	m_transform->SetPosition( { pos.x, pos.y } );
-
-	Resolve( "Resources\\Textures\\Tiles\\empty.png" );
-}
-
-Image_Widget::Image_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_sprite = std::make_shared<Sprite>();
-	m_sprite->SetWidthHeight( size.x, size.y );
-
-	m_transform = std::make_shared<Transform>( m_sprite );
-	m_transform->SetPosition( { pos.x, pos.y } );
-
-	Resolve( texture );
 }
 
 Image_Widget::~Image_Widget() { }

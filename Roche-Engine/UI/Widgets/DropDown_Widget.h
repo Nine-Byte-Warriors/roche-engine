@@ -9,10 +9,9 @@ class DropDown_Widget
 {
 public:
 	enum class DropState { Down, Up };
-	DropDown_Widget( XMFLOAT2 pos, XMFLOAT2 size );
-    DropDown_Widget( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData, XMFLOAT2 pos, XMFLOAT2 size );
+	DropDown_Widget();
 	~DropDown_Widget();
-   
+
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
 	void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer, VertexShader& vert, PixelShader& pix );

@@ -1,31 +1,10 @@
 #include "stdafx.h"
 #include "Button_Widget.h"
 
-Button_Widget::Button_Widget( XMFLOAT2 pos, XMFLOAT2 size )
+Button_Widget::Button_Widget()
 {
     m_sprite = std::make_shared<Sprite>();
-    m_sprite->SetWidthHeight( size.x, size.y );
-
     m_transform = std::make_shared<Transform>( m_sprite );
-    m_transform->SetPosition( { pos.x, pos.y } );
-
-    MouseData mouseData = MouseData();
-    std::string texture = "Resources\\Textures\\Tiles\\empty.png";
-    std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::White, buttonTextures, mouseData );
-}
-
-Button_Widget::Button_Widget( const std::string& texture, XMFLOAT2 pos, XMFLOAT2 size )
-{
-	m_sprite = std::make_shared<Sprite>();
-    m_sprite->SetWidthHeight( size.x, size.y );
-
-    m_transform = std::make_shared<Transform>( m_sprite );
-    m_transform->SetPosition( { pos.x, pos.y } );
-
-    MouseData mouseData = MouseData();
-    std::vector<std::string> buttonTextures = { texture, texture, texture };
-    Resolve( "Default", Colors::White, buttonTextures, mouseData );
 }
 
 Button_Widget::~Button_Widget() { }
