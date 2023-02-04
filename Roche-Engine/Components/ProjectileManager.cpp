@@ -160,6 +160,8 @@ void ProjectileManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::TargetPosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerFire, this);
+
+	//EventSystem::Instance()->AddClient(EVENTID::RemoveHealth, this);
 }
 
 void ProjectileManager::RemoveFromEvent() noexcept

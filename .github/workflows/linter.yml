@@ -2,9 +2,9 @@ name: Linter
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master-game" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master-game" ]
     
 jobs:
   build:
