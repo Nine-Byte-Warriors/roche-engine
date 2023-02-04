@@ -360,3 +360,14 @@ void Entity::SetAnimation()
 		UpdateAnimation();
 	}
 }
+
+void Entity::CheckAliveStatus()
+{
+	if (m_fEntityHealth <= 0.0)
+	{
+		m_entityController->SetDead(m_iEntityNum);
+	}
+}
+
+
+
