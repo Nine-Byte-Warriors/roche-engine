@@ -51,8 +51,8 @@ private:
 
 	// Widget data
 	int m_iSliderStart = 50;
-	int m_iInputIndex = 0;
 	UINT32 m_uLevelTo = 0;
+	int m_iInputIdx = 0;
 
 	// Button state textures
 	std::vector<std::string> m_textures =

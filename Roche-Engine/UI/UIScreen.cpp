@@ -19,7 +19,6 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 
 void UIScreen::InitializeWidgets()
 {
-	int inputIdx = 0;
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
 		m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
@@ -28,23 +27,12 @@ void UIScreen::InitializeWidgets()
 		m_vWidgets[i]->GetDropDownWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetEnergyBarWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetImageWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetInputWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, i );
 
-		/*if ( m_vWidgets[i]->GetType() == "Image" )
-		{
-			std::shared_ptr<Image_Widget> imagePtr = std::dynamic_pointer_cast<Image_Widget>( m_vWidgets[i] );
-			imagePtr = std::make_shared<Image_Widget>();
-			imagePtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-			imagePtr->IntializeWidget( m_vWidgets[i] );
-		}
-		else if ( m_vWidgets[i]->GetType() == "Input" )
-		{
-			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
-			inputPtr = std::make_shared<Input_Widget>();
-			inputPtr->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, inputIdx );
-			inputPtr->IntializeWidget( m_vWidgets[i] );
-			inputIdx++;
-		}
-		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+		//if ( m_vWidgets[i]->GetType() == "Input" )
+		//	m_iInputIdx++;
+
+		/*if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
 			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
 			pageSliderPtr = std::make_shared<PageSlider_Widget>();
@@ -165,22 +153,20 @@ void UIScreen::Update( const float dt )
 			m_vWidgets[i]->GetImageWidget()->Resolve( "Resources\\Textures\\UI\\Board\\Board.png" );
 			m_vWidgets[i]->GetImageWidget()->Update( dt );
 		}
-		/*else if ( m_vWidgets[i]->GetType() == "Input" )
+		else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
-			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
-			inputPtr = std::make_shared<Input_Widget>();
-			if ( inputPtr->GetAction() == "Player Name" )
+			if ( m_vWidgets[i]->GetAction() == "Player Name" )
 			{
 				// Input that allows the user to enter their name
 			}
 			else
 			{
 				// Default
-				inputPtr->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, m_iInputIndex );
+				m_vWidgets[i]->GetInputWidget()->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			}
-			inputPtr->Update( dt );
+			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}
-		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+		/*else if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
 			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
 			pageSliderPtr = std::make_shared<PageSlider_Widget>();
@@ -260,24 +246,16 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 						m_vWidgets[i]->GetImageWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
 					continue;
 				}
-			}
-		}
-		/*if ( m_vWidgets[i]->GetType() == "Input" )
-		{
-			std::shared_ptr<Input_Widget> inputPtr = std::dynamic_pointer_cast<Input_Widget>( m_vWidgets[i] );
-			inputPtr = std::make_shared<Input_Widget>();
-			if ( inputPtr->GetZIndex() == i )
-			{
-				if ( !inputPtr->GetIsHidden() )
+				else if ( m_vWidgets[i]->GetType() == "Input" )
 				{
-					RENDER_IF_IN_BOX( inputPtr->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						inputPtr->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+					RENDER_IF_IN_BOX( m_vWidgets[i]->GetInputWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+						m_vWidgets[i]->GetInputWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+					continue;
 				}
-				break;
 			}
 		}
-		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
+		/*if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
 			std::shared_ptr<PageSlider_Widget> pageSliderPtr = std::dynamic_pointer_cast<PageSlider_Widget>( m_vWidgets[i] );
 			pageSliderPtr = std::make_shared<PageSlider_Widget>();
@@ -296,7 +274,7 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 
 void UIScreen::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::KeyInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::CharInput, this );
 #if _DEBUG
 	EventSystem::Instance()->AddClient( EVENTID::ImGuiMousePosition, this );
 #endif
@@ -312,7 +290,7 @@ void UIScreen::AddToEvent() noexcept
 
 void UIScreen::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::KeyInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CharInput, this );
 #if _DEBUG
 	EventSystem::Instance()->RemoveClient( EVENTID::ImGuiMousePosition, this );
 #endif
@@ -330,7 +308,7 @@ void UIScreen::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-	case EVENTID::KeyInput:	{ m_sKeys = *(std::string*)event->GetData(); } break;
+	case EVENTID::CharInput: { m_sKeys = *(std::string*)event->GetData(); } break;
 	case EVENTID::LeftMouseClick:{ m_mouseData.LPress = true; } break;
 	case EVENTID::LeftMouseRelease:{ m_mouseData.LPress = false; } break;
 	case EVENTID::RightMouseClick:{ m_mouseData.RPress = true; } break;

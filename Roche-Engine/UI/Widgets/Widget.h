@@ -8,6 +8,7 @@
 #include "DropDown_Widget.h"
 #include "EnergyBar_Widget.h"
 #include "Image_Widget.h"
+#include "Input_Widget.h"
 
 class Widget
 {
@@ -19,7 +20,8 @@ public:
 		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) ),
 		m_pDropDown( std::make_shared<DropDown_Widget>( m_vPosition, m_vSize ) ),
 		m_pEnergyBar( std::make_shared<EnergyBar_Widget>( m_vPosition, m_vSize ) ),
-		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) )
+		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) ),
+		m_pInput( std::make_shared<Input_Widget>( m_vPosition, m_vSize ) )
 	{}
 	Widget( bool hide, int zIdx, std::string name, std::string type, std::string action, XMFLOAT2 pos, XMFLOAT2 scale )
 		: m_bHidden( hide ), m_iZIndex( zIdx ), m_sName( name ), m_sType( type ), m_sAction( action ), m_vPosition( pos ), m_vSize( scale ),
@@ -28,7 +30,8 @@ public:
 		m_pDataSlider( std::make_shared<DataSlider_Widget>( m_vPosition, m_vSize ) ),
 		m_pDropDown( std::make_shared<DropDown_Widget>( m_vPosition, m_vSize ) ),
 		m_pEnergyBar( std::make_shared<EnergyBar_Widget>( m_vPosition, m_vSize ) ),
-		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) )
+		m_pImage( std::make_shared<Image_Widget>( m_vPosition, m_vSize ) ),
+		m_pInput( std::make_shared<Input_Widget>( m_vPosition, m_vSize ) )
 	{}
 	~Widget()
 	{}
@@ -65,6 +68,8 @@ public:
 			m_pEnergyBar->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 		else if ( m_sType == "Image" )
 			m_pImage->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
+		else if ( m_sType == "Input" )
+			m_pInput->GetSprite()->SetWidthHeight( m_vSize.x, m_vSize.y );
 	}
 
 	inline void SetPosition( const XMFLOAT2& pos ) noexcept
@@ -82,6 +87,8 @@ public:
 			m_pEnergyBar->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 		else if ( m_sType == "Image" )
 			m_pImage->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
+		else if ( m_sType == "Input" )
+			m_pInput->GetTransform()->SetPosition( { m_vPosition.x, m_vPosition.y } );
 	}
 
 	inline std::shared_ptr<Button_Widget> GetButtonWidget() const noexcept { return m_pButton; }
@@ -90,6 +97,7 @@ public:
 	inline std::shared_ptr<DropDown_Widget> GetDropDownWidget() const noexcept { return m_pDropDown; }
 	inline std::shared_ptr<EnergyBar_Widget> GetEnergyBarWidget() const noexcept { return m_pEnergyBar; }
 	inline std::shared_ptr<Image_Widget> GetImageWidget() const noexcept { return m_pImage; }
+	inline std::shared_ptr<Input_Widget> GetInputWidget() const noexcept { return m_pInput; }
 
 protected:
 	int m_iZIndex;
@@ -102,6 +110,7 @@ protected:
 	std::shared_ptr<DropDown_Widget> m_pDropDown;
 	std::shared_ptr<EnergyBar_Widget> m_pEnergyBar;
 	std::shared_ptr<Image_Widget> m_pImage;
+	std::shared_ptr<Input_Widget> m_pInput;
 };
 
 #endif
