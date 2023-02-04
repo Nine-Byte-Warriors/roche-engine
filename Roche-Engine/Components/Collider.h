@@ -23,12 +23,12 @@ enum class CollisionState
 
 class BoxCollider;
 class CircleCollider;
-class Entity;
+class Health;
 class Collider
 {
 public:
-    Collider() {};
-    Collider(bool trigger, std::shared_ptr<Transform>& transform, Entity* parent) : m_isTrigger(trigger), m_transform(transform), m_parent(parent) {}
+    Collider() {}
+    Collider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType);
     Collider(Collider& col);
 
 protected:
@@ -38,7 +38,10 @@ protected:
     LayerNo m_layer = LayerNo::Enemy;
 
     std::shared_ptr<Transform> m_transform;
-    Entity* m_parent;
+    std::shared_ptr<Health> m_health;
+    int m_entityNum;
+    std::string m_entityType;
+
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
 
@@ -71,10 +74,18 @@ public:
     inline LayerMask GetCollisionMask() noexcept { return m_collisionMask; };
 
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
-    inline Entity& GetParent() const noexcept { return *m_parent; }
+    inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
+
+
+    inline int GetEntityNum() { return m_entityNum; };
+    inline std::string EntityType() { return m_entityType; };
+
+    Vector2f Offset();
+    Vector2f GetCenterPosition();
+    void SetTransformPosition(Vector2f position);
 
     inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
-    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_transform->GetPosition(); }//
+    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = GetCenterPosition(); }//m_transform->GetPosition();} }//
 
 
 
@@ -91,7 +102,7 @@ public:
 
     //Collision Resolution
     virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {};
-    virtual void Resolve(){};
+    virtual void Resolve() {};
 
     //Events
     //example of use td::function<void(Collider&)> f = std::bind(&Player::foo, this, std::placeholders::_1);

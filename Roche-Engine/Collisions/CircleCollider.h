@@ -9,7 +9,7 @@ class CircleCollider : public Collider
 {
 public:
     CircleCollider() { m_type = ColliderType::Circle; };
-    CircleCollider(std::shared_ptr<Transform> transform, Entity* parent, float radius) : m_radius(radius) { m_transform = transform; m_parent = parent; m_type = ColliderType::Circle; }
+    CircleCollider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType, float radius);
 
 private:
     float m_radius = 0;

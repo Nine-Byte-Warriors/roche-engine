@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "Collider.h"
-#include "Entity.h"
+
+Collider::Collider(bool trigger, std::shared_ptr<Transform>& transform, int entityNum, std::string entityType)
+{
+    m_transform = transform;
+    m_isTrigger = trigger;
+
+    m_entityNum = entityNum;
+    m_entityType = entityType;
+}
 
 Collider::Collider(Collider& col)
 {
@@ -11,9 +19,11 @@ Collider::Collider(Collider& col)
     m_lastValidPosition = col.m_lastValidPosition;
     m_layer = col.m_layer;
     m_transform = col.m_transform;
+    m_entityNum = col.m_entityNum;
+    m_entityType = col.m_entityType;
+
     m_type = col.m_type;
     m_blackList = col.m_blackList;
-    m_parent = col.m_parent;
 }
 
 float Collider::Clamp(float min, float max, float value)
@@ -51,6 +61,22 @@ void Collider::RemoveDuplicateElements(std::vector<T>& vec)
     }
 }
 
+
+Vector2f Collider::Offset()
+{
+    return m_transform->GetScale() / 2.0f;
+}
+
+Vector2f Collider::GetCenterPosition()
+{
+    Vector2f center = m_transform->GetPosition() + Offset();
+    return center;
+};
+
+void Collider::SetTransformPosition(Vector2f position)
+{
+    m_transform->SetPosition(position - Offset()); 
+}
 
 void Collider::LogCollision(std::shared_ptr<Collider>& col)
 {
