@@ -19,7 +19,7 @@
         "hide": false,
         "name": "GitHub Link",
         "position": [
-            500.0,
+            600.0,
             500.0
         ],
         "scale": [
@@ -73,20 +73,5 @@
         ],
         "type": "Button",
         "zindex": 4
-    },
-    {
-        "action": "",
-        "hide": false,
-        "name": "Blank Widget 0",
-        "position": [
-            685.0,
-            152.0
-        ],
-        "scale": [
-            228.0,
-            105.0
-        ],
-        "type": "Input",
-        "zindex": 5
     }
 ]
