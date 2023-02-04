@@ -199,3 +199,8 @@ void EntityController::UpdateCopy()
 	m_entityDataCopy = m_entityData;
 }
 
+void EntityController::SetDead(int num)
+{
+	m_dead.push_back(num);
+}
+
