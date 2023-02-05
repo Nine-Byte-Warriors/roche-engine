@@ -1,5 +1,9 @@
 [
     {
+        "file": "Change_Level_Pop_Up_Widgets.json",
+        "name": "Change Level Pop Up"
+    },
+    {
         "file": "HUD_Widgets.json",
         "name": "HUD_Day"
     },
@@ -8,11 +12,19 @@
         "name": "HUD_Night"
     },
     {
+        "file": "Blank Screen 0.json",
+        "name": "Loss Screen"
+    },
+    {
         "file": "Pause_Widgets.json",
         "name": "Pause"
     },
     {
         "file": "Settings_Widgets.json",
         "name": "Settings"
+    },
+    {
+        "file": "Blank Screen 0.json",
+        "name": "Win Screen"
     }
 ]
