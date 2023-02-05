@@ -6,6 +6,7 @@
 #include "JsonLoading.h"
 #include "Entity.h"
 #include "AIStateMachine.h"
+#include "AudioEngine.h"
 #if _DEBUG
 #include <imgui/imgui.h>
 #endif
@@ -40,6 +41,7 @@ private:
 	void AIWidget();
 	void ProjectileSystemWidget();
 	void ColliderWidget();
+	void AudioWidget();
 
 	//Sprite
 	void SetName();
@@ -67,6 +69,9 @@ private:
 	//Collider
 	void SetColliderShape();
 	void SetColliderSize();
+
+	//Audio
+	void SetSoundBank();
 
 	void SaveButton();
 	void SaveEntity();
@@ -108,6 +113,8 @@ private:
 
 	int m_iSelectedIndex = 0;
 	std::vector<std::string> m_projectileList;
+
+	std::vector<std::string> m_vSoundBankNamesList;
 
 	std::vector<int> m_entitiesDeleted;
 };

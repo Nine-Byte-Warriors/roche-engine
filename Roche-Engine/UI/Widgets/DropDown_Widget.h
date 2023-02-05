@@ -17,7 +17,7 @@ public:
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
 	void Update( const float dt );
 	void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer, VertexShader& vert, PixelShader& pix );
-	void Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData );
+	void Resolve( const std::vector<std::string>& ddList, std::vector<std::string> backCol, std::vector<std::string> buttonImg, XMVECTORF32 textColour, std::string currData, MouseData& mData, FontSize size = FontSize::MEDIUM );
 
 	inline int GetIntSelcted() const noexcept { return m_iSelected; }
     inline std::string GetSelected() const noexcept { return m_sDataSelected; }
@@ -44,6 +44,7 @@ private:
 	int m_iFlagMax = 20;
     
 	int m_iSelected = 0;
+	FontSize m_eFontSize;
     std::string m_sDataSelected;
     std::vector<std::string> m_vListData;
 

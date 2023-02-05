@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "ProjectileEditor.h"
 
+
 #if _DEBUG
 extern bool g_bDebug;
 #include <imgui/imgui.h>
@@ -21,7 +22,7 @@ void Level::OnCreate()
         m_camera.SetProjectionValues( aspectRatio.x, aspectRatio.y, 0.0f, 1.0f );
 
         // Initialize systems
-        m_textRenderer.Initialize( "beth_ellen_ms_16_bold.spritefont", m_gfx->GetDevice(), m_gfx->GetContext() );
+        m_textRenderer.Initialize( m_gfx->GetDevice(), m_gfx->GetContext() );
 
 		// Initialise Projectile Editor
         m_projectileEditor = ProjectileEditor::CreateEditor();
@@ -63,7 +64,19 @@ void Level::CreateUI()
     m_ui->RemoveAllUI();
     for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
+	
+    // find the player in the entity vector
+    int playerIdx = 0;
+    for ( unsigned int i = 0; i < m_entity.size(); i++ )
+    {
+        if ( m_entity[i].GetType() == "Player" )
+        {
+            playerIdx = i;
+            break;
+        }
+    }
+
+    m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets(), *m_entity[playerIdx].GetHealth() );
     m_ui->HideAllUI();
 
 #if !_DEBUG
@@ -328,16 +341,7 @@ void Level::UpdateUI( const float dt )
 #if _DEBUG
     if ( m_uiEditor.GetShouldUpdate() )
     {
-        // Update user interface
-        m_ui->RemoveAllUI();
-        for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
-	        m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	    m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets() );
-        m_ui->HideAllUI();
-
-#if !_DEBUG
-        m_ui->ShowUI( "Pause" );
-#endif
+        CreateUI();
         m_uiEditor.SetShouldUpdate( false );
     }
 
@@ -426,6 +430,9 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
+
+    m_entitiesDeleted = m_entityController.m_dead;
+
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
 #endif
@@ -452,6 +459,9 @@ void Level::RemoveEntities()
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
 #endif
+
+    m_entityController.m_dead.clear();
+    
 }
 
 void Level::UpdateTileMap(const float dt)

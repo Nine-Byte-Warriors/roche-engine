@@ -3,24 +3,24 @@
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
         "name": "Shop",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
+        "tmBack": "Shop-background.json",
+        "tmFront": "Shop-foreground.json",
         "ui": "Credits.json"
     },
     {
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
-        "name": "Menu",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
-        "ui": "Menu.json"
+        "name": "Game",
+        "tmBack": "BaseGameMap-background.json",
+        "tmFront": "BaseGameMap-foreground.json",
+        "ui": "Game.json"
     },
-    {
+	{
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
-        "name": "Game",
-        "tmBack": "newfile2.json",
-        "tmFront": "newfile2.json",
-        "ui": "Game.json"
+        "name": "Menu",
+        "tmBack": "67x120file.json",
+        "tmFront": "67x120file.json",
+        "ui": "Menu.json"
     }
 ]

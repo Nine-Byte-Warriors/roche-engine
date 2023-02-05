@@ -30,6 +30,11 @@ enum class EVENTID
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
+	ChangePhase,
+	NextDay,
+	CurrentState,
+	CurrentPhase,
+	CurrentDay,
 
 	// Camera Actions
 	MoveUp,
@@ -63,13 +68,22 @@ enum class EVENTID
 	ControlTab,
 	OpenCredits,
 
+	// DEBUG
+	RemoveHealth,
+
 	// Utility
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
 	RemoveUIItemEvent,
 	ShowCursorEvent,
 	HideCursorEvent,
-	QuitGameEvent
+	QuitGameEvent,
+
+	//Healthcomp
+	PlayerDamage,
+	PlayerHeal,
+	PlayerDeath,
+	EnemyDeath
 };
 
 /// <summary>

@@ -57,12 +57,13 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #if _DEBUG
             level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
             level->SetAudioJson( m_vLevelData[i].audio );
+            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[m_iActiveLevelIdx].audio);
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
             level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
-            //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
+            level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
@@ -255,6 +256,8 @@ void Application::Render()
                     {
                         m_vLevelData[m_iActiveLevelIdx].audio = m_sAudioFile;
                         m_pLevels[m_iActiveLevelIdx]->SetAudioJson( m_sAudioFile );
+                        AudioEngine::GetInstance()->UnloadAllAudio();
+                        AudioEngine::GetInstance()->LoadSoundBanksList(m_sAudioFile);
                     }
                 }
                 ImGui::NewLine();

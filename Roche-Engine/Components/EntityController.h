@@ -33,11 +33,13 @@ struct EntityData
 	std::string animationType;
 	int rows;
 	int columns;
+	bool audio;
+	std::string soundBankName;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, rotation, health, identifier,
 	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet,
 	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
-	animation, rows, columns)
+	animation, rows, columns, audio, soundBankName)
 
 class EntityController
 {
@@ -72,6 +74,8 @@ public:
 
 	EntityData* GetProjectileBullet(int num);
 
+	std::string GetSoundBankName(int num);
+
 	void SetEntityData(std::vector<EntityData> entityData);
 
 	bool HasAI(int num);
@@ -82,9 +86,14 @@ public:
 	bool HasProjectileBullet(int num);
 	bool HasProjectilePattern(int num);
 
+	bool HasAudio(int num);
+
 	bool HasComponentUpdated();
 
 	void UpdateCopy();
+
+	void SetDead(int num);
+	std::vector<int> m_dead;
 
 private:
 	std::string JsonFile = "Entity.json";
@@ -93,6 +102,7 @@ private:
 	std::vector<EntityData> m_entityDataCopy;
 
 	bool m_bComponentUpdated = false;
+
 };
 
 #endif

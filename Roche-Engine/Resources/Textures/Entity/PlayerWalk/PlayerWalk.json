@@ -1,0 +1,155 @@
+{
+  "Filepath": "../Textures/PlayerWalk.png",
+  "Frame Counts": [
+    3,
+    3,
+    3,
+    3,
+	1
+  ],
+  "Frame Size": [
+    16,
+    20
+  ],
+  "DownIdle": [
+    {
+      "Alias": "Down Idle",
+	  "Row Index": 0,
+      "Frame Order": [
+        0,
+        0,
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "WalkDown": [
+    {
+      "Alias": "Walk Down",
+	  "Row Index": 0,
+      "Frame Order": [
+        0,
+        1,
+        2
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "LeftIdle": [
+    {
+      "Alias": "Left Idle",
+	  "Row Index": 1,
+      "Frame Order": [
+        0,
+        0,
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "WalkLeft": [
+    {
+      "Alias": "Walk Left",
+	  "Row Index": 1,
+      "Frame Order": [
+        0,
+        1,
+        2
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "RightIdle": [
+    {
+      "Alias": "Right Idle",
+	  "Row Index": 2,
+      "Frame Order": [
+        0,
+        0,
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "WalkRight": [
+    {
+      "Alias": "Walk Right",
+	  "Row Index": 2,
+      "Frame Order": [
+        0,
+        1,
+        2
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "UpIdle": [
+    {
+      "Alias": "Up Idle",
+	  "Row Index": 3,
+      "Frame Order": [
+        0,
+        0,
+        0
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "WalkUp": [
+    {
+      "Alias": "Walk Up",
+	  "Row Index": 3,
+      "Frame Order": [
+        0,
+        1,
+        2
+      ],
+      "Frame Timings": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "Death": [
+    {
+      "Alias": "Death",
+	  "Row Index": 4,
+      "Frame Order": [
+        0
+      ],
+      "Frame Timings": [
+        1.0
+      ]
+    }
+  ],
+  "Version": "1.5"
+}

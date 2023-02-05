@@ -8,6 +8,11 @@ TileMap::TileMap(int rows, int columns)
 
 	JsonLoading::LoadJson(m_sTileTypeData, JsonFile);
 
+	for (int i = 0; i < m_sTileTypeData.size(); i++)
+	{
+		m_sTileTypeData[i].type = i;
+	}
+
 	ResetTileMap();
 }
 

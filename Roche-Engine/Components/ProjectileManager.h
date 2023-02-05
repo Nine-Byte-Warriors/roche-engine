@@ -18,7 +18,7 @@ public:
 	void Update(const float dt);
 	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
 
-	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool) { m_vecProjectilePool = vecProjectilePool; }
+	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 
 	void UpdatePattern(std::string filepath);
@@ -31,6 +31,8 @@ public:
 	void HandleEvent(Event* event) override;
 
 	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
+	inline bool IsFinished() const noexcept { return m_fDuration <= 0.0f; }
+	inline void EnableRepeat() noexcept { m_bWillRepeat = true; }
 	
 private:
 	void SpawnProjectile();
@@ -41,6 +43,9 @@ private:
 	float m_fLifeTime;
 	float m_fDelay;
 	float m_fCounter;
+	float m_fTotalDuration;
+	float m_fDuration;
+	bool m_bWillRepeat;
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
