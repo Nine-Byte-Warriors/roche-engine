@@ -295,12 +295,14 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\PlayerMovement.cpp" />
+    <ClCompile Include="Components\PlayerShooting.cpp" />
     <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
     <ClCompile Include="Components\Entity.cpp" />
     <ClCompile Include="Components\EntityEditor.cpp" />
+    <ClCompile Include="Components\Emitter.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -445,12 +447,14 @@
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\PlayerMovement.h" />
+    <ClInclude Include="Components\PlayerShooting.h" />
     <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
     <ClInclude Include="Components\Entity.h" />
     <ClInclude Include="Components\EntityEditor.h" />
+    <ClInclude Include="Components\Emitter.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
@@ -594,6 +598,7 @@
     <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
+    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
     <None Include="Resources\Patterns\SlowCircle.ptn" />
     <None Include="Resources\Patterns\SlowWiggle.ptn" />
