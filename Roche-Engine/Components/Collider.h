@@ -27,7 +27,10 @@ class Collider
 {
 public:
     Collider() {}
-    Collider(bool trigger, std::shared_ptr<Transform>& transform) : m_isTrigger(trigger), m_transform(transform) {}
+    Collider(
+        const std::shared_ptr<Transform>& transform,
+        const std::shared_ptr<Sprite>& sprite,
+        bool trigger, int entityNum, std::string entityType );
     Collider(Collider& col);
 
 protected:
@@ -37,8 +40,14 @@ protected:
     LayerNo m_layer = LayerNo::Enemy;
     //std::shared_ptr<Entity> m_entity;
     std::shared_ptr<Transform> m_transform;
+    std::shared_ptr<Sprite> m_sprite;
+    int m_entityNum;
+    std::string m_entityType;
+
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
+    const int m_maxCollisions = 50;
+    int m_collisionCount = 0;
     std::vector<std::shared_ptr<Collider>> m_curCollisions;
     std::map<std::shared_ptr<Collider>, CollisionState> m_collisions;
 
@@ -66,13 +75,22 @@ public:
     inline LayerMask GetCollisionMask() noexcept { return m_collisionMask; };
 
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+    inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
+
+
+    inline int GetEntityNum() { return m_entityNum; };
+    inline std::string EntityType() { return m_entityType; };
+
+    Vector2f Offset();
+    Vector2f GetCenterPosition();
+    void SetTransformPosition(Vector2f position);
 
     inline Vector2f GetLastValidPosition() const noexcept { return m_lastValidPosition; }
-    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = m_transform->GetPosition(); }//
+    inline void UpdateLastValidPosition() noexcept { m_lastValidPosition = GetCenterPosition(); }//m_transform->GetPosition();} }//
 
 
 
-    inline void LogCollision(std::shared_ptr<Collider>& col) { m_curCollisions.push_back(col); }
+    void LogCollision(std::shared_ptr<Collider>& col);
 
 
     virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
@@ -84,7 +102,8 @@ public:
     virtual bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept { return false; }
 
     //Collision Resolution
-    virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {}
+    virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {};
+    virtual void Resolve() {};
 
     //Events
     //example of use td::function<void(Collider&)> f = std::bind(&Player::foo, this, std::placeholders::_1);
@@ -96,12 +115,12 @@ public:
     inline void ClearOnExitCallbacks() { m_onLeaveCallbacks.clear(); };
 
 
-    
+
     //Managing logged collisions against collider
     void ManageCollisions();
     void ProcessCollisions();
 
-    void Update();
+    virtual void Update();
 
     //Blacklist ignore specific colliders
     inline void AddToBlackList(std::shared_ptr<Collider> collider) { m_blackList.push_back(collider); };

@@ -7,7 +7,7 @@
         "tmFront": "Shop-foreground.json",
         "ui": "Credits.json"
     },
-    {
+	{
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
         "name": "Game",

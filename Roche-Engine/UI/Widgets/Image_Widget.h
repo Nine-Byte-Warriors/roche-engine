@@ -2,16 +2,13 @@
 #ifndef IMAGE_WIDGET_H
 #define IMAGE_WIDGET_H
 
-#include "Widget.h"
 #include "Transform.h"
+#include "TextRenderer.h"
 
-class Graphics;
-
-class Image_Widget : public Widget
+class Image_Widget
 {
 public:
     Image_Widget();
-    Image_Widget( const std::string& texture );
     ~Image_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
@@ -24,8 +21,8 @@ public:
 
 private:
 	std::string m_sText;
-    FontSize m_eFontSize;
 	XMVECTORF32 m_vTextColor;
+    FontSize m_eFontSize = FontSize::LARGE;
 
     std::string m_sTextFile;
     std::shared_ptr<Sprite> m_sprite;
