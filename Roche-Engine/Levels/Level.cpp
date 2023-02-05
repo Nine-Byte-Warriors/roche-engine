@@ -2,7 +2,6 @@
 #include "Level.h"
 #include "ProjectileEditor.h"
 
-
 #if _DEBUG
 extern bool g_bDebug;
 #include <imgui/imgui.h>
@@ -64,7 +63,7 @@ void Level::CreateUI()
     m_ui->RemoveAllUI();
     for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	
+
     // find the player in the entity vector
     int playerIdx = 0;
     for ( unsigned int i = 0; i < m_entity.size(); i++ )
@@ -78,10 +77,7 @@ void Level::CreateUI()
 
     m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets(), *m_entity[playerIdx].GetHealth() );
     m_ui->HideAllUI();
-
-#if !_DEBUG
-    m_ui->ShowUI( "Credits" );
-#endif
+	m_ui->ShowUI( m_uiEditor.GetScreenData()[0].name );
 }
 
 void Level::CreateTileMap()
@@ -96,7 +92,6 @@ void Level::CreateTileMap()
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
     m_tileMapLoader.LoadLevel("67x120file.json", "67x120file.json");
-
 #endif
 
     CreateTileMapDraw();
@@ -135,7 +130,7 @@ void Level::CreateTileMapDraw()
             float positionHeight = rowPositionTotalTileLength;
 
             (*tileMapDraw)[j].GetTransform()->SetPositionInit(positionWidth, positionHeight);
-            (*tileMapDraw)[j].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
+            (*tileMapDraw)[j].GetSprite()->SetWidthHeight( (float)m_iTileSize, (float)m_iTileSize );
         }
 
         m_tileMapDrawLayers.push_back(*tileMapDraw);
@@ -344,29 +339,18 @@ void Level::UpdateUI( const float dt )
         CreateUI();
         m_uiEditor.SetShouldUpdate( false );
     }
-
     m_uiEditor.Update( dt );
-    static bool firstLoadEver = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
-    {
-        m_ui->ShowAllUI();
-        firstLoadEver = false;
-    }
-    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
+    if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
         m_ui->HideAllUI();
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
-    else
-    {
-        m_ui->HideAllUI();
-    }
+    if ( m_uiEditor.ShouldShowAll() )
+        m_ui->ShowAllUI();
     if ( m_uiEditor.ShouldHideAll() )
-    {
         m_ui->HideAllUI();
-    }
 #endif
-    m_ui->Update( dt, m_uiEditor.GetWidgets() );
+    m_ui->Update( dt );
 }
 
 void Level::UpdateEntity(const float dt)
@@ -430,7 +414,6 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
-
     m_entitiesDeleted = m_entityController.m_dead;
 
 #if _DEBUG
@@ -461,7 +444,6 @@ void Level::RemoveEntities()
 #endif
 
     m_entityController.m_dead.clear();
-    
 }
 
 void Level::UpdateTileMap(const float dt)

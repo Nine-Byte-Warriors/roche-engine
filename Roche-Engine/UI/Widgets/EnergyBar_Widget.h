@@ -2,14 +2,12 @@
 #ifndef ENERGYBAR_WIDGET_H
 #define ENERGYBAR_WIDGET_H
 
-#include "Widget.h"
 #include "Transform.h"
 
-class EnergyBar_Widget : public Widget
+class EnergyBar_Widget
 {
 public:
     EnergyBar_Widget();
-    EnergyBar_Widget( const std::vector<std::string>& textures, float fraction );
     ~EnergyBar_Widget();
 
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );
@@ -34,7 +32,7 @@ private:
     std::string m_textureBar;
     std::shared_ptr<Sprite> m_spriteBar;
     std::shared_ptr<Transform> m_transformBar;
-	
+
 	// Foreground
     std::string m_textureFront;
     std::shared_ptr<Sprite> m_spriteFront;

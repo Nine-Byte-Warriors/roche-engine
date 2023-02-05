@@ -20,7 +20,7 @@ Entity::~Entity()
 void Entity::SetComponents()
 {
 	m_sprite = std::make_shared<Sprite>();
-	m_transform = std::make_shared<Transform>(m_sprite);
+	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
 	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
@@ -45,8 +45,9 @@ void Entity::SetComponents()
 
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
-		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
-		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
+		bool trigger = false;
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32, 32);
 	}
 	else
 	{
@@ -138,7 +139,7 @@ void Entity::SetScaleInit()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScaleInit(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
 	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
@@ -146,7 +147,7 @@ void Entity::SetScaleInit()
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
 		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
 		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
+			m_projectileManager->GetProjector()[i]->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 		}
 	}
 }
@@ -170,7 +171,7 @@ void Entity::UpdateScale()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScale(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
 	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
 	{
@@ -178,7 +179,7 @@ void Entity::UpdateScale()
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
 		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
 		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
+			m_projectileManager->GetProjector()[i]->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 		}
 	}
 }
