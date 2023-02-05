@@ -135,17 +135,6 @@ void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile
 		m_fTotalDuration += pProjectile->GetDelay() + pProjectile->GetMaxLifeTime();
 }
 
-void ProjectileManager::SpawnProjectile()
-{
-	m_fCounter = m_fDelay;
-	m_fDuration = m_fTotalDuration;
-
-	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
-
-	if (pProjectile != nullptr)
-		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
-}
-
 void ProjectileManager::UpdatePattern(std::string filepath)
 {
 	JsonLoading::LoadJson(m_vecManagers, filepath);
@@ -172,6 +161,17 @@ void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::Project
 	}
 
 	m_vecProjectilePool = vecProjectilePool;
+}
+
+void ProjectileManager::SpawnProjectile()
+{
+	m_fCounter = m_fDelay;
+	m_fDuration = m_fTotalDuration;
+
+	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
+
+	if (pProjectile != nullptr)
+		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
 }
 
 void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
