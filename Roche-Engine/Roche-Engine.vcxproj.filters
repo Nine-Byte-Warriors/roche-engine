@@ -617,6 +617,9 @@
     <ClInclude Include="Components\PlayerShooting.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\BaseController.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc">
@@ -718,6 +721,7 @@
     <None Include="Resources\Fonts\midnight_chalker_36.spritefont">
       <Filter>Resource Files\Fonts</Filter>
     </None>
+    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
