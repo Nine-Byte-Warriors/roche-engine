@@ -476,6 +476,7 @@
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
+    <ClInclude Include="UI\Widgets\MouseData.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
@@ -498,7 +499,10 @@
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\WidgetIncludes.h" />
     <ClInclude Include="UI\Widgets\Button_Widget.h" />
-    <ClInclude Include="UI\Widgets\ColourBlock_Widget.h" />
+    <ClInclude Include="UI\Widgets\ColourBlock_Widget.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI\Widgets\DataSlider_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -529,7 +533,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="UI\Widgets\Image_Widget.h" />
+    <ClInclude Include="UI\Widgets\Image_Widget.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI\Widgets\Input_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>

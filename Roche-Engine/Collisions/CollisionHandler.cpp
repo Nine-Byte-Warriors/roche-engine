@@ -59,10 +59,9 @@ void CollisionHandler::CollisionCheckAll()
             if (isIntersection)
             {
                 isCollision = true;
-                std::shared_ptr<Collider> collider1 = std::make_shared<Collider>(*m_colliders[i]);
-                std::shared_ptr<Collider> collider2 = std::make_shared<Collider>(*m_colliders[n]);
-                m_colliders[i]->LogCollision(collider2);
-                m_colliders[n]->LogCollision(collider1);
+
+                m_colliders[i]->LogCollision(m_colliders[n]);
+                //m_colliders[n]->LogCollision(m_colliders[i]);
 
                 m_colliders[i]->Resolution(m_colliders[n]);
             }

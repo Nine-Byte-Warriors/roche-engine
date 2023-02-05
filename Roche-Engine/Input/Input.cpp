@@ -127,6 +127,7 @@ void Input::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->AddClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::RemoveFromEvent() noexcept
@@ -135,6 +136,7 @@ void Input::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::HandleEvent( Event* event )
