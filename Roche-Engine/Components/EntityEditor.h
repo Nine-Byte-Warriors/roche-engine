@@ -69,6 +69,7 @@ private:
 	//Collider
 	void SetColliderShape();
 	void SetColliderSize();
+	void SetColliderTrigger();
 
 	//Audio
 	void SetSoundBank();

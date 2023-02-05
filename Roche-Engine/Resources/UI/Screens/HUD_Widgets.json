@@ -12,7 +12,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 8
+        "zindex": 6
     },
     {
         "action": "Bean Seed Packet",
@@ -27,7 +27,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 10
+        "zindex": 7
     },
     {
         "action": "Onion Seed Packet",
@@ -42,7 +42,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 11
+        "zindex": 8
     },
     {
         "action": "Cauliflower Seed Packet",
@@ -57,7 +57,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 12
+        "zindex": 9
     },
     {
         "action": "Potato Seed Packet",
@@ -72,7 +72,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 13
+        "zindex": 10
     },
     {
         "action": "Tomato Seed Packet",
@@ -87,7 +87,7 @@
             78.0
         ],
         "type": "Image",
-        "zindex": 14
+        "zindex": 11
     },
     {
         "action": "Carrot Background",
@@ -102,7 +102,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 2
+        "zindex": 0
     },
     {
         "action": "Bean Background",
@@ -117,7 +117,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 3
+        "zindex": 1
     },
     {
         "action": "Onion Background",
@@ -132,7 +132,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 4
+        "zindex": 2
     },
     {
         "action": "Cauliflower Background",
@@ -147,7 +147,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 5
+        "zindex": 3
     },
     {
         "action": "Potato Background",
@@ -162,7 +162,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 0
+        "zindex": 4
     },
     {
         "action": "Tomato Background",
@@ -177,7 +177,7 @@
             130.0
         ],
         "type": "Button",
-        "zindex": 1
+        "zindex": 5
     },
     {
         "action": "Score Label",
@@ -192,7 +192,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 6
+        "zindex": 12
     },
     {
         "action": "Coin Icon",
@@ -207,7 +207,7 @@
             54.0
         ],
         "type": "Image",
-        "zindex": 7
+        "zindex": 13
     },
     {
         "action": "Score",
@@ -222,7 +222,7 @@
             116.0
         ],
         "type": "Image",
-        "zindex": 3
+        "zindex": 14
     },
     {
         "action": "Coins",
@@ -237,7 +237,7 @@
             116.0
         ],
         "type": "Image",
-        "zindex": 4
+        "zindex": 15
     },
     {
         "action": "Heart_1",
@@ -252,7 +252,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 0
+        "zindex": 16
     },
     {
         "action": "Heart_2",
@@ -267,7 +267,7 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 1
+        "zindex": 17
     },
     {
         "action": "Heart_3",
@@ -282,6 +282,6 @@
             100.0
         ],
         "type": "Image",
-        "zindex": 2
+        "zindex": 18
     }
 ]

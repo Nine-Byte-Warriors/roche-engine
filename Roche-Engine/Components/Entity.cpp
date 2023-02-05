@@ -9,18 +9,18 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_agent = nullptr;
 
 	m_emitter = nullptr;
-	
+
 	m_colliderCircle = nullptr;
 	m_colliderBox = nullptr;
 
 	m_playerController = nullptr;
 	m_inventory = nullptr;
-	
+
 	m_vPosition = new Vector2f();
 
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
-	
+
 	SetComponents();
 }
 
@@ -31,7 +31,7 @@ Entity::~Entity()
 void Entity::SetComponents()
 {
 	m_sprite = std::make_shared<Sprite>();
-	m_transform = std::make_shared<Transform>(m_sprite);
+	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
 	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
@@ -49,8 +49,9 @@ void Entity::SetComponents()
 
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
-		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
-		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
+		bool trigger = m_entityController->GetColliderTrigger(m_iEntityNum);
+		m_colliderCircle = std::make_shared<CircleCollider> (m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32, 32);
 	}
 
 	if (GetType() == "Player")
@@ -82,7 +83,7 @@ void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matric
 	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
-		
+
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
 			pManager->InitialiseFromFile(gfx, mat, texture);
 	}
@@ -143,18 +144,16 @@ void Entity::SetScaleInit()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScaleInit(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
 	if (m_entityController->HasProjectileBullet(m_iEntityNum))
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-		{
-			for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
-				pProjectile->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+
+		for ( std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers )
+			for ( std::shared_ptr<Projectile> pProjectile : pManager->GetProjector() )
+				pProjectile->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 	}
 }
 
@@ -177,17 +176,15 @@ void Entity::UpdateScale()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScale(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
 	if (m_entityController->HasProjectileBullet(m_iEntityNum))
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
-		{
-			for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
-				pProjectile->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+		for ( std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers )
+			for ( std::shared_ptr<Projectile> pProjectile : pManager->GetProjector() )
+				pProjectile->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 	}
 }
 
@@ -371,3 +368,14 @@ void Entity::SetAnimation()
 		UpdateAnimation();
 	}
 }
+
+void Entity::CheckAliveStatus()
+{
+	if (m_fEntityHealth <= 0.0)
+	{
+		m_entityController->SetDead(m_iEntityNum);
+	}
+}
+
+
+

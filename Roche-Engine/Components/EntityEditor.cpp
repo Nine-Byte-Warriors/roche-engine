@@ -141,11 +141,12 @@ void EntityEditor::AddNewEntity()
 		entityData->colliderShape = "Circle";
 		entityData->colliderRadius.push_back(64.0f);
 		entityData->colliderRadius.push_back(64.0f);
+		entityData->bColliderTrigger = false;
 		entityData->projectilePattern = "None";
 		entityData->projectileBullet = "None";
 		entityData->AI = true;
 		entityData->projectileSystem = true;
-		entityData->collider = false;
+		entityData->collider = true;
 		entityData->bProjectilePattern = true;
 		entityData->bProjectileBullet = true;
 		entityData->animationPath = "None";
@@ -316,6 +317,8 @@ void EntityEditor::ColliderWidget()
 			SetColliderShape();
 			ImGui::NewLine();
 			SetColliderSize();
+			ImGui::NewLine();
+			SetColliderTrigger();
 
 			ImGui::TreePop();
 		}
@@ -758,6 +761,13 @@ void EntityEditor::SetColliderSize()
 		lable = "##Entity" + displayText + "y" + std::to_string(m_iIdentifier);
 		ImGui::DragFloat(lable.c_str(), &m_vEntityDataCopy[m_iIdentifier].colliderRadius[1], 1.0f, -m_fHeight, m_fHeight, "%.1f");
 	}
+#endif
+}
+
+void EntityEditor::SetColliderTrigger()
+{
+#if _DEBUG
+	ImGui::Checkbox("Trigger", &m_vEntityDataCopy[m_iIdentifier].bColliderTrigger);
 #endif
 }
 

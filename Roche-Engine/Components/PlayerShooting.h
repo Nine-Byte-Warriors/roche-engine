@@ -17,11 +17,11 @@ public:
 	inline void UpdateSpawnPosition(const Vector2f vPosition) noexcept { m_pEmitter->SetSpawnPosition(vPosition); }
 	void Update(float dt);
 
+private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-private:
 	std::shared_ptr<Emitter> m_pEmitter;
 	bool m_bIsShooting;
 };

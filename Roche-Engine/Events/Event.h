@@ -6,12 +6,12 @@
 enum class EVENTID
 {
 	// User Inputs
+	KeyInput,
 	CharInput,
+	MousePosition,
 	ReadCharInput,
 	ClearCharBuffer,
-	MousePosition,
 	ImGuiMousePosition,
-	KeyInput,
 
 	LeftMouseClick,
 	LeftMouseRelease,
@@ -67,6 +67,9 @@ enum class EVENTID
 	MusicTab,
 	ControlTab,
 	OpenCredits,
+
+	// DEBUG
+	RemoveHealth,
 
 	// Utility
 	WindowSizeChangeEvent,
