@@ -19,7 +19,7 @@ public:
 	void Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer );
 
 	std::shared_ptr<UIScreen> GetCustomUI( const std::string& name );
-	void AddUI( std::shared_ptr <UIScreen> newUI, const std::string& name );
+	void AddUI( const std::shared_ptr<UIScreen>& newUI, const std::string& name );
 	void RemoveUI( const std::string& name );
 	void RemoveAllUI();
 
@@ -34,7 +34,7 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
-	std::unordered_map<std::string, std::shared_ptr<UIScreen>> m_mUiList;
+	std::map<std::string, std::shared_ptr<UIScreen>> m_mUiList;
 	std::vector<std::string> m_vUiToDraw;
 	XMFLOAT2 m_vWindowSize;
 };

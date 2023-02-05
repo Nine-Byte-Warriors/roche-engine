@@ -73,16 +73,15 @@ void UIScreen::Update( const float dt )
 					m_bOpen = false;
 				}
 			}
-			else if ( m_vWidgets[i]->GetAction() == "Close" )
+			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
 				// Quit Game
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
 					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
-			else
+			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				// Default
-				m_vWidgets[i]->GetButtonWidget()->Resolve( "-PlaceHolder-", Colors::White, m_textures, m_mouseData );
+				m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_textures, m_mouseData );
 			}
 			m_vWidgets[i]->GetButtonWidget()->Update( dt );
 		}
@@ -102,13 +101,12 @@ void UIScreen::Update( const float dt )
 			{
 				// Create a slider that syncs with master volume
 			}
-			else  if ( m_vWidgets[i]->GetAction() == "Music Volume" )
+			if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
 				// Create a slider that syncs with musics volume
 			}
-			else
+			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				// Default
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
@@ -123,9 +121,8 @@ void UIScreen::Update( const float dt )
 			{
 				// Create a drop down that allows user to change resolution
 			}
-			else
+			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				// Default
 				std::vector<std::string> vValues = { "True", "False" };
 				static std::string sValue = vValues[0];
 				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
@@ -144,13 +141,12 @@ void UIScreen::Update( const float dt )
 			{
 				// Bar that displays the player's health
 			}
-			else if ( m_vWidgets[i]->GetAction() == "Enemy Health" )
+			if ( m_vWidgets[i]->GetAction() == "Enemy Health" )
 			{
 				// Bar that displays an enemy's health
 			}
-			else
+			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				// Default
 				static float health = 100.0f;
 				std::string temp = m_textures[2];
 				m_textures[2] = "";
@@ -170,18 +166,19 @@ void UIScreen::Update( const float dt )
 #pragma region INPUT
 		else if ( m_vWidgets[i]->GetType() == "Input" )
 		{
+
 			if ( m_vWidgets[i]->GetAction() == "Player Name" )
 			{
 				// Input that allows the user to enter their name
 			}
-			else
+			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				// Default
 				m_vWidgets[i]->GetInputWidget()->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			}
 			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}
 #pragma endregion
+
 #pragma region PAGE_SLIDERS
 		else if ( m_vWidgets[i]->GetType() == "Page Slider" )
 		{
@@ -219,60 +216,69 @@ void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, T
 {
 	for ( unsigned int i = 0; i < m_vWidgets.size(); i++ )
 	{
-		if ( m_vWidgets[i]->GetZIndex() == i )
+		for ( unsigned int j = 0; j < m_vWidgets.size(); j++ )
 		{
-			if ( !m_vWidgets[i]->GetIsHidden() )
+			if ( m_vWidgets[j]->GetZIndex() == i )
 			{
-				if ( m_vWidgets[i]->GetType() == "Button" )
+				if ( !m_vWidgets[j]->GetIsHidden() )
 				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetButtonWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetButtonWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
 					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Colour Block" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetColourBlockWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetColourBlockWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Data Slider" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetDataSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetDataSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Drop Down" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetDropDownWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetDropDownWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
-					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Energy Bar" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetEnergyBarWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetEnergyBarWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Image" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetImageWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetImageWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Input" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetInputWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetInputWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
-					Shaders::BindShaders( m_pContext.Get(), vtx, pix );
-					continue;
-				}
-				else if ( m_vWidgets[i]->GetType() == "Page Slider" )
-				{
-					RENDER_IF_IN_BOX( m_vWidgets[i]->GetPageSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
-						m_vWidgets[i]->GetPageSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
-					continue;
+					if ( m_vWidgets[j]->GetType() == "Button" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetButtonWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetButtonWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Colour Block" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetColourBlockWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetColourBlockWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Data Slider" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetDataSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetDataSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Drop Down" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetDropDownWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetDropDownWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer, vtx, pix ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Energy Bar" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetEnergyBarWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetEnergyBarWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Image" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetImageWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetImageWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Input" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetInputWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetInputWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho, textRenderer ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
+					else if ( m_vWidgets[j]->GetType() == "Page Slider" )
+					{
+						RENDER_IF_IN_BOX( m_vWidgets[j]->GetPageSliderWidget()->GetTransform()->GetPosition().y, m_fBoxPos.y, m_fBoxSize.y,
+							m_vWidgets[j]->GetPageSliderWidget()->Draw( m_pDevice.Get(), m_pContext.Get(), worldOrtho ) );
+						Shaders::BindShaders( m_pContext.Get(), vtx, pix );
+						break;
+					}
 				}
 			}
 		}
