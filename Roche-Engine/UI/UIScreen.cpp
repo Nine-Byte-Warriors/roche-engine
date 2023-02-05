@@ -57,8 +57,6 @@ void UIScreen::Update( const float dt )
 #pragma region BUTTONS
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_textures, m_mouseData );
-
 			static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
 			for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 			{
@@ -141,6 +139,10 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesControlTabs, m_mouseData ) )
 					EventSystem::Instance()->AddEvent( EVENTID::ControlTab );
 			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_textures, m_mouseData );
+			}
 			m_vWidgets[i]->GetButtonWidget()->Update( dt );
 		}
 #pragma endregion
@@ -157,10 +159,6 @@ void UIScreen::Update( const float dt )
 #pragma region DATA_SLIDERS
 		if ( m_vWidgets[i]->GetType() == "Data Slider" )
 		{
-			m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
-				"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-				"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-
 			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
 			{
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
@@ -179,6 +177,12 @@ void UIScreen::Update( const float dt )
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
 			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
+					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+			}
 			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
 #pragma endregion
@@ -186,14 +190,6 @@ void UIScreen::Update( const float dt )
 #pragma region DROP_DOWNS
 		if ( m_vWidgets[i]->GetType() == "Drop Down" )
 		{
-			std::vector<std::string> vValues = { "True", "False" };
-			static std::string sValue = vValues[0];
-			m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-			if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "False" )
-				sValue = "False";
-			else
-				sValue = "True";
-
 			if ( m_vWidgets[i]->GetAction() == "Resolution" )
 			{
 				// Create a drop down that allows user to change resolution
@@ -201,12 +197,23 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Language" )
 			{
 				// Create a drop down that allows user to change Language
-				vValues = { "English (UK)", "English (USA)" };
+				std::vector<std::string> vValues = { "English (UK)", "English (USA)" };
+				static std::string sValue = vValues[0];
 				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
 				if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "English (USA)" )
 					sValue = "English (USA)";
 				else
 					sValue = "English (UK)";
+			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				std::vector<std::string> vValues = { "True", "False" };
+				static std::string sValue = vValues[0];
+				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+				if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "False" )
+					sValue = "False";
+				else
+					sValue = "True";
 			}
 			m_vWidgets[i]->GetDropDownWidget()->Update( dt );
 		}
@@ -215,12 +222,6 @@ void UIScreen::Update( const float dt )
 #pragma region ENERGY_BARS
 		if ( m_vWidgets[i]->GetType() == "Energy Bar" )
 		{
-			static float health = 100.0f;
-			std::string temp = m_textures[2];
-			m_textures[2] = "";
-			m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, health );
-			m_textures[2] = temp;
-
 			if ( m_vWidgets[i]->GetAction() == "Player Health" )
 			{
 				// Bar that displays the player's health
@@ -229,6 +230,14 @@ void UIScreen::Update( const float dt )
 			{
 				// Bar that displays an enemy's health
 			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				static float health = 100.0f;
+				std::string temp = m_textures[2];
+				m_textures[2] = "";
+				m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, health );
+				m_textures[2] = temp;
+			}
 			m_vWidgets[i]->GetEnergyBarWidget()->Update( dt );
 		}
 #pragma endregion
@@ -236,8 +245,6 @@ void UIScreen::Update( const float dt )
 #pragma region IMAGES
 		if ( m_vWidgets[i]->GetType() == "Image" )
 		{
-			m_vWidgets[i]->GetImageWidget()->Resolve( "", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png" );
-
 			if ( m_vWidgets[i]->GetAction() == "Master volume label" )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
@@ -402,6 +409,10 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Coin\\Coin.png" );
 			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve( "", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png" );
+			}
 			m_vWidgets[i]->GetImageWidget()->Update( dt );
 		}
 #pragma endregion
@@ -409,10 +420,13 @@ void UIScreen::Update( const float dt )
 #pragma region INPUT
 		if ( m_vWidgets[i]->GetType() == "Input" )
 		{
-			m_vWidgets[i]->GetInputWidget()->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			if ( m_vWidgets[i]->GetAction() == "Player Name" )
 			{
 				// Input that allows the user to enter their name
+			}
+			if ( m_vWidgets[i]->GetAction() == "" )
+			{
+				m_vWidgets[i]->GetInputWidget()->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			}
 			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}

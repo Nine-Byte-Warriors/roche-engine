@@ -140,11 +140,19 @@ void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
         }
         case ColliderType::Circle:
         {
+            auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
+            CircleCollider circle = *circlePtr;
+            Vector2f shiftedX = Vector2f(m_lastValidPosition.x, closestPoint.y);
+            Vector2f shiftedY = Vector2f(closestPoint.x, m_lastValidPosition.y);
+            changeXValue = !circle.ToPoint(shiftedX);
+            changeYValue = !circle.ToPoint(shiftedY);
+        //----------------------------------------------------------------------
             //Vector2f closestPoint = ClosestPoint(GetCenterPosition());
 
             //auto circlePtr = std::dynamic_pointer_cast<CircleCollider>(collider);
             //CircleCollider circle = *circlePtr;
 
+            //circle
             //m_height = m_height + circle.GetRadius() ;
             //m_width = m_width + circle.GetRadius();
 

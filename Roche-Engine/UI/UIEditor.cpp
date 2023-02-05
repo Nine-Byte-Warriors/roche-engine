@@ -14,9 +14,9 @@
 #define FOLDER_PATH "Resources\\UI\\"
 #define FOLDER_PATH_SCREENS "Resources\\UI\\Screens\\"
 
-UIEditor::UIEditor() { }
+UIEditor::UIEditor() {}
 
-UIEditor::~UIEditor() { }
+UIEditor::~UIEditor() {}
 
 void UIEditor::SetJsonFile( const std::string& name )
 {
@@ -236,12 +236,12 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				ImGui::TextColored( highlightCol, m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
 				{
-					std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+					std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog( foLoad )
 						->UseOpenDialog()
 						->ShowDialog()
 						->StoreDialogResult();
 
-					if (foLoad->HasPath())
+					if ( foLoad->HasPath() )
 					{
 						m_vUIScreenData[m_iCurrentScreenIdx].file = foLoad->GetFilePath();
 						m_vUIScreenData[m_iCurrentScreenIdx].name = foLoad->m_sFile;
