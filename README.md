@@ -3,6 +3,8 @@
 [![MSBuild-Debug](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/msbuild-debug.yml/badge.svg)](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/msbuild-debug.yml)
 &nbsp;
 [![MSBuild-Release](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/msbuild-release.yml/badge.svg)](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/msbuild-release.yml)
+&nbsp;
+[![CodeQL](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/codeql.yml/badge.svg)](https://github.com/Nine-Byte-Warriors/midnight-harvest/actions/workflows/codeql.yml)
 
 This is the repository of the game, Midnight Harvest. This repository is cloned from the Roche engine branch and continually receives updates to improve the use of the editor and to ensure tools are easier to use, and bugs are fixed.
 
