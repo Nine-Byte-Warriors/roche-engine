@@ -1,6 +1,19 @@
 #include "stdafx.h"
 #include "Collider.h"
 
+Collider::Collider(
+    const std::shared_ptr<Transform>& transform,
+    const std::shared_ptr<Sprite>& sprite,
+    bool trigger, int entityNum, std::string entityType)
+{
+    m_transform = transform;
+    m_sprite = sprite;
+    m_isTrigger = trigger;
+
+    m_entityNum = entityNum;
+    m_entityType = entityType;
+}
+
 Collider::Collider(Collider& col)
 {
     m_collisionMask = col.m_collisionMask;
@@ -10,6 +23,10 @@ Collider::Collider(Collider& col)
     m_lastValidPosition = col.m_lastValidPosition;
     m_layer = col.m_layer;
     m_transform = col.m_transform;
+    m_sprite = col.m_sprite;
+    m_entityNum = col.m_entityNum;
+    m_entityType = col.m_entityType;
+
     m_type = col.m_type;
     m_blackList = col.m_blackList;
 }
@@ -49,6 +66,31 @@ void Collider::RemoveDuplicateElements(std::vector<T>& vec)
     }
 }
 
+
+Vector2f Collider::Offset()
+{
+    return m_sprite->GetWidthHeight() / 2.0f;
+}
+
+Vector2f Collider::GetCenterPosition()
+{
+    Vector2f center = m_transform->GetPosition() + Offset();
+    return center;
+};
+
+void Collider::SetTransformPosition(Vector2f position)
+{
+    m_transform->SetPosition(position - Offset());
+}
+
+void Collider::LogCollision(std::shared_ptr<Collider>& col)
+{
+    if (m_collisionCount < m_maxCollisions)
+    {
+         m_curCollisions.push_back(col);
+         m_collisionCount++;
+    }
+}
 
 void Collider::OnEnter(Collider& col)
 {
@@ -104,25 +146,57 @@ void Collider::ProcessCollisions()
     if ( m_collisions.size() == 0 )
         return;
 
-    //Run functions
-    for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_collisions.begin(); itr != m_collisions.end(); )
+    ////Run functions
+    //for ( std::map<std::shared_ptr<Collider>, CollisionState>::iterator itr = m_collisions.begin(); itr != m_collisions.end(); ++itr)
+    //{
+    //    if ( itr->first )
+    //    {
+    //        switch ( itr->second )
+    //        {
+    //        case CollisionState::Entering:
+    //            OnEnter(*itr->first);
+    //            ++itr;
+    //            break;
+    //        case CollisionState::Leaving:
+    //            OnLeave(*itr->first);
+    //            if ( m_collisions.size() == 1 )
+    //                return;
+    //            itr = m_collisions.erase( itr );
+    //            break;
+    //        }
+    //    }
+    //}
+    std::map<std::shared_ptr<Collider>, CollisionState>::iterator it;
+    std::vector<  std::map<std::shared_ptr<Collider>, CollisionState>::iterator  > leavingColliders;
+    //Fire Events and remove objects not in collider
+    for (  it = m_collisions.begin(); it != m_collisions.end(); ++it)
     {
-        if ( itr->first )
+        if (it->first )
         {
-            switch ( itr->second )
+            switch (it->second )
             {
             case CollisionState::Entering:
-                OnEnter(*itr->first);
-                ++itr;
-                break;
-            case CollisionState::Leaving:
-                OnLeave(*itr->first);
-                if ( m_collisions.size() == 1 )
-                    return;
-                itr = m_collisions.erase( itr );
+            {
+                OnEnter(*it->first);
                 break;
             }
+            case CollisionState::Staying:
+                break;
+            case CollisionState::Leaving:
+            {
+                OnLeave(*it->first);
+                //if ( m_collisions.size() == 1 )
+                //    return;
+                leavingColliders.push_back(it);
+                break;
+            }
+            }
         }
+    }
+    for (auto element: leavingColliders)
+    {
+        m_collisions.erase( element );
+        m_collisionCount--;
     }
 }
 

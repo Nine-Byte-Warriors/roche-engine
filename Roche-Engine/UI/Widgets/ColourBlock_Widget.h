@@ -2,14 +2,12 @@
 #ifndef COLOURBLOCK_WIDGET_H
 #define COLOURBLOCK_WIDGET_H
 
-#include "Widget.h"
 #include "Transform.h"
 
-class ColourBlock_Widget : public Widget
+class ColourBlock_Widget
 {
 public:
     ColourBlock_Widget();
-    ColourBlock_Widget( Colour colour );
     ~ColourBlock_Widget();
 
     void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

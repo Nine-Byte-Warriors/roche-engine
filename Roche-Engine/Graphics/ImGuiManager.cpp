@@ -152,8 +152,9 @@ void ImGuiManager::SpawnInfoWindow() noexcept
 {
     if ( ImGui::Begin( "Info" ) )
     {
+		ImGui::Text( "Framerate: %.1f FPS", ImGui::GetIO().Framerate );
 	    ImGui::Text( "Roche Engine" );
-	    ImGui::Text( "Version: 0.1.0" );
+	    ImGui::Text( "Version: 1.0" );
 	    ImGui::Text( "Author: Nine Byte Warriors" );
         ImGui::Text( "Github: https://github.com/Nine-Byte-Warriors" );
     }

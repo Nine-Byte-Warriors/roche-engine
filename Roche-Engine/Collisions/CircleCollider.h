@@ -2,14 +2,16 @@
 #ifndef CIRCLECOLLIDER_H
 #define CIRCLECOLLIDER_H
 
-//#include "Colliders.h"
 #include "Collision.h"
 
 class CircleCollider : public Collider
 {
 public:
     CircleCollider() { m_type = ColliderType::Circle; };
-    CircleCollider(std::shared_ptr<Transform> transform, float radius) : m_radius(radius) { m_transform = transform; m_type = ColliderType::Circle; }
+    CircleCollider(
+        const std::shared_ptr<Transform>& transform,
+        const std::shared_ptr<Sprite>& sprite,
+        bool trigger, int entityNum, std::string entityType, float radius);
 
 private:
     float m_radius = 0;
