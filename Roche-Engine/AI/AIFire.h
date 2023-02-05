@@ -15,7 +15,7 @@ namespace AILogic
 			AIState(pAgent), 
 			m_pEmitter(nullptr),
 			m_fSensingRange(100.0f),
-			m_fFireRate(2.0f),
+			m_fFireRate(1.0f),
 			m_fFireTimer(0.0f)
 		{};
 		virtual ~AIFire() = default;
