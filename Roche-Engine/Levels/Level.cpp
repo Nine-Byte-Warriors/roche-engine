@@ -404,12 +404,7 @@ void Level::AddNewEntity()
         }
     }
 
-#if _DEBUG
-    //m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_iEntityAmount = m_entityController.GetSize();
-#else
-    m_iEntityAmount = m_entityController.GetSize();
-#endif
     m_entityController.UpdateCopy();
 }
 
