@@ -182,7 +182,7 @@ void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime
 	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
 
 	if(pProjectile != nullptr)
-		pProjectile->SpawnProjectile(vSpawnPosition, m_fLifeTime);
+		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, m_fLifeTime);
 }
 
 void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
@@ -192,7 +192,7 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 	m_vSpawnPosition = vSpawnPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
+		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, -1.0f);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()

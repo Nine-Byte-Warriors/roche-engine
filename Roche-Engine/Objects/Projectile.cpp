@@ -82,7 +82,7 @@ void Projectile::Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)
 
 void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime)
 {
-	m_fLifeTime = fLifeTime;
+	m_fLifeTime = fLifeTime <= 0.0f ? m_fMaxLifeTime : fLifeTime;
 	
 	m_vDirection = vSpawnPosition
 		.DirectionTo(vTargetPosition)
