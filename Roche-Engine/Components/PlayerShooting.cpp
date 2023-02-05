@@ -8,7 +8,7 @@ void PlayerShooting::Update(float dt)
 	{
 		m_pEmitter->EmitProjectile();
 
-		// TODO : alter disabling of shooting dependant on the type oshooting behaviour required.
+		// TODO : alter disabling of shooting dependent on the type of shooting behaviour required
 		m_bIsShooting = false;
 	}
 }
@@ -29,7 +29,7 @@ void PlayerShooting::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::LeftMouseRelease, this);
 }
 
-void PlayerShooting::HandleEvent(Event* event) 
+void PlayerShooting::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
