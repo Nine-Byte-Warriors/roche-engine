@@ -43,6 +43,7 @@ void Level::CreateEntity()
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
     }
 
@@ -182,7 +183,8 @@ void Level::RenderFrameEntity()
 
         if (m_entityController.HasProjectileBullet(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+                pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 }
@@ -388,6 +390,7 @@ void Level::AddNewEntity()
         Entity* entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
 
         if (m_entityController.HasCollider(i))
@@ -400,7 +403,8 @@ void Level::AddNewEntity()
 
         if (m_entityController.HasProjectileSystem(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 
@@ -427,7 +431,7 @@ void Level::RemoveEntities()
     for (int i = 0; i < m_entity.size(); i++)
     {
         m_entity[i].UpdateEntityNum(i);
-        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
+        //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());

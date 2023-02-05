@@ -88,6 +88,9 @@ public:
 
 	bool HasProjectileBullet(int num);
 	bool HasProjectilePattern(int num);
+	inline const std::string GetProjectilePattern(const int iEntityNum) { return m_entityData[iEntityNum].projectilePattern; }
+	inline void SetProjectilePattern(const int iEntityNum, const std::string sPatternFile) { m_entityData[iEntityNum].projectilePattern = sPatternFile; }
+
 
 	bool HasAudio(int num);
 

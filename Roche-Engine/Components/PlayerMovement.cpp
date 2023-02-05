@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PlayerMovement.h"
 
-PlayerMovement::PlayerMovement(std::shared_ptr<Physics> physics, std::shared_ptr<Sprite> sprite, float speed)
+PlayerMovement::PlayerMovement(const std::shared_ptr<Physics>& physics, const std::shared_ptr<Sprite>& sprite, float speed)
 {
 	m_physics = physics;
 	m_sprite = sprite;

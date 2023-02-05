@@ -40,7 +40,7 @@ private:
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	
-	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManager;
+	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManagers;
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 	std::vector<ProjectileData::ProjectileJSON> m_vecProjectiles;
 

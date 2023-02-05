@@ -6,11 +6,17 @@
 #include "EventSystem.h"
 #include "ProjectileData.h"
 
+#define PATTERN_FOLDER_PATH "Resources\\Patterns\\"
+#define INITIAL_POOL_COUNT 10
+
 class ProjectileManager : public Listener
 {
 public:
 	ProjectileManager();
 	~ProjectileManager();
+
+	static std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed);
+	static std::vector<std::shared_ptr<ProjectileManager>> GenerateManagers(const std::string filepath);
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename);
@@ -20,6 +26,8 @@ public:
 
 	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
+	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept 
+		{ m_vTargetPosition = vTargetPosition; }
 
 	void UpdatePattern(std::string filepath);
 
