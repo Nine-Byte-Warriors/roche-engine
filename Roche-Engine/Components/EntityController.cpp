@@ -110,6 +110,11 @@ std::vector<float> EntityController::GetColliderRadius(int num)
 	return m_entityData[num].colliderRadius;
 }
 
+bool EntityController::GetColliderTrigger(int num)
+{
+	return m_entityData[num].bColliderTrigger;
+}
+
 EntityData* EntityController::GetProjectileBullet(int num)
 {
 	for (int i = 0; i < m_entityData.size(); i++)

@@ -21,6 +21,7 @@ struct EntityData
 	std::string behaviour;
 	std::string colliderShape;
 	std::vector<float> colliderRadius;
+	bool bColliderTrigger;
 	std::string projectilePattern;
 	std::string projectileBullet;
 	bool AI;
@@ -37,7 +38,7 @@ struct EntityData
 	std::string soundBankName;
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, rotation, health, identifier,
-	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, projectilePattern, projectileBullet,
+	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, bColliderTrigger, projectilePattern, projectileBullet,
 	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
 	animation, rows, columns, audio, soundBankName)
 
@@ -71,6 +72,7 @@ public:
 
 	std::string GetColliderShape(int num);
 	std::vector<float> GetColliderRadius(int num);
+	bool GetColliderTrigger(int num);
 
 	EntityData* GetProjectileBullet(int num);
 

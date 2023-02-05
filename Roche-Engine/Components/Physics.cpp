@@ -15,7 +15,7 @@ void Physics::Update(const float dt)
 	Friction(dt);
 	Velocity();
 	Acceleration();
-	Drag();
+	//Drag();
 	ComputePosition();
 	m_vNetForce = { 0.0f, 0.0f };
 }
