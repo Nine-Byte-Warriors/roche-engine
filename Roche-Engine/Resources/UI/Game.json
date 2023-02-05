@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "file": "HUD_Night.json",
         "name": "HUD_Night"
     },
@@ -7,12 +8,25 @@
         "file": "HUD_Widgets.json",
         "name": "HUD_Widgets"
     },
+=======
+        "file": "HUD_Widgets.json",
+        "name": "HUD_Day"
+    },
+    {
+        "file": "HUD_Night.json",
+        "name": "HUD_Night"
+    },
+>>>>>>> parent of 57cadc9 (Creating new screens)
     {
         "file": "Pause_Widgets.json",
         "name": "Pause_Widgets"
     },
     {
         "file": "Settings_Widgets.json",
+<<<<<<< HEAD
         "name": "Settings_Widgets"
+=======
+        "name": "Settings"
+>>>>>>> parent of 57cadc9 (Creating new screens)
     }
 ]
