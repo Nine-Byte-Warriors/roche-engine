@@ -2,14 +2,13 @@
 #ifndef DATASLIDER_WIDGET_H
 #define DATASLIDER_WIDGET_H
 
-#include "Widget.h"
+#include "MouseData.h"
 #include "Transform.h"
 
-class DataSlider_Widget : public Widget
+class DataSlider_Widget
 {
 public:
 	DataSlider_Widget();
-	DataSlider_Widget( int start, const std::string& barTex, const std::string& sliderTex, MouseData& mData );
 	~DataSlider_Widget();
 
 	void Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat );

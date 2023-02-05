@@ -34,7 +34,6 @@ public:
 	void SetJsonFile( const std::string& name );
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
-	void SortScreens();
 
 #if _DEBUG
 	void SaveToFile_Screens();
@@ -55,10 +54,14 @@ public:
 	inline const std::vector<UIScreenData>& GetScreenData() const noexcept { return m_vUIScreenData; }
 	inline const std::map<std::string, std::vector<UIWidgetData>>& GetWidgetData() const noexcept { return m_vUIWidgetData; }
 
-	inline const std::vector<std::vector<Widget>>& GetWidgets() const noexcept { return m_vUIWidgets; }
+	inline const std::vector<std::vector<std::shared_ptr<Widget>>>& GetWidgets() const noexcept { return m_vUIWidgets; }
 	inline const std::vector<std::shared_ptr<UIScreen>>& GetScreens() const noexcept { return m_vUIScreens; }
 
 private:
+	void SortScreens();
+	void CreateScreens();
+	void CreateWidgets();
+
 	std::string m_sFilePath;
 	std::string m_sFileContent;
 	std::string m_sSelectedFile;
@@ -76,7 +79,7 @@ private:
 		"Input", "Page Slider"
 	};
 
-	std::vector<std::vector<Widget>> m_vUIWidgets; // list of widgets per screen
+	std::vector<std::vector<std::shared_ptr<Widget>>> m_vUIWidgets; // list of widgets per screen
 	std::vector<std::shared_ptr<UIScreen>> m_vUIScreens; // list of UI screen objects
 
 	std::vector<UIScreenData> m_vUIScreenData; // list of UI screen data

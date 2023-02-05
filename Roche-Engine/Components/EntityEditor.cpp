@@ -145,7 +145,7 @@ void EntityEditor::AddNewEntity()
 		entityData->projectileBullet = "None";
 		entityData->AI = true;
 		entityData->projectileSystem = true;
-		entityData->collider = false;
+		entityData->collider = true;
 		entityData->bProjectilePattern = true;
 		entityData->bProjectileBullet = true;
 		entityData->animationPath = "None";
