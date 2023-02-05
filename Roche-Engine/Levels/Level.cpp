@@ -500,7 +500,7 @@ void Level::UpdateTileMapPlanting(const float dt)
     {
         int seed = m_entity[player].GetInventory()->GetActiveSeedPacket();
         bool isPlayerNearTheMouse = m_tileMapPaintOnMap.IsNearTheMouse(m_entity[player].GetTransform()->GetPosition(),
-            m_entity[player].GetTransform()->GetScale() / 2, radius);
+            m_entity[player].GetSprite()->GetWidthHeight() / 2, radius);
 
         if (isPlayerNearTheMouse)
         {
@@ -508,9 +508,9 @@ void Level::UpdateTileMapPlanting(const float dt)
 
             int spawnPos = m_tileMapPaintOnMap.GetTileMapPos();
 
-            bool isTilePlantable = 
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" && 
-                !m_entitySpawner.IsEntityPosTaken(spawnPos) && 
+            bool isTilePlantable =
+                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
+                !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
                 m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot";
 
             if (isTilePlantable)
@@ -519,7 +519,7 @@ void Level::UpdateTileMapPlanting(const float dt)
                 m_tileMapDrawLayers[drawLayer][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
 
                 Vector2f spawnMapPos = m_tileMapPaintOnMap.GetMapPos(m_entity[player].GetTransform()->GetPosition(),
-                    m_entity[seed].GetTransform()->GetScale() / 2);
+                    m_entity[seed].GetSprite()->GetWidthHeight() / 2);
                 m_entitySpawner.AddEntityToSpawn(seed, spawnPos, spawnMapPos);
             }
         }
