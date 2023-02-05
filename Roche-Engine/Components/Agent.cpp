@@ -60,6 +60,11 @@ Agent::Agent( const std::shared_ptr<Physics>& physics ) : m_physics( physics )
 	pWanderState->SetParams(pWanderParams);
 	m_mapStates.emplace(AIStateTypes::Wander, pWanderState);
 
+	AIState* pFireState = m_pStateMachine->NewState(AIStateTypes::Fire);
+	pFireState->SetBounds(1.0f, 0.0f);
+	pFireState->SetActivation(0.0f);
+	m_mapStates.emplace(AIStateTypes::Fire, pFireState);
+	
 	AddToEvent();
 }
 
@@ -79,7 +84,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 		ImGui::Text("Behaviour");
 		static int activeBehaviour = 0;
 		static std::string previewValueBehaviour = "Idle";
-		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander" };
+		static const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander", "Fire" };
 		if (ImGui::BeginCombo("##Active Behaviour", previewValueBehaviour.c_str()))
 		{
 			for (uint32_t i = 0; i < IM_ARRAYSIZE(behaviourList); i++)
@@ -101,6 +106,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 				break;
 			case 1:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -109,6 +115,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 				break;
 			case 2:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -117,6 +124,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 				break;
 			case 3:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -125,6 +133,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 				break;
 			case 4:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -133,6 +142,7 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(1.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 				break;
 			case 5:
 				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
@@ -141,6 +151,16 @@ void Agent::SpawnControlWindow(Vector2f fGO, Vector2f fTarg) noexcept
 				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(1.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
+				break;
+			case 6:
+				m_mapStates.find(AIStateTypes::Idle)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Seek)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Flee)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+				m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(1.0f);
 				break;
 			}
 
@@ -222,6 +242,7 @@ void Agent::ResetBehaviour()
 	m_mapStates.find(AIStateTypes::Patrol)->second->SetActivation(0.0f);
 	m_mapStates.find(AIStateTypes::Follow)->second->SetActivation(0.0f);
 	m_mapStates.find(AIStateTypes::Wander)->second->SetActivation(0.0f);
+	m_mapStates.find(AIStateTypes::Fire)->second->SetActivation(0.0f);
 }
 
 void Agent::AddToEvent() noexcept

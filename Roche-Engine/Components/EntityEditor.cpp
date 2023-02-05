@@ -608,7 +608,7 @@ void EntityEditor::SetBehaviour()
 
 	static int activeBehaviour = 0;
 	std::string previewEntityBehaviour = m_vEntityDataCopy[m_iIdentifier].behaviour;
-	const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander" };
+	const char* behaviourList[]{ "Idle", "Seek", "Flee", "Patrol", "Follow", "Wander", "Fire" };
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewEntityBehaviour.c_str()))

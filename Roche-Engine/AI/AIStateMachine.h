@@ -14,6 +14,7 @@ namespace AILogic
 		Patrol = 3,
 		Follow = 4,
 		Wander = 5,
+		Fire = 6,
 	};
 	
 	class AIStateMachine : public AIState

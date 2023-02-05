@@ -64,6 +64,7 @@ void Entity::SetComponents()
 	if (GetType() == "Enemy")
 	{
 		m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
+		m_agent->SetEmitter(m_emitter);
 	}
 }
 
