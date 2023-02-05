@@ -43,7 +43,6 @@ public:
 	inline Bind::RenderTarget* GetRenderTarget() const noexcept { return &*m_pRenderTarget; }
 	inline Bind::RenderTarget* GetRenderTargetPP() const noexcept { return &*m_pRenderTargetPP; }
 
-
 private:
 	void InitializeDirectX( HWND hWnd, bool resizingWindow );
 	bool InitializeShaders();
@@ -57,7 +56,7 @@ private:
 	Quad m_quad;
 	UINT m_viewWidth;
 	UINT m_viewHeight;
-	float m_clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	float m_clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 	ConstantBuffer<RenderToTexture> m_cbPostProcessing;
 	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
