@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 #include "Graphics.h"
+#include <EnemyController.h>
 
 #define PI 3.1415
 
@@ -13,7 +14,7 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_colliderCircle = nullptr;
 	m_colliderBox = nullptr;
 
-	m_playerController = nullptr;
+	m_pController = nullptr;
 	m_inventory = nullptr;
 
 	m_vPosition = new Vector2f();
@@ -53,11 +54,16 @@ void Entity::SetComponents()
 		m_colliderCircle = std::make_shared<CircleCollider> (m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32);
 		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32, 32);
 	}
-
+	
 	if (GetType() == "Player")
 	{
-		m_playerController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
+		m_pController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
+	}
+
+	if (GetType() == "Enemy")
+	{
+		m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
 	}
 }
 
@@ -105,8 +111,8 @@ void Entity::Update(const float dt)
 		m_emitter->Update(dt);
 	}
 
-	if (m_playerController)
-		m_playerController->Update(dt);
+	if (m_pController)
+		m_pController->Update(dt);
 }
 
 std::string Entity::GetType()
