@@ -1,12 +1,22 @@
 [
     {
         "audioType": 0,
-        "filePath": "Resources\\Audio\\bullettest.wav",
-        "name": "bullettest",
+        "filePath": "Resources\\Audio\\mouseclick.wav",
+        "name": "mouseclick",
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
-        "tagName": "ButtonPress",
-        "volume": 1.0
+        "tagName": "Click",
+        "volume": 0.1509999930858612
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\itemequip.wav",
+        "name": "itemequip",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "Equip",
+        "volume": 0.48399999737739563
     }
 ]
