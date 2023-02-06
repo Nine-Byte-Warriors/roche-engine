@@ -44,6 +44,18 @@ void TileMapLoader::LoadLevel(std::string filePathBackground, std::string filePa
 	m_sTileTypeData = m_tileMapBackground->GetTileTypeData();
 }
 
+void TileMapLoader::UpdateTileType(int tileMapLayer, int pos, std::string type)
+{
+	if (tileMapLayer == 0)
+	{
+		m_tileMapBackground->UpdateTileFromName(pos, type);
+	}
+	else if (tileMapLayer == 1)
+	{
+		m_tileMapForeground->UpdateTileFromName(pos, type);
+	}
+}
+
 std::string TileMapLoader::GetTileTypeName(int tileMapLayer, int pos)
 {
 	if (tileMapLayer == 0)

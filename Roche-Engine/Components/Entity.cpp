@@ -66,6 +66,11 @@ void Entity::SetComponents()
 		m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
 		m_agent->SetEmitter(m_emitter);
 	}
+
+	if (GetType() == "Item")
+	{
+		m_shopItem = std::make_shared<ShopItem>(GetCollider(), m_entityController->GetName(m_iEntityNum));
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -109,7 +114,6 @@ void Entity::Update(const float dt)
 	{
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
 			pManager->Update(dt);
-		m_emitter->Update(dt);
 	}
 
 	if (m_pController)
@@ -313,8 +317,10 @@ void Entity::UpdateBehaviour()
 	}
 }
 
-void Entity::UpdateProjectilePattern() //TODO
+void Entity::UpdateProjectilePattern()
 {
+	
+	//TODO
 	//if (m_entityType != EntityType::Projectile)
 	//{
 	//	m_sBulletPattern = m_entityController->GetProjectileBullet(m_iEntityNum)->projectilePattern;

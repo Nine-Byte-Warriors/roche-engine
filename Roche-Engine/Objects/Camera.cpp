@@ -114,6 +114,16 @@ void Camera::HandleEvent(Event* event)
 			Sprite* charSprite = charSpriteandPos->first;
 			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth(), charSpriteandPos->second->y + charSprite->GetHeight());
 
+			if (m_vPosition.x >= m_vSizeOfScreen.x)
+				m_vPosition.x = m_vSizeOfScreen.x;
+			if (m_vPosition.x <= 0)
+				m_vPosition.x = 0;
+
+			if (m_vPosition.y >= m_vSizeOfScreen.y)
+				m_vPosition.y = m_vSizeOfScreen.y;
+			if (m_vPosition.y <= 0)
+				m_vPosition.y = 0;
+
 			m_mWorldMatrix = XMMatrixTranslation(
 				-(m_vPosition.x - m_vSizeOfScreen.x / 2.0f),
 				-(m_vPosition.y - m_vSizeOfScreen.y / 2.0f), 0.0f);

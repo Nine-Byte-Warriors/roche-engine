@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "TileMapPaintOnMap.h"
 
+#if _DEBUG
+extern bool g_bDebug;
+#endif
+
 #define FOLDER_PATH "Resources\\TileMaps\\"
 
 TileMapPaintOnMap::TileMapPaintOnMap()
@@ -40,6 +44,28 @@ bool TileMapPaintOnMap::IsLeftMouseDown()
 		return m_bLeftMouseDown;
 	}
 	return false;
+}
+
+bool TileMapPaintOnMap::IsNearTheMouse(Vector2f pos, Vector2f offSet, float radius)
+{
+	Vector2f mouseLocation = Vector2f(m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_fMousePos.x,
+		m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_fMousePos.y);
+	float distance = mouseLocation.Distance(pos + offSet);
+
+	if (distance <= radius)
+	{
+		return true;
+	}
+	return false;
+}
+
+Vector2f TileMapPaintOnMap::GetMapPos(Vector2f pos, Vector2f offSet)
+{
+	Vector2f mouseLocation = Vector2f(m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_fMousePos.x,
+		m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_fMousePos.y);
+	mouseLocation -= offSet;
+
+	return mouseLocation;
 }
 
 int TileMapPaintOnMap::GetPositionAtCoordinates(int x, int y)
