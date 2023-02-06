@@ -46,11 +46,12 @@ private:
 	std::vector<LevelData> m_vLevelData;
 	std::string m_sJsonFile = "Levels.json";
 
-	int m_iCurrLevelId = -1;
+	std::string m_sCurrentLevelName = "Menu";
 	int m_iActiveLevelIdx = 0;
 	bool m_bFirstLoad = false;
 	LevelStateMachine m_stateMachine;
-	std::vector<uint32_t> m_uLevel_IDs;
+	std::vector<std::string> m_sLevelNames;
+	//std::vector<uint32_t> m_uLevel_IDs;
 	std::vector<std::shared_ptr<Level>> m_pLevels;
 
 	// Objects

@@ -53,7 +53,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         // Create levels
         for ( unsigned int i = 0; i < m_vLevelData.size(); i++ )
         {
-            std::shared_ptr<Level> level = std::make_shared<Level>( m_vLevelData[i].name, m_iCurrLevelId );
+            std::shared_ptr<Level> level = std::make_shared<Level>( m_vLevelData[i].name );
 #if _DEBUG
             level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
             level->SetAudioJson( m_vLevelData[i].audio );
@@ -67,10 +67,10 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
-            m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
+            //m_sLevelNames.push_back( m_stateMachine.Add( m_pLevels[i] ));
         }
-        m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
-        m_iCurrLevelId = 0;
+        m_stateMachine.SwitchTo( "Menu" );
+        m_sCurrentLevelName = "Menu";
     }
     catch ( COMException& exception )
 	{
@@ -213,7 +213,7 @@ void Application::Render()
 	        {
 		        static int levelIdx = 0;
 		        std::string levelName = "New Level " + std::to_string( levelIdx );
-		        m_pLevels.push_back( std::make_shared<Level>( levelName, m_iCurrLevelId ) );
+		        m_pLevels.push_back( std::make_shared<Level>( levelName ) );
                 m_pLevels[m_iCurrLevelId]->Initialize( &m_graphics, &m_uiManager, &m_imgui );
                 m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[m_iCurrLevelId] ) );
 	        }
