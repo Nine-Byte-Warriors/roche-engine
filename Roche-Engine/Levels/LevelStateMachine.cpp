@@ -81,7 +81,6 @@ void LevelStateMachine::HandleEvent( Event* event )
 		case EVENTID::GameLevelChangeEvent:
 		{
 			SwitchTo( *static_cast<int*>( event->GetData() ) );
-			delete event->GetData(); // is it valid?
 		}
 		break;
 	}

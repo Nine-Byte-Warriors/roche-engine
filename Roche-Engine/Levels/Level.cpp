@@ -509,10 +509,13 @@ void Level::UpdateTileMapPlanting(const float dt)
 
             int spawnPos = m_tileMapPaintOnMap.GetTileMapPos();
 
+                m_entity[player].GetInventory()->GetActiveSeedPacketCount();
+
             bool isTilePlantable =
                 m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
                 !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot";
+                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
+                m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
             if (isTilePlantable)
             {
@@ -522,6 +525,11 @@ void Level::UpdateTileMapPlanting(const float dt)
                 Vector2f spawnMapPos = m_tileMapPaintOnMap.GetMapPos(m_entity[player].GetTransform()->GetPosition(),
                     m_entity[seed].GetSprite()->GetWidthHeight() / 2);
                 m_entitySpawner.AddEntityToSpawn(seed, spawnPos, spawnMapPos);
+
+                std::pair<std::string, int>* seedattempt = new std::pair<std::string, int>();
+                seedattempt->first = m_entity[player].GetInventory()->GetName();
+                seedattempt->second = 1;
+                EventSystem::Instance()->AddEvent(EVENTID::PlantSeedAttempt, seedattempt);
             }
         }
     }
