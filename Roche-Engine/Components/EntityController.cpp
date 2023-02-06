@@ -140,6 +140,14 @@ void EntityController::SetEntityData(std::vector<EntityData> entityData)
 	m_entityData = entityData;
 }
 
+void EntityController::AddEntityData(std::vector<EntityData> entityData)
+{
+	for (int i = 0; i < entityData.size(); i++)
+	{
+		m_entityData.push_back(entityData[i]);
+	}
+}
+
 bool EntityController::HasAI(int num)
 {
 	return m_entityData[num].AI;

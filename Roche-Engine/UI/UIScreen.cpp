@@ -127,7 +127,7 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Graphics" )
 			{
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGraphicsTabs, m_mouseData ) )
-					EventSystem::Instance()->AddEvent( EVENTID::GrahpicsTab );
+					EventSystem::Instance()->AddEvent( EVENTID::GraphicsTab );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music" )
 			{
@@ -312,7 +312,7 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Credit2" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Jukiusz Jaczmarek", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Juliusz Kaczmarek", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Credit3" )
 			{

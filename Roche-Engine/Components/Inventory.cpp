@@ -24,6 +24,29 @@ void Inventory::SetActiveSeedPacket( int currSeed )
 	m_vSelectedSeeds[m_iCurrentSeed] = true;
 }
 
+std::string Inventory::GetTexture()
+{
+	std::string texture = "Resources\\Textures\\Tiles\\Full" + GetKey() + ".png";
+	return texture;
+}
+
+std::string Inventory::GetName()
+{
+	return GetKey();
+}
+
+std::string Inventory::GetKey()
+{
+	for (const auto& [key, value] : m_vSeedOptions)
+	{
+		if (value == m_iCurrentSeed)
+		{
+			return key;
+		}
+	}
+	return "None";
+}
+
 void Inventory::UpdateActiveSeedPacket( int currSeed )
 {
 	if ( currSeed > m_vSeedOptions.size() - 1 )

@@ -290,6 +290,7 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\EntityAnimation.cpp" />
     <ClCompile Include="Components\EntityController.cpp" />
+    <ClCompile Include="Components\EntitySpawner.cpp" />
     <ClCompile Include="Components\Health.cpp" />
     <ClCompile Include="Components\Inventory.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
@@ -442,6 +443,7 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\EntityAnimation.h" />
     <ClInclude Include="Components\EntityController.h" />
+    <ClInclude Include="Components\EntitySpawner.h" />
     <ClInclude Include="Components\Health.h" />
     <ClInclude Include="Components\Inventory.h" />
     <ClInclude Include="Components\Physics.h" />
