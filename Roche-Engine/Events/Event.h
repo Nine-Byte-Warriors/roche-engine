@@ -74,6 +74,9 @@ enum class EVENTID
 	BackToMainMenu,
 	WinWindow,
 	LossWindow,
+	UpdateScore,
+	ResetScore,
+	SaveScore,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
