@@ -19,6 +19,7 @@ public:
 	void Initialize(int rows, int columns);
 	void SetLevel(std::shared_ptr<TileMap> background, std::shared_ptr<TileMap> foreground);
 	void LoadLevel(std::string filePathBackground, std::string filePathForeground);
+	void UpdateTileType(int tileMapLayer, int pos, std::string type);
 
 	std::string GetTileTypeName(int tileMapLayer, int pos);
 
