@@ -1,0 +1,77 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Pop Up background",
+        "position": [
+            647.0,
+            381.0
+        ],
+        "scale": [
+            700.0,
+            700.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "Restart Pop Up Label",
+        "hide": false,
+        "name": "Pop Up Label",
+        "position": [
+            949.0,
+            474.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 1
+    },
+    {
+        "action": "Restart",
+        "hide": false,
+        "name": "replay Button",
+        "position": [
+            732.0,
+            757.0
+        ],
+        "scale": [
+            200.0,
+            200.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Close",
+        "hide": false,
+        "name": "Exit Button",
+        "position": [
+            1043.0,
+            757.0
+        ],
+        "scale": [
+            200.0,
+            200.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Score Pop Up Label",
+        "hide": false,
+        "name": "Score Label",
+        "position": [
+            946.0,
+            611.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    }
+]

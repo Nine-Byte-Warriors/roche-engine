@@ -1,7 +1,15 @@
 [
-	{
-        "file": "HUD_Widgets.json",
-        "name": "HUD_Widgets"
+    {
+        "file": "Game_Over_Widgets.json",
+        "name": "Game_Over_Widgets"
+    },
+    {
+        "file": "Game_Won_Widgets.json",
+        "name": "Game_Won_Widgets"
+    },
+    {
+        "file": "HUD_Day.json",
+        "name": "HUD_Day"
     },
     {
         "file": "HUD_Night.json",

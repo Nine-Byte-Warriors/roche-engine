@@ -118,6 +118,11 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back", Colors::White, m_textures, m_mouseData ) )
 					EventSystem::Instance()->AddEvent( EVENTID::Back );
 			}
+			if (m_vWidgets[i]->GetAction() == "Restart")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData))
+					EventSystem::Instance()->AddEvent(EVENTID::Back);
+			}
 
 			if ( m_vWidgets[i]->GetAction() == "General" )
 			{
@@ -264,7 +269,20 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Score" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+
+			if (m_vWidgets[i]->GetAction() == "Restart Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("GAME OVER", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
+			}
+			if (m_vWidgets[i]->GetAction() == "Win Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("GAME WON", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
+			}
+			if (m_vWidgets[i]->GetAction() == "Score Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
 			}
 
 
