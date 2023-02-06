@@ -1,6 +1,14 @@
 [
     {
-        "file": "Credits_Widgets.json",
-        "name": "Credits_Widgets"
+        "file": "HUD_Night.json",
+        "name": "HUD_Night"
+    },
+    {
+        "file": "Pause_Widgets.json",
+        "name": "Pause_Widgets"
+    },
+    {
+        "file": "Settings_Widgets.json",
+        "name": "Settings_Widgets"
     }
 ]
