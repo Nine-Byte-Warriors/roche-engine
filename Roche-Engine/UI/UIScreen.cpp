@@ -121,17 +121,17 @@ void UIScreen::Update( const float dt )
 			if (m_vWidgets[i]->GetAction() == "Restart")
 			{
 				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::Back);
+					EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
 			}
 			if (m_vWidgets[i]->GetAction() == "Confirm")
 			{
 				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::Back);
+					EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
 			}
 			if (m_vWidgets[i]->GetAction() == "Deny")
 			{
 				if (m_vWidgets[i]->GetButtonWidget()->Resolve("No", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::Back);
+					EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "General" )
