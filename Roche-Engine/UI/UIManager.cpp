@@ -101,7 +101,7 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::StartGame:
 	{
 		RemoveAllUI();
-		int* levelNumber = new int(1);
+		int* levelNumber = new int(0);
 		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
 		// TO DO: Load intiial hud day UI after loading, GameStartedEvent to listen to?
 	}

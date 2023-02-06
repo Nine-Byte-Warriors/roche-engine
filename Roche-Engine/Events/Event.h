@@ -66,15 +66,14 @@ enum class EVENTID
 	GraphicsTab,
 	MusicTab,
 	ControlTab,
-	PauseGame, // need?
+	PauseGame,
 	ResumeGame,
 	Back,
-	CurrentGamePhase, // new
+	CurrentGamePhase,
 	BackToMainMenu,
 	WinWindow,
 	LossWindow,
 	// GameRestartEvent, // Added in game events, affects UI as well
-
 
 	// DEBUG
 	RemoveHealth,
