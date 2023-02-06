@@ -56,6 +56,7 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
+	BuySeedAttempt,
 
 	//UI
 	StartGame,

@@ -84,6 +84,9 @@ void Input::UpdateKeyboard( const float dt )
 		else if (keycode == VK_END)
 			DisableCursor();
 
+		if (m_keyboard.KeyIsPressed('B'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeedAttempt);
+
 #if _DEBUG
 		if ( keycode == VK_F1 )
 			g_bDebug = true;
