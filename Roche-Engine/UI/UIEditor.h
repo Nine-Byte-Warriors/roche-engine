@@ -34,11 +34,11 @@ public:
 	void SetJsonFile( const std::string& name );
 	void LoadFromFile_Screens();
 	void LoadFromFile_Widgets();
+	void Update( const float dt );
 
 #if _DEBUG
 	void SaveToFile_Screens();
 	void SaveToFile_Widgets();
-	void Update( const float dt );
 	void SpawnControlWindow( const Graphics& gfx );
 #endif
 

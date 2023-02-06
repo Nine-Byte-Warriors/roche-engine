@@ -327,12 +327,14 @@ void Level::UpdateUI( const float dt )
         CreateUI();
         m_uiEditor.SetShouldUpdate( false );
     }
+#endif
     m_uiEditor.Update( dt );
     if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
         m_ui->HideAllUI();
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
+#if _DEBUG
     if ( m_uiEditor.ShouldShowAll() )
         m_ui->ShowAllUI();
     if ( m_uiEditor.ShouldHideAll() )
