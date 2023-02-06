@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\shaderPP_PS.hlsl">
@@ -260,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+	      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\Emitter.cpp">
       <Filter>Source Files\Components</Filter>
@@ -610,6 +613,9 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+	      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="UI\Widgets\MouseData.h">
       <Filter>Header Files\UI\Widgets</Filter>

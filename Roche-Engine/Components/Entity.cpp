@@ -59,6 +59,11 @@ void Entity::SetComponents()
 		m_playerController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
 	}
+
+	if (GetType() == "Item")
+	{
+		m_shopItem = std::make_shared<ShopItem>(GetCollider());
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)

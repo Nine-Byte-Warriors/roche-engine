@@ -319,6 +319,7 @@
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="ShopItem.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
@@ -475,6 +476,7 @@
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
+    <ClInclude Include="ShopItem.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
     <ClInclude Include="UI\Widgets\MouseData.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />

@@ -91,17 +91,17 @@
         "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
         "animationType": "Walk",
         "audio": false,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            124.0,
-            124.0
+            100.0,
+            100.0
         ],
         "colliderShape": "Box",
-        "columns": 2,
+        "columns": 3,
         "health": 6.0,
         "identifier": 2,
         "mass": 21.200000762939453,
@@ -118,14 +118,14 @@
         "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
-        "rows": 3,
+        "rows": 4,
         "scale": [
             100.0,
             100.0
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "texture": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.png",
         "type": "Player"
     },
     {
@@ -256,5 +256,48 @@
         "speed": 10.0,
         "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 6,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "CarrotItem",
+        "position": [
+            500.0,
+            900.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png",
+        "type": "Item"
     }
 ]
