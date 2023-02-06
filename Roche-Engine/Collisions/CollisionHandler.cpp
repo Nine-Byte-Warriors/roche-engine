@@ -63,7 +63,10 @@ void CollisionHandler::CollisionCheckAll()
                 m_colliders[i]->LogCollision(m_colliders[n]);
                 //m_colliders[n]->LogCollision(m_colliders[i]);
 
-                m_colliders[i]->Resolution(m_colliders[n]);
+                if (m_colliders[i]->GetIsTrigger() == false && m_colliders[n]->GetIsTrigger() == false)
+                {
+                    m_colliders[i]->Resolution(m_colliders[n]);
+                }
             }
         }
         if (!isCollision)

@@ -35,6 +35,7 @@ enum class EVENTID
 	CurrentState,
 	CurrentPhase,
 	CurrentDay,
+	GameRestartEvent,
 
 	// Camera Actions
 	MoveUp,
@@ -56,17 +57,24 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
+	BuySeedAttempt,
 
 	//UI
 	StartGame,
+	OpenCredits,
 	OpenSettings,
-	ResumeGame,
-	Back,
 	GeneralTab,
-	GrahpicsTab,
+	GraphicsTab,
 	MusicTab,
 	ControlTab,
-	OpenCredits,
+	PauseGame,
+	ResumeGame,
+	Back,
+	CurrentGamePhase,
+	BackToMainMenu,
+	WinWindow,
+	LossWindow,
+	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
 	RemoveHealth,

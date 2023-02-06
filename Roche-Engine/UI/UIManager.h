@@ -4,6 +4,7 @@
 
 #include "UIScreen.h"
 #include "EventSystem.h"
+#include "GameManager.h"
 
 /// <summary>
 /// Manager class for each of the UI components.
@@ -37,6 +38,8 @@ private:
 	std::map<std::string, std::shared_ptr<UIScreen>> m_mUiList;
 	std::vector<std::string> m_vUiToDraw;
 	XMFLOAT2 m_vWindowSize;
+
+	Phase m_currentGamePhase;
 };
 
 #endif

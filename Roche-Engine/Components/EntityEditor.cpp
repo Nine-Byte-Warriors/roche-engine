@@ -374,7 +374,7 @@ void EntityEditor::SetType()
 
 	static int entityType = 0;
 	std::string previewEntityType = m_vEntityDataCopy[m_iIdentifier].type;
-	const char* entityTypes[]{ "Player", "Enemy", "Projectile" };
+	const char* entityTypes[]{ "Player", "Enemy", "Projectile", "Item"};
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewEntityType.c_str()))
@@ -728,10 +728,7 @@ void EntityEditor::SetColliderShape()
 void EntityEditor::SetColliderSize()
 {
 #if _DEBUG
-	ImGui::Checkbox("Lock To Scale", &m_bLockToScale);
-
-	if (m_bLockToScale)
-	{
+	if(ImGui::Button("Set to Scale")) {
 		m_vEntityDataCopy[m_iIdentifier].colliderRadius[0] = m_vEntityDataCopy[m_iIdentifier].scale[0];
 		m_vEntityDataCopy[m_iIdentifier].colliderRadius[1] = m_vEntityDataCopy[m_iIdentifier].scale[1];
 	}
