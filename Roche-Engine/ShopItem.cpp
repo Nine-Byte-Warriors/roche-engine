@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShopItem.h"
 
-ShopItem::ShopItem(std::shared_ptr<Collider> collider, std::string name)
+ShopItem::ShopItem(const std::shared_ptr<Collider> collider, std::string name)
 {
 	FilterName(name);
 
