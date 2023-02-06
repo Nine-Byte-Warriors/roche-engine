@@ -26,6 +26,7 @@ public:
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
 
+	inline std::shared_ptr<Inventory> GetInventory() const noexcept{ return m_inventory; }
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
 	inline std::shared_ptr<Health> GetHealth() const noexcept { return m_health; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }

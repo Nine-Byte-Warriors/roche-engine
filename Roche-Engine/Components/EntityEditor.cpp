@@ -728,10 +728,7 @@ void EntityEditor::SetColliderShape()
 void EntityEditor::SetColliderSize()
 {
 #if _DEBUG
-	ImGui::Checkbox("Lock To Scale", &m_bLockToScale);
-
-	if (m_bLockToScale)
-	{
+	if(ImGui::Button("Set to Scale")) {
 		m_vEntityDataCopy[m_iIdentifier].colliderRadius[0] = m_vEntityDataCopy[m_iIdentifier].scale[0];
 		m_vEntityDataCopy[m_iIdentifier].colliderRadius[1] = m_vEntityDataCopy[m_iIdentifier].scale[1];
 	}

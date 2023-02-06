@@ -258,6 +258,9 @@
     <ClCompile Include="Components\PlayerController.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Components\EntitySpawner.cpp">
+      <Filter>Source Files\Components</Filter>
+	</ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -608,6 +611,9 @@
     <ClInclude Include="Components\PlayerController.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\EntitySpawner.h">
+      <Filter>Header Files\Components</Filter>
+	</ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -700,6 +706,11 @@
     <None Include="Resources\Patterns\SlowWiggle.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
+    <None Include="Resources\Fonts\midnight_chalker_16.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_20.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
+    <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_128.spritefont">
       <Filter>Resource Files\Fonts</Filter>
     </None>

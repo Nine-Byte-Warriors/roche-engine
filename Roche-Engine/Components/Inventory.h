@@ -15,6 +15,9 @@ public :
 	inline int GetActiveSeedPacket() const noexcept { return m_iCurrentSeed; }
 	void SetActiveSeedPacket( int currSeed );
 
+	std::string GetTexture();
+	std::string GetName();
+
 private:
 	void UpdateActiveSeedPacket( int currSeed );
 	bool UpdateActiveSeedPacketCount();
@@ -26,6 +29,8 @@ private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
+
+	std::string GetKey();
 
 	int m_iCurrentSeed;
 	// seed packet name, seed count per packet
