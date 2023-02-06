@@ -21,6 +21,8 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
+
+	m_owner = ProjectileOwner::None;
 }
 
 void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type)
@@ -48,7 +50,10 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 void Projectile::Update(const float dt)
 {
 	if (!IsAlive())
+	{
+		SetOwner(ProjectileOwner::None);
 		return;
+	}
 	
 	m_fDelay -= dt;
 	if (m_fDelay > 0.0f)

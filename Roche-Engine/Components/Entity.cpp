@@ -57,18 +57,27 @@ void Entity::SetComponents()
 
 	if (GetType() == "Player")
 	{
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->SetOwner(Projectile::ProjectileOwner::Player);
+		
 		m_pController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
 	}
 
 	if (GetType() == "Enemy")
 	{
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->SetOwner(Projectile::ProjectileOwner::Enemy);
+
 		m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
 		m_agent->SetEmitter(m_emitter);
 	}
 
 	if (GetType() == "Item")
 	{
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->SetOwner(Projectile::ProjectileOwner::Item);
+		
 		m_shopItem = std::make_shared<ShopItem>(GetCollider(), m_entityController->GetName(m_iEntityNum));
 	}
 }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ProjectileManager.h"
 
-ProjectileManager::ProjectileManager()
+ProjectileManager::ProjectileManager(Projectile::ProjectileOwner owner)
 {
 	// TODO: should be passed in from Projectile JSON
 	m_fLifeTime = 1.0f;
@@ -15,6 +15,8 @@ ProjectileManager::ProjectileManager()
 	m_vecProjectilePool = std::vector<std::shared_ptr<Projectile>>();
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
 		m_vecProjectilePool.push_back(std::make_shared<Projectile>(fSpeed));
+	
+	m_owner = owner;
 }
 
 ProjectileManager::~ProjectileManager()
@@ -38,6 +40,7 @@ std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
 		pProjectile->SetDelay(pJson.m_fDelay);
+		pProjectile->SetOwner(Projectile::ProjectileOwner::None);
 
 		vecProjectilePool.push_back(std::move(pProjectile));
 	}
@@ -189,7 +192,10 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 	m_vSpawnPosition = vSpawnPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	{
+		pProjectile->SetOwner(m_owner);
 		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, -1.0f);
+	}
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
