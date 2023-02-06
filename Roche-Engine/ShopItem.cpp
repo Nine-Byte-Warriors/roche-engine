@@ -10,8 +10,10 @@ ShopItem::ShopItem(std::shared_ptr<Collider> collider)
 void ShopItem::ItemBought(Collider& collider)
 {
 	OutputDebugStringA("Collision");
-	//std::pair<>
-	//EventSystem::Instance()->AddEvent(EVENTID::BuySeed, );
+	std::pair<std::string, int>* item = new std::pair<std::string, int>();
+	item->first = "Carrot";
+	item->second = 1;
+	EventSystem::Instance()->AddEvent(EVENTID::BuySeed, item);
 }
 
 void ShopItem::HandleEvent(Event* event)
