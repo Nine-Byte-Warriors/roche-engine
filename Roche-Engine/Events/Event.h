@@ -35,6 +35,7 @@ enum class EVENTID
 	CurrentState,
 	CurrentPhase,
 	CurrentDay,
+	GameRestartEvent,
 
 	// Camera Actions
 	MoveUp,
@@ -69,6 +70,11 @@ enum class EVENTID
 	ResumeGame,
 	Back,
 	CurrentGamePhase, // new
+	BackToMainMenu,
+	WinWindow,
+	LossWindow,
+	// GameRestartEvent, // Added in game events, affects UI as well
+
 
 	// Utility
 	WindowSizeChangeEvent,

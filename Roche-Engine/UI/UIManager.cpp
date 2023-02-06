@@ -143,6 +143,31 @@ void UIManager::HandleEvent( Event* event )
 	}
 	break;
 	case EVENTID::CurrentPhase: { m_currentGamePhase = *static_cast<Phase*>(event->GetData()); } break;
+	case EVENTID::BackToMainMenu:
+	{
+		RemoveAllUI();
+		int* levelNumber = new int(2);
+		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
+	}
+	break;
+	case EVENTID::WinWindow:
+	{
+		HideAllUI();
+		ShowUI("Win_Widgets");
+	}
+	break;
+	case EVENTID::LossWindow:
+	{
+		HideAllUI();
+		ShowUI("Loss_Widgets");
+	}
+	break;
+	case EVENTID::GameRestartEvent:
+		HideAllUI();
+		ShowUI("HUD_Day");
+		int* levelNumber = new int(1);
+		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
+	break;
 	}
 
 }
@@ -158,6 +183,9 @@ void UIManager::AddToEvent()
 	EventSystem::Instance()->AddClient(EVENTID::ResumeGame, this);
 	EventSystem::Instance()->AddClient(EVENTID::Back, this);
 	EventSystem::Instance()->AddClient(EVENTID::CurrentPhase, this);
+	EventSystem::Instance()->AddClient(EVENTID::WinWindow, this);
+	EventSystem::Instance()->AddClient(EVENTID::LossWindow, this);
+	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
 }
 
 void UIManager::RemoveFromEvent()
@@ -171,6 +199,9 @@ void UIManager::RemoveFromEvent()
 	EventSystem::Instance()->RemoveClient(EVENTID::ResumeGame, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::Back, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CurrentPhase, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::WinWindow, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::LossWindow, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
 }
 
 void UIManager::HideAllUI()
