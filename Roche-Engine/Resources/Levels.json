@@ -5,7 +5,7 @@
         "name": "Shop",
         "tmBack": "Shop-background.json",
         "tmFront": "Shop-foreground.json",
-        "ui": "Credits.json"
+        "ui": "Shop.json"
     },
 	{
         "audio": "!SoundBankList.json",
