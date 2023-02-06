@@ -20,19 +20,19 @@ ProjectileEditor::ProjectileEditor() :
 
 void ProjectileEditor::Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
-	for(std::shared_ptr<ProjectileManager> pProMan : m_vecProjectileManager)
+	for(std::shared_ptr<ProjectileManager> pProMan : m_vecProjectileManagers)
 		pProMan->Initialize(gfx, mat);
 }
 
 void ProjectileEditor::Update(const float dt)
 {
-	for (std::shared_ptr <ProjectileManager> pProMan : m_vecProjectileManager)
+	for (std::shared_ptr <ProjectileManager> pProMan : m_vecProjectileManagers)
 		pProMan->Update(dt);
 }
 
 void ProjectileEditor::Draw(ID3D11DeviceContext* context, XMMATRIX matrix)
 {
-	for (std::shared_ptr <ProjectileManager> pProMan : m_vecProjectileManager)
+	for (std::shared_ptr <ProjectileManager> pProMan : m_vecProjectileManagers)
 		pProMan->Draw(context, matrix);
 }
 
@@ -324,7 +324,7 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	if (!bFire)
 		return;
 
-	m_vecProjectileManager.clear();
+	m_vecProjectileManagers.clear();
 
 	for (ProjectileData::ManagerJSON jMan : m_vecManagers)
 	{
@@ -337,7 +337,7 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 		if (bLoop || jMan.m_bLoop)
 			pManager->EnableRepeat();
 
-		m_vecProjectileManager.push_back(std::move(pManager));
+		m_vecProjectileManagers.push_back(std::move(pManager));
 	}
 
 	SpawnPattern();
@@ -373,7 +373,7 @@ void ProjectileEditor::SaveProjectile()
 
 void ProjectileEditor::SpawnPattern()
 {
-	for (std::shared_ptr<ProjectileManager> manager : m_vecProjectileManager)
+	for (std::shared_ptr<ProjectileManager> manager : m_vecProjectileManagers)
 		manager->SpawnProjectiles(m_vSpawnPosition);
 }
 
