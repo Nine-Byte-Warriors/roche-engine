@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LevelStateMachine.h"
 
-LevelStateMachine::LevelStateMachine() : levels( ), currentLevel(0) { AddToEvent(); }
+LevelStateMachine::LevelStateMachine() : levels(/* "", {} */), currentLevel(0) { AddToEvent(); }
 
 LevelStateMachine::~LevelStateMachine() { RemoveFromEvent(); }
 

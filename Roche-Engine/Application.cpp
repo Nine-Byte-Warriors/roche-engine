@@ -134,7 +134,7 @@ void Application::Render()
         static bool shouldSwitchLevel = false;
         if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
         {
-            int levelIndex = 0;
+            static int levelIndex = 0;
             static Timer timer;
             static float counter = 0.0f;
             static bool savedFile = false;
@@ -235,6 +235,8 @@ void Application::Render()
                     m_stateMachine.Remove( m_sLevelNames[levelIndex] );
                     m_sLevelNames.erase( m_sLevelNames.begin() + levelIndex );
                     m_sLevelNames.shrink_to_fit();
+
+                    m_vLevelData.erase(m_vLevelData.begin() + levelIndex);
 
                     levelIndex -= 1;
 				    if (levelIndex < 0 )
