@@ -26,7 +26,10 @@ public:
 	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept
-		{ m_vTargetPosition = vTargetPosition; }
+	{ 
+		Vector2f vOffSet = m_vecProjectilePool[0]->GetSprite()->GetWidthHeight() / 2;
+		m_vTargetPosition = vTargetPosition - vOffSet;
+	}
 
 	void UpdatePattern(std::string filepath);
 

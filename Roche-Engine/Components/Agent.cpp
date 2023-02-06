@@ -266,8 +266,11 @@ void Agent::HandleEvent(Event* event)
 			m_vTargetPos = *(Vector2f*)event->GetData();
 		break;
 	case EVENTID::PlayerPosition:
-		if (!m_bTargetMouse)
-			m_vTargetPos = *(Vector2f*)event->GetData();
+		if (!m_bTargetMouse) 
+		{
+			std::pair < Sprite*, Vector2f*>* dPair = (std::pair<Sprite*, Vector2f*>*)(event->GetData());
+			m_vTargetPos = *dPair->second;
+		}
 		break;
 	default:
 		break;
