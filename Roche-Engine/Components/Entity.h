@@ -14,6 +14,7 @@ class Graphics;
 #include "Inventory.h"
 #include "Health.h"
 #include "Emitter.h"
+#include "ShopItem.h"
 
 class Entity
 {
@@ -75,6 +76,7 @@ private:
 
 	void UpdateAudio();
 
+
 	int m_iEntityNum;
 
 	float m_fEntityHealth = 100.0;
@@ -121,7 +123,8 @@ private:
 	std::shared_ptr<BoxCollider> m_colliderBox;
 	std::shared_ptr<CircleCollider> m_colliderCircle;
 	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManagers;
-	std::shared_ptr<PlayerController> m_playerController;
+	std::shared_ptr<BaseController> m_pController;
+	std::shared_ptr<ShopItem> m_shopItem;
 	std::shared_ptr<Inventory>m_inventory;
 	std::shared_ptr<Emitter> m_emitter;
 

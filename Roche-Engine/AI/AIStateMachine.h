@@ -14,8 +14,9 @@ namespace AILogic
 		Patrol = 3,
 		Follow = 4,
 		Wander = 5,
+		Fire = 6,
 	};
-	
+
 	class AIStateMachine : public AIState
 	{
 	public:
@@ -34,15 +35,12 @@ namespace AILogic
 
 		void Clear() { if(m_vecStates.size() > 0) m_vecStates.clear(); } // temporary. should be done differently
 		AIState* NewState(AIStateTypes fType); // tmeporary. should be done differently and elsewhere
-		
+
 	protected:
 		std::vector<AIState*> m_vecStates;
 		std::vector<AIState*> m_vecActiveStates;
 		std::vector<AIState*> m_vecLastActiveStates;
-
-	private:
-		
 	};
 }
-	
+
 #endif // AISTATEMACHINE_H

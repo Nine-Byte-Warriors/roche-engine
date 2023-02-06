@@ -260,15 +260,18 @@
     </ClCompile>
     <ClCompile Include="Components\EntitySpawner.cpp">
       <Filter>Source Files\Components</Filter>
-	</ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Components\Emitter.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\PlayerShooting.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Levels\GameManager.cpp">
+      <Filter>Source Files\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\ShopItem.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -613,9 +616,6 @@
     </ClInclude>
     <ClInclude Include="Components\EntitySpawner.h">
       <Filter>Header Files\Components</Filter>
-	</ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UI\Widgets\MouseData.h">
       <Filter>Header Files\UI\Widgets</Filter>
@@ -624,6 +624,15 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\PlayerShooting.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Levels\GameManager.h">
+      <Filter>Header Files\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ShopItem.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\BaseController.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -703,11 +712,6 @@
     <None Include="Resources\Patterns\SlowWiggle.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
-    <None Include="Resources\Fonts\midnight_chalker_16.spritefont" />
-    <None Include="Resources\Fonts\midnight_chalker_20.spritefont" />
-    <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
-    <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
-    <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_128.spritefont">
       <Filter>Resource Files\Fonts</Filter>
     </None>
@@ -731,6 +735,24 @@
     </None>
     <None Include="Resources\Fonts\midnight_chalker_36.spritefont">
       <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_72.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_16.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_20.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_24.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_36.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Patterns\DefaultProjectile.ptn">
+      <Filter>Resource Files\Patterns</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

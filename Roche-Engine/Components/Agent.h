@@ -6,6 +6,8 @@
 #include "EventSystem.h"
 #include "AIStateMachine.h"
 
+class Emitter;
+
 namespace AILogic { class AIState; }
 
 /// <summary>
@@ -29,10 +31,14 @@ public:
 
 	void SetBehaviour(AILogic::AIStateTypes behaviour);
 	void ResetBehaviour();
-
+	
+	void SetEmitter(std::shared_ptr<Emitter>& pEmitter) { m_pEmitter = pEmitter; }
+	std::shared_ptr<Emitter> GetEmitter() const { return m_pEmitter; }
+	
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
+	
 private:
 	std::map<AILogic::AIStateTypes, AILogic::AIState*> m_mapStates;
 	AILogic::AIStateMachine* m_pStateMachine;
@@ -40,6 +46,8 @@ private:
 	bool m_bTargetMouse = true;
 	Vector2f m_vTargetPos;
 	float m_fSpeed;
+	
+	std::shared_ptr<Emitter> m_pEmitter;
 };
 
 #endif

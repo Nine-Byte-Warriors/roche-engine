@@ -35,12 +35,14 @@ std::string Inventory::GetName()
 
 std::string Inventory::GetKey()
 {
+	int index = 0;
 	for (const auto& [key, value] : m_vSeedOptions)
 	{
-		if (value == m_iCurrentSeed)
+		if (index == m_iCurrentSeed)
 		{
 			return key;
 		}
+		index++;
 	}
 	return "None";
 }
@@ -95,7 +97,7 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 	{
 		if ( seedName == key )
 		{
-			value += 1;
+			value += amountToChange;
 			return;
 		}
 	}

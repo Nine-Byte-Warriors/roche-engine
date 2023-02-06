@@ -9,6 +9,7 @@ enum class EVENTID
 	KeyInput,
 	CharInput,
 	MousePosition,
+	MouseCameraPosition,
 	ReadCharInput,
 	ClearCharBuffer,
 	ImGuiMousePosition,
@@ -35,6 +36,7 @@ enum class EVENTID
 	CurrentState,
 	CurrentPhase,
 	CurrentDay,
+	GameRestartEvent,
 
 	// Camera Actions
 	MoveUp,
@@ -56,17 +58,24 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
+	BuySeedAttempt,
 
 	//UI
 	StartGame,
+	OpenCredits,
 	OpenSettings,
-	ResumeGame,
-	Back,
 	GeneralTab,
-	GrahpicsTab,
+	GraphicsTab,
 	MusicTab,
 	ControlTab,
-	OpenCredits,
+	PauseGame,
+	ResumeGame,
+	Back,
+	CurrentGamePhase,
+	BackToMainMenu,
+	WinWindow,
+	LossWindow,
+	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
 	RemoveHealth,
@@ -93,13 +102,13 @@ class Event
 {
 public:
 	// Constructor that sends event with data (cant be altered from the other side i believe)
-	Event( EVENTID eventID, void* data ) {
+	Event(EVENTID eventID, void* data) {
 		this->data = data;
 		this->eventID = eventID;
 	}
 
 	// Alternate constructor to just call an event proc without data
-	Event( EVENTID eventID )
+	Event(EVENTID eventID)
 	{
 		this->eventID = eventID;
 		this->data = nullptr;

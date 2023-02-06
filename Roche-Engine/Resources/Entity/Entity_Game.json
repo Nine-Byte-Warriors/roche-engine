@@ -5,10 +5,10 @@
         "animationPath": "Resources\\Textures\\Entity\\Potato\\Potato.json",
         "animationType": "Walk",
         "audio": false,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
-        "behaviour": "Patrol",
+        "behaviour": "Idle",
         "collider": true,
         "colliderRadius": [
             64.0,
@@ -48,10 +48,10 @@
         "animationPath": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.json",
         "animationType": "Walk",
         "audio": false,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
-        "behaviour": "Seek",
+        "behaviour": "Idle",
         "collider": true,
         "colliderRadius": [
             64.0,
@@ -97,11 +97,11 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            124.0,
-            124.0
+            100.0,
+            100.0
         ],
         "colliderShape": "Box",
-        "columns": 2,
+        "columns": 3,
         "health": 6.0,
         "identifier": 2,
         "mass": 21.200000762939453,
@@ -118,58 +118,15 @@
         "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
-        "rows": 3,
+        "rows": 4,
         "scale": [
             100.0,
             100.0
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "texture": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.png",
         "type": "Player"
-    },
-    {
-        "AI": true,
-        "animation": true,
-        "animationPath": "Resources\\Textures\\Entity\\Onion\\Onion.json",
-        "animationType": "Walk",
-        "audio": false,
-        "bColliderTrigger": false,
-        "bProjectileBullet": false,
-        "bProjectilePattern": false,
-        "behaviour": "Follow",
-        "collider": true,
-        "colliderRadius": [
-            64.0,
-            64.0
-        ],
-        "colliderShape": "Circle",
-        "columns": 2,
-        "health": 10.0,
-        "identifier": 3,
-        "mass": 10.0,
-        "maxFrame": [
-            3,
-            2
-        ],
-        "name": "Onion",
-        "position": [
-            1010.0,
-            571.0
-        ],
-        "projectileBullet": "Projectile1",
-        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
-        "projectileSystem": true,
-        "rotation": 0.0,
-        "rows": 3,
-        "scale": [
-            64.0,
-            64.0
-        ],
-        "soundBankName": "",
-        "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
-        "type": "Enemy"
     },
     {
         "AI": true,
@@ -178,9 +135,9 @@
         "animationType": "Walk",
         "audio": false,
         "bColliderTrigger": false,
-        "bProjectileBullet": false,
-        "bProjectilePattern": false,
-        "behaviour": "None",
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "Fire",
         "collider": true,
         "colliderRadius": [
             64.0,
@@ -189,7 +146,7 @@
         "colliderShape": "Circle",
         "columns": 3,
         "health": 7.0,
-        "identifier": 4,
+        "identifier": 3,
         "mass": 1.0,
         "maxFrame": [
             3,
@@ -201,7 +158,7 @@
             500.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
+        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
@@ -220,7 +177,7 @@
         "animationPath": "Resources\\Textures\\Base_Projectile.json",
         "animationType": "Walk",
         "audio": false,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": false,
         "bProjectilePattern": true,
         "behaviour": "None",
@@ -232,7 +189,7 @@
         "colliderShape": "Circle",
         "columns": 1,
         "health": 1.0,
-        "identifier": 5,
+        "identifier": 4,
         "mass": 1.0,
         "maxFrame": [
             1,
@@ -256,5 +213,263 @@
         "speed": 10.0,
         "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            100.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 5,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "PotatoItem",
+        "position": [
+            500.0,
+            900.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Potato Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            100.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 6,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "CarrotItem",
+        "position": [
+            300.0,
+            900.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            100.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 7,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "BeanItem",
+        "position": [
+            700.0,
+            900.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Bean Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": true,
+        "animation": true,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 2,
+        "health": 100.0,
+        "identifier": 8,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Onion",
+        "position": [
+            744.0,
+            500.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": true,
+        "rotation": 0.0,
+        "rows": 3,
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
+        "type": "Enemy"
+    },
+    {
+        "AI": true,
+        "animation": true,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 2,
+        "health": 100.0,
+        "identifier": 9,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Carrot",
+        "position": [
+            432.0,
+            206.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": true,
+        "rotation": 0.0,
+        "rows": 3,
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "type": "Enemy"
+    },
+    {
+        "AI": true,
+        "animation": true,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            64.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 2,
+        "health": 100.0,
+        "identifier": 10,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Cauliflower",
+        "position": [
+            500.0,
+            500.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": true,
+        "rotation": 0.0,
+        "rows": 3,
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Cauliflower\\Cauliflower.png",
+        "type": "Enemy"
     }
 ]

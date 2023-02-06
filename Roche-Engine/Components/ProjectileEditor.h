@@ -26,7 +26,6 @@ private:
 	void ShowPattern();
 	
 	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
-	std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed);
 	ProjectileData::ManagerJSON CreateDefaultManager();
 	ProjectileData::ProjectileJSON CreateDefaultProjectile();
 
