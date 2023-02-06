@@ -269,7 +269,7 @@ void Agent::HandleEvent(Event* event)
 		if (!m_bTargetMouse) 
 		{
 			std::pair < Sprite*, Vector2f*>* dPair = (std::pair<Sprite*, Vector2f*>*)(event->GetData());
-			m_vTargetPos = *dPair->second;
+			m_vTargetPos = *dPair->second + Vector2f(dPair->first->GetWidthHeight() / 2);
 		}
 		break;
 	default:

@@ -74,6 +74,7 @@ private:
 
 	void UpdateAudio();
 
+
 	int m_iEntityNum;
 
 	float m_fEntityHealth = 100.0;

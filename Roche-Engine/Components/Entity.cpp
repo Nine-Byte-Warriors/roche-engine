@@ -109,7 +109,6 @@ void Entity::Update(const float dt)
 	{
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
 			pManager->Update(dt);
-		m_emitter->Update(dt);
 	}
 
 	if (m_pController)
@@ -313,8 +312,10 @@ void Entity::UpdateBehaviour()
 	}
 }
 
-void Entity::UpdateProjectilePattern() //TODO
+void Entity::UpdateProjectilePattern()
 {
+	
+	//TODO
 	//if (m_entityType != EntityType::Projectile)
 	//{
 	//	m_sBulletPattern = m_entityController->GetProjectileBullet(m_iEntityNum)->projectilePattern;
@@ -385,5 +386,16 @@ void Entity::CheckAliveStatus()
 	if ( m_fEntityHealth <= 0.0 )
 	{
 		m_entityController->SetDead( m_iEntityNum );
+	}
+}
+
+void Entity::Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)
+{
+	if (m_entityController->HasProjectileBullet(m_iEntityNum))
+	{
+		for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
+		{
+			pManager->Draw(context, orthoMatrix);
+		}
 	}
 }
