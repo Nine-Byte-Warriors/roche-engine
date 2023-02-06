@@ -13,6 +13,8 @@ void Input::Initialize( RenderWindow& window )
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();
     m_keyboard.DisableAutoRepeatChars();
+
+	
 }
 
 void Input::Update( const float dt )
@@ -71,7 +73,7 @@ void Input::UpdateKeyboard( const float dt )
 		}
 		return;
 	}
-	int i = 5;
+	
     // Handle input for single key presses
 	while (!m_keyboard.KeyBufferIsEmpty())
 	{
@@ -84,9 +86,7 @@ void Input::UpdateKeyboard( const float dt )
 		else if (keycode == VK_END)
 			DisableCursor();
 
-		if (m_keyboard.KeyIsPressed('B'))
-			EventSystem::Instance()->AddEvent(EVENTID::BuySeedAttempt);
-
+		
 #if _DEBUG
 		if ( keycode == VK_F1 )
 			g_bDebug = true;
@@ -96,8 +96,11 @@ void Input::UpdateKeyboard( const float dt )
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
 		
-		if ( m_keyboard.KeyIsPressed( 'Y' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::GainCoins, &i);
+		//Buying seed test
+		if (m_keyboard.KeyIsPressed('B'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+		if (m_keyboard.KeyIsPressed('C'))
+			EventSystem::Instance()->AddEvent(EVENTID::GainCoins);
 
 		if ( m_keyboard.KeyIsPressed( 'L' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);

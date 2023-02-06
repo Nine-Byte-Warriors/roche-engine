@@ -88,6 +88,7 @@ void Inventory::PlantSeedFromPacket( std::string& seedName, int amountPlanted )
 
 void Inventory::BuySeedPacket( const std::string& seedName, int amountBought )
 {
+	
 	ChangeSeedPacketValue( seedName, amountBought );
 }
 
@@ -97,9 +98,53 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 	{
 		if ( seedName == key )
 		{
-			value += 1;
+			/*value += 1;
 			return;
+			*/
+			if (seedName.contains("Carrot") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Carrot");
+				return;
+			}
+			if (seedName.contains("Potato") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Patato");
+				return;
+			}
+			if (seedName.contains("Bean") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Been");
+				return;
+			}
+			if (seedName.contains("Onion") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Onion");
+				return;
+			}
+			if (seedName.contains("Cauliflower") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Cauliflower");
+				return;
+			}
+			if (seedName.contains("Tomato") && m_iCoinAmount >= 1)
+			{
+				value += 1;
+				m_iCoinAmount--;
+				OutputDebugStringA("Tomato");
+				return;
+			}
 		}
+		
 	}
 }
 
@@ -108,7 +153,7 @@ void Inventory::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::IncrementSeedPacket, this );
 	EventSystem::Instance()->AddClient( EVENTID::DecrementSeedPacket, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlantSeedAttempt, this );
-	EventSystem::Instance()->AddClient( EVENTID::BuySeed, this );
+	EventSystem::Instance()->AddClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->AddClient(EVENTID::GainCoins, this);
 }
 
@@ -117,7 +162,7 @@ void Inventory::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::IncrementSeedPacket, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::DecrementSeedPacket, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::PlantSeedAttempt, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::BuySeed, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->RemoveClient(EVENTID::GainCoins, this);
 }
 
@@ -139,21 +184,20 @@ void Inventory::HandleEvent( Event* event )
 		PlantSeedFromPacket( seedsPlanted->first, seedsPlanted->second );
 	}
 	break;
-	case EVENTID::BuySeed:
+	case EVENTID::UpdateSeed:
 	{
 		std::pair<std::string, int>* seedsBought = static_cast<std::pair<std::string, int>*>( event->GetData() );
 		BuySeedPacket( seedsBought->first, seedsBought->second );
 	}
 	break;
-	case EVENTID::GainCoins:
-	{
-		int CoinGain = (int)event->GetData();
-		m_iCoinAmount += CoinGain;
-		
-
-		EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
-	}
-	break;
+	case EVENTID::GainCoins:{UpdateCoins();}break;
 	default: break;
 	}
+}
+
+void Inventory::UpdateCoins()
+{
+	OutputDebugStringA("Increase");
+	m_iCoinAmount++;
+	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }

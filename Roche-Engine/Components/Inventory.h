@@ -30,6 +30,8 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
+	void UpdateCoins();
+
 	std::string GetKey();
 
 	int m_iCurrentSeed;
@@ -38,6 +40,7 @@ private:
 	std::vector<bool> m_vSelectedSeeds = { true, false, false, false, false, false };
 
 	int m_iCoinAmount;
+	int CoinGain;
 };
 
 #endif

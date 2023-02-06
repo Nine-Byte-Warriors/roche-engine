@@ -26,6 +26,8 @@ private:
 	void AddToEvent() noexcept;
 
 	void FilterName(std::string name);
+
+	int m_iCoins;
 };
 
 #endif // !SHOPITEM_H
