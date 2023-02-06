@@ -54,7 +54,7 @@ void Entity::SetComponents()
 		m_colliderCircle = std::make_shared<CircleCollider> (m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32);
 		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32, 32);
 	}
-	
+
 	if (GetType() == "Player")
 	{
 		m_pController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
@@ -306,6 +306,10 @@ void Entity::UpdateBehaviour()
 		{
 			m_agent->SetBehaviour(AILogic::AIStateTypes::Wander);
 		}
+		else if ( m_sBehaviour == "Fire" )
+		{
+			m_agent->SetBehaviour( AILogic::AIStateTypes::Fire );
+		}
 	}
 }
 
@@ -378,11 +382,8 @@ void Entity::SetAnimation()
 
 void Entity::CheckAliveStatus()
 {
-	if (m_fEntityHealth <= 0.0)
+	if ( m_fEntityHealth <= 0.0 )
 	{
-		m_entityController->SetDead(m_iEntityNum);
+		m_entityController->SetDead( m_iEntityNum );
 	}
 }
-
-
-
