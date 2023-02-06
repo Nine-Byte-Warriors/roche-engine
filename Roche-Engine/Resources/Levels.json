@@ -1,7 +1,7 @@
 [
     {
         "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
+        "entity": "Entity_Shop.json",
         "name": "Shop",
         "tmBack": "Shop-background.json",
         "tmFront": "Shop-foreground.json",
@@ -9,7 +9,7 @@
     },
 	{
         "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
+        "entity": "Entity_Game.json",
         "name": "Game",
         "tmBack": "BaseGameMap-background.json",
         "tmFront": "BaseGameMap-foreground.json",
