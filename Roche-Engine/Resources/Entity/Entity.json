@@ -134,10 +134,10 @@
         "animationPath": "Resources\\Textures\\Entity\\Tomato\\Tomato.json",
         "animationType": "Walk",
         "audio": false,
-        "bColliderTrigger": true,
-        "bProjectileBullet": false,
-        "bProjectilePattern": false,
-        "behaviour": "None",
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "Fire",
         "collider": true,
         "colliderRadius": [
             64.0,
@@ -158,7 +158,7 @@
             500.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
+        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,

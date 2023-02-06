@@ -8,6 +8,16 @@ class Graphics;
 class Projectile
 {
 public:
+	enum ProjectileOwner
+	{
+		None = 0,
+		Player = 1,
+		Boss = 2,
+		Enemy = 3,
+		Item = 4,
+	};
+
+
 	Projectile(float fSpeed, float fLifeTime = 999.9f);
 	~Projectile() {}
 	
@@ -35,6 +45,9 @@ public:
 	void SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime);
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	
+	void SetOwner(const ProjectileOwner owner) noexcept { m_owner = owner; }
+	const ProjectileOwner GetOwner() const noexcept { return m_owner; }
+	
 private:
 	void CalcDirection();
 
@@ -56,6 +69,8 @@ private:
 	float m_fAngle;
 	float m_fAmplitude;
 	float m_fFrequency;
+
+	ProjectileOwner m_owner;
 };
 
 #endif // !PROJECTILE_H
