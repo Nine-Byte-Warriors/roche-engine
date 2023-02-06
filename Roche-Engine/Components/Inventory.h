@@ -10,7 +10,9 @@ public :
 	Inventory();
 	~Inventory();
 
-	inline int GetActiveSeedPacketCount( const std::string& name ) const noexcept { return m_vSeedOptions.at(name); }
+
+	inline int GetSeedPacketCount( const std::string& name ) const noexcept { return m_vSeedOptions.at(name); }
+	inline int GetActiveSeedPacketCount() noexcept { return m_vSeedOptions.at(GetName()); }
 	inline bool IsActiveSeedPacket( int index ) const noexcept { return m_vSelectedSeeds[index]; }
 	inline int GetActiveSeedPacket() const noexcept { return m_iCurrentSeed; }
 	void SetActiveSeedPacket( int currSeed );

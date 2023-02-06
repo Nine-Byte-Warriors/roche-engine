@@ -4,8 +4,8 @@
         "name": "HUD_Night"
     },
 	{
-        "file": "HUD_Widgets.json",
-        "name": "HUD_Widgets"
+        "file": "HUD_Day.json",
+        "name": "HUD_Day"
     },
     {
         "file": "Pause_Widgets.json",

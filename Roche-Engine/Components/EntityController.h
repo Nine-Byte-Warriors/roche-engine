@@ -51,6 +51,8 @@ public:
 	void SetJsonFile( const std::string& name );
 	int GetSize();
 
+	int GetEntityNumFromName(std::string name);
+
 	std::string GetName(int num);
 	std::string GetType(int num);
 	std::string GetTexture(int num);

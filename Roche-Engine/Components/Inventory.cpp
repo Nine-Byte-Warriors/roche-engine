@@ -37,12 +37,14 @@ std::string Inventory::GetName()
 
 std::string Inventory::GetKey()
 {
+	int index = 0;
 	for (const auto& [key, value] : m_vSeedOptions)
 	{
-		if (value == m_iCurrentSeed)
+		if (index == m_iCurrentSeed)
 		{
 			return key;
 		}
+		index++;
 	}
 	return "None";
 }
@@ -71,7 +73,7 @@ bool Inventory::UpdateActiveSeedPacketCount()
 			return true;
 		}
 	}
-	
+
 	return true;
 }
 
@@ -84,11 +86,11 @@ void Inventory::PlantSeedFromPacket( std::string& seedName, int amountPlanted )
 
 	ChangeSeedPacketValue( seedName, -amountPlanted );
 	EventSystem::Instance()->AddEvent( EVENTID::PlantSeed, &seedName );
-} 
+}
 
 void Inventory::BuySeedPacket( const std::string& seedName, int amountBought )
 {
-	
+
 	ChangeSeedPacketValue( seedName, amountBought );
 }
 
@@ -98,7 +100,7 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 	{
 		if ( seedName == key )
 		{
-			/*value += 1;
+			value += amountToChange;
 			return;
 			*/
 			if (seedName.contains("Carrot") && m_iCoinAmount >= 1)
@@ -144,7 +146,7 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 				return;
 			}
 		}
-		
+
 	}
 }
 

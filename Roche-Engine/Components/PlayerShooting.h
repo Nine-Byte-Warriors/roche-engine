@@ -23,6 +23,7 @@ private:
 	void HandleEvent(Event* event) override;
 
 	std::shared_ptr<Emitter> m_pEmitter;
+	Vector2f m_vMousePos;
 	bool m_bIsShooting;
 };
 

@@ -109,7 +109,7 @@ private:
 	std::vector<int> m_entitiesDeleted;
 	Vector2f* m_vFakedPos;
 
-	bool m_bIsWindowHovered = false;
+	bool m_bIsWindowHovered = true;
 };
 
 #endif
