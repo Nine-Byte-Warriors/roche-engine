@@ -15,14 +15,11 @@ ProjectileManager::ProjectileManager()
 	m_vecProjectilePool = std::vector<std::shared_ptr<Projectile>>();
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
 		m_vecProjectilePool.push_back(std::make_shared<Projectile>(fSpeed));
-
-	//AddToEvent();
 }
 
 ProjectileManager::~ProjectileManager()
 {
 	m_vecProjectilePool.clear();
-	//RemoveFromEvent();
 }
 
 std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
@@ -203,40 +200,3 @@ std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
 
 	return nullptr;
 }
-
-//void ProjectileManager::AddToEvent() noexcept
-//{
-//	// TODO : to be removed because these were implemented for DEBUG purposes.
-//	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
-//	EventSystem::Instance()->AddClient(EVENTID::TargetPosition, this);
-//	EventSystem::Instance()->AddClient(EVENTID::PlayerFire, this);
-//
-//	//EventSystem::Instance()->AddClient(EVENTID::RemoveHealth, this);
-//}
-//
-//void ProjectileManager::RemoveFromEvent() noexcept
-//{
-//	// TODO : to be removed because these were implemented for DEBUG purposes.
-//	EventSystem::Instance()->RemoveClient(EVENTID::PlayerPosition, this);
-//	EventSystem::Instance()->RemoveClient(EVENTID::TargetPosition, this);
-//	EventSystem::Instance()->RemoveClient(EVENTID::PlayerFire, this);
-//}
-//
-//void ProjectileManager::HandleEvent(Event* event)
-//{
-//	// TODO : to be removed because these were implemented for DEBUG purposes.
-//	switch (event->GetEventID())
-//	{
-//	case EVENTID::PlayerPosition:
-//		m_vSpawnPosition = *static_cast<Vector2f*>(event->GetData());
-//		break;
-//	case EVENTID::TargetPosition:
-//		m_vTargetPosition = *static_cast<Vector2f*>(event->GetData());
-//		break;
-//	case EVENTID::PlayerFire:
-//		SpawnProjectile();
-//		break;
-//	default:
-//		break;
-//	}
-//}
