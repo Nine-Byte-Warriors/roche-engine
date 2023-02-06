@@ -62,7 +62,7 @@ void Entity::SetComponents()
 
 	if (GetType() == "Item")
 	{
-		m_shopItem = std::make_shared<ShopItem>(GetCollider());
+		m_shopItem = std::make_shared<ShopItem>(GetCollider(), m_entityController->GetName(m_iEntityNum));
 	}
 }
 
