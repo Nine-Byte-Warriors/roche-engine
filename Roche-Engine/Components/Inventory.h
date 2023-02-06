@@ -32,7 +32,7 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-	void UpdateCoins();
+	void UpdateCoins(bool gain, int amountToChange);
 
 	std::string GetKey();
 

@@ -16,7 +16,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 	m_pDevice = gfx.GetDevice();
 	m_pContext = gfx.GetContext();
 	
-	
+	m_sCoinAmount = "000000";
 	InitializeWidgets();
 }
 
@@ -258,7 +258,7 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_sCoinAmount, Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if ( m_vWidgets[i]->GetAction() == "Score Label" )
 			{
@@ -612,7 +612,9 @@ void UIScreen::HandleEvent( Event* event )
 	break;
 	case EVENTID::UpdateCoins:
 	{
+		char coin = *(int*)event->GetData();
 		
+		m_sCoinAmount = std::to_string(coin);
 	}
 	break;
 	}

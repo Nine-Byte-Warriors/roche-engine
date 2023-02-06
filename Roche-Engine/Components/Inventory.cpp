@@ -90,63 +90,18 @@ void Inventory::PlantSeedFromPacket( std::string& seedName, int amountPlanted )
 
 void Inventory::BuySeedPacket( const std::string& seedName, int amountBought )
 {
-
-	ChangeSeedPacketValue( seedName, amountBought );
+	ChangeSeedPacketValue(seedName, amountBought);
 }
 
 void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountToChange )
 {
 	for ( auto& [key, value] : m_vSeedOptions )
 	{
-		if ( seedName == key )
+		if ( seedName == key)
 		{
-			/*value += amountToChange;
-			return;*/
-			
-			if (seedName.contains("Carrot") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Carrot");
-				return;
-			}
-			if (seedName.contains("Potato") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Patato");
-				return;
-			}
-			if (seedName.contains("Bean") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Been");
-				return;
-			}
-			if (seedName.contains("Onion") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Onion");
-				return;
-			}
-			if (seedName.contains("Cauliflower") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Cauliflower");
-				return;
-			}
-			if (seedName.contains("Tomato") && m_iCoinAmount >= 1)
-			{
-				value += amountToChange;
-				m_iCoinAmount--;
-				OutputDebugStringA("Tomato");
-				return;
-			}
+			value += amountToChange;
+			return;
 		}
-
 	}
 }
 
@@ -189,16 +144,55 @@ void Inventory::HandleEvent( Event* event )
 	case EVENTID::UpdateSeed:
 	{
 		std::pair<std::string, int>* seedsBought = static_cast<std::pair<std::string, int>*>( event->GetData() );
-		BuySeedPacket( seedsBought->first, seedsBought->second );
+
+		if (seedsBought->first.contains("Carrot") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Carrot", seedsBought->second);
+		}
+		if (seedsBought->first.contains("Potato") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Potato", seedsBought->second);
+		}
+		if (seedsBought->first.contains("Bean") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Bean", seedsBought->second);
+		}
+		if (seedsBought->first.contains("Onion") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Onion", seedsBought->second);
+
+		}
+		if (seedsBought->first.contains("Cauliflower") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Cauliflower", seedsBought->second);
+
+		}
+		if (seedsBought->first.contains("Tomato") && m_iCoinAmount >= 1)
+		{
+			UpdateCoins(false, 1);
+			BuySeedPacket("Tomato", seedsBought->second);
+			
+		}
+
+
+		//BuySeedPacket( seedsBought->first, seedsBought->second );
 	}
 	break;
-	case EVENTID::GainCoins:{UpdateCoins();}break;
+	case EVENTID::GainCoins:{UpdateCoins(true, 1);}break;
 	default: break;
 	}
 }
 
-void Inventory::UpdateCoins()
+void Inventory::UpdateCoins(bool gain, int amountToChange)
 {
-	m_iCoinAmount++;
+	
+	if (gain) m_iCoinAmount += amountToChange;
+	else m_iCoinAmount--;
+	
 	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }
