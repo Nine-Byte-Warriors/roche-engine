@@ -57,10 +57,10 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #if _DEBUG
             level->Initialize( &m_graphics, &m_uiManager, &m_imgui );
             level->SetAudioJson( m_vLevelData[i].audio );
-            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[m_iActiveLevelIdx].audio);
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
+            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio); // temporary solution?
             level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
             //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
@@ -329,4 +329,62 @@ void Application::Render()
 #endif
 
     m_stateMachine.Render_End();
+}
+
+void Application::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient(EVENTID::AddLevelEvent, this);
+    EventSystem::Instance()->AddClient(EVENTID::RemoveLevelEvent, this);
+}
+
+void Application::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient(EVENTID::AddLevelEvent, this);
+    EventSystem::Instance()->RemoveClient(EVENTID::RemoveLevelEvent, this);
+}
+
+void Application::HandleEvent(Event* event)
+{
+    // Switch level
+    switch (event->GetEventID())
+    {
+    case EVENTID::AddLevelEvent:
+    {
+        AddLevelToStateMachine(*static_cast<std::string*>(event->GetData()));
+    }
+    break;
+    case EVENTID::RemoveLevelEvent:
+    {
+        RemoveLevelFromStateMachine(*static_cast<std::string*>(event->GetData()));
+    }
+    break;
+    }
+}
+
+void Application::AddLevelToStateMachine(std::string levelName)
+{
+    for (int i = 0; m_vLevelData.size() > i; i++) {
+        if (m_vLevelData[i].name == levelName) {
+            std::shared_ptr<Level> level = std::make_shared<Level>(m_vLevelData[i].name);
+
+#if _DEBUG
+            level->Initialize(&m_graphics, &m_uiManager, &m_imgui);
+            level->SetAudioJson(m_vLevelData[i].audio);
+#else
+            level->Initialize(&m_graphics, &m_uiManager);
+#endif
+            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio);
+            level->SetEntityJson(m_vLevelData[i].entity);
+            level->CreateTileMap();
+            //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
+            level->SetUIJson(m_vLevelData[i].ui);
+
+            m_stateMachine.Add(std::move(level));
+        }
+    }
+}
+
+void Application::RemoveLevelFromStateMachine(std::string levelName)
+{
+    m_stateMachine.Remove(levelName);
 }

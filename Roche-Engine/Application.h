@@ -9,6 +9,7 @@
 #include "UIManager.h"
 #include "WindowContainer.h"
 #include "AudioEngine.h"
+#include "EventSystem.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"
@@ -25,7 +26,7 @@ struct LevelData
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( LevelData, name, audio, entity, tmBack, tmFront, ui )
 
-class Application : public WindowContainer
+class Application : public WindowContainer, public Listener
 {
 public:
 	bool Initialize( HINSTANCE hInstance, int width, int height );
@@ -35,6 +36,13 @@ public:
 	void Update();
 	void Render();
 private:
+	void AddToEvent() noexcept;
+	void RemoveFromEvent() noexcept;
+	void HandleEvent(Event* event) override;
+
+	void AddLevelToStateMachine(std::string levelName);
+	void RemoveLevelFromStateMachine(std::string levelName);
+
 	// Levels
 	std::string m_sAudioFile;
 	std::string m_sEntityFile;
