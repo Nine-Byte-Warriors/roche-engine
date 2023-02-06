@@ -14,13 +14,9 @@
 #define FOLDER_PATH "Resources\\UI\\"
 #define FOLDER_PATH_SCREENS "Resources\\UI\\Screens\\"
 
-UIEditor::UIEditor()
-{
-	LoadFromFile_Screens();
-	LoadFromFile_Widgets();
-}
+UIEditor::UIEditor() {}
 
-UIEditor::~UIEditor() { }
+UIEditor::~UIEditor() {}
 
 void UIEditor::SetJsonFile( const std::string& name )
 {
@@ -240,12 +236,12 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 				ImGui::TextColored( highlightCol, m_vUIScreenData[m_iCurrentScreenIdx].file.c_str() );
 				if ( ImGui::Button( "Load Widget File" ) )
 				{
-					std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog(foLoad)
+					std::shared_ptr<FileHandler::FileObject>foLoad = FileHandler::FileDialog( foLoad )
 						->UseOpenDialog()
 						->ShowDialog()
 						->StoreDialogResult();
 
-					if (foLoad->HasPath())
+					if ( foLoad->HasPath() )
 					{
 						m_vUIScreenData[m_iCurrentScreenIdx].file = foLoad->GetFilePath();
 						m_vUIScreenData[m_iCurrentScreenIdx].name = foLoad->m_sFile;
@@ -276,16 +272,25 @@ void UIEditor::SpawnControlWindow( const Graphics& gfx )
 					m_vUIWidgetData.emplace( screenName, widgetData );
 					widgetIdx++;
 
+					CreateScreens();
+					CreateWidgets();
 					m_iCurrentScreenIdx = m_vUIScreenData.size() - 1;
+					m_bRequiresUpdate = true;
 				}
 				ImGui::SameLine();
 				if ( ImGui::Button( "Remove Current Screen" ) )
 				{
 					if ( m_vUIScreenData.size() > 1 )
 					{
+						std::string screenName = m_vUIScreenData[m_iCurrentScreenIdx].name;
 						m_vUIScreenData.erase( m_vUIScreenData.begin() + m_iCurrentScreenIdx );
 						m_vUIScreenData.shrink_to_fit();
+						m_vUIWidgetData.erase( screenName );
+						SortScreens();
+						CreateScreens();
+						CreateWidgets();
 						m_iCurrentScreenIdx -= 1;
+						m_bRequiresUpdate = true;
 					}
 				}
 			}

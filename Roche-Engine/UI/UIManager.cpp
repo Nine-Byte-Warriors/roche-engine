@@ -54,7 +54,7 @@ std::shared_ptr<UIScreen> UIManager::GetCustomUI( const std::string& name )
 	return nullptr;
 }
 
-void UIManager::AddUI( std::shared_ptr<UIScreen> newUI, const std::string& name )
+void UIManager::AddUI( const std::shared_ptr<UIScreen>& newUI, const std::string& name )
 {
 	// Check if it is in list
 	bool bToAdd = true;
