@@ -67,8 +67,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             level->SetUIJson( m_vLevelData[i].ui );
 
             m_pLevels.push_back( std::move( level ) );
-            //m_sLevelNames.push_back( m_stateMachine.Add( m_pLevels[i] ));
-            m_stateMachine.Add(m_pLevels[i]);
+            m_sLevelNames.push_back( m_stateMachine.Add(m_pLevels[i]));
         }
         m_stateMachine.SwitchTo( "Menu" );
         m_sCurrentLevelName = "Menu";
@@ -135,6 +134,7 @@ void Application::Render()
         static bool shouldSwitchLevel = false;
         if ( ImGui::Begin( "Level Editor", FALSE, ImGuiWindowFlags_AlwaysAutoResize ) )
         {
+            int levelIndex = 0;
             static Timer timer;
             static float counter = 0.0f;
             static bool savedFile = false;
@@ -164,6 +164,7 @@ void Application::Render()
 				    const bool isSelected = ( m_sCurrentLevelName == m_pLevels[index]->GetLevelName() );
 				    if ( ImGui::Selectable( m_pLevels[i]->GetLevelName().c_str(), isSelected ) )
                     {
+                        levelIndex = index;
                         m_sCurrentLevelName = m_pLevels[index]->GetLevelName();
                         if ( m_sCurrentLevelName == m_sLevelNames[index] )
                         {
@@ -222,21 +223,25 @@ void Application::Render()
 
 	        if ( ImGui::Button( "Remove Level" ) )
 	        {
-		      //  if ( m_pLevels.size() > 1 )
-		      //  {
-        //            m_pLevels.erase( m_pLevels.begin() + m_iCurrLevelId );
-        //            m_pLevels.shrink_to_fit();
+                //for (unsigned int i = 0; i < m_vLevelData.size(); i++) {
+                //    if(m_sCurrentLevelName )
 
-        //            m_stateMachine.Remove( m_uLevel_IDs[m_iCurrLevelId] );
-        //            m_uLevel_IDs.erase( m_uLevel_IDs.begin() + m_iCurrLevelId );
-        //            m_uLevel_IDs.shrink_to_fit();
+                //}
+		        if ( m_pLevels.size() > 1 )
+		        {
+                    m_pLevels.erase( m_pLevels.begin() + levelIndex );
+                    m_pLevels.shrink_to_fit();
 
-        //            m_iCurrLevelId -= 1;
-				    //if ( m_iCurrLevelId < 0 )
-					   // m_iCurrLevelId = 0;
+                    m_stateMachine.Remove( m_sLevelNames[levelIndex] );
+                    m_sLevelNames.erase( m_sLevelNames.begin() + levelIndex );
+                    m_sLevelNames.shrink_to_fit();
 
-        //            m_stateMachine.SwitchTo( m_uLevel_IDs[m_iCurrLevelId] );
-		      //  }
+                    levelIndex -= 1;
+				    if (levelIndex < 0 )
+                        levelIndex = 0;
+
+                    m_stateMachine.SwitchTo( m_sLevelNames[levelIndex] );
+		        }
 	        }
             ImGui::NewLine();
 
