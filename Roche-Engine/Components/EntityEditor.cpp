@@ -374,7 +374,7 @@ void EntityEditor::SetType()
 
 	static int entityType = 0;
 	std::string previewEntityType = m_vEntityDataCopy[m_iIdentifier].type;
-	const char* entityTypes[]{ "Player", "Enemy", "Projectile" };
+	const char* entityTypes[]{ "Player", "Enemy", "Projectile", "Item"};
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewEntityType.c_str()))
