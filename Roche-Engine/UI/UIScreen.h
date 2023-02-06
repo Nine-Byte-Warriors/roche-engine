@@ -58,6 +58,8 @@ private:
 	int m_iSliderStart = 50;
 	UINT32 m_uLevelTo = 0;
 
+	const char *m_iCoinAmount = 0;
+
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{

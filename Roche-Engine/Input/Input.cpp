@@ -71,7 +71,7 @@ void Input::UpdateKeyboard( const float dt )
 		}
 		return;
 	}
-
+	int i = 5;
     // Handle input for single key presses
 	while (!m_keyboard.KeyBufferIsEmpty())
 	{
@@ -90,12 +90,11 @@ void Input::UpdateKeyboard( const float dt )
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
 #endif
-
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
 		
 		if ( m_keyboard.KeyIsPressed( 'Y' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+			EventSystem::Instance()->AddEvent(EVENTID::GainCoins, &i);
 
 		if ( m_keyboard.KeyIsPressed( 'L' ) )
 			EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);

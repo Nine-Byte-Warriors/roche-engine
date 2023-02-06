@@ -31,6 +31,8 @@ private:
 	// seed packet name, seed count per packet
 	std::map<std::string, int> m_vSeedOptions;
 	std::vector<bool> m_vSelectedSeeds = { true, false, false, false, false, false };
+
+	int m_iCoinAmount;
 };
 
 #endif

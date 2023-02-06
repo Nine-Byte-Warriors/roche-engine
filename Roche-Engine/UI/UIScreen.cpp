@@ -552,6 +552,8 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+
+	EventSystem::Instance()->AddClient(EVENTID::UpdateCoins, this);
 }
 
 void UIScreen::RemoveFromEvent() noexcept
@@ -568,6 +570,8 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::UpdateCoins, this);
+
 }
 
 void UIScreen::HandleEvent( Event* event )
@@ -602,6 +606,11 @@ void UIScreen::HandleEvent( Event* event )
 	{
 		m_vScreenSize = *static_cast<XMFLOAT2*>( event->GetData() );
 		m_bUpdatePageSlider = true;
+	}
+	break;
+	case EVENTID::UpdateCoins:
+	{
+		
 	}
 	break;
 	}

@@ -56,6 +56,7 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
+	GainCoins,
 
 	//UI
 	StartGame,
@@ -67,6 +68,7 @@ enum class EVENTID
 	MusicTab,
 	ControlTab,
 	OpenCredits,
+	UpdateCoins,
 
 	// DEBUG
 	RemoveHealth,

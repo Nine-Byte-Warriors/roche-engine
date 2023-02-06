@@ -11,6 +11,8 @@ Inventory::Inventory()
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Potato", 0 } );
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Tomato", 0 } );
 	m_iCurrentSeed = 0;
+
+	m_iCoinAmount = 0;
 }
 
 Inventory::~Inventory() { RemoveFromEvent(); }
@@ -84,6 +86,7 @@ void Inventory::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::DecrementSeedPacket, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlantSeedAttempt, this );
 	EventSystem::Instance()->AddClient( EVENTID::BuySeed, this );
+	EventSystem::Instance()->AddClient(EVENTID::GainCoins, this);
 }
 
 void Inventory::RemoveFromEvent() noexcept
@@ -92,6 +95,7 @@ void Inventory::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::DecrementSeedPacket, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::PlantSeedAttempt, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::BuySeed, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::GainCoins, this);
 }
 
 void Inventory::HandleEvent( Event* event )
@@ -116,6 +120,15 @@ void Inventory::HandleEvent( Event* event )
 	{
 		std::pair<std::string, int>* seedsBought = static_cast<std::pair<std::string, int>*>( event->GetData() );
 		BuySeedPacket( seedsBought->first, seedsBought->second );
+	}
+	break;
+	case EVENTID::GainCoins:
+	{
+		int CoinGain = (int)event->GetData();
+		m_iCoinAmount += CoinGain;
+		
+
+		EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 	}
 	break;
 	default: break;
