@@ -16,7 +16,7 @@ PlayerController::PlayerController(
 void PlayerController::Update(const float dt)
 {
 	m_playerMovement->Update(dt);
-	
+
 	Vector2f vPosition = m_pPhysics->GetTransform()->GetPosition();
 	Vector2f vOffSet = Vector2f(m_pSprite->GetWidth() / 2.0f, m_pSprite->GetHeight() / 2.0f);
 

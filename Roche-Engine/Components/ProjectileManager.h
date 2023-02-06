@@ -3,13 +3,12 @@
 #define PROJECTILEMANAGER_H
 
 #include "Projectile.h"
-#include "EventSystem.h"
 #include "ProjectileData.h"
 
 #define PATTERN_FOLDER_PATH "Resources\\Patterns\\"
 #define INITIAL_POOL_COUNT 10
 
-class ProjectileManager : public Listener
+class ProjectileManager
 {
 public:
 	ProjectileManager();
@@ -26,7 +25,7 @@ public:
 
 	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
-	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept 
+	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept
 		{ m_vTargetPosition = vTargetPosition; }
 
 	void UpdatePattern(std::string filepath);
@@ -34,14 +33,10 @@ public:
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	void SpawnProjectiles(Vector2f vSpawnPosition);
 
-	void AddToEvent() noexcept;
-	void RemoveFromEvent() noexcept;
-	void HandleEvent(Event* event) override;
-
 	inline std::vector<std::shared_ptr<Projectile>> GetProjector() const noexcept { return m_vecProjectilePool; };
 	inline bool IsFinished() const noexcept { return m_fDuration <= 0.0f; }
 	inline void EnableRepeat() noexcept { m_bWillRepeat = true; }
-	
+
 private:
 	void SpawnProjectile();
 	std::shared_ptr<Projectile> GetFreeProjectile();

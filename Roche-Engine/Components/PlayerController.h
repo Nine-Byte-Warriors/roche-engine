@@ -10,13 +10,13 @@ class PlayerController : public BaseController
 {
 public:
 	PlayerController(
-		const std::shared_ptr <Physics>&	pPhysics,
-		const std::shared_ptr <Sprite>&		pSprite,
-		const std::shared_ptr <Emitter>&	pEmitter
+		const std::shared_ptr <Physics>& pPhysics,
+		const std::shared_ptr <Sprite>& pSprite,
+		const std::shared_ptr <Emitter>& pEmitter
 	);
-	
+
 	//virtual void Initialise() override;
-	virtual void Update(const float dt) override;
+	virtual void Update( const float dt ) override;
 
 private:
 	std::shared_ptr<PlayerMovement>			m_playerMovement;
