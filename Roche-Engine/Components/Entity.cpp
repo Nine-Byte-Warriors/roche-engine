@@ -6,10 +6,21 @@
 
 Entity::Entity(EntityController& entityController, int EntityNum)
 {
+	m_agent = nullptr;
+
+	m_emitter = nullptr;
+
+	m_colliderCircle = nullptr;
+	m_colliderBox = nullptr;
+
+	m_playerController = nullptr;
+	m_inventory = nullptr;
+
 	m_vPosition = new Vector2f();
 
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
+
 	SetComponents();
 }
 
@@ -20,7 +31,7 @@ Entity::~Entity()
 void Entity::SetComponents()
 {
 	m_sprite = std::make_shared<Sprite>();
-	m_transform = std::make_shared<Transform>(m_sprite);
+	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
 	m_health->SetHealth( m_entityController->GetHealth( m_iEntityNum ) );
@@ -29,34 +40,23 @@ void Entity::SetComponents()
 	{
 		m_agent = std::make_shared<Agent>(m_physics);
 	}
-	else
-	{
-		m_agent = nullptr;
-	}
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
-		m_projectileManager = std::make_shared<ProjectileManager>();
-	}
-	else
-	{
-		m_projectileManager = nullptr;
+		m_vecProjectileManagers = ProjectileManager::GenerateManagers(m_entityController->GetProjectilePattern(m_iEntityNum));
+		m_emitter = std::make_shared<Emitter>(m_vecProjectileManagers, 0.01f);
 	}
 
 	if (m_entityController->HasCollider(m_iEntityNum))
 	{
-		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, 32);
-		m_colliderBox = std::make_shared<BoxCollider>(m_transform, 32, 32);
-	}
-	else
-	{
-		m_colliderCircle = nullptr;
-		m_colliderBox = nullptr;
+		bool trigger = m_entityController->GetColliderTrigger(m_iEntityNum);
+		m_colliderCircle = std::make_shared<CircleCollider> (m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, m_sEntityType, 32, 32);
 	}
 
 	if (GetType() == "Player")
 	{
-		m_playerController = std::make_shared<PlayerController>(this);
+		m_playerController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
 	}
 }
@@ -83,7 +83,9 @@ void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matric
 	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
 		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
-		m_projectileManager->InitialiseFromFile(gfx, mat, texture);
+
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->InitialiseFromFile(gfx, mat, texture);
 	}
 }
 
@@ -97,7 +99,11 @@ void Entity::Update(const float dt)
 		m_agent->Update(dt);
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
-		m_projectileManager->Update(dt);
+	{
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->Update(dt);
+		m_emitter->Update(dt);
+	}
 
 	if (m_playerController)
 		m_playerController->Update(dt);
@@ -138,16 +144,16 @@ void Entity::SetScaleInit()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScaleInit(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
-	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum))
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+
+		for ( std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers )
+			for ( std::shared_ptr<Projectile> pProjectile : pManager->GetProjector() )
+				pProjectile->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 	}
 }
 
@@ -170,16 +176,15 @@ void Entity::UpdateScale()
 {
 	m_fScaleX = m_entityController->GetScale(m_iEntityNum)[0];
 	m_fScaleY = m_entityController->GetScale(m_iEntityNum)[1];
-	m_transform->SetScale(m_fScaleX, m_fScaleY);
+	m_sprite->SetWidthHeight( m_fScaleX, m_fScaleY );
 
-	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum))
 	{
 		m_fBulletScaleX = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[0];
 		m_fBulletScaleY = m_entityController->GetProjectileBullet(m_iEntityNum)->scale[1];
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
-		{
-			m_projectileManager->GetProjector()[i]->GetTransform()->SetScaleInit(m_fBulletScaleX, m_fBulletScaleY);
-		}
+		for ( std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers )
+			for ( std::shared_ptr<Projectile> pProjectile : pManager->GetProjector() )
+				pProjectile->GetSprite()->SetWidthHeight( m_fBulletScaleX, m_fBulletScaleY );
 	}
 }
 
@@ -200,13 +205,14 @@ void Entity::UpdateAnimation()
 		m_sprite->SetMaxFrame(m_iMaxFrameX, m_iMaxFrameY);
 		//m_sprite->SetCurFrameY(m_iCurFrameY);
 
-		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+		if (m_entityController->HasProjectileBullet(m_iEntityNum))
 		{
 			m_iBulletMaxFrameX = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[0];
 			m_iBulletMaxFrameY = m_entityController->GetProjectileBullet(m_iEntityNum)->maxFrame[1];
-			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+			for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
 			{
-				m_projectileManager->GetProjector()[i]->GetSprite()->SetMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);
+				for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
+					pProjectile->GetSprite()->SetMaxFrame(m_iBulletMaxFrameX, m_iBulletMaxFrameY);
 			}
 		}
 	}
@@ -223,12 +229,13 @@ void Entity::UpdateTexture()
 	m_sTex = m_entityController->GetTexture(m_iEntityNum);
 	m_sprite->UpdateTex(m_device, m_sTex);
 
-	if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+	if (m_entityController->HasProjectileBullet(m_iEntityNum))
 	{
 		m_sBulletTex = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
-		for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+		for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
 		{
-			m_projectileManager->GetProjector()[i]->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+			for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
+				pProjectile->GetSprite()->UpdateTex(m_device, m_sBulletTex);
 		}
 	}
 }
@@ -240,12 +247,13 @@ void Entity::UpdateMass()
 		m_fMass = m_entityController->GetMass(m_iEntityNum);
 		m_physics->SetMass(m_fMass);
 
-		if (m_entityController->HasProjectileBullet(m_iEntityNum) && m_projectileManager != nullptr)
+		if (m_entityController->HasProjectileBullet(m_iEntityNum))
 		{
 			m_fBulletMass = m_entityController->GetProjectileBullet(m_iEntityNum)->mass;
-			for (int i = 0; i < m_projectileManager->GetProjector().size(); i++)
+			for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
 			{
-				m_projectileManager->GetProjector()[i]->GetPhysics()->SetMass(m_fBulletMass);
+				for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
+					pProjectile->GetPhysics()->SetMass(m_fBulletMass);
 			}
 		}
 	}
@@ -360,3 +368,14 @@ void Entity::SetAnimation()
 		UpdateAnimation();
 	}
 }
+
+void Entity::CheckAliveStatus()
+{
+	if (m_fEntityHealth <= 0.0)
+	{
+		m_entityController->SetDead(m_iEntityNum);
+	}
+}
+
+
+

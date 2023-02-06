@@ -295,12 +295,14 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\PlayerController.cpp" />
     <ClCompile Include="Components\PlayerMovement.cpp" />
+    <ClCompile Include="Components\PlayerShooting.cpp" />
     <ClCompile Include="Components\ProjectileEditor.cpp" />
     <ClCompile Include="Components\ProjectileManager.cpp" />
     <ClCompile Include="Components\Sprite.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
     <ClCompile Include="Components\Entity.cpp" />
     <ClCompile Include="Components\EntityEditor.cpp" />
+    <ClCompile Include="Components\Emitter.cpp" />
     <ClCompile Include="Events\EventSystem.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
@@ -445,12 +447,14 @@
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\PlayerController.h" />
     <ClInclude Include="Components\PlayerMovement.h" />
+    <ClInclude Include="Components\PlayerShooting.h" />
     <ClInclude Include="Components\ProjectileEditor.h" />
     <ClInclude Include="Components\ProjectileManager.h" />
     <ClInclude Include="Components\Sprite.h" />
     <ClInclude Include="Components\Transform.h" />
     <ClInclude Include="Components\Entity.h" />
     <ClInclude Include="Components\EntityEditor.h" />
+    <ClInclude Include="Components\Emitter.h" />
     <ClInclude Include="Events\Event.h" />
     <ClInclude Include="Events\EventSystem.h" />
     <ClInclude Include="Events\Listener.h" />
@@ -472,6 +476,7 @@
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
+    <ClInclude Include="UI\Widgets\MouseData.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />
     <ClInclude Include="Levels\Level.h" />
     <ClInclude Include="Levels\LevelContainer.h" />
@@ -494,7 +499,10 @@
     <ClInclude Include="UI\UIManager.h" />
     <ClInclude Include="UI\WidgetIncludes.h" />
     <ClInclude Include="UI\Widgets\Button_Widget.h" />
-    <ClInclude Include="UI\Widgets\ColourBlock_Widget.h" />
+    <ClInclude Include="UI\Widgets\ColourBlock_Widget.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI\Widgets\DataSlider_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -525,7 +533,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="UI\Widgets\Image_Widget.h" />
+    <ClInclude Include="UI\Widgets\Image_Widget.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="UI\Widgets\Input_Widget.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -587,6 +598,7 @@
     <None Include="Resources\Fonts\midnight_chalker_24.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_36.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_72.spritefont" />
+    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
     <None Include="Resources\Patterns\SlowCircle.ptn" />
     <None Include="Resources\Patterns\SlowWiggle.ptn" />

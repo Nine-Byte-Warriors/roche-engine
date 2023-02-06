@@ -19,7 +19,7 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_fFrequency = 0.0f;
 	
 	m_sprite = std::make_shared<Sprite>();
-	m_transform = std::make_shared<Transform>(m_sprite);
+	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
 }
 
@@ -27,14 +27,12 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 {
 	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), type, mat);
 	m_transform->SetPositionInit(0.0f, 0.0f);
-	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
 void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& sSpritePath)
 {
 	m_sprite->Initialize(gfx.GetDevice(), gfx.GetContext(), sSpritePath, mat);
 	m_transform->SetPositionInit(0.0f, 0.0f);
-	m_transform->SetScaleInit(m_sprite->GetWidth(), m_sprite->GetHeight());
 }
 
 void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& sSpritePath, Vector2f vSize)
@@ -44,7 +42,7 @@ void Projectile::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, 
 
 	float fWidth = vSize.x == 0.0f ? m_sprite->GetWidth() : vSize.x;
 	float fHeight = vSize.y == 0.0f ? m_sprite->GetHeight() : vSize.y;
-	m_transform->SetScaleInit(fWidth, fHeight);
+	m_sprite->SetWidthHeight( fWidth, fHeight );
 }
 
 void Projectile::Update(const float dt)
@@ -82,7 +80,7 @@ void Projectile::Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)
 
 void Projectile::SpawnProjectile(Vector2f vSpawnPosition, Vector2f vTargetPosition, float fLifeTime)
 {
-	m_fLifeTime = fLifeTime;
+	m_fLifeTime = fLifeTime <= 0.0f ? m_fMaxLifeTime : fLifeTime;
 	
 	m_vDirection = vSpawnPosition
 		.DirectionTo(vTargetPosition)

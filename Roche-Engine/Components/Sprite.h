@@ -55,6 +55,10 @@ public:
 	inline float GetHeight() const noexcept { return m_fHeight; }
 	inline void SetHeight( float height ) noexcept { m_fHeight = height; }
 
+	inline Vector2f GetWidthHeight() const noexcept { return { m_fWidth, m_fHeight }; };
+	inline void SetWidthHeight( Vector2f size ) noexcept { m_fWidth = size.x; m_fHeight = size.y; };
+	inline void SetWidthHeight( float width, float height ) noexcept { m_fWidth = width; m_fHeight = height; };
+
 	inline float GetRows() const noexcept { return m_iRows; }
 	inline void SetRows( float rows ) noexcept { m_iRows = rows; }
 

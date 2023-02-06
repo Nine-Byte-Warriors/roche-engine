@@ -3,7 +3,7 @@
 #include "UIScreen.h"
 #include "Graphics.h"
 
-void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<Widget>>& widgets, Health& health )
+void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<std::shared_ptr<Widget>>>& widgets, Health& health )
 {
 	m_vWindowSize = { (float)gfx.GetWidth(), (float)gfx.GetHeight() };
 	int index = 0;
@@ -15,7 +15,7 @@ void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, 
 	}
 }
 
-void UIManager::Update( const float dt, const std::vector<std::vector<Widget>>& widgets )
+void UIManager::Update( const float dt )
 {
 	int index = 0;
 	for ( auto const& UIItem : m_mUiList )
@@ -26,7 +26,7 @@ void UIManager::Update( const float dt, const std::vector<std::vector<Widget>>& 
 				bToDraw = true;
 
 		if ( bToDraw )
-			UIItem.second->Update( dt, widgets[index] );
+			UIItem.second->Update( dt );
 		index++;
 	}
 }
@@ -54,7 +54,7 @@ std::shared_ptr<UIScreen> UIManager::GetCustomUI( const std::string& name )
 	return nullptr;
 }
 
-void UIManager::AddUI( std::shared_ptr<UIScreen> newUI, const std::string& name )
+void UIManager::AddUI( const std::shared_ptr<UIScreen>& newUI, const std::string& name )
 {
 	// Check if it is in list
 	bool bToAdd = true;
@@ -172,7 +172,7 @@ void UIManager::HandleEvent( Event* event )
 
 }
 
-void UIManager::AddToEvent()
+void UIManager::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::RemoveUIItemEvent, this );
@@ -188,7 +188,7 @@ void UIManager::AddToEvent()
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
 }
 
-void UIManager::RemoveFromEvent()
+void UIManager::RemoveFromEvent() noexcept
 {
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RemoveUIItemEvent, this );

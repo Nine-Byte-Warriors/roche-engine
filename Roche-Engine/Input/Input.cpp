@@ -117,6 +117,8 @@ void Input::UpdateKeyboard( const float dt )
         EventSystem::Instance()->AddEvent( EVENTID::MoveDown );
     if ( m_keyboard.KeyIsPressed( 'D' ) )
         EventSystem::Instance()->AddEvent( EVENTID::MoveRight );
+	if ( m_keyboard.KeyIsPressed( ' ' ) )
+		EventSystem::Instance()->AddEvent( EVENTID::PlayerFire );
 }
 
 void Input::AddToEvent() noexcept
@@ -125,6 +127,7 @@ void Input::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->AddClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->AddClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::RemoveFromEvent() noexcept
@@ -133,6 +136,7 @@ void Input::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::HideCursorEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ClearCharBuffer, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::ReadCharInput, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::RemoveHealth, this );
 }
 
 void Input::HandleEvent( Event* event )

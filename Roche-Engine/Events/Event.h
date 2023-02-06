@@ -6,12 +6,12 @@
 enum class EVENTID
 {
 	// User Inputs
+	KeyInput,
 	CharInput,
+	MousePosition,
 	ReadCharInput,
 	ClearCharBuffer,
-	MousePosition,
 	ImGuiMousePosition,
-	KeyInput,
 
 	LeftMouseClick,
 	LeftMouseRelease,
@@ -75,6 +75,9 @@ enum class EVENTID
 	LossWindow,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
+
+	// DEBUG
+	RemoveHealth,
 
 	// Utility
 	WindowSizeChangeEvent,

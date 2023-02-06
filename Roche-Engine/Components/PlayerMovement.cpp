@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "PlayerMovement.h"
 
-PlayerMovement::PlayerMovement(std::shared_ptr<Physics> physics, std::shared_ptr<Sprite> sprite, float speed)
+PlayerMovement::PlayerMovement(const std::shared_ptr<Physics>& physics, const std::shared_ptr<Sprite>& sprite, float speed)
 {
 	m_physics = physics;
 	m_sprite = sprite;
@@ -33,7 +33,7 @@ void PlayerMovement::Update(const float dt)
 	Vector2f* pos = new Vector2f(m_physics->GetTransform()->GetPosition());
 	std::pair<Sprite*, Vector2f*>* charSpriteandPos = new std::pair<Sprite*, Vector2f*>();
 
-	charSpriteandPos->first = m_physics->GetTransform()->GetSprite().get();
+	charSpriteandPos->first = m_sprite.get();
 	charSpriteandPos->second = pos;
 
 	EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, charSpriteandPos);

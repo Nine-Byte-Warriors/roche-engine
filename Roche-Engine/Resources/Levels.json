@@ -2,20 +2,20 @@
     {
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
-        "name": "Credits",
-        "tmBack": "67x120file.json",
-        "tmFront": "67x120file.json",
-        "ui": "Menu.json"
+        "name": "Shop",
+        "tmBack": "Shop-background.json",
+        "tmFront": "Shop-foreground.json",
+        "ui": "Credits.json"
     },
-    {
+	{
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
         "name": "Game",
-        "tmBack": "67x120file.json",
-        "tmFront": "67x120file.json",
+        "tmBack": "BaseGameMap-background.json",
+        "tmFront": "BaseGameMap-foreground.json",
         "ui": "Game.json"
     },
-    {
+	{
         "audio": "!SoundBankList.json",
         "entity": "Entity.json",
         "name": "Menu",

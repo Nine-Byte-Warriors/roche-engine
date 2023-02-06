@@ -13,6 +13,7 @@ class Graphics;
 #include "CircleCollider.h"
 #include "Inventory.h"
 #include "Health.h"
+#include "Emitter.h"
 
 class Entity
 {
@@ -30,7 +31,7 @@ public:
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
-	inline std::shared_ptr<ProjectileManager> GetProjectileManager() const noexcept { return m_projectileManager; }
+	inline std::vector<std::shared_ptr<ProjectileManager>> GetProjectileManagers() const noexcept { return m_vecProjectileManagers; }
 	inline std::shared_ptr<Collider> GetCollider() const noexcept {
 		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
 			return m_colliderCircle;
@@ -38,11 +39,15 @@ public:
 			return m_colliderBox;
 	};
 	inline std::string GetSoundBankName() const noexcept { return m_sSoundBankName; };
+	inline std::shared_ptr<Emitter> GetEmitter() const noexcept { return m_emitter; }
 
 	Vector2f GetPos() { return *m_vPosition; }
 
 	std::string GetType();
 	void UpdateEntityNum(int num);
+
+	void CheckAliveStatus();
+	void TomatoKamikaze();
 
 private:
 	void SetPositionInit();
@@ -69,8 +74,9 @@ private:
 
 	void UpdateAudio();
 
-
 	int m_iEntityNum;
+
+	float m_fEntityHealth = 100.0;
 
 	ID3D11Device* m_device;
 
@@ -113,9 +119,10 @@ private:
 	std::shared_ptr<Transform> m_transform;
 	std::shared_ptr<BoxCollider> m_colliderBox;
 	std::shared_ptr<CircleCollider> m_colliderCircle;
-	std::shared_ptr<ProjectileManager> m_projectileManager;
+	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManagers;
 	std::shared_ptr<PlayerController> m_playerController;
 	std::shared_ptr<Inventory>m_inventory;
+	std::shared_ptr<Emitter> m_emitter;
 
 	EntityController* m_entityController;
 

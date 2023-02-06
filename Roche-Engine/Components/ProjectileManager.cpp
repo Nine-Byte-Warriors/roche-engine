@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ProjectileManager.h"
 
-#define INITIAL_POOL_COUNT 10
-
 ProjectileManager::ProjectileManager()
 {
 	// TODO: should be passed in from Projectile JSON
@@ -25,6 +23,57 @@ ProjectileManager::~ProjectileManager()
 {
 	m_vecProjectilePool.clear();
 	RemoveFromEvent();
+}
+
+std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
+{
+	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
+
+	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
+	{
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(
+			bUseGlobalSpeed == true
+			? fGlobalSpeed
+			: pJson.m_fSpeed,
+			pJson.m_fLifeTime
+			);
+		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
+		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
+		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
+		pProjectile->SetDelay(pJson.m_fDelay);
+
+		vecProjectilePool.push_back(std::move(pProjectile));
+	}
+
+	return vecProjectilePool;
+
+}
+
+std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManagers(std::string filepath)
+{
+	std::vector<std::shared_ptr<ProjectileManager>> vecManagers;
+	std::vector<ProjectileData::ManagerJSON> vecManagersJson;
+	JsonLoading::LoadJson(vecManagersJson, /*PATTERN_FOLDER_PATH + */ filepath);
+
+	for (ProjectileData::ManagerJSON jMan : vecManagersJson)
+	{
+		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
+		pManager->SetDelay(jMan.m_fDelay);
+		pManager->SetProjectilePool(
+			CreateProjectilePool(
+				jMan.m_vecProjectiles,
+				jMan.m_fGlobalSpeed,
+				jMan.m_bUseGlobalSpeed
+			)
+		);
+
+		if (jMan.m_bLoop)
+			pManager->EnableRepeat();
+
+		vecManagers.push_back(std::move(pManager));
+	}
+
+	return vecManagers;
 }
 
 void ProjectileManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -86,17 +135,6 @@ void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile
 		m_fTotalDuration += pProjectile->GetDelay() + pProjectile->GetMaxLifeTime();
 }
 
-void ProjectileManager::SpawnProjectile()
-{
-	m_fCounter = m_fDelay;
-	m_fDuration = m_fTotalDuration;
-
-	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
-
-	if (pProjectile != nullptr)
-		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
-}
-
 void ProjectileManager::UpdatePattern(std::string filepath)
 {
 	JsonLoading::LoadJson(m_vecManagers, filepath);
@@ -125,6 +163,17 @@ void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::Project
 	m_vecProjectilePool = vecProjectilePool;
 }
 
+void ProjectileManager::SpawnProjectile()
+{
+	m_fCounter = m_fDelay;
+	m_fDuration = m_fTotalDuration;
+
+	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
+
+	if (pProjectile != nullptr)
+		pProjectile->SpawnProjectile(m_vSpawnPosition, m_vTargetPosition, m_fLifeTime);
+}
+
 void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime)
 {
 	m_fCounter = m_fDelay;
@@ -133,7 +182,7 @@ void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime
 	std::shared_ptr<Projectile> pProjectile = GetFreeProjectile();
 
 	if(pProjectile != nullptr)
-		pProjectile->SpawnProjectile(vSpawnPosition, m_fLifeTime);
+		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, m_fLifeTime);
 }
 
 void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
@@ -143,7 +192,7 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 	m_vSpawnPosition = vSpawnPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-		pProjectile->SpawnProjectile(vSpawnPosition, -1.0f);
+		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, -1.0f);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
@@ -157,13 +206,17 @@ std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
 
 void ProjectileManager::AddToEvent() noexcept
 {
+	// TODO : to be removed because these were implemented for DEBUG purposes.
 	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::TargetPosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayerFire, this);
+
+	//EventSystem::Instance()->AddClient(EVENTID::RemoveHealth, this);
 }
 
 void ProjectileManager::RemoveFromEvent() noexcept
 {
+	// TODO : to be removed because these were implemented for DEBUG purposes.
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerPosition, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::TargetPosition, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerFire, this);
@@ -171,6 +224,7 @@ void ProjectileManager::RemoveFromEvent() noexcept
 
 void ProjectileManager::HandleEvent(Event* event)
 {
+	// TODO : to be removed because these were implemented for DEBUG purposes.
 	switch (event->GetEventID())
 	{
 	case EVENTID::PlayerPosition:

@@ -43,6 +43,7 @@ void Level::CreateEntity()
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
     }
 
@@ -63,7 +64,7 @@ void Level::CreateUI()
     m_ui->RemoveAllUI();
     for ( unsigned int i = 0; i < m_uiEditor.GetScreens().size(); i++ )
 	    m_ui->AddUI( m_uiEditor.GetScreens()[i], m_uiEditor.GetScreenData()[i].name );
-	
+
     // find the player in the entity vector
     int playerIdx = 0;
     for ( unsigned int i = 0; i < m_entity.size(); i++ )
@@ -77,10 +78,7 @@ void Level::CreateUI()
 
     m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets(), *m_entity[playerIdx].GetHealth() );
     m_ui->HideAllUI();
-
-#if !_DEBUG
-    m_ui->ShowUI( "Menu_Widgets" );
-#endif
+	m_ui->ShowUI( m_uiEditor.GetScreenData()[0].name );
 }
 
 void Level::CreateTileMap()
@@ -95,7 +93,6 @@ void Level::CreateTileMap()
     m_tileMapLoader.SetLevel(m_tileMapEditor.GetLevel(TileMapLayer::Background), m_tileMapEditor.GetLevel(TileMapLayer::Foreground));
 #else
     m_tileMapLoader.LoadLevel("67x120file.json", "67x120file.json");
-
 #endif
 
     CreateTileMapDraw();
@@ -134,7 +131,7 @@ void Level::CreateTileMapDraw()
             float positionHeight = rowPositionTotalTileLength;
 
             (*tileMapDraw)[j].GetTransform()->SetPositionInit(positionWidth, positionHeight);
-            (*tileMapDraw)[j].GetTransform()->SetScaleInit(m_iTileSize, m_iTileSize);
+            (*tileMapDraw)[j].GetSprite()->SetWidthHeight( (float)m_iTileSize, (float)m_iTileSize );
         }
 
         m_tileMapDrawLayers.push_back(*tileMapDraw);
@@ -186,7 +183,8 @@ void Level::RenderFrameEntity()
 
         if (m_entityController.HasProjectileBullet(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+                pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 }
@@ -343,29 +341,18 @@ void Level::UpdateUI( const float dt )
         CreateUI();
         m_uiEditor.SetShouldUpdate( false );
     }
-
     m_uiEditor.Update( dt );
-    static bool firstLoadEver = true;
-    if ( m_uiEditor.ShouldShowAll() || firstLoadEver )
+    if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
     {
-        m_ui->ShowAllUI();
-        firstLoadEver = false;
-    }
-    else if ( m_uiEditor.GetCurrentScreenIndex() > -1 )
-    {
-        //m_ui->HideAllUI();
+        m_ui->HideAllUI();
         m_ui->ShowUI( m_uiEditor.GetCurrentScreenName() );
     }
-    //else
-    //{
-    //    m_ui->HideAllUI();
-    //}
-    //if ( m_uiEditor.ShouldHideAll() )
-    //{
-    //    m_ui->HideAllUI();
-    //}
+    if ( m_uiEditor.ShouldShowAll() )
+        m_ui->ShowAllUI();
+    if ( m_uiEditor.ShouldHideAll() )
+        m_ui->HideAllUI();
 #endif
-    m_ui->Update( dt, m_uiEditor.GetWidgets() );
+    m_ui->Update( dt );
 }
 
 void Level::UpdateEntity(const float dt)
@@ -403,6 +390,7 @@ void Level::AddNewEntity()
         Entity* entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
+        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
 
         if (m_entityController.HasCollider(i))
@@ -415,7 +403,8 @@ void Level::AddNewEntity()
 
         if (m_entityController.HasProjectileSystem(i))
         {
-            m_entity[i].GetProjectileManager()->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
     }
 
@@ -429,6 +418,8 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
+    m_entitiesDeleted = m_entityController.m_dead;
+
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
 #endif
@@ -444,7 +435,7 @@ void Level::RemoveEntities()
     for (int i = 0; i < m_entity.size(); i++)
     {
         m_entity[i].UpdateEntityNum(i);
-        m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
+        //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
@@ -455,6 +446,8 @@ void Level::RemoveEntities()
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
 #endif
+
+    m_entityController.m_dead.clear();
 }
 
 void Level::UpdateTileMap(const float dt)
