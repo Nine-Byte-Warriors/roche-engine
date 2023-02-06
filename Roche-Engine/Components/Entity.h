@@ -63,6 +63,7 @@ private:
 	void UpdateProjectilePattern();
 
 	void UpdateColliderRadius();
+	void UpdateColliderTrigger();
 
 	void UpdateAudio();
 
