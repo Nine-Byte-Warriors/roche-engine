@@ -30,6 +30,8 @@ void GameManager::SetPhase(Phase phase)
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
 }
 
+
+
 GameManager::GameManager()
 {
 }
@@ -39,6 +41,7 @@ GameManager::~GameManager()
 	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::NextDay, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
 }
 
 void GameManager::HandleEvent(Event* event)
@@ -50,8 +53,13 @@ void GameManager::HandleEvent(Event* event)
 		break;
 	case EVENTID::ChangePhase:
 		SetPhase(*static_cast<Phase*>(event->GetData()));
+		break;
 	case EVENTID::NextDay:
 		SetNextDay();
+		break;
+	case EVENTID::GameRestartEvent:
+		Initialize(); // reinitialize game manager
+		break;
 	default:
 		break;
 	}
@@ -62,4 +70,5 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::NextDay, this);
+	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
 }
