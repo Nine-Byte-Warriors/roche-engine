@@ -121,6 +121,7 @@ void UIEditor::SaveToFile_Widgets()
 		}
 	}
 }
+#endif
 
 void UIEditor::Update( const float dt )
 {
@@ -141,6 +142,7 @@ void UIEditor::Update( const float dt )
 	}
 }
 
+#if _DEBUG
 void UIEditor::SpawnControlWindow( const Graphics& gfx )
 {
 	static Timer timer;
