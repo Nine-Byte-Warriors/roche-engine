@@ -69,8 +69,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_pLevels.push_back( std::move( level ) );
             m_uLevel_IDs.push_back( m_stateMachine.Add( m_pLevels[i] ) );
         }
-        m_stateMachine.SwitchTo( m_uLevel_IDs[0] );
-        m_iCurrLevelId = 0;
+        m_stateMachine.SwitchTo( m_uLevel_IDs[1] );
+        m_iCurrLevelId = 1;
     }
     catch ( COMException& exception )
 	{

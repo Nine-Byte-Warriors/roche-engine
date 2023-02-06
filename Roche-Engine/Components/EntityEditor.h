@@ -105,7 +105,6 @@ private:
 
 	bool m_bIsUpdated;
 	bool m_bLockPosition;
-	bool m_bLockToScale;
 
 	float m_fPushItemWidthFull = 210.0f;
 	float m_fPushItemWidthHalf = 100.0f;
