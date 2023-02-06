@@ -262,11 +262,11 @@ void UIScreen::Update( const float dt )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Master volume label" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music volume label" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )
@@ -303,11 +303,11 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "Language DD Label" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Language", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Language", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake Slider Label" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Screen Shake Amount", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Screen Shake Amount", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Pause Title" )
@@ -316,23 +316,23 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Up Control" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Left Control" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Down Control" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Right Control" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Shoot Control" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "CreditTitle" )
