@@ -1,5 +1,9 @@
 [
     {
+        "file": "Change_Level_Widgets.json",
+        "name": "Change_Level_Widgets"
+    },
+    {
         "file": "HUD_Day.json",
         "name": "HUD_Day"
     },

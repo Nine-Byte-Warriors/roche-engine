@@ -4,7 +4,7 @@
         "hide": false,
         "name": "Carrot Seed Packet",
         "position": [
-            747.0,
+            624.0,
             954.0
         ],
         "scale": [
@@ -19,7 +19,7 @@
         "hide": false,
         "name": "Bean Seed Packet",
         "position": [
-            624.0,
+            747.0,
             954.0
         ],
         "scale": [
@@ -34,7 +34,7 @@
         "hide": false,
         "name": "Onion Seed Packet",
         "position": [
-            997.0,
+            873.0,
             954.0
         ],
         "scale": [
@@ -49,7 +49,7 @@
         "hide": false,
         "name": "Cauliflower Seed Packet",
         "position": [
-            873.0,
+            997.0,
             954.0
         ],
         "scale": [
@@ -94,7 +94,7 @@
         "hide": false,
         "name": "Carrot Background",
         "position": [
-            745.0,
+            620.0,
             928.0
         ],
         "scale": [
@@ -109,7 +109,7 @@
         "hide": false,
         "name": "Bean Background",
         "position": [
-            620.0,
+            745.0,
             928.0
         ],
         "scale": [
@@ -124,7 +124,7 @@
         "hide": false,
         "name": "Onion Background",
         "position": [
-            994.0,
+            871.0,
             928.0
         ],
         "scale": [
@@ -139,7 +139,7 @@
         "hide": false,
         "name": "Cauliflower Background",
         "position": [
-            871.0,
+            994.0,
             928.0
         ],
         "scale": [

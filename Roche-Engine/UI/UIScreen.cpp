@@ -57,7 +57,7 @@ void UIScreen::Update( const float dt )
 #pragma region BUTTONS
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
+			static std::vector<std::string> SeedStrings = { "Bean", "Carrot", "Cauliflower", "Onion", "Potato", "Tomato" };
 			for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 			{
 				if ( m_vWidgets[i]->GetAction() == ( SeedStrings[j] + " Background" ) )
