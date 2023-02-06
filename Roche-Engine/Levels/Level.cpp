@@ -492,14 +492,17 @@ void Level::UpdateTileMap(const float dt)
 
 void Level::UpdateTileMapPlanting(const float dt)
 {
-    int player = 2;
+    int player = m_entityController.GetEntityNumFromName("Player");
     int drawLayer = 1;
     float radius = 200.0f;
 
     bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered;
     if (isDrawOnMapAvalibleForPlayer)
     {
-        int seed = m_entity[player].GetInventory()->GetActiveSeedPacket();
+        int seedNum = m_entity[player].GetInventory()->GetActiveSeedPacket();
+        std::string seedString = m_entity[player].GetInventory()->GetName();
+        int entityNum = m_entityController.GetEntityNumFromName(seedString);
+
         bool isPlayerNearTheMouse = m_tileMapPaintOnMap.IsNearTheMouse(m_entity[player].GetTransform()->GetPosition(),
             m_entity[player].GetSprite()->GetWidthHeight() / 2, radius);
 
@@ -511,11 +514,11 @@ void Level::UpdateTileMapPlanting(const float dt)
 
                 m_entity[player].GetInventory()->GetActiveSeedPacketCount();
 
-            bool isTilePlantable =
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
-                !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
-                m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
+                bool isTilePlantable =
+                    m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
+                    !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
+                    m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
+                    m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
             if (isTilePlantable)
             {
@@ -523,8 +526,8 @@ void Level::UpdateTileMapPlanting(const float dt)
                 m_tileMapDrawLayers[drawLayer][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
 
                 Vector2f spawnMapPos = m_tileMapPaintOnMap.GetMapPos(m_entity[player].GetTransform()->GetPosition(),
-                    m_entity[seed].GetSprite()->GetWidthHeight() / 2);
-                m_entitySpawner.AddEntityToSpawn(seed, spawnPos, spawnMapPos);
+                    m_entity[entityNum].GetSprite()->GetWidthHeight() / 2);
+                m_entitySpawner.AddEntityToSpawn(entityNum, spawnPos, spawnMapPos);
 
                 std::pair<std::string, int>* seedattempt = new std::pair<std::string, int>();
                 seedattempt->first = m_entity[player].GetInventory()->GetName();
