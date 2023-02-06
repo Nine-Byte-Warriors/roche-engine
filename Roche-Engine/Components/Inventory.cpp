@@ -100,47 +100,47 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 	{
 		if ( seedName == key )
 		{
-			value += amountToChange;
-			return;
-			*/
+			/*value += amountToChange;
+			return;*/
+			
 			if (seedName.contains("Carrot") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Carrot");
 				return;
 			}
 			if (seedName.contains("Potato") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Patato");
 				return;
 			}
 			if (seedName.contains("Bean") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Been");
 				return;
 			}
 			if (seedName.contains("Onion") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Onion");
 				return;
 			}
 			if (seedName.contains("Cauliflower") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Cauliflower");
 				return;
 			}
 			if (seedName.contains("Tomato") && m_iCoinAmount >= 1)
 			{
-				value += 1;
+				value += amountToChange;
 				m_iCoinAmount--;
 				OutputDebugStringA("Tomato");
 				return;
@@ -199,7 +199,6 @@ void Inventory::HandleEvent( Event* event )
 
 void Inventory::UpdateCoins()
 {
-	OutputDebugStringA("Increase");
 	m_iCoinAmount++;
 	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }
