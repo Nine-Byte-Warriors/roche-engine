@@ -15,6 +15,8 @@
 #include "ImGuiManager.h"
 #endif
 
+#define STARTING_LEVEL_NAME "Menu"
+
 struct LevelData
 {
 	std::string name;
@@ -40,8 +42,8 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
-	void AddLevelToStateMachine(std::string levelName);
-	void RemoveLevelFromStateMachine(std::string levelName);
+	void AddLevel(std::string levelName);
+	void RemoveLevel(std::string levelName);
 
 	// Levels
 	std::string m_sAudioFile;

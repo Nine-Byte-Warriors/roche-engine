@@ -14,15 +14,17 @@ void UIManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 		index++;
 	}
 
-	std::string* loadingLevel = new std::string("Loading");
-	std::string* menuLevel = new std::string("Menu");
-	std::string* gameLevel = new std::string("Game");
-	std::string* shopLevel = new std::string("Shop");
-	m_vLevelNames.push_back(loadingLevel);
-	m_vLevelNames.push_back(menuLevel);
-	m_vLevelNames.push_back(gameLevel);
-	m_vLevelNames.push_back(shopLevel);
-	m_sCurrentLevel = "Menu";
+	if (m_vLevelNames.size() == 0) {
+		std::string* loadingLevel = new std::string("Loading");
+		std::string* menuLevel = new std::string("Menu");
+		std::string* gameLevel = new std::string("Game");
+		std::string* shopLevel = new std::string("Shop");
+		m_vLevelNames.push_back(loadingLevel);
+		m_vLevelNames.push_back(menuLevel);
+		m_vLevelNames.push_back(gameLevel);
+		m_vLevelNames.push_back(shopLevel);
+		m_sCurrentLevel = "Menu";
+	}
 }
 
 void UIManager::Update(const float dt)
@@ -202,10 +204,16 @@ void UIManager::HandleEvent(Event* event)
 		{
 			HideAllUI();
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
+				//EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
+				//m_sCurrentLevel == *m_vLevelNames[SHOP];
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
+				m_sCurrentLevel = *m_vLevelNames[SHOP];
 			}
 			else {
+				//EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+				//m_sCurrentLevel == *m_vLevelNames[GAME];
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+				m_sCurrentLevel = *m_vLevelNames[GAME];
 			}
 			ShowUI("HUD_Day");
 		}
