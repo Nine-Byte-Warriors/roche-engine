@@ -3,85 +3,85 @@
 #include "UIScreen.h"
 #include "Graphics.h"
 
-void UIManager::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<std::shared_ptr<Widget>>>& widgets, Health& health )
+void UIManager::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>* mat, const std::vector<std::vector<std::shared_ptr<Widget>>>& widgets, Health& health)
 {
 	m_vWindowSize = { (float)gfx.GetWidth(), (float)gfx.GetHeight() };
 	int index = 0;
-	for ( auto const& UIItem : m_mUiList )
+	for (auto const& UIItem : m_mUiList)
 	{
-		UIItem.second->SetScreenSize( m_vWindowSize );
-		UIItem.second->Initialize( gfx, mat, widgets[index], health );
+		UIItem.second->SetScreenSize(m_vWindowSize);
+		UIItem.second->Initialize(gfx, mat, widgets[index], health);
 		index++;
 	}
 }
 
-void UIManager::Update( const float dt )
+void UIManager::Update(const float dt)
 {
 	int index = 0;
-	for ( auto const& UIItem : m_mUiList )
+	for (auto const& UIItem : m_mUiList)
 	{
 		bool bToDraw = false;
-		for ( int i = 0; i < m_vUiToDraw.size(); i++ )
-			if ( UIItem.first == m_vUiToDraw[i] )
+		for (int i = 0; i < m_vUiToDraw.size(); i++)
+			if (UIItem.first == m_vUiToDraw[i])
 				bToDraw = true;
 
-		if ( bToDraw )
-			UIItem.second->Update( dt );
+		if (bToDraw)
+			UIItem.second->Update(dt);
 		index++;
 	}
 }
 
-void UIManager::Draw( VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
+void UIManager::Draw(VertexShader vtx, PixelShader pix, XMMATRIX worldOrtho, TextRenderer* textRenderer)
 {
-	for ( auto const& UIItem : m_mUiList )
+	for (auto const& UIItem : m_mUiList)
 	{
 		bool bToDraw = false;
-		for ( int i = 0; i < m_vUiToDraw.size(); i++ )
-			if ( UIItem.first == m_vUiToDraw[i] )
+		for (int i = 0; i < m_vUiToDraw.size(); i++)
+			if (UIItem.first == m_vUiToDraw[i])
 				bToDraw = true;
 
-		if ( bToDraw )
-			UIItem.second->Draw( vtx, pix, worldOrtho, textRenderer );
+		if (bToDraw)
+			UIItem.second->Draw(vtx, pix, worldOrtho, textRenderer);
 	}
 }
 
-std::shared_ptr<UIScreen> UIManager::GetCustomUI( const std::string& name )
+std::shared_ptr<UIScreen> UIManager::GetCustomUI(const std::string& name)
 {
-	for ( auto const& UIItem : m_mUiList )
-		if ( UIItem.first == name )
+	for (auto const& UIItem : m_mUiList)
+		if (UIItem.first == name)
 			return m_mUiList[name];
 
 	return nullptr;
 }
 
-void UIManager::AddUI( const std::shared_ptr<UIScreen>& newUI, const std::string& name )
+void UIManager::AddUI(const std::shared_ptr<UIScreen>& newUI, const std::string& name)
 {
 	// Check if it is in list
 	bool bToAdd = true;
-	for ( auto const& UIItem : m_mUiList )
+	for (auto const& UIItem : m_mUiList)
 	{
-		if ( UIItem.first == name )
+		if (UIItem.first == name)
 		{
 			bToAdd = false;
 			break;
 		}
 	}
-	if ( bToAdd )
+	if (bToAdd)
 	{
 		m_mUiList[name] = newUI;
-		m_vUiToDraw.push_back( name );
+		m_vUiToDraw.push_back(name);
 	}
 }
 
-void UIManager::RemoveUI( const std::string& name )
+void UIManager::RemoveUI(const std::string& name)
 {
-	for ( auto i = m_mUiList.begin(); i != m_mUiList.end(); i++ )
+	for (auto i = m_mUiList.begin(); i != m_mUiList.end(); i++)
 	{
-		if ( i->first == name )
+		if (i->first == name)
 		{
 			// Delete the client in question
 			// No need to keep going since its a unique and more cant exist
-			i = m_mUiList.erase( i );
+			i = m_mUiList.erase(i);
 			break;
 		}
 	}
@@ -92,18 +92,24 @@ void UIManager::RemoveAllUI()
 	m_mUiList.clear();
 }
 
-void UIManager::HandleEvent( Event* event )
+void UIManager::HandleEvent(Event* event)
 {
-	switch ( event->GetEventID() )
+	switch (event->GetEventID())
 	{
-	case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>( event->GetData() ); } break;
-	case EVENTID::RemoveUIItemEvent: { RemoveUI( *static_cast<std::string*>( event->GetData() ) ); } break;
+	case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>(event->GetData()); } break;
+	case EVENTID::RemoveUIItemEvent: { RemoveUI(*static_cast<std::string*>(event->GetData())); } break;
 	case EVENTID::StartGame:
 	{
 		RemoveAllUI();
 		std::string* levelName = new std::string("Game");
+		std::string* additionalLevelName = new std::string("Shop");
+		std::string* levelToRemove = new std::string("Menu");
+		EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, levelName);
+		EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, additionalLevelName);
 		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
-		// TO DO: Load intiial hud day UI after loading, GameStartedEvent to listen to?
+		EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, levelToRemove);
+		ShowUI("HUD_Day");
+		// TO DO: Send start game event for game manager?
 	}
 	break;
 	case EVENTID::OpenCredits:
@@ -146,8 +152,12 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::BackToMainMenu:
 	{
 		RemoveAllUI();
-		std::string* levelName = new std::string( "Menu" );
-		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
+		std::string* levelName = new std::string("Menu");
+		//EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, "Menu");
+		//EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
+		//EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, "Game");
+		//EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, "Shop");
+
 	}
 	break;
 	case EVENTID::WinWindow:
@@ -165,17 +175,17 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::GameRestartEvent:
 		HideAllUI();
 		ShowUI("HUD_Day");
-		std::string* levelName = new std::string( "Game" );
+		std::string* levelName = new std::string("Game");
 		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
-	break;
+		break;
 	}
 
 }
 
 void UIManager::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
-	EventSystem::Instance()->AddClient( EVENTID::RemoveUIItemEvent, this );
+	EventSystem::Instance()->AddClient(EVENTID::WindowSizeChangeEvent, this);
+	EventSystem::Instance()->AddClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::StartGame, this);
 	EventSystem::Instance()->AddClient(EVENTID::OpenCredits, this);
 	EventSystem::Instance()->AddClient(EVENTID::OpenSettings, this);
@@ -190,8 +200,8 @@ void UIManager::AddToEvent() noexcept
 
 void UIManager::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::RemoveUIItemEvent, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::WindowSizeChangeEvent, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::StartGame, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenCredits, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenSettings, this);
@@ -206,13 +216,13 @@ void UIManager::RemoveFromEvent() noexcept
 
 void UIManager::HideAllUI()
 {
-	for ( auto const& UIItem : m_mUiList )
+	for (auto const& UIItem : m_mUiList)
 	{
 		std::vector<std::string>::iterator iter = m_vUiToDraw.begin();
-		while ( iter != m_vUiToDraw.end() )
+		while (iter != m_vUiToDraw.end())
 		{
-			if ( *iter == UIItem.first )
-				iter = m_vUiToDraw.erase( iter );
+			if (*iter == UIItem.first)
+				iter = m_vUiToDraw.erase(iter);
 			else
 				++iter;
 		}
@@ -221,22 +231,22 @@ void UIManager::HideAllUI()
 
 void UIManager::ShowAllUI()
 {
-	for ( auto const& UIItem : m_mUiList )
-		m_vUiToDraw.push_back( UIItem.first );
+	for (auto const& UIItem : m_mUiList)
+		m_vUiToDraw.push_back(UIItem.first);
 }
 
-void UIManager::ShowUI( const std::string& name )
+void UIManager::ShowUI(const std::string& name)
 {
-	m_vUiToDraw.push_back( name );
+	m_vUiToDraw.push_back(name);
 }
 
-void UIManager::HideUI( const std::string& name )
+void UIManager::HideUI(const std::string& name)
 {
 	std::vector<std::string>::iterator iter = m_vUiToDraw.begin();
-	while ( iter != m_vUiToDraw.end() )
+	while (iter != m_vUiToDraw.end())
 	{
-		if ( *iter == name )
-			iter = m_vUiToDraw.erase( iter );
+		if (*iter == name)
+			iter = m_vUiToDraw.erase(iter);
 		else
 			++iter;
 	}
