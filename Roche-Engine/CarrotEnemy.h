@@ -4,17 +4,16 @@
 #include <functional>
 #include "Collider.h"
 
-class Entity;
+class Health;
 
 class CarrotEnemy
 {
 public: 
-	CarrotEnemy(Entity* entity);
+	CarrotEnemy(const std::shared_ptr<Health>& health, const std::shared_ptr<Collider>& collider);
 	void Update(float dt);
 
 private:
-	Entity* m_entity;
-	Entity* m_playerEntity;
+	std::shared_ptr<Health> m_health;
 
 	void Hit(Collider& collider);
 };

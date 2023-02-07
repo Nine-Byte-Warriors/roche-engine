@@ -117,7 +117,6 @@ private:
 	float m_fSpeed;
 
 	std::string m_sBehaviour;
-	std::string m_sEntityType;
 
 	std::string m_sColliderShape;
 	float m_fColliderRadiusX;

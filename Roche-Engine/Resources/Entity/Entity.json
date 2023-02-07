@@ -128,7 +128,7 @@
         "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
         "type": "Enemy"
     },
-    {
+	{
         "AI": true,
         "animation": true,
         "animationPath": "None",
@@ -143,32 +143,33 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
-        "columns": 1,
+        "colliderShape": "Box",
+        "columns": 2,
         "health": 100.0,
-        "identifier": 3,
+        "identifier": 2,
         "mass": 1.0,
         "maxFrame": [
             1,
             1
         ],
-        "name": "Carrot",
+        "name": "Onion",
         "position": [
-            500.0,
+            958.0,
             500.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
         "projectileSystem": true,
         "rotation": 0.0,
-        "rows": 1,
+        "rows": 3,
         "scale": [
             64.0,
             64.0
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Entity\\Carrot\\Carrot.png",
+        "texture": "Resources\\Textures\\Entity\\Onion\\Onion.png",
         "type": "Enemy"
     }
+    
 ]
