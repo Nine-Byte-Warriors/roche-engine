@@ -38,8 +38,13 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void DataSlider_Widget::Resolve( const std::string& barTex, const std::string& sliderTex, MouseData& mData, int index )
+void DataSlider_Widget::Resolve( const std::string& barTex, const std::string& sliderTex, MouseData& mData, int index, int startOverride )
 {
+	if ( startOverride > -1 && !m_bUsedStartOverride )
+	{
+		m_iStart = startOverride;
+		m_bUsedStartOverride = true;
+	}
 	m_barTexture = barTex;
 	m_sliderTexture = sliderTex;
 	m_fPx = ( ( float )m_iStart / 100.0f ) * m_spriteBar->GetWidth();

@@ -79,8 +79,8 @@
         "hide": true,
         "name": "Master Volume Slider",
         "position": [
-            721.0,
-            416.0
+            907.0,
+            442.0
         ],
         "scale": [
             433.0,
@@ -94,8 +94,8 @@
         "hide": true,
         "name": "Master volume label",
         "position": [
-            383.0,
-            378.0
+            444.0,
+            383.0
         ],
         "scale": [
             319.0,
@@ -109,8 +109,8 @@
         "hide": true,
         "name": "Music Volume Silder",
         "position": [
-            721.0,
-            544.0
+            907.0,
+            664.0
         ],
         "scale": [
             433.0,
@@ -124,12 +124,12 @@
         "hide": true,
         "name": "Music Volume Label",
         "position": [
-            383.0,
+            444.0,
             497.0
         ],
         "scale": [
             319.0,
-            151.0
+            368.0
         ],
         "type": "Image",
         "zindex": 8
@@ -139,8 +139,8 @@
         "hide": true,
         "name": "Up Control Label",
         "position": [
-            550.0,
-            339.0
+            600.0,
+            293.0
         ],
         "scale": [
             64.0,
@@ -154,8 +154,8 @@
         "hide": true,
         "name": "Left Control Label",
         "position": [
-            550.0,
-            421.0
+            600.0,
+            393.0
         ],
         "scale": [
             64.0,
@@ -169,8 +169,8 @@
         "hide": true,
         "name": "Down Control Label",
         "position": [
-            550.0,
-            509.0
+            600.0,
+            491.0
         ],
         "scale": [
             64.0,
@@ -184,8 +184,8 @@
         "hide": true,
         "name": "Right Control Label",
         "position": [
-            550.0,
-            604.0
+            600.0,
+            595.0
         ],
         "scale": [
             64.0,
@@ -195,12 +195,12 @@
         "zindex": 12
     },
     {
-        "action": "Shoot Control",
+        "action": "Dash Control",
         "hide": true,
-        "name": "Shoot Control Label",
+        "name": "Dash Control Label",
         "position": [
-            550.0,
-            704.0
+            600.0,
+            692.0
         ],
         "scale": [
             64.0,
@@ -210,117 +210,117 @@
         "zindex": 13
     },
     {
-        "action": "",
+        "action": "Interact Control",
         "hide": true,
-        "name": "Up Control Input",
+        "name": "Interact Control Label",
         "position": [
-            750.0,
-            339.0
+            600.0,
+            699.0
         ],
         "scale": [
             64.0,
-            64.0
+            263.0
         ],
-        "type": "Input",
+        "type": "Image",
         "zindex": 14
     },
     {
-        "action": "",
+        "action": "Up Input",
         "hide": true,
-        "name": "Left Control Input",
+        "name": "Up Control Input",
         "position": [
-            750.0,
-            421.0
+            1050.0,
+            299.0
         ],
         "scale": [
-            64.0,
-            64.0
+            200.0,
+            75.0
         ],
         "type": "Input",
         "zindex": 15
     },
     {
-        "action": "",
+        "action": "Left Input",
         "hide": true,
-        "name": "Down Control Input",
+        "name": "Left Control Input",
         "position": [
-            750.0,
-            509.0
+            1050.0,
+            400.0
         ],
         "scale": [
-            64.0,
-            64.0
+            200.0,
+            75.0
         ],
         "type": "Input",
         "zindex": 16
     },
     {
-        "action": "",
+        "action": "Down Input",
         "hide": true,
-        "name": "Right Control Input",
+        "name": "Down Control Input",
         "position": [
-            750.0,
-            604.0
+            1050.0,
+            497.0
         ],
         "scale": [
-            64.0,
-            64.0
+            200.0,
+            75.0
         ],
         "type": "Input",
         "zindex": 17
     },
     {
-        "action": "",
+        "action": "Right Input",
         "hide": true,
-        "name": "Shoot Control Input",
+        "name": "Right Control Input",
         "position": [
-            750.0,
-            704.0
+            1050.0,
+            594.0
         ],
         "scale": [
-            64.0,
-            64.0
+            200.0,
+            75.0
         ],
         "type": "Input",
         "zindex": 18
+    },
+    {
+        "action": "Dash Input",
+        "hide": true,
+        "name": "Dash Control Input",
+        "position": [
+            1050.0,
+            691.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 19
+    },
+    {
+        "action": "Interact Input",
+        "hide": true,
+        "name": "Interact Control Input",
+        "position": [
+            1050.0,
+            794.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 20
     },
     {
         "action": "Language DD Label",
         "hide": false,
         "name": "Language setting Label",
         "position": [
-            484.0,
+            561.0,
             616.0
-        ],
-        "scale": [
-            205.0,
-            97.0
-        ],
-        "type": "Image",
-        "zindex": 19
-    },
-    {
-        "action": "Language",
-        "hide": false,
-        "name": "Language Drop Down",
-        "position": [
-            893.0,
-            611.0
-        ],
-        "scale": [
-            148.0,
-            97.0
-        ],
-        "type": "Drop Down",
-        "zindex": 20
-    },
-    {
-        "action": "Screen Shake Slider Label",
-        "hide": false,
-        "name": "Screen Shake amount Label",
-        "position": [
-            481.0,
-            383.0
         ],
         "scale": [
             205.0,
@@ -330,19 +330,139 @@
         "zindex": 21
     },
     {
+        "action": "Language",
+        "hide": false,
+        "name": "Language Drop Down",
+        "position": [
+            1075.0,
+            625.0
+        ],
+        "scale": [
+            150.0,
+            100.0
+        ],
+        "type": "Drop Down",
+        "zindex": 22
+    },
+    {
+        "action": "Screen Shake Slider Label",
+        "hide": false,
+        "name": "Screen Shake amount Label",
+        "position": [
+            546.0,
+            383.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 23
+    },
+    {
         "action": "Screen Shake",
         "hide": false,
         "name": "Screen Shake Slider",
         "position": [
-            929.0,
-            379.0
+            1075.0,
+            414.0
         ],
         "scale": [
-            164.0,
-            88.0
+            255.0,
+            66.0
         ],
         "type": "Data Slider",
-        "zindex": 22
+        "zindex": 24
+    },
+    {
+        "action": "Red Overlay Label",
+        "hide": false,
+        "name": "Red Overlay Label",
+        "position": [
+            546.0,
+            364.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 25
+    },
+    {
+        "action": "Red Overlay Slider",
+        "hide": false,
+        "name": "Red Overlay Slider",
+        "position": [
+            1075.0,
+            390.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 26
+    },
+    {
+        "action": "Green Overlay Label",
+        "hide": false,
+        "name": "Green Overlay Label",
+        "position": [
+            546.0,
+            531.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 27
+    },
+    {
+        "action": "Green Overlay Slider",
+        "hide": false,
+        "name": "Green Overlay Slider",
+        "position": [
+            1075.0,
+            559.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 28
+    },
+    {
+        "action": "Blue Overlay Label",
+        "hide": false,
+        "name": "Blue Overlay Label",
+        "position": [
+            546.0,
+            696.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 29
+    },
+    {
+        "action": "Blue Overlay Slider",
+        "hide": false,
+        "name": "Blue Overlay Slider",
+        "position": [
+            1075.0,
+            729.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 30
     },
     {
         "action": "Back",
@@ -357,6 +477,6 @@
             159.0
         ],
         "type": "Button",
-        "zindex": 23
+        "zindex": 31
     }
 ]

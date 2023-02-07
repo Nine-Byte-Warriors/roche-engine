@@ -64,20 +64,24 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetAction() == ( SeedStrings[j] + " Background" ) )
 				{
 					m_vWidgets[i]->GetButtonWidget()->SetTextOffset( XMFLOAT2( 40.0f, 30.0f ) );
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve(
-						std::to_string( m_inventory.GetSeedPacketCount( SeedStrings[j] ) ),
-						Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket( j ) ) )
+					if ( !m_vWidgets[i]->GetIsHidden() )
 					{
-						m_inventory.SetActiveSeedPacket( j );
+						if ( m_vWidgets[i]->GetButtonWidget()->Resolve(
+							std::to_string( m_inventory.GetSeedPacketCount( SeedStrings[j] ) ),
+							Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket( j ) ) )
+						{
+							m_inventory.SetActiveSeedPacket( j );
+						}
 					}
 				}
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Link" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
-					if ( !m_bOpenLink && m_bOpen )
-						m_bOpenLink = true;
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGithub, m_mouseData ) )
+						if ( !m_bOpenLink && m_bOpen )
+							m_bOpenLink = true;
 
 				if ( !m_vWidgets[i]->GetButtonWidget()->GetIsPressed() )
 					m_bOpen = true;
@@ -91,73 +95,87 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::StartGame );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::StartGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Settings", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::OpenSettings );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Settings", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::OpenSettings );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Credits" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::OpenCredits );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::OpenCredits );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Resume" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::ResumeGame );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::ResumeGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
-					EventSystem::Instance()->AddEvent( EVENTID::Back );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+						EventSystem::Instance()->AddEvent( EVENTID::Back );
 			}
 			if (m_vWidgets[i]->GetAction() == "Restart")
 			{
-				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
 			}
 			if (m_vWidgets[i]->GetAction() == "Confirm")
 			{
-				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
 			}
 			if (m_vWidgets[i]->GetAction() == "Deny")
 			{
-				if (m_vWidgets[i]->GetButtonWidget()->Resolve("No", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-					EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp);
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("No", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "General" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGeneralTabs, m_mouseData, m_eTabsState == Tabs::General ) )
-					m_eTabsState = Tabs::General;
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGeneralTabs, m_mouseData, m_eTabsState == Tabs::General ) )
+						m_eTabsState = Tabs::General;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Graphics" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGraphicsTabs, m_mouseData, m_eTabsState == Tabs::Graphics ) )
-					m_eTabsState = Tabs::Graphics;
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGraphicsTabs, m_mouseData, m_eTabsState == Tabs::Graphics ) )
+						m_eTabsState = Tabs::Graphics;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesMusicTabs, m_mouseData, m_eTabsState == Tabs::Audio ) )
-					m_eTabsState = Tabs::Audio;
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesMusicTabs, m_mouseData, m_eTabsState == Tabs::Audio ) )
+						m_eTabsState = Tabs::Audio;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Control" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesControlTabs, m_mouseData, m_eTabsState == Tabs::Controls ) )
-					m_eTabsState = Tabs::Controls;
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesControlTabs, m_mouseData, m_eTabsState == Tabs::Controls ) )
+						m_eTabsState = Tabs::Controls;
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_textures, m_mouseData );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_textures, m_mouseData );
 			}
 			m_vWidgets[i]->GetButtonWidget()->Update( dt );
 		}
@@ -178,33 +196,79 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
-					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
-				float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
-				AudioEngine::GetInstance()->SetMasterVolume( sliderData );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+					AudioEngine::GetInstance()->SetMasterVolume( sliderData );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
-					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
-				float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
-				AudioEngine::GetInstance()->SetMusicVolume( sliderData );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+					AudioEngine::GetInstance()->SetMusicVolume( sliderData );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
-					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+				}
+			}
+			if ( m_vWidgets[i]->GetAction() == "Red Overlay Slider" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, 100 );
+					float* redOverlay = new float( m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f );
+					EventSystem::Instance()->AddEvent( EVENTID::RedOverlayColour, redOverlay );
+				}
+			}
+			if ( m_vWidgets[i]->GetAction() == "Green Overlay Slider" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, 100 );
+					float* greenOverlay = new float( m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f );
+					EventSystem::Instance()->AddEvent( EVENTID::GreenOverlayColour, greenOverlay );
+				}
+			}
+			if ( m_vWidgets[i]->GetAction() == "Blue Overlay Slider" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, 100 );
+					float* blueOverlay = new float( m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f );
+					EventSystem::Instance()->AddEvent( EVENTID::BlueOverlayColour, blueOverlay );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
-					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
 			}
 			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
@@ -221,24 +285,30 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
 
-				// Create a drop down that allows user to change Language
-				std::vector<std::string> vValues = { "English (UK)", "English (USA)" };
-				static std::string sValue = vValues[0];
-				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-				if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "English (USA)" )
-					sValue = "English (USA)";
-				else
-					sValue = "English (UK)";
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					// Create a drop down that allows user to change Language
+					std::vector<std::string> vValues = { "English (UK)", "English (USA)" };
+					static std::string sValue = vValues[0];
+					m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+					if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "English (USA)" )
+						sValue = "English (USA)";
+					else
+						sValue = "English (UK)";
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				std::vector<std::string> vValues = { "True", "False" };
-				static std::string sValue = vValues[0];
-				m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
-				if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "False" )
-					sValue = "False";
-				else
-					sValue = "True";
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					std::vector<std::string> vValues = { "True", "False" };
+					static std::string sValue = vValues[0];
+					m_vWidgets[i]->GetDropDownWidget()->Resolve( vValues, m_texturesDD, m_texturesDDButton, Colors::White, sValue, m_mouseData );
+					if ( m_vWidgets[i]->GetDropDownWidget()->GetSelected() == "False" )
+						sValue = "False";
+					else
+						sValue = "True";
+				}
 			}
 			m_vWidgets[i]->GetDropDownWidget()->Update( dt );
 		}
@@ -348,10 +418,31 @@ void UIScreen::Update( const float dt )
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
-			if ( m_vWidgets[i]->GetAction() == "Shoot Control" )
+			if ( m_vWidgets[i]->GetAction() == "Dash Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Dash Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Interact Control" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Interact Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+			}
+
+			if ( m_vWidgets[i]->GetAction() == "Red Overlay Label" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Red Overlay", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Green Overlay Label" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Green Overlay", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Blue Overlay Label" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Graphics ? false : true );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Blue Overlay", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "CreditTitle" )
@@ -476,13 +567,58 @@ void UIScreen::Update( const float dt )
 #pragma region INPUT
 		if ( m_vWidgets[i]->GetType() == "Input" )
 		{
+			static XMFLOAT2 controlTextOffset = { -20.0f, -27.5f };
+
+			if ( m_vWidgets[i]->GetAction() == "Up Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "W", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Left Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "A", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Down Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "S", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Right Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "D", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Dash Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( { controlTextOffset.x - 25.0f, controlTextOffset.y } );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "SPACE", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "Interact Input" )
+			{
+				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					m_vWidgets[i]->GetInputWidget()->Resolve( "E", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+			}
 			if ( m_vWidgets[i]->GetAction() == "Player Name" )
 			{
 				// Input that allows the user to enter their name
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				m_vWidgets[i]->GetInputWidget()->Resolve( m_sKeys, Colors::White, m_textures, m_mouseData, i );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+					urm_vWidgets[i]->GetInputWidget()->Resolve( "", m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			}
 			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}
@@ -624,7 +760,6 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
-
 }
 
 void UIScreen::HandleEvent( Event* event )
