@@ -304,12 +304,12 @@
         "hide": false,
         "name": "Language Drop Down",
         "position": [
-            960.0,
+            893.0,
             611.0
         ],
         "scale": [
-            189.0,
-            132.0
+            148.0,
+            97.0
         ],
         "type": "Drop Down",
         "zindex": 20
@@ -334,11 +334,11 @@
         "hide": false,
         "name": "Screen Shake Slider",
         "position": [
-            962.0,
+            929.0,
             379.0
         ],
         "scale": [
-            322.0,
+            164.0,
             88.0
         ],
         "type": "Data Slider",

@@ -79,7 +79,6 @@ enum class EVENTID
 	LossWindow,
 	SwapGameLevels,
 	CloseUIPopUp,
-	OpenLeaderboard,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
