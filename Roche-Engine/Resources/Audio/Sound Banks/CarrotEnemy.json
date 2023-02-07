@@ -3,8 +3,8 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
         "name": "bullettest",
-        "pitchMax": 1.125,
-        "pitchMin": 1.1770000457763672,
+        "pitchMax": 1.2660000324249268,
+        "pitchMin": 1.2139999866485596,
         "randomPitch": true,
         "tagName": "EntityBulletShot",
         "volume": 1.0
@@ -23,9 +23,9 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\EnemyHit.wav",
         "name": "EnemyHit",
-        "pitchMax": 1.0,
-        "pitchMin": 1.0,
-        "randomPitch": false,
+        "pitchMax": 1.2549999952316284,
+        "pitchMin": 0.6039999723434448,
+        "randomPitch": true,
         "tagName": "EntityHit",
         "volume": 1.0
     }

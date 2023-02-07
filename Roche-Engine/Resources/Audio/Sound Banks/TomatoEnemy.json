@@ -5,9 +5,9 @@
         "name": "bullettest",
         "pitchMax": 0.6669999957084656,
         "pitchMin": 0.7710000276565552,
-        "randomPitch": false,
+        "randomPitch": true,
         "tagName": "EntityBulletShot",
-        "volume": 0.4790000021457672
+        "volume": 1.0
     },
     {
         "audioType": 0,
@@ -17,7 +17,7 @@
         "pitchMin": 1.0,
         "randomPitch": true,
         "tagName": "EntityDeath",
-        "volume": 0.5260000228881836
+        "volume": 1.0
     },
     {
         "audioType": 0,
@@ -27,6 +27,6 @@
         "pitchMin": 1.1720000505447388,
         "randomPitch": true,
         "tagName": "EntityHit",
-        "volume": 0.6930000185966492
+        "volume": 1.0
     }
 ]

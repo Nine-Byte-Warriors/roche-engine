@@ -8,5 +8,25 @@
         "randomPitch": false,
         "tagName": "MainMenuMusic",
         "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\uiclick.wav",
+        "name": "uiclick",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "UIButtonClick",
+        "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\UISliderClick.wav",
+        "name": "UISliderClick",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "UISliderClick",
+        "volume": 1.0
     }
 ]

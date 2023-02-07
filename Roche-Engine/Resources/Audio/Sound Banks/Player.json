@@ -5,28 +5,28 @@
         "name": "playerhit",
         "pitchMax": 0.9900000095367432,
         "pitchMin": 0.9950000047683716,
-        "randomPitch": false,
+        "randomPitch": true,
         "tagName": "EntityHit",
-        "volume": 0.49000000953674316
+        "volume": 0.7599999904632568
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\playerdeath.wav",
         "name": "playerdeath",
-        "pitchMax": 0.5,
-        "pitchMin": 0.5,
-        "randomPitch": false,
+        "pitchMax": 0.9010000228881836,
+        "pitchMin": 0.9430000185966492,
+        "randomPitch": true,
         "tagName": "EntityDeath",
-        "volume": 0.16699999570846558
+        "volume": 0.2240000069141388
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\playershoot.wav",
         "name": "playershoot",
-        "pitchMax": 0.5,
-        "pitchMin": 0.9789999723434448,
+        "pitchMax": 0.8389999866485596,
+        "pitchMin": 0.5989999771118164,
         "randomPitch": true,
         "tagName": "EntityBulletShot",
-        "volume": 0.04699999839067459
+        "volume": 0.49000000953674316
     }
 ]

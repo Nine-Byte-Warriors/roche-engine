@@ -1,7 +1,15 @@
 [
     {
+        "filePath": "Resources\\Audio\\Sound Banks\\Bean.json",
+        "name": "Bean"
+    },
+    {
         "filePath": "Resources\\Audio\\Sound Banks\\CarrotEnemy.json",
         "name": "CarrotEnemy"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\Cauliflower.json",
+        "name": "Cauliflower"
     },
     {
         "filePath": "Resources\\Audio\\Sound Banks\\Music.json",
@@ -30,13 +38,5 @@
     {
         "filePath": "Resources\\Audio\\Sound Banks\\UI.json",
         "name": "UI"
-    },
-    {
-        "filePath": "Resources\\Audio\\Sound Banks\\Cauliflower.json",
-        "name": "Cauliflower"
-    },
-    {
-        "filePath": "Resources\\Audio\\Sound Banks\\Bean.json",
-        "name": "Bean"
     }
 ]
