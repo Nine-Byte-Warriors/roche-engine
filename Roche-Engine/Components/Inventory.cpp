@@ -164,19 +164,16 @@ void Inventory::HandleEvent( Event* event )
 		{
 			UpdateCoins(false, 1);
 			BuySeedPacket("Onion", seedsBought->second);
-
 		}
 		if (seedsBought->first.contains("Cauliflower") && m_iCoinAmount >= 1)
 		{
 			UpdateCoins(false, 1);
 			BuySeedPacket("Cauliflower", seedsBought->second);
-
 		}
 		if (seedsBought->first.contains("Tomato") && m_iCoinAmount >= 1)
 		{
 			UpdateCoins(false, 1);
 			BuySeedPacket("Tomato", seedsBought->second);
-			
 		}
 
 
@@ -188,11 +185,11 @@ void Inventory::HandleEvent( Event* event )
 	}
 }
 
-void Inventory::UpdateCoins(bool gain, int amountToChange)
+void Inventory::UpdateCoins(bool increaseCoin, int amountToChange)
 {
 	
-	if (gain) m_iCoinAmount += amountToChange;
+	if (increaseCoin) m_iCoinAmount += amountToChange;
 	else m_iCoinAmount-= amountToChange;
-	
+
 	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }
