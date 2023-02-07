@@ -1,0 +1,12 @@
+[
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\music2.wav",
+        "name": "music2",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "MainMenuMusic",
+        "volume": 1.0
+    }
+]

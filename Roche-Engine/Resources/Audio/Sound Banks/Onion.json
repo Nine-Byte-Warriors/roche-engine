@@ -6,7 +6,7 @@
         "pitchMax": 1.25,
         "pitchMin": 0.8180000185966492,
         "randomPitch": true,
-        "tagName": "Shoot",
+        "tagName": "EntityBulletShot",
         "volume": 0.6669999957084656
     },
     {
@@ -16,7 +16,7 @@
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
-        "tagName": "Death",
+        "tagName": "EntityDeath",
         "volume": 1.0
     },
     {
@@ -26,7 +26,7 @@
         "pitchMax": 1.5,
         "pitchMin": 1.5,
         "randomPitch": true,
-        "tagName": "Hit",
+        "tagName": "EntityHit",
         "volume": 1.0
     }
 ]

@@ -6,7 +6,7 @@
         "pitchMax": 0.9900000095367432,
         "pitchMin": 0.9950000047683716,
         "randomPitch": false,
-        "tagName": "playerhit",
+        "tagName": "EntityHit",
         "volume": 0.49000000953674316
     },
     {
@@ -16,7 +16,7 @@
         "pitchMax": 0.5,
         "pitchMin": 0.5,
         "randomPitch": false,
-        "tagName": "playerdeath",
+        "tagName": "EntityDeath",
         "volume": 0.16699999570846558
     },
     {
@@ -26,7 +26,7 @@
         "pitchMax": 0.5,
         "pitchMin": 0.9789999723434448,
         "randomPitch": true,
-        "tagName": "Shoot",
+        "tagName": "EntityBulletShot",
         "volume": 0.04699999839067459
     }
 ]
