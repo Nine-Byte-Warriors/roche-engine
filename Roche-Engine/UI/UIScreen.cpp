@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UIScreen.h"
 #include "Graphics.h"
+#include "AudioEngine.h"
 #include <shellapi.h>
 
 #if _DEBUG
@@ -165,6 +166,7 @@ void UIScreen::Update( const float dt )
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+				AudioEngine::GetInstance()->SetMasterVolume( (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
@@ -172,6 +174,7 @@ void UIScreen::Update( const float dt )
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+				AudioEngine::GetInstance()->SetMusicVolume( (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake" )
 			{
