@@ -1,0 +1,17 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Blank Widget 0",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    }
+]

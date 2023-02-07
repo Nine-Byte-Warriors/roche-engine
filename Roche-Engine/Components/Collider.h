@@ -102,6 +102,7 @@ public:
     virtual bool CollisionCheck(std::shared_ptr<Collider> collider) noexcept { return false; }
 
     //Collision Resolution
+    bool ResolveCheck(std::shared_ptr<Collider> collider);
     virtual void Resolution(std::shared_ptr<Collider> collider) noexcept {};
     virtual void Resolve() {};
 

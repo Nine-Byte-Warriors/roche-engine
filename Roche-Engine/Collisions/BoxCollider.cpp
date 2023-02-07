@@ -53,8 +53,8 @@ bool BoxCollider::ToBox(BoxCollider& box) noexcept
     float box1HalfWidth = (m_width / 2);
     float box1HalfHeight = (m_height / 2);
 
-    float box2HalfWidth = (m_width / 2);
-    float box2HalfHeight = (m_height / 2);
+    float box2HalfWidth = (box.GetWidth() / 2);
+    float box2HalfHeight = (box.GetHeight() / 2);
     Vector2f box1Pos = GetCenterPosition();
     Vector2f box2Pos = box.GetCenterPosition();
 
@@ -108,8 +108,10 @@ bool BoxCollider::ToPoint(Vector2f point) noexcept
 
 void BoxCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 {
-    if (m_isTrigger)
+    if (ResolveCheck(collider) == false)
+    {
         return;
+    }
 
     //Vector2f position = m_transform->GetPosition();
     Vector2f newPos = GetCenterPosition();

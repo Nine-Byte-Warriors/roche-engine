@@ -343,5 +343,20 @@
         ],
         "type": "Data Slider",
         "zindex": 22
+    },
+    {
+        "action": "Back",
+        "hide": false,
+        "name": "Back Button",
+        "position": [
+            1472.0,
+            1.0
+        ],
+        "scale": [
+            151.0,
+            159.0
+        ],
+        "type": "Button",
+        "zindex": 23
     }
 ]

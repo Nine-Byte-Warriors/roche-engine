@@ -73,6 +73,7 @@ private:
 	void UpdateProjectilePattern();
 
 	void UpdateColliderRadius();
+	void UpdateColliderTrigger();
 
 	void UpdateAudio();
 
@@ -82,6 +83,8 @@ private:
 	float m_fEntityHealth = 100.0;
 
 	ID3D11Device* m_device;
+	ID3D11DeviceContext* m_context;
+	ConstantBuffer<Matrices>* m_mat;
 
 	Vector2f* m_vPosition;
 	float m_fScaleX;

@@ -24,6 +24,8 @@ enum class EVENTID
 	// Level System
 	SetNextLevelEvent,
 	SetCurrentLevelEvent,
+	AddLevelEvent,
+	RemoveLevelEvent,
 
 	// Game Events
 	GamePauseEvent,
@@ -75,6 +77,8 @@ enum class EVENTID
 	BackToMainMenu,
 	WinWindow,
 	LossWindow,
+	SwapGameLevels,
+	CloseUIPopUp,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
