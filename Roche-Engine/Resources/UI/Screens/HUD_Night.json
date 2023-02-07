@@ -77,16 +77,16 @@
     {
         "action": "",
         "hide": false,
-        "name": "Weapon placeholder",
+        "name": "Enemy Health",
         "position": [
-            1739.0,
-            941.0
+            750.0,
+            894.0
         ],
         "scale": [
-            164.0,
-            129.0
+            465.0,
+            182.0
         ],
-        "type": "Image",
+        "type": "Energy Bar",
         "zindex": 5
     },
     {
@@ -118,5 +118,20 @@
         ],
         "type": "Image",
         "zindex": 7
+    },
+    {
+        "action": "Enemy Health Label",
+        "hide": false,
+        "name": "Enemy Health Label",
+        "position": [
+            942.0,
+            943.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 8
     }
 ]

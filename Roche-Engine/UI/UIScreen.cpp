@@ -286,6 +286,10 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
+			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Enemy's Health", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
 
 			if (m_vWidgets[i]->GetAction() == "Restart Pop Up Label")
 			{
