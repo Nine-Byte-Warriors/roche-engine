@@ -21,6 +21,13 @@ enum class EVENTID
 	MiddleMouseClick,
 	MiddleMouseRelease,
 
+	KeyInputUpdate_Up,
+	KeyInputUpdate_Left,
+	KeyInputUpdate_Down,
+	KeyInputUpdate_Right,
+	KeyInputUpdate_Dash,
+	KeyInputUpdate_Interact,
+
 	// Level System
 	SetNextLevelEvent,
 	SetCurrentLevelEvent,
@@ -51,6 +58,7 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	PlayerDash,
+	PlayerInteract,
 	TargetPosition,
 	TogglePlayerMovement,
 
@@ -83,6 +91,9 @@ enum class EVENTID
 	UpdateScore,
 	ResetScore,
 	SaveScore,
+	RedOverlayColour,
+	GreenOverlayColour,
+	BlueOverlayColour,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG

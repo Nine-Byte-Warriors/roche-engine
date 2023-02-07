@@ -16,6 +16,15 @@ public:
 	inline Keyboard& GetKeyboard() noexcept { return m_keyboard; }
 
 private:
+	enum class Key
+	{
+		Up,
+		Left,
+		Down,
+		Right,
+		Dash,
+		Interact
+	};
 	void UpdateMouse( const float dt );
 	void UpdateKeyboard( const float dt );
 
@@ -23,9 +32,9 @@ private:
 	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
 
-	std::string m_sKeys;
-
+	std::map<Key, std::string> m_keyInputs;
 	bool m_bReadCharInput;
+	std::string m_sKeys;
 };
 
 #endif
