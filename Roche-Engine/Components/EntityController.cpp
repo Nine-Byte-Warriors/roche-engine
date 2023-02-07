@@ -7,6 +7,7 @@ EntityController::EntityController()
 {
 	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
 	m_entityDataCopy = m_entityData;
+	AddToEvent();
 }
 
 void EntityController::SetJsonFile( const std::string& name )
@@ -18,6 +19,7 @@ void EntityController::SetJsonFile( const std::string& name )
 
 EntityController::~EntityController()
 {
+	EventSystem::Instance()->RemoveClient(EVENTID::EnemyDeath, this);
 }
 
 int EntityController::GetSize()
@@ -227,5 +229,25 @@ void EntityController::UpdateCopy()
 void EntityController::SetDead(int num)
 {
 	m_dead.push_back(num);
+	m_entityData.erase(m_entityData.begin() + num);
 }
 
+void EntityController::HandleEvent(Event* event)
+{
+	switch (event->GetEventID())
+	{
+	case EVENTID::EnemyDeath:
+	{
+		int* score = static_cast<int*>(event->GetData());
+		SetDead(*score);
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void EntityController::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient(EVENTID::EnemyDeath, this);
+}

@@ -4,6 +4,7 @@
 
 #include "JsonLoading.h"
 #include "EntityAnimation.h"
+#include "EventSystem.h"
 
 struct EntityData
 {
@@ -42,7 +43,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, sc
 	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
 	animation, rows, columns, audio, soundBankName)
 
-class EntityController
+class EntityController : Listener
 {
 public:
 	EntityController();
@@ -103,6 +104,9 @@ public:
 	void SetDead(int num);
 	std::vector<int> m_dead;
 
+	// Inherited via Listener
+	virtual void HandleEvent(Event* event) override;
+	void AddToEvent() noexcept;
 private:
 	std::string JsonFile = "Entity.json";
 
@@ -110,6 +114,8 @@ private:
 	std::vector<EntityData> m_entityDataCopy;
 
 	bool m_bComponentUpdated = false;
+
+
 
 };
 

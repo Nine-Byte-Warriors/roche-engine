@@ -16,7 +16,7 @@ void CarrotEnemy::Update(float dt)
 void CarrotEnemy::Hit(Collider& collider)
 {
 	if (collider.EntityType() == "Projectile")
-		m_entity->GetHealth()->TakeDamage(20);
+		m_entity->GetHealth()->TakeDamage(1000);
 
 	if (collider.EntityType() == "Projectile")
 		OutputDebugStringA("PROJECTILE \n");
