@@ -77,10 +77,12 @@ enum class EVENTID
 	BackToMainMenu,
 	WinWindow,
 	LossWindow,
+	// GameRestartEvent, // Added in game events, affects UI as well
+	SwapGameLevelsWindow,
 	SwapGameLevels,
 	CloseUIPopUp,
 	OpenLeaderboard,
-	// GameRestartEvent, // Added in game events, affects UI as well
+
 
 	// DEBUG
 	RemoveHealth,
