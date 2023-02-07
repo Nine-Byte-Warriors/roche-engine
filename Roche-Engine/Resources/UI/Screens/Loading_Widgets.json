@@ -1,0 +1,17 @@
+[
+    {
+        "action": "Loading Label",
+        "hide": false,
+        "name": "Loading Label",
+        "position": [
+            967.0,
+            445.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    }
+]
