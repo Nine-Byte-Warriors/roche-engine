@@ -97,7 +97,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -111,7 +111,7 @@
         ],
         "name": "PotatoItem",
         "position": [
-            1295.0,
+            1412.0,
             900.0
         ],
         "projectileBullet": "None",
@@ -441,7 +441,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -455,7 +455,7 @@
         ],
         "name": "BeanItem",
         "position": [
-            592.0,
+            463.0,
             900.0
         ],
         "projectileBullet": "None",
@@ -484,7 +484,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -498,7 +498,7 @@
         ],
         "name": "CarrotItem",
         "position": [
-            744.0,
+            690.0,
             900.0
         ],
         "projectileBullet": "None",
@@ -527,7 +527,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -541,7 +541,7 @@
         ],
         "name": "CauliflowerItem",
         "position": [
-            894.0,
+            927.0,
             900.0
         ],
         "projectileBullet": "None",
@@ -570,7 +570,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -584,7 +584,7 @@
         ],
         "name": "OnionItem",
         "position": [
-            1129.0,
+            1175.0,
             900.0
         ],
         "projectileBullet": "None",
@@ -613,7 +613,7 @@
         "behaviour": "None",
         "collider": true,
         "colliderRadius": [
-            100.0,
+            50.0,
             100.0
         ],
         "colliderShape": "Circle",
@@ -627,7 +627,7 @@
         ],
         "name": "TomatoItem",
         "position": [
-            1458.0,
+            1640.0,
             900.0
         ],
         "projectileBullet": "None",
