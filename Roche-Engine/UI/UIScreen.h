@@ -12,6 +12,15 @@ class Graphics;
 
 class UIScreen : public Listener
 {
+private:
+	enum class Tabs
+	{
+		General,
+		Controls,
+		Audio,
+		Graphics
+	} m_eTabsState = Tabs::General;
+
 public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }

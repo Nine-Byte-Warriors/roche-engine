@@ -121,23 +121,23 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "General" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGeneralTabs, m_mouseData ) )
-					EventSystem::Instance()->AddEvent( EVENTID::GeneralTab );
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGeneralTabs, m_mouseData, m_eTabsState == Tabs::General ) )
+					m_eTabsState = Tabs::General;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Graphics" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGraphicsTabs, m_mouseData ) )
-					EventSystem::Instance()->AddEvent( EVENTID::GraphicsTab );
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesGraphicsTabs, m_mouseData, m_eTabsState == Tabs::Graphics ) )
+					m_eTabsState = Tabs::Graphics;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesMusicTabs, m_mouseData ) )
-					EventSystem::Instance()->AddEvent( EVENTID::MusicTab );
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesMusicTabs, m_mouseData, m_eTabsState == Tabs::Audio ) )
+					m_eTabsState = Tabs::Audio;
 			}
 			if ( m_vWidgets[i]->GetAction() == "Control" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesControlTabs, m_mouseData ) )
-					EventSystem::Instance()->AddEvent( EVENTID::ControlTab );
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "", Colors::White, m_texturesControlTabs, m_mouseData, m_eTabsState == Tabs::Controls ) )
+					m_eTabsState = Tabs::Controls;
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
@@ -161,18 +161,21 @@ void UIScreen::Update( const float dt )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
 				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
 					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
@@ -196,6 +199,8 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Language" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
+
 				// Create a drop down that allows user to change Language
 				std::vector<std::string> vValues = { "English (UK)", "English (USA)" };
 				static std::string sValue = vValues[0];
@@ -247,10 +252,12 @@ void UIScreen::Update( const float dt )
 		{
 			if ( m_vWidgets[i]->GetAction() == "Master volume label" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music volume label" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 
@@ -270,10 +277,12 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "Language DD Label" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Language", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake Slider Label" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Screen Shake Amount", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 
@@ -283,22 +292,27 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Up Control" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Left Control" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Down Control" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Right Control" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Shoot Control" )
 			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
 
