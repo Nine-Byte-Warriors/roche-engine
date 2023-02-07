@@ -1,0 +1,197 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Background",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1920.0,
+            1085.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "LeaderboardTitle",
+        "hide": false,
+        "name": "Leaderboard Title",
+        "position": [
+            896.0,
+            125.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 1
+    },
+    {
+        "action": "ScoreLabel0",
+        "hide": false,
+        "name": "Score0",
+        "position": [
+            597.0,
+            346.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 2
+    },
+    {
+        "action": "ScoreLabel1",
+        "hide": false,
+        "name": "Score1",
+        "position": [
+            597.0,
+            457.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 3
+    },
+    {
+        "action": "ScoreLabel2",
+        "hide": false,
+        "name": "Score2",
+        "position": [
+            597.0,
+            572.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 4
+    },
+    {
+        "action": "ScoreLabel3",
+        "hide": false,
+        "name": "Score3",
+        "position": [
+            597.0,
+            685.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 5
+    },
+    {
+        "action": "ScoreLabel4",
+        "hide": false,
+        "name": "Score4",
+        "position": [
+            597.0,
+            792.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Back",
+        "hide": false,
+        "name": "Back Button",
+        "position": [
+            80.0,
+            723.0
+        ],
+        "scale": [
+            200.0,
+            200.0
+        ],
+        "type": "Button",
+        "zindex": 7
+    },
+    {
+        "action": "Score0",
+        "hide": false,
+        "name": "Score0",
+        "position": [
+            1002.0,
+            347.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 8
+    },
+    {
+        "action": "Score1",
+        "hide": false,
+        "name": "Score1",
+        "position": [
+            1002.0,
+            455.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 9
+    },
+    {
+        "action": "Score2",
+        "hide": false,
+        "name": "Score2",
+        "position": [
+            1002.0,
+            567.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 10
+    },
+    {
+        "action": "Score3",
+        "hide": false,
+        "name": "Score3",
+        "position": [
+            1002.0,
+            682.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 11
+    },
+    {
+        "action": "Score4",
+        "hide": false,
+        "name": "Score4",
+        "position": [
+            1002.0,
+            785.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 12
+    }
+]

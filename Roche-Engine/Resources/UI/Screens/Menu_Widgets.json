@@ -34,12 +34,12 @@
         "hide": false,
         "name": "GitHub Link",
         "position": [
-            1432.0,
-            889.0
+            1388.0,
+            834.0
         ],
         "scale": [
-            64.0,
-            64.0
+            120.0,
+            120.0
         ],
         "type": "Button",
         "zindex": 2
@@ -50,7 +50,7 @@
         "name": "Start Game",
         "position": [
             416.0,
-            600.0
+            561.0
         ],
         "scale": [
             250.0,
@@ -65,7 +65,7 @@
         "name": "Settings",
         "position": [
             687.0,
-            600.0
+            561.0
         ],
         "scale": [
             250.0,
@@ -80,7 +80,7 @@
         "name": "Quit Game",
         "position": [
             1223.0,
-            597.0
+            561.0
         ],
         "scale": [
             250.0,
@@ -94,14 +94,29 @@
         "hide": false,
         "name": "Credits",
         "position": [
-            955.0,
-            597.0
+            1249.0,
+            833.0
+        ],
+        "scale": [
+            120.0,
+            120.0
+        ],
+        "type": "Button",
+        "zindex": 6
+    },
+    {
+        "action": "Leaderboard",
+        "hide": false,
+        "name": "Leaderboard",
+        "position": [
+            957.0,
+            561.0
         ],
         "scale": [
             250.0,
             250.0
         ],
         "type": "Button",
-        "zindex": 6
+        "zindex": 7
     }
 ]
