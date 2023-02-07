@@ -108,6 +108,11 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::OpenCredits );
 			}
+			if (m_vWidgets[i]->GetAction() == "Leaderboard")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Scoreboard", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+					EventSystem::Instance()->AddEvent(EVENTID::OpenLeaderboard);
+			}
 			if ( m_vWidgets[i]->GetAction() == "Resume" )
 			{
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
@@ -281,6 +286,10 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
+			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Enemy's Health", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
 
 			if (m_vWidgets[i]->GetAction() == "Restart Pop Up Label")
 			{
@@ -378,6 +387,51 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Credit10" )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Eleftherios Karakyritsis", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+			}
+
+			if (m_vWidgets[i]->GetAction() == "LeaderboardTitle")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("SCOREBOARD", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::INSANE);
+			}
+			if (m_vWidgets[i]->GetAction() == "ScoreLabel0")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Score 1 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "ScoreLabel1")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Score 2 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "ScoreLabel2")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Score 3 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "ScoreLabel3")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Score 4 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "ScoreLabel4")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Score 5 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Score0")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Score1")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Score2")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Score3")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Score4")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 
 			std::string currTexture = m_texturesHearts[0];
