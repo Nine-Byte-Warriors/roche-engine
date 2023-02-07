@@ -58,7 +58,7 @@ void UIScreen::Update( const float dt )
 #pragma region BUTTONS
 		if ( m_vWidgets[i]->GetType() == "Button" )
 		{
-			static std::vector<std::string> SeedStrings = { "Carrot", "Bean", "Onion", "Cauliflower", "Potato", "Tomato" };
+			static std::vector<std::string> SeedStrings = { "Bean", "Carrot", "Cauliflower", "Onion", "Potato", "Tomato" };
 			for ( unsigned int j = 0; j < SeedStrings.size(); j++ )
 			{
 				if ( m_vWidgets[i]->GetAction() == ( SeedStrings[j] + " Background" ) )
@@ -91,33 +91,48 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::StartGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Settings", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Settings", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::OpenSettings );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Credits" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::OpenCredits );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Resume" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::ResumeGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back", Colors::White, m_textures, m_mouseData ) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::Back );
+			}
+			if (m_vWidgets[i]->GetAction() == "Restart")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
+					EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
+			}
+			if (m_vWidgets[i]->GetAction() == "Confirm")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+					EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
+			}
+			if (m_vWidgets[i]->GetAction() == "Deny")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("No", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+					EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp);
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "General" )
@@ -258,12 +273,12 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Master volume label" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Master Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music volume label" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )
@@ -276,19 +291,37 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Score" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+			}
+
+			if (m_vWidgets[i]->GetAction() == "Restart Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("GAME OVER", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
+			}
+			if (m_vWidgets[i]->GetAction() == "Win Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("GAME WON", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
+			}
+			if (m_vWidgets[i]->GetAction() == "Score Pop Up Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::HUGE);
+			}
+
+			if (m_vWidgets[i]->GetAction() == "Change Level Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Change Level?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 
 			if ( m_vWidgets[i]->GetAction() == "Language DD Label" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Language", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Language", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake Slider Label" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Screen Shake Amount", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Screen Shake Amount", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Pause Title" )
@@ -298,32 +331,32 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Up Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Up Control ", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Left Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Left Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Down Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Down Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Right Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Right Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Shoot Control" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
-				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "Shoot Control", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "CreditTitle" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "CREDITS", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "CREDITS", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::INSANE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Credit1" )
 			{
@@ -427,6 +460,10 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Coin Icon" )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Coin\\Coin.png" );
+			}
+			if (m_vWidgets[i]->GetAction() == "Title Card")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Title\\Title.png");
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
