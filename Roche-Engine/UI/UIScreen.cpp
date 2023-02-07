@@ -108,6 +108,11 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Credits", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::OpenCredits );
 			}
+			if (m_vWidgets[i]->GetAction() == "Leaderboard")
+			{
+				if (m_vWidgets[i]->GetButtonWidget()->Resolve("Scoreboard", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+					EventSystem::Instance()->AddEvent(EVENTID::OpenLeaderboard);
+			}
 			if ( m_vWidgets[i]->GetAction() == "Resume" )
 			{
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Resume", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
