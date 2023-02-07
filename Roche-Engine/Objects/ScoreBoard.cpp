@@ -4,6 +4,8 @@
 ScoreBoard::ScoreBoard()
 {
 	JsonLoading::LoadJson(m_scoreBoardStr, JsonFile);
+	std::sort(m_scoreBoardStr.begin(), m_scoreBoardStr.end());
+
 	AddToEvent();
 }
 
