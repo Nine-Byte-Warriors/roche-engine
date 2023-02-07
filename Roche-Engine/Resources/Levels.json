@@ -9,18 +9,18 @@
     },
     {
         "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
+        "entity": "Entity_Menu.json",
         "name": "Loading",
-        "tmBack": "Shop-background.json",
-        "tmFront": "Shop-foreground.json",
+        "tmBack": "Loading-background.json",
+        "tmFront": "Loading-background.json",
         "ui": "Loading.json"
     },
     {
         "audio": "!SoundBankList.json",
         "entity": "Entity_Menu.json",
         "name": "Menu",
-        "tmBack": "67x120file.json",
-        "tmFront": "67x120file.json",
+        "tmBack": "Loading-background.json",
+        "tmFront": "Loading-background.json",
         "ui": "Menu.json"
     },
     {

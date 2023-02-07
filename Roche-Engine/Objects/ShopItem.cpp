@@ -21,6 +21,10 @@ ShopItem::~ShopItem()
 
 void ShopItem::PlayerInRange(Collider& collider)
 {
+	if (collider.EntityType()!="Player")
+	{
+		return;
+	}
 	m_bCollisionCheck = true;
 
 	if (m_bInputCheck)

@@ -15,8 +15,8 @@ EntityEditor::EntityEditor()
 #if _DEBUG
 void EntityEditor::SpawnControlWindow(float width, float height)
 {
-	m_fWidth = width;
-	m_fHeight = height;
+	m_fWidth = width*2;
+	m_fHeight = height*2;
 
 	m_vSoundBankNamesList = AudioEngine::GetInstance()->GetSoundBankNamesList();
 
