@@ -9,6 +9,14 @@
     },
     {
         "audio": "!SoundBankList.json",
+        "entity": "Entity.json",
+        "name": "Loading",
+        "tmBack": "Shop-background.json",
+        "tmFront": "Shop-foreground.json",
+        "ui": "Loading.json"
+    },
+    {
+        "audio": "!SoundBankList.json",
         "entity": "Entity_Menu.json",
         "name": "Menu",
         "tmBack": "67x120file.json",
