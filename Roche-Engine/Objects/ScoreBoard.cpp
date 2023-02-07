@@ -3,6 +3,7 @@
 
 ScoreBoard::ScoreBoard()
 {
+	JsonLoading::LoadJson(m_scoreBoardStr, JsonFile);
 	AddToEvent();
 }
 
@@ -13,12 +14,13 @@ ScoreBoard::~ScoreBoard()
 
 void ScoreBoard::SaveScore(std::string name)
 {
-	JsonLoading::LoadJson(m_scoreBoardStr, JsonFile);
-
 	ScoreBoardStr score;
 	score.name = name;
 	score.score = m_iScore;
+
 	m_scoreBoardStr.push_back(score);
+
+	std::sort(m_scoreBoardStr.begin(), m_scoreBoardStr.end());
 
 	JsonLoading::SaveJson(m_scoreBoardStr, JsonFile);
 }
@@ -26,6 +28,42 @@ void ScoreBoard::SaveScore(std::string name)
 int ScoreBoard::GetScore()
 {
 	return m_iScore;
+}
+
+std::string ScoreBoard::GetScoreStr()
+{
+	std::string scoreStr = "";
+	for (int i = 0; i < (scoreDigitsSize - std::to_string(m_iScore).length()); i++)
+	{
+		scoreStr += "0";
+	}
+	scoreStr += std::to_string(m_iScore);
+
+	return scoreStr;
+}
+
+std::string ScoreBoard::GetName(int num)
+{
+	if (num < m_scoreBoardStr.size())
+	{
+		return m_scoreBoardStr[num].name;
+	}
+	return "";
+}
+
+std::string ScoreBoard::GetScoreStr(int num)
+{
+	if (num >= m_scoreBoardStr.size())
+		return "";
+
+	std::string scoreStr = "";
+	for (int i = 0; i < (scoreDigitsSize - std::to_string(m_scoreBoardStr[num].score).length()); i++)
+	{
+		scoreStr += "0";
+	}
+	scoreStr += std::to_string(m_scoreBoardStr[num].score);
+
+	return scoreStr;
 }
 
 void ScoreBoard::AddToEvent() noexcept

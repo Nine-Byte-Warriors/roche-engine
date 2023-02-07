@@ -9,6 +9,11 @@ struct ScoreBoardStr
 {
 	std::string name;
 	int score;
+
+	bool operator < (const ScoreBoardStr& str) const
+	{
+		return (score > str.score);
+	}
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ScoreBoardStr, name, score)
@@ -22,6 +27,10 @@ public:
 	void SaveScore(std::string name);
 
 	int GetScore();
+	std::string GetScoreStr();
+
+	std::string GetName(int num);
+	std::string GetScoreStr(int num);
 private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
@@ -34,6 +43,8 @@ private:
 
 	std::string JsonFile = "Resources\\ScoreBoard\\ScoreBoard.json";
 	std::vector<ScoreBoardStr> m_scoreBoardStr;
+
+	int scoreDigitsSize = 7;
 };
 
 #endif

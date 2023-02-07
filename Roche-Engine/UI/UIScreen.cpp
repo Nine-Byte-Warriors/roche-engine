@@ -284,13 +284,7 @@ void UIScreen::Update( const float dt )
 			}
 			if (m_vWidgets[i]->GetAction() == "Score")
 			{
-				std::string scoreStr = "";
-				for (int i = 0; i < (7 - std::to_string(m_scoreBoard.GetScore()).length()); i++)
-				{
-					scoreStr += "0";
-				}
-				scoreStr += std::to_string(m_scoreBoard.GetScore());
-				m_vWidgets[i]->GetImageWidget()->Resolve(scoreStr, Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
 			{
@@ -401,43 +395,43 @@ void UIScreen::Update( const float dt )
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel0")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 1 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(0), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel1")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 2 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(1), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel2")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 3 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(2), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel3")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 4 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(3), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel4")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 5 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(4), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score0")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(0), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score1")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(1), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score2")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(2), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score3")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(3), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score4")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(4), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 
 			std::string currTexture = m_texturesHearts[0];
