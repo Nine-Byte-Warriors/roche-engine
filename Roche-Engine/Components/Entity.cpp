@@ -85,6 +85,8 @@ void Entity::SetComponents()
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	m_device = gfx.GetDevice();
+	m_context = gfx.GetContext();
+	m_mat = &mat;
 
 	SetProjectileManagerInit(gfx, mat);
 
@@ -256,7 +258,16 @@ void Entity::UpdateTexture()
 		for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
 		{
 			for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
-				pProjectile->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+			{
+				if (pProjectile->GetSprite()->HasTexture())
+				{
+					pProjectile->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+				}
+				else
+				{
+					pProjectile->GetSprite()->Initialize(m_device, m_context, m_entityController->GetTexture(m_iEntityNum), *m_mat);
+				}
+			}
 		}
 	}
 }
