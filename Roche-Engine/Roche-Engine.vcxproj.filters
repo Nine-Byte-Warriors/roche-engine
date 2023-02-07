@@ -282,6 +282,9 @@
     <ClCompile Include="CarrotEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\ScoreBoard.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -652,6 +655,9 @@
     </ClInclude>
     <ClInclude Include="CarrotEnemy.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ScoreBoard.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

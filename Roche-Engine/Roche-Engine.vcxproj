@@ -323,6 +323,7 @@
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
+    <ClCompile Include="Objects\ScoreBoard.cpp" />
     <ClCompile Include="Objects\ShopItem.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
@@ -485,6 +486,7 @@
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="Levels\GameManager.h" />
+    <ClInclude Include="Objects\ScoreBoard.h" />
     <ClInclude Include="Objects\ShopItem.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
     <ClInclude Include="UI\Widgets\MouseData.h" />

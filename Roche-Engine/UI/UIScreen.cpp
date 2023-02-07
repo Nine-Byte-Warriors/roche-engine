@@ -282,9 +282,9 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Score", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
-			if ( m_vWidgets[i]->GetAction() == "Score" )
+			if (m_vWidgets[i]->GetAction() == "Score")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
 			{
@@ -395,43 +395,43 @@ void UIScreen::Update( const float dt )
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel0")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 1 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(0), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel1")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 2 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(1), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel2")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 3 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(2), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel3")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 4 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(3), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "ScoreLabel4")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Score 5 :", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetName(4), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score0")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(0), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score1")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(1), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score2")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(2), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score3")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(3), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Score4")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(4), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 
 			if (m_vWidgets[i]->GetAction() == "Loading Label")
