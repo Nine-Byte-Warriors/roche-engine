@@ -24,7 +24,7 @@ ProjectileManager::~ProjectileManager()
 	m_vecProjectilePool.clear();
 }
 
-std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
+std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler ,float fGlobalSpeed, bool bUseGlobalSpeed)
 {
 	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
 
@@ -41,6 +41,8 @@ std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
 		pProjectile->SetDelay(pJson.m_fDelay);
 		pProjectile->SetOwner(Projectile::ProjectileOwner::None);
+		handler->AddCollider(pProjectile->GetCollider());
+		
 
 		vecProjectilePool.push_back(std::move(pProjectile));
 	}
@@ -49,7 +51,7 @@ std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool
 
 }
 
-std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManagers(std::string filepath)
+std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManagers(std::string filepath, CollisionHandler* handler)
 {
 	std::vector<std::shared_ptr<ProjectileManager>> vecManagers;
 	std::vector<ProjectileData::ManagerJSON> vecManagersJson;
@@ -62,6 +64,7 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 		pManager->SetProjectilePool(
 			CreateProjectilePool(
 				jMan.m_vecProjectiles,
+				handler,
 				jMan.m_fGlobalSpeed,
 				jMan.m_bUseGlobalSpeed
 			)

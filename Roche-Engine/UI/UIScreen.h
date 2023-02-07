@@ -9,6 +9,7 @@ class Graphics;
 #include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
+#include "ScoreBoard.h"
 
 class UIScreen : public Listener
 {
@@ -62,6 +63,8 @@ private:
 	// Inventory data
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
+
+	ScoreBoard m_scoreBoard;
 
 	// Button state textures
 	std::vector<std::string> m_textures =
