@@ -548,21 +548,35 @@ void Level::UpdateTileMapPlanting(const float dt)
 
     static float tempTime = 0;
     tempTime += dt;
-    bool isNightTime = tempTime > 30.0f;
-    if (isNightTime)
+    float nightTime = 60.0f;
+    bool isNightTime = tempTime > nightTime;
+    const float spawnTimmer = 0.5f;
+    if (m_entitySpawner.IsPhaseNight() || isNightTime)
     {
-        for (int i = 0; i < m_entitySpawner.GetSpawnEntitiesSize(); i++)
+        static float timmer = spawnTimmer;
+        timmer += dt;
+
+        if (m_entitySpawner.GetSpawnEntitiesSize() != 0 && timmer > spawnTimmer)
         {
+            timmer -= 0.5f;
+            static int count = 0;
+
             std::string texture = "Resources\\Textures\\Tiles\\EmptyPlot.png";
-            int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(i);
+            int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(count);
             m_tileMapLoader.UpdateTileType(drawLayer, spawnPos, "EmptyPlot");
             m_tileMapDrawLayers[1][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+            
+            m_entitySpawner.SpawnEntity(count);            
+
+            m_entityController.AddEntityData(m_entitySpawner.GetEntityData()[count]);
+            count++;
+
+            if (count >= m_entitySpawner.GetSpawnEntitiesSize())
+            {
+                count = 0;
+                m_entitySpawner.EntitiesAdded();
+            }
         }
-
-        m_entitySpawner.SpawnEntities();
-        m_entityController.AddEntityData(m_entitySpawner.GetEntityData());
-
-        m_entitySpawner.EntitiesAdded();
     }
 }
 
