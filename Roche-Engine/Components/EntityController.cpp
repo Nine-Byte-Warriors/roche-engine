@@ -25,6 +25,18 @@ int EntityController::GetSize()
 	return m_entityData.size();
 }
 
+int EntityController::GetEntityNumFromName(std::string name)
+{
+	for (int i = 0; i < m_entityData.size(); i++)
+	{
+		if (GetName(i).contains(name) && !GetName(i).contains("Item"))
+		{
+			return i;
+		}
+	}
+	return 0;
+}
+
 std::string EntityController::GetTexture(int num)
 {
 	return m_entityData[num].texture;

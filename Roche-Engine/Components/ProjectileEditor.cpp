@@ -331,7 +331,7 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
 		
 		pManager->SetDelay(jMan.m_fDelay);
-		pManager->SetProjectilePool(CreateProjectilePool(jMan.m_vecProjectiles, jMan.m_fGlobalSpeed, jMan.m_bUseGlobalSpeed));
+		pManager->SetProjectilePool(ProjectileManager::CreateProjectilePool(jMan.m_vecProjectiles, jMan.m_fGlobalSpeed, jMan.m_bUseGlobalSpeed));
 		pManager->InitialiseFromFile(gfx, mat, jMan.m_sImagePath, Vector2f(jMan.m_fWidth, jMan.m_fHeight));
 		
 		if (bLoop || jMan.m_bLoop)
@@ -341,29 +341,6 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	}
 
 	SpawnPattern();
-}
-
-std::vector<std::shared_ptr<Projectile>> ProjectileEditor::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed)
-{
-	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
-
-	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
-	{
-		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(
-			bUseGlobalSpeed == true
-			? fGlobalSpeed
-			: pJson.m_fSpeed,
-			pJson.m_fLifeTime
-		);
-		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
-		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
-		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
-		pProjectile->SetDelay(pJson.m_fDelay);
-
-		vecProjectilePool.push_back(std::move(pProjectile));
-	}
-
-	return vecProjectilePool;
 }
 
 void ProjectileEditor::SaveProjectile()

@@ -64,7 +64,7 @@ void UIScreen::Update( const float dt )
 				{
 					m_vWidgets[i]->GetButtonWidget()->SetTextOffset( XMFLOAT2( 40.0f, 30.0f ) );
 					if ( m_vWidgets[i]->GetButtonWidget()->Resolve(
-						std::to_string( m_inventory.GetActiveSeedPacketCount( SeedStrings[j] ) ),
+						std::to_string( m_inventory.GetSeedPacketCount( SeedStrings[j] ) ),
 						Colors::White, m_textures, m_mouseData, m_inventory.IsActiveSeedPacket( j ) ) )
 					{
 						m_inventory.SetActiveSeedPacket( j );

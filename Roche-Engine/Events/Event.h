@@ -9,6 +9,7 @@ enum class EVENTID
 	KeyInput,
 	CharInput,
 	MousePosition,
+	MouseCameraPosition,
 	ReadCharInput,
 	ClearCharBuffer,
 	ImGuiMousePosition,
@@ -103,13 +104,13 @@ class Event
 {
 public:
 	// Constructor that sends event with data (cant be altered from the other side i believe)
-	Event( EVENTID eventID, void* data ) {
+	Event(EVENTID eventID, void* data) {
 		this->data = data;
 		this->eventID = eventID;
 	}
 
 	// Alternate constructor to just call an event proc without data
-	Event( EVENTID eventID )
+	Event(EVENTID eventID)
 	{
 		this->eventID = eventID;
 		this->data = nullptr;
