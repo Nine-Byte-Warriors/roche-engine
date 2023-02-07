@@ -23,6 +23,8 @@ enum class EVENTID
 	// Level System
 	SetNextLevelEvent,
 	SetCurrentLevelEvent,
+	AddLevelEvent,
+	RemoveLevelEvent,
 
 	// Game Events
 	GamePauseEvent,

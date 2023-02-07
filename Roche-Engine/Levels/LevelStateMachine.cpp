@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LevelStateMachine.h"
 
-LevelStateMachine::LevelStateMachine() : levels( 0 ), currentLevel( 0 ) { AddToEvent(); }
+LevelStateMachine::LevelStateMachine() : levels(/* "", {} */), currentLevel(0) { AddToEvent(); }
 
 LevelStateMachine::~LevelStateMachine() { RemoveFromEvent(); }
 
@@ -29,25 +29,25 @@ void LevelStateMachine::Render_End()
 	}
 }
 
-uint32_t LevelStateMachine::Add( std::shared_ptr<LevelContainer> level )
+std::string LevelStateMachine::Add( std::shared_ptr<LevelContainer> level )
 {
-	auto inserted = levels.insert( std::make_pair( insertedLevelID, level ) );
-	insertedLevelID++;
-	return insertedLevelID - 1;
+	std::string levelName = level->GetLevelName();
+	levels.insert( std::make_pair(levelName, level ) );
+	return levelName;
 }
 
-void LevelStateMachine::Remove( uint32_t id )
+void LevelStateMachine::Remove( std::string levelName )
 {
-	auto it = levels.find( id );
+	auto it = levels.find( levelName );
 	if ( it != levels.end() )
 		if ( currentLevel == it->second )
 			currentLevel = nullptr;
 	levels.erase( it );
 }
 
-void LevelStateMachine::SwitchTo( uint32_t id )
+void LevelStateMachine::SwitchTo( std::string levelName )
 {
-	auto it = levels.find( id );
+	auto it = levels.find( levelName );
 	if ( it != levels.end() )
 	{
 		if ( currentLevel )
@@ -79,7 +79,7 @@ void LevelStateMachine::HandleEvent( Event* event )
 	{
 		case EVENTID::GameLevelChangeEvent:
 		{
-			SwitchTo( *static_cast<int*>( event->GetData() ) );
+			SwitchTo( *static_cast<std::string*>( event->GetData() ) );
 		}
 		break;
 	}
