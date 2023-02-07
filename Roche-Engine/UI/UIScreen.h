@@ -63,10 +63,6 @@ private:
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
 
-	// Widget data
-	int m_iSliderStart = 50;
-	UINT32 m_uLevelTo = 0;
-
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{

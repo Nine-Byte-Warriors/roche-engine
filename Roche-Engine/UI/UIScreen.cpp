@@ -25,7 +25,7 @@ void UIScreen::InitializeWidgets()
 	{
 		m_vWidgets[i]->GetButtonWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetColourBlockWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
-		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
+		m_vWidgets[i]->GetDataSliderWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices, i );
 		m_vWidgets[i]->GetDropDownWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetEnergyBarWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
 		m_vWidgets[i]->GetImageWidget()->Initialize( m_pDevice.Get(), m_pContext.Get(), *m_cbMatrices );
@@ -163,31 +163,33 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Master Volume" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-				AudioEngine::GetInstance()->SetMasterVolume( (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() );
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+				float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+				AudioEngine::GetInstance()->SetMasterVolume( sliderData );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Music Volume" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
-				AudioEngine::GetInstance()->SetMusicVolume( (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() );
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+				float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+				AudioEngine::GetInstance()->SetMusicVolume( sliderData );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				m_vWidgets[i]->GetDataSliderWidget()->Resolve( m_iSliderStart,
+				m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 					"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData );
+					"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
 			}
 			m_vWidgets[i]->GetDataSliderWidget()->Update( dt );
 		}
