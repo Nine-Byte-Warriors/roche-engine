@@ -241,7 +241,7 @@ void UIManager::HandleEvent(Event* event)
 		case EVENTID::OpenLeaderboard:
 		{
 			HideAllUI();
-			ShowUI("Leaderboard_Widget");
+			ShowUI("Leaderboard_Widgets");
 		}
 		break;
 	}

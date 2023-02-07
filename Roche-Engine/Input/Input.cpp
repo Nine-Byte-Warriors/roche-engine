@@ -112,6 +112,7 @@ void Input::UpdateKeyboard( const float dt )
 		
 		if ( m_keyboard.KeyIsPressed( 'K' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerHeal );
+#endif
 
         if ( keycode == VK_ESCAPE )
             EventSystem::Instance()->AddEvent( EVENTID::PauseGame );
