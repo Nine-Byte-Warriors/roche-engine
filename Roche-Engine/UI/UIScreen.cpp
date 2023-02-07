@@ -434,6 +434,12 @@ void UIScreen::Update( const float dt )
 				m_vWidgets[i]->GetImageWidget()->Resolve(m_scoreBoard.GetScoreStr(4), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 
+			if (m_vWidgets[i]->GetAction() == "Loading Label")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("Loading ...", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::INSANE);
+			}
+
+
 			std::string currTexture = m_texturesHearts[0];
 			float currHealth = m_pPlayerHealth->GetCurrentHealth();
 			float maxHealth = m_pPlayerHealth->GetMaxHealth();
