@@ -427,7 +427,7 @@
         "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Tiles\\MissingTexture.png",
-        "type": "Item"
+        "type": "LevelTrigger"
     },
     {
         "AI": false,

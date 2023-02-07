@@ -80,6 +80,13 @@ void Entity::SetComponents()
 		
 		m_shopItem = std::make_shared<ShopItem>(GetCollider(), m_entityController->GetName(m_iEntityNum));
 	}
+
+	if (GetType() == "LevelTrigger")
+	{
+		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+			pManager->SetOwner(Projectile::ProjectileOwner::LevelTrigger);
+		m_levelTrigger = std::make_shared<LevelTrigger>(GetCollider());
+	}
 }
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
