@@ -19,6 +19,7 @@ public:
 
     inline bool GetSelected() const noexcept { return m_bSelected; }
     inline void SetSelected( bool selected ) noexcept { m_bSelected = selected; }
+    inline bool GetIsUsingPlaceholder() const noexcept { return m_bUsePlaceholder; }
 
     void SetCurrentText( std::string text ) noexcept { m_sCurrText = text; }
     std::string GetCurrentText() const noexcept { return m_sCurrText; }

@@ -567,46 +567,65 @@ void UIScreen::Update( const float dt )
 #pragma region INPUT
 		if ( m_vWidgets[i]->GetType() == "Input" )
 		{
-			static XMFLOAT2 controlTextOffset = { -20.0f, -27.5f };
+			static XMFLOAT2 controlTextOffsetPlaceholder = { -20.0f, -27.5f };
+			static XMFLOAT2 controlTextOffset = { -7.5f, -7.5f };
 
 			if ( m_vWidgets[i]->GetAction() == "Up Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffsetPlaceholder ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "W", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Left Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffsetPlaceholder ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "A", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Down Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffsetPlaceholder ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "S", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Right Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffsetPlaceholder ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "D", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Dash Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( { controlTextOffset.x - 25.0f, controlTextOffset.y } );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( { controlTextOffsetPlaceholder.x - 25.0f, controlTextOffsetPlaceholder.y } ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "SPACE", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Interact Input" )
 			{
-				m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+				m_vWidgets[i]->GetInputWidget()->GetIsUsingPlaceholder() ?
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffsetPlaceholder ) :
+					m_vWidgets[i]->GetInputWidget()->SetTextOffset( controlTextOffset );
+
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					m_vWidgets[i]->GetInputWidget()->Resolve( "E", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
