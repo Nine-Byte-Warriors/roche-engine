@@ -10,7 +10,6 @@
 #include "WindowContainer.h"
 #include "AudioEngine.h"
 #include "EventSystem.h"
-#include "ScoreBoard.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"
@@ -71,7 +70,6 @@ private:
 	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;
-	ScoreBoard m_scoreBoard;
 };
 
 #endif
