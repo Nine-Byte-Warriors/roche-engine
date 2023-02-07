@@ -88,7 +88,7 @@ void Collider::LogCollision(std::shared_ptr<Collider>& col)
     if (m_collisionCount < m_maxCollisions)
     {
          m_curCollisions.push_back(col);
-         m_collisionCount++;
+         //m_collisionCount++;
     }
 }
 

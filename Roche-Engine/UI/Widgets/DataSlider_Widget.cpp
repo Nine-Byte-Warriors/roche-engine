@@ -12,8 +12,9 @@ DataSlider_Widget::DataSlider_Widget()
 
 DataSlider_Widget::~DataSlider_Widget() { }
 
-void DataSlider_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat )
+void DataSlider_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index )
 {
+	m_iIdentifier = index;
 	m_spriteBar->Initialize( device, context, m_barTexture, mat );
 	m_spriteSlider->Initialize( device, context, m_sliderTexture, mat );
 }
@@ -37,11 +38,16 @@ void DataSlider_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context
 	m_spriteSlider->Draw( m_transformSlider->GetWorldMatrix(), worldOrtho );
 }
 
-void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const std::string& sliderTex, MouseData& mData )
+void DataSlider_Widget::Resolve( const std::string& barTex, const std::string& sliderTex, MouseData& mData, int index, int startOverride )
 {
+	if ( startOverride > -1 && !m_bUsedStartOverride )
+	{
+		m_iStart = startOverride;
+		m_bUsedStartOverride = true;
+	}
 	m_barTexture = barTex;
 	m_sliderTexture = sliderTex;
-	m_fPx = ( ( float )start / 100.0f ) * m_spriteBar->GetWidth();
+	m_fPx = ( ( float )m_iStart / 100.0f ) * m_spriteBar->GetWidth();
 
 	m_transformSlider->SetPosition( ( m_transformBar->GetPosition().x + m_fPx ) - 25.0f / 2.0f,
 		m_transformBar->GetPosition().y + ( 30.0f - ( 30.0f / 0.75f ) ) );
@@ -58,8 +64,11 @@ void DataSlider_Widget::Resolve( int& start, const std::string& barTex, const st
 		if ( mData.LPress )
 		{
 			mData.Locked = true;
-			m_fPx = mData.Pos.x - m_transformBar->GetPosition().x;
-			start = ( m_fPx / m_spriteBar->GetWidth() ) * 100.0f;
+			if ( m_iIdentifier == index )
+			{
+				m_fPx = mData.Pos.x - m_transformBar->GetPosition().x;
+				m_iStart = ( m_fPx / m_spriteBar->GetWidth() ) * 100.0f;
+			}
 		}
 	}
 

@@ -42,19 +42,26 @@ void Level::CreateEntity()
     {
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
+        m_entity[i].SetCollisionHandler(&m_collisionHandler);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
-        delete entityPop;
-    }
 
-    m_collisionHandler.RemoveAllColliders();
-    for (int i = 0; i < m_iEntityAmount; i++)
-    {
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
         }
+
+        delete entityPop;
     }
+
+    //m_collisionHandler.RemoveAllColliders();
+    //for (int i = 0; i < m_iEntityAmount; i++)
+    //{
+    //    if (m_entityController.HasCollider(i))
+    //    {
+    //        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+    //    }
+    //}
 }
 
 void Level::CreateUI()
@@ -391,6 +398,7 @@ void Level::AddNewEntity()
     {
         Entity* entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
+        m_entity[i].SetCollisionHandler(&m_collisionHandler);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
@@ -408,6 +416,7 @@ void Level::AddNewEntity()
             for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
 				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
+        
     }
 
     m_iEntityAmount = m_entityController.GetSize();
