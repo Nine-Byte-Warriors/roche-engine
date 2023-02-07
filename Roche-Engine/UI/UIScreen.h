@@ -9,6 +9,7 @@ class Graphics;
 #include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
+#include "ScoreBoard.h"
 
 class UIScreen : public Listener
 {
@@ -57,6 +58,8 @@ private:
 	// Widget data
 	int m_iSliderStart = 50;
 	UINT32 m_uLevelTo = 0;
+
+	ScoreBoard m_scoreBoard;
 
 	// Button state textures
 	std::vector<std::string> m_textures =
