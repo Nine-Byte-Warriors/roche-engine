@@ -97,8 +97,10 @@ bool CircleCollider::ToPoint(Vector2f point) noexcept
 
 void CircleCollider::Resolution(std::shared_ptr<Collider> collider) noexcept
 {
-    if (m_isTrigger)
+    if (ResolveCheck(collider) == false)
+    {
         return;
+    }
 
     //Vector2f position = m_transform->GetPosition();
     Vector2f newPos = GetCenterPosition();

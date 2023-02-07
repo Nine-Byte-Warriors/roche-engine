@@ -14,7 +14,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 15.0,
         "identifier": 0,
@@ -57,7 +57,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 5.0,
         "identifier": 1,
@@ -358,7 +358,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 8,

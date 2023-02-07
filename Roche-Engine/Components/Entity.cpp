@@ -147,6 +147,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateProjectilePattern();
 	UpdateTexture();
 	UpdateColliderRadius();
+	UpdateColliderTrigger();
 	UpdateAnimation();
 	UpdateRowsColumns();
 	UpdateAudio();
@@ -371,6 +372,15 @@ void Entity::UpdateColliderRadius()
 			m_colliderBox->SetHeight(m_fColliderRadiusY);
 			m_colliderCircle->SetRadius(0);
 		}
+	}
+}
+
+void Entity::UpdateColliderTrigger()
+{
+	if (m_entityController->HasCollider(m_iEntityNum) && m_colliderCircle != nullptr)
+	{
+		m_colliderBox->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
+		m_colliderCircle->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
 	}
 }
 
