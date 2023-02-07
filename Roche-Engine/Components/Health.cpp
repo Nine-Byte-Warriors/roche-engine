@@ -10,6 +10,9 @@ void Health::SetHealth( float maxHealth )
 void Health::TakeDamage( float damageAmount )
 {
 	m_fCurrentHealth -= damageAmount;
+	std::string currhealth = std::to_string(m_fCurrentHealth);
+	OutputDebugStringA(currhealth.c_str());
+
 	if ( m_fCurrentHealth <= 0 )
 	{
 		m_fCurrentHealth = 0;
