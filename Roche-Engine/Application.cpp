@@ -12,6 +12,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 {
     try
     {
+        AddToEvent();
+
         // Initialize window
         if ( !m_renderWindow.Initialize( &m_input, hInstance, "Roche Engine", "TutorialWindowClass", width, height ) )
 		    return false;
@@ -83,6 +85,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 
 void Application::CleanupDevice()
 {
+    RemoveFromEvent();
 #if _DEBUG
     // Useful for finding dx memory leaks
     ID3D11Debug* debugDevice = nullptr;
