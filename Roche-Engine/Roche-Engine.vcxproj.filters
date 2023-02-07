@@ -273,6 +273,18 @@
     <ClCompile Include="Objects\ShopItem.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="AI\AIFire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\EnemyController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CarrotEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\ScoreBoard.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -634,6 +646,18 @@
     </ClInclude>
     <ClInclude Include="Components\BaseController.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\AIFire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\EnemyController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CarrotEnemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\ScoreBoard.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
