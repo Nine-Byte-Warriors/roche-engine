@@ -17,7 +17,7 @@
     },
 	{
         "audio": "!SoundBankList.json",
-        "entity": "Entity.json",
+        "entity": "Entity_Game.json",
         "name": "Menu",
         "tmBack": "67x120file.json",
         "tmFront": "67x120file.json",
