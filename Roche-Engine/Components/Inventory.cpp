@@ -145,9 +145,9 @@ void Inventory::HandleEvent( Event* event )
 	{
 		std::pair<std::string, int>* seedsBought = static_cast<std::pair<std::string, int>*>( event->GetData() );
 
-		if (seedsBought->first.contains("Carrot") && m_iCoinAmount >= 1)
+		if (seedsBought->first.contains("Carrot") && m_iCoinAmount >= 2)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(false, 2);
 			BuySeedPacket("Carrot", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Potato") && m_iCoinAmount >= 1)
@@ -192,7 +192,7 @@ void Inventory::UpdateCoins(bool gain, int amountToChange)
 {
 	
 	if (gain) m_iCoinAmount += amountToChange;
-	else m_iCoinAmount--;
+	else m_iCoinAmount-= amountToChange;
 	
 	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }

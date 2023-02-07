@@ -16,7 +16,7 @@ void UIScreen::Initialize( const Graphics& gfx, ConstantBuffer<Matrices>* mat, c
 	m_pDevice = gfx.GetDevice();
 	m_pContext = gfx.GetContext();
 	
-	m_sCoinAmount = "000000";
+	m_sCoinAmount = "0";
 	InitializeWidgets();
 }
 
@@ -613,7 +613,6 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::UpdateCoins:
 	{
 		char coin = *(int*)event->GetData();
-		
 		m_sCoinAmount = std::to_string(coin);
 	}
 	break;
