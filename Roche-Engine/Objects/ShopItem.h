@@ -9,7 +9,7 @@
 class ShopItem : public Listener
 {
 public:
-	ShopItem(const std::shared_ptr<Collider> collider, std::string name);
+	ShopItem(const std::shared_ptr<Collider>& collider, std::string name);
 	~ShopItem();
 
 	void PlayerInRange(Collider& collider);

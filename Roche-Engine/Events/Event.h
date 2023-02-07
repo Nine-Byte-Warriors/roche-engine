@@ -85,7 +85,6 @@ enum class EVENTID
 	ResetScore,
 	SaveScore,
 	// GameRestartEvent, // Added in game events, affects UI as well
-	UpdateCoins,
 
 	// DEBUG
 	RemoveHealth,

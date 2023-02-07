@@ -11,7 +11,6 @@ Inventory::Inventory()
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Potato", 0 } );
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Tomato", 0 } );
 	m_iCurrentSeed = 0;
-
 	m_iCoinAmount = 0;
 }
 
@@ -26,16 +25,11 @@ void Inventory::SetActiveSeedPacket( int currSeed )
 
 std::string Inventory::GetTexture()
 {
-	std::string texture = "Resources\\Textures\\Tiles\\Full" + GetKey() + ".png";
+	std::string texture = "Resources\\Textures\\Tiles\\Full" + GetName() + ".png";
 	return texture;
 }
 
 std::string Inventory::GetName()
-{
-	return GetKey();
-}
-
-std::string Inventory::GetKey()
 {
 	int index = 0;
 	for (const auto& [key, value] : m_vSeedOptions)
@@ -105,6 +99,11 @@ void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountTo
 	}
 }
 
+void Inventory::UpdateCoins(int amountToChange)
+{
+	m_iCoinAmount += amountToChange;
+}
+
 void Inventory::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::IncrementSeedPacket, this );
@@ -147,49 +146,41 @@ void Inventory::HandleEvent( Event* event )
 
 		if (seedsBought->first.contains("Carrot") && m_iCoinAmount >= 2)
 		{
-			UpdateCoins(false, 2);
+			UpdateCoins(-2);
 			BuySeedPacket("Carrot", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Potato") && m_iCoinAmount >= 1)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(-1);
 			BuySeedPacket("Potato", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Bean") && m_iCoinAmount >= 1)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(-1);
 			BuySeedPacket("Bean", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Onion") && m_iCoinAmount >= 1)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(1);
 			BuySeedPacket("Onion", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Cauliflower") && m_iCoinAmount >= 1)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(-1);
 			BuySeedPacket("Cauliflower", seedsBought->second);
 		}
 		if (seedsBought->first.contains("Tomato") && m_iCoinAmount >= 1)
 		{
-			UpdateCoins(false, 1);
+			UpdateCoins(-1);
 			BuySeedPacket("Tomato", seedsBought->second);
 		}
-
-
-		//BuySeedPacket( seedsBought->first, seedsBought->second );
 	}
 	break;
-	case EVENTID::GainCoins:{UpdateCoins(true, 1);}break;
+	case EVENTID::GainCoins:
+	{
+		UpdateCoins( 1 );
+	}
+	break;
 	default: break;
 	}
-}
-
-void Inventory::UpdateCoins(bool increaseCoin, int amountToChange)
-{
-	
-	if (increaseCoin) m_iCoinAmount += amountToChange;
-	else m_iCoinAmount-= amountToChange;
-
-	EventSystem::Instance()->AddEvent(EVENTID::UpdateCoins, &m_iCoinAmount);
 }

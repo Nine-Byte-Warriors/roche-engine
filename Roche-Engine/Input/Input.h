@@ -23,9 +23,7 @@ private:
 	void RemoveFromEvent() noexcept;
 	void AddToEvent() noexcept;
 
-
 	std::string m_sKeys;
-
 	bool m_bReadCharInput;
 };
 

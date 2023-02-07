@@ -13,8 +13,6 @@ void Input::Initialize( RenderWindow& window )
     // Update keyboard processing
     m_keyboard.DisableAutoRepeatKeys();
     m_keyboard.DisableAutoRepeatChars();
-
-	
 }
 
 void Input::Update( const float dt )
@@ -81,11 +79,10 @@ void Input::UpdateKeyboard( const float dt )
 		unsigned char keycode = kbe.GetKeyCode();
 
 		// Set cursor enabled/disabled
-		if (keycode == VK_HOME)
+		if ( keycode == VK_HOME )
 			EnableCursor();
-		else if (keycode == VK_END)
+		else if ( keycode == VK_END )
 			DisableCursor();
-
 		
 #if _DEBUG
 		if ( keycode == VK_F1 )
@@ -94,19 +91,20 @@ void Input::UpdateKeyboard( const float dt )
 			g_bDebug = false;
 #endif
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::PlantSeed);
+			EventSystem::Instance()->AddEvent( EVENTID::PlantSeed );
 		
 		//Buying seed test
-		if (m_keyboard.KeyIsPressed('B'))
-			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
-		if (m_keyboard.KeyIsPressed('C'))
-			EventSystem::Instance()->AddEvent(EVENTID::GainCoins);
+		if ( m_keyboard.KeyIsPressed( 'B' ) )
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed );
+
+		if ( m_keyboard.KeyIsPressed( 'C' ) )
+			EventSystem::Instance()->AddEvent( EVENTID::GainCoins );
 
 		if ( m_keyboard.KeyIsPressed( 'L' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
+			EventSystem::Instance()->AddEvent( EVENTID::PlayerDamage );
 		
 		if ( m_keyboard.KeyIsPressed( 'K' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
+			EventSystem::Instance()->AddEvent( EVENTID::PlayerHeal );
 
         // Close game
         if ( keycode == VK_ESCAPE )
