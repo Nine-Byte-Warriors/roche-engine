@@ -20,6 +20,8 @@ public:
 	~ScoreBoard();
 
 	void SaveScore(std::string name);
+
+	int GetScore();
 private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;

@@ -23,6 +23,11 @@ void ScoreBoard::SaveScore(std::string name)
 	JsonLoading::SaveJson(m_scoreBoardStr, JsonFile);
 }
 
+int ScoreBoard::GetScore()
+{
+	return m_iScore;
+}
+
 void ScoreBoard::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::UpdateScore, this);

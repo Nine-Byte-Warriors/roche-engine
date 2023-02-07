@@ -282,9 +282,15 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Score", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
 			}
-			if ( m_vWidgets[i]->GetAction() == "Score" )
+			if (m_vWidgets[i]->GetAction() == "Score")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				std::string scoreStr = "";
+				for (int i = 0; i < (7 - std::to_string(m_scoreBoard.GetScore()).length()); i++)
+				{
+					scoreStr += "0";
+				}
+				scoreStr += std::to_string(m_scoreBoard.GetScore());
+				m_vWidgets[i]->GetImageWidget()->Resolve(scoreStr, Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
 			{

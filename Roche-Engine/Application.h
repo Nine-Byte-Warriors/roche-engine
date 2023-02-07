@@ -71,7 +71,6 @@ private:
 	Graphics m_graphics;
 	Timer m_timer;
 	Input m_input;
-	ScoreBoard m_scoreBoard;
 };
 
 #endif
