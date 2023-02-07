@@ -101,8 +101,8 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::StartGame:
 	{
 		RemoveAllUI();
-		int* levelNumber = new int(0);
-		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
+		std::string* levelName = new std::string("Game");
+		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
 		// TO DO: Load intiial hud day UI after loading, GameStartedEvent to listen to?
 	}
 	break;
@@ -146,8 +146,8 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::BackToMainMenu:
 	{
 		RemoveAllUI();
-		int* levelNumber = new int(2);
-		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
+		std::string* levelName = new std::string( "Menu" );
+		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
 	}
 	break;
 	case EVENTID::WinWindow:
@@ -165,8 +165,8 @@ void UIManager::HandleEvent( Event* event )
 	case EVENTID::GameRestartEvent:
 		HideAllUI();
 		ShowUI("HUD_Day");
-		int* levelNumber = new int(1);
-		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelNumber);
+		std::string* levelName = new std::string( "Game" );
+		EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, levelName);
 	break;
 	}
 
