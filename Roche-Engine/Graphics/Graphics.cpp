@@ -195,18 +195,27 @@ void Graphics::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::UpdateSettingsEvent, this );
+	EventSystem::Instance()->AddClient( EVENTID::RedOverlayColour, this );
+	EventSystem::Instance()->AddClient( EVENTID::GreenOverlayColour, this );
+	EventSystem::Instance()->AddClient( EVENTID::BlueOverlayColour, this );
 }
 
 void Graphics::RemoveFromEvent() noexcept
 {
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSettingsEvent, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::RedOverlayColour, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::GreenOverlayColour, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::BlueOverlayColour, this );
 }
 
 void Graphics::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
+	case EVENTID::RedOverlayColour: { m_overlayColor[0] = *static_cast<float*>( event->GetData() ); } break;
+	case EVENTID::GreenOverlayColour: { m_overlayColor[1] = *static_cast<float*>( event->GetData() ); } break;
+	case EVENTID::BlueOverlayColour: { m_overlayColor[2] = *static_cast<float*>( event->GetData() ); } break;
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );

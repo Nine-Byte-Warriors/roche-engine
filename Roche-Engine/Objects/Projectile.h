@@ -4,6 +4,7 @@
 
 class Graphics;
 #include "Physics.h"
+#include "CircleCollider.h"
 
 class Projectile
 {
@@ -31,6 +32,7 @@ public:
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
+	inline std::shared_ptr<Collider> GetCollider() const noexcept { return m_collider; }
 	inline float GetMaxLifeTime() const noexcept { return m_fMaxLifeTime; }
 	inline float GetDelay() const noexcept { return m_fDelay; }
 	
@@ -55,6 +57,7 @@ private:
 	std::shared_ptr<Sprite> m_sprite;
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Transform> m_transform;
+	std::shared_ptr<Collider> m_collider;
 	
 	float m_fSpeed;
 	float m_fDelay;

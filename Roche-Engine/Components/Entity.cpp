@@ -22,7 +22,6 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
 
-	SetComponents();
 }
 
 Entity::~Entity()
@@ -44,7 +43,7 @@ void Entity::SetComponents()
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
-		m_vecProjectileManagers = ProjectileManager::GenerateManagers(m_entityController->GetProjectilePattern(m_iEntityNum));
+		m_vecProjectileManagers = ProjectileManager::GenerateManagers(m_entityController->GetProjectilePattern(m_iEntityNum), m_collisionHandler);
 		m_emitter = std::make_shared<Emitter>(m_vecProjectileManagers, 0.01f);
 	}
 
@@ -69,7 +68,9 @@ void Entity::SetComponents()
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
 			pManager->SetOwner(Projectile::ProjectileOwner::Enemy);
 
-		m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
+		//m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
+		m_carrotEnemy = std::make_shared<CarrotEnemy>(this);
+
 		m_agent->SetEmitter(m_emitter);
 	}
 
@@ -91,6 +92,9 @@ void Entity::SetComponents()
 
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
+	SetComponents();
+
+
 	m_device = gfx.GetDevice();
 	m_context = gfx.GetContext();
 	m_mat = &mat;

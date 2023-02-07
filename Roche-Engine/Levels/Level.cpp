@@ -42,19 +42,26 @@ void Level::CreateEntity()
     {
         Entity *entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
+        m_entity[i].SetCollisionHandler(&m_collisionHandler);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
-        delete entityPop;
-    }
 
-    m_collisionHandler.RemoveAllColliders();
-    for (int i = 0; i < m_iEntityAmount; i++)
-    {
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
         }
+
+        delete entityPop;
     }
+
+    //m_collisionHandler.RemoveAllColliders();
+    //for (int i = 0; i < m_iEntityAmount; i++)
+    //{
+    //    if (m_entityController.HasCollider(i))
+    //    {
+    //        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+    //    }
+    //}
 }
 
 void Level::CreateUI()
@@ -391,6 +398,7 @@ void Level::AddNewEntity()
     {
         Entity* entityPop = new Entity(m_entityController, i);
         m_entity.push_back(*entityPop);
+        m_entity[i].SetCollisionHandler(&m_collisionHandler);
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
@@ -408,6 +416,7 @@ void Level::AddNewEntity()
             for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
 				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
+        
     }
 
     m_iEntityAmount = m_entityController.GetSize();
@@ -539,21 +548,35 @@ void Level::UpdateTileMapPlanting(const float dt)
 
     static float tempTime = 0;
     tempTime += dt;
-    bool isNightTime = tempTime > 30.0f;
-    if (isNightTime)
+    float nightTime = 60.0f;
+    bool isNightTime = tempTime > nightTime;
+    const float spawnTimmer = 0.5f;
+    if (m_entitySpawner.IsPhaseNight() || isNightTime)
     {
-        for (int i = 0; i < m_entitySpawner.GetSpawnEntitiesSize(); i++)
+        static float timmer = spawnTimmer;
+        timmer += dt;
+
+        if (m_entitySpawner.GetSpawnEntitiesSize() != 0 && timmer > spawnTimmer)
         {
+            timmer -= 0.5f;
+            static int count = 0;
+
             std::string texture = "Resources\\Textures\\Tiles\\EmptyPlot.png";
-            int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(i);
+            int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(count);
             m_tileMapLoader.UpdateTileType(drawLayer, spawnPos, "EmptyPlot");
             m_tileMapDrawLayers[1][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+            
+            m_entitySpawner.SpawnEntity(count);            
+
+            m_entityController.AddEntityData(m_entitySpawner.GetEntityData()[count]);
+            count++;
+
+            if (count >= m_entitySpawner.GetSpawnEntitiesSize())
+            {
+                count = 0;
+                m_entitySpawner.EntitiesAdded();
+            }
         }
-
-        m_entitySpawner.SpawnEntities();
-        m_entityController.AddEntityData(m_entitySpawner.GetEntityData());
-
-        m_entitySpawner.EntitiesAdded();
     }
 }
 

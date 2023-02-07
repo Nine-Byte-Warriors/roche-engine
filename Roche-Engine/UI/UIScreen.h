@@ -9,9 +9,19 @@ class Graphics;
 #include "Inventory.h"
 #include "TextRenderer.h"
 #include "WidgetIncludes.h"
+#include "ScoreBoard.h"
 
 class UIScreen : public Listener
 {
+private:
+	enum class Tabs
+	{
+		General,
+		Controls,
+		Audio,
+		Graphics
+	} m_eTabsState = Tabs::General;
+
 public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
@@ -54,9 +64,7 @@ private:
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
 
-	// Widget data
-	int m_iSliderStart = 50;
-	UINT32 m_uLevelTo = 0;
+	ScoreBoard m_scoreBoard;
 
 	// Button state textures
 	std::vector<std::string> m_textures =

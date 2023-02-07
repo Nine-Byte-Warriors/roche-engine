@@ -4,6 +4,7 @@
 
 #include "Projectile.h"
 #include "ProjectileData.h"
+#include "CollisionHandler.h"
 
 #define PATTERN_FOLDER_PATH "Resources\\Patterns\\"
 #define INITIAL_POOL_COUNT 10
@@ -14,8 +15,8 @@ public:
 	ProjectileManager(Projectile::ProjectileOwner owner = Projectile::ProjectileOwner::None);
 	~ProjectileManager();
 
-	static std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, float fGlobalSpeed, bool bUseGlobalSpeed);
-	static std::vector<std::shared_ptr<ProjectileManager>> GenerateManagers(const std::string filepath);
+	static std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler, float fGlobalSpeed, bool bUseGlobalSpeed);
+	static std::vector<std::shared_ptr<ProjectileManager>> GenerateManagers(const std::string filepath, CollisionHandler* handler);
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename);
