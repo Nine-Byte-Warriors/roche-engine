@@ -13,6 +13,15 @@ class Graphics;
 
 class UIScreen : public Listener
 {
+private:
+	enum class Tabs
+	{
+		General,
+		Controls,
+		Audio,
+		Graphics
+	} m_eTabsState = Tabs::General;
+
 public:
 	UIScreen() { AddToEvent(); }
 	~UIScreen() { RemoveFromEvent(); }
@@ -51,14 +60,9 @@ private:
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY;
 
-	// Inventory data
+	// Global data
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
-
-	// Widget data
-	int m_iSliderStart = 50;
-	UINT32 m_uLevelTo = 0;
-  
 	ScoreBoard m_scoreBoard;
   
 	// Button state textures
