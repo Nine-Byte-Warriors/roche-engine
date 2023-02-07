@@ -85,6 +85,8 @@ void Entity::SetComponents()
 void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 {
 	m_device = gfx.GetDevice();
+	m_context = gfx.GetContext();
+	m_mat = &mat;
 
 	SetProjectileManagerInit(gfx, mat);
 
@@ -147,6 +149,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateProjectilePattern();
 	UpdateTexture();
 	UpdateColliderRadius();
+	UpdateColliderTrigger();
 	UpdateAnimation();
 	UpdateRowsColumns();
 	UpdateAudio();
@@ -255,7 +258,16 @@ void Entity::UpdateTexture()
 		for (std::shared_ptr<ProjectileManager> pManager : m_vecProjectileManagers)
 		{
 			for (std::shared_ptr<Projectile> pProjectile : pManager->GetProjector())
-				pProjectile->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+			{
+				if (pProjectile->GetSprite()->HasTexture())
+				{
+					pProjectile->GetSprite()->UpdateTex(m_device, m_sBulletTex);
+				}
+				else
+				{
+					pProjectile->GetSprite()->Initialize(m_device, m_context, m_entityController->GetTexture(m_iEntityNum), *m_mat);
+				}
+			}
 		}
 	}
 }
@@ -371,6 +383,15 @@ void Entity::UpdateColliderRadius()
 			m_colliderBox->SetHeight(m_fColliderRadiusY);
 			m_colliderCircle->SetRadius(0);
 		}
+	}
+}
+
+void Entity::UpdateColliderTrigger()
+{
+	if (m_entityController->HasCollider(m_iEntityNum) && m_colliderCircle != nullptr)
+	{
+		m_colliderBox->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
+		m_colliderCircle->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
 	}
 }
 

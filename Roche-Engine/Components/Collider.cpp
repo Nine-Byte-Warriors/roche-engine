@@ -92,6 +92,18 @@ void Collider::LogCollision(std::shared_ptr<Collider>& col)
     }
 }
 
+bool Collider::ResolveCheck(std::shared_ptr<Collider> collider)
+{
+    if (m_isTrigger == true || collider->GetIsTrigger() == true)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void Collider::OnEnter(Collider& col)
 {
     for (auto& callback : m_onEnterCallbacks)
