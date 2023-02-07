@@ -4,10 +4,10 @@
 Inventory::Inventory()
 {
 	AddToEvent();
+	m_vSeedOptions.emplace(std::pair<std::string, int>{ "Bean", 0 });
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Carrot", 0 } );
-	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Bean", 0 } );
+	m_vSeedOptions.emplace(std::pair<std::string, int>{ "Cauliflower", 0 });
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Onion", 0 } );
-	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Cauliflower", 0 } );
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Potato", 0 } );
 	m_vSeedOptions.emplace( std::pair<std::string, int>{ "Tomato", 0 } );
 	m_iCurrentSeed = 0;
