@@ -324,23 +324,23 @@ void ProjectileEditor::TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>
 	if (!bFire)
 		return;
 
-	m_vecProjectileManagers.clear();
+	//m_vecProjectileManagers.clear();
 
-	for (ProjectileData::ManagerJSON jMan : m_vecManagers)
-	{
-		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
-		
-		pManager->SetDelay(jMan.m_fDelay);
-		pManager->SetProjectilePool(ProjectileManager::CreateProjectilePool(jMan.m_vecProjectiles, jMan.m_fGlobalSpeed, jMan.m_bUseGlobalSpeed));
-		pManager->InitialiseFromFile(gfx, mat, jMan.m_sImagePath, Vector2f(jMan.m_fWidth, jMan.m_fHeight));
-		
-		if (bLoop || jMan.m_bLoop)
-			pManager->EnableRepeat();
+	//for (ProjectileData::ManagerJSON jMan : m_vecManagers)
+	//{
+	//	std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
+	//	
+	//	pManager->SetDelay(jMan.m_fDelay);
+	//	pManager->SetProjectilePool(ProjectileManager::CreateProjectilePool(jMan.m_vecProjectiles, jMan.m_fGlobalSpeed, jMan.m_bUseGlobalSpeed));
+	//	pManager->InitialiseFromFile(gfx, mat, jMan.m_sImagePath, Vector2f(jMan.m_fWidth, jMan.m_fHeight));
+	//	
+	//	if (bLoop || jMan.m_bLoop)
+	//		pManager->EnableRepeat();
 
-		m_vecProjectileManagers.push_back(std::move(pManager));
-	}
+	//	m_vecProjectileManagers.push_back(std::move(pManager));
+	//}
 
-	SpawnPattern();
+	//SpawnPattern();
 }
 
 void ProjectileEditor::SaveProjectile()
