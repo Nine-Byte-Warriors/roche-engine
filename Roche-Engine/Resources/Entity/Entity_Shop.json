@@ -412,7 +412,7 @@
         ],
         "name": "Swap Level Trigger",
         "position": [
-            964.0,
+            958.0,
             1512.0
         ],
         "projectileBullet": "None",
@@ -426,7 +426,7 @@
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\Tiles\\Concrete-1.png",
+        "texture": "Resources\\Textures\\Tiles\\MissingTexture.png",
         "type": "Item"
     },
     {

@@ -215,135 +215,6 @@
         "type": "Projectile"
     },
     {
-        "AI": false,
-        "animation": false,
-        "animationPath": "None",
-        "animationType": "Walk",
-        "audio": false,
-        "bColliderTrigger": true,
-        "bProjectileBullet": true,
-        "bProjectilePattern": true,
-        "behaviour": "None",
-        "collider": true,
-        "colliderRadius": [
-            100.0,
-            100.0
-        ],
-        "colliderShape": "Circle",
-        "columns": 1,
-        "health": 100.0,
-        "identifier": 5,
-        "mass": 1.0,
-        "maxFrame": [
-            1,
-            1
-        ],
-        "name": "PotatoItem",
-        "position": [
-            500.0,
-            900.0
-        ],
-        "projectileBullet": "None",
-        "projectilePattern": "None",
-        "projectileSystem": false,
-        "rotation": 0.0,
-        "rows": 1,
-        "scale": [
-            100.0,
-            100.0
-        ],
-        "soundBankName": "",
-        "speed": 10.0,
-        "texture": "Resources\\Textures\\UI\\Seeds\\Potato Seeds.png",
-        "type": "Item"
-    },
-    {
-        "AI": false,
-        "animation": false,
-        "animationPath": "None",
-        "animationType": "Walk",
-        "audio": false,
-        "bColliderTrigger": true,
-        "bProjectileBullet": true,
-        "bProjectilePattern": true,
-        "behaviour": "None",
-        "collider": true,
-        "colliderRadius": [
-            100.0,
-            100.0
-        ],
-        "colliderShape": "Circle",
-        "columns": 1,
-        "health": 100.0,
-        "identifier": 6,
-        "mass": 1.0,
-        "maxFrame": [
-            1,
-            1
-        ],
-        "name": "CarrotItem",
-        "position": [
-            300.0,
-            900.0
-        ],
-        "projectileBullet": "None",
-        "projectilePattern": "None",
-        "projectileSystem": false,
-        "rotation": 0.0,
-        "rows": 1,
-        "scale": [
-            100.0,
-            100.0
-        ],
-        "soundBankName": "",
-        "speed": 10.0,
-        "texture": "Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png",
-        "type": "Item"
-    },
-    {
-        "AI": false,
-        "animation": false,
-        "animationPath": "None",
-        "animationType": "Walk",
-        "audio": false,
-        "bColliderTrigger": true,
-        "bProjectileBullet": true,
-        "bProjectilePattern": true,
-        "behaviour": "None",
-        "collider": true,
-        "colliderRadius": [
-            100.0,
-            100.0
-        ],
-        "colliderShape": "Circle",
-        "columns": 1,
-        "health": 100.0,
-        "identifier": 7,
-        "mass": 1.0,
-        "maxFrame": [
-            1,
-            1
-        ],
-        "name": "BeanItem",
-        "position": [
-            700.0,
-            900.0
-        ],
-        "projectileBullet": "None",
-        "projectilePattern": "None",
-        "projectileSystem": false,
-        "rotation": 0.0,
-        "rows": 1,
-        "scale": [
-            100.0,
-            100.0
-        ],
-        "soundBankName": "",
-        "speed": 10.0,
-        "texture": "Resources\\Textures\\UI\\Seeds\\Bean Seeds.png",
-        "type": "Item"
-    },
-    {
         "AI": true,
         "animation": true,
         "animationPath": "None",
@@ -361,7 +232,7 @@
         "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
-        "identifier": 8,
+        "identifier": 5,
         "mass": 1.0,
         "maxFrame": [
             1,
@@ -404,7 +275,7 @@
         "colliderShape": "Circle",
         "columns": 2,
         "health": 100.0,
-        "identifier": 9,
+        "identifier": 6,
         "mass": 1.0,
         "maxFrame": [
             1,
@@ -447,7 +318,7 @@
         "colliderShape": "Circle",
         "columns": 2,
         "health": 100.0,
-        "identifier": 10,
+        "identifier": 7,
         "mass": 1.0,
         "maxFrame": [
             1,
@@ -471,5 +342,220 @@
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Cauliflower\\Cauliflower.png",
         "type": "Enemy"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            4000.0,
+            16.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 8,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Top Wall",
+        "position": [
+            -1015.0,
+            -554.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            4000.0,
+            16.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            16.0,
+            2124.60009765625
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 9,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Right Wall",
+        "position": [
+            2880.0,
+            -530.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            16.0,
+            2124.60009765625
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            4000.0,
+            16.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 10,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Bottom Wall",
+        "position": [
+            -977.0,
+            1605.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            4000.0,
+            16.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            16.0,
+            2113.800048828125
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 11,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Left Wall",
+        "position": [
+            -976.0,
+            -526.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            16.0,
+            2113.800048828125
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            100.0,
+            100.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 12,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Change Level Trigger",
+        "position": [
+            1007.0,
+            -505.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\MissingTexture.png",
+        "type": "Item"
     }
 ]
