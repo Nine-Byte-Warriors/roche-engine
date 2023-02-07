@@ -1,0 +1,62 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Change Level Background",
+        "position": [
+            647.0,
+            381.0
+        ],
+        "scale": [
+            700.0,
+            700.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "Change Level Label",
+        "hide": false,
+        "name": "Change Level Label",
+        "position": [
+            958.0,
+            525.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 1
+    },
+    {
+        "action": "Confirm",
+        "hide": false,
+        "name": "Confrim",
+        "position": [
+            732.0,
+            757.0
+        ],
+        "scale": [
+            200.0,
+            200.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Deny",
+        "hide": false,
+        "name": "Deny",
+        "position": [
+            1064.0,
+            757.0
+        ],
+        "scale": [
+            200.0,
+            200.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    }
+]

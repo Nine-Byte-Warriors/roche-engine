@@ -51,11 +51,11 @@ void Input::UpdateMouse( const float dt )
 
 		if ( me.GetType() == Mouse::MouseEvent::EventType::WheelUp )
 		{
-			EventSystem::Instance()->AddEvent(EVENTID::IncrementSeedPacket);
+			EventSystem::Instance()->AddEvent(EVENTID::DecrementSeedPacket);
 		}
 		else if (me.GetType() == Mouse::MouseEvent::EventType::WheelDown)
 		{
-			EventSystem::Instance()->AddEvent(EVENTID::DecrementSeedPacket);
+			EventSystem::Instance()->AddEvent(EVENTID::IncrementSeedPacket);
 		}
     }
 }
