@@ -15,6 +15,8 @@ class Graphics;
 #include "Health.h"
 #include "Emitter.h"
 #include "ShopItem.h"
+#include "CollisionHandler.h"
+#include "CarrotEnemy.h"
 
 class Entity
 {
@@ -26,6 +28,9 @@ public:
 	void SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
 	void UpdateFromEntityData(const float dt, bool positionLocked);
+
+	inline void SetCollisionHandler(CollisionHandler* handler) { 
+		m_collisionHandler = handler; }
 
 	inline std::shared_ptr<Inventory> GetInventory() const noexcept{ return m_inventory; }
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
@@ -130,8 +135,11 @@ private:
 	std::shared_ptr<ShopItem> m_shopItem;
 	std::shared_ptr<Inventory>m_inventory;
 	std::shared_ptr<Emitter> m_emitter;
+	std::shared_ptr<CarrotEnemy> m_carrotEnemy;
 
 	EntityController* m_entityController;
+
+	CollisionHandler* m_collisionHandler;
 
 	EntityAnimation m_animation;
 

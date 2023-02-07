@@ -21,6 +21,7 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
+	m_collider = std::make_shared<CircleCollider>(m_transform, m_sprite, true, 2, "Projectile", 32);
 
 	m_owner = ProjectileOwner::None;
 }
