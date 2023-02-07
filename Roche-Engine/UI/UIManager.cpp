@@ -108,6 +108,13 @@ void UIManager::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
+		case EVENTID::LevelOnCreateUI:
+		{
+			HideAllUI();
+			ShowUI("Menu_Widgets");
+			ShowUI("HUD_Day");
+		}
+		break;
 		case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>(event->GetData()); } break;
 		case EVENTID::RemoveUIItemEvent: { RemoveUI(*static_cast<std::string*>(event->GetData())); } break;
 		case EVENTID::StartGame:
@@ -120,10 +127,9 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 
-
 			m_sCurrentLevel = *m_vLevelNames[GAME];
+			HideAllUI();
 			ShowUI("HUD_Day");
-			// TO DO: Send start game event for game manager?
 		}
 		break;
 		case EVENTID::OpenCredits:
@@ -142,10 +148,12 @@ void UIManager::HandleEvent(Event* event)
 		{
 			HideAllUI();
 			ShowUI("Pause_Widgets");
+			EventSystem::Instance()->AddEvent(EVENTID::GamePauseEvent);
 		}
 		break;
 		case EVENTID::ResumeGame:
 		{
+			EventSystem::Instance()->AddEvent(EVENTID::GameUnpauseEvent);
 			HideAllUI();
 			if (m_currentGamePhase == Phase::DayPhase) {
 				ShowUI("HUD_Day");
@@ -172,6 +180,8 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[MENU]);
 			m_sCurrentLevel = *m_vLevelNames[MENU];
+			HideAllUI();
+			ShowUI("Menu_Widgets");
 		}
 		break;
 		case EVENTID::WinWindow:
@@ -180,7 +190,7 @@ void UIManager::HandleEvent(Event* event)
 			ShowUI("Game_Won_Widgets");
 		}
 		break;
-		case EVENTID::LossWindow:
+		case EVENTID::PlayerDeath:
 		{
 			HideAllUI();
 			ShowUI("Game_Over_Widgets");
@@ -207,14 +217,10 @@ void UIManager::HandleEvent(Event* event)
 		{
 			HideAllUI();
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
-				//EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
-				//m_sCurrentLevel == *m_vLevelNames[SHOP];
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				m_sCurrentLevel = *m_vLevelNames[SHOP];
 			}
 			else {
-				//EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
-				//m_sCurrentLevel == *m_vLevelNames[GAME];
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				m_sCurrentLevel = *m_vLevelNames[GAME];
 			}
@@ -243,6 +249,7 @@ void UIManager::HandleEvent(Event* event)
 
 void UIManager::AddToEvent() noexcept
 {
+	EventSystem::Instance()->AddClient(EVENTID::LevelOnCreateUI, this);
 	EventSystem::Instance()->AddClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::StartGame, this);
@@ -253,7 +260,7 @@ void UIManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::Back, this);
 	EventSystem::Instance()->AddClient(EVENTID::CurrentPhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::WinWindow, this);
-	EventSystem::Instance()->AddClient(EVENTID::LossWindow, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayerDeath, this);
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::SwapGameLevelsWindow, this);
 	EventSystem::Instance()->AddClient(EVENTID::SwapGameLevels, this);
@@ -267,6 +274,7 @@ void UIManager::AddToEvent() noexcept
 
 void UIManager::RemoveFromEvent() noexcept
 {
+	EventSystem::Instance()->AddClient(EVENTID::LevelOnCreateUI, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::StartGame, this);
@@ -277,13 +285,13 @@ void UIManager::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::Back, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CurrentPhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::WinWindow, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::LossWindow, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayerDeath, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevelsWindow, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevels, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenLeaderboard, this);
-	EventSystem::Instance()->RemoveClient(EVENTID::BackToMainMenu, this);
+	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 }

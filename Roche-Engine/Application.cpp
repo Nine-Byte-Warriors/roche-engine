@@ -71,7 +71,7 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_pLevels.push_back( std::move( level ) );
             m_sLevelNames.push_back( m_stateMachine.Add(m_pLevels[i]));
         }
- 
+
         m_stateMachine.SwitchTo( STARTING_LEVEL_NAME );
         m_sCurrentLevelName = STARTING_LEVEL_NAME;
 

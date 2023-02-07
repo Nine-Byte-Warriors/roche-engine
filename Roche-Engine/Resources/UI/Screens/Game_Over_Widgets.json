@@ -45,9 +45,9 @@
         "zindex": 2
     },
     {
-        "action": "Close",
+        "action": "Back To Menu",
         "hide": false,
-        "name": "Exit Button",
+        "name": "Back To Menu",
         "position": [
             1043.0,
             757.0
