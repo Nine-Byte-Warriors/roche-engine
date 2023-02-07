@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShopItem.h"
 
-ShopItem::ShopItem(const std::shared_ptr<Collider> collider, std::string name)
+ShopItem::ShopItem(const std::shared_ptr<Collider>& collider, std::string name)
 {
 	FilterName(name);
 
@@ -16,7 +16,7 @@ ShopItem::ShopItem(const std::shared_ptr<Collider> collider, std::string name)
 
 ShopItem::~ShopItem()
 {
-	EventSystem::Instance()->RemoveClient(EVENTID::BuySeedAttempt, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BuySeed, this);
 }
 
 void ShopItem::PlayerInRange(Collider& collider)
@@ -28,7 +28,7 @@ void ShopItem::PlayerInRange(Collider& collider)
 		std::pair<std::string, int>* item = new std::pair<std::string, int>();
 		item->first = m_itemName;
 		item->second = 1;
-		EventSystem::Instance()->AddEvent(EVENTID::BuySeed, item);
+		EventSystem::Instance()->AddEvent(EVENTID::UpdateSeed, item);
 	}
 
 	m_bInputCheck = false;
@@ -43,7 +43,7 @@ void ShopItem::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	case EVENTID::BuySeedAttempt:
+	case EVENTID::BuySeed:
 		if(m_bCollisionCheck)
 			m_bInputCheck = true;
 		break;
@@ -54,7 +54,7 @@ void ShopItem::HandleEvent(Event* event)
 
 void ShopItem::AddToEvent() noexcept
 {
-	EventSystem::Instance()->AddClient(EVENTID::BuySeedAttempt, this);
+	EventSystem::Instance()->AddClient(EVENTID::BuySeed, this);
 }
 
 void ShopItem::FilterName(std::string name)

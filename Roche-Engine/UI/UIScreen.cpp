@@ -358,7 +358,7 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve(std::to_string( m_inventory.GetCoinCount() ), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if ( m_vWidgets[i]->GetAction() == "Score Label" )
 			{
@@ -901,3 +901,4 @@ void UIScreen::HandleEvent( Event* event )
 	break;
 	}
 }
+
