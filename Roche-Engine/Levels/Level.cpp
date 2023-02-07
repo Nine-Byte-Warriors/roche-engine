@@ -146,8 +146,8 @@ void Level::CreateTileMapDraw()
 void Level::OnSwitch()
 {
 	// Update level system
-	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
-	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
+	//EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
+	//EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
 
     CreateEntity();

@@ -113,11 +113,14 @@ void UIManager::HandleEvent(Event* event)
 		case EVENTID::StartGame:
 		{
 			RemoveAllUI();
+
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[LOADING]);
 			EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, m_vLevelNames[MENU]);
-			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[SHOP]);
+			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+
+
 			m_sCurrentLevel = *m_vLevelNames[GAME];
 			ShowUI("HUD_Day");
 			// TO DO: Send start game event for game manager?
@@ -256,6 +259,7 @@ void UIManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::SwapGameLevels, this);
 	EventSystem::Instance()->AddClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->AddClient(EVENTID::OpenLeaderboard, this);
+	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
 	//EventSystem::Instance()->AddClient(EVENTID::, this);
 	//EventSystem::Instance()->AddClient(EVENTID::, this);
 
@@ -279,6 +283,7 @@ void UIManager::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevels, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenLeaderboard, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BackToMainMenu, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 }

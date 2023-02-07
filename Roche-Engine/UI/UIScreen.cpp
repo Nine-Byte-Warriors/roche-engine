@@ -93,6 +93,11 @@ void UIScreen::Update( const float dt )
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 					EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
+			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
+			{
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
+			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )

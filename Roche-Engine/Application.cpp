@@ -398,10 +398,8 @@ void Application::RemoveLevel(std::string levelName)
     // or delete
     for (int i = 0; m_pLevels.size() > i; i++) {
         if (m_pLevels[i]->GetLevelName() == levelName) {
-            //delete m_pLevels[i].get();
-            //m_pLevels.erase(m_pLevels.begin(), i);
             m_pLevels[i].reset();
-            m_pLevels.erase(m_pLevels.begin());
+            m_pLevels.erase(m_pLevels.begin() + i);
         }
     }
 
