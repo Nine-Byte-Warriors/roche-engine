@@ -22,7 +22,7 @@ public:
     inline bool GetIsUsingPlaceholder() const noexcept { return m_bUsePlaceholder; }
 
     void SetCurrentText( std::string text ) noexcept { m_sCurrText = text; }
-    std::string GetCurrentText() const noexcept { return m_sCurrText; }
+    std::string GetCurrentText() const noexcept { return m_sCurrText.empty() ? m_sPlaceholder : m_sCurrText; }
     inline void SetTextOffset( XMFLOAT2 pos ) noexcept { m_vTextOffset = pos; }
 
     inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }

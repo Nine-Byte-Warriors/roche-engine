@@ -578,7 +578,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "W", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Up, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Left Input" )
 			{
@@ -588,7 +592,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "A", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Left, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Down Input" )
 			{
@@ -598,7 +606,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "S", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Down, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Right Input" )
 			{
@@ -608,7 +620,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "D", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Right, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Dash Input" )
 			{
@@ -618,7 +634,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "SPACE", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Dash, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Interact Input" )
 			{
@@ -628,7 +648,11 @@ void UIScreen::Update( const float dt )
 
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Controls ? false : true );
 				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
 					m_vWidgets[i]->GetInputWidget()->Resolve( "E", m_sKeys, Colors::White, m_textures, m_mouseData, i, FontSize::LARGE );
+					std::string* inputText = new std::string( m_vWidgets[i]->GetInputWidget()->GetCurrentText() );
+					EventSystem::Instance()->AddEvent( EVENTID::KeyInputUpdate_Interact, static_cast<void*>( inputText ) );
+				}
 			}
 			if ( m_vWidgets[i]->GetAction() == "Player Name" )
 			{
