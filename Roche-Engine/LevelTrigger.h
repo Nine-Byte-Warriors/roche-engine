@@ -14,9 +14,10 @@ public:
 	~LevelTrigger();
 
 	void PlayerInTrigger(Collider& collider);
+	void PlayerOutTrigger(Collider& collider);
 private:
 	
-	bool m_bOnGameLevel = true;
+	bool m_bEventFired = false;
 	virtual void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
 };
