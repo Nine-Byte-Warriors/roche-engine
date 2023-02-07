@@ -3,6 +3,16 @@
 
 #define FOLDER_PATH "Resources\\Entity\\"
 
+EntitySpawner::EntitySpawner()
+{
+	AddToEvent();
+}
+
+EntitySpawner::~EntitySpawner()
+{
+	RemoveFromEvent();
+}
+
 void EntitySpawner::AddEntityToSpawn(int seed, int tileMapPos, Vector2f mapPos)
 {
 	EntitySpawn entitySpawn;
@@ -25,6 +35,15 @@ void EntitySpawner::SpawnEntities()
 	}
 
 	m_entitySpawn.clear();
+}
+
+void EntitySpawner::SpawnEntity(int num)
+{
+	m_vEntityDataLive.push_back(m_vEntityData[m_entitySpawn[num].seed]);
+	m_vEntityDataLive[num].position[0] = m_entitySpawn[num].mapPos.x;
+	m_vEntityDataLive[num].position[1] = m_entitySpawn[num].mapPos.y;
+
+	m_entitySpawn.erase(m_entitySpawn.begin() + num);
 }
 
 std::vector<EntityData> EntitySpawner::GetEntityData()
@@ -57,4 +76,39 @@ int EntitySpawner::GetSpawnEntitiesSize()
 int EntitySpawner::GetSpawnEntitiesTileMapPos(int num)
 {
 	return m_entitySpawn[num].tileMapPos;
+}
+
+bool EntitySpawner::IsPhaseNight()
+{
+	if (m_currentGamePhase == Phase::NightPhase)
+	{
+		return true;
+	}
+	if (m_currentGamePhase == Phase::DayPhase)
+	{
+		return false;
+	}
+	return false;
+}
+
+void EntitySpawner::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient(EVENTID::CurrentPhase, this);
+}
+
+void EntitySpawner::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient(EVENTID::CurrentPhase, this);
+}
+
+void EntitySpawner::HandleEvent(Event* event)
+{
+	switch (event->GetEventID())
+	{
+	case EVENTID::CurrentPhase:
+	{
+		m_currentGamePhase = *static_cast<Phase*>(event->GetData());
+	}
+	break;
+	}
 }
