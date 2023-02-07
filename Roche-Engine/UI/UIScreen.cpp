@@ -618,7 +618,7 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					urm_vWidgets[i]->GetInputWidget()->Resolve( "", m_sKeys, Colors::White, m_textures, m_mouseData, i );
+					m_vWidgets[i]->GetInputWidget()->Resolve( "", m_sKeys, Colors::White, m_textures, m_mouseData, i );
 			}
 			m_vWidgets[i]->GetInputWidget()->Update( dt );
 		}
