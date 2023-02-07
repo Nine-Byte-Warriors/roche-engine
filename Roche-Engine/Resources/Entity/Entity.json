@@ -14,7 +14,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 47.0,
         "identifier": 0,
@@ -57,7 +57,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 1,
@@ -143,7 +143,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 2,
         "health": 100.0,
         "identifier": 3,
@@ -186,7 +186,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 3,
         "health": 100.0,
         "identifier": 4,
@@ -229,7 +229,7 @@
             32.0,
             32.0
         ],
-        "colliderShape": "Circle",
+        "colliderShape": "Box",
         "columns": 1,
         "health": 100.0,
         "identifier": 5,
