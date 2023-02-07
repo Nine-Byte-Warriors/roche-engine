@@ -22,6 +22,13 @@ struct EntityData
 	std::string colliderShape;
 	std::vector<float> colliderRadius;
 	bool bColliderTrigger;
+	bool bColliderEnabled;
+	bool bColliderStatic;
+	std::string sColliderLayer;
+	bool bColliderInteractDecoration;
+	bool bColliderInteractPlayer;
+	bool bColliderInteractEnemy;
+	bool bColliderInteractProjectile;
 	std::string projectilePattern;
 	std::string projectileBullet;
 	bool AI;
@@ -37,10 +44,43 @@ struct EntityData
 	bool audio;
 	std::string soundBankName;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData, name, texture, type, position, scale, rotation, health, identifier,
-	maxFrame, mass, speed, behaviour, colliderShape, colliderRadius, bColliderTrigger, projectilePattern, projectileBullet,
-	AI, projectileSystem, collider, bProjectilePattern, bProjectileBullet, animationPath, animationType,
-	animation, rows, columns, audio, soundBankName)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData,
+	name,
+	texture,
+	type,
+	position,
+	scale,
+	rotation,
+	health,
+	identifier,
+	maxFrame,
+	mass,
+	speed,
+	behaviour,
+	colliderShape,
+	colliderRadius,
+	bColliderTrigger,
+	bColliderEnabled,
+	bColliderStatic,
+	sColliderLayer,
+	bColliderInteractDecoration,
+	bColliderInteractPlayer,
+	bColliderInteractEnemy,
+	bColliderInteractProjectile,
+	projectilePattern,
+	projectileBullet,
+	AI,
+	projectileSystem,
+	collider,
+	bProjectilePattern,
+	bProjectileBullet,
+	animationPath,
+	animationType,
+	animation,
+	rows,
+	columns,
+	audio,
+	soundBankName)
 
 class EntityController
 {
@@ -73,6 +113,10 @@ public:
 	std::string GetColliderShape(int num);
 	std::vector<float> GetColliderRadius(int num);
 	bool GetColliderTrigger(int num);
+	bool GetColliderEnabled(int num);
+	std::string GetColliderLayer(int num);
+	bool GetColliderStatic(int num);
+	std::vector<bool> GetColliderMask(int num);
 
 	EntityData* GetProjectileBullet(int num);
 

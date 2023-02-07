@@ -70,6 +70,10 @@ private:
 	void SetColliderShape();
 	void SetColliderSize();
 	void SetColliderTrigger();
+	void SetColliderLayer();
+	void SetColliderStatic();
+	void SetColliderEnabled();
+	void SetColliderMask();
 
 	//Audio
 	void SetSoundBank();
