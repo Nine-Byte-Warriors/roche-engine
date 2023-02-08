@@ -83,7 +83,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData,
 	audio,
 	soundBankName)
 
-class EntityController : Listener
+class EntityController : public Listener
 {
 public:
 	EntityController();
@@ -149,17 +149,15 @@ public:
 	void ClearDead();
 	std::vector<int> GetDead();
 
-	// Inherited via Listener
-	virtual void HandleEvent(Event* event) override;
-	void AddToEvent() noexcept;
 private:
-	std::string JsonFile = "Entity.json";
+	// Inherited via Listener
+	void HandleEvent(Event* event) override;
+	void AddToEvent() noexcept;
 
+	std::string JsonFile = "Entity.json";
 	std::vector<EntityData> m_entityData;
 	std::vector<EntityData> m_entityDataCopy;
-
 	bool m_bComponentUpdated = false;
-
 	std::vector<int> m_dead;
 };
 

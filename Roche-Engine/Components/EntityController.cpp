@@ -229,8 +229,6 @@ bool EntityController::HasAudio(int num)
 	return m_entityData[num].audio;
 }
 
-
-
 bool EntityController::HasComponentUpdated()
 {
 	for (int i = 0; i < m_entityData.size(); i++)
