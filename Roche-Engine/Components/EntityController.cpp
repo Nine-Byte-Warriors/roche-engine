@@ -99,7 +99,7 @@ std::string EntityController::GetBehaviour(int num)
 {
 	return m_entityData[num].behaviour;
 }
-
+//Collider Data
 std::string EntityController::GetColliderShape(int num)
 {
 	return m_entityData[num].colliderShape;
@@ -113,6 +113,33 @@ std::vector<float> EntityController::GetColliderRadius(int num)
 bool EntityController::GetColliderTrigger(int num)
 {
 	return m_entityData[num].bColliderTrigger;
+}
+
+bool EntityController::GetColliderEnabled(int num)
+{
+	return m_entityData[num].bColliderEnabled;
+}
+
+std::string EntityController::GetColliderLayer(int num)
+{
+	return m_entityData[num].sColliderLayer;
+}
+
+bool EntityController::GetColliderStatic(int num)
+{
+	return m_entityData[num].bColliderStatic;
+}
+
+std::vector<bool> EntityController::GetColliderMask(int num)
+{
+	bool decoration = m_entityData[num].bColliderInteractDecoration;
+	bool player = m_entityData[num].bColliderInteractPlayer;
+	bool enemy = m_entityData[num].bColliderInteractEnemy;
+	bool projectile = m_entityData[num].bColliderInteractProjectile;
+
+	//dec , player, enemy, proj
+	std::vector<bool> colliderMask = {decoration, player, enemy, projectile};
+	return colliderMask;
 }
 
 EntityData* EntityController::GetProjectileBullet(int num)

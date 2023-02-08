@@ -27,6 +27,7 @@ public:
         bool eD, bool eP, bool eE, bool ePj,
         bool pjD, bool pjP, bool pjE, bool pjPj);
     void RemoveAllColliders();
+    void RemoveCollider(std::shared_ptr<Collider> collider);
 
 private:
     void CollisionCheckAll();
