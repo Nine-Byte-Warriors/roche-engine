@@ -3,30 +3,30 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\enemydeath.wav",
         "name": "enemydeath",
-        "pitchMax": 0.7139999866485596,
-        "pitchMin": 0.6200000047683716,
+        "pitchMax": 0.7860000133514404,
+        "pitchMin": 0.5989999771118164,
         "randomPitch": true,
-        "tagName": "EntityDeath",
+        "tagName": "Death",
         "volume": 1.0
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\EnemyHit.wav",
         "name": "EnemyHit",
-        "pitchMax": 0.8019999861717224,
-        "pitchMin": 0.609000027179718,
+        "pitchMax": 1.2920000553131104,
+        "pitchMin": 0.9739999771118164,
         "randomPitch": true,
-        "tagName": "EntityHit",
+        "tagName": "Hit",
         "volume": 1.0
     },
     {
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
         "name": "bullettest",
-        "pitchMax": 1.5,
-        "pitchMin": 0.5,
+        "pitchMax": 1.0679999589920044,
+        "pitchMin": 0.7139999866485596,
         "randomPitch": true,
-        "tagName": "EntityBulletShot",
+        "tagName": "Shoot",
         "volume": 1.0
     }
 ]

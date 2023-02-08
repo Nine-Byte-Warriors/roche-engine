@@ -3,8 +3,8 @@
         "audioType": 0,
         "filePath": "Resources\\Audio\\bullettest.wav",
         "name": "bullettest",
-        "pitchMax": 1.2660000324249268,
-        "pitchMin": 1.2139999866485596,
+        "pitchMax": 0.9789999723434448,
+        "pitchMin": 0.5,
         "randomPitch": true,
         "tagName": "EntityBulletShot",
         "volume": 1.0

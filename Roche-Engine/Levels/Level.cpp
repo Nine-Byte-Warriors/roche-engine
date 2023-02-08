@@ -45,6 +45,8 @@ void Level::CreateEntity()
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
 
+        DisplayEntityMaxHealth(i);
+
         if (m_entityController.HasCollider(i))
         {
             m_collisionHandler.AddCollider(m_entity[i].GetCollider());
@@ -391,6 +393,7 @@ void Level::UpdateEntity(const float dt)
     for (int i = 0; i < m_iEntityAmount; i++)
     {
         m_entity[i].Update(dt);
+        DisplayEntityCurrentHealth(i);
     }
 }
 
@@ -404,6 +407,8 @@ void Level::AddNewEntity()
         m_entity[i].Initialize(*m_gfx, m_cbMatrices);
         m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
         delete entityPop;
+
+        DisplayEntityMaxHealth(i);
 
         if (m_entityController.HasCollider(i))
         {
@@ -458,6 +463,33 @@ void Level::RemoveEntities()
 #endif
 
     m_entityController.m_dead.clear();
+}
+
+void Level::DisplayEntityMaxHealth(int num)
+{
+    if (m_entity[num].GetType() == "Enemy")
+    {
+        float* maxHealthPtr = new float;
+        m_fMaxHealth += m_entity[num].GetHealth()->GetMaxHealth();
+        *maxHealthPtr = m_fMaxHealth;
+        EventSystem::Instance()->AddEvent(EVENTID::EnemyMaxHealth, maxHealthPtr);
+    }
+}
+
+void Level::DisplayEntityCurrentHealth(int num)
+{
+    if (num == 0)
+    {
+        *m_fCurrentHealth = 0;
+    }
+    if (m_entity[num].GetType() == "Enemy")
+    {
+        *m_fCurrentHealth += m_entity[num].GetHealth()->GetCurrentHealth();
+    }
+    if (num == m_iEntityAmount - 1)
+    {
+        EventSystem::Instance()->AddEvent(EVENTID::EnemyCurrentHealth, m_fCurrentHealth);
+    }
 }
 
 void Level::UpdateTileMap(const float dt)

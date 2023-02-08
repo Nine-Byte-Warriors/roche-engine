@@ -16,7 +16,7 @@
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
-        "tagName": "Battele2",
+        "tagName": "BossFightMusic",
         "volume": 1.0
     },
     {
@@ -41,12 +41,12 @@
     },
     {
         "audioType": 1,
-        "filePath": "Resources\\Audio\\pcm-32bit-44khz-mono.wav",
-        "name": "pcm-32bit-44khz-mono",
+        "filePath": "Resources\\Audio\\creepymusic.wav",
+        "name": "creepymusic",
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
         "tagName": "GameOverMusic",
-        "volume": 1.0
+        "volume": 0.2240000069141388
     }
 ]
