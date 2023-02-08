@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Graphics.h"
 #include <EnemyController.h>
+#include <functional>
 
 #define PI 3.1415
 
@@ -21,6 +22,7 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
+
 
 }
 
@@ -109,6 +111,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	UpdateCollider();
 	SetAnimation();
 	UpdateRowsColumns();
+	AddCollisionCallback();
 }
 
 void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
@@ -499,5 +502,59 @@ void Entity::CheckAliveStatus()
 	if ( m_fEntityHealth <= 0.0 )
 	{
 		m_entityController->SetDead( m_iEntityNum );
+	}
+}
+
+void Entity::EntityCollisions(Collider& col)
+{
+	if (GetType() == "Player")
+	{
+		if (col.EntityType() == "Enemy") // Runs after player has collided with an enemy
+		{
+			m_health->TakeDamage(1.0f); // Change value for amount of damae dealt by touching enemy
+		}
+
+	//	if (col.EntityType() == "Projectile") // Runs after player has collided with a projectile, tested and works against the static projectile in scene
+	//	{
+	//		m_health->TakeDamage(1.0f);
+	//	}
+	//}
+
+	//if (GetType() == "Enemy")
+	//{
+	//	if (col.EntityType() == "Player")
+	//	{
+
+	//		//m_fEntityHealth -= 100.0f;
+	//		//CheckAliveStatus();
+	//	}
+	//}
+
+	//else if (col.EntityType() == "Projectile") // Runs after player has collided with a Projectile
+	//{
+		//if (GetType() == "Enemy")
+		//	m_fEntityHealth = 0.0f;
+
+		//if (GetType() == "Player")
+		//	m_health->TakeDamage(1.0f);
+	//}
+
+	//else if (GetType() == "Coin") { } //TBD when coins are added, this is the collisions for the coin, to delete them simply set their entity health to 0 (see tomato code)
+}
+
+void Entity::AddCollisionCallback()
+{
+	if (m_entityController->HasCollider(m_iEntityNum) && m_colliderCircle != nullptr)
+	{
+		std::function<void(Collider&)> entityCollsions = std::bind(&Entity::EntityCollisions, *this, std::placeholders::_1);
+		if (m_entityController->GetColliderShape(m_iEntityNum) == "Circle")
+		{
+			m_colliderCircle->AddOnEnterCallback(entityCollsions);
+		}
+		else if (m_entityController->GetColliderShape(m_iEntityNum) == "Box")
+		{
+			m_colliderBox->AddOnEnterCallback(entityCollsions);
+
+		}
 	}
 }
