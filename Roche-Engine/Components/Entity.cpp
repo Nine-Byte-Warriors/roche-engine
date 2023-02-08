@@ -351,7 +351,6 @@ void Entity::UpdateBehaviour()
 
 void Entity::UpdateProjectilePattern()
 {
-	
 	//TODO
 	//if (m_entityType != EntityType::Projectile)
 	//{
@@ -374,6 +373,7 @@ void Entity::UpdateProjectilePattern()
 	//	}
 	//}
 }
+
 void Entity::UpdateCollider()
 {
 	if (m_entityController->HasCollider(m_iEntityNum))

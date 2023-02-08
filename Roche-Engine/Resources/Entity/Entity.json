@@ -15,7 +15,7 @@
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
-        "collider": false,
+        "collider": true,
         "colliderRadius": [
             100.0,
             100.0
@@ -39,7 +39,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 4,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Player",
         "scale": [
             100.0,
             100.0

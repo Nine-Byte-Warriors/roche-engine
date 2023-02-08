@@ -54,15 +54,6 @@ void Level::CreateEntity()
 
         delete entityPop;
     }
-
-    //m_collisionHandler.RemoveAllColliders();
-    //for (int i = 0; i < m_iEntityAmount; i++)
-    //{
-    //    if (m_entityController.HasCollider(i))
-    //    {
-    //        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-    //    }
-    //}
 }
 
 void Level::CreateUI()
@@ -154,10 +145,7 @@ void Level::CreateTileMapDraw()
 void Level::OnSwitch()
 {
 	// Update level system
-	//EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
-	//EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
-
     CreateEntity();
     CreateUI();
 }
@@ -705,18 +693,18 @@ void Level::RemoveFromEvent() noexcept
 
 void Level::HandleEvent(Event* event)
 {
-        // Switch level
-        switch (event->GetEventID())
-        {
-        case EVENTID::GamePauseEvent:
-        {
-            m_bIsGamePaused = true;
-        }
-        break;
-        case EVENTID::GameUnpauseEvent:
-        {
-            m_bIsGamePaused = false;
-        }
-        break;
-        }
+    // Switch level
+    switch (event->GetEventID())
+    {
+    case EVENTID::GamePauseEvent:
+    {
+        m_bIsGamePaused = true;
+    }
+    break;
+    case EVENTID::GameUnpauseEvent:
+    {
+        m_bIsGamePaused = false;
+    }
+    break;
+    }
 }
