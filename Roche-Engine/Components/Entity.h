@@ -75,7 +75,7 @@ private:
 	void UpdateBehaviour();
 
 	void UpdateProjectilePattern();
-
+	void UpdateCollider();
 	void UpdateColliderRadius();
 	void UpdateColliderTrigger();
 	void UpdateColliderLayer();
