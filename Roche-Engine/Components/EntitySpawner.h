@@ -2,7 +2,6 @@
 #ifndef ENTITYSPAWNER_H
 #define ENTITYSPAWNER_H
 
-#include "EventSystem.h"
 #include "Entity.h"
 #include "GameManager.h"
 

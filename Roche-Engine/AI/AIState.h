@@ -2,8 +2,6 @@
 #ifndef AISTATE_H
 #define AISTATE_H
 
-#include "Vector2f.h"
-
 class Agent;
 
 namespace AILogic

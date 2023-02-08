@@ -2,9 +2,7 @@
 #ifndef SHOPITEM_H
 #define SHOPITEM_H
 
-#include <functional>
 #include "Collider.h"
-#include "EventSystem.h"
 
 class ShopItem : public Listener
 {

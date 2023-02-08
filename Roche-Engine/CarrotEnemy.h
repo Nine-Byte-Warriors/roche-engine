@@ -1,14 +1,14 @@
 #pragma once
 #ifndef CARROTENEMY_H
 #define CARROTENEMY_H
-#include <functional>
+
 #include "Collider.h"
 
 class Entity;
 
 class CarrotEnemy
 {
-public: 
+public:
 	CarrotEnemy(Entity* entity);
 	void Update(float dt);
 

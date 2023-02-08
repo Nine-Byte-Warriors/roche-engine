@@ -15,8 +15,6 @@
 #include "TileMapLoader.h"
 #include "TileMapPaintOnMap.h"
 
-#include "EventSystem.h"
-
 #if _DEBUG
 #include "AudioEditor.h"
 #endif
@@ -37,7 +35,7 @@ public:
 		m_sLevelName = name;
 		AddToEvent();
 	}
-	~Level() 
+	~Level()
 	{
 		RemoveFromEvent();
 	}

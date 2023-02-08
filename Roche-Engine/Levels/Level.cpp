@@ -4,7 +4,6 @@
 
 #if _DEBUG
 extern bool g_bDebug;
-#include <imgui/imgui.h>
 #include "MouseCapture.h"
 #endif
 
@@ -419,7 +418,7 @@ void Level::AddNewEntity()
             for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
 				pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
         }
-        
+
     }
 
     m_iEntityAmount = m_entityController.GetSize();
@@ -568,8 +567,8 @@ void Level::UpdateTileMapPlanting(const float dt)
             int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(count);
             m_tileMapLoader.UpdateTileType(drawLayer, spawnPos, "EmptyPlot");
             m_tileMapDrawLayers[1][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
-            
-            m_entitySpawner.SpawnEntity(count);            
+
+            m_entitySpawner.SpawnEntity(count);
 
             m_entityController.AddEntityData(m_entitySpawner.GetEntityData()[count]);
             count++;

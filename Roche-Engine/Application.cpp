@@ -3,7 +3,6 @@
 
 #if _DEBUG
 extern bool g_bDebug;
-#include <imgui/imgui.h>
 #endif
 
 #define FOLDER_PATH "Resources\\"

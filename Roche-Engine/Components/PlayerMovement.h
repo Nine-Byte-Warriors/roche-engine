@@ -3,9 +3,8 @@
 #define PLAYERMOVEMENT_H
 
 #include "Physics.h"
-#include "Events/EventSystem.h"
 
-class PlayerMovement : Listener
+class PlayerMovement : public Listener
 {
 public:
 	PlayerMovement(const std::shared_ptr<Physics>& physics, const std::shared_ptr<Sprite>& sprite, float speed);

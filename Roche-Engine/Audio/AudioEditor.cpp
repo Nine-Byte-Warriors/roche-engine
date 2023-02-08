@@ -1,13 +1,6 @@
 #include "stdafx.h"
 #include "AudioEditor.h"
-
-#include "Timer.h"
-#include <FileHandler.h>
-#include <algorithm>
-
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
+#include "FileHandler.h"
 
 #define SOUND_BANK_LISTS_PATH "Resources\\Audio\\Sound Banks\\"
 #define SOUND_BANK_PATH  "Resources\\Audio\\Sound Banks\\"

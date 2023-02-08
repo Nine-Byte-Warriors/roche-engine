@@ -2,8 +2,6 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include "EventSystem.h"
-
 class Inventory : public Listener
 {
 public :

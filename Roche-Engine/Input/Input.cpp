@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Input.h"
-#include <functional>
 
 #if _DEBUG
 extern bool g_bDebug;
@@ -79,7 +78,7 @@ void Input::UpdateKeyboard( const float dt )
 		}
 		return;
 	}
-	
+
     // Handle input for single key presses
 	while (!m_keyboard.KeyBufferIsEmpty())
 	{
@@ -92,7 +91,7 @@ void Input::UpdateKeyboard( const float dt )
 			EnableCursor();
 		else if ( keycode == VK_END )
 			DisableCursor();
-		
+
 		if ( keycode == VK_F1 )
 			g_bDebug = true;
 		else if ( keycode == VK_F2 )
@@ -109,7 +108,7 @@ void Input::UpdateKeyboard( const float dt )
 
 		if ( m_keyboard.KeyIsPressed( 'L' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerDamage );
-		
+
 		if ( m_keyboard.KeyIsPressed( 'K' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerHeal );
 #endif

@@ -2,7 +2,6 @@
 #ifndef LEVELSTATEMACHINE_H
 #define LEVELSTATEMACHINE_H
 
-#include "EventSystem.h"
 #include "LevelContainer.h"
 
 class LevelStateMachine : public Listener

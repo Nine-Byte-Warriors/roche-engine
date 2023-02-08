@@ -2,11 +2,10 @@
 #ifndef PROJECTILE_EDITOR_H
 #define PROJECTILE_EDITOR_H
 
-#include "EventSystem.h"
 #include "JsonLoading.h"
 #include "ProjectileManager.h"
 
-class ProjectileEditor 
+class ProjectileEditor
 {
 public:
 	ProjectileEditor();
@@ -16,15 +15,15 @@ public:
 	void Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void Update(const float dt);
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix);
-	
+
 	void SpawnEditorWindow(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
-	
+
 private:
 	void LoadPattern();
 	void SavePattern();
 	void SpawnPosition(Vector2f vWinMax);
 	void ShowPattern();
-	
+
 	void TestButtons(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	ProjectileData::ManagerJSON CreateDefaultManager();
 	ProjectileData::ProjectileJSON CreateDefaultProjectile();
@@ -38,7 +37,7 @@ private:
 	std::string m_sSelectedFile;
 	std::string m_sFilePath;
 	std::string m_sFileContent;
-	
+
 	std::vector<std::shared_ptr<ProjectileManager>> m_vecProjectileManagers;
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 	std::vector<ProjectileData::ProjectileJSON> m_vecProjectiles;

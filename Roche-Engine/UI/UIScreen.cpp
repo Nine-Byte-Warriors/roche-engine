@@ -906,4 +906,3 @@ void UIScreen::HandleEvent( Event* event )
 	break;
 	}
 }
-

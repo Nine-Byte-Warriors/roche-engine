@@ -9,10 +9,6 @@
 #include "DDSTextureLoader.h"
 #include "TileMap.h"
 
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
-
 class TileMapEditor
 {
 public:
@@ -55,7 +51,7 @@ private:
 
 	void TileMapSelectionButtons();
 	void TileMapSelectedText();
-  
+
 	void DrawButton();
 
 	void SelectTileMapLayer();

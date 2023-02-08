@@ -2,8 +2,6 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
-#include "EventSystem.h"
-
 enum class GameState
 {
 	Win,
@@ -31,7 +29,7 @@ private:
 	GameState m_currentState;
 	Phase m_currentPhase;
 	int m_currentDay;
-	
+
 	GameManager();
 	~GameManager();
 

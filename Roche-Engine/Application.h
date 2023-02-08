@@ -3,13 +3,11 @@
 #define APPLICATION_H
 
 #include "Input.h"
-#include "Timer.h"
 #include "Level.h"
 #include "Graphics.h"
 #include "UIManager.h"
 #include "WindowContainer.h"
 #include "AudioEngine.h"
-#include "EventSystem.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"

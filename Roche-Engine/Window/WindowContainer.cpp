@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "WindowContainer.h"
-#include <Vector2f.h>
-#include "MouseCapture.h"
 
 #if _DEBUG
 extern bool g_bDebug;
-#include <imgui/imgui.h>
+#include "MouseCapture.h"
 #endif
 
 WindowContainer::WindowContainer()

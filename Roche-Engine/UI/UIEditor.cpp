@@ -1,15 +1,9 @@
 #include "stdafx.h"
 #include "UIEditor.h"
 
-#include "Timer.h"
 #include "Graphics.h"
 #include "FileLoading.h"
 #include "FileHandler.h"
-#include <algorithm>
-
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
 
 #define FOLDER_PATH "Resources\\UI\\"
 #define FOLDER_PATH_SCREENS "Resources\\UI\\Screens\\"

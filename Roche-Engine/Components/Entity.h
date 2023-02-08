@@ -5,7 +5,6 @@
 class Graphics;
 #include "Agent.h"
 #include "Physics.h"
-#include "EventSystem.h"
 #include "EntityController.h"
 #include "ProjectileManager.h"
 #include "PlayerController.h"

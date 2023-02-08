@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Input_Widget.h"
-#include "EventSystem.h"
 
 Input_Widget::Input_Widget()
 {
