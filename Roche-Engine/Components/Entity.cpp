@@ -101,6 +101,11 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	UpdateRotation();
 	UpdateBehaviour();
 	UpdateColliderRadius();
+	UpdateColliderLayer();
+	UpdateColliderEnabled();
+	UpdateColliderStatic();
+	UpdateColliderTrigger();
+	UpdateColliderMask();
 	SetAnimation();
 	UpdateRowsColumns();
 }
@@ -154,6 +159,10 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateTexture();
 	UpdateColliderRadius();
 	UpdateColliderTrigger();
+	UpdateColliderEnabled();
+	UpdateColliderLayer();
+	UpdateColliderMask();
+	UpdateColliderStatic();
 	UpdateAnimation();
 	UpdateRowsColumns();
 	UpdateAudio();
@@ -400,6 +409,54 @@ void Entity::UpdateColliderTrigger()
 		m_colliderBox->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
 		m_colliderCircle->SetIsTrigger(m_entityController->GetColliderTrigger(m_iEntityNum));
 	}
+}
+
+void Entity::UpdateColliderLayer()
+{
+	std::string colliderLayer = m_entityController->GetColliderLayer(m_iEntityNum);
+
+	if (colliderLayer == "Decoration")
+	{
+		m_colliderCircle->SetLayer(LayerNo::Decoration);
+		m_colliderBox->SetLayer(LayerNo::Decoration);
+	}
+	else if (colliderLayer == "Player")
+	{
+		m_colliderCircle->SetLayer(LayerNo::Player);
+		m_colliderBox->SetLayer(LayerNo::Player);
+	}
+	else if (colliderLayer == "Enemy")
+	{
+		m_colliderCircle->SetLayer(LayerNo::Enemy);
+		m_colliderBox->SetLayer(LayerNo::Enemy);
+	}
+	else if (colliderLayer == "Projectile")
+	{
+		m_colliderCircle->SetLayer(LayerNo::Projectile);
+		m_colliderBox->SetLayer(LayerNo::Projectile);
+	}
+}
+
+void Entity::UpdateColliderMask()
+{
+	std::vector<bool> colliderMaskData = m_entityController->GetColliderMask(m_iEntityNum);
+	LayerMask colliderMask = LayerMask(colliderMaskData[0], colliderMaskData[1], colliderMaskData[2], colliderMaskData[3]);
+	m_colliderCircle->SetCollisionMask(colliderMask);
+	m_colliderBox->SetCollisionMask(colliderMask);
+}
+
+void Entity::UpdateColliderStatic()
+{
+	bool isStatic = m_entityController->GetColliderStatic(m_iEntityNum);
+	m_colliderCircle->SetIsStatic(isStatic);
+	m_colliderBox->SetIsStatic(isStatic);
+}
+
+void Entity::UpdateColliderEnabled()
+{
+	bool isEnabled = m_entityController->GetColliderEnabled(m_iEntityNum);
+	m_colliderCircle->SetIsEnabled(isEnabled);
+	m_colliderBox->SetIsEnabled(isEnabled);
 }
 
 void Entity::UpdateAudio()

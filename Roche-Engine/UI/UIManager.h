@@ -4,6 +4,7 @@
 
 #include "UIScreen.h"
 #include "GameManager.h"
+#include "AudioEngine.h"
 
 enum Levels
 {
