@@ -51,7 +51,7 @@ protected:
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
     const int m_maxCollisions = 50;
-    int m_collisionCount = 0;
+    int m_curCollisionCount = 0;
     std::vector<std::shared_ptr<Collider>> m_curCollisions;
     std::map<std::shared_ptr<Collider>, CollisionState> m_collisions;
 
