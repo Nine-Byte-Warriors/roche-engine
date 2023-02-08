@@ -65,7 +65,6 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
 #else
             level->Initialize( &m_graphics, &m_uiManager );
 #endif
-            AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio); // temporary solution?
             level->SetEntityJson( m_vLevelData[i].entity );
             level->CreateTileMap();
             level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
@@ -75,11 +74,17 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_sLevelNames.push_back( m_stateMachine.Add(m_pLevels[i]));
         }
 
-        m_stateMachine.SwitchTo( STARTING_LEVEL_NAME );
-        m_sCurrentLevelName = STARTING_LEVEL_NAME;
-
         RemoveLevel("Game");
         RemoveLevel("Shop");
+
+        for (int i = 0; i < m_vLevelData.size(); i++) {
+            if (m_vLevelData[i].name == STARTING_LEVEL_NAME) {
+                AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio);
+            }
+        }
+
+        m_stateMachine.SwitchTo( STARTING_LEVEL_NAME );
+        m_sCurrentLevelName = STARTING_LEVEL_NAME;
     }
     catch ( COMException& exception )
 	{

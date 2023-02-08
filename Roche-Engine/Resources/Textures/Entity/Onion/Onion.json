@@ -8,7 +8,7 @@
   "type": [
       {
           "alias": "Onion Running",          
-          "frameTiming": 1.0,
+          "frameTiming": 0.1,
           "name": "Walk"
       },
       {

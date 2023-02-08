@@ -32,11 +32,20 @@ void PlayerMovement::Update(const float dt)
 {
 	Vector2f* pos = new Vector2f(m_physics->GetTransform()->GetPosition());
 	std::pair<Sprite*, Vector2f*>* charSpriteandPos = new std::pair<Sprite*, Vector2f*>();
-
 	charSpriteandPos->first = m_sprite.get();
 	charSpriteandPos->second = pos;
-
 	EventSystem::Instance()->AddEvent(EVENTID::PlayerPosition, charSpriteandPos);
+
+	// Set idle animation if not moving
+	switch ( m_eMoveDirection )
+	{
+	case Direction::Up:
+	case Direction::Left:
+	case Direction::Down:
+	case Direction::Right:
+		m_sprite->SetShouldUpdate( false );
+		break;
+	}
 }
 
 void PlayerMovement::SetSpeed(float speed)
@@ -53,24 +62,40 @@ void PlayerMovement::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	case EVENTID::MoveUp: if(m_bshouldMove) m_physics->AddForce({ 0, -10 });
+	case EVENTID::MoveUp:
+		if(m_bshouldMove)
+			m_physics->AddForce({ 0, -10 });
+		m_eMoveDirection = Direction::Up;
+		m_sprite->SetShouldUpdate( true );
 		m_sprite->SetCurFrameY(3);
 		break;
-	case EVENTID::MoveLeft: if (m_bshouldMove) m_physics->AddForce({ -10,0 });
+	case EVENTID::MoveLeft:
+		if (m_bshouldMove)
+			m_physics->AddForce({ -10,0 });
+		m_eMoveDirection = Direction::Left;
+		m_sprite->SetShouldUpdate( true );
 		m_sprite->SetCurFrameY(1);
 		break;
-	case EVENTID::MoveDown: if (m_bshouldMove) m_physics->AddForce({ 0, 10 });
+	case EVENTID::MoveDown:
+		if (m_bshouldMove)
+			m_physics->AddForce({ 0, 10 });
+		m_eMoveDirection = Direction::Down;
+		m_sprite->SetShouldUpdate( true );
 		m_sprite->SetCurFrameY(0);
 		break;
-	case EVENTID::MoveRight: if (m_bshouldMove) m_physics->AddForce({ 10,0 });
+	case EVENTID::MoveRight:
+		if (m_bshouldMove)
+			m_physics->AddForce({ 10,0 });
+		m_eMoveDirection = Direction::Right;
+		m_sprite->SetShouldUpdate( true );
 		m_sprite->SetCurFrameY(2);
 		break;
-	case EVENTID::PlayerDash: Dash();
+	case EVENTID::PlayerDash:
+		Dash();
 		break;
 	case EVENTID::TogglePlayerMovement:
 		m_bshouldMove = !m_bshouldMove;
 		break;
-	default: break;
 	}
 }
 

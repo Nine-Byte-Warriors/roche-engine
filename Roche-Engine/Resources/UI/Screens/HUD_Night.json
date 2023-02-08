@@ -80,7 +80,7 @@
         "name": "Enemy Health",
         "position": [
             750.0,
-            894.0
+            0.0
         ],
         "scale": [
             465.0,
@@ -125,7 +125,7 @@
         "name": "Enemy Health Label",
         "position": [
             942.0,
-            943.0
+            50.0
         ],
         "scale": [
             64.0,

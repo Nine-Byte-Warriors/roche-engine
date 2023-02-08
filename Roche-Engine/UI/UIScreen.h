@@ -65,6 +65,9 @@ private:
 	Health* m_pPlayerHealth;
 	ScoreBoard m_scoreBoard;
 
+	float* m_fMaxHealth = new float;
+	float* m_fCurrentHealth = new float;
+  
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{
