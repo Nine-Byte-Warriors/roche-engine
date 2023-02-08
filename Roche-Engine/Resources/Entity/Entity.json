@@ -16,7 +16,7 @@
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
-        "collider": true,
+        "collider": false,
         "colliderRadius": [
             100.0,
             100.0

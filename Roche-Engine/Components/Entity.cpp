@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Entity.h"
 #include "Graphics.h"
-#include <EnemyController.h>
+#include "EnemyController.h"
 
 #define PI 3.1415
 
@@ -375,7 +375,6 @@ void Entity::UpdateProjectilePattern()
 	//	}
 	//}
 }
-
 void Entity::UpdateCollider()
 {
 	if (m_entityController->HasCollider(m_iEntityNum))
@@ -386,6 +385,7 @@ void Entity::UpdateCollider()
 		UpdateColliderStatic();
 		UpdateColliderTrigger();
 		UpdateColliderMask();
+		UpdateColliderShape();
 	}
 	else if (m_colliderCircle == nullptr || m_colliderBox == nullptr)
 	{
@@ -473,6 +473,11 @@ void Entity::UpdateColliderEnabled()
 	m_colliderBox->SetIsEnabled(isEnabled);
 }
 
+void Entity::UpdateColliderShape()
+{
+	m_sColliderShape = m_entityController->GetColliderShape(m_iEntityNum);
+}
+
 void Entity::UpdateAudio()
 {
 	if(m_entityController->HasAudio(m_iEntityNum))
@@ -491,13 +496,5 @@ void Entity::SetAnimation()
 		m_animation.LoadEntityAnimation(m_entityController->GetAnimationFile(m_iEntityNum));
 		m_iMaxFrameY = m_animation.GetFrameCount().size();
 		UpdateAnimation();
-	}
-}
-
-void Entity::CheckAliveStatus()
-{
-	if ( m_fEntityHealth <= 0.0 )
-	{
-		m_entityController->SetDead( m_iEntityNum );
 	}
 }
