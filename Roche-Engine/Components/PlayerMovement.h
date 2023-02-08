@@ -19,6 +19,14 @@ public:
 	void AddToEvent() noexcept;
 
 private:
+	enum class Direction
+	{
+		Up,
+		Down,
+		Left,
+		Right
+	} m_eMoveDirection = Direction::Down;
+
 	std::shared_ptr<Physics> m_physics;
 	std::shared_ptr<Sprite> m_sprite;
 	float m_speed;

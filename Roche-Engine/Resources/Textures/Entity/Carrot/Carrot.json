@@ -8,7 +8,7 @@
   "type": [
       {
           "alias": "Carrot Running",          
-          "frameTiming": 1.0,
+          "frameTiming": 0.2,
           "name": "Walk"
       },
       {
