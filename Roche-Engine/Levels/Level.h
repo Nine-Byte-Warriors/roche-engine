@@ -70,6 +70,8 @@ private:
 	void UpdateEntity(const float dt);
 	void AddNewEntity();
 	void RemoveEntities();
+	void DisplayEntityMaxHealth(int num);
+	void DisplayEntityCurrentHealth(int num);
 
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
@@ -122,6 +124,9 @@ private:
 	bool m_bIsWindowHovered = true;
 
 	bool m_bIsGamePaused = false;
+
+	float m_fMaxHealth = 0;
+	float* m_fCurrentHealth = new float;
 };
 
 #endif
