@@ -61,6 +61,7 @@ void Health::HandleEvent( Event* event )
 		
 		if ( m_sType == "Player" )
 			TakeDamage( 1 );
+		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
 		break;
 	case EVENTID::PlayerHeal:
 		if ( m_sType == "Player" )
