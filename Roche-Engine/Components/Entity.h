@@ -78,6 +78,10 @@ private:
 
 	void UpdateColliderRadius();
 	void UpdateColliderTrigger();
+	void UpdateColliderLayer();
+	void UpdateColliderMask();
+	void UpdateColliderStatic();
+	void UpdateColliderEnabled();
 
 	void UpdateAudio();
 
