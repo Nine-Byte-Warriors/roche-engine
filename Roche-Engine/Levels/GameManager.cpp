@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 #include "GameManager.h"
 
 void GameManager::Initialize()
@@ -35,6 +35,9 @@ void GameManager::SetPhase()
 		m_currentPhase = Phase::DayPhase;
 	}
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
+	if (m_currentState == GameState::Unpaused) {
+		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
+	}
 }
 
 GameManager::~GameManager()
@@ -44,6 +47,8 @@ GameManager::~GameManager()
 	EventSystem::Instance()->RemoveClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PauseGame, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::ResumeGame, this);
 }
 
 void GameManager::HandleEvent(Event* event)
@@ -51,7 +56,7 @@ void GameManager::HandleEvent(Event* event)
 	switch (event->GetEventID())
 	{
 	case EVENTID::GameLevelChangeEvent:
-		SetCurrentState(*static_cast<GameState*>(event->GetData()));
+		SetCurrentState(GameState::Unpaused);
 		break;
 	case EVENTID::ChangePhase:
 		SetPhase();
@@ -62,6 +67,16 @@ void GameManager::HandleEvent(Event* event)
 		break;
 	case EVENTID::GameRestartEvent:
 		Initialize(); // reinitialize game manager
+		break;
+	case EVENTID::PauseGame:
+		if (m_currentState == GameState::Unpaused) {
+			SetCurrentState(GameState::Paused);
+		}
+		break;
+	case EVENTID::ResumeGame:
+		if (m_currentState == GameState::Paused) {
+			SetCurrentState(GameState::Unpaused);
+		}
 		break;
 	default:
 		break;
@@ -75,4 +90,6 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->AddClient(EVENTID::PauseGame, this);
+	EventSystem::Instance()->AddClient(EVENTID::ResumeGame, this);
 }

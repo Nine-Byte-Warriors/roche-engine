@@ -256,6 +256,18 @@ void UIManager::HandleEvent(Event* event)
 			ShowUI("Leaderboard_Widgets");
 		}
 		break;
+		case EVENTID::HUDSwap:
+		{
+			HideAllUI();
+			if (m_currentGamePhase == Phase::DayPhase) {
+				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::NightPhase)
+			{
+				ShowUI("HUD_Night");
+			}
+		}
+		break;
 	}
 }
 
@@ -279,6 +291,7 @@ void UIManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->AddClient(EVENTID::OpenLeaderboard, this);
 	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
+	EventSystem::Instance()->AddClient(EVENTID::HUDSwap, this);
 	//EventSystem::Instance()->AddClient(EVENTID::, this);
 	//EventSystem::Instance()->AddClient(EVENTID::, this);
 
@@ -286,7 +299,7 @@ void UIManager::AddToEvent() noexcept
 
 void UIManager::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->AddClient(EVENTID::LevelOnCreateUI, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::LevelOnCreateUI, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::StartGame, this);
@@ -303,7 +316,8 @@ void UIManager::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevels, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenLeaderboard, this);
-	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BackToMainMenu, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::HUDSwap, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
 }

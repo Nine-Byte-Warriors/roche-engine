@@ -32,7 +32,7 @@ void ShopItem::PlayerInRange(Collider& collider)
 			item->second = 1;
 			if (m_itemName == "HealthPotion")
 			{
-				EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
+				//heal
 			}
 			else
 			{

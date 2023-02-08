@@ -99,6 +99,7 @@ enum class EVENTID
 	RedOverlayColour,
 	GreenOverlayColour,
 	BlueOverlayColour,
+	HUDSwap,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG
