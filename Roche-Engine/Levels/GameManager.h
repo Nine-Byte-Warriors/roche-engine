@@ -2,6 +2,7 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#include "EventSystem.h"
 enum class GameState
 {
 	Win,
@@ -19,22 +20,23 @@ enum class Phase
 class GameManager : public Listener
 {
 public:
+	GameManager() {	AddToEvent();};
+	~GameManager();
+
 	void Initialize();
 
 	void SetCurrentState(GameState state);
 	void SetNextDay();
-	void SetPhase(Phase phase);
+	void SetPhase();
+	void GetPhase();
 
 private:
 	GameState m_currentState;
 	Phase m_currentPhase;
 	int m_currentDay;
 
-	GameManager();
-	~GameManager();
-
 	// Inherited via Listener
-	virtual void HandleEvent(Event* event) override;
+	void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
 };
 

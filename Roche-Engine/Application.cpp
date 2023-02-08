@@ -30,6 +30,10 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_imgui.Initialize( m_renderWindow.GetHWND(), m_graphics.GetDevice(), m_graphics.GetContext() );
 #endif
 
+		// Initialize game manager
+		//m_gameManager = new GameManager();
+		m_gameManager.Initialize();
+
         // Load level data
         JsonLoading::LoadJson( m_vLevelData, FOLDER_PATH + m_sJsonFile );
 

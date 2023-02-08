@@ -97,7 +97,7 @@ void UIScreen::Update( const float dt )
 			{
 				if (!m_vWidgets[i]->GetIsHidden())
 					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-						EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+						EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
@@ -858,6 +858,7 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
 }
 
 void UIScreen::RemoveFromEvent() noexcept
@@ -874,7 +875,9 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
 }
+
 
 void UIScreen::HandleEvent( Event* event )
 {

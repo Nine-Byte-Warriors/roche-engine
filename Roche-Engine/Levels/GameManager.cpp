@@ -24,22 +24,24 @@ void GameManager::SetNextDay()
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentDay, &m_currentDay);
 }
 
-void GameManager::SetPhase(Phase phase)
+void GameManager::SetPhase()
 {
-	m_currentPhase = phase;
+	if (m_currentPhase == Phase::DayPhase)
+	{
+		m_currentPhase = Phase::NightPhase;
+	}
+	else if (m_currentPhase == Phase::NightPhase)
+	{
+		m_currentPhase = Phase::DayPhase;
+	}
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
-}
-
-
-
-GameManager::GameManager()
-{
 }
 
 GameManager::~GameManager()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
 }
@@ -52,8 +54,9 @@ void GameManager::HandleEvent(Event* event)
 		SetCurrentState(*static_cast<GameState*>(event->GetData()));
 		break;
 	case EVENTID::ChangePhase:
-		SetPhase(*static_cast<Phase*>(event->GetData()));
+		SetPhase();
 		break;
+
 	case EVENTID::NextDay:
 		SetNextDay();
 		break;
@@ -69,6 +72,7 @@ void GameManager::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
+	EventSystem::Instance()->AddClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
 }

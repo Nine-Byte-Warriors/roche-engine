@@ -113,6 +113,7 @@ void UIManager::HandleEvent(Event* event)
 			HideAllUI();
 			ShowUI("Menu_Widgets");
 			ShowUI("HUD_Day");
+			ShowUI("HUD_Shop");
 		}
 		break;
 		case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>(event->GetData()); } break;
@@ -155,8 +156,12 @@ void UIManager::HandleEvent(Event* event)
 		{
 			EventSystem::Instance()->AddEvent(EVENTID::GameUnpauseEvent);
 			HideAllUI();
-			if (m_currentGamePhase == Phase::DayPhase) {
+			if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Game") {
 				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Shop")
+			{
+				ShowUI("HUD_Shop");
 			}
 			else {
 				ShowUI("HUD_Night");
@@ -219,19 +224,25 @@ void UIManager::HandleEvent(Event* event)
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				m_sCurrentLevel = *m_vLevelNames[SHOP];
+				ShowUI("HUD_Shop");
 			}
 			else {
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				m_sCurrentLevel = *m_vLevelNames[GAME];
+				ShowUI("HUD_Day");
 			}
-			ShowUI("HUD_Day");
+			
 		}
 		break;
 		case EVENTID::CloseUIPopUp:
 		{
 			HideAllUI();
-			if (m_currentGamePhase == Phase::DayPhase) {
+			if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Game") {
 				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Shop")
+			{
+				ShowUI("HUD_Shop");
 			}
 			else {
 				ShowUI("HUD_Night");

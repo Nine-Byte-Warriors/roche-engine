@@ -68,8 +68,8 @@
         ],
         "name": "PotatoItem",
         "position": [
-            1412.0,
-            900.0
+            1402.0,
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -412,8 +412,8 @@
         ],
         "name": "BeanItem",
         "position": [
-            463.0,
-            900.0
+            478.0,
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -455,8 +455,8 @@
         ],
         "name": "CarrotItem",
         "position": [
-            690.0,
-            900.0
+            700.0,
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -499,7 +499,7 @@
         "name": "CauliflowerItem",
         "position": [
             927.0,
-            900.0
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -542,7 +542,7 @@
         "name": "OnionItem",
         "position": [
             1175.0,
-            900.0
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -584,8 +584,8 @@
         ],
         "name": "TomatoItem",
         "position": [
-            1640.0,
-            900.0
+            1613.0,
+            970.0
         ],
         "projectileBullet": "None",
         "projectilePattern": "None",
@@ -601,7 +601,7 @@
         "texture": "Resources\\Textures\\UI\\Seeds\\Tomato Seeds.png",
         "type": "Item"
     },
-	    {
+    {
         "AI": false,
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",

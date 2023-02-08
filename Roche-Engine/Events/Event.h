@@ -44,6 +44,7 @@ enum class EVENTID
 	NextDay,
 	CurrentState,
 	CurrentPhase,
+	GetPhase,
 	CurrentDay,
 	GameRestartEvent,
 

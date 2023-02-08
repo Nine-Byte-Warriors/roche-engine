@@ -66,6 +66,7 @@ private:
 #if _DEBUG
 	ImGuiManager m_imgui;
 #endif
+	GameManager m_gameManager;
 	UIManager m_uiManager;
 	Graphics m_graphics;
 	Timer m_timer;
