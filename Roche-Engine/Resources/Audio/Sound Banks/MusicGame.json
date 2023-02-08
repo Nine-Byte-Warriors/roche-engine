@@ -1,0 +1,52 @@
+[
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\music1.wav",
+        "name": "music1",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "NightPhaseMusic",
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\music3.wav",
+        "name": "music3",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "BossFightMusic",
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\music4.wav",
+        "name": "music4",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "DayPhaseMusic",
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\levelwin.wav",
+        "name": "levelwin",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "GameWinMusic",
+        "volume": 1.0
+    },
+    {
+        "audioType": 1,
+        "filePath": "Resources\\Audio\\creepymusic.wav",
+        "name": "creepymusic",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "GameOverMusic",
+        "volume": 0.2240000069141388
+    }
+]
