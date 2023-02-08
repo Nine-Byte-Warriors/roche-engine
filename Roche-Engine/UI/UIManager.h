@@ -6,6 +6,14 @@
 #include "EventSystem.h"
 #include "GameManager.h"
 
+enum Levels
+{
+	LOADING = 0,
+	MENU,
+	GAME,
+	SHOP
+};
+
 /// <summary>
 /// Manager class for each of the UI components.
 /// </summary>
@@ -39,7 +47,10 @@ private:
 	std::vector<std::string> m_vUiToDraw;
 	XMFLOAT2 m_vWindowSize;
 
+	std::vector<std::string*> m_vLevelNames;
+
 	Phase m_currentGamePhase;
+	std::string m_sCurrentLevel;
 };
 
 #endif

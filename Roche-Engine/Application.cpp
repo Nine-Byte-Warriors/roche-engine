@@ -71,8 +71,12 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
             m_pLevels.push_back( std::move( level ) );
             m_sLevelNames.push_back( m_stateMachine.Add(m_pLevels[i]));
         }
-        m_stateMachine.SwitchTo( "Menu" );
-        m_sCurrentLevelName = "Menu";
+
+        m_stateMachine.SwitchTo( STARTING_LEVEL_NAME );
+        m_sCurrentLevelName = STARTING_LEVEL_NAME;
+
+        RemoveLevel("Game");
+        RemoveLevel("Shop");
     }
     catch ( COMException& exception )
 	{
@@ -353,18 +357,18 @@ void Application::HandleEvent(Event* event)
     {
     case EVENTID::AddLevelEvent:
     {
-        AddLevelToStateMachine(*static_cast<std::string*>(event->GetData()));
+        AddLevel(*static_cast<std::string*>(event->GetData()));
     }
     break;
     case EVENTID::RemoveLevelEvent:
     {
-        RemoveLevelFromStateMachine(*static_cast<std::string*>(event->GetData()));
+        RemoveLevel(*static_cast<std::string*>(event->GetData()));
     }
     break;
     }
 }
 
-void Application::AddLevelToStateMachine(std::string levelName)
+void Application::AddLevel(std::string levelName)
 {
     for (int i = 0; m_vLevelData.size() > i; i++) {
         if (m_vLevelData[i].name == levelName) {
@@ -379,7 +383,7 @@ void Application::AddLevelToStateMachine(std::string levelName)
             AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio);
             level->SetEntityJson(m_vLevelData[i].entity);
             level->CreateTileMap();
-            //level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
+            level->SetTileMapJson( m_vLevelData[i].tmBack, m_vLevelData[i].tmFront );
             level->SetUIJson(m_vLevelData[i].ui);
 
             m_stateMachine.Add(std::move(level));
@@ -387,7 +391,17 @@ void Application::AddLevelToStateMachine(std::string levelName)
     }
 }
 
-void Application::RemoveLevelFromStateMachine(std::string levelName)
+void Application::RemoveLevel(std::string levelName)
 {
+    // delete m_pLevels
+    // release
+    // or delete
+    for (int i = 0; m_pLevels.size() > i; i++) {
+        if (m_pLevels[i]->GetLevelName() == levelName) {
+            m_pLevels[i].reset();
+            m_pLevels.erase(m_pLevels.begin() + i);
+        }
+    }
+
     m_stateMachine.Remove(levelName);
 }

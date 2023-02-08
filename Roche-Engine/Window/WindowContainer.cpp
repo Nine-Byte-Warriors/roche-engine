@@ -107,13 +107,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
             if ( !wasPressed )
                 m_keyboard.OnKeyPressed( keycode );
         }
-        switch ( wParam )
-        {
-        case VK_ESCAPE:
-            DestroyWindow( m_renderWindow.GetHWND() );
-            PostQuitMessage( 0 );
-            return 0;
-        }
+        //switch ( wParam )
+        //{
+        //case VK_ESCAPE:
+        //    DestroyWindow( m_renderWindow.GetHWND() );
+        //    PostQuitMessage( 0 );
+        //    return 0;
+        //}
         return 0;
     }
 

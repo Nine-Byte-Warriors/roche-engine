@@ -85,7 +85,7 @@ void Level::CreateUI()
 
     m_ui->Initialize( *m_gfx, &m_cbMatrices, m_uiEditor.GetWidgets(), *m_entity[playerIdx].GetHealth() );
     m_ui->HideAllUI();
-	m_ui->ShowUI( m_uiEditor.GetScreenData()[0].name );
+    EventSystem::Instance()->AddEvent(EVENTID::LevelOnCreateUI);
 }
 
 void Level::CreateTileMap()
@@ -153,8 +153,8 @@ void Level::CreateTileMapDraw()
 void Level::OnSwitch()
 {
 	// Update level system
-	EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
-	EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
+	//EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
+	//EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
 
     CreateEntity();
@@ -331,13 +331,16 @@ void Level::EndFrame_End()
 
 void Level::Update( const float dt )
 {
-    UpdateTileMap( dt );
-    UpdateEntity( dt );
-    UpdateUI( dt );
+    if (m_bIsGamePaused == false) {
+        UpdateTileMap(dt);
+        UpdateEntity(dt);
 
-	m_projectileEditor->Update( dt );
-    m_collisionHandler.Update();
-    m_camera.Update( dt );
+        m_projectileEditor->Update(dt);
+        m_collisionHandler.Update();
+        m_camera.Update(dt);
+    }
+
+    UpdateUI(dt);
 }
 
 void Level::UpdateUI( const float dt )
@@ -660,4 +663,34 @@ void Level::UpdateTileMapEmpty(const float dt)
 
         m_tileMapEditor.SetLayerSwitchedDone();
     }
+}
+
+void Level::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient(EVENTID::GamePauseEvent, this);
+    EventSystem::Instance()->AddClient(EVENTID::GameUnpauseEvent, this);
+}
+
+void Level::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient(EVENTID::GamePauseEvent, this);
+    EventSystem::Instance()->RemoveClient(EVENTID::GameUnpauseEvent, this);
+}
+
+void Level::HandleEvent(Event* event)
+{
+        // Switch level
+        switch (event->GetEventID())
+        {
+        case EVENTID::GamePauseEvent:
+        {
+            m_bIsGamePaused = true;
+        }
+        break;
+        case EVENTID::GameUnpauseEvent:
+        {
+            m_bIsGamePaused = false;
+        }
+        break;
+        }
 }
