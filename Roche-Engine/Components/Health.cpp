@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Health.h"
+#include "AudioEngine.h"
+
+#define PLAYER "Player"
 
 void Health::SetHealth( float maxHealth )
 {
@@ -47,6 +50,7 @@ void Health::HandleEvent( Event* event )
 	switch ( event->GetEventID() )
 	{
 	case EVENTID::PlayerDamage:
+		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
 		if ( m_sType == "Player" )
 			TakeDamage( 1 );
 		break;

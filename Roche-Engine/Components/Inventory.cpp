@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Inventory.h"
+#include "AudioEngine.h"
 
+#define SHOPSOUNDS "ShopSounds"
+#define PLAYER "Player"
 Inventory::Inventory()
 {
 	AddToEvent();
@@ -78,12 +81,14 @@ void Inventory::PlantSeedFromPacket( std::string& seedName, int amountPlanted )
 	if ( it->second <= 0 )
 		return;
 
+	AudioEngine::GetInstance()->PlayAudio(SHOPSOUNDS, "Planting", SFX);
 	ChangeSeedPacketValue( seedName, -amountPlanted );
 	EventSystem::Instance()->AddEvent( EVENTID::PlantSeed, &seedName );
 }
 
 void Inventory::BuySeedPacket( const std::string& seedName, int amountBought )
 {
+	AudioEngine::GetInstance()->PlayAudio(SHOPSOUNDS, "ShopPurchase", SFX);
 	ChangeSeedPacketValue(seedName, amountBought);
 }
 

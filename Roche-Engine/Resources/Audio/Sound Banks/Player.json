@@ -28,5 +28,15 @@
         "randomPitch": true,
         "tagName": "EntityBulletShot",
         "volume": 0.49000000953674316
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\Planting.wav",
+        "name": "Planting",
+        "pitchMax": 1.0,
+        "pitchMin": 1.0,
+        "randomPitch": false,
+        "tagName": "Planting",
+        "volume": 1.0
     }
 ]
