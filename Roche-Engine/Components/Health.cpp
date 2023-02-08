@@ -37,8 +37,8 @@ void Health::TakeDamage( float damageAmount )
 #else
 			EventSystem::Instance()->AddEvent( EVENTID::EnemyDeath, &m_iEntityNum );
 #endif // _DEBUG
-			int* score = new int(100);
-			EventSystem::Instance()->AddEvent(EVENTID::UpdateScore, score);
+			EventSystem::Instance()->AddEvent(EVENTID::UpdateScore);
+			EventSystem::Instance()->AddEvent(EVENTID::GainCoins);
 		}
 	}
 }
