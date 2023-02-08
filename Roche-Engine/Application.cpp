@@ -30,6 +30,8 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         m_imgui.Initialize( m_renderWindow.GetHWND(), m_graphics.GetDevice(), m_graphics.GetContext() );
 #endif
 
+        m_gameManager.Initialize();
+
         // Load level data
         JsonLoading::LoadJson( m_vLevelData, FOLDER_PATH + m_sJsonFile );
 
@@ -76,11 +78,13 @@ bool Application::Initialize( HINSTANCE hInstance, int width, int height )
         for (int i = 0; i < m_vLevelData.size(); i++) {
             if (m_vLevelData[i].name == STARTING_LEVEL_NAME) {
                 AudioEngine::GetInstance()->LoadSoundBanksList(m_vLevelData[i].audio);
+                AudioEngine::GetInstance()->PlayAudio("MusicMenu", "MainMenuMusic", MUSIC);
             }
         }
 
         m_stateMachine.SwitchTo( STARTING_LEVEL_NAME );
         m_sCurrentLevelName = STARTING_LEVEL_NAME;
+
     }
     catch ( COMException& exception )
 	{

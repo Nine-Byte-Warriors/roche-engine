@@ -7,7 +7,7 @@
         "pitchMin": 1.0,
         "randomPitch": false,
         "tagName": "UISliderClick",
-        "volume": 0.2549999952316284
+        "volume": 1.0
     },
     {
         "audioType": 0,

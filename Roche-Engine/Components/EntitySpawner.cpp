@@ -5,6 +5,8 @@
 
 EntitySpawner::EntitySpawner()
 {
+	JsonLoading::LoadJson(m_vEnemyEntityData, FOLDER_PATH + JsonFile);
+	RemoveNonEnemiesFromEntityData();
 	AddToEvent();
 }
 
@@ -20,16 +22,13 @@ void EntitySpawner::AddEntityToSpawn(int seed, int tileMapPos, Vector2f mapPos)
 	entitySpawn.tileMapPos = tileMapPos;
 	entitySpawn.mapPos = mapPos;
 	m_entitySpawn.push_back(entitySpawn);
-
-	m_vEntityData.clear();
-	JsonLoading::LoadJson(m_vEntityData, FOLDER_PATH + JsonFile);
 }
 
 void EntitySpawner::SpawnEntities()
 {
 	for (int i = 0; i < m_entitySpawn.size(); i++)
 	{
-		m_vEntityDataLive.push_back(m_vEntityData[m_entitySpawn[i].seed]);
+		m_vEntityDataLive.push_back(m_vEnemyEntityData[m_entitySpawn[i].seed]);
 		m_vEntityDataLive[i].position[0] = m_entitySpawn[i].mapPos.x;
 		m_vEntityDataLive[i].position[1] = m_entitySpawn[i].mapPos.y;
 	}
@@ -39,7 +38,7 @@ void EntitySpawner::SpawnEntities()
 
 void EntitySpawner::SpawnEntity(int num)
 {
-	m_vEntityDataLive.push_back(m_vEntityData[m_entitySpawn[num].seed]);
+	m_vEntityDataLive.push_back(m_vEnemyEntityData[m_entitySpawn[num].seed]);
 	m_vEntityDataLive[num].position[0] = m_entitySpawn[num].mapPos.x;
 	m_vEntityDataLive[num].position[1] = m_entitySpawn[num].mapPos.y;
 
@@ -81,7 +80,7 @@ int EntitySpawner::GetSpawnEntitiesTileMapPos(int num)
 bool EntitySpawner::IsPhaseNight()
 {
 	if (m_currentGamePhase == Phase::NightPhase)
-	{
+	{		
 		return true;
 	}
 	if (m_currentGamePhase == Phase::DayPhase)
@@ -110,5 +109,20 @@ void EntitySpawner::HandleEvent(Event* event)
 		m_currentGamePhase = *static_cast<Phase*>(event->GetData());
 	}
 	break;
+	}
+}
+
+void EntitySpawner::RemoveNonEnemiesFromEntityData()
+{
+	int num = 0;
+	int entityDataSize = m_vEnemyEntityData.size();
+	for (int i = 0; i < entityDataSize; i++)
+	{
+		if (m_vEnemyEntityData[num].type != "Enemy")
+		{
+			m_vEnemyEntityData.erase(m_vEnemyEntityData.begin() + num);
+			num--;
+		}
+		num++;
 	}
 }

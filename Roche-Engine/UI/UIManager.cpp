@@ -126,6 +126,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[SHOP]);
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+			EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 			m_sCurrentLevel = *m_vLevelNames[GAME];
 			HideAllUI();
 			ShowUI("HUD_Day");
@@ -179,6 +180,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, m_vLevelNames[SHOP]);
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[MENU]);
+			EventSystem::Instance()->AddEvent(EVENTID::PlayMainMenuMusic);
 			m_sCurrentLevel = *m_vLevelNames[MENU];
 			HideAllUI();
 			ShowUI("Menu_Widgets");
@@ -188,12 +190,14 @@ void UIManager::HandleEvent(Event* event)
 		{
 			HideAllUI();
 			ShowUI("Game_Won_Widgets");
+			AudioEngine::GetInstance()->PlayAudio("MusicGame", "GameWinMusic", MUSIC);
 		}
 		break;
 		case EVENTID::PlayerDeath:
 		{
 			HideAllUI();
 			ShowUI("Game_Over_Widgets");
+			AudioEngine::GetInstance()->PlayAudio("MusicGame", "GameOverMusic", MUSIC);
 		}
 		break;
 		case EVENTID::GameRestartEvent:
@@ -204,6 +208,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+			EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 			m_sCurrentLevel = *m_vLevelNames[GAME];
 			ShowUI("HUD_Day");
 		}
@@ -219,10 +224,12 @@ void UIManager::HandleEvent(Event* event)
 			HideAllUI();
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
+				EventSystem::Instance()->AddEvent(EVENTID::PlayShopMusic);
 				m_sCurrentLevel = *m_vLevelNames[SHOP];
 			}
 			else {
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
+				EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 				m_sCurrentLevel = *m_vLevelNames[GAME];
 			}
 			ShowUI("HUD_Day");
