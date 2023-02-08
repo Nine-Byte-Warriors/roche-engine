@@ -33,8 +33,6 @@ void Entity::SetComponents()
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
-	m_health = std::make_shared<Health>( GetType(), m_iEntityNum );
-	m_health->SetHealth( 100 );
 
 	if (m_entityController->HasAI(m_iEntityNum))
 	{
@@ -54,6 +52,14 @@ void Entity::SetComponents()
 		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, GetType(), 32, 32);
 	}
 
+	if (m_colliderBox)
+		m_health = std::make_shared<Health>(GetType(), m_iEntityNum, m_colliderBox);
+	else if (m_colliderCircle)
+		m_health = std::make_shared<Health>(GetType(), m_iEntityNum, m_colliderCircle);
+
+	if(m_health)
+		m_health->SetHealth( m_entityController->GetHealth(m_iEntityNum) );
+
 	if (GetType() == "Player")
 	{
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
@@ -67,13 +73,6 @@ void Entity::SetComponents()
 	{
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
 			pManager->SetOwner(Projectile::ProjectileOwner::Enemy);
-
-		//m_pController = std::make_shared<EnemyController>(m_physics, m_sprite, m_emitter);
-
-		if(m_colliderBox)
-			m_carrotEnemy = std::make_shared<CarrotEnemy>(m_health, m_colliderBox);
-		else if(m_colliderCircle)
-			m_carrotEnemy = std::make_shared<CarrotEnemy>(m_health, m_colliderCircle);
 
 		m_agent->SetEmitter(m_emitter);
 	}

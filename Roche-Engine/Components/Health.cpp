@@ -1,5 +1,18 @@
 #include "stdafx.h"
 #include "Health.h"
+#include "Collider.h"
+
+Health::Health(std::string type, int entityNum, std::shared_ptr<Collider> collider)
+{
+	m_sType = type;
+	m_iEntityNum = entityNum;
+	m_collider = collider;
+
+	std::function<void(Collider&)> f = std::bind(&Health::Hit, this, std::placeholders::_1);
+	collider->AddOnEnterCallback(f);
+
+	AddToEvent();
+}
 
 void Health::SetHealth( float maxHealth )
 {
@@ -28,6 +41,15 @@ void Health::Heal( float healAmount )
 	m_fCurrentHealth += healAmount;
 	if ( m_fCurrentHealth >= m_fMaxHealth )
 		m_fCurrentHealth = m_fMaxHealth;
+}
+
+void Health::Hit(Collider& collider)
+{
+	if (collider.EntityType() == "Projectile")
+	{
+		TakeDamage(1000);
+		OutputDebugStringA("PROJECTILE \n");
+	}
 }
 
 void Health::AddToEvent() noexcept
