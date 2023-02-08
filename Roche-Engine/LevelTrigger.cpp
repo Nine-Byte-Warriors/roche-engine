@@ -26,20 +26,19 @@ void LevelTrigger::PlayerInTrigger(Collider& collider)
 	{
 		OutputDebugStringA("Change Level");
 		EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevelsWindow); //Change scene to game
-		m_bEventFired = true;
+		//m_bEventFired = true;
 	}
-	//EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevelsWindow); //Change scene to game
 }
 void LevelTrigger::PlayerOutTrigger(Collider& collider)
 {
-	//m_bEventFired = false;
+	m_bEventFired = false;
 }
 void LevelTrigger::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
 	case EVENTID::SwapGameLevelsWindow:
-			m_bEventFired = false;
+			m_bEventFired = true;
 		break;
 	case EVENTID::CloseUIPopUp:
 			m_bEventFired = false;
