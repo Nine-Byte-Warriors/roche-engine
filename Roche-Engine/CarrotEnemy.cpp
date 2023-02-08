@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "CarrotEnemy.h"
 #include "Entity.h"
+#include "AudioEngine.h"
+
+#define ENEMY "EnemyCarrot"
 
 CarrotEnemy::CarrotEnemy(Entity* entity)
 {
@@ -16,7 +19,10 @@ void CarrotEnemy::Update(float dt)
 void CarrotEnemy::Hit(Collider& collider)
 {
 	if (collider.EntityType() == "Projectile")
+	{
 		m_entity->GetHealth()->TakeDamage(20);
+		AudioEngine::GetInstance()->PlayAudio(ENEMY, "EntityHit", SFX);
+	}
 
 	if (collider.EntityType() == "Projectile")
 		OutputDebugStringA("PROJECTILE \n");

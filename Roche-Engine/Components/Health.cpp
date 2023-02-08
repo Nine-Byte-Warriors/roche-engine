@@ -3,6 +3,7 @@
 #include "AudioEngine.h"
 
 #define PLAYER "Player"
+#define ENEMY "EnemyCarrot"
 
 void Health::SetHealth( float maxHealth )
 {
@@ -19,10 +20,17 @@ void Health::TakeDamage( float damageAmount )
 	if ( m_fCurrentHealth <= 0 )
 	{
 		m_fCurrentHealth = 0;
-		if ( m_sType == "Player" )
-			EventSystem::Instance()->AddEvent( EVENTID::PlayerDeath, this );
-		else if ( m_sType == "Enemy" )
-			EventSystem::Instance()->AddEvent( EVENTID::EnemyDeath, &m_iEntityNum );
+		if (m_sType == "Player")
+		{
+			AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityDeath", SFX);
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerDeath, this);
+
+		}
+		else if (m_sType == "Enemy")
+		{
+			AudioEngine::GetInstance()->PlayAudio(ENEMY, "EntityDeath", SFX);
+			EventSystem::Instance()->AddEvent(EVENTID::EnemyDeath, &m_iEntityNum);
+		}
 	}
 }
 
@@ -50,7 +58,7 @@ void Health::HandleEvent( Event* event )
 	switch ( event->GetEventID() )
 	{
 	case EVENTID::PlayerDamage:
-		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
+		
 		if ( m_sType == "Player" )
 			TakeDamage( 1 );
 		break;
