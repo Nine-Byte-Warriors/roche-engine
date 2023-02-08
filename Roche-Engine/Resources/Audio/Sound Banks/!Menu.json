@@ -2,5 +2,13 @@
     {
         "filePath": "Resources\\Audio\\Sound Banks\\Menu.json",
         "name": "Menu"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\UI.json",
+        "name": "UI"
+    },
+    {
+        "filePath": "Resources\\Audio\\Sound Banks\\MusicMenu.json",
+        "name": "MusicMenu"
     }
 ]
