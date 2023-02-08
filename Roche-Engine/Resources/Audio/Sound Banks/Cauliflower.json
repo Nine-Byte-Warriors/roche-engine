@@ -1,0 +1,32 @@
+[
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\enemydeath.wav",
+        "name": "enemydeath",
+        "pitchMax": 0.7139999866485596,
+        "pitchMin": 0.6200000047683716,
+        "randomPitch": true,
+        "tagName": "EntityDeath",
+        "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\EnemyHit.wav",
+        "name": "EnemyHit",
+        "pitchMax": 0.8019999861717224,
+        "pitchMin": 0.609000027179718,
+        "randomPitch": true,
+        "tagName": "EntityHit",
+        "volume": 1.0
+    },
+    {
+        "audioType": 0,
+        "filePath": "Resources\\Audio\\bullettest.wav",
+        "name": "bullettest",
+        "pitchMax": 1.5,
+        "pitchMin": 0.5,
+        "randomPitch": true,
+        "tagName": "EntityBulletShot",
+        "volume": 1.0
+    }
+]

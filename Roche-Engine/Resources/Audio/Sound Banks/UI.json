@@ -6,17 +6,17 @@
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
-        "tagName": "Click",
+        "tagName": "UISliderClick",
         "volume": 0.1509999930858612
     },
     {
         "audioType": 0,
-        "filePath": "Resources\\Audio\\itemequip.wav",
-        "name": "itemequip",
+        "filePath": "Resources\\Audio\\uiclick.wav",
+        "name": "uiclick",
         "pitchMax": 1.0,
         "pitchMin": 1.0,
         "randomPitch": false,
-        "tagName": "Equip",
-        "volume": 0.48399999737739563
+        "tagName": "UIButtonClick",
+        "volume": 1.0
     }
 ]
