@@ -340,14 +340,14 @@ void AudioEngine::UnloadAllAudio()
 
 void AudioEngine::StopAllAudio()
 {
-	for (int i = m_vSFXSourceVoiceList.size(); m_vSFXSourceVoiceList.size() < i; i--) {
-		m_vSFXSourceVoiceList.at(i)->DestroyVoice();
-		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i);
+	while (m_vSFXSourceVoiceList.size() > 0) {
+		m_vSFXSourceVoiceList.at(0)->DestroyVoice();
+		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin());
 	}
 
-	for (int i = m_vMusicSourceVoiceList.size(); m_vMusicSourceVoiceList.size() < i; i--) {
-		m_vMusicSourceVoiceList.at(i)->DestroyVoice();
-		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.end());
+	while (m_vMusicSourceVoiceList.size() > 0) {
+		m_vMusicSourceVoiceList.at(0)->DestroyVoice();
+		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.begin());
 	}
 }
 

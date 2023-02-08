@@ -101,7 +101,7 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
 					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
