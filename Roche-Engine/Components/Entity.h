@@ -15,7 +15,6 @@ class Graphics;
 #include "Emitter.h"
 #include "ShopItem.h"
 #include "CollisionHandler.h"
-#include "CarrotEnemy.h"
 
 class Entity
 {
@@ -114,7 +113,6 @@ private:
 	float m_fSpeed;
 
 	std::string m_sBehaviour;
-	std::string m_sEntityType;
 
 	std::string m_sColliderShape;
 	float m_fColliderRadiusX;
@@ -132,7 +130,6 @@ private:
 	std::shared_ptr<ShopItem> m_shopItem;
 	std::shared_ptr<Inventory>m_inventory;
 	std::shared_ptr<Emitter> m_emitter;
-	std::shared_ptr<CarrotEnemy> m_carrotEnemy;
 
 	EntityController* m_entityController;
 

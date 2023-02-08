@@ -54,15 +54,6 @@ void Level::CreateEntity()
 
         delete entityPop;
     }
-
-    //m_collisionHandler.RemoveAllColliders();
-    //for (int i = 0; i < m_iEntityAmount; i++)
-    //{
-    //    if (m_entityController.HasCollider(i))
-    //    {
-    //        m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-    //    }
-    //}
 }
 
 void Level::CreateUI()
@@ -154,10 +145,7 @@ void Level::CreateTileMapDraw()
 void Level::OnSwitch()
 {
 	// Update level system
-	//EventSystem::Instance()->AddEvent( EVENTID::SetCurrentLevelEvent, &m_iCurrentLevel );
-	//EventSystem::Instance()->AddEvent( EVENTID::SetNextLevelEvent, &m_iNextLevel );
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
-
     CreateEntity();
     CreateUI();
 }
@@ -378,11 +366,11 @@ void Level::UpdateEntity(const float dt)
     {
         AddNewEntity();
     }
-    else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated())
+    else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated() || m_entityController.GetDead().size() != 0)
     {
         RemoveEntities();
     }
-
+    
 #if _DEBUG
     for (int i = 0; i < m_iEntityAmount; i++)
     {
@@ -432,7 +420,7 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
-    m_entitiesDeleted = m_entityController.m_dead;
+    m_entitiesDeleted = m_entityController.GetDead();
 
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
@@ -440,28 +428,23 @@ void Level::RemoveEntities()
 
     for (int i = 0; i < m_entitiesDeleted.size(); i++)
     {
+        m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
         m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
     }
 
-    m_collisionHandler.RemoveAllColliders();
     m_entitiesDeleted.clear();
 
     for (int i = 0; i < m_entity.size(); i++)
-    {
         m_entity[i].UpdateEntityNum(i);
-        //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
-        if (m_entityController.HasCollider(i))
-        {
-            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-        }
-    }
+
 
 #if _DEBUG
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
+#else
+    m_iEntityAmount = m_entityController.GetSize();
 #endif
-
-    m_entityController.m_dead.clear();
+    m_entityController.ClearDead();
 }
 
 void Level::DisplayEntityMaxHealth(int num)
@@ -710,18 +693,18 @@ void Level::RemoveFromEvent() noexcept
 
 void Level::HandleEvent(Event* event)
 {
-        // Switch level
-        switch (event->GetEventID())
-        {
-        case EVENTID::GamePauseEvent:
-        {
-            m_bIsGamePaused = true;
-        }
-        break;
-        case EVENTID::GameUnpauseEvent:
-        {
-            m_bIsGamePaused = false;
-        }
-        break;
-        }
+    // Switch level
+    switch (event->GetEventID())
+    {
+    case EVENTID::GamePauseEvent:
+    {
+        m_bIsGamePaused = true;
+    }
+    break;
+    case EVENTID::GameUnpauseEvent:
+    {
+        m_bIsGamePaused = false;
+    }
+    break;
+    }
 }
