@@ -62,11 +62,6 @@ void Entity::SetComponents()
 		m_colliderCircle = nullptr;
 		m_colliderBox = nullptr;
 	}
-	else
-	{
-		m_colliderCircle = nullptr;
-		m_colliderBox = nullptr;
-	}
 
 	if (m_colliderBox)
 		m_health = std::make_shared<Health>(GetType(), m_iEntityNum, m_colliderBox);

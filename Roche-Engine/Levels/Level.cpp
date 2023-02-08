@@ -435,7 +435,7 @@ void Level::RemoveEntities()
     m_entitiesDeleted = m_entityController.GetDead();
 
 #if _DEBUG
-    //m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
+    m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
 #endif
 
     for (int i = 0; i < m_entitiesDeleted.size(); i++)
@@ -451,11 +451,11 @@ void Level::RemoveEntities()
 
 
 #if _DEBUG
-    //m_iEntityAmount = m_entityEditor.GetEntityData().size();
+    m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
-#endif
-
+#else
     m_iEntityAmount = m_entityController.GetSize();
+#endif
     m_entityController.ClearDead();
 }
 

@@ -29,8 +29,15 @@ void Health::TakeDamage( float damageAmount )
 		m_fCurrentHealth = 0;
 		if ( m_sType == "Player" )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerDeath, this );
-		else if ( m_sType == "Enemy" )
+		else if (m_sType == "Enemy")
+		{
+#if _DEBUG
+			std::string outputdead = m_sType + " " + std::to_string(m_iEntityNum) + " Has Died! \n";
+			OutputDebugStringA(outputdead.c_str());
+#else
 			EventSystem::Instance()->AddEvent( EVENTID::EnemyDeath, &m_iEntityNum );
+#endif // _DEBUG
+		}
 	}
 }
 
