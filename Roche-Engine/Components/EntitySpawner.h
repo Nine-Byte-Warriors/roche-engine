@@ -38,9 +38,11 @@ private:
 	void RemoveFromEvent() noexcept;
 	void HandleEvent(Event* event) override;
 
+	void RemoveNonEnemiesFromEntityData();
+
 	std::vector<EntitySpawn> m_entitySpawn;
 
-	std::vector<EntityData> m_vEntityData;
+	std::vector<EntityData> m_vEnemyEntityData;
 	std::vector<EntityData> m_vEntityDataLive;
 
 	std::string JsonFile = "Entity.json";

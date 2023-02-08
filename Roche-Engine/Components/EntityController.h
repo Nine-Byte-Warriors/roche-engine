@@ -93,6 +93,7 @@ public:
 	int GetSize();
 
 	int GetEntityNumFromName(std::string name);
+	int GetEntityEnemyNumFromName(std::string name);
 
 	std::string GetName(int num);
 	std::string GetType(int num);
@@ -104,6 +105,8 @@ public:
 	std::vector<int> GetMaxFrame(int num);
 	std::string GetAnimationFile(int num);
 	std::string GetAnimationType(int num);
+
+	Vector2f GetEnemyWidthHeight(int num);
 
 	int GetRows(int num);
 	int GetColumns(int num);
@@ -150,11 +153,16 @@ public:
 	std::vector<int> GetDead();
 
 private:
+	void RemoveEnemiesFromEntityData();
+	void RemoveNonEnemiesFromEntityEnemyData();
+	
 	// Inherited via Listener
 	void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
 
 	std::string JsonFile = "Entity.json";
+
+	std::vector<EntityData> m_entityEnemyData;
 	std::vector<EntityData> m_entityData;
 	std::vector<EntityData> m_entityDataCopy;
 	bool m_bComponentUpdated = false;
