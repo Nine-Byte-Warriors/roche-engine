@@ -139,7 +139,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             64.0,
             800.0
@@ -189,7 +189,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             1496.0,
             64.4000015258789
@@ -239,7 +239,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             16.0,
             800.0
@@ -289,7 +289,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             557.0,
             54.79999923706055
@@ -339,7 +339,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             661.2000122070313,
             51.79999923706055
@@ -389,7 +389,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Decoration",
         "scale": [
             201.60000610351563,
             28.600000381469727
@@ -489,7 +489,7 @@
         "projectileSystem": false,
         "rotation": 0.0,
         "rows": 1,
-        "sColliderLayer": "Player",
+        "sColliderLayer": "Decoration",
         "scale": [
             100.0,
             100.0
@@ -739,7 +739,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 4,
-        "sColliderLayer": "Enemy",
+        "sColliderLayer": "Player",
         "scale": [
             100.0,
             100.0
