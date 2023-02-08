@@ -20,7 +20,7 @@ public:
 	};
 
 
-	Projectile(float fSpeed, float fLifeTime = 999.9f);
+	Projectile(float fSpeed, std::string type, float fLifeTime = 999.9f);
 	~Projectile() {}
 	
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat, Sprite::Type type);

@@ -16,7 +16,6 @@ class Graphics;
 #include "ShopItem.h"
 #include "LevelTrigger.h"
 #include "CollisionHandler.h"
-#include "CarrotEnemy.h"
 
 class Entity
 {
@@ -53,9 +52,6 @@ public:
 	std::string GetType();
 	void UpdateEntityNum(int num);
 
-	void CheckAliveStatus();
-	void TomatoKamikaze();
-
 private:
 	void SetPositionInit();
 	void SetScaleInit();
@@ -74,8 +70,8 @@ private:
 	void UpdateSpeed();
 
 	void UpdateBehaviour();
-
 	void UpdateProjectilePattern();
+
 	void UpdateCollider();
 	void UpdateColliderRadius();
 	void UpdateColliderTrigger();
@@ -83,14 +79,11 @@ private:
 	void UpdateColliderMask();
 	void UpdateColliderStatic();
 	void UpdateColliderEnabled();
+	void UpdateColliderShape();
 
 	void UpdateAudio();
 
-
 	int m_iEntityNum;
-
-	float m_fEntityHealth = 100.0;
-
 	ID3D11Device* m_device;
 	ID3D11DeviceContext* m_context;
 	ConstantBuffer<Matrices>* m_mat;
@@ -121,7 +114,6 @@ private:
 	float m_fSpeed;
 
 	std::string m_sBehaviour;
-	std::string m_sEntityType;
 
 	std::string m_sColliderShape;
 	float m_fColliderRadiusX;
@@ -140,7 +132,6 @@ private:
 	std::shared_ptr<LevelTrigger> m_levelTrigger;
 	std::shared_ptr<Inventory>m_inventory;
 	std::shared_ptr<Emitter> m_emitter;
-	std::shared_ptr<CarrotEnemy> m_carrotEnemy;
 
 	EntityController* m_entityController;
 
