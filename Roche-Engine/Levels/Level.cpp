@@ -527,11 +527,6 @@ void Level::UpdateTileMapPlanting(const float dt)
 
     if (isPlayerNearTheMouse)
     {
-        bool* isPlayerNearTheMousePtr = new bool;
-        int* temp = new int;
-        *temp = 5;
-        //EventSystem::Instance()->AddEvent(EVENTID::PlayerNearTheMouse, temp);
-
         bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered;
         if (isDrawOnMapAvalibleForPlayer)
         {
