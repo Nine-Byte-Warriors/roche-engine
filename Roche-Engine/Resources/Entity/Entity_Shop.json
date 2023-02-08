@@ -2,7 +2,7 @@
     {
         "AI": false,
         "animation": true,
-        "animationPath": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.json",
+        "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
         "animationType": "Walk",
         "audio": false,
         "bColliderTrigger": false,
@@ -43,8 +43,8 @@
         "type": "Player"
     },
     {
-        "AI": true,
-        "animation": true,
+        "AI": false,
+        "animation": false,
         "animationPath": "Resources\\Textures\\Base_Projectile.json",
         "animationType": "Walk",
         "audio": false,

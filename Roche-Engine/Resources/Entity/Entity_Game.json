@@ -82,7 +82,7 @@
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\UI\\Coin\\Coin.png",
+        "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"
     },
     {
