@@ -32,10 +32,14 @@ void Health::TakeDamage( float damageAmount )
 	if ( m_fCurrentHealth <= 0 )
 	{
 		m_fCurrentHealth = 0;
-		if ( m_sType == "Player" )
-			EventSystem::Instance()->AddEvent( EVENTID::PlayerDeath, this );
+		if (m_sType == "Player")
+		{
+			AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityDeath", SFX);
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerDeath, this);
+		}
 		else if (m_sType == "Enemy")
 		{
+			AudioEngine::GetInstance()->PlayAudio(ENEMY, "EntityDeath", SFX);
 #if _DEBUG
 			std::string outputdead = m_sType + " " + std::to_string(m_iEntityNum) + " Has Died! \n";
 			OutputDebugStringA(outputdead.c_str());
@@ -56,10 +60,14 @@ void Health::Heal( float healAmount )
 void Health::Hit(Collider& collider)
 {
 	if (collider.EntityType() == "PlayerProjectile" && m_sType == "Enemy")
+	{
+		AudioEngine::GetInstance()->PlayAudio(ENEMY, "EntityHit", SFX);
 		TakeDamage(1);
+	}
 
 	if (collider.EntityType() == "EnemyProjectile" && m_sType == "Player")
 	{
+		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
 		TakeDamage(1);
 		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
 	}

@@ -81,7 +81,8 @@ void Inventory::PlantSeedFromPacket( std::string& seedName, int amountPlanted )
 	if ( it->second <= 0 )
 		return;
 
-	AudioEngine::GetInstance()->PlayAudio(SHOPSOUNDS, "Planting", SFX);
+	AudioEngine::GetInstance()->PlayAudio(PLAYER, "Planting", SFX);
+
 	ChangeSeedPacketValue( seedName, -amountPlanted );
 	EventSystem::Instance()->AddEvent( EVENTID::PlantSeed, &seedName );
 }
