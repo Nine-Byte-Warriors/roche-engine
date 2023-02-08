@@ -210,7 +210,7 @@ void UIScreen::Update( const float dt )
 				{
 					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, AudioEngine::GetInstance()->GetMasterVolume() * 100);
 					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f;
 					AudioEngine::GetInstance()->SetMasterVolume( sliderData );
 				}
@@ -222,7 +222,7 @@ void UIScreen::Update( const float dt )
 				{
 					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, AudioEngine::GetInstance()->GetMusicVolume() * 100);
 					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f;
 					AudioEngine::GetInstance()->SetMusicVolume( sliderData );
 				}

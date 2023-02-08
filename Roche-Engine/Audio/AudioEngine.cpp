@@ -5,7 +5,7 @@
 AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
-AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr) {
+AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr), m_pSFXSubmixVoice(nullptr), m_pMusicSubmixVoice(nullptr), m_pSFXSend(nullptr), m_pSFXSendList(nullptr), m_pMusicSend(nullptr), m_pMusicSendList(nullptr) {
 }
 
 AudioEngine::~AudioEngine()
@@ -36,6 +36,16 @@ void AudioEngine::Initialize(float masterVolume, float musicVolume, float sfxVol
 	if (FAILED(hr = m_pXAudio2->CreateMasteringVoice(&m_pMasterVoice))) {
 		ErrorLogger::Log(hr, "AudioEngine::Initialize: Failed to create mastering voice.");
 	}
+
+	m_pXAudio2->CreateSubmixVoice(&m_pSFXSubmixVoice, maxSFXSourceVoices, 44100, 0, 0, 0, 0);
+
+	m_pSFXSend = new XAUDIO2_SEND_DESCRIPTOR({ 0, m_pSFXSubmixVoice });
+	m_pSFXSendList = new XAUDIO2_VOICE_SENDS({ 1, m_pSFXSend });
+
+	m_pXAudio2->CreateSubmixVoice(&m_pMusicSubmixVoice, maxMusicSourceVoices, 44100, 0, 0, 0, 0);
+
+	m_pMusicSend = new XAUDIO2_SEND_DESCRIPTOR({ 0, m_pMusicSubmixVoice });
+	m_pMusicSendList = new XAUDIO2_VOICE_SENDS({ 1, m_pMusicSend });
 
 	m_fMasterVolume = masterVolume;
 	m_fMusicVolume = musicVolume;
@@ -179,7 +189,6 @@ HRESULT AudioEngine::LoadAudio(std::string soundBankName, std::wstring filePath,
 HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, AudioType audioType)
 {
 	HRESULT hr = S_OK;
-	float finalVolume;
 	float frequencyRatio;
 	float sourceRate;
 
@@ -198,11 +207,35 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 		for (int i = 0; soundBank.size() > i; i++) {
 			if (tagName == soundBank.at(i)->tagName) {
 
-				if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
-					NULL/*soundBank->at(i)->voiceCallback*/, NULL, NULL))) {
-					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
-					return hr;
+				switch (audioType)
+				{
+				case SFX: 
+				{
+					if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+						NULL, &*m_pSFXSendList, NULL))) {
+						ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
+						return hr;
+					}
 				}
+					break;
+				case MUSIC: 
+				{
+					if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+						NULL, &*m_pMusicSendList, NULL))) {
+						ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
+						return hr;
+					}
+				}
+					break;
+				default:
+					break;
+				}
+
+				//if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
+				//	NULL, NULL, NULL))) {
+				//	ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
+				//	return hr;
+				//}
 
 				if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
 					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
@@ -212,8 +245,7 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 				switch (audioType)
 				{
 				case SFX:
-					finalVolume = m_fMasterVolume * m_fSFXVolume * soundBank.at(i)->volume;
-					pVoice->SetVolume(finalVolume);
+					pVoice->SetVolume(soundBank.at(i)->volume);
 					if (soundBank.at(i)->randomPitch) {
 						pVoice->GetFrequencyRatio(&sourceRate);
 						frequencyRatio = sourceRate / RND::Getf(soundBank.at(i)->pitchMin, soundBank.at(i)->pitchMax);
@@ -222,8 +254,7 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 					m_vSFXSourceVoiceList.push_back(pVoice);
 					break;
 				case MUSIC:
-					finalVolume = m_fMasterVolume * m_fMusicVolume * soundBank.at(i)->volume;
-					pVoice->SetVolume(finalVolume);
+					pVoice->SetVolume(soundBank.at(i)->volume);
 					m_vMusicSourceVoiceList.push_back(pVoice);
 					break;
 				default:
