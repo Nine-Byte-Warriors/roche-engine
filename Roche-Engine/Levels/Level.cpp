@@ -600,10 +600,9 @@ void Level::UpdateTileMapPlanting(const float dt)
         }
 
         bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth == 0;
-        if (isAllEnemiesDead)
+        if (isAllEnemiesDead && m_entitySpawner.IsPhaseNight())
         {
-            m_phase = Phase::DayPhase;
-            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase, &m_phase);
+            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
         }
     }
 }

@@ -107,8 +107,12 @@ std::string EntityController::GetAnimationType(int num)
 
 Vector2f EntityController::GetEnemyWidthHeight(int num)
 {
-	Vector2f widthHeight = Vector2f(m_entityEnemyData[num].scale[0], m_entityEnemyData[num].scale[1]);
-	return widthHeight;
+	if (m_entityEnemyData.size() != 0)
+	{
+		Vector2f widthHeight = Vector2f(m_entityEnemyData[num].scale[0], m_entityEnemyData[num].scale[1]);
+		return widthHeight;
+	}
+	return Vector2f(0, 0);
 }
 
 int EntityController::GetRows(int num)

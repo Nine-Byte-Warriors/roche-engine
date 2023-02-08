@@ -189,7 +189,6 @@ void Inventory::HandleEvent( Event* event )
 		if (m_iCoinAmount >= 1)
 		{
 			UpdateCoins(-1);
-			OutputDebugStringA("hEAL");
 			EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
 		}
 	}

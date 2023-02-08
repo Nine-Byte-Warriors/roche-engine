@@ -39,9 +39,9 @@ void GameManager::SetPhase()
 		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
 	}
 
-	if (phase == Phase::DayPhase)
+	if (m_currentPhase == Phase::DayPhase)
 		DayPhase();
-	else if (phase == Phase::NightPhase)
+	else if (m_currentPhase == Phase::NightPhase)
 		NightPhase();
 }
 
