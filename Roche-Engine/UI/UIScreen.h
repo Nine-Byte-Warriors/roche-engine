@@ -64,7 +64,7 @@ private:
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
 	ScoreBoard m_scoreBoard;
-  
+
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{

@@ -93,6 +93,12 @@ void UIScreen::Update( const float dt )
 					m_bOpen = false;
 				}
 			}
+			if (m_vWidgets[i]->GetAction() == "End Phase")
+			{
+				if (!m_vWidgets[i]->GetIsHidden())
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::QuitGameEvent);
+			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )

@@ -283,20 +283,5 @@
         ],
         "type": "Image",
         "zindex": 18
-    },
-    {
-        "action": "End Phase",
-        "hide": false,
-        "name": "Change Phase Button",
-        "position": [
-            1712.0,
-            921.0
-        ],
-        "scale": [
-            179.0,
-            140.0
-        ],
-        "type": "Button",
-        "zindex": 19
     }
 ]
