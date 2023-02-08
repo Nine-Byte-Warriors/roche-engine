@@ -71,6 +71,7 @@ enum class EVENTID
 	BuySeed,
 	UpdateSeed,
 	GainCoins,
+	BuyPotion,
 
 	//UI
 	LevelOnCreateUI,

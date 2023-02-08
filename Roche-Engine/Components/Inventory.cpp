@@ -111,6 +111,7 @@ void Inventory::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::PlantSeedAttempt, this );
 	EventSystem::Instance()->AddClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->AddClient(EVENTID::GainCoins, this);
+	EventSystem::Instance()->AddClient(EVENTID::BuyPotion, this);
 }
 
 void Inventory::RemoveFromEvent() noexcept
@@ -120,6 +121,7 @@ void Inventory::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::PlantSeedAttempt, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->RemoveClient(EVENTID::GainCoins, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BuyPotion, this);
 }
 
 void Inventory::HandleEvent( Event* event )
@@ -173,6 +175,16 @@ void Inventory::HandleEvent( Event* event )
 		{
 			UpdateCoins(-1);
 			BuySeedPacket("Tomato", seedsBought->second);
+		}
+	}
+	break;
+	case EVENTID::BuyPotion:
+	{
+		if (m_iCoinAmount >= 1)
+		{
+			UpdateCoins(-1);
+			OutputDebugStringA("hEAL");
+			EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
 		}
 	}
 	break;

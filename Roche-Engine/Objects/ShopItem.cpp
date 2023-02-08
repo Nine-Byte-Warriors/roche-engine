@@ -27,12 +27,9 @@ void ShopItem::PlayerInRange(Collider& collider)
 
 		if (m_bInputCheck)
 		{
-			std::pair<std::string, int>* item = new std::pair<std::string, int>();
-			item->first = m_itemName;
-			item->second = 1;
 			if (m_itemName == "HealthPotion")
 			{
-				EventSystem::Instance()->AddEvent(EVENTID::PlayerHeal);
+				EventSystem::Instance()->AddEvent(EVENTID::BuyPotion);
 			}
 			else
 			{
