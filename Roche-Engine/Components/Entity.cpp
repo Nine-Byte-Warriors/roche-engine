@@ -109,7 +109,6 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	UpdateCollider();
 	SetAnimation();
 	UpdateRowsColumns();
-	AddCollisionCallback();
 }
 
 void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
