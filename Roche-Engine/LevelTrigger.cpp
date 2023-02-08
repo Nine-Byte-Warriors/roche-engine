@@ -3,6 +3,7 @@
 
 LevelTrigger::LevelTrigger(const std::shared_ptr<Collider> collider)
 {
+
 	std::function<void(Collider&)> f = std::bind(&LevelTrigger::PlayerInTrigger, this, std::placeholders::_1);
 	collider->AddOnEnterCallback(f);
 
@@ -18,20 +19,20 @@ LevelTrigger::~LevelTrigger()
 
 void LevelTrigger::PlayerInTrigger(Collider& collider)
 {
-	if (collider.EntityType() != "Player")
+	if (collider.EntityType() == "Player"&& !m_bEventFired )//&& m_currentGamePhase == Phase::DayPhase)
 	{
-		return;
-	}
-	if (!m_bEventFired)
-	{
-		OutputDebugStringA("Change Level");
+			OutputDebugStringA("Change Level");
 		EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevelsWindow); //Change scene to game
-		//m_bEventFired = true;
 	}
 }
 void LevelTrigger::PlayerOutTrigger(Collider& collider)
 {
+	//if (m_currentGamePhase == Phase::DayPhase && m_bEventFired)
+	//{
+	//	EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp); //Change scene to game
+	//}
 	m_bEventFired = false;
+
 }
 void LevelTrigger::HandleEvent(Event* event)
 {
@@ -43,6 +44,10 @@ void LevelTrigger::HandleEvent(Event* event)
 	case EVENTID::CloseUIPopUp:
 			m_bEventFired = false;
 		break;
+	case EVENTID::CurrentPhase:
+		m_currentGamePhase = *static_cast<Phase*>(event->GetData());
+		break;
+
 	default:
 		break;
 	}

@@ -393,7 +393,7 @@ void UIScreen::Update( const float dt )
 
 			if (m_vWidgets[i]->GetAction() == "Change Level Label")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Change Level?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
+				m_vWidgets[i]->GetImageWidget()->Resolve("Change \nLevel?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 

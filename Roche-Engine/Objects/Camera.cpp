@@ -110,7 +110,7 @@ void Camera::HandleEvent(Event* event)
 		{
 			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>(event->GetData());
 			Sprite* charSprite = charSpriteandPos->first;
-			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth(), charSpriteandPos->second->y + charSprite->GetHeight());
+			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth()/2, charSpriteandPos->second->y + charSprite->GetHeight()/2);
 
 			if (m_vPosition.x >= m_vSizeOfScreen.x)
 				m_vPosition.x = m_vSizeOfScreen.x;

@@ -4,7 +4,7 @@
         "hide": false,
         "name": "Carrot Seed Packet",
         "position": [
-            747.0,
+            727.0,
             954.0
         ],
         "scale": [
@@ -19,7 +19,7 @@
         "hide": false,
         "name": "Bean Seed Packet",
         "position": [
-            624.0,
+            604.0,
             954.0
         ],
         "scale": [
@@ -34,7 +34,7 @@
         "hide": false,
         "name": "Onion Seed Packet",
         "position": [
-            997.0,
+            977.0,
             954.0
         ],
         "scale": [
@@ -49,7 +49,7 @@
         "hide": false,
         "name": "Cauliflower Seed Packet",
         "position": [
-            873.0,
+            853.0,
             954.0
         ],
         "scale": [
@@ -64,7 +64,7 @@
         "hide": false,
         "name": "Potato Seed Packet",
         "position": [
-            1120.0,
+            1100.0,
             954.0
         ],
         "scale": [
@@ -79,7 +79,7 @@
         "hide": false,
         "name": "Tomato Seed Packet",
         "position": [
-            1243.0,
+            1223.0,
             954.0
         ],
         "scale": [
@@ -94,7 +94,7 @@
         "hide": false,
         "name": "Carrot Background",
         "position": [
-            745.0,
+            725.0,
             928.0
         ],
         "scale": [
@@ -109,7 +109,7 @@
         "hide": false,
         "name": "Bean Background",
         "position": [
-            620.0,
+            600.0,
             928.0
         ],
         "scale": [
@@ -124,7 +124,7 @@
         "hide": false,
         "name": "Onion Background",
         "position": [
-            994.0,
+            974.0,
             928.0
         ],
         "scale": [
@@ -139,7 +139,7 @@
         "hide": false,
         "name": "Cauliflower Background",
         "position": [
-            871.0,
+            851.0,
             928.0
         ],
         "scale": [
@@ -154,7 +154,7 @@
         "hide": false,
         "name": "Potato Background",
         "position": [
-            1117.0,
+            1097.0,
             928.0
         ],
         "scale": [
@@ -169,7 +169,7 @@
         "hide": false,
         "name": "Tomato Background",
         "position": [
-            1239.0,
+            1219.0,
             928.0
         ],
         "scale": [

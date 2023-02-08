@@ -68,7 +68,7 @@
         ],
         "name": "Projectile1",
         "position": [
-            436.0,
+            -5000.0,
             103.0
         ],
         "projectileBullet": "Projectile1",
