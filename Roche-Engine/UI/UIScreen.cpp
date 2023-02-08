@@ -337,7 +337,19 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				float percentageHelth = 100 * *m_fCurrentHealth / *m_fMaxHealth;
+				static float maxHealth = 1;
+				static float currentHealth = 1;
+				if ((*m_fCurrentHealth / *m_fMaxHealth) < 1 && (*m_fCurrentHealth / *m_fMaxHealth) > 0)
+				{
+					maxHealth = *m_fMaxHealth;
+					currentHealth = *m_fCurrentHealth;
+				}
+
+				float percentageHelth = 100 * currentHealth / maxHealth;
+				if (percentageHelth > 100)
+				{
+					percentageHelth = 100;
+				}
 				std::string temp = m_textures[2];
 				m_textures[2] = "";
 				m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, percentageHelth);
