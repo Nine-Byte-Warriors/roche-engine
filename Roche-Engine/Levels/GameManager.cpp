@@ -35,18 +35,15 @@ void GameManager::SetPhase(Phase phase)
 		NightPhase();
 }
 
-
-
-GameManager::GameManager()
-{
-}
-
 GameManager::~GameManager()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayDayMusic, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayShopMusic, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PlayMainMenuMusic, this);
 }
 
 void GameManager::HandleEvent(Event* event)
@@ -65,6 +62,15 @@ void GameManager::HandleEvent(Event* event)
 	case EVENTID::GameRestartEvent:
 		Initialize(); // reinitialize game manager
 		break;
+	case EVENTID::PlayDayMusic:
+		AudioEngine::GetInstance()->PlayAudio("MusicGame", "DayPhaseMusic", MUSIC);
+		break;
+	case EVENTID::PlayShopMusic:
+		AudioEngine::GetInstance()->PlayAudio("MusicShop", "ShopMusic", MUSIC);
+		break;
+	case EVENTID::PlayMainMenuMusic:
+		AudioEngine::GetInstance()->PlayAudio("MusicMenu", "MainMenuMusic", MUSIC);
+		break;
 	default:
 		break;
 	}
@@ -76,6 +82,9 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayDayMusic, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayShopMusic, this);
+	EventSystem::Instance()->AddClient(EVENTID::PlayMainMenuMusic, this);
 }
 
 void GameManager::DayPhase()
