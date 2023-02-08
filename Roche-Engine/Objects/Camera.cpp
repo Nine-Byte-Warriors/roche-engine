@@ -61,6 +61,7 @@ void Camera::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayerPosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::MousePosition, this);
 	EventSystem::Instance()->AddClient(EVENTID::ImGuiMousePosition, this);
+	EventSystem::Instance()->AddClient(EVENTID::GameLevelChangeEvent, this);
 }
 
 void Camera::RemoveFromEvent() noexcept
@@ -73,6 +74,7 @@ void Camera::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayerPosition, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::MousePosition, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ImGuiMousePosition, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 }
 
 void Camera::HandleEvent(Event* event)
@@ -104,6 +106,11 @@ void Camera::HandleEvent(Event* event)
 		SetProjectionValues(m_vSizeOfScreen.x, m_vSizeOfScreen.y, 0.0f, 1.0f);
 	}
 	break;
+	case EVENTID::GameLevelChangeEvent:
+	{
+		m_sCurrentLevel = *static_cast<std::string*>(event->GetData());
+	}
+	break;
 	case EVENTID::PlayerPosition:
 	{
 		if (m_bLockedToPlayer)
@@ -111,16 +118,24 @@ void Camera::HandleEvent(Event* event)
 			std::pair<Sprite*, Vector2f*>* charSpriteandPos = static_cast<std::pair<Sprite*, Vector2f*>*>(event->GetData());
 			Sprite* charSprite = charSpriteandPos->first;
 			m_vPosition = XMFLOAT2(charSpriteandPos->second->x + charSprite->GetWidth()/2, charSpriteandPos->second->y + charSprite->GetHeight()/2);
+			if (m_sCurrentLevel == "Game")
+			{
+				if (m_vPosition.x >= m_vSizeOfScreen.x)
+					m_vPosition.x = m_vSizeOfScreen.x;
+				if (m_vPosition.x <= 0)
+					m_vPosition.x = 0;
 
-			if (m_vPosition.x >= m_vSizeOfScreen.x)
-				m_vPosition.x = m_vSizeOfScreen.x;
-			if (m_vPosition.x <= 0)
-				m_vPosition.x = 0;
+				if (m_vPosition.y >= m_vSizeOfScreen.y)
+					m_vPosition.y = m_vSizeOfScreen.y;
+				if (m_vPosition.y <= 0)
+					m_vPosition.y = 0;
+			}
+			else if (m_sCurrentLevel == "Shop")
+			{
+				m_vPosition.x = 1100.0f;
+				m_vPosition.y = 1250.0f;
+			}
 
-			if (m_vPosition.y >= m_vSizeOfScreen.y)
-				m_vPosition.y = m_vSizeOfScreen.y;
-			if (m_vPosition.y <= 0)
-				m_vPosition.y = 0;
 
 			m_mWorldMatrix = XMMatrixTranslation(
 				-(m_vPosition.x - m_vSizeOfScreen.x / 2.0f),
