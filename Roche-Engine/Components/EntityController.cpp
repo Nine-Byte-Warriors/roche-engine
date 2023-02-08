@@ -137,7 +137,8 @@ std::vector<bool> EntityController::GetColliderMask(int num)
 	bool enemy = m_entityData[num].bColliderInteractEnemy;
 	bool projectile = m_entityData[num].bColliderInteractProjectile;
 
-	std::vector<bool> colliderMask = {decoration, enemy, player, projectile};
+	//dec , player, enemy, proj
+	std::vector<bool> colliderMask = {decoration, player, enemy, projectile};
 	return colliderMask;
 }
 

@@ -793,7 +793,7 @@ void EntityEditor::SetColliderLayer()
 
 	static int curLayer = 0;
 	std::string previewColliderLayer = m_vEntityDataCopy[m_iIdentifier].sColliderLayer;
-	const char* colliderList[]{ "Decorations", "Player", "Enemy", "Projectiles"};
+	const char* colliderList[]{ "Decoration", "Player", "Enemy", "Projectile"};
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewColliderLayer.c_str()))

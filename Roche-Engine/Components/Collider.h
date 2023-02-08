@@ -33,6 +33,8 @@ public:
         bool trigger, int entityNum, std::string entityType );
     Collider(Collider& col);
 
+private:
+    bool m_isEnabledCopy;
 protected:
     bool m_isEnabled = true;
     ColliderType m_type = ColliderType::None;
@@ -40,7 +42,6 @@ protected:
     bool m_isStatic = false;
     LayerMask m_collisionMask = LayerMask(true, true, true, true);
     LayerNo m_layer = LayerNo::Enemy;
-;
 
     std::shared_ptr<Transform> m_transform;
     std::shared_ptr<Sprite> m_sprite;
@@ -103,6 +104,7 @@ public:
 
 
     virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
+    void CheckDisabled();
 
     //Collision Checks
     virtual bool ToBox(BoxCollider& box) noexcept { return false; }

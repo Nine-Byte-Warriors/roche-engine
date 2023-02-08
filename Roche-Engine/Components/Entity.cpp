@@ -363,8 +363,8 @@ void Entity::UpdateColliderLayer()
 
 	if (colliderLayer == "Decoration")
 	{
-		m_colliderCircle->SetLayer(LayerNo::Decorations);
-		m_colliderBox->SetLayer(LayerNo::Decorations);
+		m_colliderCircle->SetLayer(LayerNo::Decoration);
+		m_colliderBox->SetLayer(LayerNo::Decoration);
 	}
 	else if (colliderLayer == "Player")
 	{
@@ -378,8 +378,8 @@ void Entity::UpdateColliderLayer()
 	}
 	else if (colliderLayer == "Projectile")
 	{
-		m_colliderCircle->SetLayer(LayerNo::Projectiles);
-		m_colliderBox->SetLayer(LayerNo::Projectiles);
+		m_colliderCircle->SetLayer(LayerNo::Projectile);
+		m_colliderBox->SetLayer(LayerNo::Projectile);
 	}
 }
 

@@ -39,7 +39,7 @@
         "projectileSystem": true,
         "rotation": 4.0,
         "rows": 3,
-        "sColliderLayer": "Decorations",
+        "sColliderLayer": "Decoration",
         "scale": [
             64.0,
             64.0
