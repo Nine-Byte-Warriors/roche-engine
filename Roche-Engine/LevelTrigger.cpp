@@ -30,10 +30,10 @@ void LevelTrigger::PlayerInTrigger(Collider& collider)
 }
 void LevelTrigger::PlayerOutTrigger(Collider& collider)
 {
-	//if (m_currentGamePhase == Phase::DayPhase && m_bEventFired)
-	//{
-	//	EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp); //Change scene to game
-	//}
+	if (m_currentGamePhase == Phase::DayPhase && m_bEventFired)
+	{
+		EventSystem::Instance()->AddEvent(EVENTID::CloseUIPopUp); //Change scene to game
+	}
 	m_bEventFired = false;
 
 }
