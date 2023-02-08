@@ -13,7 +13,7 @@ LevelTrigger::LevelTrigger(const std::shared_ptr<Collider> collider)
 }
 LevelTrigger::~LevelTrigger()
 {
-	//EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevelsWindow, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevelsWindow, this);
 }
 
 void LevelTrigger::PlayerInTrigger(Collider& collider)
@@ -25,6 +25,7 @@ void LevelTrigger::PlayerInTrigger(Collider& collider)
 	if (!m_bEventFired)
 	{
 		OutputDebugStringA("Change Level");
+		EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevelsWindow); //Change scene to game
 		m_bEventFired = true;
 	}
 	//EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevelsWindow); //Change scene to game
@@ -37,9 +38,9 @@ void LevelTrigger::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
-	//case EVENTID::SwapGameLevelsWindow:
-	//		m_bEventFired = true;
-	//	break;
+	case EVENTID::SwapGameLevelsWindow:
+			m_bEventFired = false;
+		break;
 	case EVENTID::CloseUIPopUp:
 			m_bEventFired = false;
 		break;
@@ -50,5 +51,5 @@ void LevelTrigger::HandleEvent(Event* event)
 
 void LevelTrigger::AddToEvent() noexcept
 {
-	//EventSystem::Instance()->AddClient(EVENTID::SwapGameLevelsWindow, this);
+	EventSystem::Instance()->AddClient(EVENTID::SwapGameLevelsWindow, this);
 }
