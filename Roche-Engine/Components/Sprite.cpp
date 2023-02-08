@@ -116,6 +116,9 @@ void Sprite::UpdateBuffers( ID3D11DeviceContext* context )
 
 void Sprite::Update( const float dt )
 {
+	if ( !m_bShouldUpdate )
+		return;
+
 	m_fCurFrameTime += dt;
 	while ( m_fCurFrameTime >= m_fHoldTime )
 	{
