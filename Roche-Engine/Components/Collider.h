@@ -31,9 +31,13 @@ public:
         bool trigger, int entityNum, std::string entityType );
     Collider(Collider& col);
 
+private:
+    bool m_isEnabledCopy;
 protected:
+    bool m_isEnabled = true;
     ColliderType m_type = ColliderType::None;
     bool m_isTrigger = false;
+    bool m_isStatic = false;
     LayerMask m_collisionMask = LayerMask(true, true, true, true);
     LayerNo m_layer = LayerNo::Enemy;
     //std::shared_ptr<Entity> m_entity;
@@ -66,10 +70,16 @@ public:
     inline void SetIsTrigger(bool trigger) noexcept { m_isTrigger = trigger; }
     inline bool GetIsTrigger() noexcept { return m_isTrigger; };
 
+    inline void SetIsEnabled(bool enabled) noexcept { m_isEnabled = enabled; }
+    inline bool GetIsEnabled() noexcept { return m_isEnabled; }
+
+    inline void SetIsStatic(bool isStatic) noexcept { m_isStatic = isStatic; }
+    inline bool GetIsStatic() noexcept { return m_isStatic; };
+
     inline void SetLayer(LayerNo layer) { m_layer = layer; };
     inline LayerNo GetLayer() const noexcept { return m_layer; };
 
-    inline void SetCollisionMask(LayerMask collisionMask) noexcept { m_collisionMask = collisionMask; m_collisionMask = collisionMask; }
+    inline void SetCollisionMask(LayerMask collisionMask) noexcept { m_collisionMask = collisionMask; }
     inline LayerMask GetCollisionMask() noexcept { return m_collisionMask; };
 
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
@@ -92,6 +102,7 @@ public:
 
 
     virtual Vector2f ClosestPoint(Vector2f position) noexcept { return Vector2f(); }
+    void CheckDisabled();
 
     //Collision Checks
     virtual bool ToBox(BoxCollider& box) noexcept { return false; }
