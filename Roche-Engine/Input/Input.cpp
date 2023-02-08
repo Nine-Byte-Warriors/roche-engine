@@ -100,8 +100,8 @@ void Input::UpdateKeyboard( const float dt )
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlantSeed );
 
-		if ( m_keyboard.KeyIsPressed( 'B' ) )
-			EventSystem::Instance()->AddEvent( EVENTID::BuySeed );
+		if (m_keyboard.KeyIsPressed('B'))
+			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
 
 		if ( m_keyboard.KeyIsPressed( 'C' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::GainCoins );

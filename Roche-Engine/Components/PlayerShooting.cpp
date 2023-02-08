@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "PlayerShooting.h"
+#include "AudioEngine.h"
+
+#define PLAYER "Player"
 
 #if _DEBUG
 extern bool g_bDebug;
@@ -11,6 +14,7 @@ void PlayerShooting::Update(float dt)
 	if (m_bIsShooting)
 	{
 		m_pEmitter->EmitProjectile();
+		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityBulletShot", SFX);
 
 		// TODO : alter disabling of shooting dependent on the type of shooting behaviour required
 		m_bIsShooting = false;
