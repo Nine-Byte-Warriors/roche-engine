@@ -62,12 +62,15 @@ private:
 
 	void UpdateProjectilePattern();
 
+	void UpdateCollider();
+
 	void UpdateColliderRadius();
 	void UpdateColliderTrigger();
 	void UpdateColliderLayer();
 	void UpdateColliderMask();
 	void UpdateColliderStatic();
 	void UpdateColliderEnabled();
+	void UpdateColliderShape();
 
 	void UpdateAudio();
 
