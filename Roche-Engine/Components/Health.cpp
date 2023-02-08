@@ -23,7 +23,7 @@ void Health::SetHealth( float maxHealth )
 void Health::TakeDamage( float damageAmount )
 {
 	m_fCurrentHealth -= damageAmount;
-	std::string currhealth = std::to_string(m_fCurrentHealth);
+	std::string currhealth = std::to_string(m_fCurrentHealth) + "\n";
 	OutputDebugStringA(currhealth.c_str());
 
 	if ( m_fCurrentHealth <= 0 )
@@ -45,11 +45,8 @@ void Health::Heal( float healAmount )
 
 void Health::Hit(Collider& collider)
 {
-	if (collider.EntityType() == "Projectile")
-	{
+	if (collider.EntityType() == "PlayerProjectile" && m_sType == "Enemy")
 		TakeDamage(1000);
-		OutputDebugStringA("PROJECTILE \n");
-	}
 }
 
 void Health::AddToEvent() noexcept

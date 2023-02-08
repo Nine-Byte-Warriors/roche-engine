@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ProjectileManager.h"
 
-ProjectileManager::ProjectileManager(Projectile::ProjectileOwner owner)
+ProjectileManager::ProjectileManager(Projectile::ProjectileOwner owner, std::string type)
 {
 	// TODO: should be passed in from Projectile JSON
 	m_fLifeTime = 1.0f;
@@ -14,9 +14,10 @@ ProjectileManager::ProjectileManager(Projectile::ProjectileOwner owner)
 
 	m_vecProjectilePool = std::vector<std::shared_ptr<Projectile>>();
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
-		m_vecProjectilePool.push_back(std::make_shared<Projectile>(fSpeed));
+		m_vecProjectilePool.push_back(std::make_shared<Projectile>(fSpeed, type));
 	
 	m_owner = owner;
+	m_type = type;
 }
 
 ProjectileManager::~ProjectileManager()
@@ -24,18 +25,15 @@ ProjectileManager::~ProjectileManager()
 	m_vecProjectilePool.clear();
 }
 
-std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler ,float fGlobalSpeed, bool bUseGlobalSpeed)
+std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler, std::string type ,float fGlobalSpeed, bool bUseGlobalSpeed)
 {
 	std::vector<std::shared_ptr<Projectile>> vecProjectilePool;
 
 	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
 	{
 		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(
-			bUseGlobalSpeed == true
-			? fGlobalSpeed
-			: pJson.m_fSpeed,
-			pJson.m_fLifeTime
-			);
+			bUseGlobalSpeed == true ? fGlobalSpeed : pJson.m_fSpeed, type, pJson.m_fLifeTime
+		);
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);
@@ -51,7 +49,7 @@ std::vector<std::shared_ptr<Projectile>> ProjectileManager::CreateProjectilePool
 
 }
 
-std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManagers(std::string filepath, CollisionHandler* handler)
+std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManagers(std::string filepath, CollisionHandler* handler, std::string type)
 {
 	std::vector<std::shared_ptr<ProjectileManager>> vecManagers;
 	std::vector<ProjectileData::ManagerJSON> vecManagersJson;
@@ -59,12 +57,13 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 
 	for (ProjectileData::ManagerJSON jMan : vecManagersJson)
 	{
-		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>();
+		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(Projectile::ProjectileOwner::None, type);
 		pManager->SetDelay(jMan.m_fDelay);
 		pManager->SetProjectilePool(
 			CreateProjectilePool(
 				jMan.m_vecProjectiles,
 				handler,
+				type,
 				jMan.m_fGlobalSpeed,
 				jMan.m_bUseGlobalSpeed
 			)
@@ -155,7 +154,7 @@ void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::Project
 
 	for (ProjectileData::ProjectileJSON pJson : vecProjectileJsons)
 	{
-		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, pJson.m_fLifeTime);
+		std::shared_ptr<Projectile> pProjectile = std::make_shared<Projectile>(pJson.m_fSpeed, m_type, pJson.m_fLifeTime);
 		pProjectile->SetDirection(Vector2f(pJson.m_fAngle));
 		pProjectile->SetOffSet(Vector2f(pJson.m_fX, pJson.m_fY));
 		pProjectile->SetWave(pJson.m_fAngle, pJson.m_fAmplitude, pJson.m_fFrequency);

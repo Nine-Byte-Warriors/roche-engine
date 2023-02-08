@@ -2,7 +2,7 @@
 #include "Projectile.h"
 #include "Graphics.h"
 
-Projectile::Projectile(float fSpeed, float fLifeTime)
+Projectile::Projectile(float fSpeed, std::string type, float fLifeTime)
 {
 	m_vSpawnPosition = Vector2f();
 	m_vTargetPosition = Vector2f();
@@ -21,7 +21,7 @@ Projectile::Projectile(float fSpeed, float fLifeTime)
 	m_sprite = std::make_shared<Sprite>();
 	m_transform = std::make_shared<Transform>( m_sprite );
 	m_physics = std::make_shared<Physics>(m_transform);
-	m_collider = std::make_shared<CircleCollider>(m_transform, m_sprite, true, 2, "Projectile", 32);
+	m_collider = std::make_shared<CircleCollider>(m_transform, m_sprite, true, 2, type, 32);
 
 	m_owner = ProjectileOwner::None;
 }

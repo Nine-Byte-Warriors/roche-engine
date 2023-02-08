@@ -41,7 +41,13 @@ void Entity::SetComponents()
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
 	{
-		m_vecProjectileManagers = ProjectileManager::GenerateManagers(m_entityController->GetProjectilePattern(m_iEntityNum), m_collisionHandler);
+		std::string projectiletype = "";
+		if (GetType() == "Player")
+			projectiletype = "PlayerProjectile";
+		else if (GetType() == "Enemy")
+			projectiletype == "EnemyProjectile";
+
+		m_vecProjectileManagers = ProjectileManager::GenerateManagers(m_entityController->GetProjectilePattern(m_iEntityNum), m_collisionHandler, projectiletype);
 		m_emitter = std::make_shared<Emitter>(m_vecProjectileManagers, 0.01f);
 	}
 
@@ -62,26 +68,17 @@ void Entity::SetComponents()
 
 	if (GetType() == "Player")
 	{
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-			pManager->SetOwner(Projectile::ProjectileOwner::Player);
-		
 		m_pController = std::make_shared<PlayerController>(m_physics, m_sprite, m_emitter);
 		m_inventory = std::make_shared<Inventory>();
 	}
 
 	if (GetType() == "Enemy")
 	{
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-			pManager->SetOwner(Projectile::ProjectileOwner::Enemy);
-
 		m_agent->SetEmitter(m_emitter);
 	}
 
 	if (GetType() == "Item")
 	{
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-			pManager->SetOwner(Projectile::ProjectileOwner::Item);
-		
 		m_shopItem = std::make_shared<ShopItem>(GetCollider(), m_entityController->GetName(m_iEntityNum));
 	}
 }

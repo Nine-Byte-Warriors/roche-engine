@@ -12,11 +12,11 @@
 class ProjectileManager
 {
 public:
-	ProjectileManager(Projectile::ProjectileOwner owner = Projectile::ProjectileOwner::None);
+	ProjectileManager(Projectile::ProjectileOwner owner, std::string type);
 	~ProjectileManager();
 
-	static std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler, float fGlobalSpeed, bool bUseGlobalSpeed);
-	static std::vector<std::shared_ptr<ProjectileManager>> GenerateManagers(const std::string filepath, CollisionHandler* handler);
+	static std::vector<std::shared_ptr<Projectile>> CreateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons, CollisionHandler* handler, std::string type, float fGlobalSpeed, bool bUseGlobalSpeed);
+	static std::vector<std::shared_ptr<ProjectileManager>> GenerateManagers(const std::string filepath, CollisionHandler* handler, std::string type);
 
 	void Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
 	void InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename);
@@ -61,6 +61,7 @@ private:
 
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 	Projectile::ProjectileOwner m_owner;
+	std::string m_type;
 };
 
 #endif // !PROJECTILEMANAGER_H
