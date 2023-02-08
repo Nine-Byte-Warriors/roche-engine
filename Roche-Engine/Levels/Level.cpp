@@ -444,18 +444,11 @@ void Level::RemoveEntities()
         m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
     }
 
-    //m_collisionHandler.RemoveAllColliders();
     m_entitiesDeleted.clear();
 
     for (int i = 0; i < m_entity.size(); i++)
-    {
         m_entity[i].UpdateEntityNum(i);
-        //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
-        //if (m_entityController.HasCollider(i))
-        //{
-        //    m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-        //}
-    }
+
 
 #if _DEBUG
     //m_iEntityAmount = m_entityEditor.GetEntityData().size();
