@@ -369,7 +369,7 @@ void Level::UpdateUI( const float dt )
 void Level::UpdateEntity(const float dt)
 {
 #if _DEBUG
-    //m_entityController.SetEntityData(m_entityEditor.GetEntityData());
+    m_entityController.SetEntityData(m_entityEditor.GetEntityData());
 #endif
 
     if (m_iEntityAmount < m_entityController.GetSize())
