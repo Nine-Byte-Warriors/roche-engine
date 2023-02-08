@@ -57,6 +57,11 @@ void Entity::SetComponents()
 		m_colliderCircle = std::make_shared<CircleCollider> (m_transform, m_sprite, trigger, m_iEntityNum, GetType(), 32);
 		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, trigger, m_iEntityNum, GetType(), 32, 32);
 	}
+	else
+	{
+		m_colliderCircle = nullptr;
+		m_colliderBox = nullptr;
+	}
 
 	if (m_colliderBox)
 		m_health = std::make_shared<Health>(GetType(), m_iEntityNum, m_colliderBox);
@@ -100,12 +105,17 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	SetScaleInit();
 	UpdateRotation();
 	UpdateBehaviour();
-	UpdateColliderRadius();
-	UpdateColliderLayer();
-	UpdateColliderEnabled();
-	UpdateColliderStatic();
-	UpdateColliderTrigger();
-	UpdateColliderMask();
+
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		UpdateColliderRadius();
+		UpdateColliderLayer();
+		UpdateColliderEnabled();
+		UpdateColliderStatic();
+		UpdateColliderTrigger();
+		UpdateColliderMask();
+	}
+
 	SetAnimation();
 	UpdateRowsColumns();
 }
@@ -157,12 +167,17 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateSpeed();
 	UpdateProjectilePattern();
 	UpdateTexture();
-	UpdateColliderRadius();
-	UpdateColliderTrigger();
-	UpdateColliderEnabled();
-	UpdateColliderLayer();
-	UpdateColliderMask();
-	UpdateColliderStatic();
+
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		UpdateColliderRadius();
+		UpdateColliderTrigger();
+		UpdateColliderEnabled();
+		UpdateColliderLayer();
+		UpdateColliderMask();
+		UpdateColliderStatic();
+	}
+
 	UpdateAnimation();
 	UpdateRowsColumns();
 	UpdateAudio();
@@ -400,6 +415,11 @@ void Entity::UpdateColliderRadius()
 			m_colliderCircle->SetRadius(0);
 		}
 	}
+	else if (m_colliderCircle == nullptr)
+	{
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, m_sprite, true, m_iEntityNum, GetType(), 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, true, m_iEntityNum, GetType(), 32, 32);
+	}
 }
 
 void Entity::UpdateColliderTrigger()
@@ -414,6 +434,8 @@ void Entity::UpdateColliderTrigger()
 void Entity::UpdateColliderLayer()
 {
 	std::string colliderLayer = m_entityController->GetColliderLayer(m_iEntityNum);
+
+	if (!m_entityController->HasCollider(m_iEntityNum)) return;
 
 	if (colliderLayer == "Decoration")
 	{
@@ -468,6 +490,10 @@ void Entity::UpdateAudio()
 void Entity::UpdateEntityNum(int num)
 {
 	m_iEntityNum = num;
+	if (m_health)
+	{
+		m_health->SetEntityNum(num);
+	}
 }
 
 void Entity::SetAnimation()
@@ -482,8 +508,4 @@ void Entity::SetAnimation()
 
 void Entity::CheckAliveStatus()
 {
-	if ( m_fEntityHealth <= 0.0 )
-	{
-		m_entityController->SetDead( m_iEntityNum );
-	}
 }

@@ -139,7 +139,6 @@ public:
 	inline const std::string GetProjectilePattern(const int iEntityNum) { return m_entityData[iEntityNum].projectilePattern; }
 	inline void SetProjectilePattern(const int iEntityNum, const std::string sPatternFile) { m_entityData[iEntityNum].projectilePattern = sPatternFile; }
 
-
 	bool HasAudio(int num);
 
 	bool HasComponentUpdated();
@@ -147,7 +146,8 @@ public:
 	void UpdateCopy();
 
 	void SetDead(int num);
-	std::vector<int> m_dead;
+	void ClearDead();
+	std::vector<int> GetDead();
 
 	// Inherited via Listener
 	virtual void HandleEvent(Event* event) override;
@@ -160,8 +160,7 @@ private:
 
 	bool m_bComponentUpdated = false;
 
-
-
+	std::vector<int> m_dead;
 };
 
 #endif

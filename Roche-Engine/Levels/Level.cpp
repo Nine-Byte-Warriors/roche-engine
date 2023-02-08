@@ -378,7 +378,7 @@ void Level::UpdateEntity(const float dt)
     {
         AddNewEntity();
     }
-    else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated() || m_entityController.m_dead.size() != 0)
+    else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated() || m_entityController.GetDead().size() != 0)
     {
         RemoveEntities();
     }
@@ -432,7 +432,7 @@ void Level::AddNewEntity()
 
 void Level::RemoveEntities()
 {
-    m_entitiesDeleted = m_entityController.m_dead;
+    m_entitiesDeleted = m_entityController.GetDead();
 
 #if _DEBUG
     //m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
@@ -440,29 +440,30 @@ void Level::RemoveEntities()
 
     for (int i = 0; i < m_entitiesDeleted.size(); i++)
     {
+        m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
         m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
     }
 
-    m_collisionHandler.RemoveAllColliders();
+    //m_collisionHandler.RemoveAllColliders();
     m_entitiesDeleted.clear();
 
     for (int i = 0; i < m_entity.size(); i++)
     {
         m_entity[i].UpdateEntityNum(i);
         //m_entity[i].SetProjectileManagerInit(*m_gfx, m_cbMatrices);
-        if (m_entityController.HasCollider(i))
-        {
-            m_collisionHandler.AddCollider(m_entity[i].GetCollider());
-        }
+        //if (m_entityController.HasCollider(i))
+        //{
+        //    m_collisionHandler.AddCollider(m_entity[i].GetCollider());
+        //}
     }
 
 #if _DEBUG
     //m_iEntityAmount = m_entityEditor.GetEntityData().size();
-    m_iEntityAmount = m_entityController.GetSize();
     m_entityEditor.ClearEntitiesDeleted();
 #endif
 
-    m_entityController.m_dead.clear();
+    m_iEntityAmount = m_entityController.GetSize();
+    m_entityController.ClearDead();
 }
 
 void Level::DisplayEntityMaxHealth(int num)

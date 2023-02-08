@@ -264,14 +264,24 @@ void EntityController::SetDead(int num)
 	m_entityData.erase(m_entityData.begin() + num);
 }
 
+void EntityController::ClearDead()
+{
+	m_dead.clear();
+}
+
+std::vector<int> EntityController::GetDead()
+{
+	return m_dead;
+}
+
 void EntityController::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
 	case EVENTID::EnemyDeath:
 	{
-		int* score = static_cast<int*>(event->GetData());
-		SetDead(*score);
+		int* entityNum = static_cast<int*>(event->GetData());
+		SetDead(*entityNum);
 		break;
 	}
 	default:

@@ -52,3 +52,8 @@ void Health::Hit(Collider& collider)
 		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
 	}
 }
+
+void Health::SetEntityNum(int num)
+{
+	m_iEntityNum = num;
+}

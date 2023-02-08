@@ -18,6 +18,8 @@ public:
 	void Heal( float healAmount );
 	void Hit(Collider& collider);
 
+	void SetEntityNum(int num);
+
 private:
 	int m_iEntityNum;
 	std::string m_sType;
