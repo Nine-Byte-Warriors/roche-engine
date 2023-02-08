@@ -65,12 +65,7 @@ void Entity::Initialize(const Graphics& gfx, ConstantBuffer<Matrices>& mat)
 	SetScaleInit();
 	UpdateRotation();
 	UpdateBehaviour();
-	UpdateColliderRadius();
-	UpdateColliderLayer();
-	UpdateColliderEnabled();
-	UpdateColliderStatic();
-	UpdateColliderTrigger();
-	UpdateColliderMask();
+	UpdateCollider();
 	SetAnimation();
 	UpdateRowsColumns();
 }
@@ -118,12 +113,7 @@ void Entity::UpdateFromEntityData(const float dt, bool positionLocked)
 	UpdateSpeed();
 	UpdateProjectilePattern();
 	UpdateTexture();
-	UpdateColliderRadius();
-	UpdateColliderTrigger();
-	UpdateColliderEnabled();
-	UpdateColliderLayer();
-	UpdateColliderMask();
-	UpdateColliderStatic();
+	UpdateCollider();
 	UpdateAnimation();
 	UpdateRowsColumns();
 	UpdateAudio();
@@ -325,7 +315,24 @@ void Entity::UpdateProjectilePattern() //TODO
 	//	}
 	//}
 }
-
+void Entity::UpdateCollider()
+{
+	if (m_entityController->HasCollider(m_iEntityNum))
+	{
+		UpdateColliderRadius();
+		UpdateColliderLayer();
+		UpdateColliderEnabled();
+		UpdateColliderStatic();
+		UpdateColliderTrigger();
+		UpdateColliderMask();
+		UpdateColliderShape();
+	}
+	else if (m_colliderCircle == nullptr || m_colliderBox == nullptr)
+	{
+		m_colliderCircle = std::make_shared<CircleCollider>(m_transform, m_sprite, true, m_iEntityNum, GetType(), 32);
+		m_colliderBox = std::make_shared<BoxCollider>(m_transform, m_sprite, true, m_iEntityNum, GetType(), 32, 32);
+	}
+}
 void Entity::UpdateColliderRadius()
 {
 	if (m_entityController->HasCollider(m_iEntityNum) && m_colliderCircle != nullptr)
@@ -403,6 +410,11 @@ void Entity::UpdateColliderEnabled()
 	bool isEnabled = m_entityController->GetColliderEnabled(m_iEntityNum);
 	m_colliderCircle->SetIsEnabled(isEnabled);
 	m_colliderBox->SetIsEnabled(isEnabled);
+}
+
+void Entity::UpdateColliderShape()
+{
+	m_sColliderShape = m_entityController->GetColliderShape(m_iEntityNum);
 }
 
 void Entity::UpdateAudio()

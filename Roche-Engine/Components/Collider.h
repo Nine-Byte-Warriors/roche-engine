@@ -51,7 +51,7 @@ protected:
     Vector2f m_lastValidPosition = Vector2f(0, 0);
 
     const int m_maxCollisions = 50;
-    int m_collisionCount = 0;
+    int m_curCollisionCount = 0;
     std::vector<std::shared_ptr<Collider>> m_curCollisions;
     std::map<std::shared_ptr<Collider>, CollisionState> m_collisions;
 
@@ -87,7 +87,7 @@ public:
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
     inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
 
-
+    inline void SetEntityNum(int entityNum) { m_entityNum = entityNum; };
     inline int GetEntityNum() { return m_entityNum; };
     inline std::string EntityType() { return m_entityType; };
 

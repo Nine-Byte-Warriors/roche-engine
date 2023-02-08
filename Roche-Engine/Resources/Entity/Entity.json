@@ -6,7 +6,7 @@
         "animationType": "Walk",
         "audio": false,
         "bColliderEnabled": true,
-        "bColliderInteractDecoration": false,
+        "bColliderInteractDecoration": true,
         "bColliderInteractEnemy": true,
         "bColliderInteractPlayer": true,
         "bColliderInteractProjectile": true,
@@ -115,7 +115,7 @@
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
-        "collider": true,
+        "collider": false,
         "colliderRadius": [
             124.0,
             124.0
@@ -170,7 +170,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Box",
+        "colliderShape": "Circle",
         "columns": 2,
         "health": 100.0,
         "identifier": 3,

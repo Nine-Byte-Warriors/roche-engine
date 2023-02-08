@@ -85,10 +85,10 @@ void Collider::SetTransformPosition(Vector2f position)
 
 void Collider::LogCollision(std::shared_ptr<Collider>& col)
 {
-    if (m_collisionCount < m_maxCollisions)
+    if (m_curCollisionCount < m_maxCollisions)
     {
          m_curCollisions.push_back(col);
-         m_collisionCount++;
+         m_curCollisionCount++;
     }
 }
 
@@ -218,7 +218,7 @@ void Collider::ProcessCollisions()
     for (auto element: leavingColliders)
     {
         m_collisions.erase( element );
-        m_collisionCount--;
+        //m_curCollisionCount--;
     }
 }
 
@@ -230,6 +230,7 @@ void Collider::Update()
 
     RemoveDuplicateElements<std::shared_ptr<Collider>>(m_curCollisions);
     ManageCollisions();
+    m_curCollisionCount = 0;
     ProcessCollisions();
 }
 
