@@ -74,7 +74,7 @@ void Health::Hit(Collider& collider)
 	{
 		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
 		TakeDamage(1);
-
+	}
 	if (collider.EntityType() == "Enemy" && m_sType == "Player")
 	{
 		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
