@@ -87,7 +87,7 @@ public:
     inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
     inline void SetTransform(std::shared_ptr<Transform> tf) noexcept { m_transform = tf; }
 
-
+    inline void SetEntityNum(int entityNum) { m_entityNum = entityNum; };
     inline int GetEntityNum() { return m_entityNum; };
     inline std::string EntityType() { return m_entityType; };
 
