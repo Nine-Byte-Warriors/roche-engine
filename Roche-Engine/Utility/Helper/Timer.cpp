@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Timer.h"
 
 float Timer::GetDeltaTime( bool capAt60FPS )
 {

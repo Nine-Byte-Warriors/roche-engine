@@ -2,7 +2,6 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
-#include "Vector2f.h"
 #include "Transform.h"
 
 class Physics
@@ -32,7 +31,7 @@ public:
 	// update forces
 	virtual void Update( const float dt );
 	virtual void ResetForces();
-	
+
 	inline void AddForce( Vector2f force ) noexcept { m_vNetForce += force; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 protected:

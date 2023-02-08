@@ -2,10 +2,8 @@
 #ifndef EVENTSYSTEM_H
 #define EVENTSYSTEM_H
 
-#include "Listener.h"
 #include "Event.h"
-#include <list>
-#include <map>
+#include "Listener.h"
 
 /// <summary>
 /// To add to the event system with a listener
@@ -14,7 +12,7 @@
 ///		EventSystem::Instance()->AddEvent(EVENTID::Event1, data); data is not needed but possible
 /// In the update you need to execute the event buffer with
 ///		EventSystem::Instance()->ProcessEvents();
-/// 
+///
 /// List of events stored in Event.h
 /// To create new listener type new class inherrited from listener needed
 /// </summary>

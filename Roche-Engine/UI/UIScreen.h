@@ -60,12 +60,11 @@ private:
 	XMFLOAT2 m_fBoxPos, m_fBoxSize;
 	float m_fCurrentY;
 
-	// Inventory data
+	// Global data
 	Inventory m_inventory;
 	Health* m_pPlayerHealth;
-
 	ScoreBoard m_scoreBoard;
-
+  
 	// Button state textures
 	std::vector<std::string> m_textures =
 	{

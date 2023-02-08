@@ -3,8 +3,6 @@
 #define IMGUIMANAGER_H
 
 #if _DEBUG
-#include "EventSystem.h"
-#include <Vector2f.h>
 
 /// <summary>
 /// The main manager class for setting up ImGui components.

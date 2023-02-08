@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "WindowContainer.h"
-#include <Vector2f.h>
-#include "MouseCapture.h"
 
 #if _DEBUG
 extern bool g_bDebug;
-#include <imgui/imgui.h>
+#include "MouseCapture.h"
 #endif
 
 WindowContainer::WindowContainer()
@@ -107,13 +105,13 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
             if ( !wasPressed )
                 m_keyboard.OnKeyPressed( keycode );
         }
-        switch ( wParam )
-        {
-        case VK_ESCAPE:
-            DestroyWindow( m_renderWindow.GetHWND() );
-            PostQuitMessage( 0 );
-            return 0;
-        }
+        //switch ( wParam )
+        //{
+        //case VK_ESCAPE:
+        //    DestroyWindow( m_renderWindow.GetHWND() );
+        //    PostQuitMessage( 0 );
+        //    return 0;
+        //}
         return 0;
     }
 

@@ -2,8 +2,6 @@
 #ifndef RENDERWINDOW_H
 #define RENDERWINDOW_H
 
-#include "EventSystem.h"
-
 class WindowContainer;
 class RenderWindow : public Listener
 {

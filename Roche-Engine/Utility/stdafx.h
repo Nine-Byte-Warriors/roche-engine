@@ -2,16 +2,22 @@
 #ifndef STDAFX_H
 #define STDAFX_H
 
+#if _DEBUG
+#include <imgui/imgui.h>
+#endif
+
 #include <memory>
 #include <algorithm>
+#include <functional>
 
 // Data Structures
 #include <unordered_map>
-#include <string>
 #include <sstream>
 #include <fstream>
+#include <string>
 #include <vector>
 #include <array>
+#include <list>
 #include <map>
 
 // Windows API
@@ -27,5 +33,8 @@ using namespace DirectX;
 
 // Classes
 #include "ErrorLogger.h"
+#include "EventSystem.h"
+#include "Vector2f.h"
+#include "Timer.h"
 
 #endif

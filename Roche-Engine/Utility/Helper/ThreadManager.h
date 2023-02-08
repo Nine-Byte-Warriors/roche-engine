@@ -3,7 +3,6 @@
 #define THREADMANAGER_H
 
 #include <thread>
-#include <functional>
 
 class ThreadManager
 {

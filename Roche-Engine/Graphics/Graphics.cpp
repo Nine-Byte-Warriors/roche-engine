@@ -3,7 +3,6 @@
 
 #if _DEBUG
 extern bool g_bDebug;
-#include <imgui/imgui.h>
 #endif
 
 bool Graphics::Initialize( HWND hWnd, UINT width, UINT height )

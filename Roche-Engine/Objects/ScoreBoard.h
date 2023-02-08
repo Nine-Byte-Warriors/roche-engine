@@ -2,7 +2,6 @@
 #ifndef SCOREBOARD_H
 #define SCOREBOARD_H
 
-#include "EventSystem.h"
 #include "JsonLoading.h"
 
 struct ScoreBoardStr

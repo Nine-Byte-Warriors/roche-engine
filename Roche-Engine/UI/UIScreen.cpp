@@ -99,6 +99,11 @@ void UIScreen::Update( const float dt )
 					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
 						EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
+			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
+			{
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
+			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
@@ -358,7 +363,7 @@ void UIScreen::Update( const float dt )
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve( "0000000", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png" );
+				m_vWidgets[i]->GetImageWidget()->Resolve(std::to_string( m_inventory.GetCoinCount() ), Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 			if ( m_vWidgets[i]->GetAction() == "Score Label" )
 			{

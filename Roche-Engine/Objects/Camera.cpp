@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "Sprite.h"
-#include "EventSystem.h"
 
 #if _DEBUG
-#include <imgui/imgui.h>
 extern bool g_bDebug;
 #endif
 

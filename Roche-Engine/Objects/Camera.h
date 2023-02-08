@@ -2,8 +2,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "EventSystem.h"
-
 /// <summary>
 /// Creates a 2D camera which creates an orthographic view on the scene.
 /// Used primarily for rendering sprites such as UI components.

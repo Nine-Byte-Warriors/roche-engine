@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Input.h"
-#include <functional>
 
 #if _DEBUG
 extern bool g_bDebug;
@@ -86,37 +85,36 @@ void Input::UpdateKeyboard( const float dt )
 		Keyboard::KeyboardEvent kbe = m_keyboard.ReadKey();
 		unsigned char keycode = kbe.GetKeyCode();
 
+#if _DEBUG
 		// Set cursor enabled/disabled
 		if ( keycode == VK_HOME )
 			EnableCursor();
 		else if ( keycode == VK_END )
 			DisableCursor();
 
-		if ( m_keyboard.KeyIsPressed( 'B' ) )
-			EventSystem::Instance()->AddEvent(EVENTID::BuySeedAttempt);
-
-#if _DEBUG
 		if ( keycode == VK_F1 )
 			g_bDebug = true;
 		else if ( keycode == VK_F2 )
 			g_bDebug = false;
-#endif
 
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlantSeed );
-		
-		if ( m_keyboard.KeyIsPressed( 'Y' ) )
+
+		if ( m_keyboard.KeyIsPressed( 'B' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::BuySeed );
+
+		if ( m_keyboard.KeyIsPressed( 'C' ) )
+			EventSystem::Instance()->AddEvent( EVENTID::GainCoins );
 
 		if ( m_keyboard.KeyIsPressed( 'L' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerDamage );
-		
+
 		if ( m_keyboard.KeyIsPressed( 'K' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerHeal );
+#endif
 
-        // Close game
         if ( keycode == VK_ESCAPE )
-            EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+            EventSystem::Instance()->AddEvent( EVENTID::PauseGame );
 	}
 
 	// convert keybinds for processing

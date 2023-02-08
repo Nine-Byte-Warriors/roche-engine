@@ -36,7 +36,7 @@ enum class EVENTID
 
 	// Game Events
 	GamePauseEvent,
-	GameUnPauseEvent,
+	GameUnpauseEvent,
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
@@ -68,9 +68,11 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
-	BuySeedAttempt,
+	UpdateSeed,
+	GainCoins,
 
 	//UI
+	LevelOnCreateUI,
 	StartGame,
 	OpenCredits,
 	OpenSettings,
@@ -84,7 +86,9 @@ enum class EVENTID
 	CurrentGamePhase,
 	BackToMainMenu,
 	WinWindow,
-	LossWindow,
+	// PlayerDeath, // Added below, affects UI as well
+	// GameRestartEvent, // Added in game events, affects UI as well
+	SwapGameLevelsWindow,
 	SwapGameLevels,
 	CloseUIPopUp,
 	OpenLeaderboard,
