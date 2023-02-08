@@ -58,6 +58,12 @@ void Health::Hit(Collider& collider)
 		TakeDamage(1);
 		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
 	}
+
+	if (collider.EntityType() == "Enemy" && m_sType == "Player")
+	{
+		TakeDamage(1);
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
+	}
 }
 
 void Health::SetEntityNum(int num)
