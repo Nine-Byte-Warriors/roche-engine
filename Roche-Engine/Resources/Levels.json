@@ -1,6 +1,6 @@
 [
     {
-        "audio": "!SoundBankList.json",
+        "audio": "!Game.json",
         "entity": "Entity_Game.json",
         "name": "Game",
         "tmBack": "BaseGameMap-background.json",
@@ -8,7 +8,7 @@
         "ui": "Game.json"
     },
     {
-        "audio": "!SoundBankList.json",
+        "audio": "!Loading.json",
         "entity": "Entity_Menu.json",
         "name": "Loading",
         "tmBack": "Loading-background.json",
@@ -16,7 +16,7 @@
         "ui": "Loading.json"
     },
     {
-        "audio": "!SoundBankList.json",
+        "audio": "!Menu.json",
         "entity": "Entity_Menu.json",
         "name": "Menu",
         "tmBack": "Loading-background.json",
@@ -24,7 +24,7 @@
         "ui": "Menu.json"
     },
     {
-        "audio": "!SoundBankList.json",
+        "audio": "!Shop.json",
         "entity": "Entity_Shop.json",
         "name": "Shop",
         "tmBack": "Shop-background.json",

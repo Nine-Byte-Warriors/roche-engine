@@ -522,37 +522,41 @@ void Level::UpdateTileMapPlanting(const float dt)
     int drawLayer = 1;
     float radius = 200.0f;
 
-    bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered;
-    if (isDrawOnMapAvalibleForPlayer)
+    bool isPlayerNearTheMouse = m_tileMapPaintOnMap.IsNearTheMouse(m_entity[player].GetTransform()->GetPosition(),
+        m_entity[player].GetSprite()->GetWidthHeight() / 2, radius);
+
+    if (isPlayerNearTheMouse)
     {
-        int seedNum = m_entity[player].GetInventory()->GetActiveSeedPacket();
-        std::string seedString = m_entity[player].GetInventory()->GetName();
-        int entityNum = m_entityController.GetEntityNumFromName(seedString);
-
-        bool isPlayerNearTheMouse = m_tileMapPaintOnMap.IsNearTheMouse(m_entity[player].GetTransform()->GetPosition(),
-            m_entity[player].GetSprite()->GetWidthHeight() / 2, radius);
-
-        if (isPlayerNearTheMouse)
+        bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered;
+        if (isDrawOnMapAvalibleForPlayer)
         {
+            int seedNum = m_entity[player].GetInventory()->GetActiveSeedPacket();
+            std::string seedString = m_entity[player].GetInventory()->GetName();
+            int entityNum = m_entityController.GetEntityEnemyNumFromName(seedString);
+
             std::string texture = m_entity[player].GetInventory()->GetTexture();
 
             int spawnPos = m_tileMapPaintOnMap.GetTileMapPos();
 
-                m_entity[player].GetInventory()->GetActiveSeedPacketCount();
+            m_entity[player].GetInventory()->GetActiveSeedPacketCount();
 
-                bool isTilePlantable =
-                    m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
-                    !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
-                    m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
-                    m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
+            bool isTilePlantable =
+                !m_tileMapLoader.GetTileTypeName(0, spawnPos).contains("Concrete") &&
+                !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Concrete") &&
+                !m_tileMapLoader.GetTileTypeName(0, spawnPos).contains("Wood") &&
+                !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Wood") &&
+                !m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos).contains("transparent") &&
+                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
+                !m_entitySpawner.IsEntityPosTaken(spawnPos);// &&
+                //m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
-            if (isTilePlantable)
+            if (isTilePlantable || !m_entitySpawner.IsPhaseNight())
             {
                 m_tileMapLoader.UpdateTileType(drawLayer, spawnPos, m_entity[player].GetInventory()->GetName());
                 m_tileMapDrawLayers[drawLayer][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
 
-                Vector2f spawnMapPos = m_tileMapPaintOnMap.GetMapPos(m_entity[player].GetTransform()->GetPosition(),
-                    m_entity[entityNum].GetSprite()->GetWidthHeight() / 2);
+                Vector2f offset = m_entityController.GetEnemyWidthHeight(entityNum) / 2;
+                Vector2f spawnMapPos = m_tileMapPaintOnMap.GetMapPos(m_entity[player].GetTransform()->GetPosition(), offset);
                 m_entitySpawner.AddEntityToSpawn(entityNum, spawnPos, spawnMapPos);
 
                 std::pair<std::string, int>* seedattempt = new std::pair<std::string, int>();
@@ -569,7 +573,7 @@ void Level::UpdateTileMapPlanting(const float dt)
     bool isNightTime = tempTime > nightTime;
     const float spawnTimmer = 0.5f;
     if (m_entitySpawner.IsPhaseNight() || isNightTime)
-    {
+    { 
         static float timmer = spawnTimmer;
         timmer += dt;
 
@@ -593,6 +597,13 @@ void Level::UpdateTileMapPlanting(const float dt)
                 count = 0;
                 m_entitySpawner.EntitiesAdded();
             }
+        }
+
+        bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth == 0;
+        if (isAllEnemiesDead)
+        {
+            m_phase = Phase::DayPhase;
+            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase, &m_phase);
         }
     }
 }

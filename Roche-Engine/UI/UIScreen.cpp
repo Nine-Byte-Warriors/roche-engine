@@ -107,13 +107,13 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
 					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
 						EventSystem::Instance()->AddEvent( EVENTID::StartGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
@@ -216,8 +216,8 @@ void UIScreen::Update( const float dt )
 				{
 					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
-					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, AudioEngine::GetInstance()->GetMasterVolume() * 100);
+					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f;
 					AudioEngine::GetInstance()->SetMasterVolume( sliderData );
 				}
 			}
@@ -228,8 +228,8 @@ void UIScreen::Update( const float dt )
 				{
 					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
 						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
-						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i );
-					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData();
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, AudioEngine::GetInstance()->GetMusicVolume() * 100);
+					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f;
 					AudioEngine::GetInstance()->SetMusicVolume( sliderData );
 				}
 			}

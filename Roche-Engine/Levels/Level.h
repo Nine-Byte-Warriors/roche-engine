@@ -127,6 +127,8 @@ private:
 
 	float m_fMaxHealth = 0;
 	float* m_fCurrentHealth = new float;
+
+	Phase m_phase;
 };
 
 #endif

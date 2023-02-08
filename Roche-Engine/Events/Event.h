@@ -47,6 +47,9 @@ enum class EVENTID
 	GetPhase,
 	CurrentDay,
 	GameRestartEvent,
+	PlayDayMusic,
+	PlayShopMusic,
+	PlayMainMenuMusic,
 
 	// Camera Actions
 	MoveUp,
