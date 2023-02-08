@@ -51,9 +51,6 @@ public:
 	std::string GetType();
 	void UpdateEntityNum(int num);
 
-	void CheckAliveStatus();
-	void TomatoKamikaze();
-
 private:
 	void SetPositionInit();
 	void SetScaleInit();
@@ -72,8 +69,8 @@ private:
 	void UpdateSpeed();
 
 	void UpdateBehaviour();
-
 	void UpdateProjectilePattern();
+
 	void UpdateCollider();
 	void UpdateColliderRadius();
 	void UpdateColliderTrigger();
@@ -81,14 +78,11 @@ private:
 	void UpdateColliderMask();
 	void UpdateColliderStatic();
 	void UpdateColliderEnabled();
+	void UpdateColliderShape();
 
 	void UpdateAudio();
 
-
 	int m_iEntityNum;
-
-	float m_fEntityHealth = 100.0;
-
 	ID3D11Device* m_device;
 	ID3D11DeviceContext* m_context;
 	ConstantBuffer<Matrices>* m_mat;
