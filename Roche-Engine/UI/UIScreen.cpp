@@ -107,7 +107,7 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
 						EventSystem::Instance()->AddEvent( EVENTID::StartGame );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
