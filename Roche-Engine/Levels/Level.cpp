@@ -562,8 +562,6 @@ void Level::UpdateTileMapPlanting(const float dt)
 
             m_entity[player].GetInventory()->GetActiveSeedPacketCount();
 
-            auto temp2 = m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos);
-
             bool isTilePlantable =
                 !m_tileMapLoader.GetTileTypeName(0, spawnPos).contains("Concrete") &&
                 !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Concrete") &&
