@@ -5,14 +5,19 @@
 
 EntityController::EntityController()
 {
-	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
-	m_entityDataCopy = m_entityData;
+	SetJsonFile(JsonFile);
 }
 
 void EntityController::SetJsonFile( const std::string& name )
 {
-	JsonFile = name;
-	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + JsonFile);
+	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + name);
+	JsonLoading::LoadJson(m_entityEnemyData, FOLDER_PATH + name);
+	RemoveNonEnemiesFromEntityEnemyData();
+
+#ifdef _DEBUG
+#else
+	RemoveEnemiesFromEntityData();
+#endif
 	m_entityDataCopy = m_entityData;
 }
 
@@ -30,6 +35,18 @@ int EntityController::GetEntityNumFromName(std::string name)
 	for (int i = 0; i < m_entityData.size(); i++)
 	{
 		if (GetName(i).contains(name) && !GetName(i).contains("Item"))
+		{
+			return i;
+		}
+	}
+	return 0;
+}
+
+int EntityController::GetEntityEnemyNumFromName(std::string name)
+{
+	for (int i = 0; i < m_entityEnemyData.size(); i++)
+	{
+		if (m_entityEnemyData[i].name.contains(name) && !m_entityEnemyData[i].name.contains("Item"))
 		{
 			return i;
 		}
@@ -85,6 +102,12 @@ std::string EntityController::GetAnimationFile(int num)
 std::string EntityController::GetAnimationType(int num)
 {
 	return m_entityData[num].animationType;
+}
+
+Vector2f EntityController::GetEnemyWidthHeight(int num)
+{
+	Vector2f widthHeight = Vector2f(m_entityEnemyData[num].scale[0], m_entityEnemyData[num].scale[1]);
+	return widthHeight;
 }
 
 int EntityController::GetRows(int num)
@@ -259,5 +282,35 @@ void EntityController::UpdateCopy()
 void EntityController::SetDead(int num)
 {
 	m_dead.push_back(num);
+}
+
+void EntityController::RemoveEnemiesFromEntityData()
+{
+	int num = 0;
+	int entityDataSize = m_entityData.size();
+	for (int i = 0; i < entityDataSize; i++)
+	{
+		if (GetType(num) == "Enemy")
+		{
+			m_entityData.erase(m_entityData.begin() + num);
+			num--;
+		}
+		num++;
+	}
+}
+
+void EntityController::RemoveNonEnemiesFromEntityEnemyData()
+{
+	int num = 0;
+	int entityDataSize = m_entityEnemyData.size();
+	for (int i = 0; i < entityDataSize; i++)
+	{
+		if (m_entityEnemyData[num].type != "Enemy")
+		{
+			m_entityEnemyData.erase(m_entityEnemyData.begin() + num);
+			num--;
+		}
+		num++;
+	}
 }
 

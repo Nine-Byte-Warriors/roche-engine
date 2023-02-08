@@ -36,6 +36,14 @@ private:
 	// Inherited via Listener
 	virtual void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
+
+	void DayPhase();
+	void NightPhase();
+	void UpdateBrigtness();
+
+	float* m_fRedOverlay = new float;
+	float* m_fGreenOverlay = new float;
+	float* m_fBlueOverlay = new float;
 };
 
 #endif // !GAMEMANAGER_H

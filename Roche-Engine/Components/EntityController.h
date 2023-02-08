@@ -92,6 +92,7 @@ public:
 	int GetSize();
 
 	int GetEntityNumFromName(std::string name);
+	int GetEntityEnemyNumFromName(std::string name);
 
 	std::string GetName(int num);
 	std::string GetType(int num);
@@ -103,6 +104,8 @@ public:
 	std::vector<int> GetMaxFrame(int num);
 	std::string GetAnimationFile(int num);
 	std::string GetAnimationType(int num);
+
+	Vector2f GetEnemyWidthHeight(int num);
 
 	int GetRows(int num);
 	int GetColumns(int num);
@@ -138,7 +141,6 @@ public:
 	inline const std::string GetProjectilePattern(const int iEntityNum) { return m_entityData[iEntityNum].projectilePattern; }
 	inline void SetProjectilePattern(const int iEntityNum, const std::string sPatternFile) { m_entityData[iEntityNum].projectilePattern = sPatternFile; }
 
-
 	bool HasAudio(int num);
 
 	bool HasComponentUpdated();
@@ -149,13 +151,16 @@ public:
 	std::vector<int> m_dead;
 
 private:
+	void RemoveEnemiesFromEntityData();
+	void RemoveNonEnemiesFromEntityEnemyData();
+	
 	std::string JsonFile = "Entity.json";
 
+	std::vector<EntityData> m_entityEnemyData;
 	std::vector<EntityData> m_entityData;
 	std::vector<EntityData> m_entityDataCopy;
 
 	bool m_bComponentUpdated = false;
-
 };
 
 #endif
