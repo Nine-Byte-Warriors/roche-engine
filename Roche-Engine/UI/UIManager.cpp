@@ -147,9 +147,11 @@ void UIManager::HandleEvent(Event* event)
 		break;
 		case EVENTID::PauseGame:
 		{
-			HideAllUI();
-			ShowUI("Pause_Widgets");
-			EventSystem::Instance()->AddEvent(EVENTID::GamePauseEvent);
+			if (m_sCurrentLevel == "Game") {
+				HideAllUI();
+				ShowUI("Pause_Widgets");
+				EventSystem::Instance()->AddEvent(EVENTID::GamePauseEvent);
+			}
 		}
 		break;
 		case EVENTID::ResumeGame:
