@@ -10,8 +10,6 @@ Health::Health(std::string type, int entityNum, std::shared_ptr<Collider> collid
 
 	std::function<void(Collider&)> f = std::bind(&Health::Hit, this, std::placeholders::_1);
 	collider->AddOnEnterCallback(f);
-
-	AddToEvent();
 }
 
 void Health::SetHealth( float maxHealth )
@@ -46,32 +44,11 @@ void Health::Heal( float healAmount )
 void Health::Hit(Collider& collider)
 {
 	if (collider.EntityType() == "PlayerProjectile" && m_sType == "Enemy")
-		TakeDamage(1000);
-}
+		TakeDamage(1);
 
-void Health::AddToEvent() noexcept
-{
-	EventSystem::Instance()->AddClient( EVENTID::PlayerDamage, this );
-	EventSystem::Instance()->AddClient( EVENTID::PlayerHeal, this );
-}
-
-void Health::RemoveFromEvent() noexcept
-{
-	EventSystem::Instance()->RemoveClient( EVENTID::PlayerDamage, this );
-	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHeal, this );
-}
-
-void Health::HandleEvent( Event* event )
-{
-	switch ( event->GetEventID() )
+	if (collider.EntityType() == "EnemyProjectile" && m_sType == "Player")
 	{
-	case EVENTID::PlayerDamage:
-		if ( m_sType == "Player" )
-			TakeDamage( 1 );
-		break;
-	case EVENTID::PlayerHeal:
-		if ( m_sType == "Player" )
-			Heal( 1 );
-		break;
+		TakeDamage(1);
+		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
 	}
 }
