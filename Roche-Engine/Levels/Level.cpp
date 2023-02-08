@@ -530,7 +530,7 @@ void Level::UpdateTileMapPlanting(const float dt)
         bool* isPlayerNearTheMousePtr = new bool;
         int* temp = new int;
         *temp = 5;
-        EventSystem::Instance()->AddEvent(EVENTID::PlayerNearTheMouse, temp);
+        //EventSystem::Instance()->AddEvent(EVENTID::PlayerNearTheMouse, temp);
 
         bool isDrawOnMapAvalibleForPlayer = m_tileMapPaintOnMap.IsLeftMouseDown() && m_bIsWindowHovered;
         if (isDrawOnMapAvalibleForPlayer)
@@ -545,10 +545,16 @@ void Level::UpdateTileMapPlanting(const float dt)
 
             m_entity[player].GetInventory()->GetActiveSeedPacketCount();
 
+            auto temp2 = m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos);
+
             bool isTilePlantable =
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "DIRT" &&
-                !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
-                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot";// &&
+                !m_tileMapLoader.GetTileTypeName(0, spawnPos).contains("Concrete") &&
+                !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Concrete") &&
+                !m_tileMapLoader.GetTileTypeName(0, spawnPos).contains("Wood") &&
+                !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Wood") &&
+                !m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos).contains("transparent") &&
+                m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
+                !m_entitySpawner.IsEntityPosTaken(spawnPos);// &&
                 //m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
             if (isTilePlantable)
@@ -598,6 +604,13 @@ void Level::UpdateTileMapPlanting(const float dt)
                 count = 0;
                 m_entitySpawner.EntitiesAdded();
             }
+        }
+
+        bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth == 0;
+        if (isAllEnemiesDead)
+        {
+            Phase phase = Phase::DayPhase;
+            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase, &phase);
         }
     }
 }
