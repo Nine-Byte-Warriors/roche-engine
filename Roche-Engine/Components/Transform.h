@@ -3,7 +3,6 @@
 #define TRANSFORM_H
 
 #include "Sprite.h"
-#include "Vector2f.h"
 
 /// <summary>
 /// Container for all game objects.

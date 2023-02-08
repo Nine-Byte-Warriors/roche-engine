@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "Agent.h"
 
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
-
 using namespace AILogic;
 
 Agent::Agent(const std::shared_ptr<Physics>& physics) : m_physics(physics)

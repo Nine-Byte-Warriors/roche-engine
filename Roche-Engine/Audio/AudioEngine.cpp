@@ -6,10 +6,6 @@ AudioEngine* AudioEngine::m_pAudioEngineInstance{ nullptr };
 std::mutex AudioEngine::m_mutex;
 
 AudioEngine::AudioEngine() : m_pXAudio2(nullptr), m_pMasterVoice(nullptr) {
-	// REMOVE WHEN WE WILL ACTUALLY HANDLE IT FROM THE LEVEL EDITOR SIDE
-	m_vSoundBankNamesList.push_back("SoundBankTest1");
-	m_vSoundBankNamesList.push_back("SoundBankTest2");
-	m_vSoundBankNamesList.push_back("SoundBankTest3");
 }
 
 AudioEngine::~AudioEngine()

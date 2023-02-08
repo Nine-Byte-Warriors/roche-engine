@@ -12,7 +12,6 @@
 #include "DepthStencil.h"
 #include "RenderTarget.h"
 #include "ConstantBuffer.h"
-#include "EventSystem.h"
 #include "Shader_Data.h"
 
 class Graphics : public Listener

@@ -45,7 +45,7 @@
         "zindex": 2
     },
     {
-        "action": "Close",
+        "action": "Back To Menu",
         "hide": false,
         "name": "Quit",
         "position": [

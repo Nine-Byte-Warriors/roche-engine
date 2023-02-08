@@ -2,8 +2,6 @@
 #ifndef HEALTH_H
 #define HEALTH_H
 
-#include "EventSystem.h"
-
 class Health : public Listener
 {
 public:

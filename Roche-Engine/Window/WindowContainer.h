@@ -4,11 +4,9 @@
 
 #include "Mouse.h"
 #include "Keyboard.h"
-#include "Vector2f.h"
 #include "RenderWindow.h"
-#include "EventSystem.h"
 
-class WindowContainer : public Listener	
+class WindowContainer : public Listener
 {
 public:
 	WindowContainer();

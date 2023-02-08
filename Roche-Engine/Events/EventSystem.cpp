@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "EventSystem.h"
 
 /// Might not be the most efficient Event System in the world (lots of If statements, there might be a way to grab all multimap of type X but i cba)
 ///	Might not even be more efficient because it might have to also itterate like a for loop
@@ -17,7 +16,7 @@ void EventSystem::AddClient( EVENTID eventid, Listener* client )
 
 bool EventSystem::IsRegistered( EVENTID eventid, Listener* client )
 {
-	// Assume the client isnt registered 
+	// Assume the client isnt registered
 	bool exists = false;
 
 	// Iterates the current list of listeners to check if there is a duplicate

@@ -2,7 +2,6 @@
 #ifndef PLAYER_SHOOTING_H
 #define PLAYER_SHOOTING_H
 
-#include "EventSystem.h"
 #include "Emitter.h"
 
 class PlayerShooting : public Listener

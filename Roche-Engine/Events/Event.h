@@ -21,6 +21,13 @@ enum class EVENTID
 	MiddleMouseClick,
 	MiddleMouseRelease,
 
+	KeyInputUpdate_Up,
+	KeyInputUpdate_Left,
+	KeyInputUpdate_Down,
+	KeyInputUpdate_Right,
+	KeyInputUpdate_Dash,
+	KeyInputUpdate_Interact,
+
 	// Level System
 	SetNextLevelEvent,
 	SetCurrentLevelEvent,
@@ -29,7 +36,7 @@ enum class EVENTID
 
 	// Game Events
 	GamePauseEvent,
-	GameUnPauseEvent,
+	GameUnpauseEvent,
 	GameSettingsEvent,
 	GameLevelChangeEvent,
 	GameEndLevelEvent,
@@ -51,6 +58,7 @@ enum class EVENTID
 	PlayerPosition,
 	PlayerFire,
 	PlayerDash,
+	PlayerInteract,
 	TargetPosition,
 	TogglePlayerMovement,
 
@@ -60,9 +68,11 @@ enum class EVENTID
 	PlantSeedAttempt,
 	PlantSeed,
 	BuySeed,
-	BuySeedAttempt,
+	UpdateSeed,
+	GainCoins,
 
 	//UI
+	LevelOnCreateUI,
 	StartGame,
 	OpenCredits,
 	OpenSettings,
@@ -76,13 +86,18 @@ enum class EVENTID
 	CurrentGamePhase,
 	BackToMainMenu,
 	WinWindow,
-	LossWindow,
+	// PlayerDeath, // Added below, affects UI as well
+	// GameRestartEvent, // Added in game events, affects UI as well
+	SwapGameLevelsWindow,
 	SwapGameLevels,
 	CloseUIPopUp,
 	OpenLeaderboard,
 	UpdateScore,
 	ResetScore,
 	SaveScore,
+	RedOverlayColour,
+	GreenOverlayColour,
+	BlueOverlayColour,
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG

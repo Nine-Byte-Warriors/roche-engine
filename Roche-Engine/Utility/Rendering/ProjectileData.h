@@ -1,3 +1,6 @@
+#ifndef PROJECTILEDATA_H
+#define PROJECTILEDATA_H
+
 #include <string>
 #include "JsonLoading.h"
 
@@ -16,7 +19,7 @@ namespace ProjectileData {
 		//onDeathEvent or endOfLifeTimeEvent
 	};
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ProjectileJSON, m_fSpeed, m_fLifeTime, m_fDelay, m_fX, m_fY, m_fAngle, m_fAmplitude, m_fFrequency);
-	
+
 	struct ManagerJSON
 	{
 		std::string m_sID;
@@ -35,3 +38,5 @@ namespace ProjectileData {
 	};
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ManagerJSON, m_sID, m_sName, m_sImagePath, m_fWidth, m_fHeight, m_fDelay, m_iCount, m_bLoop, m_vecProjectiles);
 }
+
+#endif

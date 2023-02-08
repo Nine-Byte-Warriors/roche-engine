@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ImGuiManager.h"
+
 #if _DEBUG
-#include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 
@@ -113,11 +113,18 @@ void ImGuiManager::SpawnMenuBar() noexcept
         static bool openLink = true;
         if ( ImGui::BeginMenu( "Help" ) )
         {
-            if ( openLink )
+            if ( ImGui::MenuItem( "Wiki", NULL, showControlsWindow ) )
             {
-                openLink = false;
-                ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors/roche-engine/wiki", 0, 0, SW_SHOW );
+                if ( openLink )
+                {
+                    openLink = false;
+                    ShellExecute( 0, 0, L"https://github.com/Nine-Byte-Warriors/roche-engine/wiki", 0, 0, SW_SHOW );
+                }
             }
+
+            if ( ImGui::MenuItem( "Close", NULL, showControlsWindow ) )
+                EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
+
             ImGui::EndMenu();
         }
         else

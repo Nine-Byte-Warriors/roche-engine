@@ -2,9 +2,7 @@
 #ifndef TILEMAPPAINTONMAP_H
 #define TILEMAPPAINTONMAP_H
 
-#include "EventSystem.h"
 #include "Camera.h"
-#include <Vector2f.h>
 
 class TileMapPaintOnMap : public Listener
 {
@@ -31,7 +29,7 @@ private:
 	int m_iTileX;
 	int m_iTileY;
 	int m_iPos;
-	
+
 	int m_iStartingPosX;
 	int m_iStartingPosY;
 

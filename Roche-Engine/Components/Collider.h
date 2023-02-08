@@ -2,10 +2,8 @@
 #ifndef COLLIDER_H
 #define COLLIDER_H
 
-#include "Vector2f.h"
 #include "Transform.h"
 #include "LayerMask.h"
-#include <functional>
 
 const enum class ColliderType
 {

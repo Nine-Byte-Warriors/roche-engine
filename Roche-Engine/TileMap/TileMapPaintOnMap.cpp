@@ -48,8 +48,7 @@ bool TileMapPaintOnMap::IsLeftMouseDown()
 
 bool TileMapPaintOnMap::IsNearTheMouse(Vector2f pos, Vector2f offSet, float radius)
 {
-	Vector2f mouseLocation = Vector2f(m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_fMousePos.x,
-		m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_fMousePos.y);
+	Vector2f mouseLocation = Vector2f(m_fMousePos.x, m_fMousePos.y);
 	float distance = mouseLocation.Distance(pos + offSet);
 
 	if (distance <= radius)
@@ -61,8 +60,7 @@ bool TileMapPaintOnMap::IsNearTheMouse(Vector2f pos, Vector2f offSet, float radi
 
 Vector2f TileMapPaintOnMap::GetMapPos(Vector2f pos, Vector2f offSet)
 {
-	Vector2f mouseLocation = Vector2f(m_camera->GetPosition().x - m_camera->GetInitPosition().x + m_fMousePos.x,
-		m_camera->GetPosition().y - m_camera->GetInitPosition().y + m_fMousePos.y);
+	Vector2f mouseLocation = Vector2f(m_fMousePos.x, m_fMousePos.y);
 	mouseLocation -= offSet;
 
 	return mouseLocation;
@@ -108,10 +106,10 @@ void TileMapPaintOnMap::HandleEvent(Event* event)
 	{
 	case EVENTID::MouseCameraPosition:
 	{
-		Vector2f mousePos2 = *static_cast<Vector2f*>(event->GetData());
+		m_fMousePos = *static_cast<Vector2f*>(event->GetData());
 
-		m_iTileX = (mousePos2.x + m_iStartingPosX) / 32;
-		m_iTileY = (mousePos2.y + m_iStartingPosY) / 32;
+		m_iTileX = (m_fMousePos.x + m_iStartingPosX) / 32;
+		m_iTileY = (m_fMousePos.y + m_iStartingPosY) / 32;
 		m_iPos = m_iTileX + m_iTileY * m_iCols;
 	}
 	break;

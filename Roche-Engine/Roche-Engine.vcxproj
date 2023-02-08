@@ -163,6 +163,11 @@
       <OpenMPSupport>false</OpenMPSupport>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(ProjectDir)Components;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <StringPooling>false</StringPooling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -187,6 +192,10 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <OpenMPSupport>false</OpenMPSupport>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>
+      </MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

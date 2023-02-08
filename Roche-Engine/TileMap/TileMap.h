@@ -6,10 +6,6 @@
 using json = nlohmann::json;
 #include "JsonLoading.h"
 
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
-
 //#define COLUMNS 40
 //#define ROWS 22
 

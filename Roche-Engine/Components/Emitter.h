@@ -2,9 +2,7 @@
 #ifndef EMITTER_H
 #define EMITTER_H
 
-#include "Vector2f.h"
 #include "ProjectileManager.h"
-#include "EventSystem.h"
 
 class Emitter
 {
@@ -17,14 +15,14 @@ public:
 
 	inline void SetSpawnPosition(const Vector2f vSpawnPosition) noexcept { m_vSpawnPosition = vSpawnPosition; }
 	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept { m_vTargetPosition = vTargetPosition; }
-	
+
 	void Update(float dt);
 	void EmitProjectile();
-	
+
 private:
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
-	
+
 	float m_fDelay;
 	float m_fMaxDelay;
 

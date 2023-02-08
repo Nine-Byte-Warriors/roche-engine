@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Input_Widget.h"
-#include "EventSystem.h"
 
 Input_Widget::Input_Widget()
 {
@@ -13,6 +12,7 @@ Input_Widget::~Input_Widget() {}
 void Input_Widget::Initialize( ID3D11Device* device, ID3D11DeviceContext* context, ConstantBuffer<Matrices>& mat, int index )
 {
 	m_iIdentifier = index;
+	m_vTextOffset = { 0.0f, 0.0f };
 	m_sprite->Initialize( device, context, "", mat );
 }
 
@@ -29,18 +29,21 @@ void Input_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMM
 	m_sprite->Draw( m_transform->GetWorldMatrix(), worldOrtho );
 
 	XMVECTOR textsize = textRenderer->GetSpriteFont( m_eFontSize )->MeasureString( m_sCurrText.c_str() );
-	XMFLOAT2 textpos =
+	XMFLOAT2 textPos =
 	{
 		m_transform->GetPosition().x + ( m_sprite->GetWidth() / 2.0f ) - ( XMVectorGetX( textsize ) * textRenderer->GetScale().x ) / 2.0f,
 		m_transform->GetPosition().y + ( m_sprite->GetHeight() / 2.0f ) - ( XMVectorGetY( textsize ) * textRenderer->GetScale().y ) / 2.0f
 	};
-	textRenderer->RenderString( m_sCurrText, textpos, m_textColour, m_eFontSize, true );
+	textPos.x += m_vTextOffset.x;
+	textPos.y += m_vTextOffset.y;
+	textRenderer->RenderString( m_bUsePlaceholder ? m_sPlaceholder : m_sCurrText, textPos, m_textColour, m_eFontSize, true );
 }
 
-void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int index, FontSize size )
+void Input_Widget::Resolve( std::string placeholder, std::string& keys, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, int index, FontSize size )
 {
 	m_eFontSize = size;
 	m_textColour = textColour;
+	m_sPlaceholder = placeholder;
 	m_buttonTexture = textures[0];
 
 	// Button collison
@@ -72,7 +75,9 @@ void Input_Widget::Resolve( std::string& keys, XMVECTORF32 textColour, const std
 
 	if ( m_bSelected && m_iIdentifier == index )
 	{
+		m_bUsePlaceholder = false;
 		EventSystem::Instance()->AddEvent( EVENTID::ReadCharInput, (bool*)true );
+		m_sPlaceholder = keys;
 		m_sCurrText = keys;
 	}
 }

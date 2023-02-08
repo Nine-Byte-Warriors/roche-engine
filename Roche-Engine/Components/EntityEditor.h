@@ -7,9 +7,6 @@
 #include "Entity.h"
 #include "AIStateMachine.h"
 #include "AudioEngine.h"
-#if _DEBUG
-#include <imgui/imgui.h>
-#endif
 
 class EntityEditor
 {

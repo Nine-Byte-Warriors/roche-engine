@@ -83,6 +83,7 @@ public:
 
 	void SetEntityData(std::vector<EntityData> entityData);
 	void AddEntityData(std::vector<EntityData> entityData);
+	void AddEntityData(EntityData entityData);
 
 	bool HasAI(int num);
 	bool HasProjectileSystem(int num);

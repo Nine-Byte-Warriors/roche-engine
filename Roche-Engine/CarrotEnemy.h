@@ -1,7 +1,7 @@
 #pragma once
 #ifndef CARROTENEMY_H
 #define CARROTENEMY_H
-#include <functional>
+
 #include "Collider.h"
 
 class Health;
