@@ -21,17 +21,27 @@ ShopItem::~ShopItem()
 
 void ShopItem::PlayerInRange(Collider& collider)
 {
-	m_bCollisionCheck = true;
-
-	if (m_bInputCheck)
+	if(collider.EntityType() == "Player")
 	{
-		std::pair<std::string, int>* item = new std::pair<std::string, int>();
-		item->first = m_itemName;
-		item->second = 1;
-		EventSystem::Instance()->AddEvent(EVENTID::UpdateSeed, item);
-	}
+		m_bCollisionCheck = true;
 
-	m_bInputCheck = false;
+		if (m_bInputCheck)
+		{
+			if (m_itemName == "HealthPotion")
+			{
+				EventSystem::Instance()->AddEvent(EVENTID::BuyPotion);
+			}
+			else
+			{
+				std::pair<std::string, int>* item = new std::pair<std::string, int>();
+				item->first = m_itemName;
+				item->second = 1;
+				EventSystem::Instance()->AddEvent(EVENTID::UpdateSeed, item);
+			}
+		}
+
+		m_bInputCheck = false;
+	}
 }
 
 void ShopItem::PlayerOutRange(Collider& collider)
@@ -87,6 +97,11 @@ void ShopItem::FilterName(std::string name)
 	if (name.contains("Tomato"))
 	{
 		m_itemName = "Tomato";
+		return;
+	}
+	if (name.contains("HealthPotion"))
+	{
+		m_itemName = "HealthPotion";
 		return;
 	}
 }

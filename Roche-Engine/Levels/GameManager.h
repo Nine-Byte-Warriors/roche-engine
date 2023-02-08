@@ -28,7 +28,7 @@ public:
 
 	void SetCurrentState(GameState state);
 	void SetNextDay();
-	void SetPhase(Phase phase);
+	void SetPhase();
 
 private:
 	GameState m_currentState;

@@ -1,0 +1,802 @@
+[
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "Resources\\Textures\\Base_Projectile.json",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": false,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            32.0,
+            32.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 1.0,
+        "identifier": 0,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Projectile1",
+        "position": [
+            436.0,
+            103.0
+        ],
+        "projectileBullet": "Projectile1",
+        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Enemy",
+        "scale": [
+            32.0,
+            32.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Base_Projectile.png",
+        "type": "Projectile"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": false,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 1,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "PotatoItem",
+        "position": [
+            1402.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Potato Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": false,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            16.0,
+            800.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 2,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Left Wall",
+        "position": [
+            327.0,
+            781.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            64.0,
+            800.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": false,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            1496.0,
+            64.4000015258789
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 3,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Top Wall",
+        "position": [
+            390.0,
+            765.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            1496.0,
+            64.4000015258789
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": false,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            16.0,
+            800.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 4,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Right Wall",
+        "position": [
+            1835.0,
+            838.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            16.0,
+            800.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            557.0,
+            54.79999923706055
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 5,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Wall Bottom Left",
+        "position": [
+            394.0,
+            1548.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            557.0,
+            54.79999923706055
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            661.2000122070313,
+            51.79999923706055
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 6,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Wall Bottom Right",
+        "position": [
+            1161.0,
+            1549.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            661.2000122070313,
+            51.79999923706055
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            201.60000610351563,
+            28.600000381469727
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 7,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Bottom Wall",
+        "position": [
+            955.0,
+            1616.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            201.60000610351563,
+            28.600000381469727
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            199.0,
+            90.0
+        ],
+        "colliderShape": "Box",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 8,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Swap Level Trigger",
+        "position": [
+            958.0,
+            1512.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Enemy",
+        "scale": [
+            199.0,
+            90.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Tiles\\transparent.png",
+        "type": "LevelTrigger"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 9,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "BeanItem",
+        "position": [
+            478.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Bean Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 10,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "CarrotItem",
+        "position": [
+            700.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Carrot Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 11,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "CauliflowerItem",
+        "position": [
+            927.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Cauliflower Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 12,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "OnionItem",
+        "position": [
+            1175.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Onion Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            100.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 13,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "TomatoItem",
+        "position": [
+            1613.0,
+            970.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Seeds\\Tomato Seeds.png",
+        "type": "Item"
+    },
+    {
+        "AI": false,
+        "animation": true,
+        "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": false,
+        "bProjectileBullet": true,
+        "bProjectilePattern": false,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            100.0,
+            100.0
+        ],
+        "colliderShape": "Box",
+        "columns": 3,
+        "health": 6.0,
+        "identifier": 2,
+        "mass": 21.200000762939453,
+        "maxFrame": [
+            3,
+            2
+        ],
+        "name": "Player",
+        "position": [
+            1013.0,
+            1389.0
+        ],
+        "projectileBullet": "Projectile1",
+        "projectilePattern": "Resources\\Patterns\\DefaultPattern.ptn",
+        "projectileSystem": true,
+        "rotation": 0.0,
+        "rows": 4,
+        "sColliderLayer": "Player",
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\PlayerWalk\\PlayerWalk.png",
+        "type": "Player"
+    },
+    {
+        "AI": false,
+        "animation": false,
+        "animationPath": "None",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": false,
+        "bColliderStatic": true,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            50.0,
+            64.0
+        ],
+        "colliderShape": "Circle",
+        "columns": 1,
+        "health": 100.0,
+        "identifier": 15,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "HealthPotionItem",
+        "position": [
+            1613.0,
+            1260.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": false,
+        "rotation": 0.0,
+        "rows": 1,
+        "sColliderLayer": "Decoration",
+        "scale": [
+            120.0,
+            120.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\UI\\Hearts\\Heart-1.png",
+        "type": "Item"
+    }
+]

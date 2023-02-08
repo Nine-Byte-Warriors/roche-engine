@@ -81,7 +81,7 @@
         ],
         "name": "Projectile1",
         "position": [
-            436.0,
+            -5000.0,
             103.0
         ],
         "projectileBullet": "Projectile1",
@@ -96,7 +96,7 @@
         ],
         "soundBankName": "",
         "speed": 10.0,
-        "texture": "Resources\\Textures\\UI\\Coin\\Coin.png",
+        "texture": "Resources\\Textures\\Base_Projectile.png",
         "type": "Projectile"
     },
     {

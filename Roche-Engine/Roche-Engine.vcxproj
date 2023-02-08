@@ -450,6 +450,7 @@
     <ClCompile Include="Levels\GameManager.cpp" />
     <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="Levels\LevelStateMachine.cpp" />
+    <ClCompile Include="LevelTrigger.cpp" />
     <ClCompile Include="Objects\Camera.cpp" />
     <ClCompile Include="Objects\Quad.cpp" />
     <ClCompile Include="Objects\Projectile.cpp" />
@@ -643,6 +644,7 @@
     <ClInclude Include="Input\Keyboard.h" />
     <ClInclude Include="Input\Mouse.h" />
     <ClInclude Include="Levels\GameManager.h" />
+    <ClInclude Include="LevelTrigger.h" />
     <ClInclude Include="Objects\ScoreBoard.h" />
     <ClInclude Include="Objects\ShopItem.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />

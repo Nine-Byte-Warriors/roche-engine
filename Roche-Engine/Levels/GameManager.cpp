@@ -24,14 +24,24 @@ void GameManager::SetNextDay()
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentDay, &m_currentDay);
 }
 
-void GameManager::SetPhase(Phase phase)
+void GameManager::SetPhase()
 {
-	m_currentPhase = phase;
+	if (m_currentPhase == Phase::DayPhase)
+	{
+		m_currentPhase = Phase::NightPhase;
+	}
+	else if (m_currentPhase == Phase::NightPhase)
+	{
+		m_currentPhase = Phase::DayPhase;
+	}
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
+	if (m_currentState == GameState::Unpaused) {
+		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
+	}
 
-	if (phase == Phase::DayPhase)
+	if (m_currentPhase == Phase::DayPhase)
 		DayPhase();
-	else if (phase == Phase::NightPhase)
+	else if (m_currentPhase == Phase::NightPhase)
 		NightPhase();
 }
 
@@ -39,8 +49,11 @@ GameManager::~GameManager()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::PauseGame, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::ResumeGame, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayMainMenuMusic, this);
@@ -51,17 +64,27 @@ void GameManager::HandleEvent(Event* event)
 	switch (event->GetEventID())
 	{
 	case EVENTID::GameLevelChangeEvent:
-		SetCurrentState(*static_cast<GameState*>(event->GetData()));
+		SetCurrentState(GameState::Unpaused);
 		break;
 	case EVENTID::ChangePhase:
-		SetPhase(*static_cast<Phase*>(event->GetData()));
+		SetPhase();
 		break;
+
 	case EVENTID::NextDay:
 		SetNextDay();
 		break;
 	case EVENTID::GameRestartEvent:
 		Initialize(); // reinitialize game manager
 		break;
+	case EVENTID::PauseGame:
+		if (m_currentState == GameState::Unpaused) {
+			SetCurrentState(GameState::Paused);
+		}
+		break;
+	case EVENTID::ResumeGame:
+		if (m_currentState == GameState::Paused) {
+			SetCurrentState(GameState::Unpaused);
+		}
 	case EVENTID::PlayDayMusic:
 		AudioEngine::GetInstance()->PlayAudio("MusicGame", "DayPhaseMusic", MUSIC);
 		break;
@@ -80,8 +103,11 @@ void GameManager::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::GameLevelChangeEvent, this);
 	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
+	EventSystem::Instance()->AddClient(EVENTID::GetPhase, this);
 	EventSystem::Instance()->AddClient(EVENTID::NextDay, this);
 	EventSystem::Instance()->AddClient(EVENTID::GameRestartEvent, this);
+	EventSystem::Instance()->AddClient(EVENTID::PauseGame, this);
+	EventSystem::Instance()->AddClient(EVENTID::ResumeGame, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayMainMenuMusic, this);

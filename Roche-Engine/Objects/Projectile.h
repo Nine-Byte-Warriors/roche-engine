@@ -16,6 +16,7 @@ public:
 		Boss = 2,
 		Enemy = 3,
 		Item = 4,
+		LevelTrigger =5,
 	};
 
 

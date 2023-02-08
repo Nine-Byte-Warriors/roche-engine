@@ -93,6 +93,12 @@ void UIScreen::Update( const float dt )
 					m_bOpen = false;
 				}
 			}
+			if (m_vWidgets[i]->GetAction() == "End Phase")
+			{
+				if (!m_vWidgets[i]->GetIsHidden())
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
+			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
@@ -422,7 +428,7 @@ void UIScreen::Update( const float dt )
 
 			if (m_vWidgets[i]->GetAction() == "Change Level Label")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Change Level?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
+				m_vWidgets[i]->GetImageWidget()->Resolve("Change \nLevel?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 
@@ -881,6 +887,7 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->AddClient( EVENTID::EnemyMaxHealth, this );
 	EventSystem::Instance()->AddClient( EVENTID::EnemyCurrentHealth, this );
 }
@@ -899,9 +906,11 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->RemoveClient( EVENTID::EnemyMaxHealth, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::EnemyCurrentHealth, this );
 }
+
 
 void UIScreen::HandleEvent( Event* event )
 {

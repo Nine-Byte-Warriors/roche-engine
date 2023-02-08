@@ -36,6 +36,8 @@ private:
 	XMMATRIX m_mOrthoMatrix, m_mWorldMatrix;
 
 	XMFLOAT2 m_fMousePos;
+
+	std::string m_sCurrentLevel;
 };
 
 #endif

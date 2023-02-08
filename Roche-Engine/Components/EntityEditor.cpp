@@ -15,8 +15,8 @@ EntityEditor::EntityEditor()
 #if _DEBUG
 void EntityEditor::SpawnControlWindow(float width, float height)
 {
-	m_fWidth = width;
-	m_fHeight = height;
+	m_fWidth = width*2;
+	m_fHeight = height*2;
 
 	m_vSoundBankNamesList = AudioEngine::GetInstance()->GetSoundBankNamesList();
 
@@ -391,7 +391,7 @@ void EntityEditor::SetType()
 
 	static int entityType = 0;
 	std::string previewEntityType = m_vEntityDataCopy[m_iIdentifier].type;
-	const char* entityTypes[]{ "Player", "Enemy", "Projectile", "Item"};
+	const char* entityTypes[]{ "Player", "Enemy", "Projectile", "Item", "LevelTrigger"};
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewEntityType.c_str()))
