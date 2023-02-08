@@ -15,6 +15,7 @@ Health::Health(std::string type, int entityNum, std::shared_ptr<Collider> collid
 
 	std::function<void(Collider&)> f = std::bind(&Health::Hit, this, std::placeholders::_1);
 	collider->AddOnEnterCallback(f);
+	AddToEvent();
 }
 
 void Health::SetHealth( float maxHealth )
@@ -26,8 +27,10 @@ void Health::SetHealth( float maxHealth )
 void Health::TakeDamage( float damageAmount )
 {
 	m_fCurrentHealth -= damageAmount;
+#if _DEBUG
 	std::string currhealth = std::to_string(m_fCurrentHealth) + "\n";
 	OutputDebugStringA(currhealth.c_str());
+#endif
 
 	if ( m_fCurrentHealth <= 0 )
 	{
@@ -45,7 +48,7 @@ void Health::TakeDamage( float damageAmount )
 			OutputDebugStringA(outputdead.c_str());
 #else
 			EventSystem::Instance()->AddEvent( EVENTID::EnemyDeath, &m_iEntityNum );
-#endif // _DEBUG
+#endif
 			EventSystem::Instance()->AddEvent(EVENTID::UpdateScore);
 			EventSystem::Instance()->AddEvent(EVENTID::GainCoins);
 		}
@@ -71,11 +74,42 @@ void Health::Hit(Collider& collider)
 	{
 		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
 		TakeDamage(1);
-		EventSystem::Instance()->AddEvent(EVENTID::PlayerDamage);
+
+	if (collider.EntityType() == "Enemy" && m_sType == "Player")
+	{
+		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityHit", SFX);
+		TakeDamage(1);
 	}
 }
 
 void Health::SetEntityNum(int num)
 {
 	m_iEntityNum = num;
+}
+
+void Health::AddToEvent() noexcept
+{
+	EventSystem::Instance()->AddClient( EVENTID::PlayerDamage, this );
+	EventSystem::Instance()->AddClient( EVENTID::PlayerHeal, this );
+}
+
+void Health::RemoveFromEvent() noexcept
+{
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerDamage, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHeal, this );
+}
+
+void Health::HandleEvent( Event* event )
+{
+	switch ( event->GetEventID() )
+	{
+	case EVENTID::PlayerDamage:
+		if ( m_sType == "Player" )
+			TakeDamage( 1 );
+		break;
+	case EVENTID::PlayerHeal:
+		if ( m_sType == "Player" )
+			Heal( 1 );
+		break;
+	}
 }
