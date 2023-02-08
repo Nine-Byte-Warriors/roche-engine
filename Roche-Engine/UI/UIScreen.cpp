@@ -227,6 +227,18 @@ void UIScreen::Update( const float dt )
 					AudioEngine::GetInstance()->SetMusicVolume( sliderData );
 				}
 			}
+			if ( m_vWidgets[i]->GetAction() == "SFX Volume" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
+				if ( !m_vWidgets[i]->GetIsHidden() )
+				{
+					m_vWidgets[i]->GetDataSliderWidget()->Resolve(
+						"Resources\\Textures\\UI\\Slider\\Slider Background.png",
+						"Resources\\Textures\\UI\\Slider\\Control Point.png", m_mouseData, i, AudioEngine::GetInstance()->GetSFXVolume() * 100);
+					float sliderData = (float)m_vWidgets[i]->GetDataSliderWidget()->GetData() / 100.0f;
+					AudioEngine::GetInstance()->SetSFXVolume( sliderData );
+				}
+			}
 			if ( m_vWidgets[i]->GetAction() == "Screen Shake" )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::General ? false : true );
@@ -371,6 +383,11 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
 				m_vWidgets[i]->GetImageWidget()->Resolve( "Music Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
+			}
+			if ( m_vWidgets[i]->GetAction() == "SFX volume label" )
+			{
+				m_vWidgets[i]->SetIsHidden( m_eTabsState == Tabs::Audio ? false : true );
+				m_vWidgets[i]->GetImageWidget()->Resolve( "SFX Volumne", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE );
 			}
 
 			if ( m_vWidgets[i]->GetAction() == "Coins" )

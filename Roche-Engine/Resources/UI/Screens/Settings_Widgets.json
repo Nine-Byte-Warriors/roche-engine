@@ -80,7 +80,7 @@
         "name": "Master Volume Slider",
         "position": [
             907.0,
-            442.0
+            386.0
         ],
         "scale": [
             433.0,
@@ -95,7 +95,7 @@
         "name": "Master volume label",
         "position": [
             444.0,
-            383.0
+            328.0
         ],
         "scale": [
             319.0,
@@ -110,7 +110,7 @@
         "name": "Music Volume Silder",
         "position": [
             907.0,
-            664.0
+            563.0
         ],
         "scale": [
             433.0,
@@ -125,7 +125,7 @@
         "name": "Music Volume Label",
         "position": [
             444.0,
-            497.0
+            394.0
         ],
         "scale": [
             319.0,
@@ -133,6 +133,36 @@
         ],
         "type": "Image",
         "zindex": 8
+    },
+    {
+        "action": "SFX Volume",
+        "hide": true,
+        "name": "SFX Volume Silder",
+        "position": [
+            907.0,
+            735.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 9
+    },
+    {
+        "action": "SFX volume label",
+        "hide": true,
+        "name": "SFX Volume Label",
+        "position": [
+            444.0,
+            567.0
+        ],
+        "scale": [
+            319.0,
+            368.0
+        ],
+        "type": "Image",
+        "zindex": 10
     },
     {
         "action": "Up Control",
@@ -147,7 +177,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 9
+        "zindex": 11
     },
     {
         "action": "Left Control",
@@ -162,7 +192,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 10
+        "zindex": 12
     },
     {
         "action": "Down Control",
@@ -177,7 +207,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 11
+        "zindex": 13
     },
     {
         "action": "Right Control",
@@ -192,7 +222,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 12
+        "zindex": 14
     },
     {
         "action": "Dash Control",
@@ -207,7 +237,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 13
+        "zindex": 15
     },
     {
         "action": "Interact Control",
@@ -222,7 +252,7 @@
             263.0
         ],
         "type": "Image",
-        "zindex": 14
+        "zindex": 16
     },
     {
         "action": "Up Input",
@@ -237,7 +267,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 15
+        "zindex": 17
     },
     {
         "action": "Left Input",
@@ -252,7 +282,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 16
+        "zindex": 18
     },
     {
         "action": "Down Input",
@@ -267,7 +297,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 17
+        "zindex": 19
     },
     {
         "action": "Right Input",
@@ -282,7 +312,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 18
+        "zindex": 20
     },
     {
         "action": "Dash Input",
@@ -297,7 +327,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 19
+        "zindex": 21
     },
     {
         "action": "Interact Input",
@@ -312,7 +342,7 @@
             75.0
         ],
         "type": "Input",
-        "zindex": 20
+        "zindex": 22
     },
     {
         "action": "Language DD Label",
@@ -327,7 +357,7 @@
             97.0
         ],
         "type": "Image",
-        "zindex": 21
+        "zindex": 23
     },
     {
         "action": "Language",
@@ -342,7 +372,7 @@
             100.0
         ],
         "type": "Drop Down",
-        "zindex": 22
+        "zindex": 24
     },
     {
         "action": "Screen Shake Slider Label",
@@ -357,7 +387,7 @@
             97.0
         ],
         "type": "Image",
-        "zindex": 23
+        "zindex": 25
     },
     {
         "action": "Screen Shake",
@@ -372,7 +402,7 @@
             66.0
         ],
         "type": "Data Slider",
-        "zindex": 24
+        "zindex": 26
     },
     {
         "action": "Red Overlay Label",
@@ -387,7 +417,7 @@
             97.0
         ],
         "type": "Image",
-        "zindex": 25
+        "zindex": 27
     },
     {
         "action": "Red Overlay Slider",
@@ -402,7 +432,7 @@
             66.0
         ],
         "type": "Data Slider",
-        "zindex": 26
+        "zindex": 28
     },
     {
         "action": "Green Overlay Label",
@@ -417,7 +447,7 @@
             97.0
         ],
         "type": "Image",
-        "zindex": 27
+        "zindex": 29
     },
     {
         "action": "Green Overlay Slider",
@@ -432,7 +462,7 @@
             66.0
         ],
         "type": "Data Slider",
-        "zindex": 28
+        "zindex": 30
     },
     {
         "action": "Blue Overlay Label",
@@ -447,7 +477,7 @@
             97.0
         ],
         "type": "Image",
-        "zindex": 29
+        "zindex": 31
     },
     {
         "action": "Blue Overlay Slider",
@@ -462,7 +492,7 @@
             66.0
         ],
         "type": "Data Slider",
-        "zindex": 30
+        "zindex": 32
     },
     {
         "action": "Back",
@@ -477,6 +507,6 @@
             159.0
         ],
         "type": "Button",
-        "zindex": 31
+        "zindex": 33
     }
 ]
