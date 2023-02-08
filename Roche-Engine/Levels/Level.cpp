@@ -555,7 +555,7 @@ void Level::UpdateTileMapPlanting(const float dt)
                 !m_entitySpawner.IsEntityPosTaken(spawnPos);// &&
                 //m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
-            if (isTilePlantable)
+            if (isTilePlantable || !m_entitySpawner.IsPhaseNight())
             {
                 m_tileMapLoader.UpdateTileType(drawLayer, spawnPos, m_entity[player].GetInventory()->GetName());
                 m_tileMapDrawLayers[drawLayer][spawnPos].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
@@ -607,8 +607,8 @@ void Level::UpdateTileMapPlanting(const float dt)
         bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth == 0;
         if (isAllEnemiesDead)
         {
-            Phase phase = Phase::DayPhase;
-            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase, &phase);
+            m_phase = Phase::DayPhase;
+            EventSystem::Instance()->AddEvent(EVENTID::ChangePhase, &m_phase);
         }
     }
 }
