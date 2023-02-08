@@ -164,6 +164,11 @@ HRESULT AudioEngine::LoadAudio(std::string soundBankName, std::wstring filePath,
 	buffer->AudioBytes = dwChunkSize;  // size of the audio buffer in bytes
 	buffer->pAudioData = pDataBuffer;  // buffer containing audio data
 	buffer->Flags = XAUDIO2_END_OF_STREAM; // tell the source voice not to expect any data after this buffer
+	if (audioType == MUSIC) {
+		buffer->LoopBegin = 0;
+		buffer->LoopLength = 0;
+		buffer->LoopCount = XAUDIO2_LOOP_INFINITE;
+	}
 
 	CheckSoundBankExistence(soundBankName, audioType);
 

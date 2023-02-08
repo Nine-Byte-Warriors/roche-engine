@@ -44,7 +44,7 @@ If you are experiencing issues with the engine on your feature branch, or fork, 
 
 ```
 git checkout feat/mybranch
-git merge origin/master
+git merge origin/master-engine
 git push origin feat/mybranch
 ```
 
@@ -52,7 +52,7 @@ With rebase, you can use the following commands.
 
 ```
 git fetch
-git rebase origin/master
+git rebase origin/master-engine
 ```
 
 Please reach out to a member of Nine Byte Warriors if you have any additional queries, concerns, or issues regarding the engine.
