@@ -115,7 +115,9 @@ enum class EVENTID
 	PlayerDamage,
 	PlayerHeal,
 	PlayerDeath,
-	EnemyDeath
+	EnemyDeath,
+	EnemyMaxHealth,
+	EnemyCurrentHealth
 };
 
 /// <summary>
