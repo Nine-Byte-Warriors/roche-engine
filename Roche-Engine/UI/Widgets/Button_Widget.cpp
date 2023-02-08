@@ -42,7 +42,7 @@ void Button_Widget::Draw( ID3D11Device* device, ID3D11DeviceContext* context, XM
     textRenderer->RenderString( m_sText, textPos, m_vTextColor, m_eFontSize, true );
 }
 
-bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected, FontSize size )
+bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, const std::vector<std::string>& textures, MouseData& mData, bool keepSelected, FontSize size, bool shouldPlayAudio )
 {
     m_sText = text;
     m_eFontSize = size;
@@ -80,7 +80,8 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         break;
     case ButtonState::Pressed:
         m_buttonTexture = textures[2];
-        //AudioEngine::GetInstance()->PlayAudio( SOUND_BANK_NAME, "UIButtonClick", SFX );
+        //if(shouldPlayAudio)
+            AudioEngine::GetInstance()->PlayAudio( SOUND_BANK_NAME, "UIButtonClick", SFX );
         m_bIsPressed = true;
         mData.Locked = true;
         return true;

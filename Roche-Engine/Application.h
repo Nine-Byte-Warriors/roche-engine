@@ -8,6 +8,7 @@
 #include "UIManager.h"
 #include "WindowContainer.h"
 #include "AudioEngine.h"
+#include "GameManager.h"
 
 #if _DEBUG
 #include "ImGuiManager.h"
@@ -66,6 +67,7 @@ private:
 #if _DEBUG
 	ImGuiManager m_imgui;
 #endif
+	GameManager m_gameManager;
 	UIManager m_uiManager;
 	Graphics m_graphics;
 	Timer m_timer;
