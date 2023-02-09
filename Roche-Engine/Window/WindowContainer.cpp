@@ -105,13 +105,6 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
             if ( !wasPressed )
                 m_keyboard.OnKeyPressed( keycode );
         }
-        //switch ( wParam )
-        //{
-        //case VK_ESCAPE:
-        //    DestroyWindow( m_renderWindow.GetHWND() );
-        //    PostQuitMessage( 0 );
-        //    return 0;
-        //}
         return 0;
     }
 
@@ -173,7 +166,6 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_LBUTTONDOWN:
     {
         SetForegroundWindow( m_renderWindow.GetHWND() );
-		SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::ORANGE ) );
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
@@ -204,7 +196,6 @@ LRESULT CALLBACK WindowContainer::WindowProc( HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_LBUTTONUP:
     {
         SetForegroundWindow( m_renderWindow.GetHWND() );
-        SetCursor( m_renderWindow.GetCursor( RenderWindow::Color::BLUE ) );
 
         int x = LOWORD( lParam );
 		int y = HIWORD( lParam );
@@ -417,31 +408,6 @@ void WindowContainer::DisableCursor() noexcept
 	DisableImGuiMouse();
 #endif
 	ConfineCursor();
-}
-
-void WindowContainer::AddToEvent() noexcept
-{
-    EventSystem::Instance()->AddClient(EVENTID::ImGuiMousePosition, this);
-}
-
-void WindowContainer::RemoveFromEvent() noexcept
-{
-    EventSystem::Instance()->RemoveClient(EVENTID::MousePosition, this);
-}
-
-void WindowContainer::HandleEvent(Event* event)
-{
-    Vector2f* mousePos;
-    switch (event->GetEventID())
-    {
-    case EVENTID::ImGuiMousePosition:
-		mousePos = static_cast<Vector2f*>(event->GetData());
-        mousePos->y = +30.0f;
-        EventSystem::Instance()->AddEvent(EVENTID::MousePosition, mousePos);
-        break;
-    default:
-        break;
-    }
 }
 
 void WindowContainer::ConfineCursor() noexcept

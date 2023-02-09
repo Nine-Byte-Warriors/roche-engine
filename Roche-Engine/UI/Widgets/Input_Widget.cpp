@@ -55,6 +55,7 @@ void Input_Widget::Resolve( std::string placeholder, std::string& keys, XMVECTOR
 		)
 	{
 		m_buttonTexture = textures[1];
+		EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Text );
 		if ( mData.LPress && !mData.Locked )
 		{
 			EventSystem::Instance()->AddEvent( EVENTID::ClearCharBuffer, this );

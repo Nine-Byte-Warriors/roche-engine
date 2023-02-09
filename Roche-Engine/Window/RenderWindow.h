@@ -6,16 +6,16 @@ class WindowContainer;
 class RenderWindow : public Listener
 {
 public:
-	enum class Color
+	enum class CursorType
 	{
-		BLUE,
-		RED,
-		GRAY,
-		PURPLE,
-		ORANGE,
-		YELLOW,
-		GREEN,
-		PINK
+		NORMAL,
+		LINK,
+		PRECISION,
+		MOVE,
+		HELP,
+		TEXT,
+		PEN,
+		UNAVAILABLE
 	};
 	bool Initialize(
 		WindowContainer* windowContainer,
@@ -29,15 +29,15 @@ public:
 	HWND GetHWND() const noexcept;
 	~RenderWindow() noexcept;
 
-	inline HCURSOR GetCursor( Color color ) noexcept { return cursors[color]; }
+	inline HCURSOR GetCursor( CursorType type ) noexcept { return cursors[type]; }
 	inline bool GetIsStopNextFrame() const noexcept{ return m_bIsStopNextFrame; }
 	inline void SetIsStopNextFrame( bool isStop ) { m_bIsStopNextFrame = isStop; }
 
+private:
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
 	void HandleEvent( Event* event ) override;
 
-private:
 	void RegisterWindowClass() noexcept;
 	HWND m_hWnd = NULL;
 	HINSTANCE m_hInstance = NULL;
@@ -47,7 +47,7 @@ private:
 	std::wstring m_wsWindowClass = L"";
 	int m_iWidth, m_iHeight;
 	bool m_bIsStopNextFrame = true;
-	std::unordered_map<Color, HCURSOR> cursors;
+	std::unordered_map<CursorType, HCURSOR> cursors;
 };
 
 #endif

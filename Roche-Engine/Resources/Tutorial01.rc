@@ -33,21 +33,21 @@ IDI_TUTORIAL1       ICON         "farm.ico"
 // Cursor
 //
 
-IDC_CURSOR1          CURSOR                      "Cursors\\cur116.cur"
+IDC_CURSOR1          CURSOR                      "Cursors\\Sketch\\NormalSelect.cur"
 
-IDC_CURSOR2          CURSOR                      "Cursors\\cur117.cur"
+IDC_CURSOR2          CURSOR                      "Cursors\\Sketch\\LinkSelect.cur"
 
-IDC_CURSOR3          CURSOR                      "Cursors\\cur118.cur"
+IDC_CURSOR3          CURSOR                      "Cursors\\Sketch\\PrecisionSelect.cur"
 
-IDC_CURSOR4          CURSOR                      "Cursors\\cur119.cur"
+IDC_CURSOR4          CURSOR                      "Cursors\\Sketch\\Move.cur"
 
-IDC_CURSOR5          CURSOR                      "Cursors\\cur220.cur"
+IDC_CURSOR5          CURSOR                      "Cursors\\Sketch\\HelpSelect.cur"
 
-IDC_CURSOR6          CURSOR                      "Cursors\\cur221.cur"
+IDC_CURSOR6          CURSOR                      "Cursors\\Sketch\\TextSelect.cur"
 
-IDC_CURSOR7          CURSOR                      "Cursors\\cur222.cur"
+IDC_CURSOR7          CURSOR                      "Cursors\\Sketch\\Handwriting.cur"
 
-IDC_CURSOR8          CURSOR                      "Cursors\\cur223.cur"
+IDC_CURSOR8          CURSOR                      "Cursors\\Sketch\\Unavailable.cur"
 
 
 /////////////////////////////////////////////////////////////////////////////

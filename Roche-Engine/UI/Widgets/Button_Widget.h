@@ -24,7 +24,7 @@ public:
     void Draw( ID3D11Device* device, ID3D11DeviceContext* context, XMMATRIX worldOrtho, TextRenderer* textRenderer );
     bool Resolve(const std::string& text, XMVECTORF32 textColour,
         const std::vector<std::string>& textures, MouseData& mData,
-        bool keepSelected = false, FontSize size = FontSize::MEDIUM, bool shouldPlayAudio = true );
+        bool keepSelected = false, FontSize size = FontSize::MEDIUM );
 
     inline bool GetIsPressed() const noexcept { return m_bIsPressed; }
     inline void SetTextOffset( XMFLOAT2 pos ) noexcept { m_vTextOffset = pos; }

@@ -30,11 +30,11 @@ public:
 	inline void SetCollisionHandler(CollisionHandler* handler) { 
 		m_collisionHandler = handler; }
 
-	inline std::shared_ptr<Inventory> GetInventory() const noexcept{ return m_inventory; }
 	inline std::shared_ptr<Agent> GetAI() const noexcept { return m_agent; }
 	inline std::shared_ptr<Health> GetHealth() const noexcept { return m_health; }
 	inline std::shared_ptr<Sprite> GetSprite() const noexcept { return m_sprite; }
 	inline std::shared_ptr<Physics> GetPhysics() const noexcept { return m_physics; }
+	inline std::shared_ptr<Inventory> GetInventory() const noexcept{ return m_inventory; }
 	inline std::shared_ptr<Transform> GetTransform() const noexcept { return m_transform; }
 	inline std::vector<std::shared_ptr<ProjectileManager>> GetProjectileManagers() const noexcept { return m_vecProjectileManagers; }
 	inline std::shared_ptr<Collider> GetCollider() const noexcept {

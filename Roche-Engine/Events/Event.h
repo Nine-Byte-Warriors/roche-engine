@@ -107,6 +107,15 @@ enum class EVENTID
 	RemoveHealth,
 
 	// Utility
+	CursorUpdate_Normal,
+	CursorUpdate_Link,
+	CursorUpdate_Precision,
+	CursorUpdate_Move,
+	CursorUpdate_Help,
+	CursorUpdate_Text,
+	CursorUpdate_Pen,
+	CursorUpdate_Unavailable,
+
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
 	RemoveUIItemEvent,
