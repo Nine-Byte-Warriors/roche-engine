@@ -4,10 +4,10 @@
 
 enum class LayerNo
 {
-	Decorations = 0,
+	Decoration = 0,
 	Player,
 	Enemy,
-	Projectiles
+	Projectile
 };
 
 //what layers can be interacted with

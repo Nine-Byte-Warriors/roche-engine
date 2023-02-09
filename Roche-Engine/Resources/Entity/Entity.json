@@ -5,6 +5,12 @@
         "animationPath": "Resources\\Textures\\Entity\\Potato\\Potato.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": false,
         "bColliderTrigger": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
@@ -33,6 +39,7 @@
         "projectileSystem": true,
         "rotation": 4.0,
         "rows": 3,
+        "sColliderLayer": "Decoration",
         "scale": [
             64.0,
             64.0
@@ -48,6 +55,12 @@
         "animationPath": "Resources\\Textures\\Entity\\Runner Bean\\Runner Bean.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": true,
         "bColliderTrigger": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
@@ -76,6 +89,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
+        "sColliderLayer": "Enemy",
         "scale": [
             128.0,
             128.0
@@ -91,11 +105,17 @@
         "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": true,
         "bColliderTrigger": false,
         "bProjectileBullet": true,
         "bProjectilePattern": false,
         "behaviour": "None",
-        "collider": true,
+        "collider": false,
         "colliderRadius": [
             124.0,
             124.0
@@ -119,6 +139,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
+        "sColliderLayer": "Enemy",
         "scale": [
             124.0,
             124.0
@@ -134,6 +155,12 @@
         "animationPath": "Resources\\Textures\\Entity\\Onion\\Onion.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": true,
         "bColliderTrigger": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
@@ -143,7 +170,7 @@
             64.0,
             64.0
         ],
-        "colliderShape": "Box",
+        "colliderShape": "Circle",
         "columns": 2,
         "health": 100.0,
         "identifier": 3,
@@ -162,6 +189,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
+        "sColliderLayer": "Enemy",
         "scale": [
             64.0,
             64.0
@@ -177,6 +205,12 @@
         "animationPath": "Resources\\Textures\\Entity\\Tomato\\Tomato.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": true,
         "bColliderTrigger": false,
         "bProjectileBullet": false,
         "bProjectilePattern": false,
@@ -205,6 +239,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 3,
+        "sColliderLayer": "Enemy",
         "scale": [
             64.0,
             64.0
@@ -220,6 +255,12 @@
         "animationPath": "Resources\\Textures\\Base_Projectile.json",
         "animationType": "Walk",
         "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": true,
+        "bColliderInteractEnemy": true,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractProjectile": true,
+        "bColliderStatic": true,
         "bColliderTrigger": false,
         "bProjectileBullet": false,
         "bProjectilePattern": true,
@@ -248,6 +289,7 @@
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 1,
+        "sColliderLayer": "Enemy",
         "scale": [
             32.0,
             32.0

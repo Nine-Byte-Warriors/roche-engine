@@ -34,22 +34,39 @@ void CollisionHandler::RemoveAllColliders()
 {
     m_colliders.clear();
 }
+void CollisionHandler::RemoveCollider(std::shared_ptr<Collider>collider)
+{
+    for (int i = 0; i < m_colliders.size(); i++)
+    {
+        if (m_colliders[i].get() == collider.get())
+        {
+            m_colliders.erase(m_colliders.begin() + i);
+            return;
+        }
+    }
+}
 
 void CollisionHandler::CollisionCheckAll()
 {
     int startIndex = 0;
     bool isCollision;
     bool layersInteract;
-    bool collidersInteract;
+    bool collider1Interacts;
+    bool collider2Interacts;
     for (int i = 0; i < m_colliders.size(); i++)
     {
+        if (m_colliders[i]->GetIsEnabled() == false)
+        {
+            continue;
+        }
         isCollision = false;
         for (int n = 0; n < m_colliders.size(); n++)
         {
             layersInteract = m_collisionMatrix.GetElement((int)m_colliders[i]->GetLayer(), (int)m_colliders[n]->GetLayer());
-            collidersInteract = m_colliders[i]->GetCollisionMask().m_mask[(int)m_colliders[n]->GetLayer()];
+            collider1Interacts = m_colliders[i]->GetCollisionMask().m_mask[(int)m_colliders[n]->GetLayer()];
+            collider2Interacts = m_colliders[n]->GetCollisionMask().m_mask[(int)m_colliders[i]->GetLayer()];
 
-            if (n == i || layersInteract == false || collidersInteract == false)
+            if (n == i || layersInteract == false || collider1Interacts == false|| collider2Interacts == false ||m_colliders[n]->GetIsEnabled() ==false)
             {
                 continue;
             }
@@ -61,9 +78,12 @@ void CollisionHandler::CollisionCheckAll()
                 isCollision = true;
 
                 m_colliders[i]->LogCollision(m_colliders[n]);
-                //m_colliders[n]->LogCollision(m_colliders[i]);
+                m_colliders[n]->LogCollision(m_colliders[i]);
 
-                m_colliders[i]->Resolution(m_colliders[n]);
+                if (m_colliders[i]->GetIsStatic() == false)
+                {
+                    m_colliders[i]->Resolution(m_colliders[n]);
+                }
             }
         }
         if (!isCollision)

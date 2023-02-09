@@ -85,11 +85,21 @@ void Collider::SetTransformPosition(Vector2f position)
 
 void Collider::LogCollision(std::shared_ptr<Collider>& col)
 {
-    if (m_collisionCount < m_maxCollisions)
+    if (m_curCollisionCount < m_maxCollisions)
     {
          m_curCollisions.push_back(col);
-         m_collisionCount++;
+         m_curCollisionCount++;
     }
+}
+
+void Collider::CheckDisabled()
+{
+    if (m_isEnabled == false && m_isEnabledCopy == true)
+    {
+        m_collisions.clear();
+        m_curCollisions.clear();
+    }
+    m_isEnabledCopy = m_isEnabled;
 }
 
 bool Collider::ResolveCheck(std::shared_ptr<Collider> collider)
@@ -208,17 +218,19 @@ void Collider::ProcessCollisions()
     for (auto element: leavingColliders)
     {
         m_collisions.erase( element );
-        m_collisionCount--;
+        //m_curCollisionCount--;
     }
 }
 
 void Collider::Update()
 {
+    CheckDisabled();
     if (m_curCollisions.size() == 0 && m_collisions.size() == 0)
         return;
 
     RemoveDuplicateElements<std::shared_ptr<Collider>>(m_curCollisions);
     ManageCollisions();
+    m_curCollisionCount = 0;
     ProcessCollisions();
 }
 
