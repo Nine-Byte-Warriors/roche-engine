@@ -172,15 +172,18 @@ void Level::RenderFrame()
 
 void Level::RenderFrameEntity()
 {
-    for (int i = 0; i < m_iEntityAmount; i++)
+    for (int i = 0; i < m_entity.size(); i++)
     {
-        m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
-        m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
-
-        if (m_entityController.HasProjectileBullet(i))
+        if (m_entity[i].GetSprite())
         {
-            for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
-                pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            m_entity[i].GetSprite()->UpdateBuffers(m_gfx->GetContext());
+            m_entity[i].GetSprite()->Draw(m_entity[i].GetTransform()->GetWorldMatrix(), m_camera.GetWorldOrthoMatrix());
+
+            if (m_entityController.HasProjectileBullet(i))
+            {
+                for (std::shared_ptr<ProjectileManager>& pManager : m_entity[i].GetProjectileManagers())
+                    pManager->Draw(m_gfx->GetContext(), m_camera.GetWorldOrthoMatrix());
+            }
         }
     }
 }
@@ -378,10 +381,13 @@ void Level::UpdateEntity(const float dt)
     }
 #endif
 
-    for (int i = 0; i < m_iEntityAmount; i++)
+    for (int i = 0; i < m_entity.size(); i++)
     {
-        m_entity[i].Update(dt);
-        DisplayEntityCurrentHealth(i);
+        if (m_entity[i].GetSprite())
+        {
+            m_entity[i].Update(dt);
+            DisplayEntityCurrentHealth(i);
+        }
     }
 }
 
@@ -421,22 +427,23 @@ void Level::AddNewEntity()
 void Level::RemoveEntities()
 {
     m_entitiesDeleted = m_entityController.GetDead();
-
+    std::sort(m_entitiesDeleted.begin(), m_entitiesDeleted.end());
+    
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
 #endif
 
-    for (int i = 0; i < m_entitiesDeleted.size(); i++)
+    for (int i = 0; i < m_entity.size(); i++)
     {
-        m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
-        m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
+        if (m_entity[i].GetHealth() && m_entity[i].GetHealth()->GetCurrentHealth() <= 0)
+        {
+            m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
+            std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
+            m_entity[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+        }
     }
 
     m_entitiesDeleted.clear();
-
-    for (int i = 0; i < m_entity.size(); i++)
-        m_entity[i].UpdateEntityNum(i);
-
 
 #if _DEBUG
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
@@ -567,7 +574,7 @@ void Level::UpdateTileMapPlanting(const float dt)
         }
     }
 
-    const float spawnTimmer = 0.5f;
+    const float spawnTimmer = 0.2f;
     if (m_entitySpawner.IsPhaseNight())
     { 
         static float timmer = spawnTimmer;
@@ -575,7 +582,7 @@ void Level::UpdateTileMapPlanting(const float dt)
 
         if (m_entitySpawner.GetSpawnEntitiesSize() != 0 && timmer > spawnTimmer)
         {
-            timmer -= 0.5f;
+            timmer -= 0.2f;
             static int count = 0;
 
             std::string texture = "Resources\\Textures\\Tiles\\EmptyPlot.png";
