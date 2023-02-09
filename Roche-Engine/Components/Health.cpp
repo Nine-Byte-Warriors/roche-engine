@@ -91,12 +91,16 @@ void Health::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::PlayerDamage, this );
 	EventSystem::Instance()->AddClient( EVENTID::PlayerHeal, this );
+	EventSystem::Instance()->AddClient(EVENTID::SavePlayerHealth, this);
+	EventSystem::Instance()->AddClient(EVENTID::GetPlayerHealth, this);
 }
 
 void Health::RemoveFromEvent() noexcept
 {
 	EventSystem::Instance()->RemoveClient( EVENTID::PlayerDamage, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::PlayerHeal, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::SavePlayerHealth, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GetPlayerHealth, this);
 }
 
 void Health::HandleEvent( Event* event )
@@ -110,6 +114,18 @@ void Health::HandleEvent( Event* event )
 	case EVENTID::PlayerHeal:
 		if ( m_sType == "Player" )
 			Heal( 1 );
+		break;
+	case EVENTID::SavePlayerHealth:
+		if (m_sType == "Player")
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::SetPlayerHealth, &m_fCurrentHealth);
+		}
+		break;
+	case EVENTID::GetPlayerHealth:
+		if (m_sType == "Player")
+		{
+			m_fCurrentHealth = *static_cast<float*>(event->GetData());
+		}
 		break;
 	}
 }
