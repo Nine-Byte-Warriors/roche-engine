@@ -35,6 +35,11 @@ void Level::OnCreate()
 
 void Level::CreateEntity()
 {
+#ifdef _DEBUG
+#else
+    m_entityController.RemoveEnemiesFromEntityData();
+#endif
+
     m_entity.clear();
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)
@@ -148,6 +153,7 @@ void Level::OnSwitch()
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     CreateEntity();
     CreateUI();
+    m_fMaxHealth = 0;
 }
 
 void Level::BeginFrame()
