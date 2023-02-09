@@ -74,6 +74,8 @@ public:
 	void operator -= ( const Vector2f& vec ) { x -= vec.x; y -= vec.y; }
 	void operator *= ( const Vector2f& vec ) { x *= vec.x; y *= vec.y; }
 	void operator /= ( const Vector2f& vec ) { x /= vec.x; y /= vec.y; }
+	bool operator == (const Vector2f& vec) { return x == vec.x && y == vec.y; }
+	bool operator != (const Vector2f& vec) { return x != vec.x || y != vec.y; }
 
 	float operator[]( unsigned i ) const { if ( i == 0 ) return x; if ( i == 1 ) return y; }
 	float& operator[]( unsigned i ) { if ( i == 0 ) return x; if ( i == 1 ) return y; }
