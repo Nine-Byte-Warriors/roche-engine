@@ -91,8 +91,6 @@ void Entity::SetComponents()
 
 	if (GetType() == "LevelTrigger")
 	{
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-			pManager->SetOwner(Projectile::ProjectileOwner::LevelTrigger);
 		m_levelTrigger = std::make_shared<LevelTrigger>(GetCollider());
 	}
 }

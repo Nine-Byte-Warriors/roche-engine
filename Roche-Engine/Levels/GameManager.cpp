@@ -56,6 +56,8 @@ GameManager::~GameManager()
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayMainMenuMusic, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::SetPlayerHealth, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::LoadPlayerHealth, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness_Day, this);
 }
@@ -94,6 +96,11 @@ void GameManager::HandleEvent(Event* event)
 	case EVENTID::PlayMainMenuMusic:
 		AudioEngine::GetInstance()->PlayAudio("MusicMenu", "MainMenuMusic", MUSIC);
 		break;
+	case EVENTID::SetPlayerHealth:
+		m_fSaveCurrentHealth = *static_cast<float*>(event->GetData());
+		break;
+	case EVENTID::LoadPlayerHealth:
+		EventSystem::Instance()->AddEvent(EVENTID::GetPlayerHealth,&m_fSaveCurrentHealth);
 	case EVENTID::UpdateBrightness:
 		UpdateBrightness();
 		break;
@@ -117,6 +124,8 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayMainMenuMusic, this);
+	EventSystem::Instance()->AddClient(EVENTID::SetPlayerHealth, this);
+	EventSystem::Instance()->AddClient(EVENTID::LoadPlayerHealth, this);
 	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness, this);
 	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness_Day, this);
 }

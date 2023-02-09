@@ -232,7 +232,10 @@ void UIManager::HandleEvent(Event* event)
 		case EVENTID::SwapGameLevels:
 		{
 			HideAllUI();
+			// get PLAYER HEALTH
+			EventSystem::Instance()->AddEvent(EVENTID::SavePlayerHealth);
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
+
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayShopMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
@@ -240,13 +243,15 @@ void UIManager::HandleEvent(Event* event)
 				ShowUI("HUD_Shop");
 			}
 			else {
+
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 				m_sCurrentLevel = *m_vLevelNames[GAME];
 				ShowUI("HUD_Day");
 			}
-			
+			//set
+			EventSystem::Instance()->AddEvent(EVENTID::LoadPlayerHealth);
 		}
 		break;
 		case EVENTID::CloseUIPopUp:

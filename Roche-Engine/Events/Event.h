@@ -50,6 +50,10 @@ enum class EVENTID
 	PlayDayMusic,
 	PlayShopMusic,
 	PlayMainMenuMusic,
+	SavePlayerHealth,
+	LoadPlayerHealth,
+	GetPlayerHealth,
+	SetPlayerHealth,
 
 	// Camera Actions
 	MoveUp,
@@ -91,6 +95,7 @@ enum class EVENTID
 	CurrentGamePhase,
 	BackToMainMenu,
 	WinWindow,
+
 	// PlayerDeath, // Added below, affects UI as well
 	// GameRestartEvent, // Added in game events, affects UI as well
 	SwapGameLevelsWindow,
