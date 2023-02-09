@@ -383,17 +383,22 @@ void Entity::UpdateColliderLayer()
 		m_colliderCircle->SetLayer(LayerNo::Enemy);
 		m_colliderBox->SetLayer(LayerNo::Enemy);
 	}
-	else if (colliderLayer == "Projectile")
+	else if (colliderLayer == "PlayerProjectile")
 	{
-		m_colliderCircle->SetLayer(LayerNo::Projectile);
-		m_colliderBox->SetLayer(LayerNo::Projectile);
+		m_colliderCircle->SetLayer(LayerNo::PlayerProjectile);
+		m_colliderBox->SetLayer(LayerNo::PlayerProjectile);
+	}
+	else if (colliderLayer == "EnemyProjectile")
+	{
+		m_colliderCircle->SetLayer(LayerNo::EnemyProjectile);
+		m_colliderBox->SetLayer(LayerNo::EnemyProjectile);
 	}
 }
 
 void Entity::UpdateColliderMask()
 {
 	std::vector<bool> colliderMaskData = m_entityController->GetColliderMask(m_iEntityNum);
-	LayerMask colliderMask = LayerMask(colliderMaskData[0], colliderMaskData[1], colliderMaskData[2], colliderMaskData[3]);
+	LayerMask colliderMask = LayerMask(colliderMaskData[0], colliderMaskData[1], colliderMaskData[2], colliderMaskData[3], colliderMaskData[4]);
 	m_colliderCircle->SetCollisionMask(colliderMask);
 	m_colliderBox->SetCollisionMask(colliderMask);
 }

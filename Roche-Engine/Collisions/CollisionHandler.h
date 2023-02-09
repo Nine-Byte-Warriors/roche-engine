@@ -22,10 +22,11 @@ public:
     void AddCollider(std::vector<std::shared_ptr<Collider>> colliders);
 
     void SetMatrix(CollisionMatrix collisionMatrix) { m_collisionMatrix.SetMatrix(collisionMatrix); }
-    void SetMatrix(bool dD, bool dP, bool dE, bool dPj,
-        bool pD, bool pP, bool pE, bool pPj,
-        bool eD, bool eP, bool eE, bool ePj,
-        bool pjD, bool pjP, bool pjE, bool pjPj);
+    void SetMatrix(bool dD, bool dP, bool dE, bool dPPj, bool dEPj,
+        bool pD, bool pP, bool pE, bool pPPj, bool pEPj,
+        bool eD, bool eP, bool eE, bool ePPj, bool eEPj,
+        bool ppjD, bool ppjP, bool ppjE, bool ppjPPj, bool ppjEPj,
+        bool epjD, bool epjP, bool epjE, bool epjPPj, bool epjEPj);
     void RemoveAllColliders();
     void RemoveCollider(std::shared_ptr<Collider> collider);
 

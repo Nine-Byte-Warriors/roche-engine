@@ -28,7 +28,8 @@ struct EntityData
 	bool bColliderInteractDecoration;
 	bool bColliderInteractPlayer;
 	bool bColliderInteractEnemy;
-	bool bColliderInteractProjectile;
+	bool bColliderInteractPlayerProjectile;
+	bool bColliderInteractEnemyProjectile;
 	std::string projectilePattern;
 	std::string projectileBullet;
 	bool AI;
@@ -66,7 +67,8 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(EntityData,
 	bColliderInteractDecoration,
 	bColliderInteractPlayer,
 	bColliderInteractEnemy,
-	bColliderInteractProjectile,
+	bColliderInteractPlayerProjectile,
+	bColliderInteractEnemyProjectile,
 	projectilePattern,
 	projectileBullet,
 	AI,
