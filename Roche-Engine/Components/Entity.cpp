@@ -80,7 +80,8 @@ void Entity::SetComponents()
 
 	if (GetType() == "Enemy")
 	{
-		m_agent->SetEmitter(m_emitter);
+		if(m_agent && m_emitter)
+			m_agent->SetEmitter(m_emitter);
 	}
 
 	if (GetType() == "Item")
@@ -90,8 +91,6 @@ void Entity::SetComponents()
 
 	if (GetType() == "LevelTrigger")
 	{
-		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
-			pManager->SetOwner(Projectile::ProjectileOwner::LevelTrigger);
 		m_levelTrigger = std::make_shared<LevelTrigger>(GetCollider());
 	}
 }
@@ -135,7 +134,7 @@ void Entity::Update(const float dt)
 	m_transform->Update();
 	m_physics->Update(dt);
 
-	if (m_entityController->HasAI(m_iEntityNum))
+	if (m_entityController->HasAI(m_iEntityNum) && m_agent && !m_agent->IsStateMachineNULL())
 		m_agent->Update(dt);
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))
@@ -458,17 +457,22 @@ void Entity::UpdateColliderLayer()
 		m_colliderCircle->SetLayer(LayerNo::Enemy);
 		m_colliderBox->SetLayer(LayerNo::Enemy);
 	}
-	else if (colliderLayer == "Projectile")
+	else if (colliderLayer == "PlayerProjectile")
 	{
-		m_colliderCircle->SetLayer(LayerNo::Projectile);
-		m_colliderBox->SetLayer(LayerNo::Projectile);
+		m_colliderCircle->SetLayer(LayerNo::PlayerProjectile);
+		m_colliderBox->SetLayer(LayerNo::PlayerProjectile);
+	}
+	else if (colliderLayer == "EnemyProjectile")
+	{
+		m_colliderCircle->SetLayer(LayerNo::EnemyProjectile);
+		m_colliderBox->SetLayer(LayerNo::EnemyProjectile);
 	}
 }
 
 void Entity::UpdateColliderMask()
 {
 	std::vector<bool> colliderMaskData = m_entityController->GetColliderMask(m_iEntityNum);
-	LayerMask colliderMask = LayerMask(colliderMaskData[0], colliderMaskData[1], colliderMaskData[2], colliderMaskData[3]);
+	LayerMask colliderMask = LayerMask(colliderMaskData[0], colliderMaskData[1], colliderMaskData[2], colliderMaskData[3], colliderMaskData[4]);
 	m_colliderCircle->SetCollisionMask(colliderMask);
 	m_colliderBox->SetCollisionMask(colliderMask);
 }

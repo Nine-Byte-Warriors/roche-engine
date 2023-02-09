@@ -30,6 +30,7 @@ private:
 	std::shared_ptr<Collider> m_collider;
 	float m_fCurrentHealth;
 	float m_fMaxHealth;
+	bool m_bIsDead = false;
 };
 
 #endif

@@ -12,22 +12,22 @@
             860.0
         ],
         "type": "Image",
-        "zindex": 0
+        "zindex": 1
     },
     {
         "action": "Title Card",
         "hide": false,
         "name": "Title Card",
         "position": [
-            673.0,
-            5.0
+            600.0,
+            0.0
         ],
         "scale": [
-            600.0,
-            600.0
+            700.0,
+            700.0
         ],
         "type": "Image",
-        "zindex": 1
+        "zindex": 2
     },
     {
         "action": "Link",
@@ -42,7 +42,7 @@
             120.0
         ],
         "type": "Button",
-        "zindex": 2
+        "zindex": 3
     },
     {
         "action": "Start",
@@ -57,7 +57,7 @@
             250.0
         ],
         "type": "Button",
-        "zindex": 3
+        "zindex": 4
     },
     {
         "action": "Settings",
@@ -72,7 +72,7 @@
             250.0
         ],
         "type": "Button",
-        "zindex": 4
+        "zindex": 5
     },
     {
         "action": "Close",
@@ -87,7 +87,7 @@
             250.0
         ],
         "type": "Button",
-        "zindex": 5
+        "zindex": 6
     },
     {
         "action": "Credits",
@@ -102,7 +102,7 @@
             120.0
         ],
         "type": "Button",
-        "zindex": 6
+        "zindex": 7
     },
     {
         "action": "Leaderboard",
@@ -117,6 +117,21 @@
             250.0
         ],
         "type": "Button",
-        "zindex": 7
+        "zindex": 8
+    },
+    {
+        "action": "Backdrop",
+        "hide": false,
+        "name": "Backdrop",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1920.0,
+            1080.0
+        ],
+        "type": "Image",
+        "zindex": 0
     }
 ]

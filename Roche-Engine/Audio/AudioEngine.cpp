@@ -63,7 +63,7 @@ void AudioEngine::Update()
 		if (m_vSFXSourceVoiceList.at(i)->GetState(&state), state.BuffersQueued <= 0)
 		{
 			m_vSFXSourceVoiceList.at(i)->DestroyVoice();
-			m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i	);
+			m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin() + i);
 		}
 	}
 }
@@ -76,8 +76,8 @@ void AudioEngine::LoadAudioFromJSON(std::string loadFilePath)
 
 	// Load audio into Sound Banks
 	for (int i = 0; soundFileListToLoad.size() > i; i++) {
-		LoadAudio(GetFileNameString(loadFilePath), StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).tagName, soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType, 
-									soundFileListToLoad.at(i).randomPitch, soundFileListToLoad.at(i).pitchMin, soundFileListToLoad.at(i).pitchMax);
+		LoadAudio(GetFileNameString(loadFilePath), StringHelper::StringToWide(soundFileListToLoad.at(i).filePath), soundFileListToLoad.at(i).tagName, soundFileListToLoad.at(i).volume, (AudioType)soundFileListToLoad.at(i).audioType,
+			soundFileListToLoad.at(i).randomPitch, soundFileListToLoad.at(i).pitchMin, soundFileListToLoad.at(i).pitchMax);
 	}
 }
 
@@ -231,12 +231,6 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 					break;
 				}
 
-				//if (FAILED(hr = m_pXAudio2->CreateSourceVoice(&pVoice, soundBank.at(i)->sourceFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO,
-				//	NULL, NULL, NULL))) {
-				//	ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to CreateSourceVoice");
-				//	return hr;
-				//}
-
 				if (FAILED(hr = pVoice->SubmitSourceBuffer(soundBank.at(i)->buffer))) {
 					ErrorLogger::Log(hr, "AudioEngine::PlayAudio: Failed to SubmitSourceBuffer");
 					return hr;
@@ -279,7 +273,7 @@ HRESULT AudioEngine::PlayAudio(std::string soundBankName, std::string tagName, A
 HRESULT AudioEngine::UnpauseMusic()
 {
 	HRESULT hr = S_OK;
-	
+
 	if (m_bIsMusicPaused) {
 		for (int i = 0; m_vMusicSourceVoiceList.size() > i; i++) {
 			m_vMusicSourceVoiceList.at(i)->Start(0);
