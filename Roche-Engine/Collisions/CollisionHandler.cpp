@@ -19,15 +19,20 @@ void CollisionHandler::AddCollider(std::vector<std::shared_ptr<Collider>> collid
     }
 }
 
-void CollisionHandler::SetMatrix(bool dD, bool dP, bool dE, bool dPj,
-    bool pD, bool pP, bool pE, bool pPj,
-    bool eD, bool eP, bool eE, bool ePj,
-    bool pjD, bool pjP, bool pjE, bool pjPj)
+void CollisionHandler::SetMatrix( 
+    bool dD, bool dP, bool dE, bool dPPj, bool dEPj,
+    bool pD, bool pP, bool pE, bool pPPj, bool pEPj,
+    bool eD, bool eP, bool eE, bool ePPj, bool eEPj,
+    bool ppjD, bool ppjP, bool ppjE, bool ppjPPj, bool ppjEPj,
+    bool epjD, bool epjP, bool epjE, bool epjPPj, bool epjEPj)
 {
-    m_collisionMatrix.SetMatrix(dD, dP, dE, dPj,
-        pD, pP, pE, pPj,
-        eD, eP, eE, ePj,
-        pjD, pjP, pjE, pjPj);
+
+    m_collisionMatrix.SetMatrix(
+        dD, dP, dE, dPPj, dEPj,
+        pD, pP, pE, pPPj, pEPj,
+        eD, eP, eE, ePPj, eEPj,
+        ppjD, ppjP, ppjE, ppjPPj, ppjEPj,
+        epjD, epjP, epjE, epjPPj, epjEPj);
 }
 
 void CollisionHandler::RemoveAllColliders()
