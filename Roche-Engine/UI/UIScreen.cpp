@@ -656,6 +656,10 @@ void UIScreen::Update( const float dt )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Title\\Title.png");
 			}
+			if (m_vWidgets[i]->GetAction() == "Backdrop")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Backdrop\\Main menu backdrop.png");
+			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve( "", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Board\\Board.png" );
