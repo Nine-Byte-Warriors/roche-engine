@@ -275,6 +275,7 @@ void UIManager::HandleEvent(Event* event)
 			{
 				ShowUI("HUD_Night");
 			}
+			ShowUI("Menu_Widgets");
 		}
 		break;
 	}

@@ -793,7 +793,7 @@ void EntityEditor::SetColliderLayer()
 
 	static int curLayer = 0;
 	std::string previewColliderLayer = m_vEntityDataCopy[m_iIdentifier].sColliderLayer;
-	const char* colliderList[]{ "Decoration", "Player", "Enemy", "Projectile"};
+	const char* colliderList[]{ "Decoration", "Player", "Enemy", "PlayerProjectile", "EnemyProjectile"};
 	std::string lable = "##Entity" + displayText + std::to_string(m_iIdentifier);
 
 	if (ImGui::BeginCombo(lable.c_str(), previewColliderLayer.c_str()))
@@ -839,8 +839,10 @@ void EntityEditor::SetColliderMask()
 	ImGui::Checkbox("Player", &m_vEntityDataCopy[m_iIdentifier].bColliderInteractPlayer);
 	ImGui::SameLine();
 	ImGui::Checkbox("Enemy", &m_vEntityDataCopy[m_iIdentifier].bColliderInteractEnemy);
+	
+	ImGui::Checkbox("PlayerProjectile", &m_vEntityDataCopy[m_iIdentifier].bColliderInteractPlayerProjectile);
 	ImGui::SameLine();
-	ImGui::Checkbox("Projectile", &m_vEntityDataCopy[m_iIdentifier].bColliderInteractProjectile);
+	ImGui::Checkbox("EnemyProjectile", &m_vEntityDataCopy[m_iIdentifier].bColliderInteractEnemyProjectile);
 #endif
 }
 
