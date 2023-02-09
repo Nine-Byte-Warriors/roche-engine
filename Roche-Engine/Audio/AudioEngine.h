@@ -5,21 +5,11 @@
 #include <xaudio2.h>
 #include <thread>
 #include <mutex>
-//#include <stdafx.h>
 #include <filesystem>
 
 #include <nlohmann/json.hpp>
 #include <JsonLoading.h>
-
-//#ifndef VOICECALLBACK_H
-//#define VOICECALLBACK_H
 //#include "VoiceCallback.h"
-
-
-//#include <tchar.h>
-//#include <winnt.h>
-
-//#include "mmeapi.h"
 
 // Windows uses Little-Endian
 #define fourccRIFF 'FFIR'
@@ -34,7 +24,6 @@ class VoiceCallback;
 struct SoundBankFile
 {
 	std::vector<std::shared_ptr<SoundBankFile>>* soundBankAddress;
-	//std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> soundBankAddress;
 	std::string soundBankName;
 	std::wstring fileName;
 	std::string tagName;
@@ -92,7 +81,6 @@ public:
 	void LoadSoundBanksList(std::string loadFilePath);
 	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, std::string tagName, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
 	HRESULT PlayAudio(std::string soundBankName, std::string tagName, AudioType audioType);
-	//HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
 	HRESULT PauseMusic(); // Pauses ALL music
 	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
@@ -177,4 +165,4 @@ private:
 
 };
 
-#endif // VOICECALLBACK_H
+#endif // AUDIOENGINE_H
