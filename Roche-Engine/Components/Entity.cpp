@@ -80,7 +80,8 @@ void Entity::SetComponents()
 
 	if (GetType() == "Enemy")
 	{
-		m_agent->SetEmitter(m_emitter);
+		if(m_agent && m_emitter)
+			m_agent->SetEmitter(m_emitter);
 	}
 
 	if (GetType() == "Item")
@@ -135,7 +136,7 @@ void Entity::Update(const float dt)
 	m_transform->Update();
 	m_physics->Update(dt);
 
-	if (m_entityController->HasAI(m_iEntityNum))
+	if (m_entityController->HasAI(m_iEntityNum) && m_agent && !m_agent->IsStateMachineNULL())
 		m_agent->Update(dt);
 
 	if (m_entityController->HasProjectileSystem(m_iEntityNum))

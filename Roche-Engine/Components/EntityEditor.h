@@ -81,7 +81,7 @@ private:
 	void AddNewEntity();
 	void RemoveEntity();
 
-	std::string JsonFile = "Entity_Menu.json";
+	std::string JsonFile = "Entity_Game.json";
 
 	std::vector<EntityData> m_vEntityData;
 

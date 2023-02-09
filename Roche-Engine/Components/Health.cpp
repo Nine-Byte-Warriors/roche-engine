@@ -32,7 +32,7 @@ void Health::TakeDamage( float damageAmount )
 	OutputDebugStringA(currhealth.c_str());
 #endif
 
-	if ( m_fCurrentHealth <= 0 )
+	if ( m_fCurrentHealth <= 0 && !m_bIsDead)
 	{
 		m_fCurrentHealth = 0;
 		if (m_sType == "Player")
@@ -52,6 +52,8 @@ void Health::TakeDamage( float damageAmount )
 			EventSystem::Instance()->AddEvent(EVENTID::UpdateScore);
 			EventSystem::Instance()->AddEvent(EVENTID::GainCoins);
 		}
+
+		m_bIsDead = true;
 	}
 }
 
