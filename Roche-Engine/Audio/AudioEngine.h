@@ -123,14 +123,20 @@ public:
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
 	inline float GetMasterVolume() { return m_fMasterVolume; }
-	inline void SetMasterVolume(float masterVolume) { 
-		m_fMasterVolume = masterVolume; 
+	inline void SetMasterVolume(float masterVolume) {
+		m_fMasterVolume = masterVolume;
 		m_pMasterVoice->SetVolume(m_fMasterVolume);
 	};
 	inline float GetMusicVolume() { return m_fMusicVolume; }
-	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
+	inline void SetMusicVolume(float musicVolume) {
+		m_fMusicVolume = musicVolume;
+		m_pMusicSubmixVoice->SetVolume(m_fMusicVolume);
+	};
 	inline float GetSFXVolume() { return m_fSFXVolume; }
-	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
+	inline void SetSFXVolume(float sfxVolume) {
+		m_fSFXVolume = sfxVolume;
+		m_pSFXSubmixVoice->SetVolume(m_fSFXVolume);
+	};
 	inline void SetDefaultVolume(std::shared_ptr<SoundBankFile> soundBank, float newVolume) { soundBank->volume = newVolume; };
 	inline void SetRandomPitch(std::shared_ptr<SoundBankFile> soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
 	inline void SetPitchMin(std::shared_ptr<SoundBankFile> soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
@@ -140,12 +146,17 @@ private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;
 
+	IXAudio2SubmixVoice* m_pSFXSubmixVoice;
+	XAUDIO2_SEND_DESCRIPTOR* m_pSFXSend;
+	XAUDIO2_VOICE_SENDS* m_pSFXSendList;
+
+	IXAudio2SubmixVoice* m_pMusicSubmixVoice;
+	XAUDIO2_SEND_DESCRIPTOR* m_pMusicSend;
+	XAUDIO2_VOICE_SENDS* m_pMusicSendList;
+
 	// For singleton
 	static AudioEngine* m_pAudioEngineInstance;
 	static std::mutex m_mutex;
-
-	IXAudio2SourceVoice* pSourceVoice;
-	IXAudio2SourceVoice* pSourceVoice2;
 
 	std::vector<std::string> m_vSoundBankNamesList;
 
