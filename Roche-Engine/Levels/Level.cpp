@@ -40,6 +40,11 @@ void Level::CreateEntity()
     m_entityController.RemoveEnemiesFromEntityData();
 #endif
 
+    m_fMaxHealth = 0;
+    *m_fCurrentHealth = 0;
+    EventSystem::Instance()->AddEvent(EVENTID::EnemyMaxHealth, &m_fMaxHealth);
+    EventSystem::Instance()->AddEvent(EVENTID::EnemyCurrentHealth, m_fCurrentHealth);
+
     m_entity.clear();
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)
@@ -153,7 +158,6 @@ void Level::OnSwitch()
     EventSystem::Instance()->AddEvent( EVENTID::ShowCursorEvent );
     CreateEntity();
     CreateUI();
-    m_fMaxHealth = 0;
 }
 
 void Level::BeginFrame()
