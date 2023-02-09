@@ -57,6 +57,11 @@ private:
 	UINT m_viewHeight;
 	float m_clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
+	bool m_bFadeToBlack_Start = false;
+	bool m_bFadeToBlack_Game = false;
+	bool m_bFadeToBlack_GameRestart = false;
+	bool m_bFadeToBlack_Shop = false;
+	bool m_bFadeFromBlack = false;
 	ConstantBuffer<RenderToTexture> m_cbPostProcessing;
 	float m_overlayColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
