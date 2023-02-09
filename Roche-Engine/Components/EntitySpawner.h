@@ -45,7 +45,7 @@ private:
 	std::vector<EntityData> m_vEnemyEntityData;
 	std::vector<EntityData> m_vEntityDataLive;
 
-	std::string JsonFile = "Entity_Game.json";
+	std::string JsonFile = "Entity_Menu.json";
 
 	Phase m_currentGamePhase;
 };

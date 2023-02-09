@@ -104,6 +104,15 @@ enum class EVENTID
 	GreenOverlayColour,
 	BlueOverlayColour,
 	HUDSwap,
+	
+	UpdateBrightness,
+	UpdateBrightness_Day,
+	FadeToBlack_Start,
+	FadeToBlack_Game,
+	FadeToBlack_GameRestart,
+	FadeToBlack_Shop,
+	FadeFromBlack,
+
 	// GameRestartEvent, // Added in game events, affects UI as well
 
 	// DEBUG

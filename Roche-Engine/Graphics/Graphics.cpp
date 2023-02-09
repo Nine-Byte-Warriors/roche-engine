@@ -170,6 +170,66 @@ void Graphics::BeginFrame()
 	// Clear render target/depth stencil
     m_pRenderTarget->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
     m_pDepthStencil->ClearDepthStencil( m_pContext.Get() );
+	
+	// Handle Level Change Post-Processing
+	static float dt = 0.02f;
+	static float counter = 0.0f;
+	if ( m_bFadeToBlack_Start ||
+		 m_bFadeToBlack_Game ||
+		 m_bFadeToBlack_GameRestart ||
+		 m_bFadeToBlack_Shop )
+	{
+		counter += dt;
+		if ( m_overlayColor[0] > 0.0f )
+			m_overlayColor[0] -= dt;
+		if ( m_overlayColor[1] > 0.0f )
+			m_overlayColor[1] -= dt;
+		if ( m_overlayColor[2] > 0.0f )
+			m_overlayColor[2] -= dt;
+
+		if ( counter > 2.0f )
+		{
+			counter = 0.0f;
+			if ( m_bFadeToBlack_Start )
+			{
+				m_bFadeToBlack_Start = false;
+				EventSystem::Instance()->AddEvent( EVENTID::StartGame );
+			}
+			else if ( m_bFadeToBlack_Game )
+			{
+				m_bFadeToBlack_Game = false;
+				EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
+			}
+			else if ( m_bFadeToBlack_GameRestart )
+			{
+				m_bFadeToBlack_GameRestart = false;
+				EventSystem::Instance()->AddEvent( EVENTID::GameRestartEvent );
+			}
+			else if ( m_bFadeToBlack_Shop )
+			{
+				m_bFadeToBlack_Shop = false;
+				EventSystem::Instance()->AddEvent( EVENTID::SwapGameLevels );
+			}
+		}
+	}
+
+	if ( m_bFadeFromBlack )
+	{
+		counter += dt;
+		if ( m_overlayColor[0] < 1.0f )
+			m_overlayColor[0] += dt;
+		if ( m_overlayColor[1] < 1.0f )
+			m_overlayColor[1] += dt;
+		if ( m_overlayColor[2] < 1.0f )
+			m_overlayColor[2] += dt;
+
+		if ( counter > 2.0f )
+		{
+			counter = 0.0f;
+			m_bFadeFromBlack = false;
+			EventSystem::Instance()->AddEvent( EVENTID::UpdateBrightness_Day );
+		}
+	}
 }
 
 void Graphics::EndFrame()
@@ -192,6 +252,11 @@ void Graphics::EndFrame()
 
 void Graphics::AddToEvent() noexcept
 {
+	EventSystem::Instance()->AddClient( EVENTID::FadeToBlack_Start, this );
+	EventSystem::Instance()->AddClient( EVENTID::FadeToBlack_Game, this );
+	EventSystem::Instance()->AddClient( EVENTID::FadeToBlack_GameRestart, this );
+	EventSystem::Instance()->AddClient( EVENTID::FadeToBlack_Shop, this );
+	EventSystem::Instance()->AddClient( EVENTID::FadeFromBlack, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::UpdateSettingsEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::RedOverlayColour, this );
@@ -201,6 +266,11 @@ void Graphics::AddToEvent() noexcept
 
 void Graphics::RemoveFromEvent() noexcept
 {
+	EventSystem::Instance()->RemoveClient( EVENTID::FadeToBlack_Start, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::FadeToBlack_Game, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::FadeToBlack_GameRestart, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::FadeToBlack_Shop, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::FadeFromBlack, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSettingsEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::RedOverlayColour, this );
@@ -215,6 +285,11 @@ void Graphics::HandleEvent( Event* event )
 	case EVENTID::RedOverlayColour: { m_overlayColor[0] = *static_cast<float*>( event->GetData() ); } break;
 	case EVENTID::GreenOverlayColour: { m_overlayColor[1] = *static_cast<float*>( event->GetData() ); } break;
 	case EVENTID::BlueOverlayColour: { m_overlayColor[2] = *static_cast<float*>( event->GetData() ); } break;
+	case EVENTID::FadeToBlack_Start: { m_bFadeToBlack_Start = true; } break;
+	case EVENTID::FadeToBlack_Game: { m_bFadeToBlack_Game = true; } break;
+	case EVENTID::FadeToBlack_GameRestart: { m_bFadeToBlack_GameRestart = true; } break;
+	case EVENTID::FadeToBlack_Shop: { m_bFadeToBlack_Shop = true; } break;
+	case EVENTID::FadeFromBlack: { m_bFadeFromBlack = true; } break;
 	case EVENTID::WindowSizeChangeEvent:
 	{
 		XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
