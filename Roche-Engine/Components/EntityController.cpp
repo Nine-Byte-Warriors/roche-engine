@@ -135,10 +135,11 @@ std::vector<bool> EntityController::GetColliderMask(int num)
 	bool decoration = m_entityData[num].bColliderInteractDecoration;
 	bool player = m_entityData[num].bColliderInteractPlayer;
 	bool enemy = m_entityData[num].bColliderInteractEnemy;
-	bool projectile = m_entityData[num].bColliderInteractProjectile;
+	bool playerProjectile = m_entityData[num].bColliderInteractPlayerProjectile;
+	bool enemyProjectile = m_entityData[num].bColliderInteractEnemyProjectile;
 
 	//dec , player, enemy, proj
-	std::vector<bool> colliderMask = {decoration, player, enemy, projectile};
+	std::vector<bool> colliderMask = {decoration, player, enemy, playerProjectile, enemyProjectile };
 	return colliderMask;
 }
 
