@@ -5,11 +5,12 @@
 
 EntityController::EntityController()
 {
-	SetJsonFile(JsonFile);
 }
 
 void EntityController::SetJsonFile( const std::string& name )
 {
+	AddToEvent();
+
 	JsonLoading::LoadJson(m_entityData, FOLDER_PATH + name);
 	JsonLoading::LoadJson(m_entityEnemyData, FOLDER_PATH + name);
 	RemoveNonEnemiesFromEntityEnemyData();
@@ -24,6 +25,7 @@ void EntityController::SetJsonFile( const std::string& name )
 EntityController::~EntityController()
 {
 	EventSystem::Instance()->RemoveClient(EVENTID::EnemyDeath, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::GameLevelChangeEvent, this);
 }
 
 int EntityController::GetSize()
@@ -217,7 +219,7 @@ void EntityController::AddEntityData(std::vector<EntityData> entityData)
 
 void EntityController::AddEntityData(EntityData entityData)
 {
-	m_entityData.push_back(entityData);	
+	m_entityData.push_back(entityData);
 }
 
 bool EntityController::HasAI(int num)
@@ -284,8 +286,11 @@ void EntityController::UpdateCopy()
 
 void EntityController::SetDead(int num)
 {
-	m_dead.push_back(num);
-	m_entityData.erase(m_entityData.begin() + num);
+	if (m_entityData.size() > num && m_entityData[num].type == "Enemy")
+	{
+		m_dead.push_back(num);
+		m_entityData.erase(m_entityData.begin() + num);
+	}
 }
 
 void EntityController::RemoveEnemiesFromEntityData()

@@ -160,8 +160,6 @@ private:
 	void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
 
-	std::string JsonFile = "Entity.json";
-
 	std::vector<EntityData> m_entityEnemyData;
 	std::vector<EntityData> m_entityData;
 	std::vector<EntityData> m_entityDataCopy;
