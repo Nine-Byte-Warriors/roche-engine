@@ -23,6 +23,11 @@ Projectile::Projectile(float fSpeed, std::string type, float fLifeTime)
 	m_physics = std::make_shared<Physics>(m_transform);
 	m_collider = std::make_shared<CircleCollider>(m_transform, m_sprite, true, 2, type, 32);
 
+	if(type == "PlayerProjectile")
+	m_collider->SetLayer(LayerNo::PlayerProjectile);
+	else if(type == "EnemyProjectile")
+	m_collider->SetLayer(LayerNo::EnemyProjectile);
+
 	m_owner = ProjectileOwner::None;
 }
 

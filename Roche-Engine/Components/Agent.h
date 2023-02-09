@@ -33,6 +33,7 @@ public:
 
 	void SetEmitter(std::shared_ptr<Emitter>& pEmitter) { m_pEmitter = pEmitter; }
 	std::shared_ptr<Emitter> GetEmitter() const { return m_pEmitter; }
+	inline bool IsStateMachineNULL() { return m_pStateMachine; }
 
 	void AddToEvent() noexcept;
 	void RemoveFromEvent() noexcept;
