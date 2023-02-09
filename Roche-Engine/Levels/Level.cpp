@@ -369,7 +369,9 @@ void Level::UpdateEntity(const float dt)
     {
         AddNewEntity();
     }
+#if _DEBUG
     else if (m_iEntityAmount != m_entityController.GetSize() || m_entityController.HasComponentUpdated() || m_entityController.GetDead().size() != 0)
+#endif
     {
         RemoveEntities();
     }
@@ -425,14 +427,10 @@ void Level::AddNewEntity()
 }
 
 void Level::RemoveEntities()
-{
-    m_entitiesDeleted = m_entityController.GetDead();
-    std::sort(m_entitiesDeleted.begin(), m_entitiesDeleted.end());
-    
+{    
 #if _DEBUG
     m_entitiesDeleted = m_entityEditor.GetEntitiesDeleted();
-#endif
-
+#else
     for (int i = 0; i < m_entity.size(); i++)
     {
         if (m_entity[i].GetHealth() && m_entity[i].GetHealth()->GetCurrentHealth() <= 0)
@@ -440,12 +438,24 @@ void Level::RemoveEntities()
             m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
             std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
             m_entity[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+            m_entity[i].GetAI()->SetBehaviour(AILogic::AIStateTypes::Idle);
+            m_entity[i].GetTransform()->SetPosition(-9999, -9999);
         }
+    }
+#endif
+
+#if _DEBUG
+    for (int i = 0; i < m_entitiesDeleted.size(); i++)
+    {
+        m_collisionHandler.RemoveCollider(m_entity[m_entitiesDeleted[i]].GetCollider());
+        m_entity.erase(m_entity.begin() + m_entitiesDeleted[i]);
     }
 
     m_entitiesDeleted.clear();
 
-#if _DEBUG
+    for (int i = 0; i < m_entity.size(); i++)
+        m_entity[i].UpdateEntityNum(i);
+
     m_iEntityAmount = m_entityEditor.GetEntityData().size();
     m_entityEditor.ClearEntitiesDeleted();
 #else
