@@ -5,6 +5,8 @@ void GameManager::Initialize()
 {
 	m_currentState = GameState::Unpaused;
 	m_currentPhase = Phase::DayPhase;
+	UpdateBrightness();
+	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
 	m_currentDay = 1;
 }
 
@@ -39,10 +41,7 @@ void GameManager::SetPhase()
 		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
 	}
 
-	if (m_currentPhase == Phase::DayPhase)
-		DayPhase();
-	else if (m_currentPhase == Phase::NightPhase)
-		NightPhase();
+	UpdateBrightness();
 }
 
 GameManager::~GameManager()
@@ -57,6 +56,8 @@ GameManager::~GameManager()
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::PlayMainMenuMusic, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness_Day, this);
 }
 
 void GameManager::HandleEvent(Event* event)
@@ -69,7 +70,6 @@ void GameManager::HandleEvent(Event* event)
 	case EVENTID::ChangePhase:
 		SetPhase();
 		break;
-
 	case EVENTID::NextDay:
 		SetNextDay();
 		break;
@@ -94,6 +94,12 @@ void GameManager::HandleEvent(Event* event)
 	case EVENTID::PlayMainMenuMusic:
 		AudioEngine::GetInstance()->PlayAudio("MusicMenu", "MainMenuMusic", MUSIC);
 		break;
+	case EVENTID::UpdateBrightness:
+		UpdateBrightness();
+		break;
+	case EVENTID::UpdateBrightness_Day:
+		UpdateBrightness_Day();
+		break;
 	default:
 		break;
 	}
@@ -111,6 +117,8 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::PlayDayMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayShopMusic, this);
 	EventSystem::Instance()->AddClient(EVENTID::PlayMainMenuMusic, this);
+	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness, this);
+	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness_Day, this);
 }
 
 void GameManager::DayPhase()
@@ -118,7 +126,6 @@ void GameManager::DayPhase()
 	*m_fRedOverlay = 1.0f;
 	*m_fGreenOverlay = 1.0f;
 	*m_fBlueOverlay = 1.0f;
-	UpdateBrigtness();
 }
 
 void GameManager::NightPhase()
@@ -126,11 +133,20 @@ void GameManager::NightPhase()
 	*m_fRedOverlay = 0.8f;
 	*m_fGreenOverlay = 0.8f;
 	*m_fBlueOverlay = 1.0f;
-	UpdateBrigtness();
 }
 
-void GameManager::UpdateBrigtness()
+void GameManager::UpdateBrightness_Day()
 {
+	m_currentPhase = Phase::DayPhase;
+	UpdateBrightness();
+}
+
+void GameManager::UpdateBrightness()
+{
+	if (m_currentPhase == Phase::DayPhase)
+		DayPhase();
+	else if (m_currentPhase == Phase::NightPhase)
+		NightPhase();
 	EventSystem::Instance()->AddEvent(EVENTID::RedOverlayColour, m_fRedOverlay);
 	EventSystem::Instance()->AddEvent(EVENTID::GreenOverlayColour, m_fGreenOverlay);
 	EventSystem::Instance()->AddEvent(EVENTID::BlueOverlayColour, m_fBlueOverlay);

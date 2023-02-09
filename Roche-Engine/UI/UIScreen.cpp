@@ -108,13 +108,13 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
 				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
-					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
+					EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Game );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
-						EventSystem::Instance()->AddEvent( EVENTID::StartGame );
+						EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Start );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
 			{
@@ -149,13 +149,13 @@ void UIScreen::Update( const float dt )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
-						EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
+						EventSystem::Instance()->AddEvent(EVENTID::FadeToBlack_GameRestart);
 			}
 			if (m_vWidgets[i]->GetAction() == "Confirm")
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-						EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
+						EventSystem::Instance()->AddEvent(EVENTID::FadeToBlack_Shop);
 			}
 			if (m_vWidgets[i]->GetAction() == "Deny")
 			{
