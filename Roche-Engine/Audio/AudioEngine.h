@@ -5,21 +5,11 @@
 #include <xaudio2.h>
 #include <thread>
 #include <mutex>
-//#include <stdafx.h>
 #include <filesystem>
 
 #include <nlohmann/json.hpp>
 #include <JsonLoading.h>
-
-//#ifndef VOICECALLBACK_H
-//#define VOICECALLBACK_H
 //#include "VoiceCallback.h"
-
-
-//#include <tchar.h>
-//#include <winnt.h>
-
-//#include "mmeapi.h"
 
 // Windows uses Little-Endian
 #define fourccRIFF 'FFIR'
@@ -34,7 +24,6 @@ class VoiceCallback;
 struct SoundBankFile
 {
 	std::vector<std::shared_ptr<SoundBankFile>>* soundBankAddress;
-	//std::shared_ptr<std::vector<std::shared_ptr<SoundBankFile>>> soundBankAddress;
 	std::string soundBankName;
 	std::wstring fileName;
 	std::string tagName;
@@ -92,7 +81,6 @@ public:
 	void LoadSoundBanksList(std::string loadFilePath);
 	HRESULT LoadAudio(std::string soundBankName, std::wstring filePath, std::string tagName, float volume, AudioType audioType, bool randomPitchEnabled, float pitchMinimum, float pitchMaximum); // supports *.wav format only
 	HRESULT PlayAudio(std::string soundBankName, std::string tagName, AudioType audioType);
-	//HRESULT PlayAudio(std::wstring fileName, AudioType audioType);
 	HRESULT UnpauseMusic(); // Unpauses ALL music
 	HRESULT PauseMusic(); // Pauses ALL music
 	HRESULT StopMusic(); // Stops ALL music and removes it from music source voice list
@@ -123,14 +111,20 @@ public:
 	// Volume controls - these are taken into consideration when playing audio, alongside with master volume
 	// Master volume has its own set of functions to control (use master voice for this)
 	inline float GetMasterVolume() { return m_fMasterVolume; }
-	inline void SetMasterVolume(float masterVolume) { 
-		m_fMasterVolume = masterVolume; 
+	inline void SetMasterVolume(float masterVolume) {
+		m_fMasterVolume = masterVolume;
 		m_pMasterVoice->SetVolume(m_fMasterVolume);
 	};
 	inline float GetMusicVolume() { return m_fMusicVolume; }
-	inline void SetMusicVolume(float musicVolume) { m_fMusicVolume = musicVolume; };
+	inline void SetMusicVolume(float musicVolume) {
+		m_fMusicVolume = musicVolume;
+		m_pMusicSubmixVoice->SetVolume(m_fMusicVolume);
+	};
 	inline float GetSFXVolume() { return m_fSFXVolume; }
-	inline void SetSFXVolume(float sfxVolume) { m_fSFXVolume = sfxVolume; };
+	inline void SetSFXVolume(float sfxVolume) {
+		m_fSFXVolume = sfxVolume;
+		m_pSFXSubmixVoice->SetVolume(m_fSFXVolume);
+	};
 	inline void SetDefaultVolume(std::shared_ptr<SoundBankFile> soundBank, float newVolume) { soundBank->volume = newVolume; };
 	inline void SetRandomPitch(std::shared_ptr<SoundBankFile> soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
 	inline void SetPitchMin(std::shared_ptr<SoundBankFile> soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
@@ -140,12 +134,17 @@ private:
 	IXAudio2* m_pXAudio2; // XAudio2 audio engine instance
 	IXAudio2MasteringVoice* m_pMasterVoice;
 
+	IXAudio2SubmixVoice* m_pSFXSubmixVoice;
+	XAUDIO2_SEND_DESCRIPTOR* m_pSFXSend;
+	XAUDIO2_VOICE_SENDS* m_pSFXSendList;
+
+	IXAudio2SubmixVoice* m_pMusicSubmixVoice;
+	XAUDIO2_SEND_DESCRIPTOR* m_pMusicSend;
+	XAUDIO2_VOICE_SENDS* m_pMusicSendList;
+
 	// For singleton
 	static AudioEngine* m_pAudioEngineInstance;
 	static std::mutex m_mutex;
-
-	IXAudio2SourceVoice* pSourceVoice;
-	IXAudio2SourceVoice* pSourceVoice2;
 
 	std::vector<std::string> m_vSoundBankNamesList;
 
@@ -166,4 +165,4 @@ private:
 
 };
 
-#endif // VOICECALLBACK_H
+#endif // AUDIOENGINE_H
