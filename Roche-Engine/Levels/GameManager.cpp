@@ -18,10 +18,7 @@ void GameManager::SetCurrentState(GameState state)
 
 void GameManager::SetNextDay()
 {
-	if (m_currentDay <= 5)
-		m_currentDay++;
-	else
-		m_currentDay = 1;
+	m_currentDay++;
 
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentDay, &m_currentDay);
 }
@@ -29,17 +26,22 @@ void GameManager::SetNextDay()
 void GameManager::SetPhase()
 {
 	if (m_currentPhase == Phase::DayPhase)
-	{
 		m_currentPhase = Phase::NightPhase;
-	}
 	else if (m_currentPhase == Phase::NightPhase)
 	{
+		if (m_currentDay >= 5)
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::WinWindow);
+			return;
+		}
+
 		m_currentPhase = Phase::DayPhase;
 	}
+
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
-	if (m_currentState == GameState::Unpaused) {
+
+	if (m_currentState == GameState::Unpaused) 
 		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
-	}
 
 	UpdateBrightness();
 }
