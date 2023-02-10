@@ -70,6 +70,8 @@ GameManager::~GameManager()
 	EventSystem::Instance()->RemoveClient(EVENTID::LoadPlayerHealth, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::UpdateBrightness_Day, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::SetPlayerInventory, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::LoadPlayerInventory, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::ReinitializeGameManager, this);
 }
 
@@ -123,6 +125,12 @@ void GameManager::HandleEvent(Event* event)
 	case EVENTID::UpdateBrightness_Day:
 		UpdateBrightness_Day();
 		break;
+	case EVENTID::SetPlayerInventory:
+		m_vSeedOptions = *static_cast<std::map<std::string, int>*>(event->GetData());
+		break;
+	case EVENTID::LoadPlayerInventory:
+		EventSystem::Instance()->AddEvent(EVENTID::SavePlayerInventory, &m_vSeedOptions);
+		break;
 	default:
 		break;
 	}
@@ -144,6 +152,8 @@ void GameManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::LoadPlayerHealth, this);
 	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness, this);
 	EventSystem::Instance()->AddClient(EVENTID::UpdateBrightness_Day, this);
+	EventSystem::Instance()->AddClient(EVENTID::SetPlayerInventory, this);
+	EventSystem::Instance()->AddClient(EVENTID::LoadPlayerInventory, this);
 	EventSystem::Instance()->AddClient(EVENTID::ReinitializeGameManager, this);
 }
 

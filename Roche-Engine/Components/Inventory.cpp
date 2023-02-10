@@ -91,6 +91,7 @@ void Inventory::BuySeedPacket( const std::string& seedName, int amountBought )
 {
 	AudioEngine::GetInstance()->PlayAudio(SHOPSOUNDS, "ShopPurchase", SFX);
 	ChangeSeedPacketValue(seedName, amountBought);
+	EventSystem::Instance()->AddEvent(EVENTID::SetPlayerInventory, &m_vSeedOptions);
 }
 
 void Inventory::ChangeSeedPacketValue( const std::string& seedName, int amountToChange )
@@ -110,6 +111,11 @@ void Inventory::UpdateCoins(int amountToChange)
 	m_iCoinAmount += amountToChange;
 }
 
+void Inventory::LoadInventory()
+{
+	EventSystem::Instance()->AddEvent(EVENTID::LoadPlayerInventory);
+}
+
 void Inventory::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient( EVENTID::IncrementSeedPacket, this );
@@ -118,6 +124,7 @@ void Inventory::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->AddClient(EVENTID::GainCoins, this);
 	EventSystem::Instance()->AddClient(EVENTID::BuyPotion, this);
+	EventSystem::Instance()->AddClient(EVENTID::SavePlayerInventory, this);
 }
 
 void Inventory::RemoveFromEvent() noexcept
@@ -128,6 +135,7 @@ void Inventory::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::UpdateSeed, this );
 	EventSystem::Instance()->RemoveClient(EVENTID::GainCoins, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::BuyPotion, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::SavePlayerInventory, this);
 }
 
 void Inventory::HandleEvent( Event* event )
@@ -196,6 +204,16 @@ void Inventory::HandleEvent( Event* event )
 	case EVENTID::GainCoins:
 	{
 		UpdateCoins( 1 );
+	}
+	break;
+	case EVENTID::SavePlayerInventory:
+	{
+		std::map<std::string, int> tempMap = *static_cast<std::map<std::string, int>*>(event->GetData());
+
+		if (tempMap.size() == m_vSeedOptions.size())
+		{
+			m_vSeedOptions = tempMap;
+		}
 	}
 	break;
 	default: break;

@@ -49,6 +49,8 @@ private:
 	float* m_fBlueOverlay = new float;
 
 	float m_fSaveCurrentHealth;
+
+	std::map<std::string, int> m_vSeedOptions;
 };
 
 #endif // !GAMEMANAGER_H
