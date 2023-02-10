@@ -240,7 +240,7 @@ void Graphics::EndFrame()
 	m_pBackBuffer->BindNull( m_pContext.Get() );
 
 	// Present frame
-	HRESULT hr = m_pSwapChain->GetSwapChain()->Present( 0u, NULL );
+	HRESULT hr = m_pSwapChain->GetSwapChain()->Present( 1u, NULL );
 	if ( FAILED( hr ) )
 	{
 		hr == DXGI_ERROR_DEVICE_REMOVED ?
