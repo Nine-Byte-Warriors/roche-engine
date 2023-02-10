@@ -54,6 +54,10 @@ enum class EVENTID
 	LoadPlayerHealth,
 	GetPlayerHealth,
 	SetPlayerHealth,
+	SetPlayerInventory,
+	GetPlayerInventory,
+	LoadPlayerInventory,
+	SavePlayerInventory,
 	RemoveAllColliders,
 
 	// Camera Actions

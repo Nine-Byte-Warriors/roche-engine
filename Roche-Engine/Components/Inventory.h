@@ -17,6 +17,8 @@ public :
 	inline int GetActiveSeedPacket() const noexcept { return m_iCurrentSeed; }
 	void SetActiveSeedPacket( int currSeed );
 
+	void LoadInventory();
+
 	std::string GetTexture();
 	std::string GetName();
 
