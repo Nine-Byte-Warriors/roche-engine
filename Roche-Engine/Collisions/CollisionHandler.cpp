@@ -3,6 +3,7 @@
 
 CollisionHandler::CollisionHandler(CollisionMatrix collisionMatrix)
 {
+    AddToEvent();
     m_collisionMatrix.SetMatrix(collisionMatrix);
 }
 
@@ -95,6 +96,29 @@ void CollisionHandler::CollisionCheckAll()
         {
             m_colliders[i]->UpdateLastValidPosition();
         }
+    }
+}
+
+void CollisionHandler::AddToEvent() noexcept
+{
+    EventSystem::Instance()->AddClient(EVENTID::RemoveAllColliders, this);
+}
+
+void CollisionHandler::RemoveFromEvent() noexcept
+{
+    EventSystem::Instance()->RemoveClient(EVENTID::RemoveAllColliders, this);
+}
+
+void CollisionHandler::HandleEvent(Event* event)
+{
+    // Switch level
+    switch (event->GetEventID())
+    {
+    case EVENTID::RemoveAllColliders:
+    {
+        RemoveAllColliders();
+    }
+    break;
     }
 }
 

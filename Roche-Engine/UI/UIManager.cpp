@@ -235,7 +235,7 @@ void UIManager::HandleEvent(Event* event)
 			// get PLAYER HEALTH
 			EventSystem::Instance()->AddEvent(EVENTID::SavePlayerHealth);
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
-
+				EventSystem::Instance()->AddEvent(EVENTID::RemoveAllColliders);
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayShopMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
@@ -243,7 +243,7 @@ void UIManager::HandleEvent(Event* event)
 				ShowUI("HUD_Shop");
 			}
 			else {
-
+				EventSystem::Instance()->AddEvent(EVENTID::RemoveAllColliders);
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);

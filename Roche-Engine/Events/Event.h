@@ -54,6 +54,7 @@ enum class EVENTID
 	LoadPlayerHealth,
 	GetPlayerHealth,
 	SetPlayerHealth,
+	RemoveAllColliders,
 
 	// Camera Actions
 	MoveUp,
