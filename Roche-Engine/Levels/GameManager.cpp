@@ -7,7 +7,7 @@ void GameManager::Initialize()
 	m_currentPhase = Phase::DayPhase;
 	UpdateBrightness();
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
-	m_currentDay = 5;
+	m_currentDay = 1;
 }
 
 void GameManager::SetCurrentState(GameState state)
