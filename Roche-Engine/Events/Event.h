@@ -42,6 +42,7 @@ enum class EVENTID
 	GameEndLevelEvent,
 	ChangePhase,
 	NextDay,
+	FinalNight,
 	CurrentState,
 	CurrentPhase,
 	GetPhase,

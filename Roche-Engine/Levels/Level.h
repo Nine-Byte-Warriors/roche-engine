@@ -88,6 +88,8 @@ private:
 	void UpdateTileMapEmpty(const float dt);
 	void RenderFrameTileMap();
 
+	void SpawnFinalBoss();
+
 	// Objects
 	Camera m_camera;
 	UIEditor m_uiEditor;
