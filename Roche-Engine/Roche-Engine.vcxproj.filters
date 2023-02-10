@@ -279,11 +279,11 @@
     <ClCompile Include="Components\EnemyController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelTrigger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\ScoreBoard.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelTrigger.cpp">
+      <Filter>Source Files\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,11 +653,11 @@
     <ClInclude Include="Components\EnemyController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelTrigger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\ScoreBoard.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelTrigger.h">
+      <Filter>Header Files\Levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -736,30 +736,6 @@
     <None Include="Resources\Patterns\SlowWiggle.ptn">
       <Filter>Resource Files\Patterns</Filter>
     </None>
-    <None Include="Resources\Fonts\midnight_chalker_128.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_160.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_200.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_72.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_16.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_20.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_24.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
-    <None Include="Resources\Fonts\midnight_chalker_36.spritefont">
-      <Filter>Resource Files\Fonts</Filter>
-    </None>
     <None Include="Resources\Fonts\midnight_chalker_72.spritefont">
       <Filter>Resource Files\Fonts</Filter>
     </None>
@@ -777,6 +753,30 @@
     </None>
     <None Include="Resources\Patterns\DefaultProjectile.ptn">
       <Filter>Resource Files\Patterns</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_16_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_20_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_24_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_36_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_72_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_128_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_160_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
+    </None>
+    <None Include="Resources\Fonts\midnight_chalker_200_fixed.spritefont">
+      <Filter>Resource Files\Fonts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

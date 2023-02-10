@@ -21,8 +21,6 @@ Entity::Entity(EntityController& entityController, int EntityNum)
 
 	m_entityController = &entityController;
 	m_iEntityNum = EntityNum;
-
-
 }
 
 Entity::~Entity()
