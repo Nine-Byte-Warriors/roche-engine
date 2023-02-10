@@ -54,6 +54,7 @@ enum class EVENTID
 	LoadPlayerHealth,
 	GetPlayerHealth,
 	SetPlayerHealth,
+	ShootingDelay,
 	RemoveAllColliders,
 	ReinitializeGameManager,
 
