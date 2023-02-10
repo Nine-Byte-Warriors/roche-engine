@@ -36,6 +36,9 @@ void UIScreen::InitializeWidgets()
 
 void UIScreen::Update( const float dt )
 {
+	if ( m_mouseData.Hover )
+		m_mouseData.Hover = false;
+
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
 
@@ -800,6 +803,9 @@ void UIScreen::Update( const float dt )
 		m_fBoxPos = { 0.0f, 0.0f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
 	}
+
+	if ( !m_mouseData.Hover )
+		EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Normal );
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )

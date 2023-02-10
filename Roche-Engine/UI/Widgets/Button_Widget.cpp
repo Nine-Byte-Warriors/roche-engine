@@ -78,6 +78,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
     case ButtonState::Hover:
         EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Link );
         m_buttonTexture = textures[1];
+        mData.Hover = true;
         break;
     case ButtonState::Pressed:
         AudioEngine::GetInstance()->PlayAudio( SOUND_BANK_NAME, "UIButtonClick", SFX );
@@ -85,6 +86,7 @@ bool Button_Widget::Resolve( const std::string& text, XMVECTORF32 textColour, co
         m_buttonTexture = textures[2];
         m_bIsPressed = true;
         mData.Locked = true;
+        mData.Hover = true;
         return true;
     default:
         break;

@@ -220,7 +220,7 @@ void RenderWindow::RegisterWindowClass() noexcept
 	wc.cbWndExtra = 0;
 	wc.hInstance = m_hInstance;
 	wc.hIcon = static_cast<HICON>( LoadImage( m_hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 32, 32, 0 ) );
-    wc.hCursor = cursors[CursorType::NORMAL];
+	wc.hCursor = NULL;//cursors[CursorType::NORMAL];
     wc.hbrBackground = (HBRUSH)( COLOR_WINDOW + 1 );
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = m_wsWindowClass.c_str();
