@@ -802,11 +802,11 @@
     <None Include="Resources\Fonts\midnight_chalker_36_fixed.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_72_fixed.spritefont" />
     <None Include="Resources\Patterns\DefaultPattern.ptn" />
-    <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
     <None Include="Resources\Patterns\SlowCircle.ptn" />
     <None Include="Resources\Patterns\SlowWiggle.ptn" />
     <None Include="Resources\Tutorial01.aps" />
+    <None Include="Resources\Patterns\Wiggle.ptn" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\Tutorial01.rc" />
@@ -893,6 +893,7 @@
     <Media Include="Resources\Audio\quietlaugh.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Resources\Patterns\Advanced\DoubleWiggle.ptn" />
     <Text Include="Resources\Patterns\Advanced\SpiralBurstWiggle.ptn" />
     <Text Include="Resources\Patterns\Advanced\ZigZag.ptn" />
   </ItemGroup>

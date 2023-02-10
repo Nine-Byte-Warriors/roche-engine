@@ -1,6 +1,6 @@
 [
     {
-        "AI": false,
+        "AI": true,
         "animation": true,
         "animationPath": "Resources\\Textures\\Entity\\Carrot\\Carrot.json",
         "animationType": "Walk",
@@ -15,7 +15,7 @@
         "bColliderTrigger": false,
         "bProjectileBullet": true,
         "bProjectilePattern": true,
-        "behaviour": "None",
+        "behaviour": "Fire",
         "collider": true,
         "colliderRadius": [
             100.0,
@@ -36,7 +36,7 @@
             45.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "Resources\\Patterns\\Advanced\\SpiralBurstWiggle.ptn",
+        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 4,
@@ -678,7 +678,7 @@
         "bColliderTrigger": true,
         "bProjectileBullet": true,
         "bProjectilePattern": true,
-        "behaviour": "None",
+        "behaviour": "Fire",
         "collider": true,
         "colliderRadius": [
             400.0,
@@ -698,8 +698,8 @@
             418.0,
             500.0
         ],
-        "projectileBullet": "None",
-        "projectilePattern": "None",
+        "projectileBullet": "Projectile1",
+        "projectilePattern": "Resources\\Patterns\\Wiggle.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 2,
