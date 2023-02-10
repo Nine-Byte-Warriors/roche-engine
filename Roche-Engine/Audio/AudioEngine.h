@@ -126,7 +126,7 @@ public:
 		m_pSFXSubmixVoice->SetVolume(m_fSFXVolume);
 	};
 	inline void SetDefaultVolume(std::shared_ptr<SoundBankFile> soundBank, float newVolume) { soundBank->volume = newVolume; };
-	inline void SetRandomPitch(std::shared_ptr<SoundBankFile> soundBank) { soundBank->randomPitch != soundBank->randomPitch; };
+	inline void SetRandomPitch(std::shared_ptr<SoundBankFile> soundBank) { soundBank->randomPitch = !soundBank->randomPitch; };
 	inline void SetPitchMin(std::shared_ptr<SoundBankFile> soundBank, float newPitchMin) { soundBank->pitchMin = newPitchMin; };
 	inline void SetPitchMax(std::shared_ptr<SoundBankFile> soundBank, float newPitchMax) { soundBank->pitchMax = newPitchMax; };
 

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "AudioEditor.h"
-
 #include "Timer.h"
 #include <FileHandler.h>
 #include <algorithm>
@@ -68,8 +67,8 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 					if (audioType == SFX) {
 						if (ImGui::Checkbox(std::string("Random Pitch##").append(std::to_string(i)).append("random pitch").c_str(), &randomPitchEnabled)) {
 							m_vSoundFileInfo[i].randomPitch = !m_vSoundFileInfo[i].randomPitch;
+							randomPitchEnabled = !m_vSoundFileInfo[i].randomPitch;
 							AudioEngine::GetInstance()->SetRandomPitch(AudioEngine::GetInstance()->FindSoundBankFile(AudioEngine::GetInstance()->GetFileName(m_vSoundFileInfo[i].filePath), m_sActiveSoundBankName, audioType));
-
 						}
 
 						if (m_vSoundFileInfo[i].randomPitch) {
@@ -166,7 +165,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 				if (foLoad->GetFullPath().find(SOUND_FILES_PATH) != std::string::npos) {
 					newSound.tagName = "undefined";
 					newSound.name = foLoad->m_sFile;
-					newSound.filePath =  SOUND_FILES_PATH + foLoad->GetFilePath();
+					newSound.filePath = SOUND_FILES_PATH + foLoad->GetFilePath();
 					newSound.volume = 1.0f;
 					newSound.randomPitch = false;
 					newSound.pitchMin = 1.0f;
@@ -183,7 +182,7 @@ void AudioEditor::SpawnSoundBankWindow(AudioType audioType)
 						m_vSoundFileInfo.emplace_back(newSound);
 						std::string soundBankName = AudioEngine::GetInstance()->GetFileNameString(m_sActiveSoundBankPath);
 						AudioEngine::GetInstance()->LoadAudio(soundBankName, StringHelper::StringToWide(newSound.filePath), newSound.tagName, newSound.volume, (AudioType)newSound.audioType,
-																	newSound.randomPitch, newSound.pitchMin, newSound.pitchMax);
+							newSound.randomPitch, newSound.pitchMin, newSound.pitchMax);
 					}
 				}
 				else {
@@ -347,7 +346,7 @@ void AudioEditor::SpawnControlWindow()
 				if (foSave->HasPath()) {
 					std::vector<JSONSoundFile> soundFileInfo;
 					JsonLoading::SaveJson(soundFileInfo, foSave->GetJsonPath()); // Save the file.
-					m_vSoundBanksList.push_back(SoundBanksList({ foSave->m_sFile, SOUND_BANK_PATH + foSave->GetFilePath()}));
+					m_vSoundBanksList.push_back(SoundBanksList({ foSave->m_sFile, SOUND_BANK_PATH + foSave->GetFilePath() }));
 					currentSoundBankFileIdx -= m_vSoundBanksList.size() - 1;
 				}
 			}

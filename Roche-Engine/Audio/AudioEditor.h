@@ -17,8 +17,8 @@ public:
 	void SaveToFileSoundBankLists();
 	void LoadFromFileSoundBankLists();
 	void SpawnSoundBankWindow(AudioType audioType);
-	
-	void SetJsonFile( const std::string& name ); // Will load default sound bank (used by level editor)
+
+	void SetJsonFile(const std::string& name); // Will load default sound bank (used by level editor)
 
 	// sound bank handle
 	void LoadSoundFileInfoFromJSON(std::string loadFilePath);

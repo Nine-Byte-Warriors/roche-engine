@@ -305,15 +305,13 @@ HRESULT AudioEngine::StopMusic()
 {
 	HRESULT hr = S_OK;
 
-	for (int i = 0; m_vMusicSourceVoiceList.size() > i; i++) {
-		if (FAILED(hr = m_vMusicSourceVoiceList.at(i)->Stop(0))) {
+	while (m_vMusicSourceVoiceList.size() > 0) {
+		if (FAILED(hr = m_vMusicSourceVoiceList.at(0)->Stop(0))) {
 			ErrorLogger::Log(hr, "AudioEngine::StopMusic: Failed to Stop music");
 			return hr;
 		}
-		else {
-			m_vMusicSourceVoiceList.at(i)->DestroyVoice();
-			m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.begin() + i);
-		}
+		m_vMusicSourceVoiceList.at(0)->DestroyVoice();
+		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.begin());
 	}
 
 	return hr;
@@ -366,11 +364,13 @@ void AudioEngine::UnloadAllAudio()
 void AudioEngine::StopAllAudio()
 {
 	while (m_vSFXSourceVoiceList.size() > 0) {
+		m_vSFXSourceVoiceList.at(0)->Stop(0);
 		m_vSFXSourceVoiceList.at(0)->DestroyVoice();
 		m_vSFXSourceVoiceList.erase(m_vSFXSourceVoiceList.begin());
 	}
 
 	while (m_vMusicSourceVoiceList.size() > 0) {
+		m_vMusicSourceVoiceList.at(0)->Stop(0);
 		m_vMusicSourceVoiceList.at(0)->DestroyVoice();
 		m_vMusicSourceVoiceList.erase(m_vMusicSourceVoiceList.begin());
 	}
