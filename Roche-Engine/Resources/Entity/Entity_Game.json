@@ -36,7 +36,7 @@
             45.0
         ],
         "projectileBullet": "Projectile1",
-        "projectilePattern": "Resources\\Patterns\\SlowWiggle.ptn",
+        "projectilePattern": "Resources\\Patterns\\Advanced\\ZigZag.ptn",
         "projectileSystem": true,
         "rotation": 0.0,
         "rows": 4,

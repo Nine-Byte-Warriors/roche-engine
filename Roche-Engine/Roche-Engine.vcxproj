@@ -892,6 +892,9 @@
     <Media Include="Resources\Audio\piano2.wav" />
     <Media Include="Resources\Audio\quietlaugh.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\Patterns\Advanced\ZigZag.ptn" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
