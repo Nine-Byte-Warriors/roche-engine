@@ -70,6 +70,8 @@ private:
 	void UpdateEntity(const float dt);
 	void AddNewEntity();
 	void RemoveEntities();
+	void CleanUpEntities();
+
 	void DisplayEntityMaxHealth(int num);
 	void DisplayEntityCurrentHealth(int num);
 
