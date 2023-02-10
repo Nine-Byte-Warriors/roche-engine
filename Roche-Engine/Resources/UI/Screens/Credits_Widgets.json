@@ -1,20 +1,20 @@
 [
     {
-        "action": "CreditTitle",
+        "action": "Backdrop",
         "hide": false,
-        "name": "Credits Title",
+        "name": "Backdrop",
         "position": [
-            734.0,
-            43.0
+            0.0,
+            0.0
         ],
         "scale": [
-            452.0,
-            319.0
+            1920.0,
+            1080.0
         ],
         "type": "Image",
-        "zindex": 1
+        "zindex": 0
     },
-    {
+	{
         "action": "",
         "hide": false,
         "name": "Background",
@@ -27,7 +27,22 @@
             1079.0
         ],
         "type": "Image",
-        "zindex": 0
+        "zindex": 1
+    },
+	{
+        "action": "CreditTitle",
+        "hide": false,
+        "name": "Credits Title",
+        "position": [
+            734.0,
+            43.0
+        ],
+        "scale": [
+            452.0,
+            319.0
+        ],
+        "type": "Image",
+        "zindex": 2
     },
     {
         "action": "Link",
@@ -42,7 +57,7 @@
             200.0
         ],
         "type": "Button",
-        "zindex": 2
+        "zindex": 3
     },
     {
         "action": "Back",
@@ -57,7 +72,7 @@
             200.0
         ],
         "type": "Button",
-        "zindex": 3
+        "zindex": 4
     },
     {
         "action": "Credit1",
@@ -72,7 +87,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 4
+        "zindex": 5
     },
     {
         "action": "Credit2",
@@ -87,7 +102,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 5
+        "zindex": 6
     },
     {
         "action": "Credit3",
@@ -102,7 +117,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 6
+        "zindex": 7
     },
     {
         "action": "Credit4",
@@ -117,7 +132,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 7
+        "zindex": 8
     },
     {
         "action": "Credit5",
@@ -132,7 +147,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 8
+        "zindex": 9
     },
     {
         "action": "Credit6",
@@ -147,7 +162,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 9
+        "zindex": 10
     },
     {
         "action": "Credit7",
@@ -162,7 +177,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 10
+        "zindex": 11
     },
     {
         "action": "Credit8",
@@ -177,7 +192,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 11
+        "zindex": 12
     },
     {
         "action": "Credit9",
@@ -192,7 +207,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 12
+        "zindex": 13
     },
     {
         "action": "Credit10",
@@ -207,6 +222,6 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 13
+        "zindex": 14
     }
 ]
