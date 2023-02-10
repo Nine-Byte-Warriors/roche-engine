@@ -5,6 +5,7 @@
 
 #include "Projectile.h"
 #include "ProjectileData.h"
+#include "ProjectilePayLoad.h"
 #include "CollisionHandler.h"
 
 #define PATTERN_FOLDER_PATH "Resources\\Patterns\\"
@@ -33,8 +34,6 @@ public:
 		m_vTargetPosition = vTargetPosition - vOffSet;
 	}
 
-	void UpdatePattern(std::string filepath);
-
 	void SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime);
 	void SpawnProjectiles(Vector2f vSpawnPosition);
 
@@ -59,6 +58,7 @@ private:
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
+	std::vector<ProjectilePayLoad> m_vecProjectilePayLoad;
 
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 	Projectile::ProjectileOwner m_owner;

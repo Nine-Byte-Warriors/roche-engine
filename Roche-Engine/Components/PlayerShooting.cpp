@@ -26,7 +26,7 @@ void PlayerShooting::Update(float dt)
 	}
 
 	// handle mouse shooting actions/event
-	if (m_bIsShooting && shootingDelay < 0 && !firstNight)
+	if (m_bIsShooting && shootingDelay < 0 /*&& !firstNight*/)
 	{
 		m_pEmitter->EmitProjectile();
 		AudioEngine::GetInstance()->PlayAudio(PLAYER, "EntityBulletShot", SFX);
@@ -81,7 +81,7 @@ void PlayerShooting::HandleEvent(Event* event)
 	case EVENTID::LeftMouseRelease:
 	{
 		m_pEmitter->SetTargetPosition(m_vMousePos);
-		m_bIsShooting = false;
+		//m_bIsShooting = false;
 		break;
 	}
 	case EVENTID::CurrentPhase:

@@ -456,6 +456,7 @@
     <ClCompile Include="Objects\Projectile.cpp" />
     <ClCompile Include="Objects\ScoreBoard.cpp" />
     <ClCompile Include="Objects\ShopItem.cpp" />
+    <ClCompile Include="Objects\ProjectilePayLoad.cpp" />
     <ClCompile Include="TileMap\TileMap.cpp" />
     <ClCompile Include="TileMap\TileMapDraw.cpp" />
     <ClCompile Include="TileMap\TileMapEditor.cpp" />
@@ -647,6 +648,7 @@
     <ClInclude Include="LevelTrigger.h" />
     <ClInclude Include="Objects\ScoreBoard.h" />
     <ClInclude Include="Objects\ShopItem.h" />
+    <ClInclude Include="Objects\ProjectilePayLoad.h" />
     <ClInclude Include="TileMap\TileMapPaintOnMap.h" />
     <ClInclude Include="UI\Widgets\MouseData.h" />
     <ClInclude Include="Utility\Helper\MouseCapture.h" />

@@ -59,6 +59,7 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 	{
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(Projectile::ProjectileOwner::None, type);
 		pManager->SetDelay(jMan.m_fDelay);
+
 		pManager->SetProjectilePool(
 			CreateProjectilePool(
 				jMan.m_vecProjectiles,
@@ -133,19 +134,15 @@ void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile
 	m_fTotalDuration = m_fDelay;
 	m_vecProjectilePool = vecProjectilePool;
 
+	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
+	{
+		ProjectilePayLoad payload;
+		payload.Initialise(m_vecProjectilePool);
+		m_vecProjectilePayLoad.push_back(payload);
+	}
+
 	for (std::shared_ptr<Projectile> pProjectile : vecProjectilePool)
 		m_fTotalDuration += pProjectile->GetDelay() + pProjectile->GetMaxLifeTime();
-}
-
-void ProjectileManager::UpdatePattern(std::string filepath)
-{
-	JsonLoading::LoadJson(m_vecManagers, filepath);
-
-	for (int i = 0; i < m_vecManagers.size(); i++)
-	{
-		m_fDelay = m_vecManagers[i].m_fDelay;
-		UpdateProjectilePool(m_vecManagers[i].m_vecProjectiles);
-	}
 }
 
 void ProjectileManager::UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons)
