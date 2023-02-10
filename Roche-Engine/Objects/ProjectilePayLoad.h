@@ -59,7 +59,7 @@ public:
 		bIsActive = true;
 
 		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
-			pProjectile->SpawnProjectile(vSpawnPosition, fLifeTime);
+			pProjectile->SpawnProjectile(vSpawnPosition, vTargetPosition, fLifeTime);
 	}
 
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectiles;

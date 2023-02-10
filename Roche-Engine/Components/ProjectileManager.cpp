@@ -18,6 +18,7 @@ ProjectileManager::ProjectileManager(Projectile::ProjectileOwner owner, std::str
 	
 	m_owner = owner;
 	m_type = type;
+	m_bUseTarget = false;
 }
 
 ProjectileManager::~ProjectileManager()
@@ -74,22 +75,14 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 				jMan.m_sImagePath
 			);
 			pManager->m_vecPayLoads.push_back(pPayload);
-			pManager->m_fTotalDuration = jMan.m_fDelay;
+			//pManager->m_fTotalDuration = jMan.m_fDelay;
 		}
-
-		//pManager->SetProjectilePool(
-		//	CreateProjectilePool(
-		//		jMan.m_vecProjectiles,
-		//		handler,
-		//		type,
-		//		jMan.m_fGlobalSpeed,
-		//		jMan.m_bUseGlobalSpeed
-		//	),
-		//	jMan.m_sImagePath
-		//);
 
 		if (jMan.m_bLoop)
 			pManager->EnableRepeat();
+
+		if (jMan.m_bUseTarget)
+			pManager->EnableTargeting();
 
 		vecManagers.push_back(std::move(pManager));
 	}
@@ -128,7 +121,7 @@ void ProjectileManager::Update( const float dt )
 		if (m_bWillRepeat)
 		{
 			m_fDuration = m_fTotalDuration;
-			SpawnProjectiles(m_vSpawnPosition);
+			SpawnProjectiles(m_vSpawnPosition, m_vTargetPosition);
 		}
 		else
 			m_fDuration = 0.0f;
@@ -140,18 +133,12 @@ void ProjectileManager::Update( const float dt )
 		return;
 	}
 
-	//for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-	//	pProjectile->Update(dt);
-
 	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
 		pPayLoad->Update(dt);
 }
 
 void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix )
 {
-	//for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-	//	pProjectile->Draw(context, orthoMatrix);
-
 	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
 		pPayLoad->Draw(context, orthoMatrix);
 }
@@ -210,21 +197,28 @@ void ProjectileManager::SpawnProjectile(Vector2f vSpawnPosition, float fLifeTime
 		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, m_fLifeTime);
 }
 
-void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
+void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition, Vector2f vTargetPosition)
 {
 	m_fCounter = m_fDelay;
 	m_fDuration = m_fTotalDuration;
 	m_vSpawnPosition = vSpawnPosition;
+	m_vTargetPosition = vTargetPosition;
 
 	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
 	{
 		pProjectile->SetOwner(m_owner);
-		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, -1.0f);
+
+		
 	}
 
 	auto payload = GetProjectilePayLoad();
-	if(payload != nullptr)
-		payload->Fire(vSpawnPosition, m_vTargetPosition, -1.0f);
+	if (payload != nullptr)
+	{
+		if (m_bUseTarget)
+			payload->Fire(vSpawnPosition, m_vTargetPosition, -1.0f);
+		else
+			payload->Fire(vSpawnPosition, -1.0f);
+	}
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
