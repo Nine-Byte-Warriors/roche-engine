@@ -70,6 +70,8 @@ private:
 	void UpdateEntity(const float dt);
 	void AddNewEntity();
 	void RemoveEntities();
+	void CleanUpEntities();
+
 	void DisplayEntityMaxHealth(int num);
 	void DisplayEntityCurrentHealth(int num);
 
@@ -85,6 +87,8 @@ private:
 	void UpdateTileMapTexture(const float dt);
 	void UpdateTileMapEmpty(const float dt);
 	void RenderFrameTileMap();
+
+	void SpawnFinalBoss();
 
 	// Objects
 	Camera m_camera;

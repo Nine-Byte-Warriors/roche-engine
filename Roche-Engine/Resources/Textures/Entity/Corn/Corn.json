@@ -1,0 +1,19 @@
+{
+  "frameCount": [
+      4,
+      1
+  ],
+  "name": "Corn",
+  "type": [
+      {
+          "alias": "Corn Running",          
+          "frameTiming": 0.5,
+          "name": "Walk"
+      },
+      {
+          "alias": " Corn getting hit",
+          "frameTiming": 1.0,
+          "name": "Hit"
+      }
+  ]
+}
