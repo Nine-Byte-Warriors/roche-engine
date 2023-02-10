@@ -279,6 +279,9 @@
     <ClCompile Include="Components\EnemyController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelTrigger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Objects\ScoreBoard.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -648,6 +651,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components\EnemyController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Objects\ScoreBoard.h">

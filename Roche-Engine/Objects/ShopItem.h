@@ -16,13 +16,13 @@ public:
 private:
 	std::string m_itemName;
 
-	bool m_bInputCheck = false;
 	bool m_bCollisionCheck = false;
 
 	// Inherited via Listener
 	virtual void HandleEvent(Event* event) override;
 	void AddToEvent() noexcept;
 
+	void BuyItem();
 	void FilterName(std::string name);
 
 	int m_iCoins;

@@ -22,16 +22,6 @@ ShopItem::~ShopItem()
 void ShopItem::PlayerInRange(Collider& collider)
 {
 	m_bCollisionCheck = true;
-
-	if (m_bInputCheck)
-	{
-		std::pair<std::string, int>* item = new std::pair<std::string, int>();
-		item->first = m_itemName;
-		item->second = 1;
-		EventSystem::Instance()->AddEvent(EVENTID::UpdateSeed, item);
-	}
-
-	m_bInputCheck = false;
 }
 
 void ShopItem::PlayerOutRange(Collider& collider)
@@ -39,13 +29,13 @@ void ShopItem::PlayerOutRange(Collider& collider)
 	m_bCollisionCheck = false;
 }
 
+
 void ShopItem::HandleEvent(Event* event)
 {
 	switch (event->GetEventID())
 	{
 	case EVENTID::BuySeed:
-		if(m_bCollisionCheck)
-			m_bInputCheck = true;
+		BuyItem();
 		break;
 	default:
 		break;
@@ -55,6 +45,24 @@ void ShopItem::HandleEvent(Event* event)
 void ShopItem::AddToEvent() noexcept
 {
 	EventSystem::Instance()->AddClient(EVENTID::BuySeed, this);
+}
+
+void ShopItem::BuyItem()
+{
+	if (m_bCollisionCheck)
+	{
+		if (m_itemName == "HealthPotion")
+		{
+			EventSystem::Instance()->AddEvent(EVENTID::BuyPotion);
+		}
+		else
+		{
+			std::pair<std::string, int>* item = new std::pair<std::string, int>();
+			item->first = m_itemName;
+			item->second = 1;
+			EventSystem::Instance()->AddEvent(EVENTID::UpdateSeed, item);
+		}
+	}
 }
 
 void ShopItem::FilterName(std::string name)
@@ -87,6 +95,11 @@ void ShopItem::FilterName(std::string name)
 	if (name.contains("Tomato"))
 	{
 		m_itemName = "Tomato";
+		return;
+	}
+	if (name.contains("HealthPotion"))
+	{
+		m_itemName = "HealthPotion";
 		return;
 	}
 }

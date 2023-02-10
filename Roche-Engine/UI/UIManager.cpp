@@ -113,13 +113,14 @@ void UIManager::HandleEvent(Event* event)
 			HideAllUI();
 			ShowUI("Menu_Widgets");
 			ShowUI("HUD_Day");
+			ShowUI("HUD_Shop");
 		}
 		break;
 		case EVENTID::WindowSizeChangeEvent: { m_vWindowSize = *static_cast<XMFLOAT2*>(event->GetData()); } break;
 		case EVENTID::RemoveUIItemEvent: { RemoveUI(*static_cast<std::string*>(event->GetData())); } break;
 		case EVENTID::StartGame:
 		{
-			RemoveAllUI();
+			HideAllUI();
 			AudioEngine::GetInstance()->UnloadAllAudio();
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[LOADING]);
 			EventSystem::Instance()->AddEvent(EVENTID::RemoveLevelEvent, m_vLevelNames[MENU]);
@@ -127,6 +128,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
+			EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 			m_sCurrentLevel = *m_vLevelNames[GAME];
 			HideAllUI();
 			ShowUI("HUD_Day");
@@ -157,8 +159,12 @@ void UIManager::HandleEvent(Event* event)
 		{
 			EventSystem::Instance()->AddEvent(EVENTID::GameUnpauseEvent);
 			HideAllUI();
-			if (m_currentGamePhase == Phase::DayPhase) {
+			if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Game") {
 				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Shop")
+			{
+				ShowUI("HUD_Shop");
 			}
 			else {
 				ShowUI("HUD_Night");
@@ -183,6 +189,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::PlayMainMenuMusic);
+			EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 			m_sCurrentLevel = *m_vLevelNames[MENU];
 			HideAllUI();
 			ShowUI("Menu_Widgets");
@@ -211,6 +218,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::AddLevelEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 			EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
+			EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 			m_sCurrentLevel = *m_vLevelNames[GAME];
 			ShowUI("HUD_Day");
 		}
@@ -224,24 +232,37 @@ void UIManager::HandleEvent(Event* event)
 		case EVENTID::SwapGameLevels:
 		{
 			HideAllUI();
+			// get PLAYER HEALTH
+			EventSystem::Instance()->AddEvent(EVENTID::SavePlayerHealth);
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
+
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayShopMusic);
+				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 				m_sCurrentLevel = *m_vLevelNames[SHOP];
+				ShowUI("HUD_Shop");
 			}
 			else {
+
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
+				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
 				m_sCurrentLevel = *m_vLevelNames[GAME];
+				ShowUI("HUD_Day");
 			}
-			ShowUI("HUD_Day");
+			//set
+			EventSystem::Instance()->AddEvent(EVENTID::LoadPlayerHealth);
 		}
 		break;
 		case EVENTID::CloseUIPopUp:
 		{
 			HideAllUI();
-			if (m_currentGamePhase == Phase::DayPhase) {
+			if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Game") {
 				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::DayPhase && m_sCurrentLevel == "Shop")
+			{
+				ShowUI("HUD_Shop");
 			}
 			else {
 				ShowUI("HUD_Night");
@@ -252,6 +273,19 @@ void UIManager::HandleEvent(Event* event)
 		{
 			HideAllUI();
 			ShowUI("Leaderboard_Widgets");
+		}
+		break;
+		case EVENTID::HUDSwap:
+		{
+			HideAllUI();
+			if (m_currentGamePhase == Phase::DayPhase) {
+				ShowUI("HUD_Day");
+			}
+			else if (m_currentGamePhase == Phase::NightPhase)
+			{
+				ShowUI("HUD_Night");
+			}
+			ShowUI("Menu_Widgets");
 		}
 		break;
 	}
@@ -277,14 +311,12 @@ void UIManager::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->AddClient(EVENTID::OpenLeaderboard, this);
 	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
-	//EventSystem::Instance()->AddClient(EVENTID::, this);
-	//EventSystem::Instance()->AddClient(EVENTID::, this);
-
+	EventSystem::Instance()->AddClient(EVENTID::HUDSwap, this);
 }
 
 void UIManager::RemoveFromEvent() noexcept
 {
-	EventSystem::Instance()->AddClient(EVENTID::LevelOnCreateUI, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::LevelOnCreateUI, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::WindowSizeChangeEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::RemoveUIItemEvent, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::StartGame, this);
@@ -301,9 +333,8 @@ void UIManager::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient(EVENTID::SwapGameLevels, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::CloseUIPopUp, this);
 	EventSystem::Instance()->RemoveClient(EVENTID::OpenLeaderboard, this);
-	EventSystem::Instance()->AddClient(EVENTID::BackToMainMenu, this);
-	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
-	//EventSystem::Instance()->RemoveClient(EVENTID::, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::BackToMainMenu, this);
+	EventSystem::Instance()->RemoveClient(EVENTID::HUDSwap, this);
 }
 
 void UIManager::HideAllUI()

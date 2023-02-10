@@ -28,7 +28,7 @@ public:
 
 	void SetCurrentState(GameState state);
 	void SetNextDay();
-	void SetPhase(Phase phase);
+	void SetPhase();
 
 private:
 	GameState m_currentState;
@@ -41,11 +41,14 @@ private:
 
 	void DayPhase();
 	void NightPhase();
-	void UpdateBrigtness();
+	void UpdateBrightness();
+	void UpdateBrightness_Day();
 
 	float* m_fRedOverlay = new float;
 	float* m_fGreenOverlay = new float;
 	float* m_fBlueOverlay = new float;
+
+	float m_fSaveCurrentHealth;
 };
 
 #endif // !GAMEMANAGER_H

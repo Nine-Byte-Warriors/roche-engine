@@ -93,6 +93,12 @@ void UIScreen::Update( const float dt )
 					m_bOpen = false;
 				}
 			}
+			if (m_vWidgets[i]->GetAction() == "End Phase")
+			{
+				if (!m_vWidgets[i]->GetIsHidden())
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
+						EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
+			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
@@ -101,14 +107,14 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
-					EventSystem::Instance()->AddEvent( EVENTID::BackToMainMenu );
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+					EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Game );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
-						EventSystem::Instance()->AddEvent( EVENTID::StartGame );
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+						EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Start );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
 			{
@@ -143,13 +149,13 @@ void UIScreen::Update( const float dt )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Restart", Colors::White, m_textures, m_mouseData, false ,FontSize::LARGE))
-						EventSystem::Instance()->AddEvent(EVENTID::GameRestartEvent);
+						EventSystem::Instance()->AddEvent(EVENTID::FadeToBlack_GameRestart);
 			}
 			if (m_vWidgets[i]->GetAction() == "Confirm")
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
 					if (m_vWidgets[i]->GetButtonWidget()->Resolve("Yes", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
-						EventSystem::Instance()->AddEvent(EVENTID::SwapGameLevels);
+						EventSystem::Instance()->AddEvent(EVENTID::FadeToBlack_Shop);
 			}
 			if (m_vWidgets[i]->GetAction() == "Deny")
 			{
@@ -404,7 +410,7 @@ void UIScreen::Update( const float dt )
 			}
 			if (m_vWidgets[i]->GetAction() == "Enemy Health Label")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Enemy's Health", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
+				m_vWidgets[i]->GetImageWidget()->Resolve("Enemies' Health", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png");
 			}
 
 			if (m_vWidgets[i]->GetAction() == "Restart Pop Up Label")
@@ -422,7 +428,7 @@ void UIScreen::Update( const float dt )
 
 			if (m_vWidgets[i]->GetAction() == "Change Level Label")
 			{
-				m_vWidgets[i]->GetImageWidget()->Resolve("Change Level?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
+				m_vWidgets[i]->GetImageWidget()->Resolve("Change \nLevel?", Colors::AntiqueWhite, "Resources\\Textures\\Tiles\\transparent.png", FontSize::VERY_LARGE);
 			}
 
 
@@ -649,6 +655,10 @@ void UIScreen::Update( const float dt )
 			if (m_vWidgets[i]->GetAction() == "Title Card")
 			{
 				m_vWidgets[i]->GetImageWidget()->Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Title\\Title.png");
+			}
+			if (m_vWidgets[i]->GetAction() == "Backdrop")
+			{
+				m_vWidgets[i]->GetImageWidget()->Resolve("", Colors::AntiqueWhite, "Resources\\Textures\\UI\\Backdrop\\Main menu backdrop.png");
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
@@ -881,6 +891,7 @@ void UIScreen::AddToEvent() noexcept
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->AddClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->AddClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->AddClient( EVENTID::EnemyMaxHealth, this );
 	EventSystem::Instance()->AddClient( EVENTID::EnemyCurrentHealth, this );
 }
@@ -899,9 +910,11 @@ void UIScreen::RemoveFromEvent() noexcept
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseClick, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::MiddleMouseRelease, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
+	EventSystem::Instance()->RemoveClient(EVENTID::ChangePhase, this);
 	EventSystem::Instance()->RemoveClient( EVENTID::EnemyMaxHealth, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::EnemyCurrentHealth, this );
 }
+
 
 void UIScreen::HandleEvent( Event* event )
 {

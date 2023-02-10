@@ -38,7 +38,7 @@ protected:
     ColliderType m_type = ColliderType::None;
     bool m_isTrigger = false;
     bool m_isStatic = false;
-    LayerMask m_collisionMask = LayerMask(true, true, true, true);
+    LayerMask m_collisionMask = LayerMask(true, true, true, true, true);
     LayerNo m_layer = LayerNo::Enemy;
     //std::shared_ptr<Entity> m_entity;
     std::shared_ptr<Transform> m_transform;
