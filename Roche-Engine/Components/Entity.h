@@ -141,8 +141,6 @@ private:
 
 	bool m_bAudio;
 	std::string m_sSoundBankName;
-
-	std::string m_sName;
 };
 
 #endif

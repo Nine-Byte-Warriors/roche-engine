@@ -40,8 +40,8 @@ void Level::CreateEntity()
     m_entityController.RemoveEnemiesFromEntityData();
 #endif
 
-    m_fMaxHealth = 0;
-    *m_fCurrentHealth = 0;
+    m_fMaxHealth = 0.01;
+    *m_fCurrentHealth = 0.01;
     EventSystem::Instance()->AddEvent(EVENTID::EnemyMaxHealth, &m_fMaxHealth);
     EventSystem::Instance()->AddEvent(EVENTID::EnemyCurrentHealth, m_fCurrentHealth);
 
