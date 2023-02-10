@@ -15,14 +15,14 @@ bool RenderWindow::Initialize( WindowContainer* pWindowContainer, HINSTANCE hIns
 	m_sWindowClass = windowClass;
 	m_wsWindowClass = StringHelper::StringToWide( windowClass );
 
-	cursors.emplace( Color::BLUE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR1 ) );
-	cursors.emplace( Color::RED, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR2 ) );
-	cursors.emplace( Color::GRAY, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR3 ) );
-	cursors.emplace( Color::PURPLE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR4 ) );
-	cursors.emplace( Color::ORANGE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR5 ) );
-	cursors.emplace( Color::YELLOW, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR6 ) );
-	cursors.emplace( Color::GREEN, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR7 ) );
-	cursors.emplace( Color::PINK, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR8 ) );
+	cursors.emplace( CursorType::NORMAL, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR1 ) );
+	cursors.emplace( CursorType::LINK, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR2 ) );
+	cursors.emplace( CursorType::PRECISION, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR3 ) );
+	cursors.emplace( CursorType::MOVE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR4 ) );
+	cursors.emplace( CursorType::HELP, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR5 ) );
+	cursors.emplace( CursorType::TEXT, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR6 ) );
+	cursors.emplace( CursorType::PEN, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR7 ) );
+	cursors.emplace( CursorType::UNAVAILABLE, LoadCursor( hInstance, (LPCWSTR)IDC_CURSOR8 ) );
 
 	RegisterWindowClass();
 
@@ -139,12 +139,28 @@ HWND RenderWindow::GetHWND() const noexcept
 
 void RenderWindow::AddToEvent() noexcept
 {
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Normal, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Link, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Precision, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Move, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Help, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Text, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Pen, this );
+	EventSystem::Instance()->AddClient( EVENTID::CursorUpdate_Unavailable, this );
 	EventSystem::Instance()->AddClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->AddClient( EVENTID::QuitGameEvent, this );
 }
 
 void RenderWindow::RemoveFromEvent() noexcept
 {
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Normal, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Link, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Precision, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Move, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Help, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Text, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Pen, this );
+	EventSystem::Instance()->RemoveClient( EVENTID::CursorUpdate_Unavailable, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::WindowSizeChangeEvent, this );
 	EventSystem::Instance()->RemoveClient( EVENTID::QuitGameEvent, this );
 }
@@ -153,18 +169,42 @@ void RenderWindow::HandleEvent( Event* event )
 {
 	switch ( event->GetEventID() )
 	{
-		case EVENTID::QuitGameEvent:
-		{
-			DestroyWindow( m_hWnd );
-			PostQuitMessage( 0 );
-		}
+	case EVENTID::CursorUpdate_Normal:
+		SetCursor( GetCursor( RenderWindow::CursorType::NORMAL ) );
 		break;
-		case EVENTID::WindowSizeChangeEvent:
+	case EVENTID::CursorUpdate_Link:
+		SetCursor( GetCursor( RenderWindow::CursorType::LINK ) );
+		break;
+	case EVENTID::CursorUpdate_Precision:
+		SetCursor( GetCursor( RenderWindow::CursorType::PRECISION ) );
+		break;
+	case EVENTID::CursorUpdate_Move:
+		SetCursor( GetCursor( RenderWindow::CursorType::MOVE ) );
+		break;
+	case EVENTID::CursorUpdate_Help:
+		SetCursor( GetCursor( RenderWindow::CursorType::HELP ) );
+		break;
+	case EVENTID::CursorUpdate_Text:
+		SetCursor( GetCursor( RenderWindow::CursorType::TEXT ) );
+		break;
+	case EVENTID::CursorUpdate_Pen:
+		SetCursor( GetCursor( RenderWindow::CursorType::PEN ) );
+		break;
+	case EVENTID::CursorUpdate_Unavailable:
+		SetCursor( GetCursor( RenderWindow::CursorType::UNAVAILABLE ) );
+		break;
+	case EVENTID::WindowSizeChangeEvent:
 		{
 			m_bIsStopNextFrame = false;
 			XMFLOAT2 sizeOfScreen = *static_cast<XMFLOAT2*>( event->GetData() );
 			m_iWidth = sizeOfScreen.x;
 			m_iHeight = sizeOfScreen.y;
+		}
+		break;
+	case EVENTID::QuitGameEvent:
+		{
+			DestroyWindow( m_hWnd );
+			PostQuitMessage( 0 );
 		}
 		break;
 	}
@@ -180,7 +220,7 @@ void RenderWindow::RegisterWindowClass() noexcept
 	wc.cbWndExtra = 0;
 	wc.hInstance = m_hInstance;
 	wc.hIcon = static_cast<HICON>( LoadImage( m_hInstance, MAKEINTRESOURCE( IDI_TUTORIAL1 ), IMAGE_ICON, 32, 32, 0 ) );
-    wc.hCursor = cursors[Color::BLUE];
+	wc.hCursor = NULL;//cursors[CursorType::NORMAL];
     wc.hbrBackground = (HBRUSH)( COLOR_WINDOW + 1 );
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = m_wsWindowClass.c_str();
