@@ -96,7 +96,7 @@ void UIScreen::Update( const float dt )
 			if (m_vWidgets[i]->GetAction() == "End Phase")
 			{
 				if (!m_vWidgets[i]->GetIsHidden())
-					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE)) 
+					if (m_vWidgets[i]->GetButtonWidget()->Resolve("End Phase", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE))
 						EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
 			}
 			if ( m_vWidgets[i]->GetAction() == "Close" )
@@ -107,13 +107,13 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
 					EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Game );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
 						EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Start );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
@@ -925,10 +925,10 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::RightMouseRelease: { m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
-	case EVENTID::EnemyMaxHealth: { 
+	case EVENTID::EnemyMaxHealth: {
 		m_fMaxHealthPtr = static_cast<float*>(event->GetData());
 	} break;
-	case EVENTID::EnemyCurrentHealth: { 
+	case EVENTID::EnemyCurrentHealth: {
 		m_fCurrentHealthPtr = static_cast<float*>(event->GetData());
 	} break;
 #if _DEBUG
