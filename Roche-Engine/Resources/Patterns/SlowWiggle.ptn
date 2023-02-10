@@ -1,34 +1,37 @@
 [
-    {
-        "m_bLoop": true,
+  {
+    "m_bLoop": false,
+    "m_bUseTarget": true,
+    "m_bUseGlobalSpeed": false,
+    "m_fGlobalSpeed": 0.0,
+    "m_fDelay": 0.0,
+    "m_fHeight": 10.0,
+    "m_fWidth": 10.0,
+    "m_iCount": 1,
+    "m_sID": "ID",
+    "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
+    "m_sName": "Slow Wiggle Pattern",
+    "m_vecProjectiles": [
+      {
+        "m_fAmplitude": 100.0,
+        "m_fAngle": 0.0,
         "m_fDelay": 0.0,
-        "m_fHeight": 0.0,
-        "m_fWidth": 0.0,
-        "m_iCount": 1,
-        "m_sID": "ID",
-        "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",
-        "m_sName": "Default Pattern",
-        "m_vecProjectiles": [
-            {
-                "m_fAmplitude": 100.0,
-                "m_fAngle": 0.0,
-                "m_fDelay": 0.0,
-                "m_fFrequency": 10.0,
-                "m_fLifeTime": 5.0,
-                "m_fSpeed": 5.0,
-                "m_fX": 0.0,
-                "m_fY": 0.0
-            },
-            {
-                "m_fAmplitude": 0.0,
-                "m_fAngle": 0.0,
-                "m_fDelay": 0.0,
-                "m_fFrequency": 0.0,
-                "m_fLifeTime": 5.0,
-                "m_fSpeed": 10.0,
-                "m_fX": 0.0,
-                "m_fY": 0.0
-            }
-        ]
-    }
+        "m_fFrequency": 10.0,
+        "m_fLifeTime": 5.0,
+        "m_fSpeed": 5.0,
+        "m_fX": 0.0,
+        "m_fY": 0.0
+      },
+      {
+        "m_fAmplitude": 0.0,
+        "m_fAngle": 0.0,
+        "m_fDelay": 0.0,
+        "m_fFrequency": 0.0,
+        "m_fLifeTime": 5.0,
+        "m_fSpeed": 10.0,
+        "m_fX": 0.0,
+        "m_fY": 0.0
+      }
+    ]
+  }
 ]

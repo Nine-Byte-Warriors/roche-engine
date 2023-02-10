@@ -769,7 +769,7 @@
     <ClInclude Include="Utility\Helper\Vector2f.h" />
     <ClInclude Include="Utility\Rendering\Colour.h" />
     <ClInclude Include="Utility\Rendering\DDSTextureLoader.h" />
-    <ClInclude Include="Utility\Rendering\ProjectileData.h" />
+    <ClInclude Include="Objects\ProjectileData.h" />
     <ClInclude Include="Utility\Rendering\Shader_Data.h" />
     <ClInclude Include="Utility\Rendering\Texture.h" />
     <ClInclude Include="Utility\stdafx.h" />
@@ -790,6 +790,9 @@
     <None Include="Resources\Cursors\cur221.cur" />
     <None Include="Resources\Cursors\cur222.cur" />
     <None Include="Resources\Cursors\cur223.cur" />
+    <None Include="Resources\Entity\Entity_Game.json" />
+    <None Include="Resources\Entity\Entity_Menu.json" />
+    <None Include="Resources\Entity\Entity_Shop.json" />
     <None Include="Resources\Fonts\midnight_chalker_128_fixed.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_160_fixed.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_16_fixed.spritefont" />
@@ -798,6 +801,7 @@
     <None Include="Resources\Fonts\midnight_chalker_24_fixed.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_36_fixed.spritefont" />
     <None Include="Resources\Fonts\midnight_chalker_72_fixed.spritefont" />
+    <None Include="Resources\Patterns\DefaultPattern.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile.ptn" />
     <None Include="Resources\Patterns\DefaultProjectile2.ptn" />
     <None Include="Resources\Patterns\SlowCircle.ptn" />

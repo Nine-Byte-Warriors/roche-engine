@@ -32,7 +32,10 @@ public:
 	void SetSpawnPosition(Vector2f vSpawnPosition)
 	{
 		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
+		{
 			pProjectile->GetTransform()->SetPosition(vSpawnPosition);
+			pProjectile->GetTransform()->Update();
+		}
 	}
 
 	void SetTargetPosition(Vector2f vTargetPosition)
