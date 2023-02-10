@@ -26,7 +26,7 @@ public:
 	void Update(const float dt);
 	void Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix );
 
-	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool);
+	void SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool, std::string sImagePath);
 	inline void SetDelay(const float fDelay) noexcept { m_fDelay = fDelay; }
 	inline void SetTargetPosition(const Vector2f vTargetPosition) noexcept
 	{ 
@@ -46,6 +46,7 @@ public:
 private:
 	void SpawnProjectile();
 	std::shared_ptr<Projectile> GetFreeProjectile();
+	std::shared_ptr<ProjectilePayLoad> GetProjectilePayLoad();
 
 	void UpdateProjectilePool(std::vector<ProjectileData::ProjectileJSON> vecProjectileJsons);
 
@@ -58,7 +59,7 @@ private:
 	Vector2f m_vSpawnPosition;
 	Vector2f m_vTargetPosition;
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectilePool;
-	std::vector<ProjectilePayLoad> m_vecProjectilePayLoad;
+	std::vector<std::shared_ptr<ProjectilePayLoad>> m_vecPayLoads;
 
 	std::vector<ProjectileData::ManagerJSON> m_vecManagers;
 	Projectile::ProjectileOwner m_owner;

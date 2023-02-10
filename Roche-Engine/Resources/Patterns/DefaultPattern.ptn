@@ -2,8 +2,8 @@
     {
         "m_bLoop": false,
         "m_fDelay": 0.0,
-        "m_fHeight": 0.0,
-        "m_fWidth": 0.0,
+        "m_fHeight": 50.0,
+        "m_fWidth": 50.0,
         "m_iCount": 1,
         "m_sID": "ID",
         "m_sImagePath": "Resources\\Textures\\Base_Projectile.png",

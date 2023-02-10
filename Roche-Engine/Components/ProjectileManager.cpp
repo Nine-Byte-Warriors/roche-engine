@@ -60,15 +60,33 @@ std::vector<std::shared_ptr<ProjectileManager>> ProjectileManager::GenerateManag
 		std::shared_ptr <ProjectileManager> pManager = std::make_shared<ProjectileManager>(Projectile::ProjectileOwner::None, type);
 		pManager->SetDelay(jMan.m_fDelay);
 
-		pManager->SetProjectilePool(
-			CreateProjectilePool(
-				jMan.m_vecProjectiles,
-				handler,
-				type,
-				jMan.m_fGlobalSpeed,
-				jMan.m_bUseGlobalSpeed
-			)
-		);
+		std::vector<std::shared_ptr<ProjectilePayLoad>> vecPayLoads;
+		for (int i = 0; i < INITIAL_POOL_COUNT; i++)
+		{
+			std::shared_ptr <ProjectilePayLoad> pPayload = std::make_shared<ProjectilePayLoad>(
+				CreateProjectilePool(
+					jMan.m_vecProjectiles,
+					handler,
+					type,
+					jMan.m_fGlobalSpeed,
+					jMan.m_bUseGlobalSpeed
+				),
+				jMan.m_sImagePath
+			);
+			pManager->m_vecPayLoads.push_back(pPayload);
+			pManager->m_fTotalDuration = jMan.m_fDelay;
+		}
+
+		//pManager->SetProjectilePool(
+		//	CreateProjectilePool(
+		//		jMan.m_vecProjectiles,
+		//		handler,
+		//		type,
+		//		jMan.m_fGlobalSpeed,
+		//		jMan.m_bUseGlobalSpeed
+		//	),
+		//	jMan.m_sImagePath
+		//);
 
 		if (jMan.m_bLoop)
 			pManager->EnableRepeat();
@@ -89,6 +107,9 @@ void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<M
 {
 	for (std::shared_ptr<Projectile>& pProjectile : m_vecProjectilePool)
 		pProjectile->Initialize(gfx, mat, filename);
+
+	for (std::shared_ptr<ProjectilePayLoad>& pPayload: m_vecPayLoads)
+		pPayload->Initialise(gfx, mat);
 }
 
 void ProjectileManager::InitialiseFromFile(const Graphics& gfx, ConstantBuffer<Matrices>& mat, const std::string& filename, Vector2f size)
@@ -119,26 +140,31 @@ void ProjectileManager::Update( const float dt )
 		return;
 	}
 
-	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-		pProjectile->Update(dt);
+	//for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	//	pProjectile->Update(dt);
+
+	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
+		pPayLoad->Update(dt);
 }
 
 void ProjectileManager::Draw( ID3D11DeviceContext* context, XMMATRIX orthoMatrix )
 {
-	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-		pProjectile->Draw(context, orthoMatrix);
+	//for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
+	//	pProjectile->Draw(context, orthoMatrix);
+
+	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
+		pPayLoad->Draw(context, orthoMatrix);
 }
 
-void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool)
+void ProjectileManager::SetProjectilePool(std::vector<std::shared_ptr<Projectile>> vecProjectilePool, std::string sImagePath)
 {
 	m_fTotalDuration = m_fDelay;
 	m_vecProjectilePool = vecProjectilePool;
 
 	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
 	{
-		ProjectilePayLoad payload;
-		payload.Initialise(m_vecProjectilePool);
-		m_vecProjectilePayLoad.push_back(payload);
+		std::shared_ptr <ProjectilePayLoad> pPayload = std::make_shared<ProjectilePayLoad>(vecProjectilePool, sImagePath);
+		m_vecPayLoads.push_back(std::move(pPayload));
 	}
 
 	for (std::shared_ptr<Projectile> pProjectile : vecProjectilePool)
@@ -195,6 +221,10 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition)
 		pProjectile->SetOwner(m_owner);
 		pProjectile->SpawnProjectile(vSpawnPosition, m_vTargetPosition, -1.0f);
 	}
+
+	auto payload = GetProjectilePayLoad();
+	if(payload != nullptr)
+		payload->Fire(vSpawnPosition, m_vTargetPosition, -1.0f);
 }
 
 std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
@@ -204,4 +234,33 @@ std::shared_ptr<Projectile> ProjectileManager::GetFreeProjectile()
 			return pProjectile;
 
 	return nullptr;
+}
+
+std::shared_ptr <ProjectilePayLoad> ProjectileManager::GetProjectilePayLoad()
+{
+	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
+	{
+		if (!pPayLoad->bIsActive)
+			return pPayLoad;
+	}
+
+	return nullptr;
+
+	/*std::vector<std::shared_ptr<Projectile>> vecProjectiles = CreateProjectilePool(
+		m_pBluePrint->m_vecProjectileJsons,
+		m_pBluePrint->m_pHandler,
+		m_pBluePrint->m_sType,
+		m_pBluePrint->m_fGlobalSpeed,
+		m_pBluePrint->m_bUseGlobalSpeed
+	);
+
+	std::shared_ptr<ProjectilePayLoad> pPayLoad = std::make_shared<ProjectilePayLoad>(vecProjectiles);
+
+	int iLastIndex = m_vecProjectilePayLoad.size();
+
+	for (int i = 0; i < INITIAL_POOL_COUNT; i++)
+		m_vecProjectilePayLoad.push_back(pPayLoad);
+
+	return m_vecProjectilePayLoad[iLastIndex];
+	*/
 }

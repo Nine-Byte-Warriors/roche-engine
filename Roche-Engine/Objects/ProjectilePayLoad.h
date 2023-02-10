@@ -7,7 +7,7 @@
 class ProjectilePayLoad
 {
 public:
-	void Initialise(std::vector<std::shared_ptr<Projectile>> vecProjectiles);
+	ProjectilePayLoad(std::vector<std::shared_ptr<Projectile>> vecProjectiles, std::string sImagePath);
 	
 	void Update(const float dt)
 	{
@@ -15,6 +15,8 @@ public:
 			pProjectile->Update(dt);
 	}
 
+	void Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
+	
 	void Draw(ID3D11DeviceContext* context, XMMATRIX orthoMatrix)
 	{
 		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
@@ -61,6 +63,7 @@ public:
 	}
 
 	std::vector<std::shared_ptr<Projectile>> m_vecProjectiles;
+	std::string m_sImagePath;
 	bool bIsActive;
 	Vector2f m_vTargetPosition;
 };

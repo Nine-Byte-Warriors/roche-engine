@@ -122,7 +122,9 @@ void Entity::SetProjectileManagerInit(const Graphics& gfx, ConstantBuffer<Matric
 		std::string texture = m_entityController->GetProjectileBullet(m_iEntityNum)->texture;
 
 		for (std::shared_ptr<ProjectileManager>& pManager : m_vecProjectileManagers)
+		{
 			pManager->InitialiseFromFile(gfx, mat, texture);
+		}
 	}
 }
 
