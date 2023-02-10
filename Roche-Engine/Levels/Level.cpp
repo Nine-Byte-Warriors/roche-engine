@@ -464,6 +464,33 @@ void Level::RemoveEntities()
     m_entityController.ClearDead();
 }
 
+void Level::CleanUpEntities()
+{
+#if _DEBUG
+#else
+    for (int i = 0; i < m_entity.size(); i++)
+    {
+        if (m_entity[i].GetType() != "Player" && m_entity[i].GetType() != "Decoration")
+        {
+            m_collisionHandler.RemoveCollider(m_entity[i].GetCollider());
+            std::string texture = "Resources\\Textures\\Tiles\\transparent.png";
+            if (m_entity[i].GetSprite())
+            {
+                m_entity[i].GetSprite()->UpdateTex(m_gfx->GetDevice(), texture);
+            }
+            if (m_entity[i].GetAI())
+            {
+                m_entity[i].GetAI()->SetBehaviour(AILogic::AIStateTypes::Idle);
+            }
+            if (m_entity[i].GetTransform())
+            {
+                m_entity[i].GetTransform()->SetPosition(-9999, -9999);
+            }
+        }
+    }
+#endif
+}
+
 void Level::DisplayEntityMaxHealth(int num)
 {
     if (m_entity[num].GetType() == "Enemy")
@@ -592,8 +619,15 @@ void Level::UpdateTileMapPlanting(const float dt)
 
         if (m_entitySpawner.GetSpawnEntitiesSize() != 0 && timmer > spawnTimmer)
         {
-            timmer -= 0.2f;
+            timmer -= spawnTimmer;
             static int count = 0;
+
+            if (count == 0)
+            {
+                float* shootingDelay = new float;
+                *shootingDelay = spawnTimmer * m_entitySpawner.GetSpawnEntitiesSize();
+                EventSystem::Instance()->AddEvent(EVENTID::ShootingDelay, shootingDelay);
+            }
 
             std::string texture = "Resources\\Textures\\Tiles\\EmptyPlot.png";
             int spawnPos = m_entitySpawner.GetSpawnEntitiesTileMapPos(count);
@@ -612,9 +646,10 @@ void Level::UpdateTileMapPlanting(const float dt)
             }
         }
 
-        bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth == 0;
+        bool isAllEnemiesDead = m_entitySpawner.GetSpawnEntitiesSize() == 0 && *m_fCurrentHealth < 1;
         if (isAllEnemiesDead && m_entitySpawner.IsPhaseNight())
         {
+            CleanUpEntities();
             EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
         }
     }

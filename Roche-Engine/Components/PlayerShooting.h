@@ -3,6 +3,7 @@
 #define PLAYER_SHOOTING_H
 
 #include "Emitter.h"
+#include "GameManager.h"
 
 class PlayerShooting : public Listener
 {
@@ -24,6 +25,9 @@ private:
 	std::shared_ptr<Emitter> m_pEmitter;
 	Vector2f m_vMousePos;
 	bool m_bIsShooting;
+
+	Phase m_currentGamePhase;
+	float* m_fShootingDelay = new float;
 };
 
 #endif // !PLAYER_SHOOTING_H
