@@ -64,6 +64,14 @@ void Level::CreateEntity()
 
         delete entityPop;
     }
+
+    for (int i = 0; i < m_entity.size(); i++)
+    {
+        if (m_entity[i].GetType() == "Player")
+        {
+            m_entity[i].GetInventory()->LoadInventory();
+        }
+    }
 }
 
 void Level::CreateUI()
@@ -616,8 +624,8 @@ void Level::UpdateTileMapPlanting(const float dt)
                 !m_tileMapLoader.GetTileTypeName(1, spawnPos).contains("Wood") &&
                 !m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos).contains("transparent") &&
                 m_tileMapLoader.GetTileTypeName(drawLayer, spawnPos) != "EmptyPlot" &&
-                !m_entitySpawner.IsEntityPosTaken(spawnPos);// &&
-                //m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
+                !m_entitySpawner.IsEntityPosTaken(spawnPos) &&
+                m_entity[player].GetInventory()->GetActiveSeedPacketCount() > 0;
 
             if (isTilePlantable && !m_entitySpawner.IsPhaseNight())
             {

@@ -10,6 +10,7 @@ struct MouseData
 		, RPress( false )
 		, MPress( false )
 		, Locked( false )
+		, Hover( false )
 	{}
 
 	XMFLOAT2 Pos;
@@ -17,6 +18,7 @@ struct MouseData
 	bool RPress;
 	bool MPress;
 	bool Locked;
+	bool Hover;
 };
 
 #endif

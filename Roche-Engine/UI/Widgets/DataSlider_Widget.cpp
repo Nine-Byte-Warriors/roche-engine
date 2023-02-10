@@ -61,6 +61,8 @@ void DataSlider_Widget::Resolve( const std::string& barTex, const std::string& s
 		mData.Pos.y <= ( m_transformBar->GetPosition().y + m_spriteBar->GetHeight() )
 	   )
 	{
+		mData.Hover = true;
+		EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Move );
 		if ( mData.LPress )
 		{
 			mData.Locked = true;

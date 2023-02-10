@@ -58,6 +58,8 @@ void PageSlider_Widget::Resolve( Colour barCol, Colour sliderCol, MouseData& mDa
 		mData.Pos.y <= ( m_transformBar->GetPosition().y + m_spriteBar->GetHeight() )
 	   )
 	{
+		mData.Hover = true;
+		EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Move );
 		if ( mData.LPress )
 		{
 			mData.Locked = true;
