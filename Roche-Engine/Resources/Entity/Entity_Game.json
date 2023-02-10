@@ -471,7 +471,7 @@
         "bColliderInteractPlayer": true,
         "bColliderInteractPlayerProjectile": false,
         "bColliderStatic": true,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": true,
         "bProjectilePattern": true,
         "behaviour": "None",
