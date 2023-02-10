@@ -57,6 +57,7 @@ enum class EVENTID
 	SetPlayerHealth,
 	ShootingDelay,
 	RemoveAllColliders,
+	ReinitializeGameManager,
 
 	// Camera Actions
 	MoveUp,
