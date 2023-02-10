@@ -40,7 +40,7 @@ void GameManager::SetPhase()
 
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
 
-	if (m_currentState == GameState::Unpaused) 
+	if (m_currentState == GameState::Unpaused)
 		EventSystem::Instance()->AddEvent(EVENTID::HUDSwap);
 
 	UpdateBrightness();
@@ -89,6 +89,7 @@ void GameManager::HandleEvent(Event* event)
 		if (m_currentState == GameState::Paused) {
 			SetCurrentState(GameState::Unpaused);
 		}
+		break;
 	case EVENTID::PlayDayMusic:
 		AudioEngine::GetInstance()->PlayAudio("MusicGame", "DayPhaseMusic", MUSIC);
 		break;
@@ -103,6 +104,7 @@ void GameManager::HandleEvent(Event* event)
 		break;
 	case EVENTID::LoadPlayerHealth:
 		EventSystem::Instance()->AddEvent(EVENTID::GetPlayerHealth,&m_fSaveCurrentHealth);
+		break;
 	case EVENTID::UpdateBrightness:
 		UpdateBrightness();
 		break;
