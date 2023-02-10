@@ -41,6 +41,9 @@ void GameManager::SetPhase()
 
 	EventSystem::Instance()->AddEvent(EVENTID::CurrentPhase, &m_currentPhase);
 
+	if (m_currentPhase == Phase::NightPhase && m_currentDay == 5)
+		EventSystem::Instance()->AddEvent(EVENTID::FinalNight);
+
 	if (m_currentDay < 5 || m_currentPhase == Phase::DayPhase)
 	{
 		if (m_currentState == GameState::Unpaused)
@@ -48,7 +51,6 @@ void GameManager::SetPhase()
 
 		UpdateBrightness();
 	}
-
 
 }
 
