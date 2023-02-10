@@ -190,6 +190,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::PlayMainMenuMusic);
 			EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
+			EventSystem::Instance()->AddEvent(EVENTID::ReinitializeGameManager);
 			m_sCurrentLevel = *m_vLevelNames[MENU];
 			HideAllUI();
 			ShowUI("Menu_Widgets");
