@@ -893,6 +893,7 @@
     <Media Include="Resources\Audio\quietlaugh.wav" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Resources\Patterns\Advanced\SpiralBurstWiggle.ptn" />
     <Text Include="Resources\Patterns\Advanced\ZigZag.ptn" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
