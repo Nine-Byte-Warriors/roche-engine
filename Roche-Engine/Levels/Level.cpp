@@ -35,6 +35,16 @@ void Level::OnCreate()
 
 void Level::CreateEntity()
 {
+#ifdef _DEBUG
+#else
+    m_entityController.RemoveEnemiesFromEntityData();
+#endif
+
+    m_fMaxHealth = 0.01;
+    *m_fCurrentHealth = 0.01;
+    EventSystem::Instance()->AddEvent(EVENTID::EnemyMaxHealth, &m_fMaxHealth);
+    EventSystem::Instance()->AddEvent(EVENTID::EnemyCurrentHealth, m_fCurrentHealth);
+
     m_entity.clear();
     m_iEntityAmount = m_entityController.GetSize();
     for (int i = 0; i < m_iEntityAmount; i++)

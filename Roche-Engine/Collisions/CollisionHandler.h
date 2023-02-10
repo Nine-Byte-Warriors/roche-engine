@@ -6,11 +6,12 @@
 #include "CollisionMatrix.h"
 
 //Monitors collisions between colliders and resolve them
-class CollisionHandler
+class CollisionHandler : public Listener
 {
 public:
-    CollisionHandler() = default;
+    CollisionHandler() { AddToEvent(); };
     CollisionHandler(CollisionMatrix collisionMatrix);
+    ~CollisionHandler() { RemoveFromEvent(); };
 
 private:
     std::vector<std::shared_ptr<Collider>> m_colliders;
@@ -32,6 +33,10 @@ public:
 
 private:
     void CollisionCheckAll();
+
+    void AddToEvent() noexcept;
+    void RemoveFromEvent() noexcept;
+    void HandleEvent(Event* event) override;
 
 public:
     void Update();
