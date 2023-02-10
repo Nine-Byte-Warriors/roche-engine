@@ -8,7 +8,7 @@ void TextRenderer::Initialize( ID3D11Device* device, ID3D11DeviceContext* contex
 	for ( unsigned int i = 0; i < fontSizes.size(); i++ )
 		m_spriteFonts.emplace( (FontSize)i,
 			std::make_unique<SpriteFont>(
-				device, std::wstring( L"Resources\\Fonts\\midnight_chalker_" ).append( fontSizes.at( i ) ).append( L".spritefont" ).c_str()
+				device, std::wstring( L"Resources\\Fonts\\midnight_chalker_" ).append( fontSizes.at( i ) ).append( L"_fixed.spritefont" ).c_str()
 			)
 		);
 }

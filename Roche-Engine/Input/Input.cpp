@@ -100,8 +100,8 @@ void Input::UpdateKeyboard( const float dt )
 		if ( m_keyboard.KeyIsPressed( 'T' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlantSeed );
 
-		if (m_keyboard.KeyIsPressed('B'))
-			EventSystem::Instance()->AddEvent(EVENTID::BuySeed);
+		if ( m_keyboard.KeyIsPressed( 'B' ) )
+			EventSystem::Instance()->AddEvent( EVENTID::BuySeed );
 
 		if ( m_keyboard.KeyIsPressed( 'C' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::GainCoins );
@@ -111,10 +111,9 @@ void Input::UpdateKeyboard( const float dt )
 
 		if ( m_keyboard.KeyIsPressed( 'K' ) )
 			EventSystem::Instance()->AddEvent( EVENTID::PlayerHeal );
-		if (m_keyboard.KeyIsPressed('H'))
-		{
-			EventSystem::Instance()->AddEvent(EVENTID::ChangePhase);
-		}
+
+		if ( m_keyboard.KeyIsPressed( 'H' ) )
+			EventSystem::Instance()->AddEvent( EVENTID::ChangePhase );
 #endif
 
         if ( keycode == VK_ESCAPE )
