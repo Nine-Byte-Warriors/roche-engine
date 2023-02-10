@@ -471,7 +471,7 @@
         "bColliderInteractPlayer": true,
         "bColliderInteractPlayerProjectile": false,
         "bColliderStatic": true,
-        "bColliderTrigger": false,
+        "bColliderTrigger": true,
         "bProjectileBullet": true,
         "bProjectilePattern": true,
         "behaviour": "None",
@@ -660,6 +660,57 @@
         "soundBankName": "",
         "speed": 10.0,
         "texture": "Resources\\Textures\\Entity\\Potato\\Potato.png",
+        "type": "Enemy"
+    },
+    {
+        "AI": true,
+        "animation": true,
+        "animationPath": "Resources\\Textures\\Entity\\Corn\\Corn.json",
+        "animationType": "Walk",
+        "audio": false,
+        "bColliderEnabled": true,
+        "bColliderInteractDecoration": false,
+        "bColliderInteractEnemy": false,
+        "bColliderInteractEnemyProjectile": false,
+        "bColliderInteractPlayer": true,
+        "bColliderInteractPlayerProjectile": true,
+        "bColliderStatic": false,
+        "bColliderTrigger": true,
+        "bProjectileBullet": true,
+        "bProjectilePattern": true,
+        "behaviour": "None",
+        "collider": true,
+        "colliderRadius": [
+            400.0,
+            500.0
+        ],
+        "colliderShape": "Box",
+        "columns": 4,
+        "health": 5.0,
+        "identifier": 13,
+        "mass": 1.0,
+        "maxFrame": [
+            1,
+            1
+        ],
+        "name": "Corn",
+        "position": [
+            418.0,
+            500.0
+        ],
+        "projectileBullet": "None",
+        "projectilePattern": "None",
+        "projectileSystem": true,
+        "rotation": 0.0,
+        "rows": 2,
+        "sColliderLayer": "Enemy",
+        "scale": [
+            400.0,
+            500.0
+        ],
+        "soundBankName": "",
+        "speed": 10.0,
+        "texture": "Resources\\Textures\\Entity\\Corn\\Corn Boss.png",
         "type": "Enemy"
     }
 ]

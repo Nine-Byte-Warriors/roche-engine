@@ -6,7 +6,7 @@
 #include "Keyboard.h"
 #include "RenderWindow.h"
 
-class WindowContainer : public Listener
+class WindowContainer
 {
 public:
 	WindowContainer();
@@ -16,10 +16,6 @@ public:
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
 	inline bool IsCursorEnabled() const noexcept { return m_bCursorEnabled; }
-
-	void AddToEvent() noexcept;
-	void RemoveFromEvent() noexcept;
-	void HandleEvent(Event* event) override;
 
 protected:
 	void ConfineCursor() noexcept;

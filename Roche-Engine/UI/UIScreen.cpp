@@ -36,6 +36,9 @@ void UIScreen::InitializeWidgets()
 
 void UIScreen::Update( const float dt )
 {
+	if ( m_mouseData.Hover )
+		m_mouseData.Hover = false;
+
 	if ( !m_mouseData.LPress )
 		m_mouseData.Locked = false;
 
@@ -102,18 +105,18 @@ void UIScreen::Update( const float dt )
 			if ( m_vWidgets[i]->GetAction() == "Close" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE) )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Quit Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
 						EventSystem::Instance()->AddEvent( EVENTID::QuitGameEvent );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Back To Menu" )
 			{
-				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+				if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Back To Menu", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
 					EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Game );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Start" )
 			{
 				if ( !m_vWidgets[i]->GetIsHidden() )
-					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE, false) )
+					if ( m_vWidgets[i]->GetButtonWidget()->Resolve( "Start Game", Colors::White, m_textures, m_mouseData, false, FontSize::LARGE ) )
 						EventSystem::Instance()->AddEvent( EVENTID::FadeToBlack_Start );
 			}
 			if ( m_vWidgets[i]->GetAction() == "Settings" )
@@ -355,22 +358,20 @@ void UIScreen::Update( const float dt )
 			}
 			if ( m_vWidgets[i]->GetAction() == "" )
 			{
-				static float maxHealth = 1;
-				static float currentHealth = 1;
-				if ((*m_fCurrentHealth / *m_fMaxHealth) < 1 && (*m_fCurrentHealth / *m_fMaxHealth) > 0)
+				if ((*m_fCurrentHealthPtr / *m_fMaxHealthPtr) < 1 && (*m_fCurrentHealthPtr / *m_fMaxHealthPtr) > 0)
 				{
-					maxHealth = *m_fMaxHealth;
-					currentHealth = *m_fCurrentHealth;
+					m_fMaxHealth = *m_fMaxHealthPtr;
+					m_fCurrentHealth = *m_fCurrentHealthPtr;
 				}
 
-				float percentageHelth = 100 * currentHealth / maxHealth;
-				if (percentageHelth > 100)
+				m_fPercentageHealth = 100 * m_fCurrentHealth / m_fMaxHealth;
+				if (m_fPercentageHealth > 100)
 				{
-					percentageHelth = 100;
+					m_fPercentageHealth = 100;
 				}
 				std::string temp = m_textures[2];
 				m_textures[2] = "";
-				m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, percentageHelth);
+				m_vWidgets[i]->GetEnergyBarWidget()->Resolve( m_textures, m_fPercentageHealth);
 				m_textures[2] = temp;
 			}
 			m_vWidgets[i]->GetEnergyBarWidget()->Update( dt );
@@ -802,6 +803,9 @@ void UIScreen::Update( const float dt )
 		m_fBoxPos = { 0.0f, 0.0f };
 		m_fBoxSize = { m_vScreenSize.x, m_vScreenSize.y };
 	}
+
+	if ( !m_mouseData.Hover )
+		EventSystem::Instance()->AddEvent( EVENTID::CursorUpdate_Normal );
 }
 
 void UIScreen::Draw( VertexShader& vtx, PixelShader& pix, XMMATRIX worldOrtho, TextRenderer* textRenderer )
@@ -927,11 +931,11 @@ void UIScreen::HandleEvent( Event* event )
 	case EVENTID::RightMouseRelease: { m_mouseData.RPress = false; } break;
 	case EVENTID::MiddleMouseClick: { m_mouseData.MPress = true; } break;
 	case EVENTID::MiddleMouseRelease: { m_mouseData.MPress = false; } break;
-	case EVENTID::EnemyMaxHealth: { 
-		m_fMaxHealth = static_cast<float*>(event->GetData());
+	case EVENTID::EnemyMaxHealth: {
+		m_fMaxHealthPtr = static_cast<float*>(event->GetData());
 	} break;
-	case EVENTID::EnemyCurrentHealth: { 
-		m_fCurrentHealth = static_cast<float*>(event->GetData());
+	case EVENTID::EnemyCurrentHealth: {
+		m_fCurrentHealthPtr = static_cast<float*>(event->GetData());
 	} break;
 #if _DEBUG
 	case EVENTID::ImGuiMousePosition:

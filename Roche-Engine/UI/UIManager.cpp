@@ -148,7 +148,7 @@ void UIManager::HandleEvent(Event* event)
 		break;
 		case EVENTID::PauseGame:
 		{
-			if (m_sCurrentLevel == "Game") {
+			if (m_sCurrentLevel == "Game" || m_sCurrentLevel == "Shop") {
 				HideAllUI();
 				ShowUI("Pause_Widgets");
 				EventSystem::Instance()->AddEvent(EVENTID::GamePauseEvent);
@@ -190,6 +190,7 @@ void UIManager::HandleEvent(Event* event)
 			EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[MENU]);
 			EventSystem::Instance()->AddEvent(EVENTID::PlayMainMenuMusic);
 			EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
+			EventSystem::Instance()->AddEvent(EVENTID::ReinitializeGameManager);
 			m_sCurrentLevel = *m_vLevelNames[MENU];
 			HideAllUI();
 			ShowUI("Menu_Widgets");
@@ -235,7 +236,7 @@ void UIManager::HandleEvent(Event* event)
 			// get PLAYER HEALTH
 			EventSystem::Instance()->AddEvent(EVENTID::SavePlayerHealth);
 			if (m_sCurrentLevel == *m_vLevelNames[GAME]) {
-
+				EventSystem::Instance()->AddEvent(EVENTID::RemoveAllColliders);
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[SHOP]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayShopMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);
@@ -243,7 +244,7 @@ void UIManager::HandleEvent(Event* event)
 				ShowUI("HUD_Shop");
 			}
 			else {
-
+				EventSystem::Instance()->AddEvent(EVENTID::RemoveAllColliders);
 				EventSystem::Instance()->AddEvent(EVENTID::GameLevelChangeEvent, m_vLevelNames[GAME]);
 				EventSystem::Instance()->AddEvent(EVENTID::PlayDayMusic);
 				EventSystem::Instance()->AddEvent(EVENTID::FadeFromBlack);

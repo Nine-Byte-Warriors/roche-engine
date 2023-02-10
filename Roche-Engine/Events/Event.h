@@ -42,6 +42,7 @@ enum class EVENTID
 	GameEndLevelEvent,
 	ChangePhase,
 	NextDay,
+	FinalNight,
 	CurrentState,
 	CurrentPhase,
 	GetPhase,
@@ -54,6 +55,13 @@ enum class EVENTID
 	LoadPlayerHealth,
 	GetPlayerHealth,
 	SetPlayerHealth,
+	SetPlayerInventory,
+	GetPlayerInventory,
+	LoadPlayerInventory,
+	SavePlayerInventory,
+	ShootingDelay,
+	RemoveAllColliders,
+	ReinitializeGameManager,
 
 	// Camera Actions
 	MoveUp,
@@ -124,6 +132,15 @@ enum class EVENTID
 	RemoveHealth,
 
 	// Utility
+	CursorUpdate_Normal,
+	CursorUpdate_Link,
+	CursorUpdate_Precision,
+	CursorUpdate_Move,
+	CursorUpdate_Help,
+	CursorUpdate_Text,
+	CursorUpdate_Pen,
+	CursorUpdate_Unavailable,
+
 	WindowSizeChangeEvent,
 	UpdateSettingsEvent,
 	RemoveUIItemEvent,

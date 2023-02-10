@@ -1,5 +1,20 @@
 [
     {
+        "action": "Backdrop",
+        "hide": false,
+        "name": "Backdrop",
+        "position": [
+            0.0,
+            0.0
+        ],
+        "scale": [
+            1920.0,
+            1080.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+	{
         "action": "",
         "hide": false,
         "name": "Background",
@@ -12,7 +27,7 @@
             1085.0
         ],
         "type": "Image",
-        "zindex": 0
+        "zindex": 1
     },
     {
         "action": "LeaderboardTitle",
@@ -27,7 +42,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 1
+        "zindex": 2
     },
     {
         "action": "ScoreLabel0",
@@ -42,7 +57,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 2
+        "zindex": 3
     },
     {
         "action": "ScoreLabel1",
@@ -57,7 +72,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 3
+        "zindex": 4
     },
     {
         "action": "ScoreLabel2",
@@ -72,7 +87,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 4
+        "zindex": 5
     },
     {
         "action": "ScoreLabel3",
@@ -87,7 +102,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 5
+        "zindex": 6
     },
     {
         "action": "ScoreLabel4",
@@ -102,7 +117,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 6
+        "zindex": 7
     },
     {
         "action": "Back",
@@ -117,7 +132,7 @@
             200.0
         ],
         "type": "Button",
-        "zindex": 7
+        "zindex": 8
     },
     {
         "action": "Score0",
@@ -132,7 +147,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 8
+        "zindex": 9
     },
     {
         "action": "Score1",
@@ -147,7 +162,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 9
+        "zindex": 10
     },
     {
         "action": "Score2",
@@ -162,7 +177,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 10
+        "zindex": 11
     },
     {
         "action": "Score3",
@@ -177,7 +192,7 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 11
+        "zindex": 12
     },
     {
         "action": "Score4",
@@ -192,6 +207,6 @@
             64.0
         ],
         "type": "Image",
-        "zindex": 12
+        "zindex": 13
     }
 ]

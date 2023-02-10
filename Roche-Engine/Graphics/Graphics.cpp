@@ -170,7 +170,7 @@ void Graphics::BeginFrame()
 	// Clear render target/depth stencil
     m_pRenderTarget->Bind( m_pContext.Get(), m_pDepthStencil.get(), m_clearColor );
     m_pDepthStencil->ClearDepthStencil( m_pContext.Get() );
-	
+
 	// Handle Level Change Post-Processing
 	static float dt = 0.02f;
 	static float counter = 0.0f;
@@ -240,7 +240,7 @@ void Graphics::EndFrame()
 	m_pBackBuffer->BindNull( m_pContext.Get() );
 
 	// Present frame
-	HRESULT hr = m_pSwapChain->GetSwapChain()->Present( 0u, NULL );
+	HRESULT hr = m_pSwapChain->GetSwapChain()->Present( 1u, NULL );
 	if ( FAILED( hr ) )
 	{
 		hr == DXGI_ERROR_DEVICE_REMOVED ?

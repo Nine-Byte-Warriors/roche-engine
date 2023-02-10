@@ -1,0 +1,512 @@
+[
+    {
+        "action": "",
+        "hide": false,
+        "name": "Title Card",
+        "position": [
+            201.0,
+            160.0
+        ],
+        "scale": [
+            1479.0,
+            920.0
+        ],
+        "type": "Image",
+        "zindex": 0
+    },
+    {
+        "action": "General",
+        "hide": false,
+        "name": "General Tab",
+        "position": [
+            283.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 1
+    },
+    {
+        "action": "Control",
+        "hide": false,
+        "name": "Control Tab",
+        "position": [
+            433.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 2
+    },
+    {
+        "action": "Music",
+        "hide": false,
+        "name": "Music Tab",
+        "position": [
+            583.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 3
+    },
+    {
+        "action": "Graphics",
+        "hide": false,
+        "name": "Graphics Tab",
+        "position": [
+            732.0,
+            0.0
+        ],
+        "scale": [
+            150.0,
+            160.0
+        ],
+        "type": "Button",
+        "zindex": 4
+    },
+    {
+        "action": "Master Volume",
+        "hide": true,
+        "name": "Master Volume Slider",
+        "position": [
+            907.0,
+            386.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 5
+    },
+    {
+        "action": "Master volume label",
+        "hide": true,
+        "name": "Master volume label",
+        "position": [
+            444.0,
+            328.0
+        ],
+        "scale": [
+            319.0,
+            151.0
+        ],
+        "type": "Image",
+        "zindex": 6
+    },
+    {
+        "action": "Music Volume",
+        "hide": true,
+        "name": "Music Volume Silder",
+        "position": [
+            907.0,
+            563.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 7
+    },
+    {
+        "action": "Music volume label",
+        "hide": true,
+        "name": "Music Volume Label",
+        "position": [
+            444.0,
+            394.0
+        ],
+        "scale": [
+            319.0,
+            368.0
+        ],
+        "type": "Image",
+        "zindex": 8
+    },
+    {
+        "action": "SFX Volume",
+        "hide": true,
+        "name": "SFX Volume Silder",
+        "position": [
+            907.0,
+            735.0
+        ],
+        "scale": [
+            433.0,
+            64.0
+        ],
+        "type": "Data Slider",
+        "zindex": 9
+    },
+    {
+        "action": "SFX volume label",
+        "hide": true,
+        "name": "SFX Volume Label",
+        "position": [
+            444.0,
+            567.0
+        ],
+        "scale": [
+            319.0,
+            368.0
+        ],
+        "type": "Image",
+        "zindex": 10
+    },
+    {
+        "action": "Up Control",
+        "hide": true,
+        "name": "Up Control Label",
+        "position": [
+            600.0,
+            293.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 11
+    },
+    {
+        "action": "Left Control",
+        "hide": true,
+        "name": "Left Control Label",
+        "position": [
+            600.0,
+            393.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 12
+    },
+    {
+        "action": "Down Control",
+        "hide": true,
+        "name": "Down Control Label",
+        "position": [
+            600.0,
+            491.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 13
+    },
+    {
+        "action": "Right Control",
+        "hide": true,
+        "name": "Right Control Label",
+        "position": [
+            600.0,
+            595.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 14
+    },
+    {
+        "action": "Dash Control",
+        "hide": true,
+        "name": "Dash Control Label",
+        "position": [
+            600.0,
+            692.0
+        ],
+        "scale": [
+            64.0,
+            64.0
+        ],
+        "type": "Image",
+        "zindex": 15
+    },
+    {
+        "action": "Interact Control",
+        "hide": true,
+        "name": "Interact Control Label",
+        "position": [
+            600.0,
+            699.0
+        ],
+        "scale": [
+            64.0,
+            263.0
+        ],
+        "type": "Image",
+        "zindex": 16
+    },
+    {
+        "action": "Up Input",
+        "hide": true,
+        "name": "Up Control Input",
+        "position": [
+            1050.0,
+            299.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 17
+    },
+    {
+        "action": "Left Input",
+        "hide": true,
+        "name": "Left Control Input",
+        "position": [
+            1050.0,
+            400.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 18
+    },
+    {
+        "action": "Down Input",
+        "hide": true,
+        "name": "Down Control Input",
+        "position": [
+            1050.0,
+            497.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 19
+    },
+    {
+        "action": "Right Input",
+        "hide": true,
+        "name": "Right Control Input",
+        "position": [
+            1050.0,
+            594.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 20
+    },
+    {
+        "action": "Dash Input",
+        "hide": true,
+        "name": "Dash Control Input",
+        "position": [
+            1050.0,
+            691.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 21
+    },
+    {
+        "action": "Interact Input",
+        "hide": true,
+        "name": "Interact Control Input",
+        "position": [
+            1050.0,
+            794.0
+        ],
+        "scale": [
+            200.0,
+            75.0
+        ],
+        "type": "Input",
+        "zindex": 22
+    },
+    {
+        "action": "Language DD Label",
+        "hide": false,
+        "name": "Language setting Label",
+        "position": [
+            561.0,
+            616.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 23
+    },
+    {
+        "action": "Language",
+        "hide": false,
+        "name": "Language Drop Down",
+        "position": [
+            1075.0,
+            625.0
+        ],
+        "scale": [
+            150.0,
+            100.0
+        ],
+        "type": "Drop Down",
+        "zindex": 24
+    },
+    {
+        "action": "Screen Shake Slider Label",
+        "hide": false,
+        "name": "Screen Shake amount Label",
+        "position": [
+            546.0,
+            383.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 25
+    },
+    {
+        "action": "Screen Shake",
+        "hide": false,
+        "name": "Screen Shake Slider",
+        "position": [
+            1075.0,
+            414.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 26
+    },
+    {
+        "action": "Red Overlay Label",
+        "hide": false,
+        "name": "Red Overlay Label",
+        "position": [
+            546.0,
+            364.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 27
+    },
+    {
+        "action": "Red Overlay Slider",
+        "hide": false,
+        "name": "Red Overlay Slider",
+        "position": [
+            1075.0,
+            390.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 28
+    },
+    {
+        "action": "Green Overlay Label",
+        "hide": false,
+        "name": "Green Overlay Label",
+        "position": [
+            546.0,
+            531.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 29
+    },
+    {
+        "action": "Green Overlay Slider",
+        "hide": false,
+        "name": "Green Overlay Slider",
+        "position": [
+            1075.0,
+            559.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 30
+    },
+    {
+        "action": "Blue Overlay Label",
+        "hide": false,
+        "name": "Blue Overlay Label",
+        "position": [
+            546.0,
+            696.0
+        ],
+        "scale": [
+            205.0,
+            97.0
+        ],
+        "type": "Image",
+        "zindex": 31
+    },
+    {
+        "action": "Blue Overlay Slider",
+        "hide": false,
+        "name": "Blue Overlay Slider",
+        "position": [
+            1075.0,
+            729.0
+        ],
+        "scale": [
+            255.0,
+            66.0
+        ],
+        "type": "Data Slider",
+        "zindex": 32
+    },
+    {
+        "action": "Back",
+        "hide": false,
+        "name": "Back Button",
+        "position": [
+            1472.0,
+            1.0
+        ],
+        "scale": [
+            151.0,
+            159.0
+        ],
+        "type": "Button",
+        "zindex": 33
+    }
+]
