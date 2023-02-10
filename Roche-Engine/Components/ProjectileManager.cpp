@@ -203,14 +203,7 @@ void ProjectileManager::SpawnProjectiles(Vector2f vSpawnPosition, Vector2f vTarg
 	m_fDuration = m_fTotalDuration;
 	m_vSpawnPosition = vSpawnPosition;
 	m_vTargetPosition = vTargetPosition;
-
-	for (std::shared_ptr<Projectile> pProjectile : m_vecProjectilePool)
-	{
-		pProjectile->SetOwner(m_owner);
-
-		
-	}
-
+	
 	auto payload = GetProjectilePayLoad();
 	if (payload != nullptr)
 	{
@@ -234,8 +227,11 @@ std::shared_ptr <ProjectilePayLoad> ProjectileManager::GetProjectilePayLoad()
 {
 	for (std::shared_ptr<ProjectilePayLoad> pPayLoad : m_vecPayLoads)
 	{
-		if (!pPayLoad->bIsActive)
-			return pPayLoad;
+		if (pPayLoad->bIsActive)
+			continue;
+		
+		pPayLoad->SetSpawnPosition(m_vSpawnPosition);
+		return pPayLoad;
 	}
 
 	return nullptr;

@@ -11,8 +11,14 @@ public:
 	
 	void Update(const float dt)
 	{
+		bIsActive = false;
+		
 		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
+		{
 			pProjectile->Update(dt);
+			if (pProjectile->IsAlive())
+				bIsActive = true;
+		}
 	}
 
 	void Initialise(const Graphics& gfx, ConstantBuffer<Matrices>& mat);
@@ -21,6 +27,12 @@ public:
 	{
 		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
 			pProjectile->Draw(context, orthoMatrix);
+	}
+
+	void SetSpawnPosition(Vector2f vSpawnPosition)
+	{
+		for (std::shared_ptr<Projectile> pProjectile : m_vecProjectiles)
+			pProjectile->GetTransform()->SetPosition(vSpawnPosition);
 	}
 
 	void SetTargetPosition(Vector2f vTargetPosition)

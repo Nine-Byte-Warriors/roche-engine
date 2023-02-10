@@ -9,7 +9,7 @@
 #include "CollisionHandler.h"
 
 #define PATTERN_FOLDER_PATH "Resources\\Patterns\\"
-#define INITIAL_POOL_COUNT 10
+#define INITIAL_POOL_COUNT 20
 
 class ProjectileManager
 {
