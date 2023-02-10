@@ -229,6 +229,21 @@ void Level::RenderFrameTileMap()
     }
 }
 
+void Level::SpawnFinalBoss()
+{
+    int entitynum = m_entityController.GetEntityEnemyNumFromName("Corn");
+    std::string texture = m_entityController.GetTexture(entitynum);
+
+    Vector2f spawnpos = Vector2f(500, 500);
+    m_entitySpawner.AddEntityToSpawn(entitynum, 0, spawnpos);
+
+    m_entitySpawner.SpawnEntity(0);
+
+    m_entityController.AddEntityData(m_entitySpawner.GetEntityData()[0]);
+
+    m_entitySpawner.EntitiesAdded();
+}
+
 void Level::EndFrame_Start()
 {
     // Render ui
@@ -751,12 +766,14 @@ void Level::AddToEvent() noexcept
 {
     EventSystem::Instance()->AddClient(EVENTID::GamePauseEvent, this);
     EventSystem::Instance()->AddClient(EVENTID::GameUnpauseEvent, this);
+    EventSystem::Instance()->AddClient(EVENTID::FinalNight, this);
 }
 
 void Level::RemoveFromEvent() noexcept
 {
     EventSystem::Instance()->RemoveClient(EVENTID::GamePauseEvent, this);
     EventSystem::Instance()->RemoveClient(EVENTID::GameUnpauseEvent, this);
+    EventSystem::Instance()->RemoveClient(EVENTID::FinalNight, this);
 }
 
 void Level::HandleEvent(Event* event)
@@ -772,6 +789,11 @@ void Level::HandleEvent(Event* event)
     case EVENTID::GameUnpauseEvent:
     {
         m_bIsGamePaused = false;
+    }
+    case EVENTID::FinalNight:
+    {
+        SpawnFinalBoss();
+        break;
     }
     break;
     }
